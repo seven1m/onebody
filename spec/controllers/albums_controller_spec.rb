@@ -125,10 +125,26 @@ describe AlbumsController do
         it 'should create an album' do
           expect(response).to be_redirect
         end
+
+        it 'sets the group as the album owner' do
+          expect(assigns[:album].owner).to eq(@group)
+        end
       end
 
       context 'user is not a member of the group' do
         before do
+          post :create, {group_id: @group.id, album: {name: 'test name'}}, {logged_in_id: @user.id}
+        end
+
+        it 'should return forbidden' do
+          expect(response).to be_forbidden
+        end
+      end
+
+      context 'pictures are not enabled on the group' do
+        before do
+          @group.memberships.create!(person: @user)
+          @group.update_attributes!(pictures: false)
           post :create, {group_id: @group.id, album: {name: 'test name'}}, {logged_in_id: @user.id}
         end
 
@@ -145,29 +161,6 @@ describe AlbumsController do
 
         it 'should return forbidden' do
           expect(response).to be_forbidden
-        end
-      end
-
-      context 'indicated to remove owner' do
-        context 'user is not an admin' do
-          before do
-            post :create, {person_id: @user.id, album: {name: 'test name', remove_owner: true}}, {logged_in_id: @user.id}
-          end
-
-          it 'should still save owner (person) on album' do
-            expect(Album.last.owner).to eq(@user)
-          end
-        end
-
-        context 'user is an admin' do
-          before do
-            @user.update_attributes(admin: Admin.create!(manage_pictures: true))
-            post :create, {person_id: @user.id, album: {name: 'test name', remove_owner: true}}, {logged_in_id: @user.id}
-          end
-
-          it 'should not save owner (person) on album' do
-            expect(Album.last.owner).to be_nil
-          end
         end
       end
     end

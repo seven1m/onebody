@@ -15,6 +15,9 @@ en:
       picture:
         one: "%{who} shared a picture in %{album}"
         other: "%{who} shared some pictures in %{album}"
+      picture_in_group:
+        one: "%{who} shared a picture in the group %{group}"
+        other: "%{who} shared some pictures in the group %{group}"
       site: "%{site}"
       verse: "%{who} shared %{ref}"
 

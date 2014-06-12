@@ -1,7 +1,0 @@
-<% content_for :sidebar do %>
-  <p><%= link_to t('albums.new'), [:new, @parent, :album], class: 'add-icon' %></p>
-<% end %>
-
-<h2><%= t('albums.picture_albums') %></h2>
-
-<%= render partial: 'albums' %>

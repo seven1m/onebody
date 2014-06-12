@@ -18,7 +18,7 @@ class PhotoForm
 
   select: (e) =>
     if @url and @can_upload() and @valid_type()
-      @uploading_status.show().find('.filename').text(@input.val())
+      @uploading_status.show().find('.filename').text((f.name for f in @input[0].files).join(', '))
       @error_callout.hide().find('.wrong-type').hide()
       @upload()
     else if not @valid_type()
@@ -40,13 +40,17 @@ class PhotoForm
 
   upload: (e) =>
     e?.preventDefault()
-    @show_progress(20)
+    @show_progress(25)
     url = @el.data('upload-url') + '.json'
     data = new FormData()
-    data.append 'photo', @input[0].files[0]
+    if @input.attr('multiple')
+      for file in @input[0].files
+        data.append @el.data('upload-field-name'), file
+    else
+      data.append @el.data('upload-field-name'), @input[0].files[0]
     $.ajax
       url: url
-      type: 'PUT'
+      type: @el.data('upload-verb') || 'PUT'
       data: data
       cache: false,
       dataType: 'json'
@@ -57,15 +61,20 @@ class PhotoForm
         setTimeout (=> @show_progress(null)), 800
         @uploading_status.hide()
         response = d.responseJSON
-        if response.status == 'success'
+        if response.status == 'reload'
+          location.reload()
+        else if response.status == 'success'
           @updateAll(response.photo)
           @delete_button.show()
           @error_callout.hide()
         else
           @error_callout.show().find('.body').html(response.errors.join("<br>"))
-      xhrFields:
-        onprogress: (e) =>
+      xhr: =>
+        x = jQuery.ajaxSettings.xhr()
+        progress = (e) =>
           @show_progress(e.loaded / e.total) if e.lengthComputable
+        x.upload.addEventListener 'progress', progress, false
+        return x
 
   delete: (e) =>
     e.preventDefault()

@@ -33,6 +33,8 @@ module PeopleHelper
       person_avatar_path(person, size)
     elsif person.is_a?(Group)
       group_avatar_path(person, size)
+    elsif person.is_a?(Album)
+      album_avatar_path(person, size)
     else
       if person.try(:photo).try(:exists?)
         person.photo.url(size)
@@ -49,6 +51,8 @@ module PeopleHelper
       family_avatar_tag(person, options)
     elsif person.is_a?(Group)
       group_avatar_tag(person, options)
+    elsif person.is_a?(Album)
+      album_avatar_tag(person, options)
     else
       options.reverse_merge!(size: :tn, alt: person.try(:name))
       options.reverse_merge!(class: "avatar #{options[:size]} #{options[:class]}")

@@ -6,10 +6,22 @@ module PhotosHelper
       locals: {
         url: url,
         object_id: id,
-        field_name: "#{object.class.name.underscore}[photo]",
-        name: "#{object.class.name} Photo",
-        delete: object.photo.exists?,
-        new: object.new_record?
+        html_field_name: "#{object.class.name.underscore}[photo]",
+        field_name: 'photo',
+        delete: object.photo.exists?
+      }
+  end
+
+  def picture_upload(album)
+    render partial: 'photos/upload',
+      locals: {
+        url: album_pictures_path(album),
+        object_id: "album#{album.id}",
+        html_field_name: 'pictures[]',
+        field_name: 'pictures[]',
+        delete: false,
+        multiple: true,
+        verb: 'POST'
       }
   end
 end

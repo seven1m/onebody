@@ -1,0 +1,8 @@
+- @title = t('.heading')
+
+= render partial: 'albums'
+
+%p
+  = link_to [:new, @group || @person, :album], class: 'btn btn-success' do
+    = icon 'fa fa-plus'
+    = t('albums.new.button')

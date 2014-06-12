@@ -1,6 +1,6 @@
-.photo-upload{ data: { 'upload-url' => url, 'object-id' => object_id } }
+.photo-upload{ data: { 'upload-url' => url, 'upload-verb' => defined?(verb) ? verb : 'PUT', 'upload-field-name' => field_name, 'object-id' => object_id } }
   .form-group.file-upload-group
-    %input{ type: 'file', name: field_name, class: 'file', accept: 'image/png,image/x-png,image/gif,image/jpeg,image/*' }
+    %input{ type: 'file', name: html_field_name, class: 'file', accept: 'image/png,image/x-png,image/gif,image/jpeg,image/*', multiple: defined?(multiple) && multiple }
   .photo-error.callout.callout-danger{ style: 'display:none' }
     %h3= t('photos.upload.error')
     .body

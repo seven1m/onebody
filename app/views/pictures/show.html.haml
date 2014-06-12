@@ -1,0 +1,29 @@
+- @title = @picture.photo_file_name
+
+-# TODO
+-#%p
+  -#= link_to t('pictures.prev'), prev_album_picture_path(@album, @picture)
+  -#|
+  -#\#{link_to t('pictures.next'), next_album_picture_path(@album, @picture)}
+
+%p
+  = image_tag @picture.photo.url(:large)
+
+- if @logged_in.can_edit?(@picture)
+  .page-controls
+    = link_to album_picture_path(@album, @picture, degrees: -90), data: { confirm: t('are_you_sure') }, method: 'put', class: 'btn bg-gray' do
+      = icon 'fa fa-rotate-left'
+      = t('pictures.rotate_left')
+    = link_to album_picture_path(@album, @picture, degrees: 90), data: { confirm: t('are_you_sure') }, method: 'put', class: 'btn bg-gray' do
+      = icon 'fa fa-rotate-right'
+      = t('pictures.rotate_right')
+    = link_to album_picture_path(@album, @picture, cover: true), data: { confirm: t('are_you_sure') }, method: 'put', class: 'btn bg-gray' do
+      = icon 'fa fa-square-o'
+      = t('pictures.set_as_cover')
+    = link_to album_picture_path(@album, @picture), data: { confirm: t('are_you_sure') }, method: 'delete', class: 'btn btn-delete' do
+      = icon 'fa fa-trash-o'
+      = t('Delete')
+
+- if Setting.get(:privacy, :allow_picture_comments)
+  %h3= t('Comments')
+  = render partial: 'comments/comments', locals: {object: @picture, intro: t('pictures.comment_on_this_picture')}

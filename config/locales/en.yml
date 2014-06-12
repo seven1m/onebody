@@ -92,6 +92,9 @@ en:
 
   activerecord:
     attributes:
+      album:
+        name: "Name"
+        description: "Description"
       family:
         name: Name
         last_name: Last Name
@@ -803,21 +806,6 @@ en:
     username: Username
     your_key: your key
 
-  albums:
-    cannot_add_pictures_to_group: Cannot add pictures in this group.
-    click_to_view: click to view
-    description: Description
-    dont_show_my_name: This is a general community album — don't show my name on the pictures (admin-only option).
-    edit_picture: Edit Picture Album
-    name: Name
-    new: New Album
-    new_picture: New Picture Album
-    picture_albums: Picture Albums
-    profile: "Profile - show this album on my profile and to my friends only."
-    public: Public  - show this album on the "All Pictures" page and on my profile.
-    save: Save Album
-    saved: Album saved.
-
   application:
     api_access: You must be a super administrator to use the API.
     custom_theme_message: The custom theme must contain %{content} somewhere in its body.
@@ -1007,29 +995,6 @@ en:
     one: 1 person
     other: "%{count} people"
 
-  pictures: 
-    add_a_picture: Add a Picture
-    album: Album
-    delete_are_you_sure: "Are you sure? Deleting this album will also delete all its pictures!"
-    cant_delete: You cannot delete this picture.
-    cant_edit: You cannot edit this picture.
-    click_to_enlarge: click to enlarge
-    click_to_see_original: click to see original
-    comment_on_this_picture: Comment on this picture
-    default_album_name: Pictures
-    delete_album: Delete Album
-    edit_album: Edit Album
-    failed: "%{fail} not saved due to errors"
-    next: next »
-    picture_uploaded_by: "Picture uploaded %{when} by"
-    prev: « prev
-    rotate_left: Rotate Left
-    rotate_right: Rotate Right
-    saved: "%{success} picture(s) saved"
-    set_as_cover: Set as Cover
-    hide_my_name: "These are general community pictures — don't show my name on them (admin-only option)."
-    upload: Upload!
-  
   prayer_signups:
     add_somebody: Add Somebody
     home_page_heading: Sign Up To Pray

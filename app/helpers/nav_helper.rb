@@ -80,6 +80,17 @@ module NavHelper
         crumbs << ['fa fa-folder-open', @group.category, groups_path(category: @group.category)]
       elsif params[:controller] == 'groups' and (params[:action] != 'index' or params[:name] or params[:category])
         crumbs << ['fa fa-group', t('groups.heading'), groups_path]
+      elsif params[:controller] == 'albums' or params[:controller] == 'pictures'
+        if group = (@group || @album.try(:group))
+          crumbs << ['fa fa-group', group.name, group_path(group)]
+          crumbs << ['ion ion-images', t('nav.albums'), group_albums_path(group)]
+        elsif person = (@person || @album.try(:person))
+          crumbs << ['fa fa-user', person.name, person_path(person)]
+          crumbs << ['ion ion-images', t('nav.albums'), person_albums_path(person)]
+        end
+        if @album and @album.persisted? and not (params[:controller] == 'pictures' and params[:action] == 'index')
+          crumbs << ['fa fa-picture-o', @album.name, album_path(@album)]
+        end
       end
     end
   end

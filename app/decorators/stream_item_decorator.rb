@@ -60,7 +60,12 @@ class StreamItemDecorator < Draper::Decorator
       when 'Note'
         I18n.t('stream.header.note', who: who)
       when 'Album'
-        I18n.t('stream.header.picture', who: who, count: Array(object.context['picture_ids']).length, album: h.link_to(title, h.album_path(streamable_id))).html_safe
+        args = { who: who, count: Array(object.context['picture_ids']).length, album: h.link_to(title, h.album_path(streamable_id)) }
+        if streamable.group
+          I18n.t('stream.header.picture_in_group', args.merge(group: h.link_to(streamable.group.name, streamable.group))).html_safe
+        else
+          I18n.t('stream.header.picture', args).html_safe
+        end
       when 'Verse'
         I18n.t('stream.header.verse', who: who, ref: h.link_to(title, path)).html_safe
       when 'NewsItem'
@@ -102,9 +107,9 @@ class StreamItemDecorator < Draper::Decorator
         h.truncate_html(h.sanitize_html(h.auto_link(object.body)), length: MAX_BODY_SIZE)
       elsif streamable_type == 'Album'
         Array(object.context['picture_ids']).map do |picture_id, fingerprint, extension|
-          url = Picture.photo_url_from_parts(picture_id, fingerprint, extension, @first ? :medium : :small)
+          url = Picture.photo_url_from_parts(picture_id, fingerprint, extension, :small)
           h.link_to(
-            h.image_tag(url, alt: I18n.t('stream.body.picture.alt'), class: "timeline-pic #{@first ? 'medium' : 'small'}"),
+            h.image_tag(url, alt: I18n.t('stream.body.picture.alt'), class: "timeline-pic #{'small'}"),
             h.album_picture_path(streamable_id, picture_id),
             title: I18n.t('stream.body.picture.alt')
           )

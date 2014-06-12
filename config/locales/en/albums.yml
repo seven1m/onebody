@@ -1,0 +1,39 @@
+en:
+
+  albums:
+
+    index:
+      heading: "Picture Albums"
+
+    table:
+      name: "Name"
+      picture_count: "Pictures"
+      owner: "Created By"
+
+    new:
+      heading: "New Album"
+      button: "New Album"
+
+    edit:
+      heading: "Edit Album"
+      button: "Edit Album"
+
+    delete:
+      button: "Delete Album"
+
+    sharing:
+      heading: "Who should see this album?"
+
+    none: "No albums yet"
+
+    cannot_add_pictures_to_group: "Cannot add pictures in this group."
+    click_to_view: "click to view"
+    description: "Description"
+    edit_picture: "Edit Picture Album"
+    name: "Name"
+    new_picture: "New Picture Album"
+    picture_albums: "Picture Albums"
+    profile_html: "Profile – show this album to <a href='%{url}'>these people</a>"
+    public: "Community – show this album to everyone"
+    save: "Save Album"
+    saved: "Album saved."

@@ -40,14 +40,15 @@ class AlbumsController < ApplicationController
   end
 
   def destroy
+    group = @album.group
     @album.destroy
-    redirect_to albums_path
+    redirect_to group ? group_albums_path(group) : albums_path
   end
 
   private
 
   def album_params
-    params.require(:album).permit(:name, :description, :is_public, :remove_owner)
+    params.require(:album).permit(:name, :description, :is_public)
   end
 
 end

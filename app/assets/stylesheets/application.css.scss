@@ -35,3 +35,13 @@ th.actions, td.actions {
 .push-down {
   margin-top: 25px;
 }
+
+.radios {
+  label {
+    display: block;
+  }
+  label.inline {
+    display: inline;
+    font-weight: normal;
+  }
+}
