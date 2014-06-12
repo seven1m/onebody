@@ -74,6 +74,8 @@ class StreamItemDecorator < Draper::Decorator
         I18n.t('stream.header.message', who: who, group: h.link_to(group.name, group)).html_safe
       when 'Person'
         I18n.t('stream.header.person', who: who)
+      when 'PrayerRequest'
+        I18n.t('stream.header.prayer_request', who: who, group: h.link_to(group.name, group)).html_safe
       when 'Site'
         I18n.t('stream.header.site', who: who, site: Setting.get(:name, :community))
       else

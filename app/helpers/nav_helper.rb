@@ -80,6 +80,9 @@ module NavHelper
         crumbs << ['fa fa-folder-open', @group.category, groups_path(category: @group.category)]
       elsif params[:controller] == 'groups' and (params[:action] != 'index' or params[:name] or params[:category])
         crumbs << ['fa fa-group', t('groups.heading'), groups_path]
+      elsif params[:controller] == 'prayer_requests' and group = (@group || @req.try(:group))
+        crumbs << ['fa fa-group', group.name, group_path(group)]
+        crumbs << ['fa fa-heart', t('nav.prayer_requests'), group_prayer_requests_path(group)] unless params[:action] == 'index'
       elsif params[:controller] == 'albums' or params[:controller] == 'pictures'
         if group = (@group || @album.try(:group))
           crumbs << ['fa fa-group', group.name, group_path(group)]

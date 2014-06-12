@@ -1,5 +1,4 @@
 - @title = t('prayer_requests.index.heading')
-- content_for :sub_title, link_to(@group.name, @group)
 
 - @reqs.each do |req|
   .prayer-request.box
@@ -16,23 +15,7 @@
             %h4= t('prayer_requests.answer.heading')
           = preserve_breaks req.answer
 
--#%h2
-  -#- if params[:answered]
-    -#answered
-  -#prayer requests in
-  -#= link_to @group.name, @group
--#- @reqs.each do |req|
-  -#.stream-item
-    -#.stream-item-meta
-      -#- if req.person
-        -#%span.nowrap
-          -#%a{:href => url_for(req.person)}
-            -#= image_tag req.person.photo.exists? ? req.person.photo.url(:tn) : (req.person.gender == 'Female' ? 'clean/womanoutline.tn.png' : 'clean/manoutline.tn.png'), |
-              -#alt: req.person.name                                                                                                                                        |
-      -#- else
-        -#= image_tag 'clean/manoutline.tn.png', alt: ''
-      -#%div{:style => "clear:left;"}
-    -#.stream-item-body
-      -#%div= sanitize_html auto_link(req.body)
-      -#= render partial: 'meta', locals: {req: req}
--#= will_paginate @reqs
+%p
+  = link_to new_group_prayer_request_path(@group), class: 'btn btn-success' do
+    = icon 'fa fa-plus'
+    = t('prayer_requests.new.button')

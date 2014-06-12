@@ -10,6 +10,7 @@ en:
 
     new:
       heading: "New Prayer Request"
+      button: "New Prayer Request"
 
     edit:
       heading: "Edit Prayer Request"
