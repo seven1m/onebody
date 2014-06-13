@@ -1,0 +1,15 @@
+- @title = t('.heading')
+
+= pagination @notes
+
+- @notes.each do |note|
+  .box.box-info
+    .box-header
+      %h3.box-title
+        = link_to note.title, note
+    .box-body
+      = render_note_body note
+    .box-footer
+      = t('notes.posted', when: note.created_at.to_s(:date))
+
+= pagination @notes

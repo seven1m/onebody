@@ -94,6 +94,11 @@ module NavHelper
         if @album and @album.persisted? and not (params[:controller] == 'pictures' and params[:action] == 'index')
           crumbs << ['fa fa-picture-o', @album.name, album_path(@album)]
         end
+      elsif params[:controller] == 'notes' and person = (@person || @note.try(:person))
+        crumbs << ['fa fa-user', person.try(:name), person_path(person)]
+        if @note and @note.persisted?
+          crumbs << ['fa fa-file', t('nav.notes'), person_notes_path(@note.person)]
+        end
       end
     end
   end

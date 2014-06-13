@@ -56,6 +56,7 @@ en:
   person: Person
   phone: Phone
   please_note: Please Note
+  req_notes: Notes
   save: Save
   saving: Saving
   save_changes: Save Changes
@@ -141,6 +142,9 @@ en:
         answered_at: "Date Answered"
         person_id: "Person needing prayer"
         request: "Request"
+      note:
+        title: "Title"
+        body: "Body"
     errors: 
       models: 
         admin: 
@@ -939,28 +943,6 @@ en:
     group:
       delete: delete group
       edit: edit group
-
-  notes:
-    about_this_note: about this note
-    add_a_note: Add a Note
-    add_note: Add Note
-    body: Body
-    by: by
-    creating_note_doesnt_send_email_html: "Creating a note does <em>not</em> send an email to the group."
-    delete_note: Delete Note
-    dont_have_notes: "You don't have any notes yet"
-    edit_note: Edit Note
-    new_note: New Note
-    note: Note
-    note_imported_from: Note imported from
-    notes: Notes
-    posted: posted
-    posted_by: posted by
-    save_note: Save Note
-    saved: Note saved.
-    this_note_will_be_posted: This note will be posted to the %{group} blog.
-    this_note_will_not_be_private_html: "This note will <strong>not</strong> be private since it is a blog post. To send a private message, send an email to the group."
-    title: Title
 
   notifier:
     attached_your_custom_directory: Hello, %{name}. Attached is your custom printed directory from %{site}.
