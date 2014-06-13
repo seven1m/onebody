@@ -14,6 +14,8 @@ class MembershipsController < ApplicationController
 
   def index
     @group = Group.find(params[:group_id])
+    @memberships = @group.memberships.includes(:person).paginate(page: params[:page], per_page: 100)
+    @memberships = @memberships.order(params[:birthdays] ? "ifnull(month(people.birthday),99)" : "people.first_name, people.last_name")
     @can_edit = @logged_in.can_edit?(@group)
     if @logged_in.can_see?(@group)
       @requests = @group.membership_requests
@@ -53,8 +55,8 @@ class MembershipsController < ApplicationController
       end
     # promote/demote
     elsif @logged_in.can_edit?(@group)
-      @membership = @group.memberships.where(person_id: params[:id]).first_or_create
-      @membership.update_attribute :admin, !params[:promote].nil?
+      @membership = @group.memberships.find(params[:id])
+      @membership.update_attribute :admin, params[:promote] == 'true'
       flash[:notice] = t('groups.user_settings_saved')
       redirect_to :back
     else
@@ -119,8 +121,7 @@ class MembershipsController < ApplicationController
           if request.post?
             person = Person.find(id)
             unless params[:commit] == 'Ignore' or group_people.include?(person)
-              @group.memberships.create(person: person)
-              @added << person
+              @added << @group.memberships.create(person: person)
             end
             @group.membership_requests.where(person_id: id).each(&:destroy)
           elsif request.delete?
@@ -134,17 +135,8 @@ class MembershipsController < ApplicationController
           format.html { redirect_to :back }
         end
       else
-        render text: 'error'
+        redirect_to :back
       end
-    else
-      render text: t('not_authorized'), layout: true, status: 401
-    end
-  end
-
-  def birthdays
-    @group = Group.find(params[:group_id])
-    if @logged_in.can_edit?(@group)
-      @people = @group.people.where('birthday is not null').order("month(people.birthday), day(people.birthday), people.last_name, people.first_name")
     else
       render text: t('not_authorized'), layout: true, status: 401
     end

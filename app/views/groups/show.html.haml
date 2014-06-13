@@ -78,10 +78,15 @@
         %tr
           %td= t('.details.leader')
           %td= link_to(@group.leader.name, @group.leader)
+      - if @group.admins.any? and @group.admins.to_a != [@group.leader]
+        %tr
+          %td= t('.details.admins')
+          %td= @group.admins.map { |p| link_to(p.try(:name), p) }.join(', ').html_safe
       %tr
-        %td= t('.details.member_count')
+        %td= t('.details.member_count_label')
         %td
-          = link_to @group.people.count, group_memberships_path(@group)
+          = link_to t('.details.member_count', count: @group.people.count), group_memberships_path(@group)
+          = t('.details.birthdays_this_month_html', count: @group.people.with_birthday_month(Time.now.month).count, url: group_memberships_path(@group, birthdays: true))
 
   .col-sm-6.col-sm-pull-6
     = timeline @stream_items

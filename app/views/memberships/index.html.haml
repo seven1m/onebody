@@ -1,70 +1,99 @@
-- content_for :sidebar do
-  %h2= t('memberships.index.heading', group: @group.name)
-  - if @logged_in.can_edit?(@group)
-    - if @group.approved?
-      = form_tag search_path, remote: true do
-        = hidden_field_tag :select_person, true
-        %p.double-margin-top
-          %label{:for => "add_person_name"}
-            = t('memberships.add.description')
-            \:
-          = text_field_tag 'name', nil, id: 'add_person_name'
-          - if @group.parents_of
-            %strong
-              Remember, this is a group automatically containing
-              parents of people in #{link_to @group.parents_of_group.name, @group.parents_of_group}.
-              Adding people manually should be done sparingly.
-          = submit_tag t('search.search_by_name')
-      #add_member{:style => "display:none;"}
-        = form_tag batch_group_memberships_path(@group), remote: true, id: 'add_people_form' do
-          #results
-          %p= submit_tag t('search.add_selected')
-      %p
-        = link_to t('admin.manage_admins'), '#', id: 'promote-people-action'
+- @title = t('.heading', group: link_to(@group.name, @group)).html_safe
+
+.row
+
+  .col-md-8
+    - if @logged_in.can_edit?(@group) and @requests.any?
+      = form_tag batch_group_memberships_path(@group) do |form|
+        .box.box-warning
+          .box-header
+            %h3.box-title= t('memberships.requests.heading')
+          .box-body
+            %table.table
+              %tr
+                %th{ style: 'width:75px' } Select
+                %th
+                %th Name
+                %th Requested
+              - @requests.each do |req|
+                %tr.row-with-avatar
+                  %td
+                    = check_box_tag 'ids[]', req.person.try(:id), false, class: 'checkbox'
+                  %td.avatar
+                    = avatar_tag req.person
+                  %td
+                    = link_to req.person.try(:name), req.person
+                  %td
+                    = req.created_at.to_s(:date)
+          .box-footer
+            .form-group
+              = t('memberships.requests.select_some')
+            .form-group
+              = button_tag name: 'commit', value: 'accept', class: 'btn btn-success' do
+                = icon 'fa fa-plus-circle'
+                = t('memberships.requests.accept.button')
+              = button_tag name: 'commit', value: 'ignore', class: 'btn btn-danger' do
+                = icon 'fa fa-minus-circle'
+                = t('memberships.requests.ignore.button')
+
+    = pagination @memberships
+
+    - if @group.people.any?
+      = form_tag batch_group_memberships_path(@group), method: :delete do
+        %table.members.table
+          %thead
+            %tr
+              - if @logged_in.can_edit?(@group)
+                %th{ style: 'width:75px' } Select
+              %th
+              %th Name
+              - if params[:birthdays]
+                %th Birthday
+              - else
+                %th Added
+              - if @logged_in.can_edit?(@group)
+                %th
+          %tbody#memberships
+            - @memberships.includes(:person).order('people.last_name', 'people.first_name').each do |membership|
+              - if person = membership.person
+                = render partial: 'membership', object: membership
+
+        - if @logged_in.can_edit?(@group)
+          .page-controls
+            = button_tag class: 'btn btn-delete' do
+              = icon 'fa fa-minus-circle'
+              Remove Selected
+
     - else
-      %p.very-strong
-        = t('memberships.group_pending_approval')
-- if @logged_in.can_edit?(@group) and @requests.any?
-  %h3= t('memberships.requests.heading')
-  = form_tag batch_group_memberships_path(@group) do |form|
-    %table
-      - @requests.each do |req|
-        %tr
-          %td= check_box_tag 'ids[]', req.person.id, false, class: 'checkbox'
-          %td= link_to req.person.name, person_url(id: req.person)
-    .form-group
-      = t('memberships.requests.select_some')
-    .form-group
-      %input{:name => "commit", :style => "font-weight:bold;", :type => "submit", :value => t('memberships.requests.accept.button')}/
-      %input{:name => "commit", :type => "submit", :value => t('memberships.requests.ignore.button')}/
-%h3#people-heading= t('people.person', count: @group.people.count)
-- if @logged_in.can_edit?(@group)
-  .heading-action
-    = link_to t('.remove.enable'), '', class: 'delete-icon discreet', id: 'delete-people-action'
-%table#memberships.members
-  - @group.memberships.includes(:person).order('people.last_name', 'people.first_name').each do |membership|
-    - if person = membership.person
-      = render partial: 'person', locals: {person: person}
-- if @group.people.count == 0
-  %p
-    %em= t('none')
-:javascript
-  deleting_people = false;
-  $('#delete-people-action').toggle(function(){
-    deleting_people = true;
-    $('.delete-action').show();
-    $('#delete-people-action').html('#{escape_javascript t('.remove.execute')}');
-    return false;
-  }, function() {
-    deleting_people = false;
-    $('.delete-action').hide();
-    $('#delete-people-action').html('#{escape_javascript t('.remove.enable')}');
-    return false;
-  });
-  $('#promote-people-action').toggle(function(){
-    $('.promote-action').show();
-    return false;
-  }, function() {
-    $('.promote-action').hide();
-    return false;
-  });
+      %p= t('none')
+
+    = pagination @memberships
+
+  .col-md-4
+    .box.box-success
+      .box-header
+        %h3.box-title Add Someone
+      .box-body
+        - if @logged_in.can_edit?(@group)
+          - if @group.approved?
+            = form_tag search_path, remote: true do
+              = hidden_field_tag :select_person, true
+              .form-group
+                = label_tag :add_person_name do
+                  = t('memberships.add.description')
+                = text_field_tag 'name', nil, id: 'add_person_name', class: 'form-control', placeholder: t('memberships.add.name_placeholder')
+                - if @group.parents_of
+                  %strong
+                    Remember, this is a group automatically containing
+                    parents of people in #{link_to @group.parents_of_group.name, @group.parents_of_group}.
+                    Adding people manually should be done sparingly.
+              .form-group
+                = button_tag t('search.search_by_name'), class: 'btn btn-info'
+            #add_member{ style: 'display:none' }
+              = form_tag batch_group_memberships_path(@group), remote: true, id: 'add_people_form' do
+                = hidden_field_tag(:birthdays, true) if params[:birthdays]
+                #results
+                %p= button_tag t('search.add_selected'), class: 'btn btn-success'
+          - else
+            %p.very-strong
+              = t('memberships.group_pending_approval')

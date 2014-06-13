@@ -49,6 +49,7 @@ class Person < ActiveRecord::Base
   scope :administrators, -> { undeleted.where('admin_id is not null') }
   scope :email_changed, -> { undeleted.where(email_changed: true) }
   scope :minimal, -> { select('people.id, people.first_name, people.last_name, people.suffix, people.child, people.gender, people.birthday, people.gender, people.photo_file_name, people.photo_content_type, people.photo_fingerprint, people.photo_updated_at, people.deleted') }
+  scope :with_birthday_month, -> m { where('birthday is not null and month(birthday) = ?', m) }
 
   has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
 
@@ -220,7 +221,7 @@ class Person < ActiveRecord::Base
 
   # deprecated
   def can_edit?(what)
-    can_update?(what)
+    @can_edit ||= can_update?(what)
   end
 
   def can_sign_in?

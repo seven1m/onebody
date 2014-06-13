@@ -37,7 +37,14 @@ en:
         created_at: "created"
         created_by: "created by"
         leader: "leader"
-        member_count: "members"
+        admins: "admins"
+        member_count_label: "members"
+        member_count:
+          one: "1 person"
+          other: "%{count} people"
+        birthdays_this_month_html:
+          one: "(<a href='%{url}'>1</a> with a birthday this month)"
+          other: "(<a href='%{url}'>%{count}</a> with birthdays this month)"
       controls:
         join: "Join Group"
         leave: "Leave Group"

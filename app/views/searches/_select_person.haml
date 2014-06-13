@@ -1,0 +1,17 @@
+.checkbox
+  - @people.each do |person|
+    = label_tag do
+      - if params[:select_one]
+        = radio_button_tag 'ids[]', person.id, @people.length == 1
+      - else
+        = check_box_tag 'ids[]', person.id, @people.length == 1
+      = person.name
+      == (#{person.family.try(:name)})
+    %br/
+  - if @more
+    %p= t('search.results_not_shown')
+  - if @people.empty?
+    %p= t('search.people_found', count: 0)
+- if @people.length == 1 and !params[:no_auto_submit]
+  :javascript
+    $('#add_people_form').trigger('submit')

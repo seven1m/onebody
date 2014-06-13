@@ -3,16 +3,18 @@ en:
   memberships:
 
     index:
-      heading: "People in the %{group} group"
+      heading: "People in %{group}"
       remove:
         enable: "Select people to remove"
         execute: "Remove selected people"
 
     add:
       description: "Add someone to this group."
+      name_placeholder: "Type all or part of someone's name"
 
     promote: "Promote member to admin"
     demote: "Demote admin to regular member"
+    remove: "Remove member"
 
     group_pending_approval: "This group is pending approval. You may not add people to it yet."
 
