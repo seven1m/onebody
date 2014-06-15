@@ -21,8 +21,9 @@ OneBody::Application.routes.draw do
       put  :import
     end
     member do
-      get  :favs
-      get  :testimony
+      get :favs
+      get :testimony
+      get :login
     end
     resources :friends do
       collection do

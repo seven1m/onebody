@@ -196,17 +196,17 @@ class PeopleController < ApplicationController
     render xml: Person.columns.map { |c| {name: c.name, type: c.type} }
   end
 
-  def favs
+  def testimony
     @person = Person.find(params[:id])
     unless @logged_in.can_see?(@person)
       render text: t('people.not_found'), status: 404, layout: true
     end
   end
 
-  def testimony
-    @person = Person.find(params[:id])
-    unless @logged_in.can_see?(@person)
-      render text: t('people.not_found'), status: 404, layout: true
+  def login
+    if @logged_in.super_admin?
+      session[:logged_in_id] = Person.find(params[:id])
+      redirect_to root_path
     end
   end
 
