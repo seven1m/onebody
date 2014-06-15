@@ -14,7 +14,8 @@
         - if not group.hidden? or @logged_in.admin?(:manage_groups)
           %tr.row-with-avatar{class: group.hidden? ? 'grayed hidden-group' : ''}
             %td.avatar
-              = group_avatar_tag(group)
+              = link_to group do
+                = group_avatar_tag(group)
             %td.name
               = link_to group.name, group
               - if group.private?

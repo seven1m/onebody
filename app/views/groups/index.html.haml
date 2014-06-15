@@ -3,10 +3,9 @@
 - if @unapproved_groups.any?
   .callout.callout-info
     = t('groups.pending_approval.description', count: @unapproved_groups.length)
-    %table.table.group-list
+    %ul
       - @unapproved_groups.each do |group|
-        %tr.row-with-avatar
-          %td= link_to group.name, group
+        %li= link_to group.name, group
 
 .row
   .col-md-4

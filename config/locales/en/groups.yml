@@ -12,6 +12,9 @@ en:
     deleted: "Group deleted."
 
     your_groups: "Your Groups"
+    groups_of:
+      s: "%{name}' Groups"
+      no_s: "%{name}'s Groups"
 
     hidden_group: "Hidden"
     hidden_groups:
@@ -38,6 +41,8 @@ en:
         created_by: "created by"
         leader: "leader"
         admins: "admins"
+        meets: "meets"
+        location: "location"
         member_count_label: "members"
         member_count:
           one: "1 person"
@@ -138,6 +143,9 @@ en:
         one: "%{count} group to approve"
         other: "%{count} groups to approve"
 
+    approve:
+      button: "Approve Group"
+
     membership_requests:
       count:
         one: "%{count} membership request"
@@ -148,7 +156,7 @@ en:
 
     join:
       button: "Join this group"
-      pending: "You have requested to join this group."
+      pending: "You requested to join."
       confirm: "Are you sure? A request will be sent to the group administrator(s)."
       request_sent: "A request to join this group has been sent to the group administrator(s)."
 
