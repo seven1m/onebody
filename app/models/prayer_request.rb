@@ -11,9 +11,11 @@ class PrayerRequest < ActiveRecord::Base
 
   validates_presence_of :request, :group_id, :person_id
 
+  self.skip_time_zone_conversion_for_attributes = [:answered_at]
+
   def name
-    group_name = group.name rescue '?'
-    I18n.t('prayer.name', group_name: group_name)
+    group_name = group.try(:name) || '?'
+    I18n.t('prayer_requests.name', group: group_name)
   end
 
   def body
@@ -33,6 +35,7 @@ class PrayerRequest < ActiveRecord::Base
   def create_as_stream_item
     return unless streamable?
     StreamItem.create!(
+      title:           name,
       body:            body,
       person_id:       person_id,
       group_id:        group_id,
