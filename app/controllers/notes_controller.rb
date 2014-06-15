@@ -1,6 +1,6 @@
 class NotesController < ApplicationController
 
-  load_and_authorize_parent :group, :person, shallow: true
+  load_and_authorize_parent :person, shallow: true
   load_and_authorize_resource
 
   def index
@@ -18,10 +18,6 @@ class NotesController < ApplicationController
   def create
     @note = notes.new(note_params)
     @note.person = @logged_in
-    # FIXME
-    #if @note.group
-      #raise 'error' unless @note.group.blog? and @note.group.can_post?(@logged_in)
-    #end
     if @note.save
       flash[:notice] = t('notes.saved')
       redirect_to @note

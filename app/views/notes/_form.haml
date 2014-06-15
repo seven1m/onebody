@@ -1,4 +1,4 @@
-= form_for @note do |form|
+= form_for [@person, @note] do |form|
   = error_messages_for(form)
   .form-group
     = form.label :title

@@ -28,7 +28,7 @@
               = t('stream.share.intro.group_members_only')
           .buttons
             - if setting(:features, :notes)
-              = link_to new_note_path, class: 'btn bg-blue' do
+              = link_to new_person_note_path(@logged_in), class: 'btn bg-blue' do
                 %i.fa.fa-file
                 = t('stream.share.button.note')
             - if setting(:features, :pictures)
