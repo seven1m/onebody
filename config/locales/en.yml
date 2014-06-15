@@ -259,9 +259,7 @@ en:
             business_category:
               exclusion: "You must enter a category for your business."
             child: 
-              blank: The 'child' property must be either 'Yes' or 'No' because the birthday is unspecified.
-              cannot_be_no: The 'child' property cannot be 'No' because the birthday indicates the person is not an adult.
-              cannot_be_yes: The 'child' property cannot be 'Yes' because the birthday indicates the person is not an adult.
+              inclusion: "You must enter a birthday or specify whether this person is a child."
             email: 
               invalid: The email address is not formatted correctly (something@example.com).
               taken: There is another person with the same email address.

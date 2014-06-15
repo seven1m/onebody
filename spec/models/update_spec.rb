@@ -95,16 +95,16 @@ describe Update do
       end
     end
 
-    context 'removing birthday with no child designation' do
+    context 'removing birthday and already is a child' do
       before do
         @update.person.update_attributes!(
           birthday: Date.new(2000, 1, 1),
-          child: nil
+          child: true
         )
       end
 
-      it 'should return true' do
-        expect(@update.require_child_designation?).to eq(true)
+      it 'should return false' do
+        expect(@update.require_child_designation?).to eq(false)
       end
     end
   end

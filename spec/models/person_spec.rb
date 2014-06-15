@@ -254,10 +254,16 @@ describe Person do
       expect(@child.child?).to eq(true)
     end
 
-    it "should sets child=nil when birthday is set" do
+    it "sets child=true when birthday is set and person is < 18 years old" do
       @person = FactoryGirl.build(:person, child: false)
-      @person.birthday = 1.year.ago
-      expect(@person.child).to be_nil
+      @person.birthday = 17.years.ago
+      expect(@person.child).to eq(true)
+    end
+
+    it "sets child=false when birthday is set and person is >= 18 years old" do
+      @person = FactoryGirl.build(:person, child: true)
+      @person.birthday = 18.years.ago
+      expect(@person.child).to eq(false)
     end
 
     it "should not allow child and birthday to both be unspecified" do
