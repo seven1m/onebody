@@ -21,7 +21,7 @@ describe VersesController do
   it "should show one verse" do
     get :show, {id: @verse.id}, {logged_in_id: @person.id}
     expect(response).to be_success
-    assert_select 'h2', Regexp.new(@verse.reference)
+    assert_select 'h1', Regexp.new(@verse.reference)
   end
 
   it "should tag a verse" do

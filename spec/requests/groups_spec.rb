@@ -52,12 +52,12 @@ describe GroupsController do
 
     context 'with code' do
       it 'should disable email' do
-        get "/groups/#{@group.id}/memberships/#{@user.id}?code=#{@user.feed_code}&email=off"
+        get "/groups/#{@group.id}/memberships/#{@user.id}?code=#{@user.feed_code}&email=off", {}, referer: "/groups/#{@group.id}"
         expect(@group.get_options_for(@user).get_email).not_to be
       end
 
       it 'should enable email' do
-        get "/groups/#{@group.id}/memberships/#{@user.id}?code=#{@user.feed_code}&email=on"
+        get "/groups/#{@group.id}/memberships/#{@user.id}?code=#{@user.feed_code}&email=on", {}, referer: "/groups/#{@group.id}"
         expect(@group.get_options_for(@user).get_email).to be
       end
     end
@@ -68,12 +68,12 @@ describe GroupsController do
       end
 
       it 'should disable email' do
-        put "/groups/#{@group.id}/memberships/#{@user.id}?email=off"
+        put "/groups/#{@group.id}/memberships/#{@user.id}?email=off", {}, referer: "/groups/#{@group.id}"
         expect(@group.get_options_for(@user).get_email).not_to be
       end
 
       it 'should enable email' do
-        put "/groups/#{@group.id}/memberships/#{@user.id}?email=on"
+        put "/groups/#{@group.id}/memberships/#{@user.id}?email=on", {}, referer: "/groups/#{@group.id}"
         expect(@group.get_options_for(@user).get_email).to be
       end
     end

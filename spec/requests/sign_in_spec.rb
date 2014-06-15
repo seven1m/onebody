@@ -60,8 +60,8 @@ describe 'SignIn' do
     it 'should allow access to disable group emails' do
       @group = FactoryGirl.create(:group)
       @membership = @group.memberships.create!(person: @user)
-      get "/groups/#{@group.id}/memberships/#{@user.id}?code=#{@user.feed_code}&email=off"
-      expect(response).to redirect_to(people_path)
+      get "/groups/#{@group.id}/memberships/#{@user.id}?code=#{@user.feed_code}&email=off", {}, referer: "/groups/#{@group.id}"
+      expect(response).to redirect_to(@group)
       expect(@membership.reload.get_email).to eq(false)
     end
 

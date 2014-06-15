@@ -12,7 +12,7 @@ describe GroupsController do
   it "should show a group" do
     get :show, {id: @group.id}, {logged_in_id: @person.id}
     expect(response).to be_success
-    assert_tag tag: 'h2', content: Regexp.new(@group.name)
+    assert_tag tag: 'h1', content: Regexp.new(@group.name)
   end
 
   it "should not show a group if group is private and user is not a member of the group" do
@@ -32,7 +32,7 @@ describe GroupsController do
     @admin = FactoryGirl.create(:person, :admin_manage_groups)
     get :show, {id: @hidden_group.id}, {logged_in_id: @admin.id}
     expect(response).to be_success
-    assert_tag tag: 'h2', content: Regexp.new(@hidden_group.name)
+    assert_tag tag: 'h1', content: Regexp.new(@hidden_group.name)
   end
 
   it "should list a person's groups" do
@@ -140,18 +140,6 @@ describe GroupsController do
     expect(new_group.name).to eq("test name")
     expect(new_group.category).to eq("test cat")
     expect(new_group).to be_approved
-  end
-
-  it "should not allow creation of groups if the site has reached limit" do
-    Site.current.update_attribute(:max_groups, 1000)
-    post :create, {group: {name: 'test name 1', category: 'test cat 1'}}, {logged_in_id: @person.id}
-    expect(response).to be_redirect
-    Site.current.update_attribute(:max_groups, 1)
-    post :create, {group: {name: 'test name 2', category: 'test cat 2'}}, {logged_in_id: @person.id}
-    expect(response).to be_unauthorized
-    Site.current.update_attribute(:max_groups, nil)
-    post :create, {group: {name: 'test name 3', category: 'test cat 3'}}, {logged_in_id: @person.id}
-    expect(response).to be_redirect
   end
 
   it "should batch edit groups" do

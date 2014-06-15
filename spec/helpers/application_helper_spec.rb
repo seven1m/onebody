@@ -93,17 +93,17 @@ describe ApplicationHelper do
     it 'should output a text field' do
       Setting.set(:formats, :date, '%m/%d/%Y')
       OneBody.set_local_formats
-      expect(date_field_tag(:birthday, Date.new(1981, 4, 28))).to eq("<input id=\"birthday\" name=\"birthday\" size=\"12\" type=\"text\" value=\"04/28/1981\" />")
+      expect(date_field_tag(:birthday, Date.new(1981, 4, 28))).to eq("<input id=\"birthday\" name=\"birthday\" type=\"date\" value=\"1981-04-28\" />")
       form_for(@user) do |form|
-        expect(form.date_field(:birthday)).to eq("<input id=\"person_birthday\" name=\"person[birthday]\" size=\"12\" type=\"text\" value=\"04/28/1981\" />")
+        expect(form.date_field(:birthday)).to eq("<input id=\"person_birthday\" name=\"person[birthday]\" type=\"date\" value=\"1981-04-28\" />")
       end
     end
 
     it 'should handle nil and empty string' do
       @user.birthday = nil
-      expect(date_field_tag(:birthday, "")).to eq("<input id=\"birthday\" name=\"birthday\" size=\"12\" type=\"text\" value=\"\" />")
+      expect(date_field_tag(:birthday, "")).to eq("<input id=\"birthday\" name=\"birthday\" type=\"date\" value=\"\" />")
       form_for(@user) do |form|
-        expect(form.date_field(:birthday)).to eq("<input id=\"person_birthday\" name=\"person[birthday]\" size=\"12\" type=\"text\" value=\"\" />")
+        expect(form.date_field(:birthday)).to eq("<input id=\"person_birthday\" name=\"person[birthday]\" type=\"date\" />")
       end
     end
   end

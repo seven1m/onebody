@@ -7,29 +7,14 @@ describe NotesController do
   end
 
   context '#index' do
-    context 'nested route on person' do
-      before do
-        @note = FactoryGirl.create(:note, person: @user)
-      end
-
-      it 'should list all notes by person' do
-        get :index, {person_id: @user.id}, {:logged_in_id => @user.id}
-        expect(response).to be_success
-        expect(assigns(:notes)).to eq([@note])
-      end
+    before do
+      @note = FactoryGirl.create(:note, person: @user)
     end
 
-    context 'nested route on group' do
-      before do
-        @group = FactoryGirl.create(:group)
-        @note = FactoryGirl.create(:note, group: @group, person: @user)
-      end
-
-      it 'should list all notes by group' do
-        get :index, {group_id: @group.id}, {:logged_in_id => @user.id}
-        expect(response).to be_success
-        expect(assigns(:notes)).to eq([@note])
-      end
+    it 'should list all notes by person' do
+      get :index, {person_id: @user.id}, {:logged_in_id => @user.id}
+      expect(response).to be_success
+      expect(assigns(:notes)).to eq([@note])
     end
   end
 
@@ -60,26 +45,13 @@ describe NotesController do
   end
 
   context '#new' do
-    context 'shallow route' do
-      before do
-        get :new, {person_id: @user.id}, {logged_in_id: @user.id}
-      end
-
-      it 'should render template' do
-        expect(response).to be_success
-        expect(response).to render_template(:new)
-      end
+    before do
+      get :new, {person_id: @user.id}, {logged_in_id: @user.id}
     end
 
-    context 'nested route on a group' do
-      before do
-        @group = FactoryGirl.create(:group)
-        get :new, {group_id: @group.id}, {logged_in_id: @user.id}
-      end
-
-      it 'should assign the group' do
-        expect(assigns[:note].group).to eq(@group)
-      end
+    it 'should render template' do
+      expect(response).to be_success
+      expect(response).to render_template(:new)
     end
   end
 
@@ -182,18 +154,6 @@ describe NotesController do
 
       it 'should redirect to the listing of notes for the person' do
         expect(response).to redirect_to(person_notes_path(@user))
-      end
-    end
-
-    context 'note is in a group' do
-      before do
-        @group = FactoryGirl.create(:group)
-        @note = FactoryGirl.create(:note, person: @user, group: @group)
-        post :destroy, {id: @note.id}, {logged_in_id: @user.id}
-      end
-
-      it 'should redirect to the listing of notes for the group' do
-        expect(response).to redirect_to(group_notes_path(@group))
       end
     end
 

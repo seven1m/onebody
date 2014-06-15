@@ -26,13 +26,13 @@ module StreamsHelper
         end
       end
     end
-    if use_code
+    if use_code and content
       content.gsub!(/<img([^>]+)src="(.+?)"/) do |match|
         url = $2 && ($2 + ($2.include?('?') ? '&' : '?') + 'code=' + @logged_in.feed_code)
         "<img#{$1}src=\"#{url}\""
       end
     end
-    content.html_safe
+    content.try(:html_safe)
   end
 
   def recent_time_ago_in_words(time)

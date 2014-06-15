@@ -47,6 +47,7 @@ module PeopleHelper
   end
 
   def avatar_tag(person, options={})
+    return if person.nil?
     if person.is_a?(Family)
       family_avatar_tag(person, options)
     elsif person.is_a?(Group)

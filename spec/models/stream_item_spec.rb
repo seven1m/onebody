@@ -3,8 +3,8 @@ require_relative '../spec_helper'
 describe StreamItem do
 
   before do
-    @person = FactoryGirl.create(:person)
-    @group = FactoryGirl.create(:group)
+    @person = FactoryGirl.create(:person, created_at: 1.hour.ago)
+    @group = FactoryGirl.create(:group, created_at: 1.hour.ago)
     @group.memberships.create! person: @person
   end
 
@@ -112,12 +112,12 @@ describe StreamItem do
       @album = FactoryGirl.create(:album, owner: @person)
       @picture1 = FactoryGirl.create(:picture, album: @album, person: @person)
       @picture2 = FactoryGirl.create(:picture, album: @album, person: @person)
-      items = StreamItem.where(streamable_type: "Album", streamable_id: @album.id).to_a
-      expect(items.length).to eq(1)
+      count = StreamItem.where(streamable_type: "Album", streamable_id: @album.id).count
+      expect(count).to eq(1)
       @picture1.destroy
       @picture2.destroy
-      items = StreamItem.where(streamable_type: "Album", streamable_id: @album.id).to_a
-      expect(items.length).to eq(0)
+      count = StreamItem.where(streamable_type: "Album", streamable_id: @album.id).count
+      expect(count).to eq(0)
     end
   end
 
