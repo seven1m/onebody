@@ -84,6 +84,9 @@ en:
       view_full: "read more"
       find_more: "Read other testimonies"
 
+    updates:
+      pending_callout: "Updates to this profile are pending."
+
     # TODO organize these better...
 
     add_group: "Add Group"
