@@ -34,7 +34,7 @@ class Site < ActiveRecord::Base
     },
     default_url:   "/images/missing_:style.png"
 
-  after_create :create_as_stream_item
+  after_create :create_as_stream_item, if: -> { StreamItem.table_exists? }
 
   def create_as_stream_item
     StreamItem.create!(
@@ -46,6 +46,8 @@ class Site < ActiveRecord::Base
       shared: true
     )
   end
+
+  after_update :update_stream_item, if: -> { StreamItem.table_exists? }
 
   def update_stream_item(person)
     return unless stream_item
