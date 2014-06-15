@@ -1,0 +1,16 @@
+- controller ||= object.class.name.pluralize.downcase
+
+%div{id: "tags-for-#{object.id}"}
+  - if object.tags.any?
+    %ul.tags
+      - object.tags.each do |tag|
+        %li
+          = link_to tag.name, tag
+          - if params[:controller] == controller
+            - if controller == 'verses'
+              - url = verse_path(id: object, remove_tag: tag.name)
+            %span><
+              = link_to url, title: t('delete'), class: 'delete', method: 'put', data: { remote: true, confirm: t('tags.confirm_delete') } do
+                = icon 'fa fa-times'
+  - else
+    .badge= t('tags.no_tags_yet')

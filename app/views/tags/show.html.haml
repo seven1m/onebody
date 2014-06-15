@@ -1,0 +1,11 @@
+- content_for :header do
+  %section.content-header
+    = breadcrumbs
+    %h1
+      = t('tags.tag')
+      .label.label-info
+        = @tag.name
+- if @tag.verses.any?
+  %h3= t('verses.heading')
+  - @tag.verses.with_people_count.each do |verse|
+    = render partial: 'verses/verse', locals: {verse: verse}
