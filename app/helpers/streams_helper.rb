@@ -6,7 +6,11 @@ module StreamsHelper
   end
 
   def stream_item_url(stream_item)
-    send(stream_item.streamable_type.underscore + '_url', stream_item.streamable_id)
+    if stream_item.streamable_type == 'Site'
+      root_url
+    else
+      send(stream_item.streamable_type.underscore + '_url', stream_item.streamable_id)
+    end
   end
 
   def stream_item_content(stream_item, use_code=false)
