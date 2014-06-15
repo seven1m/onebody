@@ -266,6 +266,13 @@ describe Person do
       expect(@person.child).to eq(false)
     end
 
+    it "sets child properly given a birthday and child attribute" do
+      @person = FactoryGirl.build(:person, child: true)
+      @person.birthday = 18.years.ago
+      @person.child = true
+      expect(@person.child).to eq(false)
+    end
+
     it "should not allow child and birthday to both be unspecified" do
       @person = FactoryGirl.create(:person)
       @person.birthday = nil

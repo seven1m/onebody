@@ -8,6 +8,9 @@ en:
     edit:
       about: "About"
       basics: "Basics"
+      child:
+        enabled: "Yes"
+        disabled: "No"
       child_hint: "If no birthday is specified, you must indicate whether this is a child or an adult."
       description_hint: "A word or two about yourself — some people put their job title here."
       email: "Change Email Settings"
