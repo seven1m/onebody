@@ -1,12 +1,12 @@
 !!!
 %html
   %head
-    %meta{charset: "UTF-8"}
+    %meta{ charset: 'UTF-8' }
     %title
       CHURCH.IO
       - if @title.present?
         == | #{@title}
-    %meta{content: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no", name: "viewport"}
+    %meta{ content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no', name: 'viewport' }
     = yield(:meta)
     = stylesheet_link_tag 'application'
     = yield(:css)
@@ -30,16 +30,17 @@
     %header.header
       = link_to 'CHURCH.IO', root_path, class: 'logo'
       / Header Navbar: style can be found in header.less
-      %nav.navbar.navbar-static-top{role: "navigation"}
+      %nav.navbar.navbar-static-top{ role: "navigation" }
         / Sidebar toggle button
-        %a.navbar-btn.sidebar-toggle{"data-toggle" => "offcanvas", href: "#", role: "button"}
+        %a.navbar-btn.sidebar-toggle{ 'data-toggle' => 'offcanvas', href: '#', role: 'button' }
           %span.sr-only Toggle navigation
           %span.icon-bar
           %span.icon-bar
           %span.icon-bar
         .navbar-right
           = render 'layouts/navbar_right'
-        %h3.hidden-sm.hidden-xs{style: "float:right;font-size: 18px; line-height: 50px; padding: 0 10px; font-family: Abel, Helvetica, Arial, sans-serif; font-weight: normal; height: 50px; display: block; margin: 0; color: #fff;"}
+        - # FIXME
+        %h3.hidden-sm.hidden-xs{ style: 'float:right; font-size: 18px; line-height: 50px; padding: 0 10px; font-family: Abel, Helvetica, Arial, sans-serif; font-weight: normal; height: 50px; display: block; margin: 0; color: #fff;' }
           = setting(:name, :site)
     .wrapper.row-offcanvas.row-offcanvas-left
       / Left side column. contains the logo and sidebar
@@ -60,25 +61,25 @@
                   %i.fa.fa-circle.text-success
                   Online
           / search form
-          %form.sidebar-form{action: '/search', method: 'get'}
+          %form.sidebar-form{ action: '/search', method: 'get' }
             .input-group
               = text_field_tag 'name', @search.try(:name), placeholder: t('search.form.name'), class: 'form-control'
               %span.input-group-btn
-                %button#search-btn.btn.btn-flat{name: "seach", type: "submit"}
+                %button#search-btn.btn.btn-flat{ name: 'seach', type: 'submit' }
                   %i.fa.fa-search
           / /.search form
           / sidebar menu: : style can be found in sidebar.less
           %ul.sidebar-menu
-            %li{class: tab_selected?(:home) ? 'active' : ''}
+            %li{ class: tab_selected?(:home) ? 'active' : '' }
               = link_to root_path do
                 %i.fa.fa-home
                 %span= t('nav.home')
                 %small.badge.pull-right.bg-green 12 new
-            %li{class: tab_selected?(:profile) ? 'active' : ''}
+            %li{ class: tab_selected?(:profile) ? 'active' : '' }
               = link_to @person || @logged_in do
                 %i.fa.fa-user
                 %span= t('nav.profile')
-                %i.fa.pull-right{class: tab_expanded?(:profile) ? 'fa-angle-down' : 'fa-angle-left'}
+                %i.fa.pull-right{ class: tab_expanded?(:profile) ? 'fa-angle-down' : 'fa-angle-left' }
               - if tab_expanded?(:profile)
                 %ul.treeview-menu.visible
                   %li
@@ -103,12 +104,12 @@
                         = icon 'fa fa-link'
                         = t('nav.profile_sub.relationships')
             - if setting(:features, :groups)
-              %li{class: tab_selected?(:groups) ? 'active' : ''}
+              %li{ class: tab_selected?(:groups) ? 'active' : '' }
                 = link_to groups_path do
                   %i.fa.fa-group
                   %span= t('nav.groups')
                   = new_group_badge
-                  %i.fa.pull-right{class: tab_expanded?(:groups) ? 'fa-angle-down' : 'fa-angle-left'}
+                  %i.fa.pull-right{ class: tab_expanded?(:groups) ? 'fa-angle-down' : 'fa-angle-left' }
                 - if tab_expanded?(:groups)
                   %ul.treeview-menu.visible
                     - if @group.persisted?
@@ -120,11 +121,11 @@
                       = link_to new_group_path do
                         = icon 'fa fa-plus'
                         = t('nav.groups_sub.new')
-            %li{class: tab_selected?(:directory) ? 'active' : ''}
+            %li{ class: tab_selected?(:directory) ? 'active' : '' }
               = link_to search_path do
                 %i.fa.fa-archive
                 %span= t('nav.directory')
-                %i.fa.pull-right{class: tab_expanded?(:directory) ? 'fa-angle-down' : 'fa-angle-left'}
+                %i.fa.pull-right{ class: tab_expanded?(:directory) ? 'fa-angle-down' : 'fa-angle-left' }
               - if tab_expanded?(:directory)
                 %ul.treeview-menu.visible
                   %li
@@ -139,7 +140,7 @@
                     = link_to search_path(advanced: true) do
                       = icon 'fa fa-search'
                       = t('nav.directory_sub.advanced')
-            %li{class: tab_selected?(:admin) ? 'active' : ''}
+            %li{ class: tab_selected?(:admin) ? 'active' : '' }
               = link_to admin_path do
                 %i.fa.fa-cogs
                 %span Admin
