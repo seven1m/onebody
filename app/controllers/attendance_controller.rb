@@ -5,7 +5,7 @@ class AttendanceController < ApplicationController
     if @group.admin?(@logged_in)
       if @group.attendance?
         begin
-          @attended_at = params[:attended_at] ? Date.parse(params[:attended_at]) : Date.today
+          @attended_at = params[:attended_at] ? Date.parse_in_locale(params[:attended_at]) : Date.today
         rescue ArgumentError
           flash[:warning] = t('attendance.wrong_date_format')
           @attended_at = Date.today

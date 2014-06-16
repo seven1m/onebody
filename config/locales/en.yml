@@ -831,32 +831,6 @@ en:
     upload_attachment: Upload Attachment
     upload_file: Upload File
 
-  attendance:
-    add_somebody_not_in_group: Add somebody not in the group
-    add_visitor: Add a visitor.
-    adult: Adult
-    attendance: Attendance
-    class_time: Class Time
-    clear_search: clear
-    date: Date
-    export: Export to File
-    group: Group
-    group_missing: group missing
-    id: ID
-    name: Name
-    name_unknown: name unknown
-    next_date: next date
-    no_records: no records to display
-    not_enabled: Attendance tracking is not enabled for this goup.
-    prev_date: prev date
-    recorded_time: Recorded Time
-    records_per_day: Attendance Records Per Day
-    save: Save Attendance
-    saved: Attendance saved.
-    Search: Search
-    search_person: Search by Person Name
-    wrong_date_format: Please enter the date as YYYY/MM/DD.
-
   calendars:
     family_members_enabled: "Family Members: Shown"
     family_members_disabled: "Family Members: Not Shown"

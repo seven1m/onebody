@@ -50,6 +50,8 @@ en:
         birthdays_this_month_html:
           one: "(<a href='%{url}'>1</a> with a birthday this month)"
           other: "(<a href='%{url}'>%{count}</a> with birthdays this month)"
+        attendance:
+          button: "Track Attendance"
       controls:
         join: "Join Group"
         leave: "Leave Group"

@@ -103,6 +103,9 @@
         %td
           = link_to t('.details.member_count', count: @group.people.count), group_memberships_path(@group)
           = t('.details.birthdays_this_month_html', count: @group.people.with_birthday_month(Time.now.month).count, url: group_memberships_path(@group, birthdays: true))
+          - if @group.attendance? and @group.admin?(@logged_in)
+            %p
+            = link_to t('.details.attendance.button'), group_attendance_index_path(@group), class: 'btn btn-xs btn-info'
       - if @group.meets.present?
         %tr
           %td= t('.details.meets')
