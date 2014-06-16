@@ -7,6 +7,9 @@ class Attachment < ActiveRecord::Base
   belongs_to :group
   belongs_to :site
 
+  scope :images, -> { where("file_content_type like 'image/%'") }
+  scope :non_images, -> { where("file_content_type not like 'image/%'") }
+
   scope_by_site_id
 
   has_attached_file :file, PAPERCLIP_FILE_OPTIONS

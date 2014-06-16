@@ -1,46 +1,55 @@
 - @title = @message.subject
 
-- if @message.group
-  - content_for(:sub_title, link_to(@message.group.name, @message.group))
-
 .row
   .col-md-2
-    = link_to @message.person do
-      = avatar_tag @message.person, size: :medium
-    = link_to @message.person.name, @message.person
+    %p
+      = link_to @message.person do
+        = avatar_tag @message.person, size: :medium
 
-  -#%p
-    -#%a{:href => url_for @message.person}
-      -#= render partial: 'people/thumbnail', locals: {person: @message.person}
-    -#- if @message.person
-      -#= t('messages.message_by')
-      -#= link_to @message.person.name, @message.person
-  -#%p
-    -#= @message.created_at.strftime '%B %d, %Y %I:%M %p'
-  -#- if @logged_in.can_edit?(@message)
-    -#%p= link_to t('messages.delete_message'), @message, method: 'delete', data: { confirm: t('are_you_sure') }, class: 'delete-icon discreet'
+    %p
+      = t('messages.sent_at_html', when: @message.created_at.to_s(:full), who: link_to(@message.person.try(:name), @message.person))
+
+    %p
+      - if @message.to
+        = t('messages.sent_to_html', who: link_to(@message.to.try(:name), @message.to))
+      - elsif @message.group
+        = t('messages.sent_to_html', who: link_to(@message.group.try(:name), @message.group))
+
+    - if @logged_in.can_edit?(@message)
+      %p
+        = link_to @message, data: { method: 'delete', confirm: t('are_you_sure') }, class: 'btn btn-delete' do
+          = icon 'fa fa-trash-o'
+          = t('messages.delete.button')
 
   .col-md-8
+    - if @message.parent
+      .callout.callout-info
+        = t('messages.in_reply_to_html', message: link_to(@message.parent.try(:subject), @message.parent))
+
     = render_message_body(@message)
 
     = render partial: 'attachments', locals: { message: @message }
 
-    - @message.children.each do |reply|
-      .message
-        .message-details
-          %div{:style => "width:32px;float:left;margin:4px;"}
-            %a{:href => url_for(reply.person)}
-              = render partial: 'people/thumbnail', locals: {person: reply.person}
-          - if reply.person
-            = t('messages.reply_by')
-            = link_to reply.person.name, reply.person
-            %br/
-          = reply.created_at.strftime '%B %d, %Y %I:%M %p'
-        %div
-          = render_message_body(reply)
-        = render partial: 'attachments', locals: {message: reply}
+    - if @message.children.any?
+      %h3= t('messages.replies.heading')
+
+      - @message.children.each do |reply|
+        .box.box-info
+          .box-body
+            = render_message_body(reply)
+          .box-footer
+            = link_to reply.person do
+              = avatar_tag(reply.person)
+            = link_to reply.person.try(:name), reply.person
+            = reply.created_at.to_s(:full)
+            .box-tools.pull-right
+              - if reply.attachments.any?
+                = link_to reply, class: 'btn btn-xs btn-info' do
+                  = icon 'fa fa-link'
+              = link_to t('messages.read_more'), reply, class: 'btn btn-info btn-xs'
+
     - if @message.group and @message.group.can_post? @logged_in
       #reply.push-down
         = link_to new_message_path(parent_id: @message.id), remote: true, method: :get, class: 'btn btn-info' do
-          = icon 'fa fa-envelope'
-          = t('messages.reply_to_this_message')
+          = icon 'fa fa-reply-all'
+          = t('messages.reply_all.button')

@@ -11,6 +11,19 @@ en:
       description_html: "This will send an email to every member of %{group}."
       not_private: "This group is not set to private, so messages posted here may be visible by people who aren't group members."
 
+    sent_at_html: "sent %{when} by %{who}"
+    sent_to_html: "to %{who}"
+
+    read_more: "Read More"
+    delete:
+      button: "Delete"
+
+    in_reply_to_html: "in reply to %{message}"
+    replies:
+      heading: "Replies"
+    reply_all:
+      button: "Reply to this message (send to entire group)"
+
     # old stuff
     ago: ago
     attachment_optional: Attachment (optional)
@@ -29,7 +42,6 @@ en:
     posted_by: posted by
     reply: Reply
     reply_by: Reply by
-    reply_to_this_message: Reply to this message
     send_message: Send Email
     sent: Your message has been sent.
     show_quoted_content: show quoted content

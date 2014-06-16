@@ -1,20 +1,19 @@
-%h2= t('messages.messages_in_html', url: group_path(@group), name: @group.name)
+- @title = t('messages.messages_in_html', url: group_path(@group), name: @group.name)
+
+= pagination @messages
+
 - @messages.each do |message|
-  .stream-item
-    .stream-item-meta
-      - if message.person
-        %span.nowrap
-          %a{:href => url_for message.person}
-            = image_tag message.person.photo.exists? ? message.person.photo.url(:tn) : (message.person.gender == 'Female' ? 'clean/womanoutline.tn.png' : 'clean/manoutline.tn.png'), |
-              alt: message.person.name                                                                                                                                                |
-      - else
-        = image_tag 'clean/manoutline.tn.png', alt: ''
-      %div{:style => "clear:left;"}
-    .stream-item-body
-      %h2= link_to message.subject, message
-      = render partial: 'meta', locals: {message: message}
-      %div
-        = render_message_body(message)
-      - if (count = message.children.count) > 0
-        %p= pluralize count, t('messages.reply')
-= will_paginate @messages
+  .box.box-info
+    .box-header
+      %h3.box-title
+        = link_to message.subject, message
+        - if message.attachments.any?
+          = link_to message, class: 'btn btn-xs btn-info' do
+            = icon 'fa fa-link'
+    .box-body
+      = render_message_body message
+      %p.push-down= link_to t('messages.read_more'), message, class: 'btn btn-info btn-xs'
+    .box-footer
+      = t('messages.sent_at_html', when: message.created_at.to_s(:full), who: link_to(message.person.try(:name), message.person))
+
+= pagination @messages
