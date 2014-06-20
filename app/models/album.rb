@@ -12,6 +12,7 @@ class Album < ActiveRecord::Base
 
   validates_presence_of :name
   validates_uniqueness_of :name, scope: [:site_id, :owner_type, :owner_id]
+  validates_presence_of :owner
 
   def cover
     pictures.order('cover desc, id').first

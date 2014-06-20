@@ -156,6 +156,8 @@ en:
             name: 
               blank: The album must have a name.
               taken: There is another album with this name. Please choose another name.
+            owner:
+              blank: The album must have an owner.
         attendance_record: 
           attributes: 
             attended_at: 
