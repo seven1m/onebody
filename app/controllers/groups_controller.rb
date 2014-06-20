@@ -60,7 +60,7 @@ class GroupsController < ApplicationController
   def show
     @group = Group.find(params[:id])
     @members = @group.people.minimal unless fragment_exist?(controller: 'groups', action: 'show', id: @group.id, fragment: 'members')
-    @member_of = @logged_in.member_of?(@group)
+    @member_of = !!@logged_in.member_of?(@group)
     @stream_items = @group.stream_items.paginate(page: params[:timeline_page], per_page: 5)
     @show_map = Setting.get(:services, :yahoo) && @group.mapable?
     @show_cal = @group.gcal_url

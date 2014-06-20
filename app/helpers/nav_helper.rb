@@ -59,48 +59,7 @@ module NavHelper
   end
 
   def crumbs
-    [].tap do |crumbs|
-      crumbs << ['fa fa-home', t('nav.home'), root_path]
-      if params[:controller] == 'people' and params[:action] == 'show' and params[:business]
-        crumbs << ['fa fa-archive', t('nav.directory_sub.business'), search_path(business: true)]
-        crumbs << ['fa fa-briefcase', t('nav.business_profile')]
-      elsif params[:controller] == 'people' and @person
-        crumbs << ['fa fa-archive', t('nav.directory'), search_path]
-        crumbs << ['fa fa-user', t('nav.profile')]
-      elsif params[:controller] == 'pages'
-        crumbs << ['fa fa-gear', t('nav.admin'), admin_path]
-      elsif %w(searches printable_directories).include?(params[:controller])
-        crumbs << ['fa fa-archive', t('nav.directory'), search_path]
-      elsif params[:controller] == 'news' and params[:action] != 'index'
-        crumbs << ['fa fa-bullhorn', t('news.heading'), news_path]
-      elsif params[:controller] == 'verses' and params[:action] != 'index'
-        crumbs << ['fa fa-book', t('verses.heading'), verses_path]
-      elsif params[:controller] == 'groups' and params[:action] == 'show'
-        crumbs << ['fa fa-group', t('groups.heading'), groups_path]
-        crumbs << ['fa fa-folder-open', @group.category, groups_path(category: @group.category)]
-      elsif params[:controller] == 'groups' and (params[:action] != 'index' or params[:name] or params[:category])
-        crumbs << ['fa fa-group', t('groups.heading'), groups_path]
-      elsif params[:controller] == 'prayer_requests' and group = (@group || @req.try(:group))
-        crumbs << ['fa fa-group', group.name, group_path(group)]
-        crumbs << ['fa fa-heart', t('nav.prayer_requests'), group_prayer_requests_path(group)] unless params[:action] == 'index'
-      elsif params[:controller] == 'albums' or params[:controller] == 'pictures'
-        if group = (@group || @album.try(:group))
-          crumbs << ['fa fa-group', group.name, group_path(group)]
-          crumbs << ['ion ion-images', t('nav.albums'), group_albums_path(group)]
-        elsif person = (@person || @album.try(:person))
-          crumbs << ['fa fa-user', person.name, person_path(person)]
-          crumbs << ['ion ion-images', t('nav.albums'), person_albums_path(person)]
-        end
-        if @album and @album.persisted? and not (params[:controller] == 'pictures' and params[:action] == 'index')
-          crumbs << ['fa fa-picture-o', @album.name, album_path(@album)]
-        end
-      elsif params[:controller] == 'notes' and person = (@person || @note.try(:person))
-        crumbs << ['fa fa-user', person.try(:name), person_path(person)]
-        if @note and @note.persisted?
-          crumbs << ['fa fa-file', t('nav.notes'), person_notes_path(@note.person)]
-        end
-      end
-    end
+    BreadcrumbPresenter.new(params, assigns).crumbs
   end
 
   def tab_selected

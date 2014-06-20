@@ -2,6 +2,8 @@ en:
 
   messages: 
 
+    heading: "Messages"
+
     private:
       heading: "Private Message"
       description_html: "This will send a <em>private</em> email to %{person}."
