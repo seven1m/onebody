@@ -50,10 +50,11 @@ class BreadcrumbPresenter
   end
 
   def person
-    @person ||= @assigns['person'] || begin
-      @assigns.values.detect do |o|
-        o.respond_to?(:person) && o.person && o.person.persisted?
+    @person ||= begin
+      p = @assigns['person'] || @assigns.values.detect do |o|
+        o.respond_to?(:person) && o.person
       end.try(:person)
+      p if p and p.persisted?
     end
   end
 
@@ -71,10 +72,11 @@ class BreadcrumbPresenter
   end
 
   def group
-    @group ||= @assigns['group'] || begin
-      @assigns.values.detect do |o|
+    @group ||= begin
+      g = @assigns['group'] || @assigns.values.detect do |o|
         o.is_a?(ActiveRecord::Base) && o.respond_to?(:group) && o.group && o.group.persisted?
       end.try(:group)
+      g if g and g.persisted?
     end
   end
 
