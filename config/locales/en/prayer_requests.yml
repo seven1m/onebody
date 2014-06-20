@@ -2,6 +2,8 @@ en:
 
   prayer_requests:
 
+    by: "by %{person}"
+
     name: "Prayer Request in %{group}"
 
     index:

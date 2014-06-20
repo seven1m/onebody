@@ -5,6 +5,7 @@
     .box-header
       %h3.box-title
         = link_to req.created_at.to_s(:date), req
+        = t('prayer_requests.by', person: link_to(req.person.try(:name), req.person)).html_safe
     .box-body
       = preserve_breaks req.request
       - if req.answer.present?
