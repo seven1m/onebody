@@ -5,6 +5,9 @@ en:
     account_frozen:
       callout: "This account is frozen. Changes cannot be made until it is unfrozen."
 
+    new:
+      heading: "New Person in family %{family}"
+
     edit:
       about: "About"
       basics: "Basics"

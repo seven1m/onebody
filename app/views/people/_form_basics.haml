@@ -46,8 +46,6 @@
 .form-group
   = form.label :anniversary, t('privacies.anniversary')
   = form.date_field :anniversary, class: 'form-control'
-.form-group
-  = render partial: 'edit_custom_fields'
 - unless @person.new_record?
   = fields_for @family do |family|
     = render partial: 'families/form_fields', locals: {form: family}
