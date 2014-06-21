@@ -100,10 +100,10 @@ describe AlbumsController do
 
   context '#create' do
     it 'should create an album' do
-      get :new, nil, {logged_in_id: @user.id}
+      get :new, {person_id: @user.id}, {logged_in_id: @user.id}
       expect(response).to be_success
       before = Album.count
-      post :create, {album: {name: 'test name', description: 'test desc', is_public: false}}, {logged_in_id: @user.id}
+      post :create, {person_id: @user.id, album: {name: 'test name', description: 'test desc', is_public: false}}, {logged_in_id: @user.id}
       expect(response).to be_redirect
       expect(Album.count).to eq(before + 1)
       new_album = Album.last

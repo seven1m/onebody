@@ -117,8 +117,8 @@ describe PicturesController do
 
     context 'group specified' do
       before do
-        @album = @person.albums.create(name: 'Existing Album')
         @group = FactoryGirl.create(:group)
+        @album = @group.albums.create(name: 'Existing Album')
       end
 
       context 'existing album name specified' do

@@ -57,10 +57,10 @@ class PicturesController < ApplicationController
   def find_or_create_album_by_name
     return if @album
     name = params[:album].presence || I18n.t('pictures.default_album_name')
-    @album = albums.where(name: name).first_or_create do |album|
+    @album = albums.where(name: name).first_or_create! do |album|
+      album.owner ||= current_user
       Authority.enforce(:create, album, current_user)
     end
-    @album.owner ||= @logged_in # if not owned by group
   end
 
 end

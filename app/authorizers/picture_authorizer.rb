@@ -6,7 +6,7 @@ class PictureAuthorizer < ApplicationAuthorizer
 
   def creatable_by?(user)
     resource.person == user or
-    resource.album.creatable_by?(user)
+    (resource.album and resource.album.creatable_by?(user))
   end
 
   def updatable_by?(user)
