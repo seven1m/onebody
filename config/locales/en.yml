@@ -288,6 +288,10 @@ en:
             photo:
               too_large: "The photo must be less than %{size} megabytes."
               wrong_type: "The photo file type must be JPG, GIF, or PNG."
+        picture_uploader:
+          attributes: 
+            album: 
+              blank: You must select an album.
         prayer_request: 
           attributes: 
             group_id: 

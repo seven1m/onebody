@@ -48,6 +48,8 @@ class PhotoForm
         data.append @el.data('upload-field-name'), file
     else
       data.append @el.data('upload-field-name'), @input[0].files[0]
+    if album_id = @el.parents('form').find('[name="album_id"]').val()
+      data.append 'album_id', album_id
     $.ajax
       url: url
       type: @el.data('upload-verb') || 'PUT'
@@ -61,12 +63,13 @@ class PhotoForm
         setTimeout (=> @show_progress(null)), 800
         @uploading_status.hide()
         response = d.responseJSON
-        if response.status == 'reload'
-          location.reload()
-        else if response.status == 'success'
-          @updateAll(response.photo)
-          @delete_button.show()
-          @error_callout.hide()
+        if response.status == 'success'
+          if response.url
+            location.href = response.url
+          else
+            @updateAll(response.photo)
+            @delete_button.show()
+            @error_callout.hide()
         else
           @error_callout.show().find('.body').html(response.errors.join("<br>"))
       xhr: =>

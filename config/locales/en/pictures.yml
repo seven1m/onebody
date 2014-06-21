@@ -3,6 +3,14 @@ en:
 
     none: "No pictures yet"
 
+    new:
+      heading: "New Picture"
+      existing_album:
+        intro: "Add one or more photos to an existing album..."
+      new_album:
+        intro: "Or create a new album..."
+        button: "New Album"
+
     add_a_picture: Add a Picture
     album: Album
     delete_are_you_sure: "Are you sure? Deleting this album will also delete all its pictures!"

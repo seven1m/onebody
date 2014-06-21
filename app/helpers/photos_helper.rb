@@ -12,11 +12,11 @@ module PhotosHelper
       }
   end
 
-  def picture_upload(album)
+  def picture_upload(album=nil)
     render partial: 'photos/upload',
       locals: {
-        url: album_pictures_path(album),
-        object_id: "album#{album.id}",
+        url: album ? album_pictures_path(album) : pictures_path,
+        object_id: "album#{album.try(:id)}",
         html_field_name: 'pictures[]',
         field_name: 'pictures[]',
         delete: false,
