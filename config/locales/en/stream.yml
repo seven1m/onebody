@@ -9,7 +9,7 @@ en:
     header:
       noone: "system"
       message: "%{who} sent a message to %{group}"
-      news: "%{who} posted news"
+      news: "%{who} posted %{title}"
       note: "%{who} posted a note"
       person: "%{who} was added to the community"
       picture:
@@ -20,7 +20,7 @@ en:
         other: "%{who} shared some pictures in the group %{group}"
       prayer_request: "%{who} requested prayer in the group %{group}"
       site: "%{site}"
-      verse: "%{who} shared %{ref}"
+      verse: "%{who} shared %{title}"
 
     body:
       picture:
