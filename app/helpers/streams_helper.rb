@@ -47,4 +47,9 @@ module StreamsHelper
     end
   end
 
+  NEW_ACTIVITY_AGE = 1.day
+
+  def new_stream_activity(person)
+    StreamItem.shared_with(person).where('stream_items.created_at >= ?', NEW_ACTIVITY_AGE.ago).count('distinct stream_items.id')
+  end
 end

@@ -78,7 +78,7 @@
               = link_to root_path do
                 %i.fa.fa-home
                 %span= t('nav.home')
-                %small.badge.pull-right.bg-green 12 new
+                = new_stream_activity_badge(@logged_in)
             %li{ class: tab_selected?(:profile) ? 'active' : '' }
               = link_to @person || @logged_in do
                 %i.fa.fa-user

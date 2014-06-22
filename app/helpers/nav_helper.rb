@@ -93,6 +93,14 @@ module NavHelper
     tab_expanded == tab
   end
 
+  def new_stream_activity_badge(person)
+    if (count = new_stream_activity(person)) > 0
+      content_tag(:small, class: 'badge bg-green') do
+        t('nav.home_sub.new_count', count: count)
+      end
+    end
+  end
+
   def new_group_badge
     if (count = new_groups.count) > 0
       content_tag(:small, class: 'badge bg-green') do
