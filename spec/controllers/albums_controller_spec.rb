@@ -92,8 +92,8 @@ describe AlbumsController do
         get :show, {id: @album.id}, {logged_in_id: @user.id}
       end
 
-      it "should showing an album should redirect to view its pictures" do
-        expect(response).to redirect_to(album_pictures_path(@album))
+      it 'renders the show template' do
+        expect(response).to render_template(:show)
       end
     end
   end
@@ -222,8 +222,8 @@ describe AlbumsController do
         end
       end
 
-      it 'should redirect to the albums index' do
-        expect(response).to redirect_to(albums_path)
+      it 'should redirect to the person album index' do
+        expect(response).to redirect_to(person_albums_path(@user))
       end
     end
 

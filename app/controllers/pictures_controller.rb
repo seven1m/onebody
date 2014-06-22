@@ -11,7 +11,7 @@ class PicturesController < ApplicationController
   load_and_authorize_resource except: [:index, :new, :create]
 
   def index
-    @pictures = pictures.order(:id).page(params[:page])
+    redirect_to @album
   end
 
   def show
@@ -54,10 +54,11 @@ class PicturesController < ApplicationController
   def update
     if params[:degrees]
       @picture.rotate params[:degrees].to_i
+      redirect_to [@album, @picture]
     elsif params[:cover]
       @album.update_attributes!(cover: @picture)
+      redirect_to @album
     end
-    redirect_to [@album, @picture]
   end
 
   def destroy

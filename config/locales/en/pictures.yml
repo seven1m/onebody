@@ -11,6 +11,8 @@ en:
         intro: "Or create a new album..."
         button: "New Album"
 
+    show_original: "Show Original"
+
     add_a_picture: Add a Picture
     album: Album
     delete_are_you_sure: "Are you sure? Deleting this album will also delete all its pictures!"

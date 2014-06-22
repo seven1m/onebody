@@ -8,7 +8,7 @@ en:
     table:
       name: "Name"
       picture_count: "Pictures"
-      owner: "Created By"
+      created_at: "Created"
 
     new:
       heading: "New Album"

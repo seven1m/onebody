@@ -14,10 +14,9 @@ describe PicturesController do
   end
 
   context '#index' do
-    it 'should list all pictures in an album' do
+    it 'redirects to album show page' do
       get :index, {album_id: @album.id}, {logged_in_id: @person.id}
-      expect(response).to be_success
-      expect(assigns(:pictures)).to eq([@picture])
+      expect(response).to redirect_to(@album)
     end
   end
 
@@ -223,10 +222,10 @@ describe PicturesController do
     it 'should select a picture as an album cover' do
       add_pictures(1)
       post :update, {album_id: @album.id, id: @picture.id, cover: 'true'}, {logged_in_id: @person.id}
-      expect(response).to redirect_to(album_picture_path(@album, @picture))
+      expect(response).to redirect_to(@album)
       expect(@picture.reload.cover).to be
       post :update, {album_id: @album.id, id: @picture2.id, cover: 'true'}, {logged_in_id: @person.id}
-      expect(response).to redirect_to(album_picture_path(@album, @picture2))
+      expect(response).to redirect_to(@album)
       expect(@picture.reload.cover).not_to be
       expect(@picture2.reload.cover).to be
     end

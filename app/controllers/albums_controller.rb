@@ -12,7 +12,7 @@ class AlbumsController < ApplicationController
   end
 
   def show
-    redirect_to album_pictures_path(@album)
+    @pictures = @album.pictures.order(:id).page(params[:page])
   end
 
   def new
@@ -40,9 +40,9 @@ class AlbumsController < ApplicationController
   end
 
   def destroy
-    group = @album.group
+    owner = @album.owner
     @album.destroy
-    redirect_to group ? group_albums_path(group) : albums_path
+    redirect_to [owner, :albums]
   end
 
   private

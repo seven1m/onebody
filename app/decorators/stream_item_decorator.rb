@@ -1,6 +1,7 @@
 class StreamItemDecorator < Draper::Decorator
 
   MAX_BODY_SIZE = 250
+  MAX_PICTURES = 10
 
   # TODO i18n
 
@@ -108,7 +109,9 @@ class StreamItemDecorator < Draper::Decorator
       elsif object.body
         h.truncate_html(h.sanitize_html(h.auto_link(object.body)), length: MAX_BODY_SIZE)
       elsif streamable_type == 'Album'
-        Array(object.context['picture_ids']).map do |picture_id, fingerprint, extension|
+        pics = Array(object.context['picture_ids'])
+        pics = pics[-MAX_PICTURES..-1] if pics.length > MAX_PICTURES
+        pics.map do |picture_id, fingerprint, extension|
           url = Picture.photo_url_from_parts(picture_id, fingerprint, extension, :small)
           h.link_to(
             h.image_tag(url, alt: I18n.t('stream.body.picture.alt'), class: "timeline-pic #{'small'}"),

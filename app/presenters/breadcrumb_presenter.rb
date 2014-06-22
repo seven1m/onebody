@@ -81,7 +81,7 @@ class BreadcrumbPresenter
   end
 
   def album_crumb
-    if @controller == 'pictures' and album = @assigns['album']
+    if %w(albums pictures).include?(@controller) and album = @assigns['album']
       if album.owner_type == 'Group'
         if @route == 'pictures#show'
           crumbs << ['ion ion-images', album.name, group_album_path(album.owner_id, album)]
