@@ -13,6 +13,9 @@ en:
 
     show_original: "Show Original"
 
+    create_an_album:
+      notice: "First create an album..."
+
     add_a_picture: Add a Picture
     album: Album
     delete_are_you_sure: "Are you sure? Deleting this album will also delete all its pictures!"

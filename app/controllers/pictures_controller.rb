@@ -19,6 +19,10 @@ class PicturesController < ApplicationController
 
   def new
     @albums = @logged_in.albums.order(:name)
+    if @albums.count == 0
+      flash[:notice] = t('pictures.create_an_album.notice')
+      redirect_to new_person_album_path(@logged_in)
+    end
   end
 
   def next
