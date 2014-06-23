@@ -7,6 +7,24 @@
 
 @import "app/*";
 
+.site-name {
+  @extend .hidden-sm;
+  @extend .hidden-xs;
+  float: right;
+  font-size: 18px;
+  line-height: 50px;
+  padding: 0 10px;
+  font-family: Abel, Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  height: 50px;
+  display: block;
+  margin: 0;
+  color: #fff;
+  a {
+    color: #fff;
+  }
+}
+
 img.img-full {
   width: 100%;
 }

@@ -43,9 +43,8 @@
           %span.icon-bar
         .navbar-right
           = render 'layouts/navbar_right'
-        - # FIXME
-        %h3.hidden-sm.hidden-xs{ style: 'float:right; font-size: 18px; line-height: 50px; padding: 0 10px; font-family: Abel, Helvetica, Arial, sans-serif; font-weight: normal; height: 50px; display: block; margin: 0; color: #fff;' }
-          = setting(:name, :site)
+        %h3.site-name
+          = link_to setting(:name, :site), root_path
     .wrapper.row-offcanvas.row-offcanvas-left
       / Left side column. contains the logo and sidebar
       %aside.left-side.sidebar-offcanvas
@@ -59,10 +58,10 @@
                   = avatar_tag @logged_in, class: 'img-circle'
               .pull-left.info
                 %p
-                  Hello,
-                  = @logged_in.first_name
+                  = t('nav.hello', person: link_to(@logged_in.first_name, @logged_in)).html_safe
                 %a{href: "#"}
                   %i.fa.fa-circle.text-success
+                  -# TODO
                   Online
           / search form
           %form.sidebar-form{ action: '/search', method: 'get' }

@@ -2,6 +2,8 @@ en:
 
   nav:
 
+    hello: "Hello, %{person}"
+
     home: "Home"
     home_sub:
       new_count:
