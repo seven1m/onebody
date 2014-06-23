@@ -30,7 +30,6 @@ class ApplicationController < ActionController::Base
         OneBody.set_locale
         OneBody.set_time_zone
         OneBody.set_local_formats
-        set_layout_variables
       elsif site = Site.where(secondary_host: request.host, active: true).first
         redirect_to 'http://' + site.host
         return false
@@ -41,12 +40,6 @@ class ApplicationController < ActionController::Base
         render text: t('application.no_site_configured', host: request.host), status: 404
         return false
       end
-    end
-
-    # XXX
-    def set_layout_variables
-      @copyright_year  = Date.today.year
-      @community_name  = CGI.escapeHTML(Setting.get(:name, :community))
     end
 
     # used by some anonymous controller actions to see if someone is logged in
