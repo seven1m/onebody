@@ -332,8 +332,8 @@ en:
           attributes: 
             host: 
               blank: The host must be specified.
-              exclusion: The host is invalid.
               taken: There is another site with the same host.
+              invalid: Do not include "www." in the hostname.
             name: 
               blank: The site must have a name.
               taken: There is another site with the same name.

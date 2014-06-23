@@ -16,8 +16,9 @@ class SetupsController < ApplicationController
   def create
     @setup = Setup.new(params.permit!)
     if @setup.execute!
-      flash[:notice] = t('setup.complete')
-      redirect_to new_session_path(from: '/stream')
+      flash[:notice] = t('setup.complete_html', url: admin_path).html_safe
+      session[:logged_in_id] = @setup.person.id
+      redirect_to root_path
     else
       @person = @setup.person
       render action: 'new'

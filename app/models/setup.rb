@@ -10,7 +10,9 @@ class Setup
     Person.transaction do
       @person = Person.new
       unless update_host!
-        @person.errors.add :base, I18n.t('setup.invalid_domain_name')
+        Site.current.errors.full_messages.each do |msg|
+          @person.errors.add :base, msg
+        end
         return false
       end
       if update_person!

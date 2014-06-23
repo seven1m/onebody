@@ -2,12 +2,11 @@ en:
 
   setup:
     admin_account: "Admin Account"
-    complete: "Now you're ready to sign in for the first time!"
+    complete_html: "Great! You've configured the basics. Head over to the <a href='%{url}'>Admin section</a> when you're ready to customize your community site."
     congratulations: "Congratulations! OneBody is running. Now it's time to add an admin user and set some other settings..."
     do_right_away: "You should do this right away, especially if your server is available on the public Web."
     domain_name_note: "Enter the domain for this site, without any leading \"www\", like so: \"example.com\" or \"members.example.com\"."
     heading: "First-Time Setup"
-    invalid_domain_name: "Invalid domain name."
     more_accounts_later: "(You'll be able to create more admin accounts later.)"
 
     domain_name: "Domain Name"
