@@ -45,14 +45,14 @@ describe FamiliesController do
 
   it "should not create a new family unless user is admin" do
     get :new, nil, {logged_in_id: @person.id}
-    expect(response).to be_unauthorized
+    expect(response).to be_forbidden
     first_name = 'Mary'
     last_name = 'Jones'
     name = "#{first_name} #{last_name}"
     post :create,
       {family: {name: name, last_name: last_name, address1: '123 S Morgan st.', address2: '', city: 'Tulsa', state: 'OK', zip: '74120', home_phone: '123-456-7890'}},
       {logged_in_id: @person.id}
-    expect(response).to be_unauthorized
+    expect(response).to be_forbidden
   end
 
   it "should edit a family" do
