@@ -1,31 +1,7 @@
-%h2= @person.name
-
-= form_tag search_path, remote: true do
-  = hidden_field_tag :select_person, true
-  %p= t('relationships.add_a_relationship')
-  .form-group
-    %label{:for => "name"}= t('search.search_by_name')
-    = text_field_tag 'name', '', class: 'form-control'
-  .form-group
-    = button_tag t('relationships.add_relationship_button'), class: 'btn btn-info'
-%p.double-margin-top
-  = link_to t('relationships.family'), family_relationships_path(@person.family), class: 'people-icon'
-#add_member{:style => "display:none;"}
-  = form_tag person_relationships_path(@person) do
-    .form-group
-      %label{:for => "relationship_name"}= t('relationships.relationship_type')
-      = select_tag :name, options_for_select(['']+t('relationships.names').invert.sort), id: 'relationship_name', onchange: "if(this.value=='other') { $('#other_name').show()[0].focus() } else { $('#other_name').hide() }", class: 'form-control'
-    = text_field_tag :other_name, nil, style: 'display:none;'
-    :javascript
-      $('#other_name').autocomplete({source: #{raw json_escape(@other_names.to_json)}});
-      $('#relationship_name').trigger('change');
-    #results
-    .form-group
-      = button_tag t('search.add_selected'), class: 'btn btn-success'
+- @title = t('relationships.heading', person: link_to(@person.name, @person)).html_safe
 
 .row
-  .col-md-6
-    %h3= t('relationships.outward')
+  .col-md-8
     - if @relationships.any?
       = form_tag batch_person_relationships_path(@person) do
         %table.table
@@ -41,46 +17,68 @@
                   %td= check_box_tag 'ids[]', relationship.id, false, class: 'outward_relationship_checkbox'
                   %td= link_to relationship.related.name, person_relationships_path(relationship.related)
                   %td= relationship.name_or_other
-        .form-group
+        .form-group.push-down
           = button_tag name: 'delete', data: { confirm: t('are_you_sure') }, class: 'btn btn-delete' do
             = icon 'fa fa-trash-o'
             = t('Delete')
           = button_tag name: 'reciprocate', class: 'btn btn-success' do
             = icon 'fa fa-exchange'
-            = t('relationships.Reciprocate')
+            = t('relationships.reciprocate.button')
     - else
       %p
         %em= t('none')
 
-  .col-md-6
-    %h3= t('relationships.inward')
-    - if @inward_relationships.any?
-      = form_tag batch_person_relationships_path(@person) do
-        %table.table
-          %tr
-            %th
-              %input{:onclick => "$('.inward_relationship_checkbox').attr('checked', this.checked)", :type => "checkbox"}
-            %th= t('From')
-            %th
-            %th= t('To')
-            %th
-              = t('relationships.relationship')
-            %th
+    = form_tag search_path, remote: true do
+      = hidden_field_tag :select_person, true
+      %p= t('relationships.add_relationship.intro')
+      .form-group
+        %label{:for => "name"}= t('search.search_by_name')
+        = text_field_tag 'name', '', class: 'form-control'
+      .form-group
+        = button_tag t('relationships.add_relationship.button'), class: 'btn btn-info'
+    #add_member{:style => "display:none;"}
+      = form_tag person_relationships_path(@person) do
+        .form-group
+          %label{:for => "relationship_name"}= t('relationships.relationship_type')
+          = select_tag :name, options_for_select(['']+t('relationships.names').invert.sort), id: 'relationship_name', onchange: "if(this.value=='other') { $('#other_name').show()[0].focus() } else { $('#other_name').hide() }", class: 'form-control'
+        = text_field_tag :other_name, nil, style: 'display:none;'
+        :javascript
+          $('#other_name').autocomplete({source: #{raw json_escape(@other_names.to_json)}});
+          $('#relationship_name').trigger('change');
+        #results
+        .form-group
+          = button_tag t('search.add_selected'), class: 'btn btn-success'
+
+  .col-md-4
+    .page-controls
+      = link_to family_relationships_path(@person.family), class: 'btn btn-info' do
+        = icon 'fa fa-group'
+        = t('relationships.family.button')
+
+    .box.box-info
+      .box-header
+        %h3.box-title= t('relationships.inward.heading')
+      .box-body
+        - if @inward_relationships.any?
+          = form_tag batch_person_relationships_path(@person) do
+            %table.table
+              %tr
+                %th
+                  %input{:onclick => "$('.inward_relationship_checkbox').attr('checked', this.checked)", :type => "checkbox"}
+                %th= t('From')
+                %th= t('relationships.relationship')
               - @inward_relationships.each do |relationship|
                 %tr
                   %td= check_box_tag 'ids[]', relationship.id, false, class: 'inward_relationship_checkbox'
                   %td= link_to relationship.person.name, person_relationships_path(relationship.person)
-                  %td
-                    .right-icon{:style => "width:10px;height:16px;"}
-                  %td= @person.name
                   %td= relationship.name_or_other
-        .form-group
-          = button_tag name: 'delete', data: { confirm: t('are_you_sure') }, class: 'btn btn-delete' do
-            = icon 'fa fa-trash-o'
-            = t('Delete')
-          = button_tag name: 'reciprocate', class: 'btn btn-success' do
-            = icon 'fa fa-exchange'
-            = t('relationships.Reciprocate')
-    - else
-      %p
-        %em= t('none')
+            .form-group.push-down
+              = button_tag name: 'delete', data: { confirm: t('are_you_sure') }, class: 'btn btn-delete' do
+                = icon 'fa fa-trash-o'
+                = t('Delete')
+              = button_tag name: 'reciprocate', class: 'btn btn-success' do
+                = icon 'fa fa-exchange'
+                = t('relationships.reciprocate.button')
+        - else
+          %p
+            %em= t('none')

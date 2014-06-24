@@ -94,7 +94,7 @@ class RelationshipsController < ApplicationController
           r = relationship.reciprocate
           if r.nil?
             flash[:warning] ||= ''
-            flash[:warning] << t('relationships.cannot_be_reciprocated', name: relationship.related.name) + "\n"
+            flash[:warning] << t('relationships.reciprocate.failure', name: relationship.related.name) + "\n"
           elsif !r.valid?
             add_errors_to_flash(r)
           end

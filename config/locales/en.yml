@@ -1024,53 +1024,6 @@ en:
     you_may_share_items: "You may share items with fellow members of the following groups:"
     you_must_check_agreement_statement: You must check the box indicating you agree to the statement below.
 
-  relationships: 
-    Reciprocate: Reciprocate
-    add_a_relationship: "Add a relationship:"
-    add_relationship_button: Add Relationship
-    cannot_be_reciprocated: A reciprocal relationship to %{name} cannot be automatically created.
-    create_family_relationships: Create Family Relationships
-    create_family_relationships_description: You may generate relationships for this immediate family below.
-    family: Family Relationships
-    inward: Inward Relationships
-    names: 
-      aunt: Aunt
-      brother: Brother
-      brother_in_law: Brother-in-law
-      cousin: Cousin
-      daughter: Daughter
-      daughter_in_law: Daughter-in-law
-      father: Father
-      father_in_law: Father-in-law
-      granddaughter: Granddaughter
-      grandfather: Grandfather
-      grandmother: Grandmother
-      grandson: Grandson
-      husband: Husband
-      mother: Mother
-      mother_in_law: Mother-in-law
-      nephew: Nephew
-      niece: Niece
-      other: Other
-      sister: Sister
-      sister_in_law: Sister-in-law
-      son: Son
-      son_in_law: Son-in-law
-      stepbrother: Stepbrother
-      stepdaughter: Stepdaughter
-      stepfather: Stepfather
-      stepmother: Stepmother
-      stepsister: Stepsister
-      stepson: Stepson
-      uncle: Uncle
-      wife: Wife
-    no_person_selected: No person selected.
-    outward: Outward Relationships
-    relationship: Relationship
-    relationship_type: "Type:"
-    relationships: Relationships
-    toggle_individual: Toggle Individual Relationship View    
-
   share:
     default_album_name: Album Name
     email: Email

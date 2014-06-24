@@ -10,9 +10,11 @@
   .col-sm-6
     - if @logged_in.pending_friendship_requests.any?
       .friends-alert
-        = icon 'fa fa-star'
-        = t('friends.you_have_pending_requests')
-        = link_to t('friends.friends_list_button'), person_friends_path(@logged_in), class: 'btn'
+        %p
+          = icon 'fa fa-star'
+          = t('friends.you_have_pending_requests')
+        %p
+          = link_to t('friends.friends_list_button'), person_friends_path(@logged_in), class: 'btn'
     - if setting(:features, [:notes, :pictures, :verses])
       .box.box-success
         .box-header

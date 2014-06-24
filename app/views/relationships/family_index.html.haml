@@ -1,56 +1,50 @@
-- content_for :subnav do
-  %li= link_to @family.name, @family
-%h2
-  Family Relationships for #{@family.name}
+- @title = t('relationships.family.heading', family: link_to(@family.name, @family)).html_safe
+
 - if @relationships.any?
-  %table#unique_relationships.spaced
+  %table#unique_relationships.table
     %tr
       %th= t('name')
+      %th= t('relationships.relationship')
       %th
-        = t('relationships.relationship')
-      %th
-        - @unique_relationships.each do |person, relationship_names|
-          %tr
-            %td= link_to person.name, person_relationships_path(person)
-            %td= relationship_names.join(', ')
-  %table#individual_relationships.spaced{:style => "display:none;"}
+    - @unique_relationships.each do |person, relationship_names|
+      %tr
+        %td= link_to person.name, person_relationships_path(person)
+        %td= relationship_names.join(', ')
+  %table#individual_relationships.table{ style: "display:none" }
     %tr
       %th= t('From')
+      %th= t('relationships.relationship')
       %th
-      %th= t('To')
-      %th
-        = t('relationships.relationship')
-      %th
-        - @relationships.each do |relationship|
-          %tr
-            %td= link_to relationship.person.name, person_relationships_path(relationship.person)
-            %td
-              .right-icon{:style => "width:10px;height:16px;"}/
-            %td= link_to relationship.related.name, person_relationships_path(relationship.related)
-            %td= relationship.name_or_other
-  %p= link_to_function t('relationships.toggle_individual'), "$('#unique_relationships, #individual_relationships').toggle();"
+    - @relationships.each do |relationship|
+      %tr
+        %td= link_to relationship.person.name, person_relationships_path(relationship.person)
+        %td= link_to relationship.related.name, person_relationships_path(relationship.related)
+        %td= relationship.name_or_other
+
+- if @relationships.any? or @family.people.any?
+  .page-controls
+    - if @relationships.any?
+      = link_to_function t('relationships.toggle_individual'), "$('#unique_relationships, #individual_relationships').toggle();", class: 'btn bg-gray'
+    - if @family.people.any?
+      = link_to_function t('relationships.family.create.button'), "$('#auto_generate').show()", class: 'btn bg-gray'
+
 - else
   %p
     %em= t('none')
 - if @family.people.count > 0
-  %p= link_to_function t('relationships.create_family_relationships'), "$('#auto_generate').show();$(this).hide()"
   #auto_generate{:style => "display:none;"}
     = form_tag family_relationships_path(@family) do
-      %p= t('relationships.create_family_relationships_description')
-      %table.spaced
+      %p= t('relationships.family.create.intro')
+      %table.table
         %tr
           %th= t('From')
-          %th
           %th= t('To')
+          %th= t('relationships.relationship')
           %th
-            = t('relationships.relationship')
-          %th
-            - @suggested_relationships.each do |person, relationships|
-              - relationships.each do |related, relationship|
-                %tr
-                  %td= link_to person.name, person
-                  %td
-                    .right-icon{:style => "width:10px;height:16px;"}/
-                  %td= link_to related.name, related
-                  %td= select_tag "people[#{person.id}][#{related.id}]", options_for_select([["(#{t('none')})", '']]+t('relationships.names').invert.sort, relationship.to_sym)
-      = submit_tag t('relationships.create_family_relationships')
+        - @suggested_relationships.each do |person, relationships|
+          - relationships.each do |related, relationship|
+            %tr
+              %td= link_to person.name, person
+              %td= link_to related.name, related
+              %td= select_tag "people[#{person.id}][#{related.id}]", options_for_select([["(#{t('none')})", '']]+t('relationships.names').invert.sort, relationship.to_sym)
+      = button_tag t('relationships.family.create.button'), class: 'btn btn-success'
