@@ -18,20 +18,29 @@ en:
       address: "Address"
       address2: "Address Line 2 (optional)"
       city_st_zip: "City, State and Zip"
+      photo: "Photo"
       save: "Save Family"
       saved: "Family changes saved."
 
     delete:
+      button: "Delete Family"
       cannot_delete_your_own: "You cannot delete your own family."
 
     show:
       edit_link: "Edit Family"
       suggested_name_html:
-        one: "There is one adult in this family. Consider <a href='%{url}'>changing the family name</a> to <strong>%{name}</strong>."
-        other: "There are %{count} adults in this family. Consider <a href='%{url}'>changing the family name</a> to <strong>%{name}</strong>."
+        one: "%{first} is the only adult in this family. Consider <a href='%{url}'>changing the family name</a> to “<strong>%{name}</strong>.”"
+        other: "%{first} and %{second} are the first two adults in this family. Consider <a href='%{url}'>changing the family name</a> to “<strong>%{name}</strong>.”"
+      table:
+        home_phone: "Home Phone"
+        address: "Home Address"
+        anniversary: "Anniversary"
 
     name:
       same_last_name: "%{adult1_fname} & %{adult2_fname} %{adult1_lname}"
       different_last_names: "%{adult1_name} & %{adult2_name}"
 
     not_found: "Family not found"
+
+    updates:
+      pending_callout: "Updates to this family are pending."

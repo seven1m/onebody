@@ -37,4 +37,8 @@ class FamilyAuthorizer < ApplicationAuthorizer
     end
   end
 
+  def reorderable_by?(user)
+    user.admin?(:edit_profiles)
+  end
+
 end

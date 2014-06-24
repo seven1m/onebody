@@ -4,19 +4,11 @@
   .callout.callout-danger
     = t('people.account_frozen.callout')
 
+- if @person.updates.pending.any? and @logged_in.can_edit?(@person)
+  .callout.callout-info
+    = icon 'fa fa-clock-o'
+    = t('people.updates.pending_callout')
+
 = error_messages_for @person
 
-.row
-  .col-lg-8
-    %p.discreet.small
-      = t('privacies.please_read_our_privacy_policy_html', url: help_path('privacy_policy'))
-    = render partial: 'form'
-
-  .col-lg-4
-    %h3= t('people.edit.photo')
-    %p= avatar_tag @person, size: :large
-    %p= photo_upload_for @person
-
-    %h3= t('people.edit.family_photo')
-    %p= family_avatar_tag @family, size: :large
-    %p= photo_upload_for @family
+= render partial: 'form'

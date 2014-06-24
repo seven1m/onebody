@@ -1,2 +1,13 @@
 - @title = t('families.edit.heading')
+
+- if Setting.get(:features, :updates_must_be_approved) and not @logged_in.admin?(:edit_profiles)
+  .callout.callout-info
+    = icon 'fa fa-check-square'
+    = t('people.changes_must_be_reviewed_html')
+
+- if @family.updates.pending.any? and @logged_in.can_edit?(@family)
+  .callout.callout-info
+    = icon 'fa fa-clock-o'
+    = t('people.updates.pending_callout')
+
 = render partial: 'form'

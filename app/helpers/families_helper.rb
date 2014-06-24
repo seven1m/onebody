@@ -14,4 +14,11 @@ module FamiliesHelper
     options.reverse_merge!(data: { id: "family#{family.id}", size: options[:size] })
     image_tag(family_avatar_path(family, options.delete(:size)), options)
   end
+
+  def show_family_name_suggestion
+    @logged_in.admin?(:edit_profiles)          \
+    and @family.people.any?                    \
+    and @family.suggested_name.present?        \
+    and @family.suggested_name != @family.name
+  end
 end

@@ -98,10 +98,10 @@ class Updater
   # shows which fields would be affected if the update were applied
   def changes
     @changes ||= begin
-      HashWithIndifferentAccess.new(
-        person: Comparator.new(person, params[:person]).changes,
-        family: Comparator.new(family, params[:family]).changes
-      ).reject { |_, v| v.empty? }
+      h = HashWithIndifferentAccess.new
+      h[:person] = Comparator.new(person, params[:person]).changes if person
+      h[:family] = Comparator.new(family, params[:family]).changes if family
+      h.reject { |_, v| v.empty? }
     end
   end
 
@@ -122,7 +122,7 @@ class Updater
   end
 
   def family
-    person.family
+    @family ||= person.family
   end
 
   private

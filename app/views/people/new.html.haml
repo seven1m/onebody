@@ -1,4 +1,5 @@
 - @title = t('people.new.heading', family: link_to(@family.try(:name), @family)).html_safe
 
 = error_messages_for(@person)
+
 = render partial: 'form'

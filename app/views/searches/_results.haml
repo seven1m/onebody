@@ -62,7 +62,7 @@
         - if @family
           %td
             - unless @family.people.include?(person)
-              = link_to family_person_path(@family, @person, move_person: true), data: { method: 'put', confirm: t('are_you_sure') }, class: 'btn btn-warning btn-xs' do
+              = link_to family_person_path(@family, person, move_person: true), data: { method: 'put', confirm: t('are_you_sure') }, class: 'btn btn-warning btn-xs' do
                 = icon 'fa fa-arrow-circle-left'
                 = t('people.move.button')
 

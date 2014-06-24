@@ -3,5 +3,6 @@ Authority.configure do |config|
 
   config.abilities.merge!(
     :rotate => 'rotatable',
+    :reorder => 'reorderable'
   )
 end

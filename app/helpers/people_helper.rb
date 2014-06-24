@@ -84,4 +84,13 @@ module PeopleHelper
       t(role, scope: 'people.roles', default: role)
     end
   end
+
+  def submit_or_save_button
+    label = if Setting.get(:features, :updates_must_be_approved) and not @logged_in.admin?(:edit_profiles)
+      t('submit_changes')
+    else
+      t('save_changes')
+    end
+    button_tag label, class: 'btn btn-primary'
+  end
 end

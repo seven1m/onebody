@@ -61,6 +61,7 @@ en:
   saving: Saving
   save_changes: Save Changes
   search_results: Search Results
+  submit_changes: Submit Changes
   show_all: "Show All"
   submit: Submit
   to: to
@@ -166,6 +167,10 @@ en:
               blank: The attendance record must be associated with a group.
         family: 
           attributes: 
+            name:
+              blank: "The family must have a name."
+            last_name:
+              blank: "The family must have a last name."
             alternate_barcode_id: 
               invalid: This family card (alternate barcode id) contains letters or symbols (only numbers are allowed).
               taken: This family card (alternate barcode id) is already taken by another family.

@@ -1,5 +1,5 @@
 = render partial: 'pending_updates'
-- if Setting.get(:features, :updates_must_be_approved) #and not @logged_in.admin?(:edit_profiles)
+- if Setting.get(:features, :updates_must_be_approved) and not @logged_in.admin?(:edit_profiles)
   .callout.callout-info
     = icon 'fa fa-check-square'
     = t('people.changes_must_be_reviewed_html')

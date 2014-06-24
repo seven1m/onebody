@@ -57,7 +57,7 @@ OneBody::Application.routes.draw do
       post :select
     end
     member do
-      post :reorder
+      put :reorder
     end
     resource :photo
     resources :relationships

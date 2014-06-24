@@ -1,37 +1,38 @@
 - @title = @family.name
-- content_for :sub_title do
-  = link_to edit_family_path(@family) do
-    = icon 'fa fa-pencil'
-    = t('families.show.edit_link')
+- map_header(@family)
 
-- if @logged_in.admin?(:edit_profiles) and @family.suggested_name != @family.name
+- if show_family_name_suggestion
   .callout.callout-warning
     = icon 'fa fa-info-circle'
-    = t('families.show.suggested_name_html', count: @family.people.adults.count, url: edit_family_path(@family), name: @family.suggested_name)
+    = t('families.show.suggested_name_html', count: @family.people.undeleted.adults.count, first: @family.people.undeleted.first.try(:name), second: @family.people.undeleted.second.try(:name), url: edit_family_path(@family), name: @family.suggested_name)
+
+- if @family.updates.pending.any? and @logged_in.can_edit?(@family)
+  .callout.callout-info
+    = icon 'fa fa-clock-o'
+    = t('families.updates.pending_callout')
 
 .row
-  .col-md-4
+  .col-md-6
     = avatar_tag @family, size: :large
 
     %table.table
       - if @family.show_attribute_to?(:home_phone, @logged_in)
         %tr
-          %td Home Phone
+          %td= t('.table.home_phone')
           %td= link_to_phone @family.home_phone
       - if @family.show_attribute_to?(:address, @logged_in)
         %tr
-          %td Home Address
+          %td= t('.table.address')
           %td
             = preserve_breaks @family.address
             %br
             == #{@family.city}, #{@family.state} #{@family.short_zip}
       - if anniversary = @family.anniversary_sharable_with(@logged_in)
         %tr
-          %td Anniversary
+          %td= t('.table.anniversary')
           %td= anniversary.to_s(:date_without_year)
 
-  .col-md-4
-
+  .col-md-6
     %table.table.family
       - @people.each do |person|
         %tr.row-with-avatar
@@ -41,18 +42,32 @@
             - unless person.visible?
               %i.fa.fa-lock
           %td.actions
+            - if @logged_in.can_reorder?(@family)
+              - unless person.sequence == 1
+                = link_to reorder_family_path(@family, person_id: person, direction: 'up'), data: { method: 'put' }, class: 'btn bg-gray btn-xs text-blue' do
+                  = icon 'fa fa-arrow-circle-up'
+              - unless person.sequence == @people.length
+                = link_to reorder_family_path(@family, person_id: person, direction: 'down'), data: { method: 'put' }, class: 'btn bg-gray btn-xs text-blue' do
+                  = icon 'fa fa-arrow-circle-down'
             - if @logged_in.can_edit?(person)
               = link_to edit_person_path(person), class: 'btn bg-gray btn-xs text-yellow' do
                 = icon 'fa fa-pencil'
             - if @logged_in.can_delete?(person)
-              = link_to person, method: :delete, class: 'btn bg-gray btn-xs text-red' do
+              = link_to person, data: { method: 'delete', confirm: t('are_you_sure') },  class: 'btn bg-gray btn-xs text-red' do
                 = icon 'fa fa-minus-circle'
 
     - if @logged_in.can_edit?(@family)
-      .well
-        = link_to new_family_person_path(@family), class: 'btn btn-success' do
-          = icon 'fa fa-plus-circle'
-          = t('families.add.new')
-        = link_to family_search_path(@family), class: 'btn btn-warning pull-right' do
-          = icon 'fa fa-arrow-circle-left'
-          = t('families.add.existing')
+      .page-controls
+        = link_to edit_family_path(@family), class: 'btn btn-info' do
+          = icon 'fa fa-pencil'
+          = t('families.show.edit_link')
+        - if @logged_in.admin?(:edit_profiles)
+          = link_to new_family_person_path(@family), class: 'btn btn-success' do
+            = icon 'fa fa-plus-circle'
+            = t('families.add.new')
+          = link_to family_search_path(@family), class: 'btn btn-warning' do
+            = icon 'fa fa-arrow-circle-left'
+            = t('families.add.existing')
+          = link_to @family, data: { method: 'delete', confirm: t('are_you_sure') }, class: 'btn btn-danger' do
+            = icon 'fa fa-trash-o'
+            = t('families.delete.button')

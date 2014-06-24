@@ -6,6 +6,7 @@ class Family < ActiveRecord::Base
   MAX_TO_BATCH_AT_A_TIME = 50
 
   has_many :people, -> { order(:sequence) }, dependent: :destroy
+  has_many :updates, -> { order(:created_at) }
   accepts_nested_attributes_for :people
   belongs_to :site
 
@@ -17,6 +18,7 @@ class Family < ActiveRecord::Base
   scope :deleted, -> { where(deleted: true) }
   scope :has_printable_people, -> { where('(select count(*) from people where family_id = families.id and visible_on_printed_directory = ?) > 0', true) }
 
+  validates_presence_of :name, :last_name
   validates_uniqueness_of :barcode_id, allow_nil: true, scope: [:site_id, :deleted], unless: Proc.new { |f| f.deleted? }
   validates_uniqueness_of :alternate_barcode_id, allow_nil: true, scope: [:site_id, :deleted], unless: Proc.new { |f| f.deleted? }
   validates_length_of :barcode_id, :alternate_barcode_id, in: 10..50, allow_nil: true
@@ -115,6 +117,22 @@ class Family < ActiveRecord::Base
         Person.logged_in.admin?(:view_hidden_profiles) or
         person.visible?(self)
       )
+    end
+  end
+
+  def reorder_person(person, direction)
+    case direction
+    when 'up'
+      person.decrement!(:sequence) unless person.sequence <= 1
+    when 'down'
+      person.increment!(:sequence) unless person.sequence >= people.undeleted.count
+    end
+    index = 1
+    people.undeleted.where.not(id: person.id).each do |p|
+      index += 1 if index == person.sequence
+      p.sequence = index
+      p.save(validate: false)
+      index += 1
     end
   end
 

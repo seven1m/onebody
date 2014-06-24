@@ -1,5 +1,7 @@
 class FamiliesController < ApplicationController
 
+  load_and_authorize_resource except: [:show, :hashify, :batch, :select, :schema]
+
   def index
     respond_to do |format|
       format.html { redirect_to @logged_in }
@@ -56,14 +58,10 @@ class FamiliesController < ApplicationController
     end
   end
 
-  before_filter :can_edit?, only: %w(new create edit update destroy reorder)
-
   def new
-    @family = Family.new
   end
 
   def create
-    @family = Family.new(family_params)
     respond_to do |format|
       if @family.save
         format.html do
@@ -78,19 +76,19 @@ class FamiliesController < ApplicationController
   end
 
   def edit
-    @family = Family.find(params[:id])
   end
 
   def update
-    @family = Family.find(params[:id])
-    if @family.update_attributes(family_params)
+    @updater = FamilyUpdater.new(params)
+    @family = @updater.family
+    if @updater.save!
       respond_to do |format|
         format.html { flash[:notice] = t('families.edit.saved'); redirect_to params[:redirect_to] || @family }
         format.xml  { render xml: @family.to_xml } if can_export?
       end
     else
       respond_to do |format|
-        format.html { flash[:warning] = t('There_were_errors'); redirect_to params[:redirect_to] || @family }
+        format.html { render action: 'edit' }
         format.xml  { render xml: @family.errors, status: :unprocessable_entity } if can_export?
         format.js do # only used by barcode entry right now
           render :update do |page|
@@ -103,7 +101,6 @@ class FamiliesController < ApplicationController
   end
 
   def destroy
-    @family = Family.find(params[:id])
     if @family == @logged_in.family
       flash[:warning] = t('families.delete.cannot_delete_your_own')
       redirect_to @family
@@ -115,12 +112,8 @@ class FamiliesController < ApplicationController
 
   def reorder
     @family = Family.find(params[:id])
-    Array(params[:person]).each_with_index do |id, index|
-      p = @family.people.where(id: id).first
-      p.no_auto_sequence = true
-      p.update_attribute(:sequence, index+1)
-    end
-    render nothing: true
+    @family.reorder_person(@family.people.find(params[:person_id]), params[:direction])
+    redirect_to @family
   end
 
   def hashify

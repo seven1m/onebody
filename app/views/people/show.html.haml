@@ -1,9 +1,7 @@
 - @title = @person.name
-- content_for :sub_title do
-  - if has_type?(@person)
+- if has_type?(@person)
+  - content_for :sub_title do
     = link_to_person_role(@person, only_one: true)
-    \/
-  = link_to @family.try(:name), @family
 
 - unless @person.visible?
   .callout.callout-warning

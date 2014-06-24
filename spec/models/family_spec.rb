@@ -94,6 +94,14 @@ describe Family do
           expect(subject.suggested_name).to eq("Tim Morgan & Jennie Smith")
         end
       end
+
+      context 'given one of the adults is deleted' do
+        before { adult2.destroy }
+
+        it 'returns full name only first adult' do
+          expect(subject.suggested_name).to eq("Tim Morgan")
+        end
+      end
     end
 
     context 'given a family with three adults' do
@@ -103,6 +111,76 @@ describe Family do
 
       it 'returns first names of first two adults and common last name' do
         expect(subject.suggested_name).to eq("Tim & Jennie Morgan")
+      end
+    end
+  end
+
+  describe '#reorder' do
+    context 'given a family with three people' do
+      subject { FactoryGirl.create(:family) }
+
+      let!(:head)   { FactoryGirl.create(:person, family: subject, child: false, first_name: "Tim",    last_name: "Morgan") }
+      let!(:spouse) { FactoryGirl.create(:person, family: subject, child: false, first_name: "Jennie", last_name: "Morgan") }
+      let!(:child)  { FactoryGirl.create(:person, family: subject, child: true,  first_name: "Mac",    last_name: "Morgan") }
+
+      context 'given direction up' do
+        before do
+          subject.reorder_person(spouse, 'up')
+        end
+
+        it 'changes the order' do
+          expect(spouse.reload.sequence).to eq(1)
+          expect(head.reload.sequence).to eq(2)
+          expect(child.reload.sequence).to eq(3)
+        end
+      end
+
+      context 'given direction up and person is already first' do
+        before do
+          subject.reorder_person(head, 'up')
+        end
+
+        it 'does not change the order' do
+          expect(head.reload.sequence).to eq(1)
+          expect(spouse.reload.sequence).to eq(2)
+          expect(child.reload.sequence).to eq(3)
+        end
+      end
+
+      context 'given direction down' do
+        before do
+          subject.reorder_person(spouse, 'down')
+        end
+
+        it 'changes the order' do
+          expect(head.reload.sequence).to eq(1)
+          expect(child.reload.sequence).to eq(2)
+          expect(spouse.reload.sequence).to eq(3)
+        end
+      end
+
+      context 'given direction down and person is already last' do
+        before do
+          subject.reorder_person(child, 'down')
+        end
+
+        it 'does not change the order' do
+          expect(head.reload.sequence).to eq(1)
+          expect(spouse.reload.sequence).to eq(2)
+          expect(child.reload.sequence).to eq(3)
+        end
+      end
+
+      context 'given invalid direction' do
+        before do
+          subject.reorder_person(child, 'sideways')
+        end
+
+        it 'does not change the order' do
+          expect(head.reload.sequence).to eq(1)
+          expect(spouse.reload.sequence).to eq(2)
+          expect(child.reload.sequence).to eq(3)
+        end
       end
     end
   end

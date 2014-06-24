@@ -100,7 +100,7 @@ en:
     can_sign_in: "Can Sign In"
     cant_delete_yourself: "You cannot delete yourself."
     cant_delete: "You cannot delete this person."
-    changes_must_be_reviewed_html: "Changes to the details below must be <strong>reviewed by staff</strong>. To request changes, enter the details below and click 'Submit.'"
+    changes_must_be_reviewed_html: "Changes to the details below must be <strong>reviewed by staff</strong>. To request changes, enter the details below and click 'Submit Changes.'"
     changes_submitted: "Changes submitted."
     child: "Child"
     click_to_send_verification_email: "Send a password setup email to this user."

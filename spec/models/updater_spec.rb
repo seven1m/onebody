@@ -234,4 +234,31 @@ describe Updater do
     end
   end
 
+  context 'family update only' do
+    before do
+      Person.logged_in = @person
+      @family = @person.family
+      @updater = FamilyUpdater.new(
+        id: @family.id,
+        family: {
+          name: 'Jack Smith',
+          last_name: 'Smith',
+          home_phone: '1234567890'
+        }
+      )
+      @updater.save!
+      @update = Update.last
+    end
+
+    it 'should create an Update for last_name' do
+      expect(@update.diff).to eq(
+        "person" => {},
+        "family" => {
+          "name"        => ["John Smith", "Jack Smith"],
+          "home_phone"  => [nil,          "1234567890"]
+        }
+      )
+    end
+  end
+
 end

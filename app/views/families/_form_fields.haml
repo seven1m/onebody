@@ -1,15 +1,15 @@
 .form-group
   = form.label :name, t('families.edit.name')
   = form.text_field :name, onkeyup: 'set_last_name()', class: 'form-control'
-  %span.help-block
-    - if @family.suggested_name
-      - if @family.suggested_name != @family.name
-        = t('families.edit.name_suggestion_html', name: @family.suggested_name)
-        = link_to '#', class: 'btn btn-xs bg-gray family-name-suggestion-button', data: { name: @family.suggested_name } do
-          = icon 'fa fa-bolt'
-          = t('families.edit.name_suggestion_button')
-    - else
-      t('families.edit.name_example_html')
+  - if @family.new_record?
+    .family-name-suggestion
+      = t('families.edit.name_example_html')
+  - elsif @family.suggested_name and @family.suggested_name != @family.name
+    .family-name-suggestion
+      = t('families.edit.name_suggestion_html', name: @family.suggested_name)
+      = link_to '#', class: 'btn btn-xs btn-warning family-name-suggestion-button', data: { name: @family.suggested_name } do
+        = icon 'fa fa-bolt'
+        = t('families.edit.name_suggestion_button')
 .form-group
   = form.label :last_name, t('families.edit.last_name')
   = form.text_field :last_name, class: 'form-control'
