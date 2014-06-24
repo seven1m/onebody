@@ -44,6 +44,7 @@ class BreadcrumbPresenter
     return if a = @assigns['album'] and a.owner_type == 'Group'
     return if @route == 'groups#index'
     return if @route == 'prayer_requests#show'
+    return if @route == 'messages#show' and group
     if person and @route != 'people#show'
       crumbs << ['fa fa-user', person.name, person_path(person)]
     end
