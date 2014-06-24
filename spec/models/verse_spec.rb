@@ -2,6 +2,11 @@ require_relative '../spec_helper'
 
 describe Verse do
   before do
+    allow_any_instance_of(Verse).to receive(:lookup) do |i|
+      i.translation = 'WEB'
+      i.text = 'test'
+      i.update_sortables
+    end
     @verse = Verse.create(reference: '1 John 1:9', text: 'test')
   end
 

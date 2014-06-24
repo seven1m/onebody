@@ -39,27 +39,17 @@ class Verse < ActiveRecord::Base
   LS_BASE_URL = 'http://www.seek-first.com/Bible.php?q=&passage=Seek'
 
   def lookup
-    if Rails.env == 'test'
-      self.translation = 'WEB'
-      self.text = 'test'
-      self.update_sortables
-    else
-      return if reference.nil? or reference.empty?
-      self.translation = 'WEB' if translation.nil?
-      url = LS_BASE_URL + '&p=' + URI.escape(reference) + '&version=' + translation
-      result = Net::HTTP.get(URI.parse(url))
-      url = /<!\-\-\s*(http:\/\/api\.seek\-first\.com.+?)\s*\-\->/.match(result)[1]
-      result = Net::HTTP.get(URI.parse(url)).gsub(/\s+/, ' ').gsub(/ì|î/, '"').gsub(/ë|í/, "'").gsub('*', '')
-      begin
-         self.text = result.scan(/<Text>(.+?)<\/Text>/).map { |p| p[0].gsub(/<.+?>/, '').strip }.join(' ')
-         # maybe not needed? - breaks in ruby 1.9
-         #self.text.gsub!(/\223|\224/, '"')
-         #self.text.gsub!(/\221|\222/, "'")
-         #self.text.gsub!(/\227/, "--")
-         self.update_sortables
-      rescue
-        nil
-      end
+    return if reference.nil? or reference.empty?
+    self.translation = 'WEB' if translation.nil?
+    url = LS_BASE_URL + '&p=' + URI.escape(reference) + '&version=' + translation
+    result = Net::HTTP.get(URI.parse(url))
+    url = /<!\-\-\s*(http:\/\/api\.seek\-first\.com.+?)\s*\-\->/.match(result)[1]
+    result = Net::HTTP.get(URI.parse(url)).gsub(/\s+/, ' ').gsub(/ì|î/, '"').gsub(/ë|í/, "'").gsub('*', '')
+    begin
+       self.text = result.scan(/<Text>(.+?)<\/Text>/).map { |p| p[0].gsub(/<.+?>/, '').strip }.join(' ')
+       self.update_sortables
+    rescue
+      nil
     end
   end
 

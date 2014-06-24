@@ -4,7 +4,11 @@ describe VersesController do
   render_views
 
   before do
-    Verse.delete_all # no verses from fixtures
+    allow_any_instance_of(Verse).to receive(:lookup) do |i|
+      i.translation = 'WEB'
+      i.text = 'test'
+      i.update_sortables
+    end
     @person, @other_person = FactoryGirl.create_list(:person, 2)
     2.times { @person.verses       << FactoryGirl.create(:verse, tag_list: 'foo bar') }
     2.times { @other_person.verses << FactoryGirl.create(:verse, tag_list: 'baz foo') }
