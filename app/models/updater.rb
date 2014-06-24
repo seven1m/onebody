@@ -37,6 +37,7 @@ class Updater
       visible:              :immediate,
       messages_enabled:     :immediate,
       friends_enabled:      :immediate,
+      photo:                :immediate,
       email:                :notify,
       classes:              :admin,
       shepherd:             :admin,
@@ -70,6 +71,7 @@ class Updater
       zip:                  :approve,
       share_:               :immediate,
       visible:              :immediate,
+      photo:                :immediate,
       email:                :admin,
       legacy_id:            :admin,
       barcode_id:           :admin,
@@ -107,7 +109,7 @@ class Updater
   # and/or creates a new Update pending approval
   def save!
     changes # set cache
-    person.updates.create!(data: approval_params) if approval_params.any?
+    person.updates.create!(family_id: family.id, data: approval_params) if approval_params.any?
     success = person.update_attributes(person_params) && family.update_attributes(family_params)
     unless success
       family.errors.full_messages.each { |m| person.errors.add(:base, m) }
@@ -160,7 +162,7 @@ class Updater
 
   # converts empty string to nil
   def cleanse_value(value)
-    value = value.strip
+    value = value.strip if value.is_a?(String)
     value if value.present?
   end
 

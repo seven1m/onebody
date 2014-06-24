@@ -45,7 +45,7 @@
     }).trigger('keyup');
 
     changes_made = false;
-    $(':input').bind('change', function(){
+    $(':input:not([type="file"])').bind('change', function(){
       changes_made = true;
     });
 

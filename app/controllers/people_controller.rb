@@ -71,7 +71,8 @@ class PeopleController < ApplicationController
       @custom_types = Person.custom_types
       params[:person].cleanse(:birthday, :anniversary)
       @person = Person.new_with_default_sharing(person_params)
-      @person.family_id = params[:person][:family_id]
+      @family = Family.find(params[:person][:family_id])
+      @person.family = @family
       respond_to do |format|
         if @person.save
           format.html { redirect_to @person.family }

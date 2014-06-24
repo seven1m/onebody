@@ -30,7 +30,7 @@ module PeopleHelper
 
   def avatar_path(person, size=:tn)
     if person.is_a?(Family)
-      person_avatar_path(person, size)
+      family_avatar_path(person, size)
     elsif person.is_a?(Group)
       group_avatar_path(person, size)
     elsif person.is_a?(Album)

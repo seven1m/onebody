@@ -17,13 +17,16 @@ class PhotoForm
     @input.trigger('click')
 
   select: (e) =>
-    if @url and @can_upload() and @valid_type()
+    if @url and @can_upload()
+      if @valid_type()
+        @uploading_status.show().find('.filename').text((f.name for f in @input[0].files).join(', '))
+        @error_callout.hide().find('.wrong-type').hide()
+        @upload()
+      else
+        @uploading_status.hide()
+        @error_callout.show().find('.wrong-type').show()
+    else
       @uploading_status.show().find('.filename').text((f.name for f in @input[0].files).join(', '))
-      @error_callout.hide().find('.wrong-type').hide()
-      @upload()
-    else if not @valid_type()
-      @uploading_status.hide()
-      @error_callout.show().find('.wrong-type').show()
 
   can_upload: =>
     typeof(window.FormData) != 'undefined'
@@ -97,4 +100,4 @@ class PhotoForm
       size = $(img).data('size')
       $(img).attr('src', sizes[size] + '?' + Math.random())
 
-window.photo_form = new PhotoForm($('.photo-upload'))
+window.photo_forms = (new PhotoForm($(f)) for f in $('.photo-upload'))
