@@ -188,6 +188,23 @@ module ApplicationHelper
     truncate(text, options.reverse_merge(separator: ' ', omission: '…'))
   end
 
+  def map_header(object)
+    if object.mapable?
+      content_for(:header) do
+        raw(
+          content_tag(:div, '', id: 'map', data: { latitude: object.latitude, longitude: object.longitude, address: preserve_breaks(object.location), notice: t('maps.notice') }) +
+          content_tag(:section, class: 'content-header map-overlay') do
+            breadcrumbs +
+            content_tag(:h1) do
+              sub = (s = content_for(:sub_title)) ? content_tag(:small, s) : ''
+              (@title + sub).html_safe
+            end
+          end
+        )
+      end
+    end
+  end
+
   # TODO reevaluate with Rails 4.1
   # this is an ugly hack for Rails 4 because I18n.exception_handler isn't working with the t() helper
   def t(*args)

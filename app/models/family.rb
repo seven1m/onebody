@@ -40,6 +40,9 @@ class Family < ActiveRecord::Base
     end
   end
 
+  geocoded_by :location
+  after_validation :geocode
+
   def barcode_id=(b)
     write_attribute(:barcode_id, b.to_s.strip.any? ? b : nil)
     write_attribute(:barcode_assigned_at, Time.now.utc)
@@ -51,58 +54,30 @@ class Family < ActiveRecord::Base
   end
 
   def address
-    address1.to_s + (address2.to_s.any? ? "\n#{address2}" : '')
+    address1.to_s + (address2.present? ? "\n#{address2}" : '')
   end
 
   def mapable?
-    address1.to_s.any? and city.to_s.any? and state.to_s.any? and zip.to_s.any?
+    [address1, city, state].all?(&:present?)
   end
 
-  def mapable_address
-    if mapable?
-      "#{address1}, #{address2.to_s.any? ? address2+', ' : ''}#{city}, #{state} #{zip}".gsub(/'/, "\\'")
-    end
+  def location
+    pretty_address if mapable?
   end
 
   # not HTML-escaped!
   def pretty_address
     a = ''
-    a << address1.to_s   if address1.to_s.any?
-    a << ", #{address2}" if address2.to_s.any?
-    if city.to_s.any? and state.to_s.any?
+    a << address1.to_s   if address1.present?
+    a << ", #{address2}" if address2.present?
+    if city.present? and state.present?
       a << "\n#{city}, #{state}"
-      a << "  #{zip}" if zip.to_s.any?
+      a << "  #{zip}" if zip.present?
     end
   end
 
   def short_zip
     zip.to_s.split('-').first
-  end
-
-  def latitude
-    return nil unless mapable?
-    update_lat_lon unless read_attribute(:latitude) and read_attribute(:longitude)
-    read_attribute :latitude
-  end
-
-  def longitude
-    return nil unless mapable?
-    update_lat_lon unless read_attribute(:latitude) and read_attribute(:longitude)
-    read_attribute :longitude
-  end
-
-  def update_lat_lon
-    return nil unless mapable? and Setting.get(:services, :yahoo).to_s.any?
-    url = "http://api.local.yahoo.com/MapsService/V1/geocode?appid=#{Setting.get(:services, :yahoo)}&location=#{URI.escape(mapable_address)}"
-    begin
-      xml = URI(url).read
-      result = REXML::Document.new(xml).elements['/ResultSet/Result']
-      lat, lon = result.elements['Latitude'].text.to_f, result.elements['Longitude'].text.to_f
-    rescue
-      logger.error("Could not get latitude and longitude for address #{mapable_address} for family #{name}.")
-    else
-      update_attributes latitude: lat, longitude: lon
-    end
   end
 
   self.digits_only_for_attributes = [:home_phone]

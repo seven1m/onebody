@@ -1,4 +1,5 @@
 - @title = @group.name
+- map_header(@group)
 
 - content_for :sub_title do
   - if @group.membership_requests.where(person_id: @logged_in.id).any?
@@ -11,15 +12,6 @@
     = link_to group_memberships_path(@group, id: @logged_in), method: 'post', data: { confirm: must_request_group_join?(@group) ? t('groups.join.confirm') : t('are_you_sure') }, class: 'btn btn-success btn-xs' do
       = icon 'fa fa-plus'
       = t('.controls.join')
-
-- if @group.mapable?
-  - content_for :header do
-    #map{ data: { latitude: @group.latitude, longitude: @group.longitude, address: preserve_breaks(@group.location), notice: t('maps.notice') } }
-    %section.content-header.map-overlay
-      = breadcrumbs
-      %h1
-        = @title
-        = yield(:sub_title)
 
 - if not @group.approved
   .alert.alert-warning.alert-dismissable
