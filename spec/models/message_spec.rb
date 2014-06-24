@@ -25,20 +25,52 @@ describe Message do
     expect(@body.to_s).to match(/http:\/\/.+\/privacy/)
   end
 
-  it "should know who can see the message" do
-    # group message
-    @message = Message.create(group: @group, person: @person, subject: 'subject', body: 'body')
-    expect(@person.can_see?(@message)).to be
-    expect(@second_person.can_see?(@message)).not_to be
-    expect(@admin_person.can_see?(@message)).to be
-    # group message in private group
-    @group.update_attributes! private: true
-    expect(@third_person.can_see?(@message)).not_to be
-    # private message
-    @message = Message.create(to: @second_person, person: @person, subject: 'subject', body: 'body')
-    expect(@person.can_see?(@message)).to be
-    expect(@second_person.can_see?(@message)).to be
-    expect(@third_person.can_see?(@message)).not_to be
+  describe '#can_see?' do
+    context 'group message' do
+      before do
+        @message = Message.create(group: @group, person: @person, subject: 'subject', body: 'body')
+      end
+
+      it 'knows who can see the message' do
+        expect(@person.can_see?(@message)).to eq(true)
+        expect(@second_person.can_see?(@message)).to eq(true)
+        expect(@admin_person.can_see?(@message)).to eq(true)
+      end
+
+      context 'in a private group' do
+        before do
+          @group.update_attributes! private: true
+        end
+
+        it 'knows who can see the message' do
+          expect(@person.can_see?(@message)).to eq(true)
+          expect(@second_person.can_see?(@message)).to eq(false)
+          expect(@admin_person.can_see?(@message)).to eq(true)
+        end
+
+        context 'admin cannot manage groups' do
+          before do
+            @admin_person.admin.update_attribute(:manage_groups, false)
+          end
+
+          it 'does not allow admin to see' do
+            expect(@admin_person.can_see?(@message)).to eq(false)
+          end
+        end
+      end
+    end
+
+    context 'private message' do
+      before do
+        @message = Message.create(to: @second_person, person: @person, subject: 'subject', body: 'body')
+      end
+
+      it 'knows who can see the message' do
+        expect(@person.can_see?(@message)).to be
+        expect(@second_person.can_see?(@message)).to be
+        expect(@third_person.can_see?(@message)).not_to be
+      end
+    end
   end
 
   it 'should allow a message without body if it has an html body' do

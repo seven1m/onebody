@@ -4,7 +4,7 @@ describe AttachmentsController do
 
   before do
     @person, @other_person = FactoryGirl.create_list(:person, 2)
-    @group = Group.create! name: 'Some Group', category: 'test'
+    @group = Group.create! name: 'Some Group', category: 'test', private: true
     @group.memberships.create! person: @person
     @message = Message.create_with_attachments(
       {group: @group, person: @person, subject: 'subject', body: 'body'},

@@ -213,10 +213,12 @@ class Message < ActiveRecord::Base
   end
 
   def can_see?(p)
-    if group and group.private?
-      p.member_of?(group) or group.admin?(p)
-    elsif group
-      p.member_of?(group) or group.admin?(p)
+    if group
+      if group.private?
+        p.member_of?(group) or p.admin?(:manage_groups)
+      else
+        true
+      end
     elsif to
       to == p or person == p
     else
@@ -245,7 +247,7 @@ class Message < ActiveRecord::Base
       streamable_type: 'Message',
       streamable_id:   id,
       created_at:      created_at,
-      shared:          person.share_activity? && !(group && group.hidden?)
+      shared:          group && !group.hidden?
     )
   end
 
