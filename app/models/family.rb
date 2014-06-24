@@ -83,11 +83,11 @@ class Family < ActiveRecord::Base
   self.digits_only_for_attributes = [:home_phone]
 
   def children_without_consent
-    people.reject(&:adult_or_consent?)
+    people.undeleted.reject(&:adult_or_consent?)
   end
 
   def visible_people
-    people.select do |person|
+    people.undeleted.select do |person|
       !person.deleted? and (
         Person.logged_in.admin?(:view_hidden_profiles) or
         person.visible?(self)
@@ -112,7 +112,7 @@ class Family < ActiveRecord::Base
   end
 
   def suggested_relationships
-    all_people = people.order(:sequence)
+    all_people = people.undeleted.order(:sequence)
     relations = {
       adult: {
         male: {
@@ -175,20 +175,20 @@ class Family < ActiveRecord::Base
   # TODO would be better to actually have family-level sharing options
   def show_attribute_to?(attribute, who)
     send(attribute).present? and
-    people.any? { |p| p.show_attribute_to?(attribute, who) }
+    people.undeleted.any? { |p| p.show_attribute_to?(attribute, who) }
   end
 
   def anniversary_sharable_with(who)
-    people.detect { |person|
+    people.undeleted.detect { |person|
       person.anniversary and person.show_attribute_to?(:anniversary, who)
     }.try(:anniversary)
   end
 
   def suggested_name
-    if people.adults.count == 1
-      people.adults.first.name
-    elsif people.adults.count >= 2
-      (first, second) = people.adults.limit(2)
+    if people.undeleted.adults.count == 1
+      people.undeleted.adults.first.name
+    elsif people.undeleted.adults.count >= 2
+      (first, second) = people.undeleted.adults.take(2)
       if first.last_name == second.last_name
         key = 'families.name.same_last_name'
       else
@@ -219,7 +219,7 @@ class Family < ActiveRecord::Base
       records.map do |record|
         # find the family (by legacy_id, preferably)
         family = where(legacy_id: record["legacy_id"]).first
-        if family.nil? and options['claim_families_by_barcode_if_no_legacy_id'] and record['barcode_id'].to_s.any?
+        if family.nil? and options['claim_families_by_barcode_if_no_legacy_id'] and record['barcode_id'].present?
           # if no family was found by legacy id, let's try by barcode id
           # but only if the matched family has no legacy id!
           # (because two separate families could potentially have accidentally been assigned the same barcode)
