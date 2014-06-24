@@ -68,7 +68,7 @@ class StreamItemDecorator < Draper::Decorator
           I18n.t('stream.header.picture', args).html_safe
         end
       when 'Verse'
-        I18n.t('stream.header.verse', who: who, ref: h.link_to(title, path)).html_safe
+        I18n.t('stream.header.verse', who: who, title: h.link_to(title, path)).html_safe
       when 'NewsItem'
         I18n.t('stream.header.news', who: who, title: h.link_to(title, path)).html_safe
       when 'Message'
