@@ -1,0 +1,7 @@
+.friends-alert {
+  @extend .callout;
+  @extend .callout-warning;
+  .btn {
+    @extend .btn-warning;
+  }
+}

@@ -8,12 +8,3 @@
 .testimony .box-title a {
   color: white !important;
 }
-
-.friends-alert {
-  @extend .callout;
-  @extend .callout-info;
-  .btn {
-    @extend .btn-info;
-    @extend .btn-xs;
-  }
-}
