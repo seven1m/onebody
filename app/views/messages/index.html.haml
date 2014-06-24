@@ -1,5 +1,11 @@
 - @title = t('messages.messages_in_html', url: group_path(@group), name: @group.name)
 
+- if @group.can_post?(@logged_in)
+  .page-controls
+    = link_to new_group_message_path(@group), class: 'btn btn-success' do
+      = icon 'fa fa-plus'
+      = t('messages.new.button')
+
 = pagination @messages
 
 - @messages.each do |message|

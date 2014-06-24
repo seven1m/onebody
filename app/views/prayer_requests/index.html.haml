@@ -1,5 +1,12 @@
 - @title = t('prayer_requests.index.heading')
 
+.page-controls
+  = link_to new_group_prayer_request_path(@group), class: 'btn btn-success' do
+    = icon 'fa fa-plus'
+    = t('prayer_requests.new.button')
+
+= pagination @reqs
+
 - @reqs.each do |req|
   .prayer-request.box
     .box-header
@@ -16,7 +23,4 @@
             %h4= t('prayer_requests.answer.heading')
           = preserve_breaks req.answer
 
-%p
-  = link_to new_group_prayer_request_path(@group), class: 'btn btn-success' do
-    = icon 'fa fa-plus'
-    = t('prayer_requests.new.button')
+= pagination @reqs
