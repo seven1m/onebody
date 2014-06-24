@@ -217,35 +217,6 @@ describe Person do
     expect(@person.reload.mobile_phone).to eq("1234567890")
   end
 
-  context 'Custom Fields' do
-
-    before { @person = FactoryGirl.create(:person) }
-
-    it "should update custom_fields with a hash" do
-      @person.custom_fields = {'0' => 'first', '2' => 'third'}
-      expect(@person.custom_fields).to eq(["first", nil, "third"])
-    end
-
-    it "should convert dates saved in custom_fields" do
-      Setting.set(1, 'Features', 'Custom Person Fields', ['Text', 'A Date'].join("\n"))
-      @person.custom_fields = {'0' => 'first', '1' => 'March 1, 2012'}
-      expect(@person.custom_fields).to eq(["first", Date.new(2012, 3, 1)])
-      Setting.set(1, 'Features', 'Custom Person Fields', '')
-    end
-
-    it "should update custom_fields with an array" do
-      @person.custom_fields = ['first', nil, 'third']
-      expect(@person.custom_fields).to eq(["first", nil, "third"])
-    end
-
-    it "should not overwrite existing custom_fields accidentally" do
-      @person.custom_fields = {'0' => 'first', '2' => 'third'}
-      @person.custom_fields = {'1' => 'second'}
-      expect(@person.custom_fields).to eq(["first", "second", "third"])
-    end
-
-  end
-
   describe 'Child' do
     it "should guess child upon initialization" do
       @family = FactoryGirl.create(:family)
