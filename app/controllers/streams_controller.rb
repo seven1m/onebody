@@ -3,6 +3,8 @@ class StreamsController < ApplicationController
   skip_before_filter :authenticate_user, only: %w(show)
   before_filter :authenticate_user_with_code_or_session, only: %w(show)
 
+  include TimelineHelper
+
   def show
     @stream_items = StreamItem.shared_with(@logged_in)
     @count = @stream_items.count
@@ -17,7 +19,7 @@ class StreamsController < ApplicationController
           html: view_context.timeline(@stream_items),
           items: @stream_items,
           count: @count,
-          next: view_context.next_timeline_url(@stream_items.current_page + 1)
+          next: timeline_has_more?(@stream_items) ? next_timeline_url(@stream_items.current_page + 1) : nil
         }
       end
     end

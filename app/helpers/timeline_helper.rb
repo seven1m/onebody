@@ -17,7 +17,7 @@ module TimelineHelper
           end
         end.join.html_safe
       end.html_safe +
-      timeline_load_more
+      (timeline_has_more?(stream_items) ? timeline_load_more : '')
     else
       content_tag(:div, t('stream.none'), class: 'timeline-none')
     end
@@ -33,6 +33,10 @@ module TimelineHelper
         end
       end
     end
+  end
+
+  def timeline_has_more?(stream_items)
+    (stream_items.total_entries / stream_items.per_page.to_f) > stream_items.current_page
   end
 
   def timeline_load_more

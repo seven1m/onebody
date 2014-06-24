@@ -8,5 +8,5 @@ $(document).on 'click', '.timeline-load-more a', (e) ->
     if data.items.length > 0
       html = $.parseHTML(data.html)[0].innerHTML
       timeline.append(html).data('next-url', data.next)
-    else
+    if data.items.length == 0 or data.next == null
       button.hide()
