@@ -71,6 +71,7 @@ class Search
     testimony!
     order_by_name!
     parental_consent!
+    visible!
     name!
     gender!
     birthday!
@@ -109,14 +110,13 @@ class Search
   end
 
   def parental_consent!
-    return unless require_parental_consent?
-    where!(
-      "(people.child = ?
-       or (birthday is not null and adddate(birthday, interval 13 year) <= curdate())
-       or (people.parental_consent is not null and people.parental_consent != ''))
-      ",
-      false
-    )
+    return if show_hidden_profiles?
+    where!("(people.child = ? or coalesce(people.parental_consent, '') != '')", false)
+  end
+
+  def visible!
+    return if show_hidden_profiles?
+    where!('people.visible = ? and people.visible_to_everyone = ? and families.visible = ?', true, true, true)
   end
 
   def name!
@@ -167,8 +167,8 @@ class Search
     where!('families.barcode_id = ?', family_barcode_id) if family_barcode_id
   end
 
-  def require_parental_consent?
-    !(show_hidden && Person.logged_in.admin?(:view_hidden_profiles))
+  def show_hidden_profiles?
+    (show_hidden && Person.logged_in.admin?(:view_hidden_profiles))
   end
 
   def like(str, position=:both)
