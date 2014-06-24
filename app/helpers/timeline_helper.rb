@@ -2,13 +2,13 @@ module TimelineHelper
   def timeline(stream_items)
     last_date = nil
     if stream_items.any?
-      last_type = nil
+      types = []
       content_tag(:ul, class: 'timeline', 'data-next-url' => next_timeline_url) do
         [].tap do |items|
           @stream_items.each_with_index do |stream_item, index|
             next unless stream_item.decorate.publishable?
-            next if skip_duplicate_streamable_type?(last_type, stream_item.streamable_type)
-            last_type = stream_item.streamable_type
+            next if skip_duplicate_streamable_type?(types, stream_item.streamable_type)
+            types << stream_item.streamable_type
             if stream_item.created_at != last_date
               items << timeline_date_label(stream_item)
               last_date = stream_item.created_at
@@ -56,7 +56,13 @@ module TimelineHelper
     end
   end
 
-  def skip_duplicate_streamable_type?(last_item, current_item)
-    return true if last_item == 'Person' and current_item == 'Person'
+  MAX_RUNS = {
+    person: 2
+  }
+
+  def skip_duplicate_streamable_type?(types, next_type)
+    if max = MAX_RUNS[next_type.downcase.to_sym]
+      return true if types.length >= max and types[-max..-1].all? { |p| p == next_type }
+    end
   end
 end

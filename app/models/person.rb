@@ -94,7 +94,7 @@ class Person < ActiveRecord::Base
       streamable_type: 'Person',
       streamable_id: id,
       created_at: created_at,
-      shared: visible?
+      shared: visible? && email.present?
     )
   end
 
@@ -103,7 +103,7 @@ class Person < ActiveRecord::Base
   def update_stream_item
     return unless stream_item
     stream_item.title = name
-    stream_item.shared = visible?
+    stream_item.shared = visible? && email.present?
     stream_item.save!
   end
 

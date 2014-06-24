@@ -26,7 +26,7 @@ en:
       picture:
         alt: "click to enlarge"
       person:
-        button: "Send %{person} a welcome message!"
+        button: "Say hello to %{person}!"
       site:
         description: "Community site for %{site} was created!"
 
