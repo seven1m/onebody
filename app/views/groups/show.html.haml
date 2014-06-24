@@ -25,7 +25,7 @@
         = form.button t('groups.approve.button'), class: 'btn btn-success'
 
 .row
-  .col-sm-6.col-sm-push-6
+  .col-sm-6
 
     .row
       - if @group.email?
@@ -107,7 +107,7 @@
           %td= t('.details.location')
           %td= preserve_breaks(@group.location)
 
-  .col-sm-6.col-sm-pull-6
+  .col-sm-6
     = timeline @stream_items
 
     -# TODO

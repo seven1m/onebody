@@ -48,7 +48,7 @@ module GroupsHelper
   def group_content_column(&block)
     count = [@group.email?, @group.prayer?, @group.pictures?].count { |t| t }
     return if count == 0
-    width = 12 / count
+    width = [12 / count, 6].min
     content_tag(:div, class: "col-md-#{width}", &block)
   end
 
