@@ -143,11 +143,12 @@
                     = link_to search_path(advanced: true) do
                       = icon 'fa fa-search'
                       = t('nav.directory_sub.advanced')
-            %li{ class: tab_selected?(:admin) ? 'active' : '' }
-              = link_to admin_path do
-                %i.fa.fa-cogs
-                %span Admin
-                %small.badge.pull-right.bg-orange 2 alerts
+            - if @logged_in.admin?
+              %li{ class: tab_selected?(:admin) ? 'active' : '' }
+                = link_to admin_path do
+                  %i.fa.fa-cogs
+                  %span Admin
+                  %small.badge.pull-right.bg-orange 2 alerts
           = yield(:sidebar)
         / /.sidebar
       / Right side column. Contains the navbar and content of the page
