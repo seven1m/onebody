@@ -8,11 +8,13 @@ tr.row-with-avatar {
 }
 
 th.avatar, td.avatar {
-  width: 35px;
+  width: 35px + 16px;
+  &.small  { width: 75px  + 16px; }
+  &.medium { width: 250px + 16px; }
 }
 
 img.avatar {
-  &.tn     { width: 35px;  }
-  &.small  { width: 75px;  }
+  &.tn     { width: 35px; }
+  &.small  { width: 75px; }
   &.medium { width: 250px; }
 }

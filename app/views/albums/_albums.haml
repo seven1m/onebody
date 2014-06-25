@@ -9,7 +9,7 @@
         %th
     - @albums.each do |album|
       %tr.row-with-avatar
-        %td.avatar
+        %td.avatar.small
           = link_to album do
             = avatar_tag(album, size: :small, class: 'thumbnail')
         %td
