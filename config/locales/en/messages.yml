@@ -14,7 +14,7 @@ en:
     group:
       heading: "Group Message"
       description_html: "This will send an email to every member of %{group}."
-      not_private: "This group is not set to private, so messages posted here may be visible by people who aren't group members."
+      not_private: "This group is not set to private, so messages posted here may be visible to people who aren't group members."
 
     sent_at_html: "sent %{when} by %{who}"
     sent_to_html: "to %{who}"
