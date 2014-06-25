@@ -85,15 +85,15 @@ class BreadcrumbPresenter
     if %w(albums pictures).include?(@controller) and album = @assigns['album']
       if album.owner_type == 'Group'
         if @route == 'pictures#show'
-          crumbs << ['ion ion-images', album.name, group_album_path(album.owner_id, album)]
+          crumbs << ['fa fa-camera-retro', album.name, group_album_path(album.owner_id, album)]
         else
-          crumbs << ['ion ion-images', t('nav.albums'), group_albums_path(album.owner_id)]
+          crumbs << ['fa fa-camera-retro', t('nav.albums'), group_albums_path(album.owner_id)]
         end
       else
         if @route == 'pictures#show'
-          crumbs << ['ion ion-images', album.name, person_album_path(album.owner_id, album)]
+          crumbs << ['fa fa-camera-retro', album.name, person_album_path(album.owner_id, album)]
         else
-          crumbs << ['ion ion-images', t('nav.albums'), person_albums_path(album.owner_id)]
+          crumbs << ['fa fa-camera-retro', t('nav.albums'), person_albums_path(album.owner_id)]
         end
       end
     end

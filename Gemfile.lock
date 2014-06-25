@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/bokmann/font-awesome-rails.git
+  revision: 9af81d72c7ba47035fa536c78eb8772964392d9b
+  specs:
+    font-awesome-rails (4.1.0.0)
+      railties (>= 3.2, < 5.0)
+
+GIT
   remote: git://github.com/metaskills/pdf-writer.git
   revision: 7f5bc6c9ce69c26574bbfde36ebdb9ecf06709d0
   specs:
@@ -96,8 +103,6 @@ GEM
       loofah (~> 1.2.1)
       sax-machine (~> 0.2.1)
     ffi (1.9.3)
-    font-awesome-rails (4.0.3.2)
-      railties (>= 3.2, < 5.0)
     formatador (0.2.5)
     geocoder (1.2.1)
     guard (2.6.1)
@@ -114,7 +119,6 @@ GEM
     highline (1.6.21)
     hike (1.2.3)
     i18n (0.6.9)
-    ionicons-rails (1.4.1.0)
     jquery-rails (3.1.0)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
@@ -135,7 +139,7 @@ GEM
       subexec (~> 0.2.1)
     mini_portile (0.5.3)
     minitest (4.7.5)
-    multi_json (1.10.0)
+    multi_json (1.10.1)
     mysql2 (0.3.15)
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
@@ -172,7 +176,7 @@ GEM
       activesupport (= 4.0.5)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rake (10.3.1)
+    rake (10.3.2)
     rb-fsevent (0.9.4)
     rb-inotify (0.9.4)
       ffi (>= 0.5.0)
@@ -230,7 +234,7 @@ GEM
     subexec (0.2.3)
     terminal-notifier (1.6.0)
     thor (0.19.1)
-    thread_safe (0.3.3)
+    thread_safe (0.3.4)
     tilt (1.4.1)
     timers (1.1.0)
     transaction-simple (1.4.0.2)
@@ -269,12 +273,11 @@ DEPENDENCIES
   exception_notification
   factory_girl_rails
   feedjira
-  font-awesome-rails
+  font-awesome-rails!
   geocoder
   guard-rspec
   haml
   highline
-  ionicons-rails
   jquery-rails
   load_and_authorize_resource!
   loofah
