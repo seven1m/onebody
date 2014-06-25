@@ -439,7 +439,8 @@ en:
       start: Start
       status: Status
       success: Success
-      sync: Sync
+      show:
+        heading: "Sync %{at}"
       sync_errors:
         one: "%{count} sync error"
         other: "%{count} sync errors"
