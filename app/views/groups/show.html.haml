@@ -1,17 +1,9 @@
 - @title = @group.name
-- map_header(@group)
 
 - content_for :sub_title do
-  - if @group.membership_requests.where(person_id: @logged_in.id).any?
-    %em= t('groups.join.pending')
-  - if @member_of
-    = link_to group_membership_path(@group, @logged_in), method: 'delete', data: { confirm: t('are_you_sure') }, class: 'btn btn-danger btn-xs' do
-      = icon 'fa fa-times'
-      = t('.controls.leave')
-  - else
-    = link_to group_memberships_path(@group, id: @logged_in), method: 'post', data: { confirm: must_request_group_join?(@group) ? t('groups.join.confirm') : t('are_you_sure') }, class: 'btn btn-success btn-xs' do
-      = icon 'fa fa-plus'
-      = t('.controls.join')
+  = render partial: 'join_buttons'
+
+- map_header(@group)
 
 - if not @group.approved
   .alert.alert-warning.alert-dismissable

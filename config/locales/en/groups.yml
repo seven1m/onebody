@@ -54,6 +54,7 @@ en:
           button: "Track Attendance"
       controls:
         join: "Join Group"
+        join_pending: "Join Group (pending)"
         leave: "Leave Group"
         message: "Send Message"
         prayer_request: "Request Prayer"
@@ -169,6 +170,9 @@ en:
 
     user_settings_saved: "User settings saved."
     email_settings_changed: "Your email settings for the group have been changed."
+
+    limited:
+      intro: "You cannot see this group because it is private and you are not a member. Click below to request to join this group."
 
     box:
       messages:

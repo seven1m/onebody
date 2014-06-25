@@ -1,0 +1,13 @@
+- if @group.membership_requests.where(person_id: @logged_in.id).any?
+  .btn.btn-success.disabled
+    = icon 'fa fa-plus'
+    = t('groups.show.controls.join_pending')
+- else
+  - if @member_of
+    = link_to group_membership_path(@group, @logged_in), method: 'delete', data: { confirm: t('are_you_sure') }, class: 'btn btn-danger' do
+      = icon 'fa fa-times'
+      = t('groups.show.controls.leave')
+  - else
+    = link_to group_memberships_path(@group, id: @logged_in), method: 'post', data: { confirm: must_request_group_join?(@group) ? t('groups.join.confirm') : t('are_you_sure') }, class: 'btn btn-success' do
+      = icon 'fa fa-plus'
+      = t('groups.show.controls.join')

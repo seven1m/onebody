@@ -27,3 +27,8 @@
     background-color: #fcc;
   }
 }
+
+.content-header h1 small .btn {
+  @extend .btn-xs;
+  margin-bottom: 4px;
+}

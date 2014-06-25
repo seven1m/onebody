@@ -15,16 +15,16 @@ describe GroupsController do
     assert_tag tag: 'h1', content: Regexp.new(@group.name)
   end
 
-  it "should not show a group if group is private and user is not a member of the group" do
+  it "shows a limited page if group is private and user is not a member of the group" do
     @private_group = FactoryGirl.create(:group, private: true)
     get :show, {id: @private_group.id}, {logged_in_id: @person.id}
-    expect(response).to be_missing
+    expect(response).to render_template(:show_limited)
   end
 
-  it "should not show a group if it is hidden" do
+  it "shows a limited page if group is hidden and user is not a member of the group" do
     @hidden_group = FactoryGirl.create(:group, hidden: true)
     get :show, {id: @hidden_group.id}, {logged_in_id: @person.id}
-    expect(response).to be_missing
+    expect(response).to render_template(:show_limited)
   end
 
   it "should show a hidden group if the user can manage groups" do

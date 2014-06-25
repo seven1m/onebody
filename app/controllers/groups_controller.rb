@@ -72,8 +72,7 @@ class GroupsController < ApplicationController
       return
     end
     unless @logged_in.can_see?(@group)
-      render text: t('groups.not_found'), layout: true, status: 404
-      return
+      render action: 'show_limited'
     end
   end
 
