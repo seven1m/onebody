@@ -50,6 +50,11 @@ en:
       undelete:
         button: "Undelete Selected People"
 
+    membership_requests:
+      count:
+        one: "%{count} request"
+        other: "%{count} requests"
+
     active: active
     admin: admin
     admin_added: "%{name} added."
@@ -186,9 +191,6 @@ en:
         title: Export Data
         about: "Export all site data to XML and CSV."
         order: 17
-    request:
-      one: request
-      other: requests
     rest_api_information: To use the REST API with Ruby, you might do this
     settings:
       Contact: 
