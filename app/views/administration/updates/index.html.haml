@@ -1,0 +1,53 @@
+- @title = t('admin.updates.profile_updates')
+
+- content_for :sub_title do
+  .toggle
+    = link_to t('admin.updates.toggle.pending'), { complete: nil }, class: "#{@complete ? 'toggle-enabled' : 'toggle-disabled'} btn-xs"
+    = link_to t('admin.updates.toggle.complete'), { complete: true }, class: "#{@complete ? 'toggle-disabled' : 'toggle-enabled'} btn-xs"
+
+= pagination @updates
+
+%table.table.pending-updates
+  - @updates.each do |update|
+    %tr.row-with-avatar
+      %td.avatar
+        = avatar_tag(update.person)
+      %td.update
+        %p
+          - if update.person
+            = link_to update.person.name, update.person
+          - else
+            (#{t('admin.updates.person_deleted')})
+          = t('admin.updates.updated')
+          = update.created_at.to_s(:full)
+        = form_for update, url: administration_update_path(update) do |form|
+          = hidden_field_tag 'update[apply]', true
+          %table.table.table-bordered.table-striped
+            %tr
+              %th.prop= t('admin.updates.diff.property')
+              %th.before= t('admin.updates.diff.before')
+              %th.after= t('admin.updates.diff.after')
+            - update.diff[:person].each do |key, (before, after)|
+              = update_row(update.person, key, before, after)
+            - update.diff[:family].each do |key, (before, after)|
+              = update_row(update.family, key, before, after)
+            - if update.require_child_designation?
+              %tr
+                %td{ colspan: 3 }
+                  %p= t('admin.updates.child_alert', years: Setting.get(:system, :adult_age))
+                  %p
+                    %label.inline{:for => "update_child"}= t('admin.updates.child')
+                    = select_tag 'update[child]', options_for_select(t('admin.updates.child_select_options').invert)
+            %tr.actions
+              %td{ colspan: 3 }
+                - if update.complete
+                  = link_to t('admin.updates.mark_incomplete'), administration_update_path(update, 'update[complete]' => false), method: 'put', class: 'btn btn-warning'
+                - else
+                  = link_to_function t('admin.updates.apply'), "$(this).parents('form')[0].submit()", class: 'btn btn-success'
+                  = link_to t('admin.updates.mark_complete'), administration_update_path(update, 'update[complete]' => true), method: 'put', class: 'btn btn-warning'
+                = link_to t('Delete'), administration_update_path(update), method: 'delete', data: { confirm: t('are_you_sure') }, class: 'btn btn-danger'
+
+= pagination @updates
+
+- if @updates.empty?
+  %p= t('none')

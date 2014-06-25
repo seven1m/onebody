@@ -6,7 +6,6 @@ module Administration::UpdatesHelper
         object.class.human_attribute_name(key)
       end +
       content_tag(:td, format_update_value(key, before)) +
-      content_tag(:td, content_tag(:div, '', class: 'right-icon')) +
       content_tag(:td, format_update_value(key, after))
     end
   end

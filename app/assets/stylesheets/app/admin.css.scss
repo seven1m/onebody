@@ -50,3 +50,9 @@
     font-size: 15px;
   }
 }
+
+.pending-updates table {
+  .prop, .before, .after {
+    width: 33%;
+  }
+}

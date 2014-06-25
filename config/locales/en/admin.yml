@@ -472,6 +472,12 @@ en:
         false: 'No'
       complete: Complete
       completed_title: Completed Updates
+      diff:
+        person: "Person"
+        property: "Property"
+        before: "Before"
+        after: "After"
+        created_at: "Submitted"
       groups_pending: Groups Pending Approval
       mark_complete: Mark Complete
       mark_incomplete: Mark Incomplete
@@ -486,6 +492,9 @@ en:
       profile_updates: Profile Updates
       review_changes: review changes following update
       show_status: Show %{status}
+      toggle:
+        pending: "Pending"
+        complete: "Complete"
       updated: updated
       updates: Updates
     username: Username
