@@ -74,7 +74,7 @@ describe 'Privacy' do
       expect(response).to render_template('privacies/edit')
       assert_select 'body', minimum: 1, text: /you have not given consent/
       assert_select 'li', minimum: 1, text: /Privacy Policy/
-      assert_select 'input[type=submit][value=I Agree]', 1
+      assert_select 'button[name="agree_commit"]', 1
       put "/people/#{@child.id}/privacy", agree: 'I Agree.'
       expect(response).to be_redirect
       follow_redirect!

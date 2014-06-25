@@ -1,0 +1,126 @@
+- @title = t('privacies.privacy')
+
+%ul.nav.nav-tabs
+  %li.active
+    = link_to '#sharing', data: { toggle: 'tab' } do
+      = icon 'fa fa-eye'
+      = t('privacies.tabs.sharing')
+  %li
+    = link_to '#children', data: { toggle: 'tab' } do
+      = icon 'ion ion-android-hand'
+      = t('privacies.tabs.children')
+
+.tab-content
+
+  .tab-pane.active#sharing
+    %p= t('privacies.sharing.intro_html', url: help_path('privacy_policy'))
+    #edit-privacy
+      = form_for @family, url: person_privacy_path(@family.people.first), html: {method: 'put', style: 'border:none;padding:0;'} do |form|
+        %table.table
+          %tr
+            %th.name
+            %th{ colspan: 10 }
+              = t('privacies.visible')
+              %sup 1
+          %tr
+            %td.name
+              = t('privacies.family_privacy')
+            %td{ colspan: 10 }
+              = form.check_box :visible, class: 'visible-checkbox simple'
+          %tr.people-header-row
+            %th.name
+            %th
+              = t('privacies.visible')
+              %sup 1
+            %th
+              = t('privacies.activity')
+              %sup 2
+            %th= t('privacies.anniversary')
+            %th= t('privacies.address')
+            %th= t('privacies.home_phone')
+            %th= t('privacies.mobile_phone')
+            %th= t('privacies.work_phone')
+            %th= t('privacies.fax')
+            %th
+              = t('privacies.email')
+              %sup 3
+            %th= t('privacies.birthday')
+          - @family.people.undeleted.each do |person|
+            = form.fields_for :people, person do |person_form|
+              %tr.person-row
+                - if person.adult_or_consent?
+                  %td.name
+                    = icon 'fa fa-plus-circle expand-link', id: "expand-link-#{person.id}"
+                    = person.first_name
+                  %td= person_form.check_box :visible, class: 'visible-checkbox simple'
+                  %td= person_form.check_box :share_activity, class: 'simple'
+                  %td= person_form.check_box :share_anniversary,  class: "share-checkbox simple", 'data-share-type' => 'share-anniversary',  'data-person-id' => person.id
+                  %td= person_form.check_box :share_address,      class: "share-checkbox simple", 'data-share-type' => 'share-address',      'data-person-id' => person.id
+                  %td= person_form.check_box :share_home_phone,   class: "share-checkbox simple", 'data-share-type' => 'share-home-phone',   'data-person-id' => person.id
+                  %td= person_form.check_box :share_mobile_phone, class: "share-checkbox simple", 'data-share-type' => 'share-mobile-phone', 'data-person-id' => person.id
+                  %td= person_form.check_box :share_work_phone,   class: "share-checkbox simple", 'data-share-type' => 'share-work-phone',   'data-person-id' => person.id
+                  %td= person_form.check_box :share_fax,          class: "share-checkbox simple", 'data-share-type' => 'share-fax',          'data-person-id' => person.id
+                  %td= person_form.check_box :share_email,        class: "share-checkbox simple", 'data-share-type' => 'share-email',        'data-person-id' => person.id
+                  %td= person_form.check_box :share_birthday,     class: "share-checkbox simple", 'data-share-type' => 'share-birthday',     'data-person-id' => person.id
+                - else
+                  %td.name
+                    = person.first_name
+                  %td{ colspan: 10 }
+                    = check_box_tag :visible, true, false, disabled: true, class: 'simple'
+                    %span.lock-icon
+            - person.memberships.includes(:group).where('groups.hidden' => false).order('groups.name').each do |membership|
+              = fields_for "memberships[#{membership.id}]", membership do |membership_form|
+                = content_tag :tr, style: 'display:none;', class: "membership-row membership-for-#{person.id}" do
+                  %td.group-name{ colspan: 3 }= membership.group.name
+                  %td= membership_form.check_box :share_anniversary,  class: 'share-anniversary simple'
+                  %td= membership_form.check_box :share_address,      class: 'share-address simple'
+                  %td= membership_form.check_box :share_home_phone,   class: 'share-home-phone simple'
+                  %td= membership_form.check_box :share_mobile_phone, class: 'share-mobile-phone simple'
+                  %td= membership_form.check_box :share_work_phone,   class: 'share-work-phone simple'
+                  %td= membership_form.check_box :share_fax,          class: 'share-fax simple'
+                  %td= membership_form.check_box :share_email,        class: 'share-email simple'
+                  %td= membership_form.check_box :share_birthday,     class: 'share-birthday simple'
+        %p.discreet.margin-top
+          %sup 1
+          = t('privacies.visible_note')
+        %p.discreet.margin-top
+          %sup 2
+          = t('privacies.hide_your_activity')
+        %p.discreet.margin-top
+          %sup 3
+          = t('privacies.people_can_still_send_html')
+        %p.double-margin-top
+          = form.button t('save_changes'), class: 'btn btn-info'
+
+  .tab-pane#children
+    %p= t('privacies.children.intro')
+    - @children.each do |person|
+      .box.box-solid{ class: person.parental_consent ? 'box-success' : 'box-warning' }
+        .box-header
+          .box-icon
+            - if person.parental_consent
+              = icon 'fa fa-unlock'
+            - else
+              = icon 'fa fa-lock'
+          %h3.box-title
+            = person.name
+        .box-body
+          = form_for @family, url: person_privacy_path(person, anchor: 'tab-children'), html: {method: 'put', style: 'border:none;padding:0;'} do |form|
+            - if person.parental_consent
+              %p= t('privacies.child_profile_has_parental_consent', name: person.parental_consent)
+            - elsif @logged_in.family == @family
+              %p= t('privacies.child_under_age_you_have_not_consent', years: Setting.get(:system, :adult_age))
+              %p
+                = t('privacies.to_show_on_this_site', name: h(person.name))
+              %ol.list
+                %li= t('privacies.read_safeguarding_children_html', url: help_path('safeguarding_children'))
+                %li= t('privacies.read_privacy_policy_html', url: help_path('privacy_policy'))
+                %li= t('privacies.read_statement_below')
+                %li= t('privacies.click_the_agree')
+              %p
+                = check_box_tag 'agree', I18n.t('privacies.i_agree') + ".", false, class: 'checkbox'
+                = t('privacies.as_a_parent_agree_html', { name: h(person.name), url: help_path('privacy_policy') } )
+              %p
+                = button_tag I18n.t('privacies.i_agree'), name: 'agree_commit', class: 'btn btn-success'
+            - else
+              %p= t('privacies.child_under_age_you_have_not_consent', years: Setting.get(:system, :adult_age))

@@ -1,0 +1,14 @@
+#edit-privacy {
+  .expand-link, .collapse-link {
+    cursor: pointer;
+  }
+
+  th.name, td.name {
+    width: 150px;
+    font-weight: bold;
+  }
+
+  td.group-name {
+    padding-left: 22px;
+  }
+}

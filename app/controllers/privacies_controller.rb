@@ -39,7 +39,7 @@ class PrivaciesController < ApplicationController
   end
 
   def update
-    if params[:agree] or params[:commit] == t('privacies.i_agree')
+    if params[:agree] or params[:agree_commit]
       update_consent
     else
       @person = Person.find(params[:person_id])
@@ -72,7 +72,11 @@ class PrivaciesController < ApplicationController
   private
 
   def family_params
-    params.require(:family).permit(people_attributes: [:id, :share_address, :share_mobile_phone, :share_home_phone, :share_work_phone, :share_fax, :share_email, :share_birthday, :share_anniversary, :share_activity])
+    if params[:agree_commit]
+      params.permit(:agree, :commit)
+    else
+      params.require(:family).permit(people_attributes: [:id, :share_address, :share_mobile_phone, :share_home_phone, :share_work_phone, :share_fax, :share_email, :share_birthday, :share_anniversary, :share_activity])
+    end
   end
 
   def update_consent
@@ -85,7 +89,7 @@ class PrivaciesController < ApplicationController
           @person.save
           flash[:notice] = t('privacies.agreement_saved')
         end
-      elsif params[:commit] == t('privacies.i_agree')
+      elsif params[:agree_commit]
         flash[:warning] = t('privacies.you_must_check_agreement_statement')
       end
       redirect_to edit_person_privacy_path(@person)

@@ -14,3 +14,10 @@
 .box .box-header a:not(.btn) {
   color: #3C8DBC;
 }
+
+.box-header .box-icon {
+  @extend .pull-right;
+  font-size: 20px;
+  line-height: 1.1;
+  padding: 10px;
+}
