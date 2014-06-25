@@ -80,7 +80,8 @@ class Picture < ActiveRecord::Base
         streamable_type: 'Album',
         streamable_id:   album_id,
         created_at:      created_at,
-        shared:          !!(album.group || person.share_activity?)
+        shared:          !!(album.group || person.share_activity?),
+        is_public:       album.is_public?
       )
     end
   end
