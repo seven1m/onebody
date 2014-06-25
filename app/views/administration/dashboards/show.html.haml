@@ -31,7 +31,7 @@
   - if @logged_in.admin?(:manage_groups)
     .floating-metric
       .small-box{ class: metric_css_class(@groups_pending_approval_count, 1, 5) }
-        = link_to administration_updates_path do
+        = link_to groups_path(pending_approval: true) do
           .inner
             %h3= @groups_pending_approval_count
             %p= t('admin.box.groups_pending_approval.text', count: @groups_pending_approval_count)

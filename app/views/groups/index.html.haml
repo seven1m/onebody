@@ -1,11 +1,14 @@
 - @title = t('groups.heading')
 
-- if @unapproved_groups.any?
-  .callout.callout-info
+- if @unapproved_groups.any? or params[:pending_approval]
+  .callout.callout-warning
     = t('groups.pending_approval.description', count: @unapproved_groups.length)
-    %ul
-      - @unapproved_groups.each do |group|
-        %li= link_to group.name, group
+    - if @unapproved_groups.any?
+      %ul
+        - @unapproved_groups.each do |group|
+          %li= link_to group.name, group
+    - else
+      %p= t('none')
 
 .row
   .col-md-4
