@@ -1,0 +1,52 @@
+.metrics {
+  .small-box {
+    @extend .bg-aqua;
+    height: 150px;
+    overflow: hidden;
+  }
+  .small-box.warn {
+    @extend .bg-yellow;
+  }
+  .small-box.critical {
+    @extend .bg-red;
+  }
+}
+
+.floating-metric {
+  width: calc(16.5% - 23px);
+  margin: 0 10px 10px 10px;
+  display: inline-block;
+}
+
+@media (max-width: 1500px) {
+  .floating-metric {
+    width: calc(33% - 22px);
+  }
+}
+
+@media (max-width: 600px) {
+  .floating-metric {
+    width: calc(50% - 22px);
+  }
+}
+
+@media (max-width: 400px) {
+  .floating-metric {
+    width: auto;
+    margin: 0 0 10px 0;
+    display: block;
+  }
+}
+
+// override silly adminlte responsive stuff
+@media screen and (max-width: 480px) {
+  .small-box {
+    text-align: left;
+  }
+  .small-box .icon {
+    display: block;
+  }
+  .small-box p {
+    font-size: 15px;
+  }
+}

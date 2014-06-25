@@ -22,7 +22,7 @@ class Administration::DeletedPeopleController < ApplicationController
       params[:search].reject! { |k, v| !%w(id legacy_id last_name first_name).include?(k) }
       conditions.reverse_merge!(params[:search])
     end
-    @people = Person.includes(:family).where(conditions).order(params[:sort]).page(params[:page])
+    @people = Person.includes(:family).where(conditions).order(params[:sort]).paginate(page: params[:page], per_page: 100)
     @families = Family.undeleted.where(["(select count(id) from people where deleted = ? and family_id=families.id) = 0", false]).order('name')
   end
 
@@ -38,7 +38,7 @@ class Administration::DeletedPeopleController < ApplicationController
           return
         end
         person.destroy_for_real
-        if params[:purge_empty_families] and person.family.people.count == 0
+        if params[:purge_empty_families] and person.family and person.family.people.none?
           person.family.destroy_for_real
         end
       end

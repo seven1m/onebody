@@ -1,6 +1,68 @@
+- @title = t('admin.dashboard.heading')
+
+.metrics
+  - if @logged_in.admin?(:manage_updates)
+    .floating-metric
+      .small-box{ class: metric_css_class(@update_count, 1, 5) }
+        = link_to administration_updates_path do
+          .inner
+            %h3= @update_count
+            %p= t('admin.box.updates.text', count: @update_count)
+        .icon
+          = icon 'fa fa-pencil'
+  - if @logged_in.admin?(:manage_updates)
+    .floating-metric
+      .small-box{ class: metric_css_class(@email_changed_count, 1, 5) }
+        = link_to administration_emails_path do
+          .inner
+            %h3= @email_changed_count
+            %p= t('admin.box.changed_emails.text', count: @email_changed_count)
+        .icon
+          = icon 'fa fa-envelope'
+  - if @logged_in.admin?(:manage_sync) and @last_sync
+    .floating-metric
+      .small-box{ class: metric_css_class(@last_sync.error_count, 1, 5) }
+        = link_to administration_syncs_path do
+          .inner
+            %h3= @last_sync.error_count
+            %p= t('admin.box.sync_errors.text', count: @last_sync.error_count)
+        .icon
+          = icon 'fa fa-refresh'
+  - if @logged_in.admin?(:manage_groups)
+    .floating-metric
+      .small-box{ class: metric_css_class(@groups_pending_approval_count, 1, 5) }
+        = link_to administration_updates_path do
+          .inner
+            %h3= @groups_pending_approval_count
+            %p= t('admin.box.groups_pending_approval.text', count: @groups_pending_approval_count)
+        .icon
+          = icon 'fa fa-users'
+  - if @logged_in.admin?(:manage_groups)
+    .floating-metric
+      .small-box{ class: metric_css_class(@membership_request_count, 1, 5) }
+        = link_to administration_membership_requests_path do
+          .inner
+            %h3= @membership_request_count
+            %p= t('admin.box.membership_requests.text', count: @membership_request_count)
+        .icon
+          = icon 'fa fa-user'
+  - if @logged_in.admin?(:edit_profiles)
+    .floating-metric
+      .small-box{ class: metric_css_class(@deleted_people_count, 100, 500) }
+        = link_to administration_deleted_people_path do
+          .inner
+            %h3= @deleted_people_count
+            %p= t('admin.box.deleted_people.text', count: @deleted_people_count)
+        .icon
+          = icon 'fa fa-trash-o'
+
+-# TODO
+-#- if @logged_in.admin?(:manage_access)
+  -#= link_to administration_admins_path do
+
+= render_plugin_hook(:admin_dashboard_metric)
+
 - content_for :sidebar do
-  %h2= t('admin.dashboard')
-  %p= t('admin.dashboard_about')
   - if @logged_in.super_admin?
     %h3= t('admin.customization')
     %ul.list
@@ -29,24 +91,3 @@
               %td= link_to 'XML', groups_path(format: 'xml')
               %td= link_to 'CSV', groups_path(format: 'csv')
   = render_plugin_hook :admin_dashboard_sidebar_bottom
-.metrics
-  - if @logged_in.admin?(:manage_updates)
-    = metric administration_updates_path, @update_count, 1, 5 do
-      = t('admin.updates.pending', count: @update_count)
-    = metric administration_emails_path, @email_changed_count, 1, 10 do
-      = t('admin.updates.changed_email', count: @email_changed_count)
-  - if @logged_in.admin?(:manage_sync) and @last_sync
-    = metric administration_syncs_path, @last_sync.error_count || 0, 1, 10 do
-      = t('admin.syncs.sync_errors', count: @last_sync.error_count)
-  - if @logged_in.admin?(:manage_groups)
-    = metric administration_updates_path, @groups_pending_approval_count, 1, 1 do
-      = t('groups.pending_approval.count', count: @groups_pending_approval_count)
-    = metric administration_membership_requests_path, @membership_request_count, 1, 1 do
-      = t('groups.membership_requests.count', count: @membership_request_count)
-  - if @logged_in.admin?(:manage_access)
-    = metric administration_admins_path, @admin_count, Site.current.max_admins && Site.current.max_admins*0.9, Site.current.max_admins do
-      = t('admin.admin_count', count: @admin_count)
-  - if @logged_in.admin?(:edit_profiles)
-    = metric administration_deleted_people_path, @deleted_people_count do
-      = t('admin.deleted_people_count', count: @deleted_people_count)
-  = render_plugin_hook(:admin_dashboard_metric)
