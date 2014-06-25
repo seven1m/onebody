@@ -59,19 +59,13 @@ class GroupsController < ApplicationController
 
   def show
     @group = Group.find(params[:id])
-    @members = @group.people.minimal unless fragment_exist?(controller: 'groups', action: 'show', id: @group.id, fragment: 'members')
-    @member_of = !!@logged_in.member_of?(@group)
-    @stream_items = StreamItem.shared_with(@logged_in).where(group_id: @group.id).paginate(page: params[:timeline_page], per_page: 5)
-    @show_map = Setting.get(:services, :yahoo) && @group.mapable?
-    @show_cal = @group.gcal_url
-    @can_post = @group.can_post?(@logged_in)
-    @can_share = @group.can_share?(@logged_in)
-    @albums = @group.albums.order('name')
-    unless @group.approved? or @group.admin?(@logged_in)
+    if not (@group.approved? or @group.admin?(@logged_in))
       render text: t('groups.pending_approval'), layout: true
-      return
-    end
-    unless @logged_in.can_see?(@group)
+    elsif @logged_in.can_see?(@group)
+      @members = @group.people.minimal unless fragment_exist?(controller: 'groups', action: 'show', id: @group.id, fragment: 'members')
+      @member_of = !!@logged_in.member_of?(@group)
+      @stream_items = @group.stream_items.paginate(page: params[:timeline_page], per_page: 5)
+    else
       render action: 'show_limited'
     end
   end

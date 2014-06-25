@@ -6,10 +6,14 @@ class StreamsController < ApplicationController
   include TimelineHelper
 
   def show
-    @stream_items = StreamItem.shared_with(@logged_in)
+    if params[:group_id]
+      @group = Group.find(params[:group_id])
+      @stream_items = @logged_in.can_see?(@group) ? @group.stream_items : @group.stream_items.none
+    else
+      @stream_items = StreamItem.shared_with(@logged_in)
+      @stream_items.where!(person_id: params[:person_id]) if params[:person_id]
+    end
     @count = @stream_items.count
-    @stream_items.where!(person_id: params[:person_id]) if params[:person_id]
-    @stream_items.where!(group_id:  params[:group_id])  if params[:group_id]
     @stream_items = @stream_items.paginate(page: params[:timeline_page], per_page: params[:per_page] || 5)
     respond_to do |format|
       format.html

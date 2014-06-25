@@ -185,7 +185,7 @@ class Group < ActiveRecord::Base
   end
 
   def can_add_album?(person)
-    pictures? and (person.member_of?(self) or admin?(person))
+    person.can_create?(albums.new)
   end
 
   class << self

@@ -7,6 +7,9 @@ class GroupAuthorizer < ApplicationAuthorizer
     # user is a member of the group
     elsif user.member_of?(resource)
       true
+    # user is admin who manages groups
+    elsif user.admin?(:manage_groups)
+      true
     end
   end
 

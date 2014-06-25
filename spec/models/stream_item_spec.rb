@@ -133,4 +133,33 @@ describe StreamItem do
     end
   end
 
+  describe '#shared_with' do
+    context 'person' do
+      let!(:album_item) { FactoryGirl.create(:stream_item, streamable_type: 'Album', person_id: @person.id, shared: true) }
+
+      it 'does not share activity with a stranger' do
+        stranger = FactoryGirl.create(:person)
+        items = StreamItem.shared_with(stranger).where.not(streamable_type: %w(Person Site))
+        expect(items).to be_empty
+      end
+
+      it 'shares activity with a family member' do
+        spouse = FactoryGirl.create(:person, family: @person.family)
+        items = StreamItem.shared_with(spouse).where.not(streamable_type: %w(Person Site))
+        expect(items).to eq([album_item])
+      end
+    end
+
+    context 'group' do
+      let!(:album_item) { FactoryGirl.create(:stream_item, streamable_type: 'Album', person_id: @person.id, group_id: @group.id, shared: true) }
+
+      it 'shares activity with a group member' do
+        member = FactoryGirl.create(:person)
+        @group.memberships.create! person: member
+        items = StreamItem.shared_with(member).where.not(streamable_type: %w(Person Site))
+        expect(items).to eq([album_item])
+      end
+    end
+  end
+
 end

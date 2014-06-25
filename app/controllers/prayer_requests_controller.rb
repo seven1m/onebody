@@ -18,7 +18,7 @@ class PrayerRequestsController < ApplicationController
 
   def new
     @group = Group.find(params[:group_id])
-    if @logged_in.member_of?(@group)
+    if @group.can_add_prayer_request?(@logged_in)
       @req = @group.prayer_requests.new(person_id: @logged_in.id)
     else
       render text: t('prayer_requests.error.no_post'), layout: true, status: 401
@@ -27,7 +27,7 @@ class PrayerRequestsController < ApplicationController
 
   def create
     @group = Group.find(params[:group_id])
-    if @logged_in.member_of?(@group)
+    if @group.can_add_prayer_request?(@logged_in)
       @req = @group.prayer_requests.new(prayer_request_params)
       if @req.save
         redirect_to group_path(@req.group, anchor: 'prayer')
@@ -64,7 +64,7 @@ class PrayerRequestsController < ApplicationController
   def destroy
     @group = Group.find(params[:group_id])
     @req = PrayerRequest.find(params[:id])
-    if @logged_in.can_edit?(@req)
+    if @logged_in.can_delete?(@req)
       @req.destroy
       redirect_to group_path(@group, anchor: 'prayer')
     else
