@@ -1,22 +1,18 @@
-- unless @page.path == 'template' or @page.raw?
-  = javascript_include_tag 'tiny_mce/tiny_mce.js'
-  :javascript
-    tinyMCE.init({
-      mode: "exact",
-      elements: "page_body",
-      theme: "advanced",
-      extended_valid_elements: "style[type]"
-    });
-
 = form_for @page do |form|
   = error_messages_for(form)
-  .form
-    .form-group
-      = form.label :title, t('pages.title')
-      = form.text_field :title, onkeyup: "slug = ''; this.value.toLowerCase().scan(/[a-z_]/, function(m){slug += m}); $('page_slug').value=slug"
-    .form-group
-      = form.label :body, t('pages.body')
-      = form.text_area :body, rows: 20, cols: 80, style: 'width:80%;font-family:monaco,monospace;'
-    .form-group
-      = form.submit t('save')
-      = link_to t('pages.view_page'), page_path(@page)
+  .form-group
+    = form.label :title, t('pages.title')
+    = form.text_field :title, class: 'form-control'
+  .form-group
+    = form.label :body, t('pages.body')
+    = form.text_area :body, rows: 20, cols: 80, class: 'form-control editor-control'
+  .form-group
+    = form.button t('save'), class: 'btn btn-success'
+    .pull-right
+      = link_to t('pages.view_page'), page_path(@page), class: 'btn btn-info'
+
+- content_for :css do
+  = stylesheet_link_tag 'editor'
+
+- content_for :js do
+  = javascript_include_tag 'editor'

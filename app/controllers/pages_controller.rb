@@ -5,8 +5,6 @@ class PagesController < ApplicationController
   before_filter :get_page, :get_user, only: %w(show_for_public)
   before_filter :feature_enabled?, only: %w(show_for_public) # must follow get_page
 
-  layout 'signed_out'
-
   def index
     @pages = Page.where(system: true).order(:title)
   end
@@ -14,7 +12,7 @@ class PagesController < ApplicationController
   def show_for_public
     if @page
       if @page.published?
-        render action: 'show'
+        render action: 'show', layout: 'signed_out'
       else
         render text: t('pages.not_found'), status: 404
       end
