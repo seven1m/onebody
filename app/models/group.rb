@@ -263,7 +263,7 @@ class Group < ActiveRecord::Base
     }
 
     def to_csv
-      FasterCSV.generate do |csv|
+      CSV.generate do |csv|
         csv << EXPORT_COLS[:group]
         (1..(Group.count/50)).each do |page|
           Group.paginate(include: :people, per_page: 50, page: page).each do |group|
