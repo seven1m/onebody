@@ -137,9 +137,6 @@ OneBody::Application.routes.draw do
   resources :news, as: :news_items
   get 'news', to: 'news#index'
 
-  resource :style
-  get 'style.:browser.css' => 'styles#show', format: 'css', as: :browser_style
-
   resources :attachments do
     member do
       get :get
@@ -182,7 +179,7 @@ OneBody::Application.routes.draw do
         put :batch
       end
     end
-    resources :updates, :admins, :membership_requests, :reports
-    resource :api_key, :logo
+    resources :updates, :admins, :membership_requests
+    resource :api_key
   end
 end
