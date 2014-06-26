@@ -6,6 +6,10 @@
 
 @import "app/*";
 
+html.full-height, html.full-height body {
+  height: 100%;
+}
+
 .site-name {
   @extend .hidden-sm;
   @extend .hidden-xs;
@@ -60,5 +64,43 @@ th.actions, td.actions {
   label.inline {
     display: inline;
     font-weight: normal;
+  }
+}
+
+body > .content,
+body > .content-centered {
+  min-height: calc(100% - 95px);
+}
+
+body > .footer {
+  height: 30px;
+  margin-top: 15px;
+  text-align: center;
+  background-color: #eee;
+  color: #555;
+  padding: 5px 15px;
+}
+
+body.bg-black > .footer {
+  background-color: #333;
+  color: #999;
+}
+
+.footer-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  li {
+    display: inline;
+    &:after {
+      display: inline-block;
+      margin: 0 10px;
+      content: "\00A0|";
+    }
+    &:last-child:after {
+      display: inline;
+      margin: 0;
+      content: "";
+    }
   }
 }

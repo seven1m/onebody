@@ -1,5 +1,7 @@
+- @title = setting(:name, :site)
+- @hide_title = true
 - @body_class = 'bg-black centered-header'
-- @section_class = ''
+- @section_class = 'content-centered'
 
 #login-box.form-box
   = flash_messages
@@ -16,7 +18,7 @@
         = label_tag :remember_me, t('session.form.remember_me')
     .footer
       %button.btn.bg-olive.btn-block{type: 'submit'}
-        %i{class: 'fa fa-sign-in'}
+        = icon 'fa fa-sign-in'
         = t('session.sign_in_button')
       %p
         = link_to t('session.sign_up_button'), new_account_path, class: 'btn btn-info'

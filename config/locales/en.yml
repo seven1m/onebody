@@ -1,5 +1,10 @@
 en:
 
+  footer:
+    help: "Help using this site"
+    privacy_policy: "Privacy Policy"
+    powered_by: "Powered by CHURCH.IO"
+
   About: About
   Answer_yes: "Yes"
   Answer_no: "No"
@@ -38,7 +43,6 @@ en:
   feature_unavailable: This feature is unavailable.
   for: for
   from: from
-  help: help
   in: in
   insert: insert
   loading: Loading
@@ -447,11 +451,6 @@ en:
     the_import_is_complete: The import is complete
     visibility_access: Visibility/Access
     with_errors: with errors
-
-  layouts:
-    this_is_the_fallback_template: This is the fallback template used in case your selected theme cannot be found. Please check that your Theme setting points to a real directory inside the themes/ directory.
-    powered_by_html: Powered by <a href="https://github.com/churchio/onebody" rel="external">OneBody</a>
-    privacy_policy: Privacy Policy
 
   menus:
     home:

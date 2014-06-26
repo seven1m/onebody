@@ -1,5 +1,5 @@
 !!!
-%html{class: @body_class}
+%html{ class: "full-height #{@body_class}" }
   %head
     %meta{charset: "UTF-8"}
     %title
@@ -16,9 +16,9 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     = yield(:head)
-  %body{class: @body_class || 'skin-blue'}
+  %body{ class: @body_class || 'skin-blue' }
     %header.header
-      = link_to 'CHURCH.IO', root_path, class: 'logo'
+      = link_to setting(:name, :site), root_path, class: 'logo'
       %nav.navbar.navbar-static-top{role: "navigation"}
     %section{class: @section_class || 'content'}
       - content = yield
@@ -31,8 +31,12 @@
         .row
           .col-md-offset-3.col-md-6
             = flash_messages unless content =~ /class=.flash/
-            - if @title
+            - if title = yield(:title).presence
+              = title
+            - elsif @title and not @hide_title
               %h2= @title
             = content
+    .footer
+      = render partial: 'layouts/footer_links'
     = javascript_include_tag 'application'
     = yield(:js)
