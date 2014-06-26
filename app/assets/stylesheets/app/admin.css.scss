@@ -1,4 +1,6 @@
 .metrics {
+  margin: -15px; // offset padding on each floating-metric
+  margin-bottom: 15px;
   .small-box {
     @extend .bg-aqua;
     height: 150px;
@@ -13,27 +15,29 @@
 }
 
 .floating-metric {
-  width: calc(16.5% - 23px);
-  margin: 0 10px 10px 10px;
-  display: inline-block;
+  width: 16.66%;
+  padding: 15px;
+  float: left;
+  .small-box {
+    margin-bottom: 0;
+  }
 }
 
 @media (max-width: 1500px) {
   .floating-metric {
-    width: calc(33% - 22px);
+    width: 33.33%;
   }
 }
 
 @media (max-width: 600px) {
   .floating-metric {
-    width: calc(50% - 22px);
+    width: 50%;
   }
 }
 
 @media (max-width: 400px) {
   .floating-metric {
-    width: auto;
-    margin: 0 0 10px 0;
+    width: 100%;
     display: block;
   }
 }
