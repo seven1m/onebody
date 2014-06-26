@@ -83,11 +83,19 @@ en:
     enable: Enable
     enable_api_confirmation: Are you sure you want to enable your API key?
     emails:
-      alert: This administration section is useful if you sync your data from an external source using UpdateAgent. If you do not, you may safely ignore this list.
-      changed_addresses: Changed Email Addresses
-      clear_flags: Clear Flags
-      description: When a user changes their email address online, a flag is set, and subsequent syncs cannot change the email address back until the flag is cleared. To clear the flag, simply set the user's email address in your external database to be the same as below, and then run your sync process (or wait for it to run at its next scheduled time). Alternatively, you can clear the flag manually here to allow your sync process to update the value as usual.
-      no_records: There are currently no records with the changed email address flag set.
+      intro_html: |
+        <p><em>This administration section is useful if you sync your data from an external source using UpdateAgent. If you do not, you may safely clear all the items from this list (or just ignore it entirely).</em></p>
+        <p>When a user changes their email address online, a flag is set, and subsequent syncs cannot change the email address back until the flag is cleared. To clear the flag, simply set the user's email address in your external database to be the same as below, and then run your sync process (or wait for it to run at its next scheduled time).</p>
+        <p>Alternatively, you can clear the flag manually here to allow your sync process to overwrite the value (but beware you may confuse your users if you do so).</p>
+      changed_addresses: "Changed Email Addresses"
+      clear_flags: "Clear Flags"
+      no_records: "There are currently no records with the changed email address flag set."
+      table:
+        id: "ID"
+        legacy_id: "Legacy ID"
+        first_name: "First Name"
+        last_name: "Last Name"
+        email: "Email"
     file:
       assets: Assets
       back_to_theme_editor: back to theme editor
