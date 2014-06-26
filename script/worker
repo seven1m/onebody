@@ -1,27 +1,12 @@
 #!/usr/bin/env ruby
 
 # example:
-# script/worker -e production host username password database
-
-PID_PATH = File.dirname(__FILE__) + '/../tmp/pids/worker.pid'
-MAX_PID_LIFE = 30 * 60 # 30 mins
-
-require 'time'
-if File.exist?(PID_PATH)
-  if Time.now - File.stat(PID_PATH).mtime > MAX_PID_LIFE
-    Process.kill('KILL', File.read(PID_PATH).strip.to_i) rescue nil
-    File.delete(PID_PATH)
-  else
-    exit
-  end
-end
-
-File.open(PID_PATH, 'w') { |f| f.write(Process.pid.to_s) }
+# script/worker -e production
 
 require 'optparse'
 options = {}
 parser = OptionParser.new do |opts|
-  opts.banner = "Usage: script/worker -e environment host username password database"
+  opts.banner = "Usage: script/worker -e environment"
   opts.on("-e", '--environment production', "specify environment (development, production)") do |val|
     options[:environment] = val
   end
@@ -31,20 +16,33 @@ parser = OptionParser.new do |opts|
 end
 parser.parse!
 
-host, username, password, db_name = ARGV
+PID_PATH = File.expand_path('../../tmp/pids/worker.pid', __FILE__)
+MAX_PID_LIFE = 30 * 60 # 30 mins
 
-if not (host and username and password and db_name)
-  puts parser.help
-  File.delete(PID_PATH)
-  exit
+require 'time'
+if File.exist?(PID_PATH)
+  if Time.now - File.stat(PID_PATH).mtime > MAX_PID_LIFE
+    Process.kill('KILL', File.read(PID_PATH).strip.to_i) rescue nil
+    File.delete(PID_PATH)
+  else
+    puts "already running - delete #{PID_PATH} to force" if options[:debug]
+    exit
+  end
 end
+
+options[:environment] ||= 'development'
+
+File.open(PID_PATH, 'w') { |f| f.write(Process.pid.to_s) }
+
+require 'yaml'
+db_config = YAML.load_file(File.expand_path('../../config/database.yml', __FILE__))[options[:environment]]
 
 ENV["RAILS_ENV"] = options[:environment]
 
 require 'rubygems'
 require 'mysql2'
 
-db = Mysql2::Client.new(host: host, username: username, password: password, database: db_name)
+db = Mysql2::Client.new(db_config)
 results = db.query("select site_id, id, command from jobs order by created_at")
 
 puts "#{results.count} job(s)" if options[:debug]
