@@ -16,13 +16,10 @@ en:
         disabled: "No"
       child_hint: "If no birthday is specified, you must indicate whether this is a child or an adult."
       description_hint: "A word or two about yourself — some people put their job title here."
-      email: "Change Email Settings"
       family_photo: "Family Photo"
-      password: "Change Password"
       person_type: "Roles"
       person_type_hint: "These do not control access — only designation."
       photo: "Profile Photo"
-      privacy: "Change Privacy Settings"
       header: "Edit Profile"
       business: "Business"
       business_category:
@@ -73,13 +70,9 @@ en:
         button: "Find and join a group."
 
     business:
-      none: "There is no business at this address"
       services_provided_by: "Services provided by %{person}"
-      heading: "Business"
-      directory_link: "Business Directory"
       address: "Address"
       email: "Email"
-      name: "Name"
       phone: "Phone"
       website: "Website"
 
@@ -93,9 +86,6 @@ en:
     updates:
       pending_callout: "Updates to this profile are pending."
 
-    # TODO organize these better...
-
-    add_group: "Add Group"
     advanced: "Advanced"
     can_sign_in: "Can Sign In"
     cant_delete_yourself: "You cannot delete yourself."
@@ -105,7 +95,6 @@ en:
     child: "Child"
     click_to_send_verification_email: "Send a password setup email to this user."
     deleted_html: "This person has been deleted. You can restore the record <a href='%{url}'>here</a>."
-    determine_by_birthday: "Determine by birthday"
     family: "Family"
     family_legacy_external_id: "Family Legacy/External ID"
     find_a_group_html: "Find a group <a href='%{url}'>here</a>."
@@ -120,9 +109,7 @@ en:
     legacy_external_id: "Legacy/External ID"
     limited_access: "Your account currently has limited access; We're showing you an abbreviated profile page as a result."
     limited_access_denied: "Your account currently has limited access."
-    new_person: "New Person"
     no_family_for_this_person: "This person does not belong to a family. They will be unable to sign in and will not be visible to others on the site."
-    no_groups_yet: "no groups yet"
     not_deleted: "Person not deleted."
     not_found: "Person not found."
     pending_approval: "pending approval"

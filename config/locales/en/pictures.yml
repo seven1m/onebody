@@ -16,24 +16,12 @@ en:
     create_an_album:
       notice: "First create an album..."
 
-    add_a_picture: Add a Picture
-    album: Album
-    delete_are_you_sure: "Are you sure? Deleting this album will also delete all its pictures!"
-    cant_delete: You cannot delete this picture.
-    cant_edit: You cannot edit this picture.
     click_to_enlarge: click to enlarge
-    click_to_see_original: click to see original
     comment_on_this_picture: Comment on this picture
-    default_album_name: Pictures
-    delete_album: Delete Album
-    edit_album: Edit Album
     failed: "%{fail} not saved due to errors"
-    next: next »
     picture_uploaded_by: "Picture uploaded %{when} by"
-    prev: « prev
     rotate_left: Rotate Left
     rotate_right: Rotate Right
     saved: "%{success} picture(s) saved"
     set_as_cover: Set as Cover
-    hide_my_name: "These are general community pictures — don't show my name on them (admin-only option)."
     upload: Upload!

@@ -37,7 +37,7 @@
                   %p= t('admin.updates.child_alert', years: Setting.get(:system, :adult_age))
                   %p
                     %label.inline{:for => "update_child"}= t('admin.updates.child')
-                    = select_tag 'update[child]', options_for_select(t('admin.updates.child_select_options').invert)
+                    = select_tag 'update[child]', options_for_select(t('admin.updates.child_select_options'))
             %tr.actions
               %td{ colspan: 3 }
                 - if update.complete

@@ -73,3 +73,5 @@ en:
         groups_html:
           one: "in this group with you: %{groups}"
           other: "in these groups with you: %{groups}"
+
+    feed: "Feed"

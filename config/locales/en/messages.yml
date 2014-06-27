@@ -2,8 +2,6 @@ en:
 
   messages: 
 
-    heading: "Messages"
-
     new:
       button: "New Message"
 
@@ -29,24 +27,19 @@ en:
     reply_all:
       button: "Reply to this message (send to entire group)"
 
-    # old stuff
     ago: ago
     attachment_optional: Attachment (optional)
     attachments: Attachments
-    delete_message: Delete Message
     file_missing: file missing
     flag_cleared: Flag(s) cleared.
     from: From
     in: in
-    message_by: Message by
     messages_in_html: Messages in <a href="%{url}">%{name}</a>
     missing_param: Missing the message param.
     no_email_for_person: Sorry. We don't have an email address on file for %{name}.
     not_authorized_delete: You are not authorized to delete this message.
     not_found: Message not found.
     posted_by: posted by
-    reply: Reply
-    reply_by: Reply by
     send_message: Send Email
     sent: Your message has been sent.
     show_quoted_content: show quoted content

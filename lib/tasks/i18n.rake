@@ -111,6 +111,7 @@ namespace :i18n do
   desc "Find and remove translation keys that are no longer in use"
   task :unused_keys => :environment do
     require 'highline/import'
+    require Rails.root.join('lib/i18n_scanner')
 
     # Make sure we’ve loaded the translations
     I18n.backend.send(:init_translations)
@@ -118,8 +119,9 @@ namespace :i18n do
 
     # Get all keys from all locales
     available_keys = I18n.backend.send(:translations).collect do |check_locale, translations|
+      next unless check_locale == :en # FIXME
       collect_keys([], translations).sort
-    end.flatten.map do |key|
+    end.compact.flatten.map do |key|
       key.sub(/\.(one|other)$/, '')
     end.uniq
 
@@ -128,39 +130,16 @@ namespace :i18n do
     end
 
     # Get all keys used in app
-    used_keys = []
-    Dir[Rails.root.join('app/**/*')].each do |path|
-      unless File.directory?(path)
-        used_keys += File.read(path).scan(/\Wt\(['"](.+?)['"]/).map { |s| s.first }
-      end
-    end
+    used_keys = I18nScanner.new.keys
 
     # loop thru keys not found in the app
     unused_keys = (available_keys - used_keys.uniq).sort
     kill = []
     puts "%d unused keys" % unused_keys.length
-    unused_keys.each_with_index do |key, index|
-      puts
-      puts "#{index+1}/#{unused_keys.length}"
-      puts "#{key}: #{I18n.t(key)}"
-      puts
-      case ask('[d]elete or any other key to keep (q to quit) ')
-      when 'd'
-        kill << key
-      when 'q'
-        File.open('kill.yml', 'w') { |f| YAML::dump(kill, f) }
-        exit
-      end
+    kill = unused_keys.each_with_object({}) do |key, hash|
+      hash[key] = I18n.t(key) rescue '???? could not retrieve translation value ????'
     end
-    File.open('kill.yml', 'w') { |f| YAML::dump(kill, f) }
-
-    # list keys with _html not found
-    #puts
-    #(available_keys.select { |k| k =~ /_html/ } - used_keys.uniq).sort.each do |key|
-      #puts key
-      #puts `egrep -r "#{key.sub(/_html/, '')}" app/*`
-      #puts
-    #end
+    File.open('kill.yml', 'wb') { |f| YAML::dump(kill, f) }
   end
 end
 

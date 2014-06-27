@@ -21,7 +21,6 @@ en:
     not_enabled: Attendance tracking is not enabled for this goup.
     prev_date: prev date
     recorded_time: Recorded Time
-    records_per_day: Attendance Records Per Day
     save: Save Attendance
     saved: Attendance saved.
     Search: Search

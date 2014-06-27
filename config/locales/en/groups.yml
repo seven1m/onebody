@@ -158,13 +158,8 @@ en:
     no_groups_found: "No groups found"
 
     join:
-      button: "Join this group"
-      pending: "You requested to join."
       confirm: "Are you sure? A request will be sent to the group administrator(s)."
       request_sent: "A request to join this group has been sent to the group administrator(s)."
-
-    leave:
-      button: "Leave this group"
 
     last_admin_remove: "%{name} is the last admin and cannot be removed."
 

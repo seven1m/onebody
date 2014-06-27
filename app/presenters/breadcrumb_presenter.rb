@@ -63,13 +63,13 @@ class BreadcrumbPresenter
   def group_crumb
     if group
       if @route == 'groups#show'
-        crumbs << ['fa fa-group', t('groups.heading'), groups_path]
+        crumbs << ['fa fa-group', t('nav.groups'), groups_path]
         crumbs << ['fa fa-folder-open', group.category, groups_path(category: group.category)]
       else
         crumbs << ['fa fa-group', group.name, group_path(group)]
       end
     elsif @controller == 'groups' and (@action != 'index' or @params[:name] or @params[:category])
-      crumbs << ['fa fa-group', t('groups.heading'), groups_path]
+      crumbs << ['fa fa-group', t('nav.groups'), groups_path]
     end
   end
 
@@ -102,19 +102,19 @@ class BreadcrumbPresenter
 
   def message_crumb
     if @controller == 'messages' and @action != 'index' and group
-      crumbs << ['fa fa-envelope', t('messages.heading'), group_messages_path(group)]
+      crumbs << ['fa fa-envelope', t('nav.messages'), group_messages_path(group)]
     end
   end
 
   def news_crumb
     if @controller == 'news' and @action != 'index'
-      crumbs << ['fa fa-bullhorn', t('news.heading'), news_path]
+      crumbs << ['fa fa-bullhorn', t('nav.news'), news_path]
     end
   end
 
   def verse_crumb
     if @controller == 'verses' and @action != 'index'
-      crumbs << ['fa fa-book', t('verses.heading'), verses_path]
+      crumbs << ['fa fa-book', t('nav.verses'), verses_path]
     end
   end
 

@@ -36,7 +36,6 @@ en:
         families: "Empty Families"
       heading: "Deleted People"
       empty_families:
-        heading: "Empty Families"
         intro: "The following active families have no people in them and probably should be deleted."
         delete:
           button: "Delete Selected Families"
@@ -56,14 +55,12 @@ en:
         other: "%{count} requests"
 
     active: active
-    admin: admin
     admin_added: "%{name} added."
     admin_count:
       one: "%{count} Administrator"
       other: "%{count} Administrators"
     admin_removed: Admin removed.
     admin_template_description: Templates allow you to have predefined permission sets for use with more than one administrator.
-    administrators: Administrators
     admins:
       heading: "Administration"
       intro: "You can give any user administration privileges and the access they need to do perform their role in the community."
@@ -75,7 +72,6 @@ en:
     already_admin: "%{name} is already an admin."
     api: API
     api_login_details: Your API login details
-    back_to_admin_list: Back to Administrator List
     customization:
       heading: "Customization"
       intro: "Customize your community site by adjusting settings and personalizing content."
@@ -96,28 +92,15 @@ en:
         first_name: "First Name"
         last_name: "Last Name"
         email: "Email"
-    file:
-      assets: Assets
-      back_to_theme_editor: back to theme editor
-      enter_filename: Enter a filename (can only contain a-z, underscore, and period)
-      filename: Filename
-      no_files: No files yet.
-      size: Size
-      upload: Upload File
-      upload_new: Upload a new file
     generate: Generate
     group_administrators: Group Administrators
     group_administrators_description: Each group can designate people who can administer that particular group, regardless of their status on this page.
     group_administrators_help: To add/remove a person as a group administrator, click "edit" next to the group and promote an existing group member.
     group_membership_requests: Group Membership Requests
-    home: Admin Home
     import_data_description: Import people data from a Comma Separated Values (CSV) file.
     import_export: Import/Export
     invalidate_confirmation: Are you sure you want to invalidate this key and create a new one?
     key: Key
-    last_updated: Last Updated
-    log: Log
-    log_review: Review the log.
     logo:
       delete: delete logo
       format_information: A transparent gif or png will look the best.
@@ -125,23 +108,8 @@ en:
       size_information: Upload an image file below. It will be resized to be no larger than 300x80.
       upload: Upload Logo
     logs:
-      date_format: date format
-      date_range: Date Range
       deleted: deleted
-      filtering_options: Filtering Options
-      flagged: Flagged
-      flagged_and_not_flagged: Flagged and Not Flagged
-      flagged_only: Flagged Only
-      mark_as_reviewed: Mark Selected as Reviewed
-      new_and_reviewed: New and Reviewed
-      new_only: New Only
-      nothing_to_show: There is nothing to show. Check the Filtering Options to expand your query.
-      private_message: This message may be private. Are you sure you want to view it?
-      reviewed: reviewed
-      update_display: Update Display
-    manage_admins: Manage Administrators
     manage_group_administrators: Manage Group Administrators
-    max_admins_html: You are currently at the limit for administrators for your selected plan. Please upgrade in order to add more administrators.
     must_be_superadmin: You must be a super administrator to modify settings.
     new_admin_template: Create a new admin template.
     new_api_or: a new API key or
@@ -440,8 +408,6 @@ en:
       sharing_about: OneBody is best when members participate by adding their own content. Enable content sharing with these settings.
       sharing_communications_about: Share information with your members easily.
       sharing_heading: Sharing
-    styles:
-      editor: Style Editor
     super_admin: Super Admin
     super_admin_about: Super Admins have full control over the site, with all available privileges. Be careful who you give this to — it could be dangerous!
     syncs:
@@ -454,68 +420,37 @@ en:
       none: None yet.
       operation: Operation
       rate: Rate
-      results: Sync Results
       start: Start
       status: Status
       success: Success
       show:
         heading: "Sync %{at}"
-      sync_errors:
-        one: "%{count} sync error"
-        other: "%{count} sync errors"
       syncs: Syncs
       type: Type
     template: Template
     templates: Templates
-    themes:
-      custom_themes: Custom Theme
-      description_html: You can tweak your site's look by editing your custom theme below. Upload assets, e.g. images, CSS, etc., by clicking "Manage Assets." <strong>Changes are not seen by your visitors until you enable the custom theme in <a href="%{url}">settings</a>.</strong>
-      edit: Edit
-      manage_assets: Manage Assets
-      preview: Preview
-      preview_instructions_html: Preview any page with your custom theme by appending <code>?theme=custom</code> to the end of its URL, like <a href="%{url}">this</a>. <strong>If you lock yourself out of your site by building a bad custom theme, use <code>?theme=aqueouslight</code> to get back in and disable it.</strong>
-      reset: To reset your custom theme back to its default look, blank out the text box above and save changes.
-      save_preview: Save Changes and Preview
-      syntax_description_html: Template syntax is <a href="http://wiki.github.com/tobi/liquid/liquid-for-designers">Liquid</a>. Special template parts to insert are
-      theme: Theme
     updates:
       apply: Apply
-      changed_email:
-        one: "%{count} changed email address"
-        other: "%{count} changed email addresses"
       child: Is this a child?
       child_alert: You must specify whether the person is a Child (under %{years}) or not to complete this update.
       child_select_options:
-        '': You must select one.
-        true: 'Yes'
-        false: 'No'
-      complete: Complete
-      completed_title: Completed Updates
+        "You must select one": ''
+        Yes: true
+        No: false
       diff:
         person: "Person"
         property: "Property"
         before: "Before"
         after: "After"
         created_at: "Submitted"
-      groups_pending: Groups Pending Approval
       mark_complete: Mark Complete
       mark_incomplete: Mark Incomplete
-      no_updates: No updates
-      none: None at this time.
-      pending:
-        one: "%{count} pending update"
-        other: "%{count} pending updates"
-      pending_title: Pending Updates
       person_deleted: person deleted
-      per_day: Updates Per Day
       profile_updates: Profile Updates
-      review_changes: review changes following update
-      show_status: Show %{status}
       toggle:
         pending: "Pending"
         complete: "Complete"
       updated: updated
-      updates: Updates
     username: Username
     your_key: your key
 

@@ -13,13 +13,11 @@ en:
 
     activity: Activity
     address: Address
-    address2: Address Line 2
     agreement_saved: Agreement saved.
     anniversary: Anniversary
     as_a_parent_agree_html: I, as a parent or legal gaurdian of %{name}, hereby agree that I have read this site's <a href="%{url}">Privacy Policy</a>, that the personal information of %{name} may be displayed for other users of the web site (as determined by the privacy settings on this page), and that %{name} may, if able, utilize this website as a normal user (including profile customization, and communication via private message, groups, etc.).
     birthday: Birthday
     child_profile_has_parental_consent: This child's profile has parental consent from %{name}.
-    child_under_age_no_parents_consent: "This child is under the age of %{years}, and his/her parents have not given consent to allow their information to be displayed."
     child_under_age_you_have_not_consent: "This child is under the age of %{years}, and you have not given consent to 1) allow their information to be displayed, and 2) allow them to sign into and use this web site."
     click_the_agree: "Click the 'I Agree' button."
     detail: Detail
@@ -36,7 +34,6 @@ en:
     please_read_our_privacy_policy_html: Please read our <a href="%{url}">Privacy Policy</a> for details regarding the use of your personal information.
     people_can_still_send_html: "You can still receive email through the site, without revealing your email address on the Web."
     privacy: Privacy
-    private: Private
     read_privacy_policy_html: Read our <a href="%{url}">Privacy Policy</a>.
     read_safeguarding_children_html: Read our page about <a href="%{url}">Safeguarding Children</a>.
     read_statement_below: Read the statement below and agree to it by checking the corresponding checkbox.

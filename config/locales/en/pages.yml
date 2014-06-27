@@ -14,7 +14,6 @@ en:
       safeguarding_children: "Details about how this site protects children and their information."
       unauthorized: "Page shown to users explaining how to gain access to the site."
     body: "Body"
-    collapse: "collapse"
     edit_page: "Edit Page"
     not_found: "Page not found."
     saved: "Page saved."

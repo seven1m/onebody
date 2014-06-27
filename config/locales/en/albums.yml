@@ -35,8 +35,5 @@ en:
     click_to_view: "click to view"
     description: "Description"
     edit_picture: "Edit Picture Album"
-    name: "Name"
-    new_picture: "New Picture Album"
-    picture_albums: "Picture Albums"
     save: "Save Album"
     saved: "Album saved."

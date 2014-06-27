@@ -1,77 +1,39 @@
 en:
 
-  footer:
-    help: "Help using this site"
-    privacy_policy: "Privacy Policy"
-    powered_by: "Powered by CHURCH.IO"
-
-  About: About
-  Answer_yes: "Yes"
-  Answer_no: "No"
-  Changes: Changes
   Changes_saved: Changes saved.
   Delete: Delete
-  Done: Done
-  Errors: Errors
   From: From
   Help: Help
-  Modify: Modify
-  Now: Now
   No_action_to_show: No action responded to show
   No_more_records: No more records.
   Page_no_longer_valid: This page is no longer valid.
-  Save: Save
   There_was_an_error: There was an error.
   There_were_errors: There were errors.
   To: To
-  Update: Update
-  Was: Was
-  What: What
-  When: When
-  Who: Who
-  answer_yes: "yes"
-  answer_no: "no"
   are_you_sure: Are you sure?
   by: By
-  changes: changes
   changes_saved: Changes saved.
   click_here: Click here
-  comment: comment
   Comments: Comments
   delete: delete
   edit: edit
   feature_unavailable: This feature is unavailable.
   for: for
-  from: from
-  in: in
-  insert: insert
-  loading: Loading
-  more: more
   multiple_files: Your web browser may support multiple file uploads — try selecting multiple files using the Ctrl key (Windows) or Command key (Mac) on your keyboard.
   name: Name
-  new: new
-  new_category: new category
   none: none
   not_authorized: You are not authorized.
-  of: of
   on: on
   only_admins: You must be an administrator to use this section.
-  or: or
   person: Person
   phone: Phone
-  please_note: Please Note
   req_notes: Notes
   save: Save
   saving: Saving
   save_changes: Save Changes
-  search_results: Search Results
-  submit_changes: Submit Changes
   show_all: "Show All"
-  submit: Submit
-  to: to
-  type: Type
+  submit_changes: "Submit Changes"
   you_made_a_change_page: Looks like you made a change to something on this page. Click OK to discard your edits and leave this page.
-  your: Your
 
   errors:
     format: "%{message}"
@@ -372,169 +334,17 @@ en:
 
   application:
     api_access: You must be a super administrator to use the API.
-    custom_theme_message: The custom theme must contain %{content} somewhere in its body.
     no_default_site: No Default site found.
     no_site_configured: "There is no site configured at this address: %{host}"
     settings_reloaded: Settings reloaded.
     settings_saved: Settings saved.
     template_created: Template created.
 
-  attachments:
-    deleted: Attachment deleted.
-    file: File
-    files: Files
-    file_deleted: This file has been deleted.
-    file_not_found: This file cannot be found.
-    invalid_name: Filename contains invalid characters.
-    not_found: Attachment not found.
-    save_group_first: You must save this group before you can add files to it.
-    saved: Attachment saved.
-    unknown_type: Unknown attachment type.
-    upload_attachment: Upload Attachment
-    upload_file: Upload File
-
-  calendars:
-    family_members_enabled: "Family Members: Shown"
-    family_members_disabled: "Family Members: Not Shown"
-
-  comments:
-    add_a_comment: Add a comment
-    add_read_comments: "Add/Read Comments"
-    ago: ago
-    and_others: and others
-    comment: comment
-    commented_on: commented on
-    deleted: Comment deleted.
-    leave_another_note_for: Leave another note for %{name}
-    leave_note_for: Leave a note for %{name}
-    leave_a_note_for: Leave a note for
-    none_yet: none yet
-    not_authorized: You are not authorized to delete this comment.
-    object_not_found: That %{name} was not found.
-    save: Save Comment
-    saved: Comment saved.
-    view: View
-    which_picture: Which picture are you commenting on?
-
-  generated_files:
-    building: "Building your file..."
-    complete_heading: "Done!"
-    complete_message: "Your file is complete and ready to download."
-    failure_heading: "We're sorry..."
-    failure_message: "There seems to have been an error while generating your file."
-
-  menus:
-    home:
-      feed: feed
-      mobile_tap_again: Tap button again to go to Home.
-      news: news
-      pictures: pictures
-      verses: verses
-    profile:
-      edit: edit profile
-      edit_family: edit family
-      email: email settings
-      feeds: feeds
-      mobile_tap_again: Tap button again to go to your Profile.
-      new_family: new family
-      privacy: privacy
-      password: password
-      relationships: relationships
-    group:
-      delete: delete group
-      edit: edit group
-
-  notifier:
-    attached_your_custom_directory: Hello, %{name}. Attached is your custom printed directory from %{site}.
-    be_sure_to_send_verification_email: Be sure to also click to "send verification email" to the user.
-    check_boxes_in_visibility_sidebar: Check all the appropriate boxes in the "Visibility" sidebar and save.
-    click_link_to_complete_process: "Click the following link to complete the process: %{url}"
-    has_submited_profile_update: has submitted a profile update
-    if_you_cannot_click_link: If you cannot click the link above, you may need to copy and paste it into the address bar of your web browser.
-    if_you_approve_this_account_creation: If you approve of this account creation, activate the account at this address
-    if_you_dont_know_why_get_this_email: If you don't know why you're getting this email, you may contact %{name} at %{phone}.
-    message_id: Message ID
-    name_has_requested_join_group: "%{name} has requested to join the group %{group}."
-    name_submitted_birthday_request: "%{name} has submitted a birthday verification request"
-    new: New
-    old: Old
-    person_had_their_email_changed: "%{name} has had their email changed."
-    person_has_signed_for_account: "%{name} has signed up for an account."
-    person_wants_to_be_your_friend: "%{name} wants to be your friend on %{site}."
-    please_make_updates: Please make the appropriate updates to the membership database.
-    this_email_to_verify_email: This email is to verify your email address for access to the %{site} website. To verify your email address, please click the link below
-    this_notify_someone_reported: This is to notify you that someone has reported that the date and time are incorrect at %{site}.
-    to_accept_or_decline: To either accept or decline, please sign in here
-    to_approve_or_ignore: To approve or ignore, sign in and visit the following address
-    update_record_membership: Update their record in the membership database.
-    verification_code: Verification code
-    verify_person_identity: "Verify this person's identity. Be cautious; if in doubt, use the phone number provided to validate this person is who they say they are."
-    wait_one_day_and_wait: WAIT ONE DAY or manually trigger the database update script on the server and wait until it is finished.
-
-  people_count: 
-    are: people are
-    is: person is
-    one: 1 person
+  people_count:
+    one: "1 person"
     other: "%{count} people"
 
-  prayer_signups:
-    add_somebody: Add Somebody
-    home_page_heading: Sign Up To Pray
-    home_page_link: Sign up to pray here.
-    misconfigured: This feature is not configured properly. Check that the dates are configured properly.
-    other_name: Or, someone else
-    other_name_note: Only enter a name here for someone not in the database.
-    shared_slot_are_you_sure: This time slot is already occupied by at least one other person. Are you sure you wish to sign up for this time as well?
-    select_time_slot: Select time slot
-    signup_removed: Sign-up removed.
-    signup_saved: Sign-up saved.
-
-  profile: 
-    fax: "[f]"
-    home: "[h]"
-    mobile: "[m]"
-    work: "[w]"
-
-  share:
-    default_album_name: Album Name
-    email: Email
-    group: "Share something with your group."
-    note: Note
-    note_label: "What's on your mind?"
-    picture: Picture
-    prayer_answer: Answer
-    prayer_answered_at: Date Answered
-    prayer_request: Prayer Request
-    prayer_share_answer: "This is as an answered prayer..."
-    profile: "Share something with friends."
-    share: Share!
-    verse: Verse
-    verse_label: "Verse or Passage:"
-
-  stream: 
-    about_heading: Your Homepage
-    about_html: "This is your custom-built homepage &mdash; things displayed here are from people in groups with you, your family and friends."
-    ago: ago
-    and_more: and %{length} more by %{name}...
-    feed: Feed
-    flickr: Flickr
-    nothing_to_show: Right now, there's nothing to show.
-    rss: RSS
-    share_heading: Share With Friends
-    share_something_about: Items you share here will appear on your friends and fellow group members' home pages (but no one else's).
-    show: Show
-    where_activity_appear: This is where activity from you, your friends, and your groups will appear.
-
-  styles:
-    heading: Style Editor
-    primary_color: Primary Color
-    secondary_color: Secondary Color
-    top_color: Top Bar Color
-    nav_color: Nav Bar Color
-
-  tags: 
-    add_tags: Add Tags (space separated)
-    confirm_delete: Are you sure you want to delete this tag?
-    no_tags_yet: no tags yet
-    tag: Tag
-    tags: Tags
+  footer:
+    help: "Help using this site"
+    privacy_policy: "Privacy Policy"
+    powered_by: "Powered by CHURCH.IO"
