@@ -12,7 +12,7 @@ class AlbumsController < ApplicationController
   end
 
   def show
-    redirect_to album_pictures_path(@album)
+    @pictures = @album.pictures.order(:id).page(params[:page])
   end
 
   def new
@@ -40,14 +40,15 @@ class AlbumsController < ApplicationController
   end
 
   def destroy
+    owner = @album.owner
     @album.destroy
-    redirect_to albums_path
+    redirect_to [owner, :albums]
   end
 
   private
 
   def album_params
-    params.require(:album).permit(:name, :description, :is_public, :remove_owner)
+    params.require(:album).permit(:name, :description, :is_public)
   end
 
 end

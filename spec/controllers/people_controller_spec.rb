@@ -148,13 +148,6 @@ describe PeopleController do
     expect(response).to be_success
   end
 
-  it "should show business listing" do
-    @person.update_attributes!(business_name: 'Tim Morgan Enterprises')
-    get :show, {id: @person.id, business: true}, {logged_in_id: @person.id}
-    expect(response).to be_success
-    assert_select 'body', /Tim Morgan Enterprises/
-  end
-
   it "should not allow deletion of a global super admin" do
      @super_admin = FactoryGirl.create(:person, admin: Admin.create(super_admin: true))
      @global_super_admin = FactoryGirl.create(:person, email: 'support@example.com')
@@ -175,6 +168,64 @@ describe PeopleController do
       get :show, {id: @person.id}, {logged_in_id: @admin.id}
     end
     expect(response).to be_success
-    assert_select 'div.alert', I18n.t('people.no_family_for_this_person')
+    expect(response.body).to include(I18n.t('people.no_family_for_this_person'))
+  end
+
+  describe '#show' do
+    context '?business=true' do
+      context 'person has a business' do
+        before do
+          @person.business_name = 'Tim Morgan Enterprises'
+          @person.save!
+          get :show, { id: @person.id, business: true }, { logged_in_id: @person.id }
+        end
+
+        it 'shows the business template' do
+          expect(response).to render_template('business')
+        end
+      end
+
+      context 'person does not have a business' do
+        before do
+          get :show, { id: @person.id, business: true }, { logged_in_id: @person.id }
+        end
+
+        it 'renders the profile' do
+          expect(response).to render_template('show')
+        end
+      end
+    end
+  end
+
+  describe '#update' do
+    context 'given a id and a family_id and the param move_person' do
+      before do
+        @admin = FactoryGirl.create(:person, :admin_edit_profiles)
+        @old_family = @person.family
+        @other_family = FactoryGirl.create(:family)
+        post :update,
+          {
+            id: @person.id,
+            family_id: @other_family.id,
+            move_person: true
+          },
+          {
+            logged_in_id: @admin.id
+          }
+      end
+
+      it 'moves the person to the family' do
+        expect(@other_family.people.reload).to include(@person)
+        expect(@old_family.people.reload).to_not include(@person)
+      end
+
+      it 'redirects to the new family' do
+        expect(response).to redirect_to(@other_family)
+      end
+
+      it 'sets a flash message' do
+        expect(flash[:info]).to eq(I18n.t('people.move.success_message', person: @person.name, family: @other_family.name))
+      end
+    end
   end
 end

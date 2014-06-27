@@ -1,0 +1,93 @@
+- @title = t('admin.deleted_people.heading')
+
+%ul.nav.nav-tabs
+  %li.active
+    = link_to '#people', data: { toggle: 'tab' } do
+      = icon 'fa fa-user'
+      = t('admin.deleted_people.tabs.people')
+      %small.badge{ class: @people.any? ? 'bg-orange' : 'bg-green' }
+        = @people.total_entries
+  %li
+    = link_to '#families', data: { toggle: 'tab' } do
+      = icon 'fa fa-users'
+      = t('admin.deleted_people.tabs.families')
+      %small.badge{ class: @families.any? ? 'bg-orange' : 'bg-green' }
+        = @families.length
+
+.tab-content
+
+  .tab-pane.active#people
+    - if params[:search]
+      %p
+        = t('admin.deleted_people.search_results.intro')
+        = link_to t('show_all'), administration_deleted_people_path
+
+    = pagination @people
+
+    - if @people.any?
+      = form_tag batch_administration_deleted_people_path, method: :put do
+        %table.table
+          %tr
+            %th
+              %input{onclick: "$('.person_checkbox').prop('checked', this.checked)", type: 'checkbox', class: 'simple'}
+            %th= sortable_column_heading(t('.table.id'), 'people.id')
+            %th= sortable_column_heading(t('.table.legacy_id'),        'people.legacy_id'       )
+            %th= sortable_column_heading(t('.table.last_name'),        'people.last_name'       )
+            %th= sortable_column_heading(t('.table.first_name'),       'people.first_name'      )
+            %th= sortable_column_heading(t('.table.family_id'),        'people.family_id'       )
+            %th= sortable_column_heading(t('.table.legacy_family_id'), 'people.legacy_family_id')
+            %th= sortable_column_heading(t('.table.family_name'),      'families.name'          )
+            %th= sortable_column_heading(t('.table.family_deleted'),   'families.deleted'       )
+            %th= sortable_column_heading(t('.table.updated_at'),       'people.updated_at desc' )
+          - @people.each do |person|
+            %tr
+              %td= check_box_tag 'ids[]', person.id, false, class: 'person_checkbox simple'
+              %td= person.id
+              %td= person.legacy_id
+              %td= person.last_name
+              %td= person.first_name
+              - if person.family
+                %td= person.family.id
+                %td= person.family.legacy_id
+                %td= person.family.name
+                %td= person.family.deleted? ? t('admin.logs.deleted') : link_to(t('admin.active'), person.family)
+              - else
+                %td{:colspan => "4"}
+                  %em= t('.table.family_not_found')
+              %td= person.updated_at.to_s
+        .form-group
+          = button_tag t('admin.deleted_people.undelete.button'), name: 'undelete', class: 'btn btn-success'
+          .pull-right
+            = button_tag t('admin.deleted_people.purge.button'), name: 'purge', class: 'btn btn-danger'
+            = check_box_tag :purge_empty_families, true, false
+            = label_tag :purge_empty_families, t('admin.deleted_people.purge_family_when_empty'), class: 'inline'
+    - else
+      %p
+        %em= t('admin.deleted_people.none')
+
+    = pagination @people
+
+  .tab-pane#families
+    - if @families.any?
+      %p.very-strong
+        = t('admin.deleted_people.empty_families.intro')
+      = form_tag batch_families_path do
+        %table.table
+          %tr
+            %th
+              %input{ onclick: "$('.family_checkbox').prop('checked', this.checked)", type: 'checkbox', class: 'simple' }
+            %th= t('admin.syncs.id')
+            %th= t('admin.syncs.legacy_id')
+            %th= t('people.family')
+          - @families.each do |family|
+            %tr
+              %td= check_box_tag 'ids[]', family.id, false, class: 'family_checkbox simple'
+              %td= family.id
+              %td= family.legacy_id
+              %td
+                = link_to family.name, family
+        .form-group
+          = button_tag t('admin.deleted_people.empty_families.delete.button'), name: 'delete', class: 'btn btn-danger'
+    - else
+      %p
+        %em= t('admin.deleted_people.empty_families.none')

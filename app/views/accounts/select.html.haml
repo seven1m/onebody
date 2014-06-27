@@ -1,0 +1,11 @@
+%p= t('accounts.please_select_your_name')
+
+= form_tag do
+  .form-group
+    - @people.each do |person|
+      .radio
+        %label
+          = radio_button_tag :id, person.id, false, class: "checkbox", id: "person_#{person.id}"
+          = person.name
+  .form-group
+    = submit_tag t('accounts.I_am_this_person'), class: 'btn btn-primary'

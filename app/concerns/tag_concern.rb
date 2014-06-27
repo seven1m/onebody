@@ -6,7 +6,7 @@ module TagConcern
   included do
     belongs_to :site
 
-    has_many :verses, -> { where('taggings.taggable_type' => 'Verse') }, through: :taggings
+    has_many :verses, -> { where('taggings.taggable_type' => 'Verse').order(:book, :chapter, :verse) }, through: :taggings
 
     validates_presence_of :name
     validates_uniqueness_of :name, scope: :site_id

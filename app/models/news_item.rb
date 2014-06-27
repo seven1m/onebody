@@ -30,7 +30,8 @@ class NewsItem < ActiveRecord::Base
       streamable_type: 'NewsItem',
       streamable_id:   id,
       created_at:      published,
-      shared:          true
+      shared:          true,
+      is_public:       true
     )
   end
 

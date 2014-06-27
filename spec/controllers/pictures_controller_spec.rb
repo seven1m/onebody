@@ -14,10 +14,9 @@ describe PicturesController do
   end
 
   context '#index' do
-    it 'should list all pictures in an album' do
+    it 'redirects to album show page' do
       get :index, {album_id: @album.id}, {logged_in_id: @person.id}
-      expect(response).to be_success
-      expect(assigns(:pictures)).to eq([@picture])
+      expect(response).to redirect_to(@album)
     end
   end
 
@@ -74,7 +73,7 @@ describe PicturesController do
   context '#create' do
     it 'should create one picture' do
       post :create, {album: @album.name, pictures: [Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)]}, {logged_in_id: @person.id}
-      expect(response).to redirect_to(album_pictures_path(@album))
+      expect(response).to redirect_to(@album)
       expect(flash[:notice]).to eq("1 picture(s) saved")
     end
 
@@ -87,7 +86,7 @@ describe PicturesController do
           Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)
         ]
       }, {logged_in_id: @person.id}
-      expect(response).to redirect_to(album_pictures_path(@album))
+      expect(response).to redirect_to(@album)
       expect(flash[:notice]).to eq("3 picture(s) saved")
     end
 
@@ -95,7 +94,7 @@ describe PicturesController do
       post :create, {album: 'My Stuff', pictures: [Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)]}, {logged_in_id: @person.id}
       album = Album.last
       expect(album.name).to eq("My Stuff")
-      expect(response).to redirect_to(album_pictures_path(album))
+      expect(response).to redirect_to(album)
       expect(flash[:notice]).to eq("1 picture(s) saved")
     end
 
@@ -117,8 +116,8 @@ describe PicturesController do
 
     context 'group specified' do
       before do
-        @album = @person.albums.create(name: 'Existing Album')
         @group = FactoryGirl.create(:group)
+        @album = @group.albums.create(name: 'Existing Album')
       end
 
       context 'existing album name specified' do
@@ -136,7 +135,7 @@ describe PicturesController do
 
           it 'should redirect to the album' do
             post :create, {group_id: @group.id, album: 'Existing Album', pictures: [Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)]}, {logged_in_id: @person.id}
-            expect(response).to redirect_to(@group)
+            expect(response).to redirect_to(assigns[:album])
           end
 
           context 'group does not allow pictures' do
@@ -177,7 +176,7 @@ describe PicturesController do
 
           it 'should redirect to the group' do
             post :create, {group_id: @group.id, album: 'New Album', pictures: [Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)]}, {logged_in_id: @person.id}
-            expect(response).to redirect_to(@group)
+            expect(response).to redirect_to(assigns[:album])
           end
 
           context 'group does not allow pictures' do
@@ -202,7 +201,7 @@ describe PicturesController do
       @album = @person.albums.create(name: 'Existing Album')
       album_count = Album.count
       post :create, {album: 'Existing Album', pictures: [Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)]}, {logged_in_id: @person.id}
-      expect(response).to redirect_to(album_pictures_path(@album))
+      expect(response).to redirect_to(@album)
       expect(Album.count).to eq(album_count)
       expect(Picture.last.album).to eq(@album)
       expect(flash[:notice]).to eq("1 picture(s) saved")
@@ -212,7 +211,7 @@ describe PicturesController do
       @album = FactoryGirl.create(:album, owner: @person)
       album_count = Album.count
       post :create, {album_id: @album.id, pictures: [Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)]}, {logged_in_id: @person.id}
-      expect(response).to redirect_to(album_pictures_path(@album))
+      expect(response).to redirect_to(@album)
       expect(Album.count).to eq(album_count)
       expect(Picture.last.album).to eq(@album)
       expect(flash[:notice]).to eq("1 picture(s) saved")
@@ -223,10 +222,10 @@ describe PicturesController do
     it 'should select a picture as an album cover' do
       add_pictures(1)
       post :update, {album_id: @album.id, id: @picture.id, cover: 'true'}, {logged_in_id: @person.id}
-      expect(response).to redirect_to(album_picture_path(@album, @picture))
+      expect(response).to redirect_to(@album)
       expect(@picture.reload.cover).to be
       post :update, {album_id: @album.id, id: @picture2.id, cover: 'true'}, {logged_in_id: @person.id}
-      expect(response).to redirect_to(album_picture_path(@album, @picture2))
+      expect(response).to redirect_to(@album)
       expect(@picture.reload.cover).not_to be
       expect(@picture2.reload.cover).to be
     end

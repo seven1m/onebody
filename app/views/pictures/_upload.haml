@@ -1,0 +1,5 @@
+= form_for [@album, @album.pictures.new], html: { multipart: true, class: 'photo-upload' } do |form|
+  = file_field_tag 'pictures[]', multiple: true
+  = button_tag class: 'btn btn-success' do
+    = icon 'fa fa-upload'
+    = t('pictures.upload')

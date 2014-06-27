@@ -12,7 +12,7 @@ class PagesController < ApplicationController
   def show_for_public
     if @page
       if @page.published?
-        render action: 'show'
+        render action: 'show', layout: 'signed_out'
       else
         render text: t('pages.not_found'), status: 404
       end
@@ -53,15 +53,6 @@ class PagesController < ApplicationController
 
   def page_params
     params.require(:page).permit(:title, :slug, :body)
-  end
-
-  def render_with_template(page, status=200)
-    content = page.is_a?(String) ? page : page.body
-    if template = Page.where(path: "template").first
-      render text: template.body.sub(/\[\[content\]\]/, content), status: status
-    else
-      render text: t('pages.template_not_found'), layout: true, status: 500
-    end
   end
 
   def get_path

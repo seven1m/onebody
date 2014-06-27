@@ -1,0 +1,26 @@
+- @title = setting(:name, :site)
+- @hide_title = true
+- @body_class = 'bg-black centered-header'
+- @section_class = 'content-centered'
+
+#login-box.form-box
+  = flash_messages
+  .header= t('session.form.header')
+
+  = form_tag '/session' do
+    = hidden_field_tag :from, params[:from]
+    .body.bg-gray
+      .form-group
+        = text_field_tag :email, params[:email], placeholder: t('session.form.placeholder.email'), class: 'form-control', autofocus: !@focus_password
+      .form-group
+        = password_field_tag :password, '', placeholder: t('session.form.placeholder.password'), class: 'form-control', autofocus: @focus_password
+      .form-group
+        = check_box_tag :remember_me, true, params[:remember_me]
+        = label_tag :remember_me, t('session.form.remember_me')
+    .footer
+      %button.btn.bg-olive.btn-block{type: 'submit'}
+        = icon 'fa fa-sign-in'
+        = t('session.sign_in_button')
+      %p
+        = link_to t('session.sign_up_button'), new_account_path, class: 'btn btn-info'
+        = link_to t('session.forgot_password_button'), new_account_path(email: true), class: 'btn btn-warning pull-right'

@@ -4,35 +4,43 @@ class Person
   module Groupy
     extend ActiveSupport::Concern
 
-    # TODO rename "sidebar group people" to something more descriptive
-    # Basically, people who are likely to be in a small group with another person
-
     included do
-      scope :in_groups, -> groups { joins(:memberships).where('memberships.group_id in (?)', groups.map(&:id)) }
+      scope :in_group_ids, -> ids { joins(:memberships).where('memberships.group_id in (?)', ids) }
     end
 
-    def sidebar_groups
-      @sidebar_groups ||= self.groups.where("(select count(*) from memberships where group_id=groups.id) <= #{MAX_PEOPLE_IN_SMALL_GROUP}")
+    def in_groups(groups)
+      in_group_ids(groups.map(&:id))
     end
 
-    def sidebar_group_people(limit=nil)
-      if sidebar_groups.any?
-        Person.in_groups(sidebar_groups).where('people.id != ?', self.id).limit(limit)
-      else
-        []
+    def small_groups
+      groups.active.where("(select count(*) from memberships where group_id=groups.id) <= #{MAX_PEOPLE_IN_SMALL_GROUP}")
+    end
+
+    def small_group_people
+      Person.in_group_ids(small_groups.pluck(:id)).where('people.id != ?', self.id)
+    end
+
+    def sharing_with_people
+      ids = sharing_with_people_ids
+      Person.where(id: ids[:family_ids] + ids[:friend_ids] + ids[:groupy_ids].map(&:first))
+    end
+
+    def sharing_with_people_ids
+      {
+        family_ids: family.people.undeleted.where.not(id: id).pluck(:id),
+        friend_ids: Setting.get(:features, :friends) ? friends.pluck(:id) : [],
+        groupy_ids: small_group_people.pluck(:id, :group_id)
+      }
+    end
+
+    def reason_sharing_with(person)
+      ids = sharing_with_people_ids
+      {}.tap do |reasons|
+        reasons[:family] = person.family if ids[:family_ids].include?(person.id)
+        reasons[:friend] = true if ids[:friend_ids].include?(person.id)
+        reasons[:groups] = Group.find(ids[:groupy_ids].select { |id, group_id| id == person.id }.map(&:last))
+        reasons.delete(:groups) if reasons[:groups].empty?
       end
-    end
-
-    def sidebar_group_people_count
-      if sidebar_groups.any?
-        Person.in_groups(sidebar_groups).where('people.id != ?', self.id).count
-      else
-        0
-      end
-    end
-
-    def random_sidebar_group_people(count=MAX_GROUPIES_ON_PROFILE)
-      sidebar_group_people(count).sort_by{rand}
     end
   end
 end

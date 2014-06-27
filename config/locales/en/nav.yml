@@ -1,0 +1,35 @@
+en:
+
+  nav:
+
+    hello: "Hello, %{person}"
+
+    home: "Home"
+    home_sub:
+      new_count:
+        one: "1 new"
+        other: "%{count} new"
+    directory: "Directory"
+    directory_sub:
+      business: "Business Directory"
+      printed: "Printed Directory"
+      advanced: "Advanced Search"
+    business_profile: "Business"
+    profile: "Profile"
+    profile_sub:
+      edit: "Edit Profile"
+      password: "Password"
+      email: "Email"
+      privacy: "Privacy"
+      relationships: "Relationships"
+    groups: "Groups"
+    groups_sub:
+      edit: "Edit Group"
+      new: "New Group"
+      new_count:
+        one: "1 new"
+        other: "%{count} new"
+    admin: "Admin"
+    albums: "Albums"
+    prayer_requests: "Prayer Requests"
+    notes: "Notes"

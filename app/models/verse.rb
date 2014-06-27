@@ -7,6 +7,9 @@ class Verse < ActiveRecord::Base
   belongs_to :site
 
   scope_by_site_id
+
+  scope :with_people_count, -> { select('*, (select count(*) from people_verses where verse_id = verses.id) as people_count') }
+
   acts_as_taggable
 
   def admin?(person)
@@ -36,27 +39,17 @@ class Verse < ActiveRecord::Base
   LS_BASE_URL = 'http://www.seek-first.com/Bible.php?q=&passage=Seek'
 
   def lookup
-    if Rails.env == 'test'
-      self.translation = 'WEB'
-      self.text = 'test'
-      self.update_sortables
-    else
-      return if reference.nil? or reference.empty?
-      self.translation = 'WEB' if translation.nil?
-      url = LS_BASE_URL + '&p=' + URI.escape(reference) + '&version=' + translation
-      result = Net::HTTP.get(URI.parse(url))
-      url = /<!\-\-\s*(http:\/\/api\.seek\-first\.com.+?)\s*\-\->/.match(result)[1]
-      result = Net::HTTP.get(URI.parse(url)).gsub(/\s+/, ' ').gsub(/ì|î/, '"').gsub(/ë|í/, "'").gsub('*', '')
-      begin
-         self.text = result.scan(/<Text>(.+?)<\/Text>/).map { |p| p[0].gsub(/<.+?>/, '').strip }.join(' ')
-         # maybe not needed? - breaks in ruby 1.9
-         #self.text.gsub!(/\223|\224/, '"')
-         #self.text.gsub!(/\221|\222/, "'")
-         #self.text.gsub!(/\227/, "--")
-         self.update_sortables
-      rescue
-        nil
-      end
+    return if reference.nil? or reference.empty?
+    self.translation = 'WEB' if translation.nil?
+    url = LS_BASE_URL + '&p=' + URI.escape(reference) + '&version=' + translation
+    result = Net::HTTP.get(URI.parse(url))
+    url = /<!\-\-\s*(http:\/\/api\.seek\-first\.com.+?)\s*\-\->/.match(result)[1]
+    result = Net::HTTP.get(URI.parse(url)).gsub(/\s+/, ' ').gsub(/ì|î/, '"').gsub(/ë|í/, "'").gsub('*', '')
+    begin
+       self.text = result.scan(/<Text>(.+?)<\/Text>/).map { |p| p[0].gsub(/<.+?>/, '').strip }.join(' ')
+       self.update_sortables
+    rescue
+      nil
     end
   end
 
@@ -237,7 +230,7 @@ class Verse < ActiveRecord::Base
       elsif reference_or_id.is_a?(Symbol) or reference_or_id.to_s =~ /^\d+$/
         super
       else
-        where(reference: reference_or_id).first
+        find_by_reference(reference_or_id)
       end
     end
 

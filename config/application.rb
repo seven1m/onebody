@@ -15,7 +15,7 @@ require_relative '../lib/console'
 module OneBody
   class Application < Rails::Application
     # Custom directories with classes and modules you want to be autoloadable.
-    config.autoload_paths += %w(#{config.root}/app/concerns #{config.root}/app/authorizers)
+    config.autoload_paths += %w(#{config.root}/app/concerns #{config.root}/app/authorizers #{config.root}/app/presenters)
 
     # Cache store location
     config.action_controller.cache_store = [:file_store, "#{config.root}/cache"]
@@ -25,6 +25,7 @@ module OneBody
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # To set a system-wide default other than :en, create the file config/locale (which is not under version control).
     config.i18n.default_locale = File.exist?("#{config.root}/config/locale") ? File.read("#{config.root}/config/locale").strip.to_sym : :en
+    config.i18n.load_path += Dir["#{config.root}/config/locales/**/*.{rb,yml}"]
     config.i18n.load_path += Dir["#{config.root}/plugins/**/config/locales/*.{rb,yml}"]
 
     # Configure the default encoding used in templates for Ruby 1.9.
@@ -33,8 +34,20 @@ module OneBody
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password, :password_confirmation]
 
+    # Disable implicit join references in ActiveRecord
+    config.active_record.disable_implicit_join_references = true
+
+    # Additional precompiled assets
+    config.assets.precompile += ['editor.js.coffee']
+    config.assets.precompile += ['editor.css.scss']
+
     config.generators do |g|
       g.test_framework :rspec
+    end
+
+    # TODO remove this when we get to Rails 4.1
+    def secrets
+      @secrets ||= OpenStruct.new(YAML.load_file(Rails.root.join('config/secrets.yml'))[Rails.env])
     end
   end
 end

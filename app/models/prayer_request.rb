@@ -11,15 +11,19 @@ class PrayerRequest < ActiveRecord::Base
 
   validates_presence_of :request, :group_id, :person_id
 
+  self.skip_time_zone_conversion_for_attributes = [:answered_at]
+
   def name
-    group_name = group.name rescue '?'
-    I18n.t('prayer.name', group_name: group_name)
+    group_name = group.try(:name) || '?'
+    I18n.t('prayer_requests.name', group: group_name)
   end
 
   def body
-    html = "#{request}"
-    html << "<br/><strong>Answered #{answered_at ? answered_at.to_time.to_s(:date) : nil}:</strong> #{answer}" if answer.to_s.any?
-    html
+    request
+  end
+
+  def answered_at=(d)
+    self[:answered_at] = d.respond_to?(:strftime) ? d : Date.parse_in_locale(d.to_s)
   end
 
   def streamable?
@@ -31,13 +35,14 @@ class PrayerRequest < ActiveRecord::Base
   def create_as_stream_item
     return unless streamable?
     StreamItem.create!(
+      title:           name,
       body:            body,
       person_id:       person_id,
       group_id:        group_id,
       streamable_type: 'PrayerRequest',
       streamable_id:   id,
       created_at:      created_at,
-      shared:          person.share_activity?
+      shared:          group && !group.hidden?
     )
   end
 
@@ -46,7 +51,7 @@ class PrayerRequest < ActiveRecord::Base
   def update_stream_items
     return unless streamable?
     StreamItem.where(streamable_type: "PrayerRequest", streamable_id: id).each do |stream_item|
-      stream_item.body  = body
+      stream_item.body = body
       stream_item.save
     end
   end

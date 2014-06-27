@@ -7,12 +7,13 @@ class Group < ActiveRecord::Base
   has_many :membership_requests, dependent: :destroy
   has_many :people, -> { order(:last_name, :first_name) }, through: :memberships
   has_many :admins, -> { where('memberships.admin' => true).order(:last_name, :first_name) }, through: :memberships, source: :person
-  has_many :messages, -> { where('parent_id is null').order(updated_at: :desc) }, dependent: :destroy
+  has_many :messages, -> { order(updated_at: :desc) }, dependent: :destroy
   has_many :notes, -> { order(created_at: :desc) }
   has_many :prayer_requests, -> { order(created_at: :desc) }
   has_many :attendance_records
   has_many :albums, as: :owner
-  has_many :stream_items, dependent: :destroy
+  has_many :album_pictures, through: :albums, source: :pictures
+  has_many :stream_items, -> { order('created_at desc') }, dependent: :destroy
   has_many :attachments, dependent: :delete_all
   belongs_to :creator, class_name: 'Person', foreign_key: 'creator_id'
   belongs_to :leader, class_name: 'Person', foreign_key: 'leader_id'
@@ -20,6 +21,7 @@ class Group < ActiveRecord::Base
   belongs_to :site
 
   scope :active, -> { where(hidden: false) }
+  scope :hidden, -> { where(hidden: true) }
   scope :unapproved, -> { where(approved: false) }
   scope :approved, -> { where(approved: true) }
   scope :is_public, -> { where(private: false, hidden: false) } # cannot be 'public'
@@ -28,6 +30,7 @@ class Group < ActiveRecord::Base
   scope :linked, -> { where("link_code is not null and link_code != ''") }
   scope :parents_of, -> { where("parents_of is not null") }
   scope :checkin_destinations, -> { includes(:group_times).where('group_times.checkin_time_id is not null').order('group_times.ordering') }
+  scope :recent, -> age { where("created_at >= ?", age.ago) }
 
   scope_by_site_id
 
@@ -40,8 +43,8 @@ class Group < ActiveRecord::Base
   validates_uniqueness_of :address, allow_nil: true, scope: :site_id
   validates_length_of :address, in: 2..30, allow_nil: true
   validates_uniqueness_of :cm_api_list_id, allow_nil: true, allow_blank: true, scope: :site_id
-  validates_attachment_size :photo, less_than: PAPERCLIP_PHOTO_MAX_SIZE
-  validates_attachment_content_type :photo, content_type: PAPERCLIP_PHOTO_CONTENT_TYPES
+  validates_attachment_size :photo, less_than: PAPERCLIP_PHOTO_MAX_SIZE, message: I18n.t('photo.too_large', size: 10, :scope => 'activerecord.errors.models.group.attributes')
+  validates_attachment_content_type :photo, content_type: PAPERCLIP_PHOTO_CONTENT_TYPES, message: I18n.t('photo.wrong_type', :scope => 'activerecord.errors.models.group.attributes')
 
   serialize :cached_parents
 
@@ -55,16 +58,13 @@ class Group < ActiveRecord::Base
     end
   end
 
-  def name_group # returns something like "Morgan group"
-    "#{name}#{name =~ /group$/i ? '' : ' group'}"
-  end
+  geocoded_by :location
+  after_validation :geocode
+
+  blank_to_nil :address
 
   def inspect
     "<#{name}>"
-  end
-
-  def self.can_create?
-    Site.current.max_groups.nil? or Group.active.count < Site.current.max_groups
   end
 
   def admin?(person, exclude_global_admins=false)
@@ -86,13 +86,7 @@ class Group < ActiveRecord::Base
   end
 
   def mapable?
-    # must look like "OK 74137"
-    # TODO: this needs some work to be usable in other countries
-    location.to_s.any? && location =~ /\s[A-Z]{2}\s+\d{5}/ ? true : false
-  end
-
-  def address=(a)
-    write_attribute(:address, a == '' ? nil : a)
+    latitude and longitude
   end
 
   def get_options_for(person)
@@ -132,7 +126,7 @@ class Group < ActiveRecord::Base
   end
 
   def can_send?(person)
-    (members_send and person.member_of?(self) and person.messages_enabled?) or admin?(person)
+    (email? and members_send? and person.member_of?(self) and person.messages_enabled?) or admin?(person)
   end
   alias_method 'can_post?', 'can_send?'
 
@@ -180,24 +174,18 @@ class Group < ActiveRecord::Base
     gcal_private_link.to_s.match(/private\-([a-z0-9]+)/)[1] rescue ''
   end
 
-  def shared_stream_items(count)
-    items = stream_items.limit(count).order('stream_items.created_at desc').includes(:person)
-    # do our own eager loading here...
-    comment_people_ids = items.map { |s| s.context['comments'].to_a.map { |c| c['person_id'] } }.flatten
-    comment_people = Person.where(id: comment_people_ids).minimal.each_with_object({}) { |p, h| h[p.id] = p } # as a hash with id as the key
-    items.each do |stream_item|
-      stream_item.context['comments'].to_a.each do |comment|
-        comment['person'] = comment_people[comment['person_id']]
-      end
-      stream_item.readonly!
-    end
-    items
-  end
-
   before_destroy :remove_parent_of_links
 
   def remove_parent_of_links
     Group.where(parents_of: id).each { |g| g.update_attribute(:parents_of, nil) }
+  end
+
+  def can_add_prayer_request?(person)
+    prayer? and (person.member_of?(self) or admin?(person))
+  end
+
+  def can_add_album?(person)
+    person.can_create?(albums.new)
   end
 
   class << self
@@ -275,7 +263,7 @@ class Group < ActiveRecord::Base
     }
 
     def to_csv
-      FasterCSV.generate do |csv|
+      CSV.generate do |csv|
         csv << EXPORT_COLS[:group]
         (1..(Group.count/50)).each do |page|
           Group.paginate(include: :people, per_page: 50, page: page).each do |group|

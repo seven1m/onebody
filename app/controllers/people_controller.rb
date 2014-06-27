@@ -37,7 +37,9 @@ class PeopleController < ApplicationController
       @albums = @person.albums.order(created_at: :desc)
       @friends = @person.friends.minimal
       @verses = @person.verses.order(:book, :chapter, :verse)
-      if params[:business]
+      @groups = @person.groups.is_public.approved.limit(3).order("(select created_at from stream_items where group_id=groups.id order by created_at desc limit 1) desc")
+      @stream_items = StreamItem.shared_with(@logged_in).where(person_id: @person.id).paginate(page: params[:timeline_page], per_page: 5)
+      if params[:business] and @person.business_name.present?
         render action: 'business'
       else
         respond_to do |format|
@@ -64,27 +66,24 @@ class PeopleController < ApplicationController
   end
 
   def create
-    if Person.can_create?
-      if @logged_in.admin?(:edit_profiles)
-        @business_categories = Person.business_categories
-        @custom_types = Person.custom_types
-        params[:person].cleanse(:birthday, :anniversary)
-        @person = Person.new_with_default_sharing(person_params)
-        @person.family_id = params[:person][:family_id]
-        respond_to do |format|
-          if @person.save
-            format.html { redirect_to @person.family }
-            format.xml  { render xml: @person, status: :created, location: @person }
-          else
-            format.html { render action: "new" }
-            format.xml  { render xml: @person.errors, status: :unprocessable_entity }
-          end
+    if @logged_in.admin?(:edit_profiles)
+      @business_categories = Person.business_categories
+      @custom_types = Person.custom_types
+      params[:person].cleanse(:birthday, :anniversary)
+      @person = Person.new_with_default_sharing(person_params)
+      @family = Family.find(params[:person][:family_id])
+      @person.family = @family
+      respond_to do |format|
+        if @person.save
+          format.html { redirect_to @person.family }
+          format.xml  { render xml: @person, status: :created, location: @person }
+        else
+          format.html { render action: "new" }
+          format.xml  { render xml: @person.errors, status: :unprocessable_entity }
         end
-      else
-        render text: t('not_authorized'), layout: true, status: 401
       end
     else
-      render text: t('people.cant_be_added'), layout: true, status: 401
+      render text: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -106,7 +105,12 @@ class PeopleController < ApplicationController
 
   def update
     @person = Person.find(params[:id])
-    if @logged_in.can_edit?(@person)
+    if params[:move_person] and params[:family_id] and @logged_in.admin?(:edit_profiles)
+      @family = Family.find(params[:family_id])
+      @family.people << @person
+      flash[:info] = t('people.move.success_message', person: @person.name, family: @family.name)
+      redirect_to @family
+    elsif @logged_in.can_edit?(@person)
       @updater = Updater.new(params)
       if @updater.save!
         respond_to do |format|
@@ -138,7 +142,7 @@ class PeopleController < ApplicationController
         redirect_to @person.family
       end
     else
-     render text: t('not_authorized'), layout: true, status: 401
+      render text: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -161,7 +165,7 @@ class PeopleController < ApplicationController
   def hashify
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
       ids = params[:hash][:legacy_id].to_s.split(',')
-      raise t('families.too_many') if ids.length > 1000
+      raise 'error' if ids.length > 1000
       hashes = Person.hashify(legacy_ids: ids, attributes: params[:hash][:attrs].split(','), debug: params[:hash][:debug])
       render xml: hashes
     else
@@ -193,17 +197,17 @@ class PeopleController < ApplicationController
     render xml: Person.columns.map { |c| {name: c.name, type: c.type} }
   end
 
-  def favs
+  def testimony
     @person = Person.find(params[:id])
     unless @logged_in.can_see?(@person)
       render text: t('people.not_found'), status: 404, layout: true
     end
   end
 
-  def testimony
-    @person = Person.find(params[:id])
-    unless @logged_in.can_see?(@person)
-      render text: t('people.not_found'), status: 404, layout: true
+  def login
+    if @logged_in.super_admin?
+      session[:logged_in_id] = Person.find(params[:id])
+      redirect_to root_path
     end
   end
 

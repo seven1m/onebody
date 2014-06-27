@@ -1,0 +1,69 @@
+= form_for @person, html: { multipart: true } do |form|
+
+  .row
+    .col-lg-8
+      %p.discreet.small
+        = t('privacies.please_read_our_privacy_policy_html', url: help_path('privacy_policy'))
+
+        %ul.nav.nav-tabs
+          %li.active
+            = link_to t('people.edit.basics'), '#basics', data: { toggle: 'tab' }
+          %li
+            = link_to t('people.edit.about'), '#about', data: { toggle: 'tab' }
+          %li
+            = link_to t('people.edit.business'), '#business', data: { toggle: 'tab' }
+          - if @logged_in.admin?(:edit_profiles)
+            %li
+              = link_to t('people.edit.person_type'), '#roles', data: { toggle: 'tab' }
+            %li
+              = link_to t('people.edit.visibility'), '#visibility', data: { toggle: 'tab' }
+
+        .tab-content
+          .tab-pane.active#basics
+            = render partial: 'form_basics', object: form, as: :form
+            .form-group= submit_or_save_button
+          .tab-pane#about
+            = render partial: 'form_about', object: form, as: :form
+            .form-group= submit_or_save_button
+          .tab-pane#business
+            = render partial: 'form_business', object: form, as: :form
+            .form-group= submit_or_save_button
+          - if @logged_in.admin?(:edit_profiles)
+            .tab-pane#roles
+              = render partial: 'form_roles', object: form, as: :form
+              .form-group= submit_or_save_button
+            .tab-pane#visibility
+              = render partial: 'form_visibility', object: form, as: :form
+              .form-group= submit_or_save_button
+
+    .col-lg-4
+      %h3= t('people.edit.photo')
+      %p= avatar_tag @person, size: :large
+      %p= photo_upload_for @person
+
+      %h3= t('people.edit.family_photo')
+      %p= family_avatar_tag @family, size: :large
+      %p= photo_upload_for @family
+
+- content_for(:js) do
+  :javascript
+    $('#person_birthday').on('keyup changeDate', function(){
+      var val = $(this).val();
+      if(val == '' || val.match(/1900/)) {
+        $('#child-selection').show();
+      } else {
+        $('#child-selection select').val('');
+        $('#child-selection').hide();
+      }
+    }).trigger('keyup');
+
+    changes_made = false;
+    $(':input:not([type="file"])').bind('change', function(){
+      changes_made = true;
+    });
+
+    $('form').submit(function(){ changes_made = false });
+
+    window.onbeforeunload = function() {
+      if(changes_made) return '#{escape_javascript t('you_made_a_change_page')}';
+    }

@@ -5,8 +5,9 @@ module ChildConcern
 
   included do
     after_initialize :guess_child, if: -> p { p.child.nil? and p.birthday.nil? }
-    validate :validate_child, unless: -> p { p.deleted? }
+    validates :child, inclusion: [true, false], unless: -> p { p.deleted? }
 
+    # birthday= is already a setter, so we must chain them
     alias_method :birthday_without_child=, :birthday=
     remove_method :birthday=
   end
@@ -18,11 +19,16 @@ module ChildConcern
 
   def birthday=(d)
     self.birthday_without_child = d
-    self.child = nil if years_of_age
+    self[:child] = !at_least?(Setting.get(:system, :adult_age).to_i) if d
   end
 
-  def at_least?(age) # assumes you won't pass in anything over 18
-    (y = years_of_age and y >= age) or child == false
+  def child=(c)
+    return if birthday
+    super
+  end
+
+  def at_least?(age)
+    (y = years_of_age and y >= age)
   end
 
   def age
@@ -38,19 +44,8 @@ module ChildConcern
     years
   end
 
-  def adult?; at_least?(Setting.get(:system, :adult_age).to_i); end
-
-  protected
-
-  def validate_child
-    y = years_of_age
-    if child == true and y and y >= 13
-      errors.add :child, :cannot_be_yes
-    elsif child == false and y and y < 13
-      errors.add :child, :cannot_be_no
-    elsif child.nil? and y.nil?
-      errors.add :child, :blank
-    end
+  def adult?
+    not child?
   end
 
 end

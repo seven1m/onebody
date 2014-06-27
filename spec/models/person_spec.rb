@@ -217,62 +217,6 @@ describe Person do
     expect(@person.reload.mobile_phone).to eq("1234567890")
   end
 
-  context 'Custom Fields' do
-
-    before { @person = FactoryGirl.create(:person) }
-
-    it "should update custom_fields with a hash" do
-      @person.custom_fields = {'0' => 'first', '2' => 'third'}
-      expect(@person.custom_fields).to eq(["first", nil, "third"])
-    end
-
-    it "should convert dates saved in custom_fields" do
-      Setting.set(1, 'Features', 'Custom Person Fields', ['Text', 'A Date'].join("\n"))
-      @person.custom_fields = {'0' => 'first', '1' => 'March 1, 2012'}
-      expect(@person.custom_fields).to eq(["first", Date.new(2012, 3, 1)])
-      Setting.set(1, 'Features', 'Custom Person Fields', '')
-    end
-
-    it "should update custom_fields with an array" do
-      @person.custom_fields = ['first', nil, 'third']
-      expect(@person.custom_fields).to eq(["first", nil, "third"])
-    end
-
-    it "should not overwrite existing custom_fields accidentally" do
-      @person.custom_fields = {'0' => 'first', '2' => 'third'}
-      @person.custom_fields = {'1' => 'second'}
-      expect(@person.custom_fields).to eq(["first", "second", "third"])
-    end
-
-  end
-
-  describe 'Stream' do
-
-    before do
-      @person = FactoryGirl.create(:person)
-      @friend = FactoryGirl.create(:person, first_name: 'James', email: 'james@example.com')
-      @pic = FactoryGirl.create(:picture, person: @person)
-    end
-
-    it 'should eager load commenters on stream items' do
-      @pic.comments.create!(person: @friend)
-      stream_item = StreamItem.where(streamable_type: "Album", streamable_id: @pic.album_id).first
-      received = @person.shared_stream_items
-      expect(received.length).to eq(1)
-      expect(received.first.id).to eq(stream_item.id)
-      expect(received.first.context["comments"].first["person"].id).to eq(@friend.id)
-    end
-
-    it 'should be show thumbnail for eager loaded commenters' do
-      @friend.photo = File.open(Rails.root.join('spec/fixtures/files/image.jpg'))
-      @friend.save
-      @pic.comments.create!(person: @friend)
-      received = @person.shared_stream_items.first
-      expect(received.context["comments"].first["person"].photo.url).to match(/#{@person.photo_fingerprint}\.jpg/)
-    end
-
-  end
-
   describe 'Child' do
     it "should guess child upon initialization" do
       @family = FactoryGirl.create(:family)
@@ -281,10 +225,23 @@ describe Person do
       expect(@child.child?).to eq(true)
     end
 
-    it "should sets child=nil when birthday is set" do
+    it "sets child=true when birthday is set and person is < 18 years old" do
       @person = FactoryGirl.build(:person, child: false)
-      @person.birthday = 1.year.ago
-      expect(@person.child).to be_nil
+      @person.birthday = 17.years.ago
+      expect(@person.child).to eq(true)
+    end
+
+    it "sets child=false when birthday is set and person is >= 18 years old" do
+      @person = FactoryGirl.build(:person, child: true)
+      @person.birthday = 18.years.ago
+      expect(@person.child).to eq(false)
+    end
+
+    it "sets child properly given a birthday and child attribute" do
+      @person = FactoryGirl.build(:person, child: true)
+      @person.birthday = 18.years.ago
+      @person.child = true
+      expect(@person.child).to eq(false)
     end
 
     it "should not allow child and birthday to both be unspecified" do
@@ -401,6 +358,24 @@ describe Person do
       it 'should remove old password hash' do
         expect(@person.reload.encrypted_password).to be_nil
         expect(@person.salt).to be_nil
+      end
+    end
+  end
+
+  describe '.adults_or_have_consent' do
+    context 'given several users' do
+      let!(:child1) { FactoryGirl.create(:person, child: true) }
+      let!(:child2) { FactoryGirl.create(:person, birthday: 1.year.ago) }
+      let!(:child3) { FactoryGirl.create(:person, birthday: 1.year.ago, parental_consent: 'consent') }
+      let!(:adult)  { FactoryGirl.create(:person) }
+
+      it 'returns adults' do
+        expect(Person.adults_or_have_consent).to include(adult)
+      end
+
+      it 'returns children with parental consent' do
+        expect(Person.adults_or_have_consent).to include(child3)
+        expect(Person.adults_or_have_consent).to_not include(child1, child2)
       end
     end
   end

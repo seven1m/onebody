@@ -1,0 +1,15 @@
+.photo-upload {
+  .photo-selected {
+    position: relative;
+    @extend .well;
+    i { @extend .text-green; }
+    .filename { @extend .text-green; }
+  }
+  .photo-error {
+    h3 { font-size: 21px; }
+  }
+}
+
+.thumbnail {
+  display: inline-block;
+}

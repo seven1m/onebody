@@ -1,0 +1,23 @@
+- person = membership.person
+%tr.row-with-avatar{ id: "membership_#{membership.id}", style: defined?(hide) ? 'display:none' : '' }
+  - if @logged_in.can_edit?(@group)
+    %td
+      = check_box_tag 'ids[]', person.try(:id), false, class: 'checkbox'
+  %td.avatar
+    = avatar_tag person
+  %td
+    = link_to person.name, person
+  - if params[:birthdays]
+    %td
+      = person.birthday.to_s(:date_without_year) if person.birthday
+  - else
+    %td
+      = membership.created_at.to_s(:date) if membership.created_at
+  - if @logged_in.can_edit?(@group)
+    %td.actions
+      - if membership.admin?
+        = link_to group_membership_path(@group, membership, promote: false), data: { method: :put, confirm: t('are_you_sure') }, class: 'btn btn-warning btn-xs', title: t('memberships.demote') do
+          = icon 'fa fa-toggle-down'
+      - else
+        = link_to group_membership_path(@group, membership, promote: true), data: { method: :put, confirm: t('are_you_sure') }, class: 'btn btn-info btn-xs', title: t('memberships.promote') do
+          = icon 'fa fa-toggle-up'

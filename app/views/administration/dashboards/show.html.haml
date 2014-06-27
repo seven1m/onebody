@@ -1,0 +1,119 @@
+- @title = t('admin.dashboard.heading')
+
+.metrics
+  - if @logged_in.admin?(:manage_updates)
+    .floating-metric
+      .small-box{ class: metric_css_class(@update_count, 1, 5) }
+        = link_to administration_updates_path do
+          .inner
+            %h3= @update_count
+            %p= t('admin.box.updates.text', count: @update_count)
+        .icon
+          = icon 'fa fa-pencil'
+  - if @logged_in.admin?(:manage_updates)
+    .floating-metric
+      .small-box{ class: metric_css_class(@email_changed_count, 1, 5) }
+        = link_to administration_emails_path do
+          .inner
+            %h3= @email_changed_count
+            %p= t('admin.box.changed_emails.text', count: @email_changed_count)
+        .icon
+          = icon 'fa fa-envelope'
+  - if @logged_in.admin?(:manage_sync) and @last_sync
+    .floating-metric
+      .small-box{ class: metric_css_class(@last_sync.error_count, 1, 5) }
+        = link_to administration_syncs_path do
+          .inner
+            %h3= @last_sync.error_count
+            %p= t('admin.box.sync_errors.text', count: @last_sync.error_count)
+        .icon
+          = icon 'fa fa-refresh'
+  - if @logged_in.admin?(:manage_groups)
+    .floating-metric
+      .small-box{ class: metric_css_class(@groups_pending_approval_count, 1, 5) }
+        = link_to groups_path(pending_approval: true) do
+          .inner
+            %h3= @groups_pending_approval_count
+            %p= t('admin.box.groups_pending_approval.text', count: @groups_pending_approval_count)
+        .icon
+          = icon 'fa fa-users'
+  - if @logged_in.admin?(:manage_groups)
+    .floating-metric
+      .small-box{ class: metric_css_class(@membership_request_count, 1, 5) }
+        = link_to administration_membership_requests_path do
+          .inner
+            %h3= @membership_request_count
+            %p= t('admin.box.membership_requests.text', count: @membership_request_count)
+        .icon
+          = icon 'fa fa-user'
+  - if @logged_in.admin?(:edit_profiles)
+    .floating-metric
+      .small-box{ class: metric_css_class(@deleted_people_count, 100, 500) }
+        = link_to administration_deleted_people_path do
+          .inner
+            %h3= @deleted_people_count
+            %p= t('admin.box.deleted_people.text', count: @deleted_people_count)
+        .icon
+          = icon 'fa fa-trash-o'
+  .clearfix
+
+= render_plugin_hook(:admin_dashboard_metric)
+
+-# TODO
+-# SHOW/MANAGE ATTENDANCE
+
+.row
+  .col-md-4
+    - if @logged_in.admin?(:manage_access)
+      .box.box-info
+        .box-header
+          %h3.box-title= t('admin.admins.heading')
+        .box-body
+          %p
+            = t('admin.admins.intro')
+          %p
+            = link_to administration_admins_path, class: 'btn btn-info' do
+              = icon 'fa fa-gavel'
+              = t('admin.admins.button')
+
+  .col-md-4
+    - if @logged_in.super_admin?
+      .box.box-info
+        .box-header
+          %h3.box-title= t('admin.customization.heading')
+        .box-body
+          %p
+            = t('admin.customization.intro')
+          %p
+            = link_to administration_settings_path, class: 'btn btn-info' do
+              = icon 'fa fa-gear'
+              = t('admin.settings.settings')
+            = link_to pages_path, class: 'btn btn-info' do
+              = icon 'fa fa-file'
+              = t('admin.pages')
+
+  .col-md-4
+    - if Site.current.import_export_enabled? and (@logged_in.admin?(:import_data) or @logged_in.admin?(:export_data))
+      .box.box-info
+        .box-header
+          %h3.box-title= t('admin.import_export')
+        .box-body
+          - if @logged_in.admin?(:import_data)
+            %p= link_to t('admin.import_data_description'), import_people_path
+          - if @logged_in.admin?(:export_data)
+            %table.table
+              %tr
+                %th
+                  = t('people.people')
+                  (#{@person_count})
+                %td= link_to 'XML', people_path(format: 'xml')
+                %td= link_to 'CSV', people_path(format: 'csv')
+              - if Setting.get(:features, :groups)
+                %tr
+                  %th
+                    = t('nav.groups')
+                    (#{@group_count})
+                  %td= link_to 'XML', groups_path(format: 'xml')
+                  %td= link_to 'CSV', groups_path(format: 'csv')
+
+= render_plugin_hook :admin_dashboard_sidebar_bottom

@@ -1,0 +1,15 @@
+.form-group
+  = form.check_box :approval_required_to_join, class: 'checkbox', onclick: "check_mutual_exclusion()"
+  = form.label :approval_required_to_join, nil, class: 'inline'
+  %span.help-block
+    = t('groups.edit.approval_required_to_join.help')
+.form-group
+  = form.check_box :private, class: 'checkbox', onclick: "check_mutual_exclusion()"
+  = form.label :private, nil, class: 'inline'
+  %span.help-block
+    = t('groups.edit.private_group.help')
+.form-group
+  = form.check_box :members_send, class: 'checkbox'
+  = form.label :members_send, nil, class: 'inline'
+  %span.help-block
+    = t('groups.edit.members_send.help')

@@ -8,13 +8,21 @@ class PicturesController < ApplicationController
   load_and_authorize_parent :group, optional: true, only: :create, children: :albums
   load_and_authorize_parent :album, optional: true
   before_filter :find_or_create_album_by_name, only: :create
-  load_and_authorize_resource except: [:index, :create]
+  load_and_authorize_resource except: [:index, :new, :create]
 
   def index
-    @pictures = pictures.order(:id).page(params[:page])
+    redirect_to @album
   end
 
   def show
+  end
+
+  def new
+    @albums = @logged_in.albums.order(:name)
+    if @albums.count == 0
+      flash[:notice] = t('pictures.create_an_album.notice')
+      redirect_to new_person_album_path(@logged_in)
+    end
   end
 
   def next
@@ -27,21 +35,34 @@ class PicturesController < ApplicationController
 
   def create
     @uploader = PictureUploader.new(@album, params, current_user)
-    @uploader.save
-    notices = [t('pictures.saved', success: @uploader.success)]
-    notices << t('pictures.failed', fail: @uploader.fail) if @uploader.fail > 0
-    flash[:notice] = notices.join('<br/>').html_safe
-    redirect_to params[:redirect_to] || @group || album_pictures_path(@album)
+    if @uploader.save
+      notices = [t('pictures.saved', success: @uploader.success)]
+      notices << t('pictures.failed', fail: @uploader.fail) if @uploader.fail > 0
+      flash[:notice] = notices.join('<br/>').html_safe
+      respond_to do |format|
+        format.html { redirect_to @album }
+        format.json { render json: { status: 'success', url: album_path(@album) } }
+      end
+    else
+      respond_to do |format|
+        format.html do
+          flash[:error] = @uploader.errors.full_messages.join('; ')
+          render action: "new"
+        end
+        format.json { render json: { status: 'error', errors: @uploader.errors.full_messages } }
+      end
+    end
   end
 
   # rotate / cover selection
   def update
     if params[:degrees]
       @picture.rotate params[:degrees].to_i
+      redirect_to [@album, @picture]
     elsif params[:cover]
       @album.update_attributes!(cover: @picture)
+      redirect_to @album
     end
-    redirect_to [@album, @picture]
   end
 
   def destroy
@@ -53,11 +74,11 @@ class PicturesController < ApplicationController
 
   def find_or_create_album_by_name
     return if @album
-    name = params[:album].presence || I18n.t('pictures.default_album_name')
-    @album = albums.where(name: name).first_or_create do |album|
+    return unless params[:album].presence
+    @album = albums.where(name: params[:album].presence).first_or_create! do |album|
+      album.owner ||= current_user
       Authority.enforce(:create, album, current_user)
     end
-    @album.owner ||= @logged_in # if not owned by group
   end
 
 end

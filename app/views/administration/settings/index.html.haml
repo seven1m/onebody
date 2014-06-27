@@ -1,0 +1,126 @@
+- @title = t('admin.settings.heading')
+
+= form_tag batch_administration_settings_path, method: 'put', class: 'form-horizontal' do
+
+  %ul.nav.nav-tabs
+    = section_tab(t('admin.settings.name_heading'), :naming, :active)
+    = section_tab(t('admin.settings.contact_heading'), :contact)
+    = section_tab(t('admin.settings.features_heading'), :features)
+    = section_tab(t('admin.settings.sharing_heading'), :sharing)
+    = section_tab(t('admin.settings.membership_management_heading'), :membership_management)
+    = section_tab(t('admin.settings.locale_heading'), :locale)
+    = section_tab(t('admin.settings.formats_heading'), :formats)
+    = section_tab(t('admin.settings.privacy_heading'), :privacy)
+    = section_tab(t('admin.settings.services_heading'), :services)
+    - if @logged_in.super_admin?
+      = section_tab(t('admin.settings.advanced.heading'), :advanced)
+
+  .tab-content
+    .tab-pane.active#naming
+      = setting_row('Name', 'Community')
+      = setting_row('Name', 'Site')
+      .form-group
+        .col-sm-offset-2.col-sm-10
+          = button_tag t('save_changes'), class: 'btn btn-success'
+    .tab-pane#contact
+      .callout.callout-info= t('admin.settings.contact_automated_email_about')
+      = setting_row('Contact', 'Send Email Changes To')
+      = setting_row('Contact', 'Send Updates To')
+      = setting_row('Contact', 'Birthday Verification Email')
+      .callout.callout-info= t('admin.settings.contact_community_info_about')
+      = setting_row('Contact', 'Community Office Phone')
+      = setting_row('Contact', 'Community Address')
+      = setting_row('Contact', 'Community Email')
+      .form-group
+        .col-sm-offset-2.col-sm-10
+          = button_tag t('save_changes'), class: 'btn btn-success'
+    .tab-pane#features
+      = setting_row('Features', 'Friends')
+      = setting_row('Features', 'Groups')
+      .form-group
+        .col-sm-offset-2.col-sm-10
+          = button_tag t('save_changes'), class: 'btn btn-success'
+    .tab-pane#sharing
+      .callout.callout-info= t('admin.settings.sharing_communications_about')
+      = setting_row('Features', 'News Page')
+      .callout.callout-info= t('admin.settings.sharing_about')
+      = setting_row('Features', 'News by Users')
+      = setting_row('Features', 'Notes')
+      = setting_row('Features', 'Pictures')
+      = setting_row('Features', 'Verses')
+      .form-group
+        .col-sm-offset-2.col-sm-10
+          = button_tag t('save_changes'), class: 'btn btn-success'
+    .tab-pane#membership_management
+      = setting_row('Features', 'Updates Must Be Approved')
+      = setting_row('Features', 'Sign Up')
+      = setting_row('Features', 'Sign Up Approval Email')
+      = setting_row('Features', 'Custom Person Type')
+      = setting_row('Features', 'Custom Person Fields')
+      = setting_row('System', 'Adult Age', options: (13..21))
+      = setting_row('System', 'Suffixes')
+      .form-group
+        .col-sm-offset-2.col-sm-10
+          = button_tag t('save_changes'), class: 'btn btn-success'
+    .tab-pane#locale
+      = setting_row('System', 'Language', options: ONEBODY_LOCALES.invert)
+      = setting_row('System', 'Time Zone', options: @timezones)
+      .form-group
+        .col-sm-offset-2.col-sm-10
+          = button_tag t('save_changes'), class: 'btn btn-success'
+    .tab-pane#formats
+      .callout.callout-info= t('admin.settings.formats_date_about_html')
+      = setting_row('Formats', 'Full Date and Time')
+      = setting_row('Formats', 'Date')
+      = setting_row('Formats', 'Date Without Year')
+      = setting_row('Formats', 'Time')
+      .callout.callout-info= t('admin.settings.formats_phone_about')
+      = setting_row('Formats', 'Mobile Phone')
+      = setting_row('Formats', 'Phone')
+      .form-group
+        .col-sm-offset-2.col-sm-10
+          = button_tag t('save_changes'), class: 'btn btn-success'
+    .tab-pane#privacy
+      = setting_row('Privacy', 'Allow Picture Comments')
+      = setting_row('Privacy', 'Max Sign in Attempts', options: [5, 10, 20, 50])
+      .callout.callout-info= t('admin.settings.privacy_defaults_about')
+      = setting_row('Privacy', 'Share Email by Default',        label: :name)
+      = setting_row('Privacy', 'Share Home Phone by Default',   label: :name)
+      = setting_row('Privacy', 'Share Mobile Phone by Default', label: :name)
+      = setting_row('Privacy', 'Share Work Phone by Default',   label: :name)
+      = setting_row('Privacy', 'Share Fax by Default',          label: :name)
+      = setting_row('Privacy', 'Share Address by Default',      label: :name)
+      = setting_row('Privacy', 'Share Birthday by Default',     label: :name)
+      = setting_row('Privacy', 'Share Anniversary by Default',  label: :name)
+      .form-group
+        .col-sm-offset-2.col-sm-10
+          = button_tag t('save_changes'), class: 'btn btn-success'
+    .tab-pane#services
+      = setting_row('URL', 'Visitor')
+      = setting_row('URL', 'News Feed')
+      = setting_row('Services', 'Analytics')
+      .form-group
+        .col-sm-offset-2.col-sm-10
+          = button_tag t('save_changes'), class: 'btn btn-success'
+    - if @logged_in.super_admin?
+      .tab-pane#advanced
+        %p= t('admin.settings.advanced.intro')
+        %p= link_to t('admin.settings.reload'), reload_administration_settings_path, method: 'put', title: t('admin.settings.reload_message'), class: 'btn btn-warning'
+
+:javascript
+  function toggleSetting(control_id, target_ids) {
+    for(var i=0; i<target_ids.length; i++) {
+      $('.setting'+target_ids[i]).css('display', $('#'+control_id).attr('checked') ? '' : 'none');
+    }
+  }
+  function setupToggler(control_id, target_ids) {
+    $('#'+control_id).click(function(){ toggleSetting(control_id, target_ids) });
+    toggleSetting(control_id, target_ids);
+  }
+  setupToggler(#{@settings['Features']['Sign Up'].id},      [#{@settings['Features']['Sign Up Approval Email'].id} ]);
+  setupToggler(#{@settings['Features']['News Page'].id},    [#{@settings['Features']['News by Users'].id}          ]);
+
+  function scrollTo(id) {
+    $('html, body').animate({'scrollTop':$('#'+id).offset().top}, 'slow');
+  }
+

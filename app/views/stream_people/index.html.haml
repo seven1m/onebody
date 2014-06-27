@@ -1,0 +1,31 @@
+- @title = t('stream.people.heading')
+
+- if @people.any?
+
+  %p= t('stream.people.intro')
+
+  %table.table.table-striped
+    %tr
+      %th.avatar
+      %th= t('stream.people.column.name')
+      %th= t('stream.people.column.family_name')
+      %th= t('stream.people.column.reason')
+    - @people.each do |person|
+      %tr.avatar
+        %td= avatar_tag(person)
+        %td= link_to person.name, person
+        %td= link_to person.family.name, person.family
+        %td
+          - (reason, detail) = @logged_in.reason_sharing_with(person).first
+          - if reason == :family
+            = t('stream.people.reason.family_html', url: family_path(@logged_in.family_id))
+          - elsif reason == :friend
+            = t('stream.people.reason.friend_html', url: person_friends_path(@logged_in))
+          - elsif reason == :groups
+            = t('stream.people.reason.groups_html', count: detail.length, groups: detail.map { |g| link_to(g.name, g) }.join(', ').html_safe)
+  %p
+    = pagination @people
+
+- else
+
+  %p= t('stream.people.intro_none')

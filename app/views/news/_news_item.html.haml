@@ -1,0 +1,11 @@
+.news-item.box.box-info
+  .box-header
+    %h3.box-title= link_to news_item.title, news_item, class: 'no-underline'
+    - if @logged_in.can_edit?(news_item)
+      .box-tools.pull-right
+        = link_to edit_news_item_path(news_item), class: 'btn bg-gray btn-xs' do
+          = icon 'fa fa-pencil'
+  .box-body
+    = sanitize_html news_item.body
+  .box-footer
+    = render partial: 'news_item_meta', locals: {news_item: news_item, controls: false}

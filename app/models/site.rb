@@ -12,11 +12,13 @@ class Site < ActiveRecord::Base
 
   Site.sub_tables.each { |n| has_many n.to_sym, dependent: :delete_all }
 
+  has_one :stream_item, as: :streamable
+
   cattr_accessor :current
 
   validates_presence_of :name, :host
   validates_uniqueness_of :name, :host
-  validates_exclusion_of :host, in: %w(admin api home onebody)
+  validates_format_of :host, without: /\Awww\./
   do_not_validate_attachment_file_type :logo
 
   has_attached_file :logo,
@@ -32,7 +34,24 @@ class Site < ActiveRecord::Base
     },
     default_url:   "/images/missing_:style.png"
 
+  after_create :create_as_stream_item, if: -> { StreamItem.table_exists? }
 
+  def create_as_stream_item
+    StreamItem.create!(
+      title: Setting.get(:name, :community),
+      person_id: nil,
+      streamable_type: 'Site',
+      streamable_id: id,
+      created_at: created_at,
+      shared: true
+    )
+  end
+
+  def update_stream_item(person)
+    return unless stream_item
+    stream_item.person = person
+    stream_item.save!
+  end
 
   def default?
     id == 1
@@ -95,10 +114,16 @@ class Site < ActiveRecord::Base
       path, filename = filename.split('pages/').last.split('/')
       slug = filename.split('.').first
       nav = path != 'system'
-      pub = !Page::UNPUBLISHED_PAGES.include?(slug)
       parent = Page.where(path: path).first
       unless parent.children.where(slug: slug).first
-        page = parent.children.build(slug: slug, title: slug.titleize, body: html, system: true, navigation: nav, published: pub)
+        page = parent.children.build(
+          slug:       slug,
+          title:      slug.titleize,
+          body:       html,
+          system:     true,
+          navigation: nav,
+          published:  true
+        )
         page.site_id = self.id
         page.save!
       end

@@ -3,18 +3,14 @@ class SearchesController < ApplicationController
   MAX_SELECT_PEOPLE = 10
   MAX_SELECT_FAMILIES = 10
 
+  before_filter :get_family, if: -> { params[:family_id] }
+
   def show
-    # A search should be referencable by URI, thus "show" makes sense;
-    # though "create" makes more sense from a resource standpoint.
-    # We'll do both. :-)
-    if params_without_action.any?
-      create
-    else
-      redirect_to new_search_path
-    end
+    create
   end
 
   def new
+    redirect_to search_path
   end
 
   def create
@@ -27,7 +23,7 @@ class SearchesController < ApplicationController
     end
     respond_to do |format|
       format.html do
-        if false and @people.length == 1 and (params[:name] or params[:quick_name])
+        if @people.length == 1 and (params[:name] or params[:quick_name])
           redirect_to person_path(id: @people.first)
         else
           render action: 'create'
@@ -46,6 +42,13 @@ class SearchesController < ApplicationController
         end
       end
     end
+  end
+
+  private
+
+  def get_family
+    @family = Family.find(params[:family_id])
+    raise StandardError unless @logged_in.can_edit?(@family)
   end
 
 end

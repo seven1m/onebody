@@ -6,7 +6,11 @@ module StreamsHelper
   end
 
   def stream_item_url(stream_item)
-    send(stream_item.streamable_type.underscore + '_url', stream_item.streamable_id)
+    if stream_item.streamable_type == 'Site'
+      root_url
+    else
+      send(stream_item.streamable_type.underscore + '_url', stream_item.streamable_id)
+    end
   end
 
   def stream_item_content(stream_item, use_code=false)
@@ -26,13 +30,13 @@ module StreamsHelper
         end
       end
     end
-    if use_code
+    if use_code and content
       content.gsub!(/<img([^>]+)src="(.+?)"/) do |match|
         url = $2 && ($2 + ($2.include?('?') ? '&' : '?') + 'code=' + @logged_in.feed_code)
         "<img#{$1}src=\"#{url}\""
       end
     end
-    content.html_safe
+    content.try(:html_safe)
   end
 
   def recent_time_ago_in_words(time)
@@ -43,4 +47,9 @@ module StreamsHelper
     end
   end
 
+  NEW_ACTIVITY_AGE = 1.day
+
+  def new_stream_activity(person)
+    StreamItem.shared_with(person).where('stream_items.created_at >= ?', NEW_ACTIVITY_AGE.ago).count('distinct stream_items.id')
+  end
 end

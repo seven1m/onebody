@@ -1,0 +1,5 @@
+- if object.tags.any?
+  - object.tags.each do |tag|
+    = link_to tag.name, tag
+- else
+  %em= t('none')

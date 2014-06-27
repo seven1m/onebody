@@ -1,0 +1,30 @@
+.group-description {
+  margin: 15px 0;
+}
+
+.group-list {
+  td .info {
+    font-style: none;
+    color: gray;
+  }
+  .hidden-group {
+    display: none;
+  }
+  .label {
+    margin-right: 5px;
+  }
+  .name {
+    width: 50%;
+  }
+}
+
+.group.error {
+  td {
+    background-color: #fcc;
+  }
+}
+
+.content-header h1 small .btn {
+  @extend .btn-xs;
+  margin-bottom: 4px;
+}

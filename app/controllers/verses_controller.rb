@@ -8,13 +8,10 @@ class VersesController < ApplicationController
       else
         render text: t('not_authorized'), layout: true, status: 401
       end
-      # note: Tag.counts still accepts the :conditions option
-      @tags = Verse.tag_counts(conditions: ['verses.id in (?)', @verses.map { |v| v.id } || [0]])
+      @tags = Verse.tag_counts(conditions: ['verses.id in (?)', @verses.map(&:id) || [0]], order: 'name')
     else
-      @verses = Verse.order(:book, :chapter, :verse) \
-        .select('*, (select count(*) from people_verses where verse_id = verses.id) as people_count') \
-        .page(params[:page])
-      @tags = Verse.tag_counts
+      @verses = Verse.order(:book, :chapter, :verse).with_people_count.page(params[:page])
+      @tags = Verse.tag_counts(order: 'name')
     end
   end
 
@@ -30,7 +27,7 @@ class VersesController < ApplicationController
         @verse.create_as_stream_item(@logged_in)
       end
       expire_fragment(%r{views/people/#{@logged_in.id}_})
-      redirect_to params[:redirect_to] || @verse
+      redirect_to @verse
     else
       render text: t('verses.not_found'), layout: true, status: 404
     end
@@ -39,9 +36,15 @@ class VersesController < ApplicationController
   def update
     @verse = Verse.find(params[:id])
     @verse.tag_list.remove(params[:remove_tag]) if params[:remove_tag]
-    @verse.tag_list.add(*params[:add_tags].split) if params[:add_tags]
+    if params[:add_tags]
+      add = params[:add_tags].split(/\s*,\s*|\s+/).map(&:downcase) - @verse.tag_list.map(&:downcase)
+      @verse.tag_list.add(*add)
+    end
     @verse.save
-    redirect_to @verse
+    respond_to do |format|
+      format.html { redirect_to @verse }
+      format.js
+    end
   end
 
   def destroy

@@ -1,3 +1,5 @@
+# TODO remove
+
 COLOR_PALETTES = [
   ['Standard',   %w(5f9128 3286b5 333333 e4e4e4)],
   ['Goldfish',   %w(5ab3c5 fa6900 003333 e4e4e4)],

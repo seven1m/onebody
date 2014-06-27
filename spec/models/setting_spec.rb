@@ -4,15 +4,15 @@ describe Setting do
 
   context 'Field Types' do
 
-    it "should return an array for settings of type 'lines'" do
-      Setting.set(1, 'Features', 'Custom Person Fields', ['Text', 'A Date'].join("\n"))
-      expect(Setting.get(:features, :custom_person_fields)).to eq(["Text", "A Date"])
-      Setting.set(1, 'Features', 'Custom Person Fields', '')
+    it "should return an array for settings of type 'list'" do
+      Setting.set(1, 'System', 'Suffixes', ['Text', 'A Date'].join("\n"))
+      expect(Setting.get(:system, :suffixes)).to eq(["Text", "A Date"])
+      Setting.set(1, 'System', 'Suffixes', '')
     end
 
-    it "should return an array for settings of type 'lines', even if empty" do
-      Setting.set(1, 'Features', 'Custom Person Fields', '')
-      expect(Setting.get(:features, :custom_person_fields)).to eq([])
+    it "should return an array for settings of type 'list', even if empty" do
+      Setting.set(1, 'System', 'Suffixes', '')
+      expect(Setting.get(:system, :suffixes)).to eq([])
     end
 
   end

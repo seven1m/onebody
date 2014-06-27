@@ -1,0 +1,8 @@
+- @title = t('generated_files.building')
+
+#build_loading
+  .progress.progress-striped.active
+    .progress-bar{ role: 'progressbar', 'aria-valuenow' => 100, 'aria-valuemin' => 0, 'aria-valuemax' => 100, style: 'width: 100%' }
+
+:javascript
+  setTimeout(function(){ $.get('#{escape_javascript generated_file_path(params[:id], format: :js, count: 1)}') }, 10000);

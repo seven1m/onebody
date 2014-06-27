@@ -79,12 +79,6 @@ Features:
   Custom Person Type:
     format: boolean
     value: false
-  Custom Person Fields:
-    format: list
-    value:
-  Community Google Calendar: 
-    format: string
-    value:
   News Page:
     format: boolean
     value: true
@@ -116,8 +110,7 @@ System:
     value: en
   Suffixes: 
     format: list
-    value: |
-      --- 
+    value:
       - Jr.
       - Sr.
       - II
@@ -151,7 +144,7 @@ Formats:
     value: "%m/%d/%Y"
   Date Without Year: 
     format: string
-    value: "%m/%d"
+    value: "%b %d"
 Appearance: 
   Theme Primary Color:
     format: string

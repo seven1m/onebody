@@ -1,0 +1,13 @@
+.verse.box
+  .box-header
+    %h3.box-title.verse-heading
+      = link_to verse.reference, verse, class: 'verse-reference'
+      - if not @person and verse.people_count > 0
+        %small
+          %span.saved-by
+            = t('verses.saved_by_count', count: verse.people_count)
+  .verse-body.box-body
+    = verse.text
+  - unless @person
+    .box-footer
+      = render partial: 'comments/comment_summary', locals: {object: verse}

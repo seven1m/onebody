@@ -1,0 +1,25 @@
+- @title = t('messages.messages_in_html', url: group_path(@group), name: @group.name)
+
+- if @group.can_post?(@logged_in)
+  .page-controls
+    = link_to new_group_message_path(@group), class: 'btn btn-success' do
+      = icon 'fa fa-plus'
+      = t('messages.new.button')
+
+= pagination @messages
+
+- @messages.each do |message|
+  .box.box-info
+    .box-header
+      %h3.box-title
+        = link_to message.subject, message
+        - if message.attachments.any?
+          = link_to message, class: 'btn btn-xs btn-info' do
+            = icon 'fa fa-link'
+    .box-body
+      = render_message_body message
+      %p.push-down= link_to t('messages.read_more'), message, class: 'btn btn-info btn-xs'
+    .box-footer
+      = t('messages.sent_at_html', when: message.created_at.to_s(:full), who: link_to(message.person.try(:name), message.person))
+
+= pagination @messages

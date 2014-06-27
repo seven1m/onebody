@@ -1,0 +1,14 @@
+- if @message.to
+  - @title = t('messages.private.heading')
+  - content_for :sub_title, link_to(@message.to.name, @message.to)
+  %p= t('messages.private.description_html', person: link_to(@message.to.name, @message.to))
+
+- elsif @message.group
+  - @title = t('messages.group.heading')
+  - content_for :sub_title, link_to(@message.group.name, @message.group)
+  %p
+    = t('messages.group.description_html', group: link_to(@message.group.name, @message.group))
+    - unless @group.private?
+      %strong= t('messages.group.not_private')
+
+= render partial: 'form'

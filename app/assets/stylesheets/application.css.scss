@@ -1,0 +1,113 @@
+@import "bootstrap";
+@import "font-awesome";
+@import "admin_lte";
+@import "leaflet";
+@import "datepicker";
+
+@import "app/*";
+
+html.full-height, html.full-height body {
+  height: 100%;
+}
+
+.site-name {
+  @extend .hidden-sm;
+  @extend .hidden-xs;
+  float: right;
+  font-size: 18px;
+  line-height: 50px;
+  padding: 0 10px;
+  font-family: Abel, Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  height: 50px;
+  display: block;
+  margin: 0;
+  color: #fff;
+  a {
+    color: #fff;
+  }
+}
+
+img.img-full {
+  width: 100%;
+}
+
+th.actions, td.actions {
+  text-align: right;
+}
+
+.text-gray {
+  color: #ccc;
+}
+
+.input-huge {
+  font-size: 30px;
+  height: 60px;
+}
+
+.discreet {
+  color: #aaa;
+}
+
+.flash {
+  color: #333;
+}
+
+.push-down {
+  margin-top: 25px;
+}
+
+.radios {
+  label {
+    display: block;
+  }
+  label.inline {
+    display: inline;
+    font-weight: normal;
+  }
+}
+
+table.table {
+  tr.description td, tr.details td {
+    border-top: none;
+    padding-top: 0;
+  }
+}
+
+body > .content,
+body > .content-centered {
+  min-height: calc(100% - 95px);
+}
+
+body > .footer {
+  height: 30px;
+  margin-top: 15px;
+  text-align: center;
+  background-color: #eee;
+  color: #555;
+  padding: 5px 15px;
+}
+
+body.bg-black > .footer {
+  background-color: #333;
+  color: #999;
+}
+
+.footer-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  li {
+    display: inline;
+    &:after {
+      display: inline-block;
+      margin: 0 10px;
+      content: "\00A0|";
+    }
+    &:last-child:after {
+      display: inline;
+      margin: 0;
+      content: "";
+    }
+  }
+}

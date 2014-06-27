@@ -1,0 +1,15 @@
+- @title = @news_item.title
+
+.panel
+  .panel-body
+    - if @logged_in.can_edit?(@news_item)
+      .pull-right
+        = link_to edit_news_item_path(@news_item), class: 'btn btn-xs btn-info' do
+          = icon 'fa fa-pencil'
+          = t('news.edit_button')
+        = link_to news_item_path(@news_item), class: 'btn btn-xs bg-gray text-red', method: 'delete', confirm: t('are_you_sure') do
+          = icon 'fa fa-trash-o'
+          = t('news.delete_button')
+    = render partial: 'news_item_meta', object: @news_item, as: :news_item
+
+.news-item= sanitize_html @news_item.body

@@ -3,8 +3,8 @@ require_relative '../spec_helper'
 describe StreamItem do
 
   before do
-    @person = FactoryGirl.create(:person)
-    @group = FactoryGirl.create(:group)
+    @person = FactoryGirl.create(:person, created_at: 1.hour.ago)
+    @group = FactoryGirl.create(:group, created_at: 1.hour.ago)
     @group.memberships.create! person: @person
   end
 
@@ -112,12 +112,12 @@ describe StreamItem do
       @album = FactoryGirl.create(:album, owner: @person)
       @picture1 = FactoryGirl.create(:picture, album: @album, person: @person)
       @picture2 = FactoryGirl.create(:picture, album: @album, person: @person)
-      items = StreamItem.where(streamable_type: "Album", streamable_id: @album.id).to_a
-      expect(items.length).to eq(1)
+      count = StreamItem.where(streamable_type: "Album", streamable_id: @album.id).count
+      expect(count).to eq(1)
       @picture1.destroy
       @picture2.destroy
-      items = StreamItem.where(streamable_type: "Album", streamable_id: @album.id).to_a
-      expect(items.length).to eq(0)
+      count = StreamItem.where(streamable_type: "Album", streamable_id: @album.id).count
+      expect(count).to eq(0)
     end
   end
 
@@ -130,6 +130,35 @@ describe StreamItem do
       @album.destroy
       items = StreamItem.where(streamable_type: "Album", streamable_id: @album.id).to_a
       expect(items.length).to eq(0)
+    end
+  end
+
+  describe '#shared_with' do
+    context 'person' do
+      let!(:album_item) { FactoryGirl.create(:stream_item, streamable_type: 'Album', person_id: @person.id, shared: true) }
+
+      it 'does not share activity with a stranger' do
+        stranger = FactoryGirl.create(:person)
+        items = StreamItem.shared_with(stranger).where.not(streamable_type: %w(Person Site))
+        expect(items).to be_empty
+      end
+
+      it 'shares activity with a family member' do
+        spouse = FactoryGirl.create(:person, family: @person.family)
+        items = StreamItem.shared_with(spouse).where.not(streamable_type: %w(Person Site))
+        expect(items).to eq([album_item])
+      end
+    end
+
+    context 'group' do
+      let!(:album_item) { FactoryGirl.create(:stream_item, streamable_type: 'Album', person_id: @person.id, group_id: @group.id, shared: true) }
+
+      it 'shares activity with a group member' do
+        member = FactoryGirl.create(:person)
+        @group.memberships.create! person: member
+        items = StreamItem.shared_with(member).where.not(streamable_type: %w(Person Site))
+        expect(items).to eq([album_item])
+      end
     end
   end
 

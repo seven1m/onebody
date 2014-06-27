@@ -1,0 +1,36 @@
+.form-group
+  = form.label :name, t('families.edit.name')
+  = form.text_field :name, onkeyup: 'set_last_name()', class: 'form-control'
+  - if @family.new_record?
+    .family-name-suggestion
+      = t('families.edit.name_example_html')
+  - elsif @family.suggested_name and @family.suggested_name != @family.name
+    .family-name-suggestion
+      = t('families.edit.name_suggestion_html', name: @family.suggested_name)
+      = link_to '#', class: 'btn btn-xs btn-warning family-name-suggestion-button', data: { name: @family.suggested_name } do
+        = icon 'fa fa-bolt'
+        = t('families.edit.name_suggestion_button')
+.form-group
+  = form.label :last_name, t('families.edit.last_name')
+  = form.text_field :last_name, class: 'form-control'
+.form-group
+  = form.label :home_phone, t('families.edit.home_phone')
+  = form.phone_field :home_phone, class: 'form-control'
+.form-group
+  = form.label :address1, t('families.edit.address')
+  = form.text_field :address1, class: 'form-control'
+.form-group
+  = form.label :address2, t('families.edit.address2')
+  = form.text_field :address2, class: 'form-control'
+.form-group
+  = form.label :city, t('families.edit.city_st_zip')
+  %br
+  = form.text_field :city, class: 'form-control inline'
+  = form.text_field :state, size: 4, class: 'form-control inline'
+  = form.text_field :zip, size: 11, class: 'form-control inline'
+
+:javascript
+  function set_last_name() {
+    var parts = $('#family_name').val().split(' ');
+    $('#family_last_name').val(parts.length > 1 ? parts[parts.length-1] : '');
+  }

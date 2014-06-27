@@ -36,16 +36,20 @@ class Person < ActiveRecord::Base
   has_many :attendance_records
   has_many :stream_items
   has_many :generated_files
+  has_one :stream_item, as: :streamable
   belongs_to :site
 
   scope_by_site_id
 
   scope :undeleted, -> { where(deleted: false) }
   scope :deleted, -> { where(deleted: true) }
+  scope :adults, -> { where(child: false) }
+  scope :adults_or_have_consent, -> { where("child = 0 or coalesce(parental_consent, '') != ''") }
   scope :can_sign_in, -> { undeleted.where(can_sign_in: true) }
   scope :administrators, -> { undeleted.where('admin_id is not null') }
   scope :email_changed, -> { undeleted.where(email_changed: true) }
   scope :minimal, -> { select('people.id, people.first_name, people.last_name, people.suffix, people.child, people.gender, people.birthday, people.gender, people.photo_file_name, people.photo_content_type, people.photo_fingerprint, people.photo_updated_at, people.deleted') }
+  scope :with_birthday_month, -> m { where('birthday is not null and month(birthday) = ?', m) }
 
   has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
 
@@ -59,6 +63,7 @@ class Person < ActiveRecord::Base
   validates_format_of :business_email, allow_nil: true, allow_blank: true, with: VALID_EMAIL_ADDRESS
   validates_format_of :email, allow_nil: true, allow_blank: true, with: VALID_EMAIL_ADDRESS
   validates_format_of :alternate_email, allow_nil: true, allow_blank: true, with: VALID_EMAIL_ADDRESS
+  validates_exclusion_of :business_category, in: ['!']
   validates_inclusion_of :gender, in: %w(Male Female), allow_nil: true
   validates_attachment_size :photo, less_than: PAPERCLIP_PHOTO_MAX_SIZE
   validates_attachment_content_type :photo, content_type: PAPERCLIP_PHOTO_CONTENT_TYPES
@@ -80,6 +85,28 @@ class Person < ActiveRecord::Base
     self.last_name = family.last_name
   end
 
+  after_create :create_as_stream_item
+
+  def create_as_stream_item
+    StreamItem.create!(
+      title: name,
+      person_id: id,
+      streamable_type: 'Person',
+      streamable_id: id,
+      created_at: created_at,
+      shared: visible? && email.present?
+    )
+  end
+
+  after_update :update_stream_item
+
+  def update_stream_item
+    return unless stream_item
+    stream_item.title = name
+    stream_item.shared = visible? && email.present?
+    stream_item.save!
+  end
+
   def name
     @name ||= begin
       if deleted?
@@ -99,38 +126,6 @@ class Person < ActiveRecord::Base
 
   def inspect
     "<#{name}>"
-  end
-
-  serialize :custom_fields
-
-  def custom_fields
-    (f = read_attribute(:custom_fields)).is_a?(Array) ? f : []
-  end
-
-  def custom_fields=(values)
-    if values.nil?
-      write_attribute(:custom_fields, [])
-    else
-      existing_values = read_attribute(:custom_fields) || []
-      if values.is_a?(Hash)
-        values.each do |key, val|
-          existing_values[key.to_i] = typecast_custom_value(val, key.to_i)
-        end
-      else
-        values.each_with_index do |val, index|
-          existing_values[index] = typecast_custom_value(val, index)
-        end
-      end
-      write_attribute(:custom_fields, existing_values)
-    end
-  end
-
-  def typecast_custom_value(val, index)
-    if Setting.get(:features, :custom_person_fields)[index] =~ /[Dd]ate/
-      Date.parse(val.to_s) rescue nil
-    else
-      val
-    end
   end
 
   # FIXME deprecated
@@ -194,7 +189,7 @@ class Person < ActiveRecord::Base
 
   # deprecated
   def can_edit?(what)
-    can_update?(what)
+    @can_edit ||= can_update?(what)
   end
 
   def can_sign_in?
@@ -349,60 +344,15 @@ class Person < ActiveRecord::Base
     end
   end
 
-  def shared_stream_items(count=30)
-    enabled_types = []
-    enabled_types << 'Message' # group posts (not personal messages)
-    enabled_types << 'NewsItem'    if Setting.get(:features, :news_page   )
-    enabled_types << 'Verse'       if Setting.get(:features, :verses      )
-    enabled_types << 'Album'       if Setting.get(:features, :pictures    )
-    enabled_types << 'Note'        if Setting.get(:features, :notes       )
-    enabled_types << 'PrayerRequest'
-    friend_ids = all_friend_and_groupy_ids
-    group_ids = groups.where(hidden: false).select('groups.id').map { |g| g.id }
-    group_ids = [0] unless group_ids.any?
-    relation = StreamItem \
-               .where(streamable_type: enabled_types) \
-               .where(shared: true) \
-               .where("(group_id in (:group_ids) or" +
-                      " (group_id is null and person_id in (:friend_ids)) or" +
-                      " person_id = :id or" +
-                      " streamable_type = 'NewsItem'" +
-                      ")", group_ids: group_ids, friend_ids: friend_ids, id: id) \
-               .order('created_at desc') \
-               .limit(count) \
-               .includes(:person, :group)
-    relation.to_a.tap do |stream_items|
-      # do our own eager loading here...
-      comment_people_ids = stream_items.map { |s| Array(s.context['comments']).map { |c| c['person_id'] } }.flatten
-      comment_people = Person.where(id: comment_people_ids).minimal \
-                             .inject({}) { |h, p| h[p.id] = p; h } # as a hash with id as the key
-      stream_items.each do |stream_item|
-        Array(stream_item.context['comments']).each do |comment|
-          comment['person'] = comment_people[comment['person_id']]
-        end
-        stream_item.readonly!
-      end
-    end
-  end
-
   def show_attribute_to?(attribute, who)
     send(attribute).to_s.strip.any? and
     (not respond_to?("share_#{attribute}_with?") or
     send("share_#{attribute}_with?", who))
   end
 
-  def all_friend_and_groupy_ids
-    if Setting.get(:features, :friends)
-      friend_ids = friendships.select(:friend_id).map { |f| f.friend_id }
-    else
-      friend_ids = []
-    end
-    friend_ids + sidebar_group_people.map { |p| p.id }
-  end
-
   def age_group
     the_classes = self.classes.to_s.split(',')
-    if the_class = the_classes.detect { |c| c =~ /^AG:$/ }
+    if the_class = the_classes.detect { |c| c =~ /^AG:/ }
       the_class.match(/^AG:(.+)$/)[1]
     end
   end
@@ -433,6 +383,7 @@ class Person < ActiveRecord::Base
     self.friendships.destroy_all
     self.membership_requests.destroy_all
     self.friendship_requests.destroy_all
+    self.stream_item.try(:destroy)
   end
 
   def set_default_visibility

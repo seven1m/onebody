@@ -119,8 +119,8 @@ describe Notifier do
     sent = ActionMailer::Base.deliveries.first
     expect(sent.to).to eq([Setting.get(:contact, :send_email_changes_to)])
     expect(sent.subject).to eq("#{@user.name} Changed Email")
-    expect(sent.body.to_s.index("#{@user.name} has had their email changed.")).to be
-    expect(sent.body.to_s.index("Email: #{@user.email}")).to be
+    expect(sent.body.to_s).to include("#{@user.name} has had their email changed.")
+    expect(sent.body.to_s).to include("Email: #{@user.email}")
   end
 
   context 'given a private message between two people' do

@@ -3,13 +3,15 @@ class SessionsController < ApplicationController
   before_filter :check_ssl, except: %w(destroy)
   before_filter :check_too_many_signin_failures, only: %w(create)
 
+  layout 'signed_out'
+
   def show
     redirect_to new_session_path
   end
 
   # sign in form
   def new
-    if not Person.any?
+    unless Person.any?
       redirect_to new_setup_path
     end
   end
@@ -23,18 +25,22 @@ class SessionsController < ApplicationController
         return
       end
       setup_session!
-      if params[:from].to_s.any?
-        redirect_to URI.parse(params[:from]).path
-      elsif @person.full_access?
-        redirect_to stream_path
+      sticky_session! if params[:remember_me]
+      if @person.full_access?
+        if params[:from].present?
+          redirect_to URI.parse(params[:from]).path
+        else
+          redirect_to stream_path
+        end
       else
         redirect_to @person
       end
     elsif @person == false # person found, but not authenticated
       if p = Person.undeleted.where(email: params[:email]).first and p.password_hash.nil? and p.encrypted_password.nil?
-        flash[:warning] = t('session.account_not_activated_html').html_safe
+        flash[:error] = t('session.account_not_activated_html').html_safe
       else
-        flash[:warning] = t('session.password_doesnt_match')
+        flash[:error] = t('session.password_doesnt_match')
+        @focus_password = true
         SigninFailure.create(email: params[:email], ip: request.remote_ip)
       end
       render action: 'new'
@@ -44,7 +50,7 @@ class SessionsController < ApplicationController
         flash[:warning] = t('session.email_found')
         redirect_to new_account_path(email: params[:email])
       else
-        flash[:warning] = t('session.email_not_found_try_another')
+        flash[:error] = t('session.email_not_found')
         render action: 'new'
         flash.clear
       end
@@ -54,7 +60,7 @@ class SessionsController < ApplicationController
   # sign out
   def destroy
     reset_session
-    redirect_to new_session_path
+    redirect_to root_path
   end
 
   private
@@ -72,10 +78,16 @@ class SessionsController < ApplicationController
       end
     end
 
+    STICKY_SESSION_LENGTH = 60.days
+
     def setup_session!
       session[:logged_in_id] = @person.id
       session[:logged_in_name] = @person.name
       session[:ip_address] = request.remote_ip
+    end
+
+    def sticky_session!
+      request.cookie_jar['_session_id'] = {value: request.cookie_jar['_session_id'], expires: STICKY_SESSION_LENGTH.from_now}
     end
 
 end

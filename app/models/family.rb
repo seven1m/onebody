@@ -6,6 +6,7 @@ class Family < ActiveRecord::Base
   MAX_TO_BATCH_AT_A_TIME = 50
 
   has_many :people, -> { order(:sequence) }, dependent: :destroy
+  has_many :updates, -> { order(:created_at) }
   accepts_nested_attributes_for :people
   belongs_to :site
 
@@ -13,12 +14,11 @@ class Family < ActiveRecord::Base
 
   has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
 
-  sharable_attributes :mobile_phone, :address, :anniversary
-
   scope :undeleted, -> { where(deleted: false) }
   scope :deleted, -> { where(deleted: true) }
   scope :has_printable_people, -> { where('(select count(*) from people where family_id = families.id and visible_on_printed_directory = ?) > 0', true) }
 
+  validates_presence_of :name, :last_name
   validates_uniqueness_of :barcode_id, allow_nil: true, scope: [:site_id, :deleted], unless: Proc.new { |f| f.deleted? }
   validates_uniqueness_of :alternate_barcode_id, allow_nil: true, scope: [:site_id, :deleted], unless: Proc.new { |f| f.deleted? }
   validates_length_of :barcode_id, :alternate_barcode_id, in: 10..50, allow_nil: true
@@ -40,6 +40,9 @@ class Family < ActiveRecord::Base
     end
   end
 
+  geocoded_by :location
+  after_validation :geocode
+
   def barcode_id=(b)
     write_attribute(:barcode_id, b.to_s.strip.any? ? b : nil)
     write_attribute(:barcode_assigned_at, Time.now.utc)
@@ -51,27 +54,25 @@ class Family < ActiveRecord::Base
   end
 
   def address
-    address1.to_s + (address2.to_s.any? ? "\n#{address2}" : '')
+    address1.to_s + (address2.present? ? "\n#{address2}" : '')
   end
 
   def mapable?
-    address1.to_s.any? and city.to_s.any? and state.to_s.any? and zip.to_s.any?
+    [address1, city, state].all?(&:present?)
   end
 
-  def mapable_address
-    if mapable?
-      "#{address1}, #{address2.to_s.any? ? address2+', ' : ''}#{city}, #{state} #{zip}".gsub(/'/, "\\'")
-    end
+  def location
+    pretty_address if mapable?
   end
 
   # not HTML-escaped!
   def pretty_address
     a = ''
-    a << address1.to_s   if address1.to_s.any?
-    a << ", #{address2}" if address2.to_s.any?
-    if city.to_s.any? and state.to_s.any?
+    a << address1.to_s   if address1.present?
+    a << ", #{address2}" if address2.present?
+    if city.present? and state.present?
       a << "\n#{city}, #{state}"
-      a << "  #{zip}" if zip.to_s.any?
+      a << "  #{zip}" if zip.present?
     end
   end
 
@@ -79,40 +80,14 @@ class Family < ActiveRecord::Base
     zip.to_s.split('-').first
   end
 
-  def latitude
-    return nil unless mapable?
-    update_lat_lon unless read_attribute(:latitude) and read_attribute(:longitude)
-    read_attribute :latitude
-  end
-
-  def longitude
-    return nil unless mapable?
-    update_lat_lon unless read_attribute(:latitude) and read_attribute(:longitude)
-    read_attribute :longitude
-  end
-
-  def update_lat_lon
-    return nil unless mapable? and Setting.get(:services, :yahoo).to_s.any?
-    url = "http://api.local.yahoo.com/MapsService/V1/geocode?appid=#{Setting.get(:services, :yahoo)}&location=#{URI.escape(mapable_address)}"
-    begin
-      xml = URI(url).read
-      result = REXML::Document.new(xml).elements['/ResultSet/Result']
-      lat, lon = result.elements['Latitude'].text.to_f, result.elements['Longitude'].text.to_f
-    rescue
-      logger.error("Could not get latitude and longitude for address #{mapable_address} for family #{name}.")
-    else
-      update_attributes latitude: lat, longitude: lon
-    end
-  end
-
   self.digits_only_for_attributes = [:home_phone]
 
   def children_without_consent
-    people.reject(&:adult_or_consent?)
+    people.undeleted.reject(&:adult_or_consent?)
   end
 
   def visible_people
-    people.select do |person|
+    people.undeleted.select do |person|
       !person.deleted? and (
         Person.logged_in.admin?(:view_hidden_profiles) or
         person.visible?(self)
@@ -120,8 +95,24 @@ class Family < ActiveRecord::Base
     end
   end
 
+  def reorder_person(person, direction)
+    case direction
+    when 'up'
+      person.decrement!(:sequence) unless person.sequence <= 1
+    when 'down'
+      person.increment!(:sequence) unless person.sequence >= people.undeleted.count
+    end
+    index = 1
+    people.undeleted.where.not(id: person.id).each do |p|
+      index += 1 if index == person.sequence
+      p.sequence = index
+      p.save(validate: false)
+      index += 1
+    end
+  end
+
   def suggested_relationships
-    all_people = people.order(:sequence)
+    all_people = people.undeleted.order(:sequence)
     relations = {
       adult: {
         male: {
@@ -181,6 +172,39 @@ class Family < ActiveRecord::Base
     end
   end
 
+  # TODO would be better to actually have family-level sharing options
+  def show_attribute_to?(attribute, who)
+    send(attribute).present? and
+    people.undeleted.any? { |p| p.show_attribute_to?(attribute, who) }
+  end
+
+  def anniversary_sharable_with(who)
+    people.undeleted.detect { |person|
+      person.anniversary and person.show_attribute_to?(:anniversary, who)
+    }.try(:anniversary)
+  end
+
+  def suggested_name
+    if people.undeleted.adults.count == 1
+      people.undeleted.adults.first.name
+    elsif people.undeleted.adults.count >= 2
+      (first, second) = people.undeleted.adults.take(2)
+      if first.last_name == second.last_name
+        key = 'families.name.same_last_name'
+      else
+        key = 'families.name.different_last_names'
+      end
+      I18n.t(key,
+        adult1_fname: first.first_name,
+        adult1_lname: first.last_name,
+        adult1_name:  first.name,
+        adult2_fname: second.first_name,
+        adult2_lname: second.last_name,
+        adult2_name:  second.name
+       )
+    end
+  end
+
   alias_method :destroy_for_real, :destroy
   def destroy
     people.each(&:destroy)
@@ -195,7 +219,7 @@ class Family < ActiveRecord::Base
       records.map do |record|
         # find the family (by legacy_id, preferably)
         family = where(legacy_id: record["legacy_id"]).first
-        if family.nil? and options['claim_families_by_barcode_if_no_legacy_id'] and record['barcode_id'].to_s.any?
+        if family.nil? and options['claim_families_by_barcode_if_no_legacy_id'] and record['barcode_id'].present?
           # if no family was found by legacy id, let's try by barcode id
           # but only if the matched family has no legacy id!
           # (because two separate families could potentially have accidentally been assigned the same barcode)

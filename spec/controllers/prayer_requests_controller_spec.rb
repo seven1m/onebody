@@ -35,7 +35,7 @@ describe PrayerRequestsController do
   it "should create a prayer request" do
     get :new, {group_id: @group.id}, {logged_in_id: @person.id}
     expect(response).to be_success
-    post :create, {group_id: @group.id, prayer_request: {request: 'test req', answer: 'test answer', answered_at: '1/1/2010'}}, {logged_in_id: @person.id}
+    post :create, {group_id: @group.id, prayer_request: {person_id: @person.id, request: 'test req', answer: 'test answer', answered_at: '1/1/2010'}}, {logged_in_id: @person.id}
     expect(response).to be_redirect
     new_req = PrayerRequest.last
     expect(new_req.request).to eq("test req")
@@ -53,7 +53,7 @@ describe PrayerRequestsController do
   it "should edit a prayer request" do
     get :edit, {id: @prayer_request.id, group_id: @group.id}, {logged_in_id: @person.id}
     expect(response).to be_success
-    post :update, {id: @prayer_request.id, group_id: @group.id, prayer_request: {request: 'test req', answer: 'test answer', answered_at: '1/1/2010'}}, {logged_in_id: @person.id}
+    post :update, {id: @prayer_request.id, group_id: @group.id, prayer_request: {request: 'test req', answer: 'test answer', answered_at: '2010-01-01'}}, {logged_in_id: @person.id}
     expect(response).to be_redirect
     expect(@prayer_request.reload.request).to eq("test req")
     expect(@prayer_request.answer).to eq("test answer")

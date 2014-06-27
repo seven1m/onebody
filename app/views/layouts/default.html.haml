@@ -1,53 +1,171 @@
-!!! 5
-%html{"xml:lang" => "en", xmlns: "http://www.w3.org/1999/xhtml"}
+!!!
+%html
   %head
-    %title= Setting.get(:name, :site)
-    %meta{content: "text/html; charset=utf-8", "http-equiv" => "content-type"}
-    = stylesheet_link_tag stylesheet_path
-    = stylesheet_link_tag 'print.css', media: 'print'
-    - if mobile?
-      %meta{name: "viewport", content: "width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"}
-      = stylesheet_link_tag stylesheet_path(:mobile)
-    /[if lte IE 8]
-      = stylesheet_link_tag stylesheet_path(:ie)
-      = javascript_include_tag 'ie'
-    = javascript_include_tag 'jquery-1.4.4.min', 'jquery-ui-1.8.7.custom.min', 'jquery.qtip-1.0.0-rc3.min.js', 'rails', 'application', cache: true
-    = csrf_meta_tag
+    %meta{ charset: 'UTF-8' }
+    %title
+      CHURCH.IO
+      - if @title.present?
+        == | #{@title.gsub(/<.+?>/, '').html_safe}
+    %meta{ content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no', name: 'viewport' }
+    = yield(:meta)
+    = stylesheet_link_tag 'application'
+    = yield(:css)
+    = csrf_meta_tags
+    %link{ href: '/apple-touch-icon-152x152.png', rel: 'apple-touch-icon', sizes: '152x152' }
+    %link{ href: '/favicon-196x196.png', rel: 'icon', sizes: '196x196', type: 'image/png' }
+    %link{ href: '/favicon-16x16.png', rel: 'icon', sizes: '16x16', type: 'image/png' }
+    %link{ href: '/favicon-32x32.png', rel: 'icon', sizes: '32x32', type: 'image/png' }
+    %link{ href: "//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,300italic,400italic,600italic|Abel", rel: "stylesheet" }
+    /[if lt IE 9]
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    = yield(:head)
     :javascript
-      logged_in = #{@logged_in ? @logged_in.id : 'null'}
-    = yield :head
-  %body
-    #common.shadowed
-      .inner
-        #search
-          = search_form
-        %ul#common-nav
-          = common_nav_links
-        .clear
-    #nav
-      .inner
-        %ul.buttons
-          = nav_links
-        .heading
-          %h1= heading
-          .tagline= subheading
-    = notice
-    #main
-      .inner
-        - if (sidebar = yield(:sidebar)).any?
-          .left-sidebar
-            = sidebar
-          .accommodate-left-sidebar
-            = yield
-          .clear
+      // prevent js links from firing before the rest of the js is loaded
+      window.event_queue = [];
+      document.addEventListener('click', function(e) {
+        if (e.target.getAttribute('href') == '#' || e.target.getAttribute('data-toggle') == 'tab') {
+          e.preventDefault();
+          event_queue.push(e);
+        }
+      }, false);
+  %body.skin-blue{ date: { 'datepicker-format' => datepicker_format } }
+    / header logo: style can be found in header.less
+    %header.header
+      = link_to 'CHURCH.IO', root_path, class: 'logo'
+      / Header Navbar: style can be found in header.less
+      %nav.navbar.navbar-static-top{ role: "navigation" }
+        / Sidebar toggle button
+        %a.navbar-btn.sidebar-toggle{ 'data-toggle' => 'offcanvas', href: '#', role: 'button' }
+          %span.sr-only Toggle navigation
+          %span.icon-bar
+          %span.icon-bar
+          %span.icon-bar
+        .navbar-right
+          = render 'layouts/navbar_right'
+        %h3.site-name
+          = link_to setting(:name, :site), root_path
+    .wrapper.row-offcanvas.row-offcanvas-left
+      / Left side column. contains the logo and sidebar
+      %aside.left-side.sidebar-offcanvas
+        / sidebar: style can be found in sidebar.less
+        %section.sidebar
+          / Sidebar user panel
+          - if @logged_in
+            .user-panel
+              .pull-left.image
+                = link_to @logged_in do
+                  = avatar_tag @logged_in, class: 'img-circle'
+              .pull-left.info
+                %p
+                  = t('nav.hello', person: link_to(@logged_in.first_name, @logged_in)).html_safe
+                %a{href: "#"}
+                  %i.fa.fa-circle.text-success
+                  -# TODO
+                  Online
+          / search form
+          %form.sidebar-form{ action: '/search', method: 'get' }
+            .input-group
+              = text_field_tag 'name', @search.try(:name), placeholder: t('search.form.name'), class: 'form-control'
+              %span.input-group-btn
+                %button#search-btn.btn.btn-flat{ name: 'seach', type: 'submit' }
+                  %i.fa.fa-search
+          / /.search form
+          / sidebar menu: : style can be found in sidebar.less
+          %ul.sidebar-menu
+            %li{ class: tab_selected?(:home) ? 'active' : '' }
+              = link_to root_path do
+                %i.fa.fa-home
+                %span= t('nav.home')
+                = new_stream_activity_badge(@logged_in)
+            %li{ class: tab_selected?(:profile) ? 'active' : '' }
+              = link_to @person || @logged_in do
+                %i.fa.fa-user
+                %span= t('nav.profile')
+                %i.fa.pull-right{ class: tab_expanded?(:profile) ? 'fa-angle-down' : 'fa-angle-left' }
+              - if tab_expanded?(:profile)
+                %ul.treeview-menu.visible
+                  %li
+                    = link_to edit_person_path(@person) do
+                      = icon 'fa fa-pencil'
+                      = t('nav.profile_sub.edit')
+                  %li
+                    = link_to edit_person_account_path(@person) do
+                      = icon 'fa fa-key'
+                      = t('nav.profile_sub.password')
+                  %li
+                    = link_to edit_person_path(@person, email: true) do
+                      = icon 'fa fa-envelope'
+                      = t('nav.profile_sub.email')
+                  %li
+                    = link_to edit_person_privacy_path(@person) do
+                      = icon 'fa fa-lock'
+                      = t('nav.profile_sub.privacy')
+                  - if @logged_in.admin?(:edit_profiles)
+                    %li
+                      = link_to person_relationships_path(@person) do
+                        = icon 'fa fa-link'
+                        = t('nav.profile_sub.relationships')
+            - if setting(:features, :groups)
+              %li{ class: tab_selected?(:groups) ? 'active' : '' }
+                = link_to groups_path do
+                  %i.fa.fa-group
+                  %span= t('nav.groups')
+                  = new_group_badge
+                  %i.fa.pull-right{ class: tab_expanded?(:groups) ? 'fa-angle-down' : 'fa-angle-left' }
+                - if tab_expanded?(:groups)
+                  %ul.treeview-menu.visible
+                    - if @group.persisted?
+                      %li
+                        = link_to edit_group_path(@group) do
+                          = icon 'fa fa-pencil'
+                          = t('nav.groups_sub.edit')
+                    %li
+                      = link_to new_group_path do
+                        = icon 'fa fa-plus'
+                        = t('nav.groups_sub.new')
+            %li{ class: tab_selected?(:directory) ? 'active' : '' }
+              = link_to search_path do
+                %i.fa.fa-archive
+                %span= t('nav.directory')
+                %i.fa.pull-right{ class: tab_expanded?(:directory) ? 'fa-angle-down' : 'fa-angle-left' }
+              - if tab_expanded?(:directory)
+                %ul.treeview-menu.visible
+                  %li
+                    = link_to search_path(business: true) do
+                      = icon 'fa fa-briefcase'
+                      = t('nav.directory_sub.business')
+                  %li
+                    = link_to new_printable_directory_path do
+                      = icon 'fa fa-print'
+                      = t('nav.directory_sub.printed')
+                  %li
+                    = link_to search_path(advanced: true) do
+                      = icon 'fa fa-search'
+                      = t('nav.directory_sub.advanced')
+            - if @logged_in.admin?
+              %li{ class: tab_selected?(:admin) ? 'active' : '' }
+                = link_to admin_path do
+                  %i.fa.fa-cogs
+                  %span= t('nav.admin')
+          = yield(:sidebar)
+        / /.sidebar
+      / Right side column. Contains the navbar and content of the page
+      %aside.right-side
+        - if header = yield(:header).presence
+          = header
         - else
+          %section.content-header
+            = breadcrumbs
+            %h1
+              = @title
+              - if sub_title = yield(:sub_title).presence
+                %small= sub_title
+        %section.content
+          = flash_messages
           = yield
-    .inner
-      #footer
-        == &copy; #{Date.today.year}, #{Setting.get(:name, :community)}
-        &middot;
-        = link_to t('layouts.privacy_policy'), '/pages/help/privacy_policy'
-        &middot;
-        = t('layouts.powered_by_html')
-    = analytics_js
-    = menu_content
+    .footer
+      = render partial: 'layouts/footer_links'
+    = javascript_include_tag 'application'
+    = yield(:js)
+    = setting(:services, :analytics) if Rails.env.production?

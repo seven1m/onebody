@@ -1,0 +1,38 @@
+- @title = @admin.template? ? @admin.template_name : @admin.person.name
+
+.row
+  .col-md-8
+    = render partial: 'form'
+
+  .col-md-4
+    - if @admin.template?
+      .box.box-info
+        .box-header
+          %h3.box-title People
+        .box-body
+          = form_tag search_path, remote: true do
+            = hidden_field_tag :select_person, true
+            %p= t('admin.add_individual')
+            .form-group
+              %label{:for => "name"}
+                = t('name')
+              = text_field_tag 'name', '', class: 'form-control'
+            .form-group
+              = button_tag t('admin.add_person'), class: 'btn btn-info'
+          #add_member{:style => "display:none;"}
+            = form_tag(administration_admins_path) do
+              = hidden_field_tag :redirect_to, edit_administration_admin_path(@admin)
+              = hidden_field_tag :template_id, @admin.id
+              #results
+              .form-group
+                = button_tag t('admin.add_selected'), class: 'btn btn-success'
+          %table.table
+            - @people.each do |person|
+              %tr.row-with-avatar{:id => "person#{person.id}"}
+                %td.avatar
+                  = avatar_tag(person)
+                %td
+                  = link_to person.name, person
+                %td.actions
+                  = link_to administration_admin_path(person.admin, person_id: person.id), data: { remote: true, method: :delete, confirm: t('are_you_sure') }, class: 'btn btn-delete' do
+                    = icon 'fa fa-trash-o'

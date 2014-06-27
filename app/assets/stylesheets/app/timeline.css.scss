@@ -1,0 +1,26 @@
+.timeline-load-more {
+  position: relative;
+  z-index: 2;
+}
+
+.timeline-pic {
+  @extend .img-thumbnail;
+  margin: 0 10px 10px 0;
+  &.small  { height: 75px;  }
+  &.medium { max-height: 250px; }
+}
+
+.timeline-body blockquote {
+  font-size: 14px;
+  line-height: 1.42857;
+}
+
+.prayer-answer {
+  background-color: #eee;
+  padding: 5px;
+  border-radius: 3px;
+  margin-top: 5px;
+  h4 {
+    margin: 0;
+  }
+}

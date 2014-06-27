@@ -9,6 +9,7 @@ class Search
                 :type,
                 :family_barcode_id,
                 :business,
+                :testimony,
                 :show_hidden
 
   def initialize(params={})
@@ -37,14 +38,40 @@ class Search
     self.name = name
   end
 
+  def birthday(key=nil)
+    if key
+      @birthday.try(:[], key).to_i
+    else
+      @birthday
+    end
+  end
+
+  def anniversary(key=nil)
+    if key
+      @anniversary.try(:[], key).to_i
+    else
+      @anniversary
+    end
+  end
+
+  def address(key=nil)
+    if key
+      @address.try(:[], key)
+    else
+      @address
+    end
+  end
+
   private
 
   def execute!
     return if @executed
     not_deleted!
     business!
+    testimony!
     order_by_name!
     parental_consent!
+    visible!
     name!
     gender!
     birthday!
@@ -69,8 +96,13 @@ class Search
 
   def business!
     return unless business
-    where!("coalesce(people.business_name) != ''")
+    where!("coalesce(people.business_name, '') != ''")
     order!('people.business_name')
+  end
+
+  def testimony!
+    return unless testimony
+    where!("coalesce(people.testimony, '') != ''")
   end
 
   def order_by_name!
@@ -78,14 +110,13 @@ class Search
   end
 
   def parental_consent!
-    return unless require_parental_consent?
-    where!(
-      "(people.child = ?
-       or (birthday is not null and adddate(birthday, interval 13 year) <= curdate())
-       or (people.parental_consent is not null and people.parental_consent != ''))
-      ",
-      false
-    )
+    return if show_hidden_profiles?
+    where!("(people.child = ? or coalesce(people.parental_consent, '') != '')", false)
+  end
+
+  def visible!
+    return if show_hidden_profiles?
+    where!('people.visible = ? and people.visible_to_everyone = ? and families.visible = ?', true, true, true)
   end
 
   def name!
@@ -136,8 +167,8 @@ class Search
     where!('families.barcode_id = ?', family_barcode_id) if family_barcode_id
   end
 
-  def require_parental_consent?
-    !(show_hidden && Person.logged_in.admin?(:view_hidden_profiles))
+  def show_hidden_profiles?
+    (show_hidden && Person.logged_in.admin?(:view_hidden_profiles))
   end
 
   def like(str, position=:both)

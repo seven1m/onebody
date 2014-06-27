@@ -1,6 +1,7 @@
 class PictureUploader
+  extend ActiveModel::Naming
 
-  attr_reader :success, :fail
+  attr_reader :success, :fail, :errors
 
   def initialize(album, params, user)
     @album = album
@@ -8,13 +9,18 @@ class PictureUploader
     @user = user
     @success = 0
     @fail = 0
+    @errors = ActiveModel::Errors.new(self)
   end
 
   def save
+    unless @album
+      @errors.add(:album, I18n.t('activerecord.errors.models.picture_uploader.attributes.album.blank'))
+      return false
+    end
     Array(@params[:pictures]).each do |pic|
       picture = @album.pictures.new
       Authority.enforce(:create, picture, @user)
-      picture.person = @user unless @params[:remove_owner]
+      picture.person = @user
       picture.photo = pic
       picture.save
       if picture.photo.exists?
@@ -25,6 +31,18 @@ class PictureUploader
       end
     end
     true
+  end
+
+  def read_attribute_for_validation(attr)
+    instance_variable_get("@#{attr}".to_sym)
+  end
+
+  def self.human_attribute_name(attr, options = {})
+    attr
+  end
+
+  def self.lookup_ancestors
+    [self]
   end
 
 end

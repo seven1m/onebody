@@ -1,0 +1,20 @@
+- @title = t('prayer_requests.show.heading')
+
+%p= t('prayer_requests.by', person: link_to(@req.person.try(:name), @req.person)).html_safe
+
+%p= @req.request
+
+- if @req.answer.present?
+  %h3= t('prayer_requests.answer.heading')
+  - if @req.answered_at
+    %p= t('prayer_requests.answer.on_date', date: @req.answered_at.to_s(:date))
+  %p= @req.answer
+
+- if @logged_in.can_edit?(@req)
+  .page-controls
+    = link_to edit_group_prayer_request_path(@req.group, @req), class: 'btn btn-info' do
+      = icon 'fa fa-pencil'
+      = t('prayer_requests.edit.button')
+    = link_to [@req.group, @req], method: :delete, data: { confirm: t('are_you_sure') }, class: 'btn bg-gray text-red' do
+      = icon 'fa fa-trash-o'
+      = t('prayer_requests.delete.button')

@@ -1,0 +1,29 @@
+- if object.comments.any?
+  %table.table
+    - object.comments.each do |comment|
+      %tr.row-with-avatar
+        %td.avatar
+          = link_to comment.person do
+            = avatar_tag comment.person
+        %td
+          = link_to comment.person.name, comment.person
+          = comment.created_at.to_s(:full)
+          - if @logged_in.can_edit?(comment)
+            .pull-right
+              = link_to comment_path(comment), class: 'btn btn-xs bg-gray text-red', method: 'delete', data: { confirm: t('are_you_sure') } do
+                = icon 'fa fa-trash-o'
+                delete
+          %p= preserve_breaks comment.text
+- else
+  %p
+    %em= t('comments.none_yet')
+%p
+  = t('comments.add_a_comment')
+  #new_comment
+    = form_for Comment.new, html: {style: 'border:none;'} do |form|
+      = hidden_field_tag object.class.name.downcase + '_id', object.id
+      = hidden_field_tag :return_to, request.fullpath
+      .form-group
+        = text_area_tag 'text', '', rows: 3, cols: 40, id: 'new_comment_textarea', class: 'form-control'
+      .form-group
+        = form.submit t('comments.save'), class: 'btn btn-success'

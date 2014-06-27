@@ -10,11 +10,14 @@ class Setup
     Person.transaction do
       @person = Person.new
       unless update_host!
-        @person.errors.add :base, I18n.t('setup.invalid_domain_name')
+        Site.current.errors.full_messages.each do |msg|
+          @person.errors.add :base, msg
+        end
         return false
       end
       if update_person!
         update_admin_settings!
+        update_stream_item!
         true
       else
         raise ActiveRecord::Rollback
@@ -27,8 +30,8 @@ class Setup
     @person.first_name = @params[:person][:first_name]
     @person.last_name = @params[:person][:last_name]
     @person.email = @params[:person][:email]
-    @person.password = @params[:password].presence
-    @person.password_confirmation = @params[:password_confirmation].presence
+    @person.password = @params[:person][:password].presence
+    @person.password_confirmation = @params[:person][:password_confirmation].presence
     unless @person.password and @person.password == @person.password_confirmation
       @person.errors.add :error, I18n.t('accounts.set_password_error')
       return false
@@ -62,6 +65,10 @@ class Setup
   def update_admin_settings!
     Setting.set_global('Contact', 'Bug Notification Email', @person.email)
     Setting.set_global('Contact', 'Tech Support Email', @person.email)
+  end
+
+  def update_stream_item!
+    Site.current.update_stream_item(@person)
   end
 
 end

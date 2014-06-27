@@ -1,0 +1,48 @@
+- show_email_settings = params[:controller] == 'people' and (me? or @logged_in.admin?(:manage_groups))
+
+- if @person.groups.any?
+  %table.table.group-list
+    %tr
+      %th
+      %th= t('groups.table.group_name')
+      %th= t('groups.table.member_count')
+      - if show_email_settings
+        %th= t('groups.table.email_enabled')
+
+    - @person.memberships.order('groups.name').includes(:group).each do |membership|
+      - if group = membership.group
+        - if not group.hidden? or @logged_in.admin?(:manage_groups)
+          %tr.row-with-avatar{class: group.hidden? ? 'grayed hidden-group' : ''}
+            %td.avatar
+              = link_to group do
+                = group_avatar_tag(group)
+            %td.name
+              = link_to group.name, group
+              - if group.private?
+                %span.label.label-warning
+                  = icon 'fa fa-lock'
+                  = t('groups.private_group')
+              - if group.hidden?
+                %span.label.label-danger
+                  = icon 'fa fa-eye-slash'
+                  = t('groups.hidden_group')
+            %td
+              = group.memberships.count
+            - if show_email_settings
+              %td
+                .toggle{id: "group#{group.id}"}
+                  = link_to t('groups.email_off'), group_membership_path(group, @person, email: 'off'), method: 'put', remote: true, class: "off #{membership.get_email? ? 'toggle-enabled' : 'toggle-disabled'} btn-xs"
+                  = link_to t('groups.email_on'), group_membership_path(group, @person, email: 'on'), method: 'put', remote: true, class: "on #{membership.get_email? ? 'toggle-disabled' : 'toggle-enabled'} btn-xs"
+
+  - if @logged_in.admin?(:manage_groups) and @person.groups.hidden.any?
+    %p
+      = link_to t('people.show_hidden_groups'), '#', class: 'btn btn-warning', data: { toggle: '.hidden-group' }
+
+- elsif me?
+  %p
+    = t('people.you_arent_in_any_groups')
+    - if params[:person_id]
+      = t('people.find_a_group_html', url: groups_path)
+
+- else
+  %p= t('people.person_isnt_any_groups', person: @person.first_name)

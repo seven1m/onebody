@@ -4,6 +4,10 @@ class PrayerRequestAuthorizer < ApplicationAuthorizer
     false # TODO
   end
 
+  def creatable_by?(user)
+    false # TODO
+  end
+
   def updatable_by?(user)
     # my prayer request
     if resource.person == user

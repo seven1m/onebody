@@ -23,7 +23,7 @@ end
 def run_specs(test, force=false)
   if force || File.exist?(test)
     puts "-" * 80
-    rspec_cmd = File.exists?('.zeus.sock') ? "zeus test" : "rspec"
+    rspec_cmd = "spring rspec --color --tty"
     puts "#{rspec_cmd} #{test}"
     cmd = IO.popen("#{rspec_cmd} #{test} 2>&1")
     result = ''
@@ -51,16 +51,16 @@ def run_suite
   run_specs('test/*', :force)
 end
 
-watch('^spec/models/(.*)_spec\.rb'     ) { |m| run_specs("spec/models/#{m[1]}_spec.rb")             }
-watch('^spec/controllers/(.*)_spec\.rb') { |m| run_specs("spec/controllers/#{m[1]}_spec.rb")        }
-watch('^test/factories/(.*)\.rb'       ) { |m| run_specs("spec/models/#{m[1]}_spec.rb")             }
-watch('^spec/requests/(.*)_spec\.rb'   ) { |m| run_specs("spec/requests/#{m[1]}_spec.rb")           }
-watch('^app/models/(.*)\.rb'           ) { |m| run_specs("spec/models/#{m[1]}_spec.rb")             }
-watch('^app/authorizers/(.*)\.rb'      ) { |m| run_specs("spec/models/authorizers/#{m[1]}_spec.rb") }
-watch('^app/concerns/(.*)\.rb'         ) { |m| run_specs("spec/models/concerns/#{m[1]}_spec.rb")    }
-watch('^app/controllers/(.*)\.rb'      ) { |m| run_specs("spec/controllers/#{m[1]}_spec.rb")        }
-watch('^app/helpers/(.*)\.rb'          ) { |m| run_specs("spec/helpers/#{m[1]}_spec.rb")            }
-watch('^lib/(.*)\.rb'                  ) { |m| run_specs("test/lib/#{m[1]}_spec.rb")                }
+watch('^spec/(.*)_spec\.rb'      ) { |m| run_specs("spec/#{m[1]}_spec.rb")                    }
+watch('^spec/factories/(.*)\.rb' ) { |m| run_specs("spec/models/#{m[1]}_spec.rb")             }
+watch('^app/models/(.*)\.rb'     ) { |m| run_specs("spec/models/#{m[1]}_spec.rb")             }
+watch('^app/presenters/(.*)\.rb' ) { |m| run_specs("spec/presenters/#{m[1]}_spec.rb")         }
+watch('^app/authorizers/(.*)\.rb') { |m| run_specs("spec/models/authorizers/#{m[1]}_spec.rb") }
+watch('^app/concerns/(.*)\.rb'   ) { |m| run_specs("spec/models/concerns/#{m[1]}_spec.rb")    }
+watch('^app/controllers/(.*)\.rb') { |m| run_specs("spec/controllers/#{m[1]}_spec.rb")        }
+watch('^app/helpers/(.*)\.rb'    ) { |m| run_specs("spec/helpers/#{m[1]}_spec.rb")            }
+watch('^config/locales/.*'       ) { |m| run_specs("spec/requests/i18n_spec.rb")              }
+watch('^lib/(.*)\.rb'            ) { |m| run_specs("test/lib/#{m[1]}_spec.rb")                }
 
 @interrupt_received = false
 

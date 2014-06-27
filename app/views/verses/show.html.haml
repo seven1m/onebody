@@ -1,0 +1,47 @@
+- @title = @verse.reference
+- content_for :sub_title, "(#{@verse.translation})"
+
+.row
+  .col-lg-8
+    %p{class: "passage #{small_verse?(@verse) ? 'big' : ''}"}
+      = @verse.text
+    - if @verse.translation == 'WEB'
+      %p.small.discreet
+        = t('verses.disclaimer')
+
+    %h3= t('Comments')
+    = render partial: 'comments/comments', locals: {object: @verse, intro: t('verses.about_this_verse')}
+
+  .col-lg-4
+    .box.box-info
+      .box-header
+        - if @verse.people.any?
+          %h3.box-title= t('verses.people_who_like_this_verse')
+      .box-body
+        - if @verse.people.any?
+          %table.people-list{style: 'margin-bottom: 10px'}
+            - @verse.people.each do |person|
+              %tr.row-with-avatar
+                %td.avatar= link_to avatar_tag(person), person
+                %td= link_to person.name, person
+        - if @logged_in.verses.include? @verse
+          %p
+            = link_to @verse, method: 'delete', data: { confirm: t('are_you_sure') }, class: 'btn bg-gray text-red' do
+              = icon 'fa fa-minus-circle'
+              = t('verses.remove_this_verse')
+        - else
+          %p
+            = link_to verses_path(id: @verse), method: 'post', class: 'btn btn-success' do
+              = icon 'fa fa-plus-circle'
+              = t('verses.add_this_verse_to_my_list')
+    .box.box-info
+      .box-header
+        %h3.box-title= t('tags.tags')
+      .box-body
+        %p= t('verses.about_tags')
+        = render partial: 'tags/tags_with_delete', locals: {object: @verse}
+      .box-footer
+        = form_tag(@verse, method: 'put', data: { remote: true }) do
+          .form-group
+            = t('tags.add_tags')
+            = text_field_tag :add_tags, nil, class: 'form-control'

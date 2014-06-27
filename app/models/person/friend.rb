@@ -21,7 +21,16 @@ class Person
     end
 
     def can_request_friendship_with?(person)
-      Setting.get(:features, :friends) and person != self and person.family_id != self.family_id and !friend?(person) and full_access? and person.full_access? and person.valid_email? and person.friends_enabled and !friendship_rejected_by?(person) and !friendship_waiting_on?(person)
+      Setting.get(:features, :friends) and
+      person != self and
+      person.family_id != self.family_id and
+      !friend?(person) and
+      full_access? and
+      person.full_access? and
+      person.valid_email? and
+      person.friends_enabled and
+      !friendship_rejected_by?(person) and
+      !friendship_waiting_on?(person)
     end
 
     def friendship_rejected_by?(person)

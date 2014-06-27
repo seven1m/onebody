@@ -1,0 +1,22 @@
+.form-group
+  = form.label :name
+  = form.text_field :name, onkeyup: 'update_address(this.value)', class: 'form-control'
+.form-group
+  = form.label :category
+  = form.select :category, group_categories, { include_blank: true }, class: 'can-create form-control'
+  %span.help-block
+    = t('groups.edit.category.help')
+.form-group
+  = form.label :description
+  = form.text_area :description, rows: 3, class: 'form-control'
+  %span.help-block
+    = t('groups.edit.description.help')
+.form-group
+  = form.label :other_notes
+  = form.text_area :other_notes, rows: 3, class: 'form-control'
+.form-group
+  = form.label :leader_id
+  = form.select :leader_id, @group.people.map { |m| [m.name, m.id] }, { include_blank: true }, class: 'form-control'
+.form-group
+  = form.label :creator
+  = form.text_field :creator, value: (@group.creator ? @group.creator.name : nil), readonly: true, name: 'creator_name', class: 'form-control'

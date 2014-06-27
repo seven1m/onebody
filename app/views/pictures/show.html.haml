@@ -1,0 +1,40 @@
+- @title = @picture.photo_file_name
+
+- content_for :header do
+  %section.content-header
+    = breadcrumbs
+    %h1
+      %small
+        = link_to prev_album_picture_path(@album, @picture) do
+          = icon 'fa fa-arrow-circle-o-left'
+      = @title
+      %small
+        = link_to next_album_picture_path(@album, @picture) do
+          = icon 'fa fa-arrow-circle-o-right'
+
+.row
+  .col-lg-8
+    = image_tag @picture.photo.url(:large)
+  .col-lg-4
+    - if @logged_in.can_edit?(@picture)
+      .page-controls
+        = link_to @picture.photo.url, class: 'btn bg-gray' do
+          = icon 'fa fa-arrows-alt'
+          = t('pictures.show_original')
+        = link_to album_picture_path(@album, @picture, cover: true), data: { confirm: t('are_you_sure') }, method: 'put', class: 'btn bg-gray' do
+          = icon 'fa fa-square-o'
+          = t('pictures.set_as_cover')
+        = link_to album_picture_path(@album, @picture, degrees: -90), data: { confirm: t('are_you_sure') }, method: 'put', class: 'btn bg-gray' do
+          = icon 'fa fa-rotate-left'
+          = t('pictures.rotate_left')
+        = link_to album_picture_path(@album, @picture, degrees: 90), data: { confirm: t('are_you_sure') }, method: 'put', class: 'btn bg-gray' do
+          = icon 'fa fa-rotate-right'
+          = t('pictures.rotate_right')
+        - if @logged_in.can_delete?(@picture)
+          = link_to album_picture_path(@album, @picture), data: { confirm: t('are_you_sure') }, method: 'delete', class: 'btn btn-delete' do
+            = icon 'fa fa-trash-o'
+            = t('Delete')
+
+- if Setting.get(:privacy, :allow_picture_comments)
+  %h3= t('Comments')
+  = render partial: 'comments/comments', locals: {object: @picture, intro: t('pictures.comment_on_this_picture')}

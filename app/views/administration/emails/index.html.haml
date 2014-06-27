@@ -1,0 +1,27 @@
+- @title = t('admin.emails.changed_addresses')
+
+= t('admin.emails.intro_html')
+
+- if @people.any?
+  = form_tag batch_administration_emails_path, method: :put do
+    %table.table
+      %tr
+        %th
+          %input{ onclick: "$('.person_checkbox').prop('checked', this.checked)", type: 'checkbox', class: 'simple' }
+        %th= t('admin.emails.table.id')
+        %th= t('admin.emails.table.legacy_id')
+        %th= t('admin.emails.table.last_name')
+        %th= t('admin.emails.table.first_name')
+        %th= t('admin.emails.table.email')
+      - @people.each do |person|
+        %tr
+          %td= check_box_tag 'ids[]', person.id, false, class: 'person_checkbox simple'
+          %td= link_to person.id, person
+          %td= person.legacy_id
+          %td= person.last_name
+          %td= person.first_name
+          %td= person.email
+    %p= button_tag t('admin.emails.clear_flags'), class: 'btn btn-success'
+- else
+  %p
+    %strong= t('admin.emails.no_records')

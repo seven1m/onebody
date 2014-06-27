@@ -1,0 +1,120 @@
+- @title = @group.name
+
+- content_for :sub_title do
+  = render partial: 'join_buttons'
+
+- map_header(@group)
+
+- if not @group.approved
+  .alert.alert-warning.alert-dismissable
+    = icon 'fa fa-warning'
+    %button{ type: 'button', class: 'close', 'data-dismiss' => 'alert', 'aria-hidden' => 'true'} ×
+    %p
+      = t('groups.pending_approval.this_group')
+    %p
+      = form_for @group do |form|
+        = form.hidden_field 'approved', value: true
+        = form.button t('groups.approve.button'), class: 'btn btn-success'
+
+.row
+  .col-sm-6.col-sm-push-6
+
+    .row
+      - if @group.email?
+        = group_content_column do
+          .small-box.bg-aqua
+            = link_to group_messages_path(@group) do
+              .inner
+                %h3= @group.messages.count
+                %p= t('groups.box.messages.text', count: @group.messages.count)
+            .icon
+              = icon 'fa fa-envelope-o'
+            - if @group.can_send?(@logged_in)
+              = link_to new_group_message_path(@group), class: 'small-box-footer' do
+                = t('groups.box.messages.new_link')
+                = icon 'fa fa-plus-circle'
+      - if @group.prayer?
+        = group_content_column do
+          .small-box.bg-purple
+            = link_to group_prayer_requests_path(@group) do
+              .inner
+                %h3= @group.prayer_requests.count
+                %p= t('groups.box.prayer_requests.text', count: @group.prayer_requests.count)
+            .icon
+              = icon 'fa fa-heart-o'
+            - if @group.can_add_prayer_request?(@logged_in)
+              = link_to new_group_prayer_request_path(@group), class: 'small-box-footer' do
+                = t('groups.box.prayer_requests.new_link')
+                = icon 'fa fa-plus-circle'
+      - if @group.pictures?
+        = group_content_column do
+          .small-box.bg-orange
+            = link_to group_albums_path(@group) do
+              .inner
+                %h3= @group.album_pictures.count
+                %p= t('groups.box.pictures.text', count: @group.album_pictures.count)
+            .icon
+              = icon 'fa fa-picture-o'
+            - if @group.can_add_album?(@logged_in)
+              = link_to new_group_album_path(@group), class: 'small-box-footer' do
+                = t('groups.box.pictures.new_link')
+                = icon 'fa fa-plus-circle'
+
+    = group_avatar_tag(@group, size: :large)
+
+    - if @group.description.present?
+      .group-description= auto_link(preserve_breaks(@group.description))
+
+    %table.table
+      - if @group.created_at
+        %tr
+          %td= t('.details.created_at')
+          %td= @group.created_at.to_s(:date)
+      - if @group.creator
+        %tr
+          %td= t('.details.created_by')
+          %td= link_to(@group.creator.name, @group.creator)
+      - if @group.leader
+        %tr
+          %td= t('.details.leader')
+          %td= link_to(@group.leader.name, @group.leader)
+      - if @group.admins.any? and @group.admins.to_a != [@group.leader]
+        %tr
+          %td= t('.details.admins')
+          %td= @group.admins.map { |p| link_to(p.try(:name), p) }.join(', ').html_safe
+      %tr
+        %td= t('.details.member_count_label')
+        %td
+          = link_to t('.details.member_count', count: @group.people.count), group_memberships_path(@group)
+          = t('.details.birthdays_this_month_html', count: @group.people.with_birthday_month(Time.now.month).count, url: group_memberships_path(@group, birthdays: true))
+          - if @group.attendance? and @group.admin?(@logged_in)
+            %p
+            = link_to t('.details.attendance.button'), group_attendance_index_path(@group), class: 'btn btn-xs btn-info'
+      - if @group.meets.present?
+        %tr
+          %td= t('.details.meets')
+          %td= preserve_breaks(@group.meets)
+      - if @group.location.present?
+        %tr
+          %td= t('.details.location')
+          %td= preserve_breaks(@group.location)
+
+  .col-sm-6.col-sm-pull-6
+    = timeline @stream_items
+
+    -# TODO
+    -#- if @group.attachments.count > 0
+      -#%h3= x('attachments.files')
+      -#%table.spaced
+        -#- @group.attachments.order(:name).each do |attachment|
+          -#%tr
+            -#%td= link_to attachment.name, get_attachment_path(attachment)
+            -#%td= attachment.created_at.to_s(:date)
+
+    -#- if @group.private?
+      -#%p.highlight= x('groups.this_group_is_private')
+    -#- if @group.hidden?
+      -#%p.highlight= x('groups.this_group_is_hidden')
+    -#- if @show_cal
+      -##cal-container
+        -#%iframe{:frameborder => "0", :height => "400", :src => @group.gcal_url, :style => "border: 0", :width => "600"}

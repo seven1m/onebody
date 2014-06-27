@@ -13,7 +13,7 @@ describe 'SignIn' do
 
     it 'should show error message' do
       expect(response).to be_success
-      assert_select 'div#notice', /email address/
+      assert_select 'div.callout', /email address/
     end
   end
 
@@ -24,7 +24,7 @@ describe 'SignIn' do
 
     it 'should show error message' do
       expect(response).to be_success
-      assert_select 'div#notice', /password/
+      assert_select 'div.callout', /password/
     end
   end
 
@@ -60,8 +60,8 @@ describe 'SignIn' do
     it 'should allow access to disable group emails' do
       @group = FactoryGirl.create(:group)
       @membership = @group.memberships.create!(person: @user)
-      get "/groups/#{@group.id}/memberships/#{@user.id}?code=#{@user.feed_code}&email=off"
-      expect(response).to redirect_to(people_path)
+      get "/groups/#{@group.id}/memberships/#{@user.id}?code=#{@user.feed_code}&email=off", {}, referer: "/groups/#{@group.id}"
+      expect(response).to redirect_to(@group)
       expect(@membership.reload.get_email).to eq(false)
     end
 

@@ -1,0 +1,23 @@
+.small-box {
+  margin-bottom: 20px;
+  & > a {
+    color: #f9f9f9;
+    display: block;
+  }
+  .inner {
+    padding: 10px;
+    position: relative;
+    z-index: 10;
+  }
+}
+
+.box .box-header a:not(.btn) {
+  color: #3C8DBC;
+}
+
+.box-header .box-icon {
+  @extend .pull-right;
+  font-size: 20px;
+  line-height: 1.1;
+  padding: 10px;
+}

@@ -1,0 +1,10 @@
+- if (count = object.comments.count) > 0
+  .comment-summary
+    - names = object.comments.map { |c| link_to(c.person.try(:name) || '', c.person) }.uniq
+    = link_to icon('fa fa-comment-o'), object
+    - if names.length > 3
+      = t('verses.comment_count.many', count: count, by: names[0..2].join(', '), extra_count: names[3..-1].size, url: url_for(object)).html_safe
+    - elsif names.length > 1
+      = t('verses.comment_count.few', count: count, by: names.to_sentence, url: url_for(object)).html_safe
+    - elsif names.length == 1
+      = t('verses.comment_count.one', by: names.first, url: url_for(object)).html_safe

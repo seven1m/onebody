@@ -40,7 +40,7 @@ class Notifier < ActionMailer::Base
     @group = group
     @person = person
     unless (to = group.admins.select { |p| p.email.to_s.any? }.map { |p| "#{p.name} <#{p.email}>" }).any?
-      unless (to = Admin.to_a.select { |a| a.manage_updates? }.map { |a| "#{a.person.name} <#{a.person.email}>" }).any?
+      unless (to = Admin.all.select { |a| a.manage_updates? }.map { |a| "#{a.person.name} <#{a.person.email}>" }).any?
         to = Admin.where(super_admin: true).map { |a| a.person.email }
       end
     end

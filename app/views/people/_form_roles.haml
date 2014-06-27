@@ -1,0 +1,17 @@
+.form-group
+  %span.help-block= t('people.edit.person_type_hint')
+  = form.check_box :member
+  = form.label :member, t('search.member'), class: 'inline'
+.form-group
+  = form.check_box :staff
+  = form.label :staff,  t('search.staff'),  class: 'inline'
+.form-group
+  = form.check_box :elder
+  = form.label :elder,  t('search.elder'),  class: 'inline'
+.form-group
+  = form.check_box :deacon
+  = form.label :deacon, t('search.deacon'), class: 'inline'
+- if setting(:features, :custom_person_type)
+  .form-group
+    = form.label :custom_type
+    = form.select :custom_type, custom_types, { include_blank: true }, class: 'form-control can-create', data: { 'custom-select-prompt' => t('people.edit.custom_type.create_prompt') }

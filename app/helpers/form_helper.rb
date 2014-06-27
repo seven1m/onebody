@@ -16,20 +16,10 @@ module ActionView
       def phone_field(method, options = {})
         @template.phone_field(@object_name, method, options.merge(object: @object))
       end
-
-      def date_field(method, options = {})
-        options[:value] = self.object[method].to_s(:date) rescue ''
-        options[:size] ||= 12
-        text_field(method, options)
-      end
     end
 
     module FormTagHelper
-      def date_field_tag(name, value = nil, options = {})
-        value = value.to_s(:date) rescue ''
-        options[:size] ||= 12
-        text_field_tag(name, value, options)
-      end
+      # nothing yet
     end
   end
 end

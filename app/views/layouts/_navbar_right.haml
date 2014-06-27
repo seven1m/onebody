@@ -1,0 +1,30 @@
+%ul.nav.navbar-nav
+  %li.dropdown.tasks-menu
+    %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
+      %i.glyphicon.glyphicon-user
+      %span
+        = @logged_in.name
+        %i.caret
+    %ul.dropdown-menu
+      %li.header
+        = @logged_in.email
+      %li
+        = link_to edit_person_path(@logged_in) do
+          = icon 'fa fa-pencil'
+          = t('nav.profile_sub.edit')
+      %li
+        = link_to edit_person_account_path(@logged_in) do
+          = icon 'fa fa-key'
+          = t('nav.profile_sub.password')
+      %li
+        = link_to edit_person_path(@logged_in, email: true) do
+          = icon 'fa fa-envelope'
+          = t('nav.profile_sub.email')
+      %li
+        = link_to edit_person_privacy_path(@logged_in) do
+          = icon 'fa fa-lock'
+          = t('nav.profile_sub.privacy')
+      %li
+        = link_to session_path, method: :delete do
+          = icon 'fa fa-sign-out'
+          = t("session.sign_out")

@@ -1,0 +1,33 @@
+.toggle {
+  @extend .btn-group;
+}
+
+.toggle-enabled {
+  @extend .btn;
+  @extend .btn-info;
+  @extend .bg-gray;
+  @extend .text-aqua;
+}
+
+.toggle-disabled {
+  @extend .btn;
+  @extend .btn-info;
+  @extend .disabled;
+}
+
+.btn.btn-delete {
+  @extend .bg-gray;
+  @extend .text-red;
+}
+
+.page-controls {
+  @extend .well;
+  padding-bottom: 10px;
+  .btn {
+    margin: 0 10px 10px 0;
+  }
+}
+
+h1 .btn {
+  margin-top: -3px;
+}

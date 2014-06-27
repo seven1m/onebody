@@ -1,93 +1,27 @@
 module ApplicationHelper
+
+  # TODO do we need these includes any more?
   include TagsHelper
   include PicturesHelper
   include PhotosHelper
+
+  # TODO needed?
   include ERB::Util
 
-  def banner_message
-    if Setting.get(:features, :banner_message).to_s.any?
-      h(Setting.get(:features, :banner_message))
+  def flash_class(level)
+    case level
+      when :info    then 'flash callout callout-info'
+      when :notice  then 'flash callout callout-info'
+      when :success then 'flash callout callout-success'
+      when :error   then 'flash callout callout-danger'
+      when :warning then 'flash callout callout-warning'
     end
   end
 
-  def mobile?
-    session[:mobile] = params[:mobile] == 'true' if params[:mobile]
-    session[:mobile] or (request.env["HTTP_USER_AGENT"].to_s =~ /mobile/i and session[:mobile].nil?)
-  end
-
-  STYLESHEET_MTIMES = {}
-
-  def cached_mtime_for_path(path)
-    if Rails.env.production?
-      STYLESHEET_MTIMES[path] ||= File.mtime(Rails.root.join(path)).to_i.to_s
-    else
-      File.mtime(Rails.root.join(path)).to_i.to_s
-    end
-  end
-
-  def stylesheet_path(browser=nil)
-    theme_colors = Setting.get(:appearance, :theme_primary_color).to_s   + \
-                   Setting.get(:appearance, :theme_secondary_color).to_s + \
-                   Setting.get(:appearance, :theme_top_color).to_s       + \
-                   Setting.get(:appearance, :theme_nav_color).to_s
-    if browser == :ie
-      path = 'public/stylesheets/style.ie.scss'
-      browser_style_path(browser: :ie) + '?' + cached_mtime_for_path(path) + theme_colors
-    elsif browser == :mobile
-      path = 'public/stylesheets/style.mobile.scss'
-      browser_style_path(browser: :mobile) + '?' + cached_mtime_for_path(path) + theme_colors
-    else
-      path = 'public/stylesheets/style.scss'
-      style_path + '?' + cached_mtime_for_path(path) + theme_colors
-    end
-  end
-
-  def heading
-    if Site.current.logo.exists? and @hide_logo.nil?
-      link_to(image_tag(Site.current.logo.url(:layout), alt: Setting.get(:name, :site)), '/')
-    else
-      Setting.get(:name, :site)
-    end
-  end
-
-  def subheading
-    if Setting.get(:name, :slogan).to_s.any? and !Site.current.logo.exists?
-      Setting.get(:name, :slogan)
-    end
-  end
-
-  def tab_link(title, url, active=false, id=nil)
-    link_to(title, url, class: active ? 'active button' : 'button', id: id)
-  end
-
-  def menu_content
-    render partial: 'people/menus'
-  end
-
-  def search_form
-    form_tag(search_path, method: :get) do
-      text_field_tag('name', nil, id: 'search_name', size: 20, placeholder: t('search.search_by_name'))
-    end
-  end
-
-  def notice
-    if flash[:warning] or flash[:notice]
-      html = content_tag(:div, id: "notice", class: flash[:warning] ? 'warning' : nil) do
-        flash[:warning] || flash[:notice]
-      end
-      unless flash[:sticky_notice]
-        html << content_tag(:script, type: "text/javascript") do
-          "$('#notice').fadeOut(15000);"
-        end
-      end
-      html.html_safe
-    end
-  end
-
-  def analytics_js
-    if Rails.env.production?
-      Setting.get(:services, :analytics)
-    end
+  def flash_messages
+    flash.map do |key, value|
+      content_tag(:div, preserve_breaks(value), class: flash_class(key))
+    end.join.html_safe
   end
 
   def preserve_breaks(text, make_safe=true)
@@ -99,9 +33,10 @@ module ApplicationHelper
     text.gsub(/(\n\s*){3,}/, "\n\n")
   end
 
-  def image_tag(location, options)
-    options[:title] = options[:alt] if options[:alt]
-    super(location, options)
+  def format_text(text)
+    text = auto_link(text)
+    text = remove_excess_breaks(text).html_safe
+    preserve_breaks(text, false)
   end
 
   def simple_url(url)
@@ -114,10 +49,6 @@ module ApplicationHelper
 
   def help_path(name=nil)
     page_for_public_path("help/#{name}")
-  end
-
-  def system_path(name=nil)
-    page_for_public_path("system/#{name}")
   end
 
   def render_page_content(path)
@@ -139,6 +70,12 @@ module ApplicationHelper
     )
   end
 
+  def link_to_phone(phone, options={})
+    label = options.delete(:label)
+    label ||= format_phone(phone, options.delete(:mobile))
+    link_to label, "tel:#{phone.digits_only}", options
+  end
+
   def custom_field_name(index)
     n = Setting.get(:features, :custom_person_fields)[index]
     n ? n.sub(/\*/, '') : nil
@@ -156,17 +93,29 @@ module ApplicationHelper
       obj = form
     end
     if obj.errors.any?
-      (
-        "<div class=\"errorExplanation\">" + \
-        "<h3>#{t('There_were_errors')}</h3>" + \
-        "<ul class=\"list\">" + \
-        obj.errors.full_messages.map { |m| "<li>#{h m}</li>" }.join("\n") + \
-        "</ul>" + \
-        "</div>"
-      ).html_safe
+      content_tag(:div, class: 'callout callout-danger form-errors') do
+        content_tag(:h4, t('There_were_errors')) +
+        content_tag(:ul, class: 'list') do
+          uniq_errors(obj).map do |attribute, message|
+            content_tag(:li, message, data: { attribute: "#{obj.class.name.underscore}_#{attribute}" })
+          end.join.html_safe
+        end
+      end
     end
   end
 
+  def uniq_errors(object)
+    # note: uniq doesn't work here since it isn't really an array
+    seen = []
+    object.errors.select do |attr, message|
+      unless seen.include?(message)
+        seen << message
+        message
+      end
+    end
+  end
+
+  # TODO
   def domain_name_from_url(url)
     url =~ /^https?:\/\/([^\/]+)/
     $1
@@ -177,31 +126,6 @@ module ApplicationHelper
       hooks.map do |hook|
         render partial: hook
       end.join("\n").html_safe
-    end
-  end
-
-  def bar_chart_url(data, options={})
-    options.symbolize_keys!
-    options.reverse_merge!(set_count: 1, set_labels: nil, width: 400, height: 200, title: '', colors: ['4F9EC9', '79B933', 'FF9933'])
-    labels = data.map { |p| p[0] }
-    counts = []
-    (0...options[:set_count]).each do |set|
-      counts[set] = data.map { |p| p[set+1] }
-    end
-    max = data.map { |p| p[1..-1].sum }.max
-    "http://chart.apis.google.com/chart?chtt=#{options[:title]}&cht=bvs&chxt=x,y&chxr=1,0,#{max}#{options[:interval] && ','+options[:interval].to_s}&chds=0,#{max}&chd=t:#{counts.map { |c| c.join(',') }.join('|')}&chs=#{options[:width]}x#{options[:height]}&chl=#{labels.join('|')}&chbh=a&chco=#{options[:colors].join(',')}" + (options[:set_labels] ? "&chdl=#{options[:set_labels].join('|')}" : '')
-  end
-
-  def pie_chart_url(data, options={})
-    options.symbolize_keys!
-    options.reverse_merge!(width: 350, height: 200, title: '', colors: ['4F9EC9', '79B933', 'FF9933'])
-    if data
-      labels = data.keys
-      counts = labels.inject([]) { |a, l| a << data[l]; a }
-      labels.map! { |l| l.to_s.gsub('_', ' ') }
-      "http://chart.apis.google.com/chart?chtt=#{options[:title]}&cht=p&chd=t:#{counts.join(',')}&chs=#{options[:width]}x#{options[:height]}&chl=#{labels.join('|')}&chco=#{options[:colors].join(',')}"
-    else
-      ''
     end
   end
 
@@ -219,22 +143,12 @@ module ApplicationHelper
     link_to label, url
   end
 
-  # prefer the object passed in, unless the object is nil or not yet persisted to disk
-  # fallback is @logged_in.id (default) or @logged_in.family_id (pass :family_id as second param)
-  def submenu_target(obj, fallback=:id)
-    if obj and obj.persisted?
-      obj
-    else
-      @logged_in.send(fallback)
-    end
-  end
-
   def params_without_action
     controller.params_without_action
   end
 
   def datepicker_format
-    Setting.get(:formats, :date) =~ %r{%d/%m} ? 'dd/mm/yy' : 'mm/dd/yy'
+    Setting.get(:formats, :date) =~ %r{%d/%m} ? 'dd/mm/yyyy' : 'mm/dd/yyyy'
   end
 
   # TODO remove after upgrade to Rails 4.1
@@ -250,6 +164,59 @@ module ApplicationHelper
   def link_to_function(label, js, options={})
     options[:onclick] = js + ';return false;'
     link_to label, '#', options
+  end
+
+  def icon(css_class, options = {})
+    options[:class] = css_class
+    content_tag(:i, '', options)
+  end
+
+  def setting(section, name)
+    if name.is_a?(Array)
+      name.detect { |n| Setting.get(section, n) }
+    else
+      Setting.get(section, name)
+    end
+  end
+
+  def pagination(scope, options={})
+    options.reverse_merge!(renderer: BootstrapPagination::Rails)
+    will_paginate scope, options
+  end
+
+  def truncate_words(text, options={})
+    truncate(text, options.reverse_merge(separator: ' ', omission: '…'))
+  end
+
+  def map_header(object)
+    if object.mapable?
+      content_for(:header) do
+        raw(
+          content_tag(:div, '', id: 'map', data: { latitude: object.latitude, longitude: object.longitude, address: preserve_breaks(object.location), notice: t('maps.notice') }) +
+          content_tag(:section, class: 'content-header map-overlay') do
+            breadcrumbs +
+            content_tag(:h1) do
+              sub = (s = content_for(:sub_title)) ? content_tag(:small, s) : ''
+              (@title + sub).html_safe
+            end
+          end
+        )
+      end
+    end
+  end
+
+  # TODO reevaluate with Rails 4.1
+  # this is an ugly hack for Rails 4 because I18n.exception_handler isn't working with the t() helper
+  def t(*args)
+    if Rails.env.production?
+      super
+    else
+      super.tap do |result|
+        if result =~ /"(translation missing: .*)"/
+          raise $1
+        end
+      end
+    end
   end
 
   class << self

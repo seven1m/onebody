@@ -1,0 +1,143 @@
+en:
+
+  people:
+
+    account_frozen:
+      callout: "This account is frozen. Changes cannot be made until it is unfrozen."
+
+    new:
+      heading: "New Person in family %{family}"
+
+    edit:
+      about: "About"
+      basics: "Basics"
+      child:
+        enabled: "Yes"
+        disabled: "No"
+      child_hint: "If no birthday is specified, you must indicate whether this is a child or an adult."
+      description_hint: "A word or two about yourself — some people put their job title here."
+      email: "Change Email Settings"
+      family_photo: "Family Photo"
+      password: "Change Password"
+      person_type: "Roles"
+      person_type_hint: "These do not control access — only designation."
+      photo: "Profile Photo"
+      privacy: "Change Privacy Settings"
+      header: "Edit Profile"
+      business: "Business"
+      business_category:
+        new: "[create a new category]"
+        create_prompt: "Enter the category for your business:"
+      custom_type:
+        new: "[create role]"
+        create_prompt: "Enter the role name:"
+      visibility: "Visibility"
+
+    move:
+      heading: "Add to %{family} family"
+      description_html: "Find someone to add to the <a href='%{url}'>%{family}</a> family, then click the Add button..."
+      button: "Move to Family"
+      success_message: "%{person} has been added to the %{family} family."
+
+    roles:
+      elder: "Elder"
+      deacon: "Deacon"
+      staff: "Staff"
+      member: "Member"
+
+    email:
+      heading: "Email Settings"
+      primary:
+        heading: "Primary Email"
+        description_html: |
+          <p>This is your main email address used for login and receiving emails. Please note:</p>
+          <ul>
+            <li>This is the email address you must use to sign in.</li>
+            <li>All your group and private emails will be sent to this email address.</li>
+          </ul>
+      alternate:
+        heading: "Alternate Email"
+        description_html: |
+          <p>If you have another email (perhaps a work address) you wish to utilize to send email to groups, you may enter it here. Please note:</p>
+          <ul>
+            <li>This email address will not be visible to anyone except administrators.</li>
+            <li>You will not be able to use this address to sign into the site.</li>
+          </ul>
+      groups:
+        heading: "Group Email"
+
+    groups:
+      members: "members"
+      messages: "messages"
+      join:
+        button: "Find and join a group."
+
+    business:
+      none: "There is no business at this address"
+      services_provided_by: "Services provided by %{person}"
+      heading: "Business"
+      directory_link: "Business Directory"
+      address: "Address"
+      email: "Email"
+      name: "Name"
+      phone: "Phone"
+      website: "Website"
+
+    testimony:
+      box_heading: "Testimony"
+      heading: "Testimony of %{person}"
+      view_profile: "View Profile"
+      view_full: "read more"
+      find_more: "Read other testimonies"
+
+    updates:
+      pending_callout: "Updates to this profile are pending."
+
+    # TODO organize these better...
+
+    add_group: "Add Group"
+    advanced: "Advanced"
+    can_sign_in: "Can Sign In"
+    cant_delete_yourself: "You cannot delete yourself."
+    cant_delete: "You cannot delete this person."
+    changes_must_be_reviewed_html: "Changes to the details below must be <strong>reviewed by staff</strong>. To request changes, enter the details below and click 'Submit Changes.'"
+    changes_submitted: "Changes submitted."
+    child: "Child"
+    click_to_send_verification_email: "Send a password setup email to this user."
+    deleted_html: "This person has been deleted. You can restore the record <a href='%{url}'>here</a>."
+    determine_by_birthday: "Determine by birthday"
+    family: "Family"
+    family_legacy_external_id: "Family Legacy/External ID"
+    find_a_group_html: "Find a group <a href='%{url}'>here</a>."
+    friend_not_found: "Friend not found."
+    friendship_accepted: "Friendship accepted."
+    friendship_manage: "You may not manage friendships for anyone but yourself."
+    friendship_must_specify: "Must specify accept=true or reject=true"
+    friendship_rejected: "Friendship rejected."
+    full_access: "Full Access"
+    if_you_wish_to_be_listed_business_dir_html: "If you wish to be listed in the <a href='%{url}'>Business Directory</a>, enter your business name, description, and other details below."
+    if_you_wish_to_remove_something_html: "If you wish to remove something in order to keep others from seeing it, instead go to the <a href='%{url}'>Privacy</a> page and hide it."
+    legacy_external_id: "Legacy/External ID"
+    limited_access: "Your account currently has limited access; We're showing you an abbreviated profile page as a result."
+    limited_access_denied: "Your account currently has limited access."
+    new_person: "New Person"
+    no_family_for_this_person: "This person does not belong to a family. They will be unable to sign in and will not be visible to others on the site."
+    no_groups_yet: "no groups yet"
+    not_deleted: "Person not deleted."
+    not_found: "Person not found."
+    pending_approval: "pending approval"
+    people: "People"
+    person:
+      one: "1 Person"
+      other: "%{count} People"
+    person_isnt_any_groups: "%{person} isn't in any groups right now."
+    share_your_personal_testimony: "Share your personal testimony — how you came to know Jesus Christ and how he has changed your life."
+    show_hidden_groups: "Show Hidden Groups"
+    tell_us_about_yourself: "Tell us about yourself. What's your personality like? What would your best friend say about you?"
+    this_event_doesnt_have_pictures: "This event doesn't have any pictures yet."
+    this_person_is_not_an_adult: "This person is believed to be less than %{years} years of age, and does not have parental consent."
+    this_profile_is_hidden: "This profile is hidden"
+    update_to_profile_is: "An update to this profile is"
+    visible_on_printed_directory: "Visible on Printed Directory"
+    visible_to_everyone: "Visible to everyone"
+    you_arent_in_any_groups: "You aren't in any groups yet."

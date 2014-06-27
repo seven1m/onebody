@@ -1,0 +1,18 @@
+%h2= t('accounts.verify_by_phone')
+
+%p= t('accounts.verify_by_phone_description_html')
+
+= form_tag account_path, method: 'post' do
+  = hidden_field_tag :phone, true
+  = error_messages_for(@verification)
+
+  .form-group
+    %label{for: "verification_mobile_phone"}= t('accounts.type_your_mobile')
+    = text_field_tag 'verification[mobile_phone]', params[:phone] == 'true' ? '' : params[:phone], class: 'form-control'
+  .form-group
+    %label{for: "verification_carrier"}= t('accounts.select_your_carrier')
+    %select#verification_carrier{name: "verification[carrier]", class: 'form-control'}
+      %option{value: ""}
+      = options_for_select MOBILE_GATEWAYS.keys, params[:carrier]
+  .form-group
+    = submit_tag t('accounts.verify_mobile'), class: 'btn btn-primary'

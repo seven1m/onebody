@@ -1,0 +1,22 @@
+- @title = t('verses.heading')
+
+%p= t('verses.intro', community: Setting.get(:name, :community))
+
+.row
+  .col-md-4
+    = render partial: 'add_verse'
+    %h3= t('tags.tags')
+    %p= t('verses.about_tags')
+    .tag-cloud
+      - tag_cloud @tags, %w(size1 size2 size3 size4) do |tag, css_class|
+        = link_to tag.name, tag, class: css_class
+      - if @tags.empty?
+        %em= t('tags.no_tags_yet')
+
+  .col-md-8
+    - if @verses.any?
+      = render partial: @verses
+    - else
+      %p
+        %em= t('verses.no_verses_yet')
+    = pagination @verses

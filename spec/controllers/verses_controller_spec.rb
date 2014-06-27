@@ -4,7 +4,11 @@ describe VersesController do
   render_views
 
   before do
-    Verse.delete_all # no verses from fixtures
+    allow_any_instance_of(Verse).to receive(:lookup) do |i|
+      i.translation = 'WEB'
+      i.text = 'test'
+      i.update_sortables
+    end
     @person, @other_person = FactoryGirl.create_list(:person, 2)
     2.times { @person.verses       << FactoryGirl.create(:verse, tag_list: 'foo bar') }
     2.times { @other_person.verses << FactoryGirl.create(:verse, tag_list: 'baz foo') }
@@ -21,7 +25,7 @@ describe VersesController do
   it "should show one verse" do
     get :show, {id: @verse.id}, {logged_in_id: @person.id}
     expect(response).to be_success
-    assert_select 'h2', Regexp.new(@verse.reference)
+    assert_select 'h1', Regexp.new(@verse.reference)
   end
 
   it "should tag a verse" do

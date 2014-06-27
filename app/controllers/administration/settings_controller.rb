@@ -15,7 +15,6 @@ class Administration::SettingsController < ApplicationController
     Setting.where(site_id: Site.current.id).each do |setting|
       next if setting.hidden?
       value = params[setting.id.to_s]
-      value = value.split(/\n/) if value and setting.format == 'list'
       value = value == '' ? nil : value
       value = value == 'true' if setting.format == 'boolean'
       setting.update_attributes! value: value

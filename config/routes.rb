@@ -4,6 +4,7 @@ OneBody::Application.routes.draw do
 
   resource :account do
     member do
+      get :verify_code
       post :verify_code
       get  :select
       post :select
@@ -20,8 +21,9 @@ OneBody::Application.routes.draw do
       put  :import
     end
     member do
-      get  :favs
-      get  :testimony
+      get :favs
+      get :testimony
+      get :login
     end
     resources :friends do
       collection do
@@ -41,6 +43,7 @@ OneBody::Application.routes.draw do
         post :select
       end
     end
+    resource :stream
     resource :photo
     resources :groups, :pictures, :groupies, :services, :albums, :notes, :verses
     resource :privacy, :blog, :calendar
@@ -54,10 +57,12 @@ OneBody::Application.routes.draw do
       post :select
     end
     member do
-      post :reorder
+      put :reorder
     end
     resource :photo
     resources :relationships
+    resources :people
+    resource :search
   end
 
   resources :groups do
@@ -67,7 +72,6 @@ OneBody::Application.routes.draw do
     end
     resources :memberships do
       collection do
-        get    :birthdays
         post   :batch
         delete :batch
       end
@@ -75,7 +79,7 @@ OneBody::Application.routes.draw do
     end
     resources :messages do
       collection do
-        post :new
+        post :new # XXX why??
       end
     end
     resources :attendance do
@@ -83,6 +87,7 @@ OneBody::Application.routes.draw do
         post :batch
       end
     end
+    resource :stream
     resource :photo
     resources :notes, :prayer_requests, :albums, :attachments
     resource :calendar
@@ -123,13 +128,14 @@ OneBody::Application.routes.draw do
 
   resources :notes, except: :index
 
-  resource  :setup, :stream, :session, :search, :printable_directory, :privacy
+  resource  :setup, :session, :search, :printable_directory, :privacy
+
+  resource :stream do
+    resources :people, controller: 'stream_people'
+  end
 
   resources :news, as: :news_items
   get 'news', to: 'news#index'
-
-  resource :style
-  get 'style.:browser.css' => 'styles#show', format: 'css', as: :browser_style
 
   resources :attachments do
     member do
@@ -173,7 +179,7 @@ OneBody::Application.routes.draw do
         put :batch
       end
     end
-    resources :updates, :admins, :membership_requests, :reports
-    resource :api_key, :logo
+    resources :updates, :admins, :membership_requests
+    resource :api_key
   end
 end

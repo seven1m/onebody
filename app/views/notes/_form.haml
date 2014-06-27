@@ -1,0 +1,16 @@
+= form_for [@person, @note] do |form|
+  = error_messages_for(form)
+  .form-group
+    = form.label :title
+    = form.text_field :title, class: 'form-control'
+  .form-group
+    = form.label :body
+    = form.text_area :body, value: sanitize_html(@note.body), rows: 15, class: 'form-control editor-control'
+  .form-group
+    = form.button t('notes.save'), class: 'btn btn-success'
+
+- content_for :css do
+  = stylesheet_link_tag 'editor'
+
+- content_for :js do
+  = javascript_include_tag 'editor'

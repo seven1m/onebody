@@ -11,7 +11,7 @@ class Verification < ActiveRecord::Base
 
   validates :criteria, presence: true
   validates :carrier, inclusion: MOBILE_GATEWAYS.keys, if: -> { mobile_phone }
-  validate :validate_max_attempts
+  validate :validate_max_attempts, on: :create
   validate :validate_people, if: -> { email or mobile_phone }
   validate :validate_people_can_sign_in, if: -> { email or mobile_phone }
 

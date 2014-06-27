@@ -6,9 +6,6 @@ class AttachmentsController < ApplicationController
     if @logged_in.can_see?(@attachment)
       if @attachment.file.exists?
         data = File.read(@attachment.file.path)
-        if data.respond_to?(:encode)
-          data.encode!("iso-8859-1", undef: :replace, invalid: :replace)
-        end
         send_data data, filename: @attachment.name, type: @attachment.content_type || 'application/octet-stream', disposition: 'inline'
       else
         render text: t('attachments.file_deleted'), layout: true, status: 404

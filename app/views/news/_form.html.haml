@@ -1,0 +1,23 @@
+.row
+  .col-lg-6
+    = form_for @news_item do |form|
+      .form-group
+        = form.label :title, t('news.title_description')
+        = form.text_field :title, class: 'form-control'
+      .form-group
+        = form.label :body, t('news.body_description')
+        = form.text_area :body, rows: 10, cols: 100, class: 'form-control editor-control'
+      .form-group
+        - if @logged_in.can_edit?(@news_item) and @news_item.persisted?
+          .pull-right
+            = link_to @news_item, method: 'delete', data: { confirm: t('are_you_sure') }, class: 'btn btn-danger' do
+              = icon 'fa fa-trash-o'
+              = t('news.delete_button')
+        = button_tag class: 'btn btn-success' do
+          = @news_item.new_record? ? t('news.submit_news') : t('news.save_news')
+
+- content_for :css do
+  = stylesheet_link_tag 'editor'
+
+- content_for :js do
+  = javascript_include_tag 'editor'

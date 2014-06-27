@@ -8,18 +8,15 @@ class Setting < ActiveRecord::Base
   SETTINGS_FILE = Rails.root.join("config/settings.yml")
   PLUGIN_SETTINGS_FILES = Rails.root.join("plugins/**/config/settings.yml")
 
-  serialize :value
   belongs_to :site
-
-  cattr_accessor :current
 
   def value
     v = read_attribute(:value)
     case self['format'] # self.format causes a NoMethodError outside the Rails env
       when 'boolean'
-        ![0, '0', 'f', false].include?(v)
+        !['', '0', 'f', 'false', 'no'].include?(v.to_s)
       when 'list'
-        v.is_a?(Array) ? v : v.to_s.split(/\n/)
+        v ? v.to_s.split(/\r?\n/) : []
       else
         v
     end

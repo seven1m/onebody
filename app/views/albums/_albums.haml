@@ -1,0 +1,28 @@
+- if @albums.any?
+  %table.table
+    %tr
+      %th
+      %th= t('albums.table.name')
+      %th= t('albums.table.picture_count')
+      %th= t('albums.table.created_at')
+      - if show_album_actions
+        %th
+    - @albums.each do |album|
+      %tr.row-with-avatar
+        %td.avatar.small
+          = link_to album do
+            = avatar_tag(album, size: :small, class: 'thumbnail')
+        %td
+          = link_to album.name, album
+        %td
+          = album.pictures.count
+        %td
+          = album.created_at.to_s(:date)
+        - if show_album_actions
+          %td.actions
+            = link_to edit_album_path(album), class: 'btn btn-info' do
+              = icon 'fa fa-pencil'
+            = link_to album, data: { method: :delete, confirm: t('are_you_sure') }, class: 'btn btn-delete' do
+              = icon 'fa fa-trash-o'
+- else
+  %p= t('albums.none')

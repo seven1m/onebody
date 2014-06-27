@@ -1,0 +1,75 @@
+- @title = t('admin.admin_count', count: @people.length)
+
+.row
+  .col-md-8
+    %table.table.members
+      %tr.row-with-avatar
+        %th
+        %th= link_to t('name'), '?order=name'
+        %th= link_to t('admin.template'), '?order=template'
+        %th
+      - @people.each do |person|
+        %tr.admin{:id => "person#{person.id}"}
+          %td.avatar
+            = content_tag :a, href: person_path(person) do
+              = avatar_tag(person)
+          %td= link_to person.name, edit_administration_admin_path(person.admin_id)
+          %td
+            - if person.admin.super_admin?
+              = t('admin.super_admin')
+            - elsif person.admin.template_name
+              = person.admin.template_name
+          %td.actions
+            = link_to administration_admin_path(person.admin, person_id: person.id), data: { remote: true, method: :delete, confirm: t('are_you_sure') }, class: 'btn btn-delete' do
+              = icon 'fa fa-trash-o'
+
+  .col-md-4
+    .box.box-info
+      .box-header
+        %h3.box-title= t('admin.add_individual')
+      .box-body
+        = form_tag search_path, remote: true
+        = hidden_field_tag :select_person, true
+        .form-group
+          %label{:for => "name"}
+            = t('name')
+          = text_field_tag 'name', '', class: 'form-control'
+        .form-group
+          = button_tag t('admin.add_person'), class: 'btn btn-info'
+        #add_member{:style => "display:none;"}
+          = form_tag(administration_admins_path) do
+            = select_tag :template_id, options_for_select([['Individual', 0]] + @templates.map { |t| [t.template_name, t.id] })
+            #results
+            %p= submit_tag t('admin.add_selected')
+
+    .box.box-info
+      .box-header
+        %h3.box-title= t('admin.templates')
+      .box-body
+        %p= t('admin.admin_template_description')
+        %ul.list
+          - @templates.each do |template|
+            %li
+              = link_to template.template_name, edit_administration_admin_path(template.id)
+              (#{template.people_count})
+              \#{link_to '', administration_admin_path(template.id), method: :delete, data: { confirm: t('are_you_sure') }, class: 'delete-icon'}
+        %p= link_to_function t('admin.new_admin_template'), "$('#new-template-form').show();$('#template_name')[0].focus();$(this).parent().hide();", class: 'add-icon'
+        = form_tag administration_admins_path, id: 'new-template-form', style: 'display:none;' do
+          %p
+            = t('admin.new_admin_template')
+            %br/
+            %label{:for => "template_name"}
+              = t('name')
+              \:
+            = text_field_tag 'template_name'
+            %br/
+            = submit_tag t('admin.add_template')
+            %br/
+
+    .box.box-info
+      .box-header
+        %h3.box-title= t('admin.group_administrators')
+      .box-body
+        %p= t('admin.group_administrators_description')
+        %p= link_to t('admin.manage_group_administrators'), administration_admins_path(groups: true), class: 'right-icon'
+

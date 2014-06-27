@@ -101,38 +101,4 @@ describe Album do
       end
     end
   end
-
-  context 'remove_owner = true' do
-    context 'owner is a person' do
-      before do
-        Person.logged_in = @user = FactoryGirl.create(:person)
-        @album.owner = FactoryGirl.create(:person)
-      end
-
-      context 'user is not an admin' do
-        before do
-          @album.remove_owner = true
-        end
-
-        it 'should not clear owner' do
-          expect(@album.owner).to_not be_nil
-        end
-      end
-
-      context 'user is an admin with manage_pictures privilege' do
-        before do
-          @user.update_attributes(admin: Admin.create!(manage_pictures: true))
-          @album.remove_owner = true
-        end
-
-        it 'should clear owner' do
-          expect(@album.owner).to be_nil
-        end
-
-        it 'should set album to public' do
-          expect(@album).to be_is_public
-        end
-      end
-    end
-  end
 end

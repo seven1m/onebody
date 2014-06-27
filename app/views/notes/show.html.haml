@@ -1,0 +1,21 @@
+- @title = @note.title
+- if @note.original_url.present?
+  - content_for :sub_title, link_to(domain_name_from_url(@note.original_url), @note.original_url)
+
+= render_note_body @note
+
+.note-meta
+  = avatar_tag @note.person
+  = link_to @note.person.try(:name), @note.person
+  = t('notes.posted', when: @note.created_at.to_s(:date))
+  - if @logged_in.can_edit?(@note)
+    .pull-right
+      = link_to edit_note_path(@note), class: 'btn btn-info' do
+        = icon 'fa fa-pencil'
+        = t('notes.edit.button')
+      = link_to @note, class: 'btn btn-delete', data: { method: :delete, confirm: t('are_you_sure') } do
+        = icon 'fa fa-trash-o'
+        = t('notes.delete.button')
+
+%h3= t('Comments')
+= render partial: 'comments/comments', locals: { object: @note }

@@ -1,0 +1,68 @@
+- @title = t('groups.batch.heading')
+
+= form_tag batch_groups_path, id: 'batch_groups_form' do
+  %table.table
+    %tr
+      %th= t('groups.batch.category')
+      %th= t('groups.batch.name')
+      %th= t('groups.batch.address')
+      %th= t('groups.batch.members_send')
+      %th= t('groups.batch.private')
+      %th= t('groups.batch.hidden')
+      %th= t('groups.batch.class_link_code')
+      %th= t('groups.batch.approval_required_to_join')
+    - @groups.each do |group|
+      %tr.group{:id => "group#{group.id}"}
+        %td= select_tag "groups[#{group.id}][category]", options_for_select(group_categories, group.category), class: 'can-create'
+        %td= text_field_tag "groups[#{group.id}][name]", group.name
+        %td= text_field_tag "groups[#{group.id}][address]", group.address
+        %td
+          = check_box_tag  "groups[#{group.id}][members_send]", true, group.members_send?, class: 'simple'
+          = hidden_field_tag "groups[#{group.id}][members_send]", 0
+        %td
+          = check_box_tag  "groups[#{group.id}][private]", true, group.private?, class: 'simple'
+          = hidden_field_tag "groups[#{group.id}][private]", 0
+        %td
+          = check_box_tag  "groups[#{group.id}][hidden]", true, group.hidden?, class: 'simple'
+          = hidden_field_tag "groups[#{group.id}][hidden]", 0
+        %td= text_field_tag "groups[#{group.id}][link_code]", group.link_code, size: 5
+        %td
+          = check_box_tag  "groups[#{group.id}][approval_required_to_join]", true, group.approval_required_to_join?, class: 'simple'
+          = hidden_field_tag "groups[#{group.id}][approval_required_to_join]", 0
+        %td.errors= group.errors.full_messages.join('; ')
+  %p
+    = submit_tag t('save_changes'), class: 'btn btn-success'
+    %span#loading{:style => "display:none;"}
+      = image_tag 'spinner_small.gif', alt: t('saving') + '...', class: 'icon'
+      = t('saving')
+      \...
+
+- content_for :js do
+  :javascript
+    $(':input').change(function() {
+      var el = $(this);
+      if(el.attr('type') == 'checkbox') {
+        if(el[0].checked) {
+          el.addClass('changed');
+        } else {
+          el.next().addClass('changed');
+        }
+      } else {
+        el.addClass('changed');
+      }
+    });
+    $('#batch_groups_form').submit(function(){
+      $('#loading').show();
+      var data = $(':input.changed').serializeArray();
+      $.ajax({
+        url: $(this).attr('action'),
+        type: 'POST',
+        data: data,
+        dataType: 'script',
+        complete: function(){
+          $(':input').removeClass('changed');
+          $('#loading').hide();
+        }
+      });
+      return false;
+    });

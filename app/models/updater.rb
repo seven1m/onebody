@@ -37,6 +37,7 @@ class Updater
       visible:              :immediate,
       messages_enabled:     :immediate,
       friends_enabled:      :immediate,
+      photo:                :immediate,
       email:                :notify,
       classes:              :admin,
       shepherd:             :admin,
@@ -50,7 +51,6 @@ class Updater
       full_access:          :admin,
       child:                :admin,
       custom_type:          :admin,
-      custom_fields:        :admin,
       medical_notes:        :admin,
       can_pick_up:          :admin,
       cannot_pick_up:       :admin,
@@ -70,6 +70,7 @@ class Updater
       zip:                  :approve,
       share_:               :immediate,
       visible:              :immediate,
+      photo:                :immediate,
       email:                :admin,
       legacy_id:            :admin,
       barcode_id:           :admin,
@@ -96,10 +97,10 @@ class Updater
   # shows which fields would be affected if the update were applied
   def changes
     @changes ||= begin
-      HashWithIndifferentAccess.new(
-        person: Comparator.new(person, params[:person]).changes,
-        family: Comparator.new(family, params[:family]).changes
-      ).reject { |_, v| v.empty? }
+      h = HashWithIndifferentAccess.new
+      h[:person] = Comparator.new(person, params[:person]).changes if person
+      h[:family] = Comparator.new(family, params[:family]).changes if family
+      h.reject { |_, v| v.empty? }
     end
   end
 
@@ -107,7 +108,7 @@ class Updater
   # and/or creates a new Update pending approval
   def save!
     changes # set cache
-    person.updates.create!(data: approval_params) if approval_params.any?
+    person.updates.create!(family_id: family.id, data: approval_params) if approval_params.any?
     success = person.update_attributes(person_params) && family.update_attributes(family_params)
     unless success
       family.errors.full_messages.each { |m| person.errors.add(:base, m) }
@@ -120,7 +121,7 @@ class Updater
   end
 
   def family
-    person.family
+    @family ||= person.family
   end
 
   private
@@ -160,7 +161,7 @@ class Updater
 
   # converts empty string to nil
   def cleanse_value(value)
-    value = value.strip
+    value = value.strip if value.is_a?(String)
     value if value.present?
   end
 

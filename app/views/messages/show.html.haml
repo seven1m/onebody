@@ -1,0 +1,55 @@
+- @title = @message.subject
+
+.row
+  .col-md-2
+    %p
+      = link_to @message.person do
+        = avatar_tag @message.person, size: :medium
+
+    %p
+      = t('messages.sent_at_html', when: @message.created_at.to_s(:full), who: link_to(@message.person.try(:name), @message.person))
+
+    %p
+      - if @message.to
+        = t('messages.sent_to_html', who: link_to(@message.to.try(:name), @message.to))
+      - elsif @message.group
+        = t('messages.sent_to_html', who: link_to(@message.group.try(:name), @message.group))
+
+    - if @logged_in.can_edit?(@message)
+      %p
+        = link_to @message, data: { method: 'delete', confirm: t('are_you_sure') }, class: 'btn btn-delete' do
+          = icon 'fa fa-trash-o'
+          = t('messages.delete.button')
+
+  .col-md-8
+    - if @message.parent
+      .callout.callout-info
+        = t('messages.in_reply_to_html', message: link_to(@message.parent.try(:subject), @message.parent))
+
+    = render_message_body(@message)
+
+    = render partial: 'attachments', locals: { message: @message }
+
+    - if @message.children.any?
+      %h3= t('messages.replies.heading')
+
+      - @message.children.each do |reply|
+        .box.box-info
+          .box-body
+            = render_message_body(reply)
+          .box-footer
+            = link_to reply.person do
+              = avatar_tag(reply.person)
+            = link_to reply.person.try(:name), reply.person
+            = reply.created_at.to_s(:full)
+            .box-tools.pull-right
+              - if reply.attachments.any?
+                = link_to reply, class: 'btn btn-xs btn-info' do
+                  = icon 'fa fa-link'
+              = link_to t('messages.read_more'), reply, class: 'btn btn-info btn-xs'
+
+    - if @message.group and @message.group.can_post? @logged_in
+      #reply.push-down
+        = link_to new_message_path(parent_id: @message.id), remote: true, method: :get, class: 'btn btn-info' do
+          = icon 'fa fa-reply-all'
+          = t('messages.reply_all.button')

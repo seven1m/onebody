@@ -1,0 +1,71 @@
+- @title = t('groups.heading')
+
+- if @unapproved_groups.any? or params[:pending_approval]
+  .callout.callout-warning
+    = t('groups.pending_approval.description', count: @unapproved_groups.length)
+    - if @unapproved_groups.any?
+      %ul
+        - @unapproved_groups.each do |group|
+          %li= link_to group.name, group
+    - else
+      %p= t('none')
+
+.row
+  .col-md-4
+    .box.box-info{style: 'margin-top: 25px'}
+      .box-header
+        %h3.box-title= t('groups.search.heading')
+      .box-body
+        = form_tag(groups_path, method: 'get', class: 'form-inline group-search-form') do
+          .form-group
+            = text_field_tag :name, params[:name], class: 'form-control', placeholder: t('groups.search.name_placeholder')
+          .form-group
+            = button_tag class: 'btn btn-info' do
+              = icon 'fa fa-search'
+              = t('groups.search.submit')
+
+    .box.box-info
+      .box-header
+        %h3.box-title= t('groups.browse.heading')
+      .box-body
+        .group-category-lookup.form-inline
+          = select_tag 'category', options_for_select(@categories), include_blank: true, class: 'form-control'
+
+    .box.box-success
+      .box-header
+        %h3.box-title= t('groups.create.heading')
+      .box-body
+        %p
+          = t('groups.create.description')
+        %p
+          = link_to new_group_path, class: 'btn btn-success' do
+            = icon 'fa fa-plus-circle'
+            = t('groups.create.button')
+
+  .col-md-8
+    - if new_groups.any?
+      %h3= t('groups.new_list.heading')
+      %table.table.group-list
+        %tr
+          %th
+          %th= t('groups.table.group_name')
+          %th= t('groups.table.member_count')
+        - new_groups.each do |group|
+          %tr.row-with-avatar
+            %td.avatar
+              = group_avatar_tag(group)
+            %td.name
+              = link_to group.name, group
+              - if group.private?
+                %span.label.label-warning
+                  = icon 'fa fa-lock'
+                  = t('groups.private_group')
+              - if group.hidden?
+                %span.label.label-danger
+                  = icon 'fa fa-eye-slash'
+                  = t('groups.hidden_group')
+            %td
+              = group.memberships.count
+
+    %h3= t('groups.your_groups')
+    = render partial: 'person_groups'

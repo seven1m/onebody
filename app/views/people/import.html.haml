@@ -1,0 +1,41 @@
+- @title = t('import.import_people')
+
+= form_tag(import_people_path, method: 'post', multipart: true) do
+  %p
+    = t('import.select_csv_file')
+    = link_to_function t('click_here'), "$('#attributes').toggle()"
+    = t('import.for_list_of_available_attributes')
+  %p
+    %strong= t('import.only_first_records_will_be_imported_html', count: Person::MAX_RECORDS_TO_IMPORT)
+  %ul#attributes{:style => "display:none;"}
+    - @column_names.each do |name|
+      %li= name
+  .form-group
+    = file_field_tag :file
+  .form-group
+    .checkbox
+      = check_box_tag 'match_by_name', true, true
+      %label{:for => "match_by_name"}= t('import.attempt_match_existing_people')
+  %fieldset
+    %legend= t('import.visibility_access')
+    = t('import.apply_settings_to_imports')
+    .form-group
+      .checkbox
+        = check_box_tag 'attributes[can_sign_in]', true, true, id: 'attributes_can_sign_in'
+        %label{:for => "attributes_can_sign_in"}= t('people.can_sign_in')
+    .form-group
+      .checkbox
+        = check_box_tag 'attributes[full_access]', true, true, id: 'attributes_full_access'
+        %label{:for => "attributes_full_access"}= t('people.full_access')
+    .form-group
+      .checkbox
+        = check_box_tag 'attributes[visible_to_everyone]', true, true, id: 'attributes_visible_to_everyone'
+        %label{:for => "attributes_visible_to_everyone"}= t('people.visible_to_everyone')
+    .form-group
+      .checkbox
+        = check_box_tag 'attributes[visible_on_printed_directory]', true, true, id: 'attributes_visible_on_printed_directory'
+        %label{:for => "attributes_visible_on_printed_directory"}= t('people.visible_on_printed_directory')
+  .form-group
+    = button_tag t('import.import_data'), class: 'btn btn-success'
+%p
+  = t('import.hint_excel_docs')

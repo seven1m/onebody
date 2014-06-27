@@ -1,0 +1,12 @@
+%div
+  .form-group
+    = form.label :website
+    = form.text_field :website, class: 'form-control'
+  .form-group
+    = form.label :testimony
+    %span.help-block= t('people.share_your_personal_testimony')
+    = form.text_area :testimony, rows: 15, class: 'form-control'
+  .form-group
+    = form.label :about
+    %span.help-block= t('people.tell_us_about_yourself')
+    = form.text_area :about, rows: 10, class: 'form-control'

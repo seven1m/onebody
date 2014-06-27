@@ -1,0 +1,26 @@
+- content_for :meta do
+  %link{rel: 'alternate', type: 'application/atom+xml', title: t('news.news_feed'), href: news_url(format: 'xml', code: @logged_in.feed_code)}
+
+- @title = t('news.heading')
+
+.row
+  .col-md-6
+    = t('news.welcome_to_the_place')
+    - if Setting.get(:features, :news_by_users)
+      = t('news.if_you_have_something_to_share_html', url: new_news_item_path)
+  .col-md-6
+    .pull-right
+      = t('news.subscribe.description')
+      = link_to news_path(format: 'xml', code: @logged_in.feed_code), class: 'btn bg-orange' do
+        = icon 'fa fa-rss'
+        = t('news.subscribe.button')
+
+.row
+  .col-md-12
+    = pagination @news_items
+    = render partial: 'news_item', collection: @news_items
+    = pagination @news_items
+
+    - unless @news_items.any?
+      %p
+        %em= t('news.no_news_is_available')

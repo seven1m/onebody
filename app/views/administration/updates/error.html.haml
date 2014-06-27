@@ -1,0 +1,16 @@
+- @title = t('import.error_updating')
+
+%p
+  = t('import.error_updating_message_html', url: administration_updates_path)
+%h3= pluralize @update.errors.length, t('import.error')
+%ul.list
+  - @update.errors.full_messages.each do |error|
+    %li= error
+%h3= t('import.records')
+%ul.list
+  %li
+    = t('person')
+    \: #{link_to "#{@update.person.name}",        @update.person}
+  %li
+    = t('people.family')
+    \: #{link_to "#{@update.person.family.name}", @update.person.family}

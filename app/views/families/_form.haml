@@ -1,0 +1,18 @@
+= form_for @family, html: { multipart: true } do |form|
+  .row
+    .col-lg-8
+      - if params[:compact]
+        = hidden_field_tag :compact, true
+      - if params[:people]
+        = hidden_field_tag :people,  true
+      - if params[:barcode]
+        = hidden_field_tag :barcode, true
+      = error_messages_for(form)
+      = render partial: 'form_fields', locals: {form: form}
+      .form-group
+        = submit_or_save_button
+    .col-lg-4
+      %h3= t('families.edit.photo')
+      %p= family_avatar_tag @family, size: :large
+      %p= photo_upload_for @family
+

@@ -1,0 +1,26 @@
+- @title = t('prayer_requests.index.heading')
+
+.page-controls
+  = link_to new_group_prayer_request_path(@group), class: 'btn btn-success' do
+    = icon 'fa fa-plus'
+    = t('prayer_requests.new.button')
+
+= pagination @reqs
+
+- @reqs.each do |req|
+  .prayer-request.box
+    .box-header
+      %h3.box-title
+        = link_to req.created_at.to_s(:date), req
+        = t('prayer_requests.by', person: link_to(req.person.try(:name), req.person)).html_safe
+    .box-body
+      = preserve_breaks req.request
+      - if req.answer.present?
+        .prayer-answer
+          - if req.answered_at
+            %h4= t('prayer_requests.answer.on_date', date: req.answered_at.to_s(:date))
+          - else
+            %h4= t('prayer_requests.answer.heading')
+          = preserve_breaks req.answer
+
+= pagination @reqs
