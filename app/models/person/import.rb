@@ -2,7 +2,7 @@ class Person
 
   cattr_accessor :import_in_progress
 
-  MAX_RECORDS_TO_IMPORT = 500 unless defined?(MAX_RECORDS_TO_IMPORT)
+  MAX_RECORDS_TO_IMPORT = 1000 unless defined?(MAX_RECORDS_TO_IMPORT)
 
   COLUMN_ALIASES = {
     'First Name'             => 'first_name',
@@ -31,8 +31,11 @@ class Person
 
     module ClassMethods
       def importable_column_names
-        # FIXME
-        (Person.attr_accessible.keys + Family.attr_accessible.keys.map { |k| "family_#{k}" }).uniq
+        # FIXME this is hacky
+        (
+          Updater::PARAMS[:person].keys +
+          Updater::PARAMS[:family].keys.map { |k| "family_#{k}" }
+        ).map(&:to_s).uniq
       end
 
       def translate_column_name(col)
@@ -45,10 +48,11 @@ class Person
         attributes = data.shift.map { |a| translate_column_name(a) }
         the_changes = data[0...MAX_RECORDS_TO_IMPORT].map do |row|
           person, family = get_changes_for_import(attributes, row, match_by_name)
-          person.attributes = merge_attributes
+          person.attributes = merge_attributes.permit!
           if person.changed? or family.changed?
             changes = person.changes.clone
             family.changes.each { |k, v| changes['family_' + k] = v }
+            changes.reject! { |k, _| k =~ /site_id$/ }
             [person, changes]
           else
             nil
@@ -60,10 +64,8 @@ class Person
 
       def get_changes_for_import(attributes, row, match_by_name=true)
         row_as_hash = {}
-        row.each_with_index do |col, index|
-          if a = attributes[index]
-            row_as_hash[a] = col
-          end
+        attributes.each_with_index do |attr, index|
+          row_as_hash[attr] = row[index]
         end
         person_hash, family_hash = split_change_hash(row_as_hash)
         if record = tiered_find(person_hash, match_by_name)
@@ -80,15 +82,36 @@ class Person
       end
 
       def tiered_find(attributes, match_by_name=true)
-        a = attributes.clone.reject_blanks
-        a['id']        &&
-          where(id: a["id"]).first               ||
-        a['legacy_id'] &&
-          where(legacy_id: a["legacy_id"]).first ||
-        match_by_name  && a['first_name'] && a['last_name'] && a['birthday'] &&
-          where(first_name: a["first_name"], last_name: a["last_name"], birthday: Date.parse(a["birthday"])).first ||
-        match_by_name  && a['first_name'] && a['last_name'] &&
-          where(first_name: a["first_name"], last_name: a["last_name"]).first
+        attrs = attributes.clone.reject_blanks
+        import_find_by_id(attrs) ||
+        import_find_by_legacy_id(attrs) ||
+        match_by_name && import_find_by_name_and_birthday(attrs) ||
+        match_by_name && import_find_by_name(attrs)
+      end
+
+      def import_find_by_id(attrs)
+        attrs['id'] && undeleted.where(id: attrs['id']).first
+      end
+
+      def import_find_by_legacy_id(attrs)
+        attrs['legacy_id'] && undeleted.where(legacy_id: attrs['legacy_id']).first
+      end
+
+      def import_find_by_name_and_birthday(attrs)
+        attrs['first_name'] && attrs['last_name'] && attrs['birthday'] &&
+          undeleted.where(
+            first_name: attrs['first_name'],
+            last_name:  attrs['last_name'],
+            birthday:   Date.parse(attrs['birthday'])
+          ).first
+      end
+
+      def import_find_by_name(attrs)
+        attrs['first_name'] && attrs['last_name'] &&
+          undeleted.where(
+            first_name: attrs['first_name'],
+            last_name:  attrs['last_name']
+          ).first
       end
 
       def import_data(params)
@@ -117,7 +140,7 @@ class Person
               end
               raise ActiveRecord::Rollback
             else
-              completed << {first_name: person_vals['first_name'], last_name: person_vals['last_name'], status: 'Record created.'}
+              completed << {person: person, first_name: person_vals['first_name'], last_name: person_vals['last_name'], status: 'Record created.'}
             end
           end
         end
@@ -126,7 +149,7 @@ class Person
             begin
               vals.cleanse('birthday', 'anniversary')
               person_vals, family_vals = split_change_hash(vals)
-              person = Person.find(id)
+              person = Person.undeleted.find(id)
               person.update_attributes!(person_vals)
               person.family.update_attributes!(family_vals)
             rescue => e
@@ -137,7 +160,7 @@ class Person
               end
               raise ActiveRecord::Rollback
             else
-              completed << {first_name: person.first_name, last_name: person.last_name, status: I18n.t('import.record_updated')}
+              completed << {person: person, first_name: person.first_name, last_name: person.last_name, status: I18n.t('import.record_updated')}
             end
           end
         end
@@ -155,7 +178,9 @@ class Person
             person_vals[key] = val
           end
         end
-        family_vals['legacy_id'] ||= person_vals['legacy_family_id']
+        if family_vals['legacy_id'].nil? and person_vals['legacy_family_id'].present?
+          family_vals['legacy_id'] = person_vals['legacy_family_id']
+        end
         person_vals.reject! { |k, v| !Person.column_names.include?(k) or k =~ /^share_|_at$/ }
         family_vals.reject! { |k, v| !Family.column_names.include?(k) or k =~ /^share_|_at$/ }
         [person_vals, family_vals]
