@@ -1,6 +1,6 @@
 - @title = t('groups.heading')
 
-- if @unapproved_groups.any? or params[:pending_approval]
+- if (@unapproved_groups.any? or params[:pending_approval]) and @logged_in.admin?(:manage_groups)
   .callout.callout-warning
     = t('groups.pending_approval.description', count: @unapproved_groups.length)
     - if @unapproved_groups.any?

@@ -11,10 +11,11 @@
     %button{ type: 'button', class: 'close', 'data-dismiss' => 'alert', 'aria-hidden' => 'true'} ×
     %p
       = t('groups.pending_approval.this_group')
-    %p
-      = form_for @group do |form|
-        = form.hidden_field 'approved', value: true
-        = form.button t('groups.approve.button'), class: 'btn btn-success'
+    - if @logged_in.admin?(:manage_groups)
+      %p
+        = form_for @group do |form|
+          = form.hidden_field 'approved', value: true
+          = form.button t('groups.approve.button'), class: 'btn btn-success'
 
 .row
   .col-sm-6.col-sm-push-6
