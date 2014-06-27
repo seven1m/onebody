@@ -8,6 +8,7 @@
   .header= t('session.form.header')
 
   = form_tag '/session' do
+    = hidden_field_tag :from, params[:from]
     .body.bg-gray
       .form-group
         = text_field_tag :email, params[:email], placeholder: t('session.form.placeholder.email'), class: 'form-control', autofocus: !@focus_password
