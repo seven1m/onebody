@@ -128,38 +128,6 @@ class Person < ActiveRecord::Base
     "<#{name}>"
   end
 
-  serialize :custom_fields
-
-  def custom_fields
-    (f = read_attribute(:custom_fields)).is_a?(Array) ? f : []
-  end
-
-  def custom_fields=(values)
-    if values.nil?
-      write_attribute(:custom_fields, [])
-    else
-      existing_values = read_attribute(:custom_fields) || []
-      if values.is_a?(Hash)
-        values.each do |key, val|
-          existing_values[key.to_i] = typecast_custom_value(val, key.to_i)
-        end
-      else
-        values.each_with_index do |val, index|
-          existing_values[index] = typecast_custom_value(val, index)
-        end
-      end
-      write_attribute(:custom_fields, existing_values)
-    end
-  end
-
-  def typecast_custom_value(val, index)
-    if Setting.get(:features, :custom_person_fields)[index] =~ /[Dd]ate/
-      Date.parse(val.to_s) rescue nil
-    else
-      val
-    end
-  end
-
   # FIXME deprecated
   def self.can_create?
     true

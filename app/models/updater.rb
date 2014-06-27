@@ -51,7 +51,6 @@ class Updater
       full_access:          :admin,
       child:                :admin,
       custom_type:          :admin,
-      custom_fields:        :admin,
       medical_notes:        :admin,
       can_pick_up:          :admin,
       cannot_pick_up:       :admin,
