@@ -52,10 +52,10 @@ user=$(cat <<USER
 
   # setup config and migrate db
   if [[ ! -e config/secrets.yml ]]; then
-    secret=\\$(/home/vagrant/.rvm/gems/ruby-2.1.1@onebody/bin/rake -s secret)
+    secret=\\$(/home/vagrant/.rvm/gems/#{$ruby_version}@onebody/bin/rake -s secret)
     sed -e"s/SOMETHING_RANDOM_HERE/\\$secret/g" config/secrets.yml.example > config/secrets.yml
   fi
-  \\$HOME/.rvm/gems/ruby-2.1.1@onebody/bin/rake db:migrate
+  \\$HOME/.rvm/gems/#{$ruby_version}@onebody/bin/rake db:migrate
 
   # install apache and passenger
   if [[ ! -e /etc/apache2/conf-available/passenger.conf ]]; then
