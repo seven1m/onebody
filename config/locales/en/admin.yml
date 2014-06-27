@@ -203,10 +203,11 @@ en:
         order: 16
       export_data:
         title: Export Data
-        about: "Export all site data to XML and CSV."
+        about: "Export all site data to XML or CSV."
         order: 17
     rest_api_information: To use the REST API with Ruby, you might do this
     settings:
+      heading: "Site Settings"
       Contact: 
         Tech Support Email: 
           name: Tech Support Email
@@ -252,14 +253,14 @@ en:
       URL: 
         News Feed: 
           name: News Feed
-          description: URL for external community news feed (news will be imported periodically)
+          description: "URL for external community news feed in RSS or Atom format (news will be imported periodically)"
         Visitor: 
           name: Visitor
           description: URL for main website (visitors will be pointed here if they happen across the member site.)
       System: 
         Suffixes: 
           name: Suffixes
-          description: ""
+          description: "Name suffixes, one per line."
         Adult Age: 
           name: Adult Age
           description: Age at which a person is considered old enough to use the site and be seen by others in the directory.
@@ -392,7 +393,7 @@ en:
           description: If enabled, users will be allowed to post comments on pictures.
         Share Work Phone by Default: 
           name: Share Work Phone
-          description: If enabled, new users will have their work phones shared with other site members.;
+          description: If enabled, new users will have their work phones shared with other site members.
         Share Fax by Default: 
           name: Share Fax
           description: If enabled, new users will have their fax shared with other site members.
@@ -411,22 +412,26 @@ en:
         Share Birthday by Default: 
           name: Share Birthday
           description: If enabled, new users will have their birthday shared with other site members.
+
+      advanced:
+        heading: "Advanced"
+        intro: "If settings aren't getting reloaded, click the button below to force reload."
       contact_automated_email_about: "These email addresses are sent email when certain things happen on the site. You can set them all to the same address or to different ones, depending on separation of duties in your community."
       contact_community_info_about: "Enter contact information for your church or community office, where people can contact administrative staff."
-      contact_heading: Contact Information
+      contact_heading: Contact
       disabled: Disabled
       enabled: Enabled
-      features_heading: Software Features
+      features_heading: Features
       formats_heading: Formats
       formats_date_about_html: "Enter your own date and time formats to match your part of the world. See <a href=\"/date_formatting_options.txt\" target=\"_new\">here</a> for formatting options."
       formats_phone_about: "Specify phone formatting with 'd', e.g. ddd-ddd-dddd or (dd) dddd-dddd, depending on your locale."
       locale_heading: Locale
-      membership_management_heading: Membership Management
-      name_heading: Community Name
+      membership_management_heading: Members
+      name_heading: Name
       one_per_line: "(one per line)"
       privacy_defaults: Default Privacy Settings
       privacy_defaults_about: "When a member's account is first created, the following privacy settings are applied to their information. (Members can still choose to show or hide any of their information at any time, regardless of the settings below.)"
-      privacy_heading: Privacy Controls
+      privacy_heading: Privacy
       reload: Reload Settings
       reload_message: If you have made modifications to the system from the command line, you may need to reload all settings to see the changes take effect.
       save: Save Settings
