@@ -16,3 +16,5 @@
         %td= priv[:about]
   .form-group
     = form.button t('save_changes'), class: 'btn btn-info'
+    - if @admin.template?
+      = link_to t('Delete'), administration_admin_path(@admin), data: { method: 'delete', confirm: t('are_you_sure') }, class: 'btn btn-delete pull-right'

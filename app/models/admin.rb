@@ -64,7 +64,7 @@ class Admin < ActiveRecord::Base
     alias_method :add_privilege, :add_privileges
 
     def destroy_orphaned
-      destroy_all '(select count(*) from people where people.admin_id = admins.id) = 0'
+      destroy_all '(select count(*) from people where people.admin_id = admins.id and people.deleted = 0) = 0 and template_name is null'
     end
   end
 

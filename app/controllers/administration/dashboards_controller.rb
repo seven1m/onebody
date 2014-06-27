@@ -3,7 +3,6 @@ class Administration::DashboardsController < ApplicationController
 
   # TODO refactor into presenter
   def show
-    Admin.destroy_orphaned
     @admin_count = Person.administrators.count
     @update_count = Update.pending.count
     @email_changed_count = Person.email_changed.count

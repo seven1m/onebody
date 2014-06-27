@@ -8,7 +8,7 @@ class Administration::AdminsController < ApplicationController
         .sort_by { |a| (params[:sort] == 'group' ? a[1] : a[0]).name }
       render action: 'group_admins'
     else
-      Admin.destroy_all(["(select count(*) from people where admin_id=admins.id and deleted=?) = 0 and template_name is null", false])
+      Admin.destroy_orphaned
       @order = case params[:order]
                when 'template'
                  "admins.super_admin, admins.template_name, people.last_name, people.first_name"
