@@ -29,7 +29,7 @@ class BreadcrumbPresenter
   private
 
   def directory_crumb
-    if @controller == 'people'
+    if @controller == 'people' and @action != 'import'
       if @params[:business]
         crumbs << ['fa fa-archive', t('nav.directory_sub.business'), search_path(business: true)]
       else
@@ -130,10 +130,18 @@ class BreadcrumbPresenter
     end
   end
 
-  # TODO
   def admin_crumb
-    if @controller == 'pages'
+    if @controller =~ /^administration\// or @controller == 'pages' or @route == 'people#import'
       crumbs << ['fa fa-gear', t('nav.admin'), admin_path]
+    end
+    if @controller == 'administration/admins' and @assigns['admin']
+      crumbs << ['fa fa-gavel', t('nav.admin_sub.admins'), administration_admins_path]
+    end
+    if @controller == 'pages' and @assigns['page']
+      crumbs << ['fa fa-file', t('nav.pages'), pages_path]
+    end
+    if @controller == 'administration/syncs' and @assigns['sync']
+      crumbs << ['fa fa-refresh', t('nav.syncs'), administration_syncs_path]
     end
   end
 
