@@ -147,8 +147,7 @@
               %li{ class: tab_selected?(:admin) ? 'active' : '' }
                 = link_to admin_path do
                   %i.fa.fa-cogs
-                  %span Admin
-                  %small.badge.pull-right.bg-orange 2 alerts
+                  %span= t('nav.admin')
           = yield(:sidebar)
         / /.sidebar
       / Right side column. Contains the navbar and content of the page
