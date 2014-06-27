@@ -21,14 +21,19 @@ en:
       s: "%{name}' Groups"
       no_s: "%{name}'s Groups"
 
-    hidden_group: "Hidden"
+    hidden:
+      callout: "This group is hidden (archived)."
+      label: "Hidden"
+
     hidden_groups:
       heading: "Hidden Groups"
       description: "Only administrators (such as yourself) see this list."
 
     linked_group: "This group is maintained by office staff."
 
-    private_group: "Private"
+    private:
+      callout: "This group is private. Messages posted here can only be seen by group members and site administrators."
+      label: "Private"
 
     email_off: "email off"
     email_on: "email on"

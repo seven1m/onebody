@@ -17,6 +17,13 @@
           = form.hidden_field 'approved', value: true
           = form.button t('groups.approve.button'), class: 'btn btn-success'
 
+- if @group.private?
+  .callout.callout-warning
+    = t('groups.private.callout')
+
+- if @group.hidden?
+  .callout.callout-danger
+    = t('groups.hidden.callout')
 .row
   .col-sm-6.col-sm-push-6
 
@@ -112,10 +119,6 @@
             -#%td= link_to attachment.name, get_attachment_path(attachment)
             -#%td= attachment.created_at.to_s(:date)
 
-    -#- if @group.private?
-      -#%p.highlight= x('groups.this_group_is_private')
-    -#- if @group.hidden?
-      -#%p.highlight= x('groups.this_group_is_hidden')
     -#- if @show_cal
       -##cal-container
         -#%iframe{:frameborder => "0", :height => "400", :src => @group.gcal_url, :style => "border: 0", :width => "600"}

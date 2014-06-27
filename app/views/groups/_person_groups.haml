@@ -21,11 +21,11 @@
               - if group.private?
                 %span.label.label-warning
                   = icon 'fa fa-lock'
-                  = t('groups.private_group')
+                  = t('groups.private.label')
               - if group.hidden?
                 %span.label.label-danger
                   = icon 'fa fa-eye-slash'
-                  = t('groups.hidden_group')
+                  = t('groups.hidden.label')
             %td
               = group.memberships.count
             - if show_email_settings
