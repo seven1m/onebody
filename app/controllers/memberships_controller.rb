@@ -45,9 +45,11 @@ class MembershipsController < ApplicationController
       if @logged_in.can_edit?(@group) or @logged_in.can_edit?(@person)
         @get_email = params[:email] == 'on'
         @group.set_options_for @person, {get_email: @get_email}
-        flash[:notice] = t('groups.email_settings_changed')
         respond_to do |format|
-          format.html { redirect_to :back }
+          format.html do
+            flash[:notice] = t('groups.email_settings_changed')
+            redirect_to :back
+          end
           format.js
         end
       else
