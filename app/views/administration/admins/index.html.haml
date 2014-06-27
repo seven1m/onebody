@@ -28,19 +28,20 @@
       .box-header
         %h3.box-title= t('admin.add_individual')
       .box-body
-        = form_tag search_path, remote: true
-        = hidden_field_tag :select_person, true
-        .form-group
-          %label{:for => "name"}
-            = t('name')
-          = text_field_tag 'name', '', class: 'form-control'
-        .form-group
-          = button_tag t('admin.add_person'), class: 'btn btn-info'
+        = form_tag search_path, remote: true do
+          = hidden_field_tag :select_person, true
+          .form-group
+            %label{:for => "name"}
+              = t('name')
+            = text_field_tag 'name', '', class: 'form-control'
+          .form-group
+            = button_tag t('admin.add_person'), class: 'btn btn-info'
         #add_member{:style => "display:none;"}
           = form_tag(administration_admins_path) do
-            = select_tag :template_id, options_for_select([['Individual', 0]] + @templates.map { |t| [t.template_name, t.id] })
+            = select_tag :template_id, options_for_select([['Individual', 0]] + @templates.map { |t| [t.template_name, t.id] }), class: 'form-control'
             #results
-            %p= submit_tag t('admin.add_selected')
+            .form-group
+              = button_tag t('admin.add_selected'), class: 'btn btn-success'
 
     .box.box-info
       .box-header
@@ -57,14 +58,11 @@
         = form_tag administration_admins_path, id: 'new-template-form', style: 'display:none;' do
           %p
             = t('admin.new_admin_template')
-            %br/
-            %label{:for => "template_name"}
-              = t('name')
-              \:
-            = text_field_tag 'template_name'
-            %br/
-            = submit_tag t('admin.add_template')
-            %br/
+          .form-group
+            %label{:for => "template_name"}= t('name')
+            = text_field_tag 'template_name', '', class: 'form-control'
+          .form-group
+            = button_tag t('admin.add_template'), class: 'btn btn-success'
 
     .box.box-info
       .box-header
