@@ -21,7 +21,7 @@
           = icon 'fa fa-envelope'
   - if @logged_in.admin?(:manage_sync)
     .floating-metric
-      - error_count = @last_sync ? @last_sync.error_count : 0
+      - error_count = (@last_sync ? @last_sync.error_count : 0) || 0
       .small-box{ class: metric_css_class(error_count, 1, 5) }
         = link_to administration_syncs_path do
           .inner

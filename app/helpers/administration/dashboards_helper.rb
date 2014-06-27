@@ -33,6 +33,7 @@ module Administration::DashboardsHelper
   end
 
   def metric_css_class(count, warn_threshold=nil, critical_threshold=nil)
+    count = count.to_i
     if critical_threshold and count >= critical_threshold
       'critical'
     elsif warn_threshold and count > warn_threshold

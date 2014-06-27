@@ -17,7 +17,7 @@
       %td= link_to sync.id, administration_sync_path(sync)
       %td= sync.created_at.to_s
       %td= sync.complete? ? distance_of_time_in_words(sync.updated_at, sync.created_at) : nil
-      %td= link_to sync.person.name, sync.person
+      %td= link_to sync.person.try(:name), sync.person
       %td= sync.complete? ? 'complete' : nil
       %td.good= sync.success_count
       %td.bad= sync.error_count
