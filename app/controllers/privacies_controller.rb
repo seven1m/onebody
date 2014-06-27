@@ -58,7 +58,6 @@ class PrivaciesController < ApplicationController
         end
         if @family.visible?
           flash[:notice] = t('privacies.saved')
-          flash[:warning] = nil
         else
           flash[:warning] = t('privacies.family_hidden', your: @family == @logged_in.family ? t('your') : t('privacies.this'))
         end
@@ -75,7 +74,7 @@ class PrivaciesController < ApplicationController
     if params[:agree_commit]
       params.permit(:agree, :commit)
     else
-      params.require(:family).permit(people_attributes: [:id, :share_address, :share_mobile_phone, :share_home_phone, :share_work_phone, :share_fax, :share_email, :share_birthday, :share_anniversary, :share_activity])
+      params.require(:family).permit(people_attributes: [:id, :visible, :share_address, :share_mobile_phone, :share_home_phone, :share_work_phone, :share_fax, :share_email, :share_birthday, :share_anniversary, :share_activity])
     end
   end
 
