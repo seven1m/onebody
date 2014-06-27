@@ -1,7 +1,7 @@
 class CleanUpAdmins < ActiveRecord::Migration
   def self.up
     Site.each do
-      Person.all(:conditions => 'admin_id is not null').each do |person|
+      Person.where('admin_id is not null').each do |person|
         unless person.admin
           person.update_attribute(:admin_id, nil)
         end

@@ -8,8 +8,8 @@ class UpdateAllStreamItems < ActiveRecord::Migration
       end
       Publication.all.each { |o| o.create_as_stream_item } if defined?(Publication)
       NewsItem.all.each    { |o| o.create_as_stream_item }
-      Message.all(
-        :conditions => 'person_id is not null and to_person_id is null and (wall_id is not null or group_id is not null)'
+      Message.where(
+        'person_id is not null and to_person_id is null and (wall_id is not null or group_id is not null)'
       ).each do |message|
         message.create_as_stream_item
       end

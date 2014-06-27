@@ -5,7 +5,7 @@ class AddRelationshipsHashToPeople < ActiveRecord::Migration
     end
     Person.reset_column_information
     Site.each do
-      Person.all(:conditions => "(select count(id) from relationships where person_id=people.id) > 0").each do |person|
+      Person.where("(select count(id) from relationships where person_id=people.id) > 0").each do |person|
         person.update_relationships_hash
         person.save
       end

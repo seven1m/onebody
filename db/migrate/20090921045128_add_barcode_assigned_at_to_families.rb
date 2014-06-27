@@ -5,10 +5,11 @@ class AddBarcodeAssignedAtToFamilies < ActiveRecord::Migration
     end
     Family.reset_column_information
     Site.each do
-      Family.all(:conditions => "barcode_id is not null and barcode_id != ''").each do |family|
-        last_log_item = LogItem.all(
-          :conditions => ["loggable_type = 'Family' and loggable_id = ? and object_changes like '%barcode_id%'", family.id],
-          :order      => 'created_at desc'
+      Family.where("barcode_id is not null and barcode_id != ''").each do |family|
+        last_log_item = LogItem.where(
+          "loggable_type = 'Family' and loggable_id = ? and object_changes like '%barcode_id%'", family.id
+        ).order(
+          'created_at desc'
         ).detect do |log_item|
           log_item.object_changes['barcode_id'][1].to_s != '' rescue false
         end

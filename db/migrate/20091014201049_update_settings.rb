@@ -6,7 +6,7 @@ class UpdateSettings < ActiveRecord::Migration
       if not actual.has_key?(setting.section) or not actual[setting.section].has_key?(setting.name)
         setting.destroy
       # remove duplicates
-      elsif Setting.count('*', :conditions => ['site_id = ? and section = ? and name = ?', setting.site_id, setting.section, setting.name]) > 1
+      elsif Setting.where('site_id = ? and section = ? and name = ?', setting.site_id, setting.section, setting.name).count > 1
         setting.destroy
       # update description and hidden attributes
       else
