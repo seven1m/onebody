@@ -11,3 +11,14 @@
 .form-group
   = form.label :hidden
   = form.check_box :hidden, class: 'form-control'
+.form-group
+  = form.submit t('save_changes'), class: 'btn btn-primary'
+
+.box.box-danger{ style: 'margin-top:50px' }
+  .box-header
+    %h3.box-title= t('groups.delete.heading')
+  .box-body
+    %p= t('groups.delete.intro')
+    = link_to @group, data: { method: 'delete', confirm: t('are_you_sure') }, class: 'btn btn-danger' do
+      = icon 'fa fa-trash'
+      = t('groups.delete.button')

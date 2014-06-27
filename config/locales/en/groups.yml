@@ -11,6 +11,11 @@ en:
     saved: "Group changes have been saved."
     deleted: "Group deleted."
 
+    delete:
+      heading: "Delete This Group"
+      intro: "If you wish for a group to disappear from all pages of the site, it is best to Hide (archive) it (see option above). If you really want to delete the group and all its contents (messages, prayer requests, pictures, etc.) forever, then you may do so below:"
+      button: "Delete this group forever"
+
     your_groups: "Your Groups"
     groups_of:
       s: "%{name}' Groups"

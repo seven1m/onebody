@@ -122,7 +122,7 @@ class GroupsController < ApplicationController
 
   def destroy
     @group = Group.find(params[:id])
-    if @logged_in.can_edit?(@group)
+    if @logged_in.can_delete?(@group)
       @group.destroy
       flash[:notice] = t('groups.deleted')
       redirect_to groups_path

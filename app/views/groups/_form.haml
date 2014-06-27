@@ -19,20 +19,15 @@
       .tab-content
         .tab-pane.active#details
           = render partial: 'form_details', object: form, as: :form
-          .form-group= form.submit t('save_changes'), class: 'btn btn-primary'
         .tab-pane#meets
           = render partial: 'form_meets', object: form, as: :form
-          .form-group= form.submit t('save_changes'), class: 'btn btn-primary'
         .tab-pane#features
           = render partial: 'form_features', object: form, as: :form
-          .form-group= form.submit t('save_changes'), class: 'btn btn-primary'
         .tab-pane#security
           = render partial: 'form_security', object: form, as: :form
-          .form-group= form.submit t('save_changes'), class: 'btn btn-primary'
         - if @logged_in.admin?(:manage_groups)
           .tab-pane#advanced
             = render partial: 'form_advanced', object: form, as: :form
-            .form-group= form.submit t('save_changes'), class: 'btn btn-primary'
 
     .col-lg-4
       %p= avatar_tag @group, size: :large
