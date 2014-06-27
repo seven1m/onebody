@@ -1,17 +1,17 @@
 GIT
+  remote: git://github.com/Hermanverschooten/pdf-writer.git
+  revision: f57c298a2527893acd62430aefc2516e76499633
+  specs:
+    pdf-writer (1.2.5)
+      color (>= 1.4.0)
+      transaction-simple (~> 1.3)
+
+GIT
   remote: git://github.com/bokmann/font-awesome-rails.git
   revision: 9af81d72c7ba47035fa536c78eb8772964392d9b
   specs:
     font-awesome-rails (4.1.0.0)
       railties (>= 3.2, < 5.0)
-
-GIT
-  remote: git://github.com/metaskills/pdf-writer.git
-  revision: 7f5bc6c9ce69c26574bbfde36ebdb9ecf06709d0
-  specs:
-    pdf-writer (1.2.3)
-      color (>= 1.4.0)
-      transaction-simple (~> 1.3)
 
 GIT
   remote: git://github.com/seven1m/acts_as_taggable_on_steroids.git
@@ -80,7 +80,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.7.0)
-    color (1.5.1)
+    color (1.7)
     curb (0.8.5)
     diff-lcs (1.2.5)
     draper (1.3.0)

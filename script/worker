@@ -55,7 +55,9 @@ if results.count > 0
     logger.info "Worker running job #{id} in site #{site_id}..."
     begin
       Site.current = Site.find(site_id)
-      logger.info eval(command.gsub(/JOB_ID/, id.to_s))
+      cmd = command.gsub(/JOB_ID/, id.to_s)
+      logger.info "Worker running command: #{cmd}"
+      logger.info eval(cmd)
       puts 'done' if options[:debug]
     rescue => e
       logger.error(e.message)
