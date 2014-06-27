@@ -1,0 +1,12 @@
+- content_for :sidebar do
+  = t('admin.group_administrators_help')
+%h2= t('admin.group_administrators')
+%table.spaced
+  %tr
+    %th= link_to 'Admin', administration_admins_path(groups: true, sort: 'admin')
+    %th= link_to 'Group', administration_admins_path(groups: true, sort: 'group')
+  - @group_admins.each do |person, group|
+    %tr
+      %td= link_to person.name, person
+      %td= link_to group.name, group
+      %td= link_to t('edit'), group_memberships_path(group)

@@ -163,7 +163,7 @@ en:
         order: 3
       manage_access:
         title: Manage Access
-        about: "Manage site administrators. ('Manage Admins' must be selected to manage group administrators.)"
+        about: "Manage site administrators. ('Manage Groups' must be selected to manage group administrators.)"
         order: 4
       manage_attendance:
         title: Manage Attendance
@@ -183,7 +183,7 @@ en:
         order: 9
       manage_notes:
         title: Manage Notes
-        about: "Edit and delete any notes (status updates)."
+        about: "Edit and delete any notes."
         order: 10
       manage_pictures:
         title: Manage Pictures

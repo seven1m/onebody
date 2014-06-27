@@ -67,6 +67,13 @@ th.actions, td.actions {
   }
 }
 
+table.table {
+  tr.description td, tr.details td {
+    border-top: none;
+    padding-top: 0;
+  }
+}
+
 body > .content,
 body > .content-centered {
   min-height: calc(100% - 95px);

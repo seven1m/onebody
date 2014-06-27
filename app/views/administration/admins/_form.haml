@@ -1,0 +1,18 @@
+= form_for @admin, url: administration_admin_path(@admin) do |form|
+  %table.table.members
+    - if not @admin.template? and @logged_in.super_admin?
+      %tr.detail
+        %td= check_box_tag "super_admin", true, @admin.super_admin?, data: { toggle: '.standard', 'toggle-selector' => ':not(:checked)' }
+        %td= label_tag 'super_admin', t('admin.super_admin')
+      %tr.description
+        %td
+        %td= t('admin.super_admin_about')
+    - Admin.privileges_for_show.each do |priv|
+      %tr.detail.standard
+        %td= check_box_tag "privileges[#{priv[:name]}]", true, @admin.flags[priv[:name]], id: priv[:name]
+        %td= label_tag priv[:name], priv[:title]
+      %tr.description.standard
+        %td
+        %td= priv[:about]
+  .form-group
+    = form.button t('save_changes'), class: 'btn btn-info'

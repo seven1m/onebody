@@ -45,7 +45,7 @@ class BreadcrumbPresenter
     return if @route == 'groups#index'
     return if @route == 'prayer_requests#show'
     return if @route == 'messages#show' and group
-    return if @controller == 'administration/syncs'
+    return if @controller =~ /^administration\//
     if person and @route != 'people#show'
       crumbs << ['fa fa-user', person.name, person_path(person)]
     end
