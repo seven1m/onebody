@@ -60,19 +60,6 @@ namespace :onebody do
         end
       end
 
-      desc 'Export OneBody people data as CSV file (pass FILE argument)'
-      task :csv => :environment do
-        Site.current = site = ENV['SITE'] ? Site.where(name: ENV["SITE"]).first : Site.find(1)
-        if ENV['FILE']
-          people = Person.all(:order => 'last_name, first_name, suffix')
-          File.open(ENV['FILE'], 'w') do |file|
-            file.write people.to_csv_mine(:except => %w(feed_code encrypted_password salt api_key site_id), :include => [:family])
-          end
-        else
-          puts 'You must specify the output file path, e.g. FILE=people.csv'
-        end
-      end
-
     end
 
     desc 'Export OneBody photos for particular SITE_ID, save to OUT_PATH'

@@ -9,7 +9,6 @@ class GroupsController < ApplicationController
         format.html { render action: 'index_for_person' }
         if can_export?
           format.xml { render xml:  @person.groups.to_xml(except: %w(site_id)) }
-          format.csv { render text: @person.groups.to_csv_mine(except: %w(site_id)) }
         end
       end
     # /groups?category=Small+Groups
@@ -29,7 +28,6 @@ class GroupsController < ApplicationController
         format.js
         if can_export?
           format.xml { render xml:  @groups.to_xml(except: %w(site_id)) }
-          format.csv { render text: @groups.to_csv_mine(except: %w(site_id)) }
         end
       end
     # /groups

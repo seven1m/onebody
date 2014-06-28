@@ -9,15 +9,7 @@ class FamiliesController < ApplicationController
         @families = Family.order('last_name, name').paginate(page: params[:page], per_page: params[:per_page] || MAX_EXPORT_AT_A_TIME)
         format.xml do
           if @families.any?
-            render xml:  @families.to_xml(include: [:people], except: %w(site_id))
-          else
-            flash[:warning] = t('No_more_records')
-            redirect_to people_path
-          end
-        end
-        format.csv do
-          if @families.any?
-            render text: @families.to_csv_mine(except: %w(site_id))
+            render xml: @families.to_xml(include: [:people], except: %w(site_id))
           else
             flash[:warning] = t('No_more_records')
             redirect_to people_path
