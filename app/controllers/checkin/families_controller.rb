@@ -1,6 +1,5 @@
 class Checkin::FamiliesController < ApplicationController
-  unloadable
-  
+
   def show
     @family = Family.find_by_id_and_deleted(params[:id], false)
     raise ActiveRecord::RecordNotFound unless @family
@@ -10,12 +9,12 @@ class Checkin::FamiliesController < ApplicationController
       format.js
     end
   end
-  
+
   def new
     @family = Family.new
     build_family_people
   end
-  
+
   def create
     parents = ['0', '1'].map { |i| params[:family][:people_attributes][i] }
     params[:family][:people_attributes].reject! { |i, p| p[:first_name].blank? }
@@ -50,7 +49,7 @@ class Checkin::FamiliesController < ApplicationController
       end
     end
   end
-  
+
   def update
     @family = Family.find(params[:id])
     @family.barcode_id = params[:family][:barcode_id]

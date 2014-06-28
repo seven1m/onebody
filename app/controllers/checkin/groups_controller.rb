@@ -1,6 +1,5 @@
 class Checkin::GroupsController < ApplicationController
-  unloadable
-  
+
   def index
     @groups = {}
     date = params[:date] ? Date.parse(params[:date]) : Date.today
@@ -16,5 +15,5 @@ class Checkin::GroupsController < ApplicationController
       end
     end
   end
-  
+
 end

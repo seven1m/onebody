@@ -1,6 +1,5 @@
 class Checkin::PeopleController < ApplicationController
-  unloadable
-  
+
   def index
     select = 'families.id, families.barcode_id, people.family_id, people.id, people.first_name, people.last_name, people.suffix, people.classes, people.medical_notes, people.can_pick_up, people.cannot_pick_up'
     if params[:family_barcode_id]
@@ -37,5 +36,5 @@ class Checkin::PeopleController < ApplicationController
       end
     end
   end
-  
+
 end
