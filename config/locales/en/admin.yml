@@ -1,6 +1,11 @@
 en:
   admin:
 
+    attendance:
+      heading: "Attendance"
+      intro: "View and export attendance records."
+      button: "Attendance Records"
+
     box:
       updates:
         text:

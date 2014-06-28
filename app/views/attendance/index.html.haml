@@ -3,7 +3,7 @@
 .row
   .col-md-8
     %p
-      = label_tag :attended_at, t('attendance.date') + ':', class: 'inline'
+      = label_tag :attended_at, t('attendance.date'), class: 'inline'
       = date_field_tag :attended_at, @attended_at.to_s(:date)
 
     = form_tag batch_group_attendance_index_path(@group), id: 'attendance_form' do

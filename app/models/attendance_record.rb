@@ -16,6 +16,10 @@ class AttendanceRecord < ActiveRecord::Base
     Relationship.where('person_id = ? and other_name like ?', person_id, '%Check-in Person').map(&:related).uniq
   end
 
+  def all_pickup_people
+    checkin_people.map(&:name) + [can_pick_up]
+  end
+
   def self.groups_for_date(attended_at)
     Group.where(
       "id in (select group_id from attendance_records where attended_at >= ? and attended_at <= ?)",

@@ -1,0 +1,106 @@
+- if @group
+  - @title = t('attendance.heading_html', group: link_to(@group.name, @group), when: @attended_at.to_s(:date))
+- else
+  - @title = t('attendance.heading_without_group', when: @attended_at.to_s(:date))
+
+- content_for :header do
+  %section.content-header
+    = breadcrumbs
+    %h1
+      %small
+        = link_to prev_administration_attendance_index_path(attended_at: @attended_at) do
+          = icon 'fa fa-arrow-circle-o-left'
+      = @title
+      %small
+        = link_to next_administration_attendance_index_path(attended_at: @attended_at) do
+          = icon 'fa fa-arrow-circle-o-right'
+
+.row
+  .col-md-9
+    %p#record-count
+      = t('attendance.records', count: @record_count)
+
+    - if @records.any?
+      = pagination @records
+
+      %table.table
+        %tr
+          %th= sortable_column_heading t('attendance.name'),          'attendance_records.last_name,attendance_records.first_name', %w(attended_at group_id)
+          %th= sortable_column_heading t('attendance.adult'),         'people.child',                                               %w(attended_at group_id)
+          %th= sortable_column_heading t('attendance.group'),         'groups.name',                                                %w(attended_at group_id)
+          %th= sortable_column_heading t('attendance.class_time'),    'attendance_records.attended_at',                             %w(attended_at group_id)
+          %th= sortable_column_heading t('attendance.recorded_time'), 'attendance_records.created_at',                              %w(attended_at group_id)
+          %th= t('attendance.can_pickup_people')
+          %th= t('attendance.cannot_pickup_people')
+        - @records.each do |record|
+          %tr{:id => "record#{record.id}"}
+            %td
+              - if record.first_name.present?
+                - if record.person
+                  = link_to "#{record.first_name} #{record.last_name}", record.person
+                - else
+                  = record.first_name
+                  = record.last_name
+              - elsif record.person
+                = link_to record.person.name, record.person
+              - else
+                %em= t('attendance.name_unknown')
+            %td
+              - if record.person && record.person.adult?
+                = t('attendance.adult')
+            %td
+              - if record.group
+                = link_to record.group.name, record.group
+              - else
+                %em= t('attendance.group_missing')
+            %td
+              = record.attended_at.to_s(:time)
+            %td
+              = record.created_at.to_s(:time)
+            %td
+              = record.all_pickup_people.join(', ')
+            %td
+              = record.cannot_pick_up
+            %td
+              = link_to '', administration_attendance_path(record), remote: true, method: 'delete', data: { confirm: t('are_you_sure') }, class: 'delete-icon'
+          - if record.medical_notes.present?
+            %tr.details
+              %td{ colspan: 7 }
+                = t('attendance.medical_notes')
+                = record.medical_notes
+
+      = pagination @records
+
+    - else
+      %p
+        %em= t('attendance.no_records')
+
+  .col-md-3
+    .box.box-info.no-print
+      .box-heading
+      .box-body
+        .form-group
+          = label_tag :attended_at, t('attendance.date')
+          = date_field_tag :attended_at, @attended_at.to_s(:date), class: 'form-control'
+        - if @groups.any?
+          .form-group
+            = label_tag :group_name, t('attendance.group')
+            = select_tag :group_name, options_for_select(['']) + options_from_collection_for_select(@groups, :id, :name, params[:group_id].to_i), onchange: "location.href='?attended_at='+encodeURIComponent($('#attended_at').val())+'&group_id='+this.value", class: 'form-control'
+
+            %p
+              = form_tag administration_attendance_index_path, method: :get, class: 'form-inline' do
+                = hidden_field_tag :attended_at, @attended_at
+                = label_tag :person_name, t('attendance.search_person')
+                .input-group
+                  = text_field_tag :person_name, params[:person_name], class: 'form-control'
+                  %span.input-group-btn
+                    - if params[:person_name]
+                      = link_to administration_attendance_index_path(attended_at: @attended_at), class: 'btn btn-danger' do
+                        = icon 'fa fa-times-circle'
+                    = button_tag class: 'btn btn-info' do
+                      = icon 'fa fa-search'
+        - if @records.any?
+          %p
+            = link_to administration_attendance_index_path(format: 'csv', attended_at: @attended_at, group_id: params[:group_id], person_name: params[:person_name]), class: 'btn btn-info' do
+              = icon 'fa fa-download'
+              = t('attendance.export')

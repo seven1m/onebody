@@ -1,8 +1,8 @@
 - @title = t('admin.dashboard.heading')
 
-.metrics
+.metrics.floating-boxes
   - if @logged_in.admin?(:manage_updates)
-    .floating-metric
+    .floating-box
       .small-box{ class: metric_css_class(@update_count, 1, 5) }
         = link_to administration_updates_path do
           .inner
@@ -11,7 +11,7 @@
         .icon
           = icon 'fa fa-pencil'
   - if @logged_in.admin?(:manage_updates)
-    .floating-metric
+    .floating-box
       .small-box{ class: metric_css_class(@email_changed_count, 1, 5) }
         = link_to administration_emails_path do
           .inner
@@ -20,7 +20,7 @@
         .icon
           = icon 'fa fa-envelope'
   - if @logged_in.admin?(:manage_sync)
-    .floating-metric
+    .floating-box
       - error_count = (@last_sync ? @last_sync.error_count : 0) || 0
       .small-box{ class: metric_css_class(error_count, 1, 5) }
         = link_to administration_syncs_path do
@@ -30,7 +30,7 @@
         .icon
           = icon 'fa fa-refresh'
   - if @logged_in.admin?(:manage_groups)
-    .floating-metric
+    .floating-box
       .small-box{ class: metric_css_class(@groups_pending_approval_count, 1, 5) }
         = link_to groups_path(pending_approval: true) do
           .inner
@@ -39,7 +39,7 @@
         .icon
           = icon 'fa fa-users'
   - if @logged_in.admin?(:manage_groups)
-    .floating-metric
+    .floating-box
       .small-box{ class: metric_css_class(@membership_request_count, 1, 5) }
         = link_to administration_membership_requests_path do
           .inner
@@ -48,7 +48,7 @@
         .icon
           = icon 'fa fa-user'
   - if @logged_in.admin?(:edit_profiles)
-    .floating-metric
+    .floating-box
       .small-box{ class: metric_css_class(@deleted_people_count, 100, 500) }
         = link_to administration_deleted_people_path do
           .inner
@@ -58,15 +58,23 @@
           = icon 'fa fa-trash-o'
   .clearfix
 
-= render_plugin_hook(:admin_dashboard_metric)
+.floating-boxes.normalize-heights
+  - if @logged_in.admin?(:manage_attendance)
+    .floating-box
+      .box.box-info.normalize-height
+        .box-header
+          %h3.box-title= t('admin.attendance.heading')
+        .box-body
+          %p= t('admin.attendance.intro')
+          %p
+            = link_to administration_attendance_index_path, class: 'btn btn-info' do
+              = icon 'fa fa-bar-chart-o'
+              = t('admin.attendance.button')
 
--# TODO
--# SHOW/MANAGE ATTENDANCE
 
-.row
-  .col-md-4
-    - if @logged_in.admin?(:manage_access)
-      .box.box-info
+  - if @logged_in.admin?(:manage_access)
+    .floating-box
+      .box.box-warning.normalize-height
         .box-header
           %h3.box-title= t('admin.admins.heading')
         .box-body
@@ -77,9 +85,9 @@
               = icon 'fa fa-gavel'
               = t('admin.admins.button')
 
-  .col-md-4
-    - if @logged_in.super_admin?
-      .box.box-info
+  - if @logged_in.super_admin?
+    .floating-box
+      .box.box-warning.normalize-height
         .box-header
           %h3.box-title= t('admin.customization.heading')
         .box-body
@@ -93,9 +101,9 @@
               = icon 'fa fa-file'
               = t('admin.pages')
 
-  .col-md-4
-    - if Site.current.import_export_enabled? and (@logged_in.admin?(:import_data) or @logged_in.admin?(:export_data))
-      .box.box-info
+  - if Site.current.import_export_enabled? and (@logged_in.admin?(:import_data) or @logged_in.admin?(:export_data))
+    .floating-box
+      .box.box-danger.normalize-height
         .box-header
           %h3.box-title= t('admin.import_export')
         .box-body
@@ -116,5 +124,3 @@
                     (#{@group_count})
                   %td= link_to 'XML', groups_path(format: 'xml')
                   %td= link_to 'CSV', groups_path(format: 'csv')
-
-= render_plugin_hook :admin_dashboard_sidebar_bottom

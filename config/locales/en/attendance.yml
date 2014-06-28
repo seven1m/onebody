@@ -2,6 +2,11 @@ en:
   attendance:
 
     heading_html: "Attendance in %{group} for %{when}"
+    heading_without_group: "Attendance for %{when}"
+
+    medical_notes: "Medical notes:"
+    can_pickup_people: "Can Pick Up"
+    cannot_pickup_people: "Cannot Pick Up"
 
     add_somebody_not_in_group: Add somebody not in the group
     add_visitor: Add a visitor.
@@ -21,6 +26,9 @@ en:
     not_enabled: Attendance tracking is not enabled for this goup.
     prev_date: prev date
     recorded_time: Recorded Time
+    records:
+      one: "1 record"
+      other: "%{count} records"
     save: Save Attendance
     saved: Attendance saved.
     Search: Search
