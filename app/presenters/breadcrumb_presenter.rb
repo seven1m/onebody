@@ -61,6 +61,7 @@ class BreadcrumbPresenter
   end
 
   def group_crumb
+    return if @controller =~ /^admin/
     if group
       if @route == 'groups#show'
         crumbs << ['fa fa-group', t('nav.groups'), groups_path]
@@ -142,6 +143,12 @@ class BreadcrumbPresenter
     end
     if @controller == 'administration/syncs' and @assigns['sync']
       crumbs << ['fa fa-refresh', t('nav.syncs'), administration_syncs_path]
+    end
+    if @controller =~ %r(^administration/checkin/(times|cards|groups))
+      crumbs << ['fa fa-check-square-o', t('nav.checkin'), administration_checkin_dashboard_path]
+      if @route == 'administration/checkin/groups#index' and @assigns['time']
+        crumbs << ['fa fa-clock-o', t('nav.checkin_sub.times'), administration_checkin_times_path]
+      end
     end
   end
 

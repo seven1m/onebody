@@ -1,0 +1,82 @@
+= form_for @family, url: checkin_families_path, html: { onsubmit: "return validateNames()" } do |form|
+  - if params[:compact]
+    = hidden_field_tag :compact, true
+  - if params[:people]
+    = hidden_field_tag :people,  true
+  - if params[:barcode]
+    = hidden_field_tag :barcode, true
+  = error_messages_for(form)
+  %table#family_people.checkin
+    %tr
+      %th= t('checkin.family.new.first_name')
+      %th= t('checkin.family.new.last_name')
+      %th= t('checkin.family.new.birthday')
+      %th= t('checkin.family.new.medical_notes')
+    - @family.people.each_with_index do |person, index|
+      - if index == 0
+        %tr.subsection
+          %th{ colspan: "4" }= t('checkin.family.new.parents')
+      - elsif index == 2
+        %tr.subsection
+          %th{ colspan: "4" }
+            %span#add_row_link
+              = link_to_function 'Add Person', "if(!addPersonRow()) $('#add_row_link').hide()", class: 'add-icon', style: 'background-position:0px -3px'
+            = t('checkin.family.new.children')
+      %tr
+        %td= text_field_tag "family[people_attributes][#{index}][first_name]",    @family.people[index].first_name,    size: 25, id: "family_people_attributes_#{index}_first_name", class: 'name form-control'
+        %td= text_field_tag "family[people_attributes][#{index}][last_name]",     @family.people[index].last_name,     size: 25, id: "family_people_attributes_#{index}_last_name", class: 'name family-last-name form-control', onkeyup: index == 0 ? 'setLastName(this.value)' : nil, onblur: index == 0 ? 'setLastName(this.value)' : nil
+        %td= date_field_tag "family[people_attributes][#{index}][birthday]",      @family.people[index].birthday,      size: 12, id: "family_people_attributes_#{index}_birthday", class: 'date-field form-control'
+        %td= text_field_tag "family[people_attributes][#{index}][medical_notes]", @family.people[index].medical_notes, size: 25, id: "family_people_attributes_#{index}_medical_notes", class: 'form-control'
+  .form-group
+    = form.label :barcode_id, t('checkin.family.new.barcode')
+    = form.text_field :barcode_id, autocomplete: 'off', class: 'form-control', style: 'max-width: 732px'
+  %p#ignore_errors_container{ style: "display:none;" }
+    %span#ignore_errors_notice.very-strong
+    %br/
+    %input#ignore_errors{ type: "checkbox" }
+    %label.inline{ for: "ignore_errors" }= t('checkin.family.new.ignore_spelling_errors')
+  .form-group
+    = button_tag t('checkin.family.new.save'), class: 'btn btn-success'
+    = link_to t('checkin.family.new.cancel'), administration_checkin_dashboard_path
+
+- content_for :js do
+  :javascript
+    $('.date-field').datepicker({changeYear:true, yearRange:'1900:2025'});
+    var rows = $('#family_people tr');
+    for(var i=9; i<rows.length; i++) {
+      if(rows[i].getElementsByTagName('input')[0].value == '') $(rows[i]).hide();
+    }
+    function addPersonRow() {
+      var rows = $('#family_people tr');
+      for(var i=0; i<rows.length; i++) {
+        if(rows[i].style.display == 'none') {
+          $(rows[i]).show();
+          return i < rows.length-1;
+        }
+      }
+      return false;
+    }
+    function setLastName(name) {
+      $('.family-last-name').val(name);
+    }
+    function validateNames() {
+      $('.name').css('background-color', '#FFFFFF');
+      if($('#ignore_errors').attr('checked')) {
+        return true;
+      } else {
+        var errors = false;
+        var fields = $('.name')
+        for(var i=0; i<fields.length; i++) {
+          var e = fields[i];
+          if(e.value != '' && !e.value.match(/^[A-Z][a-z]/)) {
+            e.style.backgroundColor = '#FFCCCC';
+            if(!errors) {
+              $('#ignore_errors_notice').html("The name \"" + e.value + "\" appears to have improper case. Please correct the name, or check the box below to ignore the error.");
+              $('#ignore_errors_container').show('slow');
+              errors = true
+            }
+          }
+        }
+        return !errors;
+      }
+    }

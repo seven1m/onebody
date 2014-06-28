@@ -161,9 +161,12 @@ module ApplicationHelper
   end
 
   # TODO replace all inline JS links with unobtrusive JS
-  def link_to_function(label, js, options={})
+  def link_to_function(*args, &block)
+    options = args.extract_options!
+    js = args.pop
     options[:onclick] = js + ';return false;'
-    link_to label, '#', options
+    args += [js, options]
+    link_to(*args, &block)
   end
 
   def icon(css_class, options = {})

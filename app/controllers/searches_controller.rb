@@ -14,7 +14,7 @@ class SearchesController < ApplicationController
   end
 
   def create
-    if params[:family_name].present? and params[:family_barcode_id].present?
+    if params[:family_name].present? or params[:family_barcode_id].present?
       @search = Search.new(params.merge(source: :family))
       @families = @search.results.page(params[:page])
     else

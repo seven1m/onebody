@@ -1,0 +1,39 @@
+- if @family_people.length > 1
+  %table.table
+    - @family_people.each do |person|
+      %tr.row-with-avatar.family-member
+        %td.avatar
+          = avatar_tag(person)
+        %td
+          = link_to person.name, person
+          - if person.mobile_phone.to_s.any?
+            = format_phone(person.mobile_phone, :mobile)
+        %td.actions
+          = link_to person_relationships_path(person), class: 'btn bg-gray btn-xs' do
+            = icon 'fa fa-link'
+      %tr.details
+        %td
+        %td{ colspan: 2 }
+        - if person.can_pick_up.to_s.any?
+          %strong.very-strong Can pick up:
+          = h person.can_pick_up
+          %br/
+        - if person.cannot_pick_up.to_s.any?
+          %strong.very-strong Cannot pick up:
+          = h person.cannot_pick_up
+          %br/
+        - if person.medical_notes.to_s.any?
+          %strong.very-strong Medical notes:
+          = h person.medical_notes
+          %br/
+        - if (checkin_people = Relationship.all(:conditions => ['person_id = ? and other_name like ?', person.id, '%Check-in Person%']).map { |r| r.related }.uniq).any?
+          %strong.very-strong Can check in/pick up:
+          = raw checkin_people.map { |p| link_to(h(p.name), p) }.join(', ')
+          %br/
+        - if @attendance_records
+          - @attendance_records[person.id].to_a.each do |attendance_record|
+            %strong
+              = h attendance_record.attended_at.to_s(:time)
+              \:
+            = h attendance_record.group.name rescue '?'
+            %br/

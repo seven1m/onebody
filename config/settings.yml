@@ -85,6 +85,9 @@ Features:
   News by Users:
     format: boolean
     value: true
+  Checkin:
+    format: boolean
+    value: false
 Services: 
   Yahoo: 
     format: string

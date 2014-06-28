@@ -1,0 +1,14 @@
+- @title = t('checkin.family.new.success.heading')
+
+%p
+  = link_to t('checkin.family.new.success.return'), administration_checkin_dashboard_path, class: 'btn btn-info'
+  = link_to t('checkin.family.new.success.view'), @family, class: 'btn btn-info'
+
+%h2= @family.name
+%p
+  = t('checkin.family.new.success.barcode')
+  %br
+  = @family.barcode_id
+
+%p{ style: "font-style:italic" }
+  = t('checkin.family.new.success.not_checked_in')

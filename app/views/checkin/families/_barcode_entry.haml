@@ -1,0 +1,17 @@
+= form_for @family, url: checkin_family_path(@family), remote: true do |form|
+  .form-group
+    = form.label :barcode_id, 'Scan Card:', class: 'inline'
+    = form.text_field :barcode_id, size: 15, autocomplete: 'off', class: 'form-control'
+  - if @family.barcode_assigned_at
+    %p
+      (last changed
+      %span{ title: @family.barcode_assigned_at.to_s }
+        = time_ago_in_words @family.barcode_assigned_at
+      ago)
+  %p
+    = link_to_function raw('alternate card &raquo;'), "$('#alternate-card').show();$(this).hide();$('#family_alternate_barcode_id')[0].focus();"
+  .form-group#alternate-card{ style: "display:none;" }
+    = form.label :alternate_barcode_id, 'Alternate (Temporary) Card:', class: 'inline'
+    = form.text_field :alternate_barcode_id, size: 15, autocomplete: 'off', class: 'form-control'
+  .form-group
+    = form.button 'Save', class: 'btn btn-success'

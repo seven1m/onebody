@@ -181,5 +181,25 @@ OneBody::Application.routes.draw do
     end
     resources :updates, :admins, :membership_requests
     resource :api_key
+    namespace :checkin do
+      root to: 'dashboards#show'
+      resource :dashboard
+      resources :groups do
+        collection do
+          put :batch
+          post :reorder
+        end
+      end
+      resources :times do
+        resources :groups
+      end
+      resources :cards, :auths
+    end
+  end
+
+  namespace :checkin do
+    root to: 'interfaces#show'
+    resource :interface
+    resources :families, :people, :groups
   end
 end

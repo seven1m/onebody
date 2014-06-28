@@ -1,0 +1,46 @@
+- @title = t('checkin.groups.index.heading', time: @time.to_s, campus: @time.campus)
+
+.row
+  .col-md-8
+    - if @group_times.any?
+      %table.table
+        %tr
+          %th= t('checkin.groups.index.table.group')
+          %th= t('checkin.groups.index.table.print_nametag')
+          %th= t('checkin.groups.index.table.print_extra_nametag')
+          %th= t('checkin.groups.index.table.section')
+          %th
+        - @group_times.each do |group_time|
+          %tr.row-with-actions{ id: dom_id(group_time) }
+            %td
+              = group_time.group.name
+            %td
+              %input{ type: 'checkbox', name: 'print_nametag', checked: group_time.print_nametag?, onchange: "$.ajax('#{administration_checkin_time_group_path(@time, group_time.group_id)}', {data: {print_nametag: this.checked}, method: 'put'})", class: 'simple' }
+            %td
+              %input{ type: 'checkbox', name: 'print_extra_nametag', checked: group_time.print_extra_nametag?, onchange: "$.ajax('#{administration_checkin_time_group_path(@time, group_time.group_id)}', {data: {print_extra_nametag: this.checked}, method: 'put'})", class: 'simple' }
+            %td
+              = select_tag :section, options_for_select(checkin_group_sections, group_time.section), include_blank: true, onchange: "if(this.value != '!') $.ajax('#{administration_checkin_time_group_path(@time, group_time.group_id)}', {data: {section: this.value}, method: 'put'})", class: 'form-control can-create'
+            %td.actions
+              = link_to administration_checkin_time_group_path(@time, group_time.group_id), data: { method: 'delete', confirm: t('are_you_sure') }, class: 'btn btn-delete' do
+                = icon 'fa fa-trash-o'
+
+    - else
+      %p= t('none')
+
+  .col-md-4
+    .box.box-info
+      .box-header
+        %h3.box-title= t('checkin.groups.index.add_group.heading')
+      .box-body
+        = form_tag groups_path, remote: true, method: 'get' do
+          = hidden_field_tag :select_group, true
+          .form-group
+            = label_tag :name, t('name')
+            = text_field_tag :name, '', class: 'form-control'
+          .form-group
+            = button_tag t('checkin.groups.index.add_group.search'), class: 'btn btn-info'
+        #add_group{ style: "display:none" }
+          = form_tag(administration_checkin_time_groups_path(@time)) do
+            #group_results
+            .form-group.push-down
+              = button_tag t('checkin.groups.index.add_group.button'), class: 'btn btn-success'

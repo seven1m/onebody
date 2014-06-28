@@ -9,6 +9,9 @@ en:
       admins: "Administrators"
     albums: "Albums"
     business_profile: "Business"
+    checkin: "Check-in"
+    checkin_sub:
+      times: "Times"
     directory: "Directory"
     directory_sub:
       business: "Business Directory"

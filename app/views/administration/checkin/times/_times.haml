@@ -1,0 +1,14 @@
+%table.table
+  %tr
+    %th{ style: 'width:30%' }= t('checkin.times.table.time')
+    %th= t('checkin.times.table.campus')
+    %th= t('checkin.times.table.groups.heading')
+    %th
+  - @recurring_times.each do |time|
+    %tr
+      %td= time
+      %td= time.campus
+      %td= t('checkin.times.table.groups.count', count: time.groups.count)
+      %td.actions
+        = link_to administration_checkin_time_path(time), data: { method: 'delete', confirm: 'Are you sure?' }, class: 'btn btn-delete btn-xs' do
+          = icon 'fa fa-trash-o'

@@ -1,0 +1,9 @@
+.row
+  .col-md-6
+    %h2= link_to @family.name, @family
+    %p= preserve_breaks @family.pretty_address
+    %p= format_phone @family.home_phone
+    = render :partial => 'people'
+  .col-md-6
+    - if @family.photo.exists?
+      = image_tag @family.photo.url(:medium), :style => 'float:right'

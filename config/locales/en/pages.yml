@@ -13,6 +13,7 @@ en:
       privacy_policy: "Details about how this site collects and shares information."
       safeguarding_children: "Details about how this site protects children and their information."
       unauthorized: "Page shown to users explaining how to gain access to the site."
+      checkin: "A bit of help content that appears at the top of the checkin admin screen."
     body: "Body"
     edit_page: "Edit Page"
     not_found: "Page not found."

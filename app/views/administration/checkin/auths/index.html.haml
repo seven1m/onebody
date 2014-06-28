@@ -1,0 +1,39 @@
+- @groups.keys.sort.each do |group|
+  %h2= h group.split('|').join(', ')
+  %table.spaced
+    %tr
+      %th First Name
+      %th Last Name
+      %th Age
+      %th Med Alerts
+      %th Auths
+    - @groups[group].each do |person|
+      %tr
+        %td= h person.first_name
+        %td= h person.last_name
+        %td= h person.years_of_age
+        %td= h person.medical_notes
+        %td
+          - if (auths = (person.family.people.select { |p| p.adult? } + person.relationships.all(:conditions => "other_name like '%Check-in Person%'").map { |r| r.related }).uniq.reject { |p| p.deleted? }.map { |p| p.name }).any?
+            = h auths.join(', ')
+            %br/
+          - if person.can_pick_up.to_s.any?
+            = h person.can_pick_up
+            %br/
+          - if person.cannot_pick_up.to_s.any?
+            Can NOT pick up:
+            %strike= h person.cannot_pick_up
+:css
+  table.spaced {
+    page-break-after: always;
+  }
+  table.spaced th {
+    white-space: nowrap;
+  }
+  table.spaced th,
+  table.spaced td {
+    text-align: left;
+    padding-right: 10px;
+    vertical-align: top;
+    border-bottom: 1px solid #ccc;
+  }

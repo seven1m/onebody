@@ -32,6 +32,12 @@ en:
           one: "Deleted Person"
           other: "Deleted People"
 
+    checkin:
+      heading: "Check-in"
+      intro: "Manage check-in and assign cards."
+      cards_assigned: "Check-In Cards Assigned"
+      button: "Check-in Dashboard"
+
     dashboard:
       heading: "Admin Dashboard"
 
@@ -178,6 +184,14 @@ en:
         title: Export Data
         about: "Export all site data to XML or CSV."
         order: 17
+      assign_checkin_cards:
+        title: Assign Checkin Cards
+        about: "Assign card numbers to families."
+        order: checkin1
+      manage_checkin:
+        title: Manage Checkin
+        about: "Manage all aspects of checkin, including setup and configuration."
+        order: checkin2
     rest_api_information: To use the REST API with Ruby, you might do this
     settings:
       heading: "Site Settings"
@@ -345,6 +359,9 @@ en:
         Service: 
           name: Service
           description: If enabled, admin users can track indviduals' service in areas of the community.
+        Checkin:
+          name: "Check-in"
+          description: "If enabled, users can check-in to designated classes."
       Privacy: 
         Hide Contact Details in Messages: 
           name: Hide Contact Details in Messages
@@ -458,4 +475,3 @@ en:
       updated: updated
     username: Username
     your_key: your key
-

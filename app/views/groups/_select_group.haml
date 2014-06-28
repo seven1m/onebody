@@ -1,0 +1,5 @@
+- @groups.each do |group|
+  %label
+    = check_box_tag 'ids[]', group.id, false, class: 'inline'
+    = group.name
+  %br

@@ -1,0 +1,29 @@
+- @title = t('checkin.cards.heading')
+
+= pagination @families
+
+%table.table
+  %tr
+    %th= link_to t('checkin.cards.table.id'),          administration_checkin_cards_path(sort: 'id')
+    %th= link_to t('checkin.cards.table.legacy_id'),   administration_checkin_cards_path(sort: 'legacy_id')
+    %th= link_to t('checkin.cards.table.family'),      administration_checkin_cards_path(sort: 'last_name,name')
+    %th= link_to t('checkin.cards.table.barcode'),     administration_checkin_cards_path(sort: 'barcode_id')
+    %th= link_to t('checkin.cards.table.assigned_at'), administration_checkin_cards_path(sort: 'barcode_assigned_at desc')
+  - @families.each do |family|
+    %tr
+      %td= family.id
+      %td= family.legacy_id
+      %td= link_to family.name, family
+      %td= family.barcode_id
+      %td= family.barcode_assigned_at.to_s
+
+= pagination @families
+
+- if @families.any?
+  %p
+    = link_to administration_checkin_cards_path(format: 'csv'), class: 'btn btn-info' do
+      = icon 'fa fa-download'
+      = t('checkin.cards.export.button')
+- else
+  %p
+    %em= t('checkin.cards.none')

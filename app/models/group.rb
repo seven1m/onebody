@@ -15,6 +15,8 @@ class Group < ActiveRecord::Base
   has_many :album_pictures, through: :albums, source: :pictures
   has_many :stream_items, -> { order('created_at desc') }, dependent: :destroy
   has_many :attachments, dependent: :delete_all
+  has_many :group_times, dependent: :destroy
+  has_many :checkin_times, through: :group_times
   belongs_to :creator, class_name: 'Person', foreign_key: 'creator_id'
   belongs_to :leader, class_name: 'Person', foreign_key: 'leader_id'
   belongs_to :parents_of_group, class_name: 'Group', foreign_key: 'parents_of'

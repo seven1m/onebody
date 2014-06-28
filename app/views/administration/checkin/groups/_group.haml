@@ -1,0 +1,8 @@
+%li{:id => "group_#{group.id}"}
+  %span{:id => "group_line_#{group.group_time_id}"}
+    = check_box_tag "nametag", true, group.print_nametag?, :id => "nametag_#{group.group_time_id}", :onclick => "$.post('#{administration_checkin_group_path(group)}', {_method:'PUT', group_time_id:'#{group.group_time_id}', print_nametag:this.checked})", :class => "checkbox"
+    = label_tag "nametag_#{group.group_time_id}", 'Nametag', :class => 'inline', :id => "nametag_label_#{group.group_time_id}"
+    = select_tag "section", options_for_select([['(no section)', '']] + @sections + [['[new]', '!']], group.section), :id => "nametag_#{group.group_time_id}", :onchange => "if(this.value=='!') custom_select_val(this,'Enter a new Section Name:'); $.post('#{administration_checkin_group_path(group)}', {_method:'PUT', group_time_id:#{group.group_time_id}, section:this.value})"
+    %span.updown-icon.handle
+    = link_to '', administration_checkin_group_path(group, :time_id => time.id), :remote => true, :method => :delete, :confirm => 'Are you sure?', :class => 'delete-icon'
+    = h group.name

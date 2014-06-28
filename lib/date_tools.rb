@@ -26,3 +26,17 @@ class Date
     end
   end
 end
+
+class Time
+  def self.parse_in_locale(string)
+    begin
+      strptime(string, Setting.get(:formats, :full_date_and_time))
+    rescue ArgumentError
+      begin
+        parse(string) # fallback
+      rescue ArgumentError
+        nil
+      end
+    end
+  end
+end

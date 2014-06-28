@@ -71,6 +71,17 @@
               = icon 'fa fa-bar-chart-o'
               = t('admin.attendance.button')
 
+  - if setting(:features, :checkin) and (@logged_in.admin?(:manage_checkin) or @logged_in.admin?(:assigned_checkin_cards))
+    .floating-box
+      .box.box-info.normalize-height
+        .box-header
+          %h3.box-title= t('admin.checkin.heading')
+        .box-body
+          %p= t('admin.checkin.intro')
+          %p
+            = link_to administration_checkin_dashboard_path, class: 'btn btn-info' do
+              = icon 'fa fa-check-square-o'
+              = t('admin.checkin.button')
 
   - if @logged_in.admin?(:manage_access)
     .floating-box

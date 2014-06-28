@@ -1,7 +1,9 @@
 $(document).on 'change', 'select.can-create', (e) ->
-  if $(this).val() == '!'
-    val = prompt($(this).data('custom-select-prompt') || 'Please enter a value:')
+  elm = $(this)
+  if elm.val() == '!'
+    val = prompt(elm.data('custom-select-prompt') || 'Please enter a value:')
     if (val || '').length > 0
-      $(this).find('option:selected').text(val).attr('value', val)
+      elm.find('option:selected').text(val).attr('value', val)
     else
-      $(this).val('')
+      elm.val('')
+    elm.trigger('change')

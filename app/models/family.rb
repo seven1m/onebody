@@ -21,7 +21,7 @@ class Family < ActiveRecord::Base
   validates_presence_of :name, :last_name
   validates_uniqueness_of :barcode_id, allow_nil: true, scope: [:site_id, :deleted], unless: Proc.new { |f| f.deleted? }
   validates_uniqueness_of :alternate_barcode_id, allow_nil: true, scope: [:site_id, :deleted], unless: Proc.new { |f| f.deleted? }
-  validates_length_of :barcode_id, :alternate_barcode_id, in: 10..50, allow_nil: true
+  validates_length_of :barcode_id, :alternate_barcode_id, in: 5..50, allow_nil: true
   validates_format_of :barcode_id, :alternate_barcode_id, with: /\A\d+\z/, allow_nil: true
   validates_attachment_size :photo, less_than: PAPERCLIP_PHOTO_MAX_SIZE
   validates_attachment_content_type :photo, content_type: PAPERCLIP_PHOTO_CONTENT_TYPES
