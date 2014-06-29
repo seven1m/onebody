@@ -1,4 +1,8 @@
-- @title = @person.name
+- unless @person.description.blank?
+  - @title = @person.name + " - " + @person.description
+- else
+  - @title = @person.name
+
 - if has_type?(@person)
   - content_for :sub_title do
     = link_to_person_role(@person, only_one: true)
@@ -26,11 +30,7 @@
         %table.table
           %tr.row-with-avatar
             %td= link_to avatar_tag(@family), @family
-            %td
-              = link_to @family.try(:name), @family
-              - unless @person.description.blank?
-                &nbsp;&#8212;&nbsp;
-              = @person.description
+            %td= link_to @family.try(:name), @family
           = show_attribute?(:website) do
             %tr
               %td Website
