@@ -28,7 +28,8 @@
             %td= link_to avatar_tag(@family), @family
             %td
               = link_to @family.try(:name), @family
-              &nbsp;&#8212;&nbsp;
+              - unless @person.description.blank?
+                &nbsp;&#8212;&nbsp;
               = @person.description
           = show_attribute?(:website) do
             %tr
