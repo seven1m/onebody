@@ -40,3 +40,4 @@
       = render partial: 'layouts/footer_links'
     = javascript_include_tag 'application'
     = yield(:js)
+    = setting(:services, :analytics) if Rails.env.production?

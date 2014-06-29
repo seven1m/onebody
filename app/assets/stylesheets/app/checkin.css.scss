@@ -1,3 +1,11 @@
+$checkin-font-family: "Roboto";
+
+.lockscreen {
+  background-image: url(/assets/blur-background10.jpg);
+  font-family: $checkin-font-family;
+  font-weight: 300;
+}
+
 .checkin {
   .subsection th {
     text-align: left;
@@ -12,4 +20,152 @@
     font-weight: normal;
     text-decoration :none;
   }
+}
+
+.checkin-inner {
+  box-model: border-box;
+  -moz-box-model: border-box;
+  height: 100%;
+  padding: 25px;
+}
+
+.checkin-same {
+  margin-bottom: 15px;
+  .btn {
+    @extend .btn-success;
+    font-size: 15pt;
+  }
+}
+
+.checkin-btn {
+  font-family: $checkin-font-family;
+  font-weight: 300;
+  background-color: rgba(#fff, 0.35);
+  box-shadow: none;
+  border: none;
+  color: #444;
+  box-model: border-box;
+  -moz-box-model: border-box;
+  font-size: 25pt;
+  width: 100%;
+  padding-right: 45px;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+  margin-bottom: 15px;
+  &.active {
+    background-color: rgba(#fff, 0.8);
+    box-shadow: none;
+  }
+  .pull-right {
+    margin-right: -40px;
+    display: inline-block;
+  }
+  .fa-chevron-right {
+    color: rgba(#000, 0.2);
+  }
+  .badge {
+    background-color: #00a65a;
+    font-size: 22pt;
+    line-height: 1em;
+    display: inline-block;
+    margin-top: 7px;
+  }
+}
+
+.checkin-people {
+  font-size: 30pt;
+}
+
+.checkin-print {
+  margin-top: 25px;
+  h2 {
+    color: #ccc;
+    font-family: $checkin-font-family;
+    font-weight: 300;
+  }
+  .btn {
+    background-color: #00a65a;
+    color: #eee;
+    .pull-right {
+      margin-right: -35px;
+    }
+    .badge {
+      background-color: #fff;
+      color: #00a65a;
+    }
+  }
+}
+
+.checkin-selection {
+  font-size: 30pt;
+  border-top: none;
+  background-color: rgba(#fff, 0.6);
+  color: #555;
+  .box-body {
+    padding: 10px 30px;
+  }
+  .clock > span {
+    line-height: 0.65em; // hack to fix minutes
+  }
+}
+
+.checkin-destinations {
+  border-top: none;
+  background-color: rgba(#fff, 0.6);
+  color: #555;
+  .box-header {
+    background-color: rgba(#000, 0.1);
+    padding: 5px 30px;
+    margin-bottom: 10px;
+    font-family: $checkin-font-family;
+    font-weight: 300;
+    font-size: 20pt;
+    .pull-right {
+      padding-top: 5px;
+    }
+  }
+  .box-body {
+    padding: 0 30px 30px 30px;
+  }
+  .box-header h2.box-title {
+    font-size: 20pt;
+    font-family: $checkin-font-family;
+    padding-left: 0;
+    .light {
+      font-weight: 100;
+    }
+  }
+  h3 {
+    font-size: 30pt;
+    font-family: $checkin-font-family;
+    font-weight: 100;
+    margin: 0 0 15px 0;
+  }
+  .fa {
+    color: #777;
+  }
+  .class-list {
+    @extend .list-unstyled;
+    font-family: $checkin-font-family;
+    font-weight: 300;
+    color: #333;
+    font-size: 30pt;
+    &.indented {
+      margin-left: 50px;
+    }
+    .fa {
+      display: inline-block;
+      width: 1em;
+    }
+    small {
+      font-size: 0.5em;
+      font-weight: 100;
+    }
+  }
+}
+
+.clock > span {
+  line-height: 1.15em; // hack to fix minutes
 }

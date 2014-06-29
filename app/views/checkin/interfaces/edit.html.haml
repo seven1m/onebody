@@ -1,0 +1,83 @@
+.checkin-inner
+  .row
+    .col-sm-3
+      %ul.list-unstyled.checkin-people
+        %li
+          .btn.checkin-btn
+            .pull-right
+              = icon 'fa fa-check text-green'
+            = icon 'fa fa-male text-blue'
+            Tim Morgan
+        %li
+          .btn.checkin-btn.active
+            .pull-right
+              = icon 'fa fa-chevron-right'
+            = icon 'fa fa-female text-pink'
+            Jennie Morgan
+        %li
+          .btn.checkin-btn
+            .pull-right
+              = icon 'fa fa-chevron-right'
+            = icon 'fa fa-child text-pink'
+            Mackenzie Morgan
+        %li
+          .btn.checkin-btn
+            .pull-right
+              = icon 'fa fa-chevron-right'
+            = icon 'fa fa-child text-blue'
+            Kai Morgan
+      .checkin-print
+        %h2 When you're finished:
+        .btn.checkin-btn
+          = icon 'fa fa-print'
+          Print Tags
+          .badge.pull-right
+            2
+
+    .col-sm-9
+      .checkin-same
+        .btn
+          = icon 'fa fa-bolt'
+          same as last week
+
+      .box.checkin-selection
+        .box-body
+          9:00 a.m.
+          = icon 'fa fa-check text-green'
+          Grace and Truth
+          .pull-right
+            .btn.btn-danger
+              .fa.fa-times-circle
+              change
+
+      .box.checkin-destinations
+        .box-header
+          %h2.box-title
+            10:30 a.m.
+          .pull-right
+            .fa.fa-times.text-red
+        .box-body
+          %ul.class-list
+            %li
+              = icon 'fa fa-users'
+              10:30 a.m. Worship Service
+          %h3
+            = icon 'fa fa-folder-open-o'
+            Adult Bible Fellowship
+          %ul.class-list.indented
+            %li
+              = icon 'fa fa-users'
+              Grace and Truth
+              -#%small
+                -#Joe Simmons teaches this class on bla bla bla...
+            %li
+              = icon 'fa fa-users'
+              Primetimers
+              -#%small
+                -#This class is geared for people over age 50.
+          %h3
+            = icon 'fa fa-folder-o'
+            Children (0 - 5 Years)
+          %h3
+            = icon 'fa fa-folder-o'
+            Kids Zone (Kindergarten-6th)

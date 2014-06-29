@@ -1,3 +1,4 @@
+//= require pe-analogclock
 @import "bootstrap";
 @import "font-awesome";
 @import "admin_lte";
@@ -110,4 +111,8 @@ body.bg-black > .footer {
       content: "";
     }
   }
+}
+
+.text-pink {
+  color: #ff82ab;
 }
