@@ -55,6 +55,7 @@ class Person < ActiveRecord::Base
 
   validates_presence_of :first_name, :last_name
   validates_length_of :password, minimum: 5, allow_nil: true, if: Proc.new { Person.logged_in }
+  validates_length_of :description, maximum: 25, message: "Description must be less than 25 characters."
   validates_confirmation_of :password, if: Proc.new { Person.logged_in }
   validates_uniqueness_of :alternate_email, allow_nil: true, scope: [:site_id, :deleted], unless: Proc.new { |p| p.deleted? }
   validates_uniqueness_of :feed_code, allow_nil: true, scope: :site_id
