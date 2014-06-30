@@ -3,8 +3,6 @@ class StreamItemDecorator < Draper::Decorator
   MAX_BODY_SIZE = 250
   MAX_PICTURES = 10
 
-  # TODO i18n
-
   delegate_all
 
   def publishable?

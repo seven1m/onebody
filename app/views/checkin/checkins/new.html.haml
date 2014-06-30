@@ -2,14 +2,18 @@
 
 .center
   #time.headline.text-center
+  - if flash[:error]
+    .callout.callout-danger
+      = icon 'fa fa-exclamation-triangle text-yellow'
+      = flash[:error]
   .lockscreen-name= @title
   .lockscreen-item
     .lockscreen-image
       = image_tag 'barcode.png'
     .lockscreen-credentials
-      = form_tag checkin_interface_path do
+      = form_tag checkin_path, method: 'post' do
         .input-group
-          %input.form-control#barcode{ placeholder: t('checkin.interface.barcode.placeholder'), type: "password" }
+          %input.form-control#barcode{ name: 'barcode', placeholder: t('checkin.interface.barcode.placeholder'), type: 'password' }
           .input-group-btn
             %button.btn.btn-flat
               %i.fa.fa-arrow-right.text-muted

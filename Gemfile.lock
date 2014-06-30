@@ -236,6 +236,7 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.4)
     tilt (1.4.1)
+    timecop (0.7.1)
     timers (1.1.0)
     transaction-simple (1.4.0.2)
     treetop (1.4.15)
@@ -299,6 +300,7 @@ DEPENDENCIES
   spring
   spring-commands-rspec
   terminal-notifier
+  timecop
   truncate_html
   uglifier
   watchr

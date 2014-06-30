@@ -17,4 +17,11 @@ $('[data-toggle^="#"], [data-toggle^="."]').each (i, elm) ->
       toggle(elm.is(enabled_selector))
     toggle(elm.is(enabled_selector))
   if elm.is('a')
-    elm.on 'click', toggle
+    elm.on 'click', ->
+      elm = $(this)
+      elm.toggleClass('expanded')
+      toggle(elm.is('.expanded'))
+
+if csrf_token = $('meta[name="csrf-token"]').attr('content')
+  $(document).ajaxSend (_, xhr) ->
+    xhr.setRequestHeader('X-CSRF-Token', csrf_token)

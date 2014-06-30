@@ -28,7 +28,7 @@ module PeopleHelper
     person.elder? or person.deacon? or person.staff? or person.member? or person.custom_type.present?
   end
 
-  def avatar_path(person, size=:tn)
+  def avatar_path(person, size=:tn, variation=nil)
     if person.is_a?(Family)
       family_avatar_path(person, size)
     elsif person.is_a?(Group)
@@ -41,7 +41,11 @@ module PeopleHelper
       else
         size = :large unless size == :tn # we only have only two sizes
         img = person.try(:gender) == 'Female' ? 'woman' : 'man'
-        image_path("#{img}.#{size}.jpg")
+        if variation == :dark
+          image_path("#{img}.dark.#{size}.png")
+        else
+          image_path("#{img}.#{size}.jpg")
+        end
       end
     end
   end
@@ -58,7 +62,7 @@ module PeopleHelper
       options.reverse_merge!(size: :tn, alt: person.try(:name))
       options.reverse_merge!(class: "avatar #{options[:size]} #{options[:class]}")
       options.reverse_merge!(data: { id: "person#{person.id}", size: options[:size] })
-      image_tag(avatar_path(person, options.delete(:size)), options)
+      image_tag(avatar_path(person, options.delete(:size), options.delete(:variation)), options)
     end
   end
 

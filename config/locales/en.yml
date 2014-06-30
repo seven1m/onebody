@@ -131,6 +131,11 @@ en:
               blank: The attendance record must specify a date and time.
             group_id: 
               blank: The attendance record must be associated with a group.
+        checkin_time:
+          attributes:
+            campus:
+              blank: "You must select a campus."
+              exclusion: "You must select a campus."
         family: 
           attributes: 
             name:

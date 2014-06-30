@@ -11,6 +11,7 @@
     = stylesheet_link_tag 'application'
     = yield(:css)
     = csrf_meta_tags
+    = render partial: 'layouts/favicons'
     %link{href: "//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,300italic,400italic,600italic|Abel", rel: "stylesheet"}
     /[if lt IE 9]
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>

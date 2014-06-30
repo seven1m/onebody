@@ -11,12 +11,13 @@
     = stylesheet_link_tag 'application'
     = yield(:css)
     = csrf_meta_tags
+    = render partial: 'layouts/favicons'
     %link{href: "//fonts.googleapis.com/css?family=Roboto:400,100,300", rel: "stylesheet"}
     /[if lt IE 9]
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     = yield(:head)
-  %body
+  %body.checkin
     = yield
     - content_for :js do
       :javascript
@@ -28,6 +29,6 @@
         });
     -#.footer
       -#= render partial: 'layouts/footer_links'
-    = javascript_include_tag 'application'
+    = javascript_include_tag 'application', 'checkin'
     = yield(:js)
     = setting(:services, :analytics) if Rails.env.production?

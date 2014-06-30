@@ -42,6 +42,7 @@ group :development do
   gem 'zeus'
   gem 'watchr'
   gem 'terminal-notifier'
+  gem 'timecop'
 end
 
 group :development, :test do

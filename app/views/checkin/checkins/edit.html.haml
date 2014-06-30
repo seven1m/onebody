@@ -1,0 +1,70 @@
+.checkin-inner
+  .row
+    .col-lg-3
+      %ul.list-unstyled.checkin-people
+        - @checkins.each do |checkin|
+          %li
+            = link_to '#', class: 'btn checkin-btn checkin-select-person', data: { id: checkin.person.id } do
+              .pull-right
+                = icon 'fa fa-chevron-right status'
+              = avatar_tag(checkin.person, variation: :dark)
+              = checkin.person.name
+        %li
+          = link_to '#', class: 'btn checkin-btn', id: 'add-a-guest' do
+            .pull-right
+              = icon 'fa fa-chevron-right'
+            = icon 'fa fa-plus'
+            = t('checkin.interface.add_guest.button')
+
+      .hidden-md.hidden-sm.hidden-xs
+        .checkin-print{ style: 'display:none' }
+          = link_to '#', class: 'btn checkin-btn' do
+            = icon 'fa fa-print'
+            = t('checkin.interface.print.button')
+            .badge.pull-right.tag-count
+
+    .col-lg-9
+      - @checkins.each do |checkin|
+        %div.checkin-person{ id: "person_#{checkin.id}", style: 'display:none', data: { id: checkin.id } }
+          .checkin-same
+            = link_to '#', class: 'btn same-as-last-week' do
+              %i.icon
+              = t('checkin.interface.same_as_last_week.button')
+
+          - checkin.times.each do |time|
+            .box.checkin-destinations.checkin-time{ id: dom_id(time) }
+              .box-header
+                %h2.box-title
+                  = time.time_to_s
+                  .checkin-selection-header
+                  .checkin-not-attending-header{ style: 'display:none' }
+                    = t('checkin.interface.not_attending')
+                .pull-right
+                  = link_to '#', class: 'checkin-close' do
+                    .icon
+                  = link_to '#', class: 'checkin-open', style: 'display:none' do
+                    .icon
+                  = link_to '#', class: 'checkin-change', style: 'display:none' do
+                    .icon
+                    change
+              .box-body
+                - time.group_times.each_with_index do |(section, group_times), index|
+                  - if section.present?
+                    %h3
+                      = link_to '#', class: 'checkin-open-section', data: { id: "#checkin#{checkin.id}_time#{time.id}_section#{index}" } do
+                        = icon 'checkin-folder'
+                        = section
+                  %ul.class-list{ id: "checkin#{checkin.id}_time#{time.id}_section#{index}", class: section.present? ? "collapsed indented" : nil }
+                    - group_times.each do |group_time|
+                      %li
+                        = link_to '#', data: { id: group_time.id }, class: 'checkin-select-class' do
+                          = icon 'fa fa-users'
+                          %span.name
+                            = group_time.group.name
+
+      .hidden-lg
+        .checkin-print{ style: 'display:none' }
+          .btn.checkin-btn
+            = icon 'fa fa-print'
+            = t('checkin.interface.print.button')
+            .badge.pull-right.tag-count

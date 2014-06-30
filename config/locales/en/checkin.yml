@@ -64,6 +64,11 @@ en:
             other: "%{count} destinations"
       edit:
         button: "edit"
+        heading: "Edit Check-in Time"
+        campus:
+          new: "[new campus]"
+        save:
+          button: "Save Changes"
       recurring:
         heading: "Recurring Times"
         new:
@@ -107,6 +112,14 @@ en:
       errors: "There were errors saving this family."
 
     interface:
-      heading: "Check In"
+      add_guest:
+        button: "Add a guest"
       barcode:
         placeholder: "Scan Your Card"
+      heading: "Check In"
+      not_attending: "not attending"
+      print:
+        heading: "After making your selections..."
+        button: "Print Tags"
+      same_as_last_week:
+        button: "Choose same as last week"
