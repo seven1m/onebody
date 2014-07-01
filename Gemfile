@@ -32,6 +32,7 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'font-awesome-rails', github: 'bokmann/font-awesome-rails'
 gem 'truncate_html'
 gem 'geocoder'
+gem 'date_validator'
 
 group :test do
   gem 'factory_girl_rails'
