@@ -16,15 +16,29 @@ class CheckinPresenter
     checkin_times.decorate
   end
 
-  def attendance_records
+  def all_attendance_records
     group_ids = checkin_times.flat_map { |t| t.group_times.pluck(:group_id) }.uniq
-    person.attendance_records.where(group_id: group_ids, checkin_time_id: checkin_times.pluck(:id))
+    person.attendance_records.where(
+      group_id:        group_ids,
+      checkin_time_id: checkin_times.pluck(:id)
+    )
+  end
+
+  def attendance_records(times=nil)
+    times ||= checkin_times.map { |ct| ct.to_time }
+    all_attendance_records.where(
+      attended_at: times
+    )
+  end
+
+  def can_choose_same?
+    times = checkin_times.where(the_datetime: nil).map { |ct| ct.to_time - 1.week }
+    checkin_times.all? { |ct| ct.weekday } and attendance_records(times).any?
   end
 
   private
 
   def checkin_times
-    Timecop.freeze(Time.local(2014, 6, 29, 9, 00)) # TEMP for testing the UI
     CheckinTime.where(campus: @campus)
       .where(
         "(the_datetime is null and weekday = ?) or

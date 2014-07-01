@@ -2,6 +2,7 @@ class AttendanceRecord < ActiveRecord::Base
   belongs_to :person
   belongs_to :group
   belongs_to :site
+  belongs_to :checkin_time
 
   scope_by_site_id
 
@@ -37,14 +38,36 @@ class AttendanceRecord < ActiveRecord::Base
     )
   end
 
-  def self.daily_counts(limit, offset, date_strftime='%Y-%m-%d', only_show_date_for=nil)
-    [].tap do |data|
-      counts = connection.select_all("select count(date(attended_at)) as count, date(attended_at) as date from attendance_records where site_id=#{Site.current.id} group by date(attended_at) order by attended_at desc limit #{limit.to_i} offset #{offset.to_i};").group_by { |p| Date.parse(p['date'].strftime('%Y-%m-%d')) }
-      ((Date.today-offset-limit+1)..(Date.today-offset)).each do |date|
-        d = date.strftime(date_strftime)
-        d = ' ' if only_show_date_for and date.strftime(only_show_date_for[0]) != only_show_date_for[1]
-        count = counts[date] ? counts[date][0]['count'].to_i : 0
-        data << [d, count]
+  def self.check_in(person, times)
+    times.map do |checkin_time_id, group_time_id|
+      checkin_time = CheckinTime.find(checkin_time_id)
+      attended_at = checkin_time.to_time
+      where(person_id: person.id, attended_at: attended_at).delete_all
+      if group_time_id
+        group_time = GroupTime.find(group_time_id)
+        group_time.group.attendance_records.create!(
+          person_id:           person.id,
+          attended_at:         attended_at,
+          first_name:          person.first_name,
+          last_name:           person.last_name,
+          family_name:         person.family.name,
+          age:                 person.age_group,
+          can_pick_up:         person.can_pick_up,
+          cannot_pick_up:      person.cannot_pick_up,
+          medical_notes:       person.medical_notes,
+          checkin_time_id:     group_time.checkin_time_id,
+          print_nametag:       group_time.print_nametag?,
+          print_extra_nametag: group_time.print_extra_nametag?,
+        )
+        ## record attendance for a person not in database (one at a time)
+        #if person = params[:person] and @group
+          #@group.attendance_records.create!(
+            #attended_at:    @attended_at.strftime('%Y-%m-%d %H:%M:%S'),
+            #first_name:     person['first_name'],
+            #last_name:      person['last_name'],
+            #age:            person['age']
+          #)
+        #end
       end
     end
   end

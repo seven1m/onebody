@@ -3,6 +3,9 @@ class Checkin::CheckinsController < ApplicationController
   skip_before_filter :authenticate_user
   before_filter :ensure_campus_selection
   before_filter :reset_family, except: :edit
+  #before_filter -> {
+    #Timecop.freeze(Time.local(2014, 6, 29, 9, 00)) # TEMP for testing the UI
+  #}
 
   layout 'checkin'
 
@@ -31,41 +34,15 @@ class Checkin::CheckinsController < ApplicationController
     end
   end
 
-  # FIXME yuck this is huge
-  # move this logic into GroupTime or AttendanceRecord, or create a new service object????
   def update
     labels = {}
     params[:people].each do |person_id, times|
       person = Person.find(person_id)
-      AttendanceRecord.where(person_id: person.id, checkin_time_id: times.keys).delete_all
-      times.each do |checkin_time_id, group_time_id|
-        next unless group_time_id
-        group_time = GroupTime.find(group_time_id)
-        attended_at = group_time.checkin_time.the_datetime || Time.parse(group_time.checkin_time.time_to_s)
-        attendance_record = group_time.group.attendance_records.create!(
-          person_id:       person.id,
-          attended_at:     attended_at,
-          first_name:      person.first_name,
-          last_name:       person.last_name,
-          family_name:     person.family.name,
-          age:             person.age_group,
-          can_pick_up:     person.can_pick_up,
-          cannot_pick_up:  person.cannot_pick_up,
-          medical_notes:   person.medical_notes,
-          checkin_time_id: group_time.checkin_time_id
-        )
-        ## record attendance for a person not in database (one at a time)
-        #if person = params[:person] and @group
-          #@group.attendance_records.create!(
-            #attended_at:    @attended_at.strftime('%Y-%m-%d %H:%M:%S'),
-            #first_name:     person['first_name'],
-            #last_name:      person['last_name'],
-            #age:            person['age']
-          #)
-        #end
+      records = AttendanceRecord.check_in(person, times)
+      records.compact.each do |record|
         labels[person.id] ||= []
-        labels[person.id] << attendance_record.as_json if group_time.print_nametag? and labels[person.id].empty?
-        labels[person.id] << attendance_record.as_json if group_time.print_extra_nametag? and labels[person.id].length < 2
+        labels[person.id] << record.as_json if record.print_nametag? and labels[person.id].empty?
+        labels[person.id] << record.as_json if record.print_extra_nametag? and labels[person.id].length < 2
       end
     end
     session.delete(:checkin_family_id)

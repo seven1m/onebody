@@ -59,6 +59,10 @@ class CheckinTime < ActiveRecord::Base
     end
   end
 
+  def to_time
+    the_datetime || Time.parse(time_to_s)
+  end
+
   def reorder_group(group, direction)
     case direction
     when 'up'

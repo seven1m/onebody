@@ -26,10 +26,12 @@
     .col-lg-9
       - @checkins.each do |checkin|
         %div.checkin-person{ id: "person_#{checkin.id}", style: 'display:none', data: { id: checkin.id } }
-          .checkin-same
-            = link_to '#', class: 'btn same-as-last-week' do
-              %i.icon
-              = t('checkin.interface.same_as_last_week.button')
+
+          - if checkin.can_choose_same?
+            .checkin-same
+              = link_to '#', class: 'btn same-as-last-week' do
+                %i.icon
+                = t('checkin.interface.same_as_last_week.button')
 
           - checkin.times.each do |time|
             .box.checkin-destinations.checkin-time{ id: dom_id(time), data: { id: time.id } }
