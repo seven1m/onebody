@@ -112,42 +112,42 @@ en:
       note:
         title: "Title"
         body: "Body"
-    errors: 
-      models: 
-        admin: 
-          attributes: 
-            template_name: 
+    errors:
+      models:
+        admin:
+          attributes:
+            template_name:
               taken: There is another template with this name. Please choose another name.
-        album: 
-          attributes: 
-            name: 
+        album:
+          attributes:
+            name:
               blank: The album must have a name.
               taken: There is another album with this name. Please choose another name.
             owner:
               blank: The album must have an owner.
-        attendance_record: 
-          attributes: 
-            attended_at: 
+        attendance_record:
+          attributes:
+            attended_at:
               blank: The attendance record must specify a date and time.
-            group_id: 
+            group_id:
               blank: The attendance record must be associated with a group.
         checkin_time:
           attributes:
             campus:
               blank: "You must select a campus."
               exclusion: "You must select a campus."
-        family: 
-          attributes: 
+        family:
+          attributes:
             name:
               blank: "The family must have a name."
             last_name:
               blank: "The family must have a last name."
-            alternate_barcode_id: 
+            alternate_barcode_id:
               invalid: This family card (alternate barcode id) contains letters or symbols (only numbers are allowed).
               taken: This family card (alternate barcode id) is already taken by another family.
               too_long: This family card (alternate barcode id) is too long (cannot be more than 50 digits).
               too_short: This family card (alternate barcode id) is too short (must be 10 digits).
-            barcode_id: 
+            barcode_id:
               invalid: This family card (barcode id) contains letters or symbols (only numbers are allowed).
               taken: This family card (barcode id) is already taken by another family.
               too_long: This family card (barcode id) is too long (cannot be more than 50 digits).
@@ -155,171 +155,173 @@ en:
             photo:
               too_large: "The photo must be less than %{size} megabytes."
               wrong_type: "The photo file type must be JPG, GIF, or PNG."
-        friendship: 
-          attributes: 
-            friend_id: 
+        friendship:
+          attributes:
+            friend_id:
               blank: This friendship must be associated with a person.
               taken: This friendship already exists.
-            person_id: 
+            person_id:
               blank: This friendship must be associated with a person.
-        friendship_request: 
-          attributes: 
-            from_id: 
+        friendship_request:
+          attributes:
+            from_id:
               blank: This friendship request must be associated with a person.
-            person: 
+            person:
               invalid_address: The person must have a valid email address.
               refused: The person does not accept friend requests.
-            person_id: 
+            person_id:
               blank: This friendship request must be associated with a person.
               taken: This friendship request already exits.
-        group: 
-          attributes: 
-            address: 
+        group:
+          attributes:
+            address:
               invalid: The group address is not a valid email address.
               taken: There is another group with this email address. Please choose another address.
               too_long: The group email address is too long.
               too_short: The group email address is too short.
-            category: 
+            category:
               blank: The group must specify a category.
-            name: 
+            name:
               blank: The group must have a name.
               taken: There is another group with this name. Please choose another name.
-            parents_of: 
+            parents_of:
               points_to_self: This group cannot link to itself.
             photo:
               too_large: "The photo must be less than %{size} megabytes."
               wrong_type: "The photo file type must be JPG, GIF, or PNG."
-        membership: 
-          attributes: 
-            group_id: 
+        membership:
+          attributes:
+            group_id:
               taken: This person is already a member of this group.
-        membership_request: 
-          attributes: 
-            group_id: 
+        membership_request:
+          attributes:
+            group_id:
               taken: This person has already requested membership in this group.
-        message: 
-          attributes: 
-            body: 
+        message:
+          attributes:
+            body:
               blank: The message must have a body.
               too_short: The message body is too short.
-            person_id: 
+            person_id:
               blank: This message must be associated with a person.
-            subject: 
+            subject:
               blank: The message must have a subject.
               too_short: The message subject is too short.
-            to_person_id: 
+            to_person_id:
               invalid: The recipient of this message does not have an email address. The message cannot be sent.
-        note: 
-          attributes: 
-            body: 
+        note:
+          attributes:
+            body:
               blank: The note is blank.
-        page: 
-          attributes: 
-            body: 
+        page:
+          attributes:
+            body:
               blank: The page must have a body.
-            path: 
+            path:
               taken: There is another page with this path.
-            slug: 
+            slug:
               blank: The page must have a slug.
               exclusion: The page slug cannot be "admin", "edit", or "new"
               invalid: The page slug can only contain lowercase letters and underscore.
-            title: 
+            title:
               blank: The page must have a title.
-        person: 
-          attributes: 
-            alternate_email: 
+        person:
+          attributes:
+            alternate_email:
               invalid: The alternate email address is not formatted correctly (something@example.com).
               taken: There is another person with the same alternate email.
             anniversary:
               not_a_date: "Please enter a valid date for the anniversary."
             birthday:
               not_a_date: "Please enter a valid date for the birthday."
-            business_email: 
+            business_email:
               invalid: The business email address is not formatted correctly (something@example.com).
-            business_website: 
+            business_website:
               invalid: The business website URL is not formatted correctly (are you missing 'http://' at the beginning?)
             business_category:
               exclusion: "You must enter a category for your business."
-            child: 
+            child:
               inclusion: "You must enter a birthday or specify whether this person is a child."
-            email: 
+            description:
+              too_long: Description must be less than 25 characters.  A word or two. :)
+            email:
               invalid: The email address is not formatted correctly (something@example.com).
               taken: There is another person with the same email address.
-            feed_code: 
+            feed_code:
               taken: The same feed code exists on another person record.
-            first_name: 
+            first_name:
               blank: The person must have a first name.
-            gender: 
+            gender:
               inclusion: Gender must be either 'Male' or 'Female'.
-            last_name: 
+            last_name:
               blank: The person must have a last name.
-            password: 
+            password:
               confirmation: The passwords do not match.
               too_short: The password is too short.
-            website: 
+            website:
               invalid: The website URL is not formatted correctly (are you missing 'http://' at the beginning?)
             photo:
               too_large: "The photo must be less than %{size} megabytes."
               wrong_type: "The photo file type must be JPG, GIF, or PNG."
-        picture: 
-          attributes: 
-            album_id: 
+        picture:
+          attributes:
+            album_id:
               blank: This picture must be associated with an album.
             photo:
               too_large: "The photo must be less than %{size} megabytes."
               wrong_type: "The photo file type must be JPG, GIF, or PNG."
         picture_uploader:
-          attributes: 
-            album: 
+          attributes:
+            album:
               blank: You must select an album.
-        prayer_request: 
-          attributes: 
-            group_id: 
+        prayer_request:
+          attributes:
+            group_id:
               blank: The prayer request must be associated with a group.
-            person_id: 
+            person_id:
               blank: The prayer request must be associated with a person.
-            request: 
+            request:
               blank: The prayer request cannot be blank.
-        recipe: 
-          attributes: 
-            directions: 
+        recipe:
+          attributes:
+            directions:
               blank: The recipe must have directions.
-            ingredients: 
+            ingredients:
               blank: The recipe must have ingredients.
-            title: 
+            title:
               blank: The recipe must have a title.
-        relationship: 
-          attributes: 
-            name: 
+        relationship:
+          attributes:
+            name:
               blank: You must specify the relationship type.
               inclusion: This relationship is not valid.
               taken: This relationship already exists.
-            other_name: 
+            other_name:
               blank: You must specify the relationship type.
               taken: This relationship already exists.
-            person_id: 
+            person_id:
               blank: The relationship must be associated with a person.
-            related_id: 
+            related_id:
               blank: The relationship must be associated with a person.
-        report: 
-          attributes: 
-            definition: 
+        report:
+          attributes:
+            definition:
               invalid: The report definition is invalid.
-            name: 
+            name:
               blank: The report must have a name.
               taken: There is another report with this name. Please choose another name.
-        site: 
-          attributes: 
-            host: 
+        site:
+          attributes:
+            host:
               blank: The host must be specified.
               taken: There is another site with the same host.
               invalid: Do not include "www." in the hostname.
-            name: 
+            name:
               blank: The site must have a name.
               taken: There is another site with the same name.
-        tag: 
-          attributes: 
-            name: 
+        tag:
+          attributes:
+            name:
               blank: The tag must have a name.
               exclusion: The tag name is invalid.
               taken: There is another tag with the same name.
@@ -333,11 +335,11 @@ en:
               invalid: That mobile number could not be found in our system. You may try again.
             base:
               unauthorized: There is a problem with your record preventing you from signing in.
-        verse: 
-          attributes: 
-            reference: 
+        verse:
+          attributes:
+            reference:
               blank: The verse must have a reference.
-            text: 
+            text:
               blank: The passage is blank. Did you type the reference correctly?
               too_long: The passage is too long. Try to specify a shorter passage.
 

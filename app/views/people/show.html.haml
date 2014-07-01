@@ -1,4 +1,8 @@
-- @title = @person.name
+- unless @person.description.blank?
+  - @title = @person.name + " - " + @person.description
+- else
+  - @title = @person.name
+
 - if has_type?(@person)
   - content_for :sub_title do
     = link_to_person_role(@person, only_one: true)

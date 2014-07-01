@@ -12,15 +12,20 @@ class Administration::SettingsController < ApplicationController
   end
 
   def batch
-    Setting.where(site_id: Site.current.id).each do |setting|
-      next if setting.hidden?
-      value = params[setting.id.to_s]
-      value = value == '' ? nil : value
-      value = value == 'true' if setting.format == 'boolean'
-      setting.update_attributes! value: value
+    Site.current.host = params[:hostname] if params[:hostname]
+    if Site.current.save
+      Setting.where(site_id: Site.current.id).each do |setting|
+        next if setting.hidden?
+        value = params[setting.id.to_s]
+        value = value == '' ? nil : value
+        value = value == 'true' if setting.format == 'boolean'
+        setting.update_attributes! value: value
+      end
+      reload_settings
+      flash[:notice] = t('application.settings_saved')
+    else
+      add_errors_to_flash(Site.current)
     end
-    reload_settings
-    flash[:notice] = t('application.settings_saved')
     redirect_to administration_settings_path
   end
 

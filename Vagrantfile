@@ -7,6 +7,7 @@ $ruby_version = File.read(File.expand_path("../.ruby-version", __FILE__)).strip
 
 $vhost = <<VHOST
 <VirtualHost *:80>
+  PassengerRuby /home/vagrant/.rvm/wrappers/ruby-2.1.2@onebody/ruby
   DocumentRoot /vagrant/public
   RailsEnv development
   <Directory /vagrant/public>
@@ -70,10 +71,21 @@ su - vagrant -c "$user"
 
 a2enconf passenger
 a2enmod rewrite
+
 if [[ ! -e /etc/apache2/sites-available/onebody.conf ]]; then
   echo -e "#{$vhost}" > /etc/apache2/sites-available/onebody.conf
   a2dissite 000-default
   a2ensite onebody
+else
+  echo -e "#{$vhost}" > /tmp/onebody.conf
+  if diff /tmp/onebody.conf /etc/apache2/sites-available/onebody.conf > /dev/null
+  then
+    # the files are the same, do nothing
+    echo "onebody.conf does not need to be updated"
+  else
+    # the files are different, update
+    echo -e "#{$vhost}" > /etc/apache2/sites-available/onebody.conf
+  fi
 fi
 service apache2 reload
 SCRIPT
