@@ -32,7 +32,7 @@ Name:
     value: One Church
   Site: 
     format: string
-    value: One Church
+    value: CHURCH.IO
   Slogan: 
     format: string
     value: Welcome home.
