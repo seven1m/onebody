@@ -79,7 +79,10 @@ class CheckinPerson
 
   sameAsLastWeek: (e) =>
     e.preventDefault()
-    alert('NOT YET IMPLEMENTED')
+    elm = $(e.delegateTarget)
+    for id in elm.data('ids').split(',')
+      [time_id, group_id] = id.split('-')
+      @times[time_id]?.load([{group_id: group_id}])
 
   classSelected: (id) =>
     @elm.find('.checkin-same').hide()

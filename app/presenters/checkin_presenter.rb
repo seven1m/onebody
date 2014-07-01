@@ -32,8 +32,12 @@ class CheckinPresenter
   end
 
   def can_choose_same?
+    checkin_times.all? { |ct| ct.weekday } and last_week_records.any?
+  end
+
+  def last_week_records
     times = checkin_times.where(the_datetime: nil).map { |ct| ct.to_time - 1.week }
-    checkin_times.all? { |ct| ct.weekday } and attendance_records(times).any?
+    attendance_records(times)
   end
 
   private

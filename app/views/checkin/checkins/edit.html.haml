@@ -29,7 +29,7 @@
 
           - if checkin.can_choose_same?
             .checkin-same
-              = link_to '#', class: 'btn same-as-last-week' do
+              = link_to '#', class: 'btn same-as-last-week', data: { ids: checkin.last_week_records.map { |r| "#{r.checkin_time_id}-#{r.group_id}" }.join(',') } do
                 %i.icon
                 = t('checkin.interface.same_as_last_week.button')
 
