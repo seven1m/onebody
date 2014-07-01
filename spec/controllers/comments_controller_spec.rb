@@ -7,6 +7,11 @@ describe CommentsController do
   end
 
   it "should add a comment to a verse" do
+    allow_any_instance_of(Verse).to receive(:lookup) do |i|
+      i.translation = 'WEB'
+      i.text = 'test'
+      i.update_sortables
+    end
     @verse = FactoryGirl.create(:verse)
     num_comments = Comment.count
     post :create, {text: 'dude', verse_id: @verse.id}, {logged_in_id: @person.id}
