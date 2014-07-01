@@ -17,6 +17,12 @@
 
   .tab-content
     .tab-pane.active#naming
+      .form-group
+        = label_tag 'hostname', t('admin.settings.host.name'), class: 'col-sm-2 control-label'
+        .col-sm-10
+          = text_field_tag 'hostname', Site.current.host, class: 'form-control'
+          %span.help-block
+            = t('admin.settings.host.description')
       = setting_row('Name', 'Community')
       = setting_row('Name', 'Site')
       .form-group
