@@ -1,11 +1,9 @@
+#= require sonicnet
+
 class Checkin
 
   checkedIn: {}
   people: {}
-
-  load: (attendance_records) ->
-    for person_id, data of attendance_records
-      @people[person_id]?.load(data)
 
   render: ->
     $('.checkin-select-person').click(@selectPerson).each (i, elm) =>
@@ -13,7 +11,10 @@ class Checkin
       @people[id] = new CheckinPerson($("#person_#{id}"))
     $('#add-a-guest').click(@addGuest)
     $('.checkin-print .btn').click(@print)
+    @sp = new SonicProtocol(true)
+    @sp.listen()
     @
+
 
   selectPerson: (e) =>
     e.preventDefault()
@@ -27,17 +28,14 @@ class Checkin
 
   personCheckedIn: (id, times) =>
     @checkedIn[id] = times
-    if (id for id, s of times when s != null).length > 0
+    if times.length > 0
       $('.checkin-print').show().find('.tag-count').text(@tagCount())
     else
       $('.checkin-print').find('.tag-count').text(@tagCount())
       $('.checkin-print').hide() if @tagCount() == 0
 
   tagCount: =>
-    count = 0
-    for _, times of @checkedIn
-      count++ if (id for id, s of times when s != null).length > 0
-    count
+    Object.keys(@checkedIn).length
 
   print: (e) =>
     e.preventDefault()
@@ -52,57 +50,42 @@ class Checkin
         alert("should print #{labels.length} label(s) - NOT YET IMPLEMENTED")
         location.replace('/checkin')
 
-
 class CheckinPerson
 
   constructor: (@elm) ->
     @id = @elm.data('id')
     @button = $(".checkin-select-person[data-id='#{@id}']")
-    @times = {}
-    for time in @elm.find('.checkin-time')
-      @times[$(time).data('id')] = new CheckinTime($(time), this)
+    @times = for time in @elm.find('.checkin-time')
+      new CheckinTime($(time), this)
     @elm.find('.same-as-last-week').click(@sameAsLastWeek)
-
-  load: (data) =>
-    for checkin_time_id, records of data
-      @times[checkin_time_id]?.load(records)
 
   show: =>
     @elm.show()
     @button.addClass('active')
-    t.show() for _, t of @times
+    t.show() for t in @times
 
   hide: =>
     @elm.hide()
-    t.hide() for _, t of @times
+    t.hide() for t in @times
     @button.removeClass('active')
 
   sameAsLastWeek: (e) =>
     e.preventDefault()
-    elm = $(e.delegateTarget)
-    for id in elm.data('ids').split(',')
-      [time_id, group_id] = id.split('-')
-      @times[time_id]?.load([{group_id: group_id}])
+    alert('NOT YET IMPLEMENTED')
 
   classSelected: (id) =>
     @elm.find('.checkin-same').hide()
     @selected = true
     @button.find('.status').removeClass('fa-chevron-right').addClass('fa-check text-green')
-    checkin.personCheckedIn(@id, @selections())
+    checkin.personCheckedIn(@id, (t.selected for t in @times))
 
   classUnselected: (id) =>
-    count = (t for _, t of @times when t.selected).length
+    count = (t for t in @times when t.selected).length
     if count == 0
       @elm.find('.checkin-same').show()
       @selected = false
       @button.find('.status').removeClass('fa-check text-green').addClass('fa-chevron-right')
-    checkin.personCheckedIn(@id, @selections())
-
-  selections: =>
-    obj = {}
-    for id, time of @times
-      obj[id] = time.selected
-    obj
+    checkin.personCheckedIn(@id, (t.selected for t in @times))
 
 
 class CheckinTime
@@ -117,11 +100,6 @@ class CheckinTime
     @elm.find('.checkin-open').on 'click', @openTime
     @elm.find('.checkin-change').on 'click', @clearClassAndOpenTime
     @
-
-  load: (data) =>
-    for attendance_record in data
-      @elm.find(".checkin-select-class[data-group-id='#{attendance_record.group_id}']")
-        .click()
 
   show: =>
     @elm.show()
@@ -183,5 +161,22 @@ class CheckinTime
     @elm.find('.checkin-open').hide()
     @elm.find('.checkin-not-attending-header').hide()
 
+class SonicProtocol
+  constructor: (kiosk) ->
+    @audioContext = new webkitAudioContext();
+    @alpha = '0123456789.';
+    @
+  listen: =>
+    console.log 'listen'
+    @sserver = new SonicServer(alphabet: @alpha)
+    @sserver.on 'message', (message) ->
+      alert 'Not implimented: Print tags for ' + message.replace(/\./g,'')
+    @sserver.start()
+  send: (message) =>
+    ssocket = new SonicSocket(
+      alphabet: @alpha
+      charDuration: 0.1
+    )
+    ssocket.send message.split('').join('.')
 
-window.checkin = new Checkin().render()
+checkin = new Checkin().render()
