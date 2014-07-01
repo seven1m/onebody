@@ -230,6 +230,10 @@ en:
             alternate_email: 
               invalid: The alternate email address is not formatted correctly (something@example.com).
               taken: There is another person with the same alternate email.
+            anniversary:
+              not_a_date: "Please enter a valid date for the anniversary."
+            birthday:
+              not_a_date: "Please enter a valid date for the birthday."
             business_email: 
               invalid: The business email address is not formatted correctly (something@example.com).
             business_website: 

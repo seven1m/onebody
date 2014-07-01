@@ -65,6 +65,7 @@ class Person < ActiveRecord::Base
   validates_format_of :alternate_email, allow_nil: true, allow_blank: true, with: VALID_EMAIL_ADDRESS
   validates_exclusion_of :business_category, in: ['!']
   validates_inclusion_of :gender, in: %w(Male Female), allow_nil: true
+  validates_date_of :birthday, :anniversary, allow_nil: true
   validates_attachment_size :photo, less_than: PAPERCLIP_PHOTO_MAX_SIZE
   validates_attachment_content_type :photo, content_type: PAPERCLIP_PHOTO_CONTENT_TYPES
   validate :validate_email_unique
@@ -205,11 +206,19 @@ class Person < ActiveRecord::Base
   end
 
   def birthday=(d)
-    self[:birthday] = d.respond_to?(:strftime) ? d : Date.parse_in_locale(d.to_s)
+    if d.is_a?(String) and d.length > 0 and date = Date.parse_in_locale(d).try(:rfc3339)
+      self[:birthday] = date
+    else
+      self[:birthday] = d
+    end
   end
 
   def anniversary=(d)
-    self[:anniversary] = d.respond_to?(:strftime) ? d : Date.parse_in_locale(d.to_s)
+    if d.is_a?(String) and d.length > 0 and date = Date.parse_in_locale(d).try(:rfc3339)
+      self[:anniversary] = date
+    else
+      self[:anniversary] = d
+    end
   end
 
   def parental_consent?; parental_consent.present?; end

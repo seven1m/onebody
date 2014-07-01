@@ -193,6 +193,11 @@ describe Person do
     Setting.set(Site.current.id, 'Formats', 'Date', '%m/%d/%Y')
     @person.birthday = '4/28/1981'
     expect(@person.birthday).to eq(Date.new(1981, 4, 28))
+    @person.birthday = nil
+    expect(@person.birthday).to be_nil
+    @person.birthday = 'xxxxxx'
+    expect(@person).to_not be_valid
+    expect(@person.errors[:birthday]).to_not eq([])
   end
 
   it "should parse anniversary string by locale" do
@@ -203,6 +208,11 @@ describe Person do
     Setting.set(Site.current.id, 'Formats', 'Date', '%m/%d/%Y')
     @person.anniversary = '8/11/1981'
     expect(@person.anniversary).to eq(Date.new(1981, 8, 11))
+    @person.anniversary = nil
+    expect(@person.anniversary).to be_nil
+    @person.anniversary = 'xxxxxx'
+    expect(@person).to_not be_valid
+    expect(@person.errors[:anniversary]).to_not eq([])
   end
 
   it "should handle birthdays before 1970" do
