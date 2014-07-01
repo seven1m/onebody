@@ -32,7 +32,7 @@
               = t('checkin.interface.same_as_last_week.button')
 
           - checkin.times.each do |time|
-            .box.checkin-destinations.checkin-time{ id: dom_id(time) }
+            .box.checkin-destinations.checkin-time{ id: dom_id(time), data: { id: time.id } }
               .box-header
                 %h2.box-title
                   = time.time_to_s
@@ -57,7 +57,7 @@
                   %ul.class-list{ id: "checkin#{checkin.id}_time#{time.id}_section#{index}", class: section.present? ? "collapsed indented" : nil }
                     - group_times.each do |group_time|
                       %li
-                        = link_to '#', data: { id: group_time.id }, class: 'checkin-select-class' do
+                        = link_to '#', data: { id: group_time.id, 'group-id' => group_time.group_id }, class: 'checkin-select-class' do
                           = icon 'fa fa-users'
                           %span.name
                             = group_time.group.name
@@ -68,3 +68,8 @@
             = icon 'fa fa-print'
             = t('checkin.interface.print.button')
             .badge.pull-right.tag-count
+
+- content_for :js do
+  :javascript
+    attendance_records = #{ json_escape(@checkins.each_with_object({}) { |c, h| h[c.id] = c.attendance_records.group_by(&:checkin_time_id) }.to_json) };
+    checkin.load(attendance_records);

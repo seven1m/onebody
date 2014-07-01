@@ -35,23 +35,24 @@ class Checkin::CheckinsController < ApplicationController
   # move this logic into GroupTime or AttendanceRecord, or create a new service object????
   def update
     labels = {}
-    params[:people].each do |person_id, group_time_ids|
+    params[:people].each do |person_id, times|
       person = Person.find(person_id)
-      group_times = GroupTime.find(group_time_ids)
-      group_times.each do |group_time_id|
+      AttendanceRecord.where(person_id: person.id, checkin_time_id: times.keys).delete_all
+      times.each do |checkin_time_id, group_time_id|
+        next unless group_time_id
         group_time = GroupTime.find(group_time_id)
         attended_at = group_time.checkin_time.the_datetime || Time.parse(group_time.checkin_time.time_to_s)
-        AttendanceRecord.where(person_id: person.id, attended_at: attended_at).delete_all
         attendance_record = group_time.group.attendance_records.create!(
-          person_id:      person.id,
-          attended_at:    attended_at,
-          first_name:     person.first_name,
-          last_name:      person.last_name,
-          family_name:    person.family.name,
-          age:            person.age_group,
-          can_pick_up:    person.can_pick_up,
-          cannot_pick_up: person.cannot_pick_up,
-          medical_notes:  person.medical_notes
+          person_id:       person.id,
+          attended_at:     attended_at,
+          first_name:      person.first_name,
+          last_name:       person.last_name,
+          family_name:     person.family.name,
+          age:             person.age_group,
+          can_pick_up:     person.can_pick_up,
+          cannot_pick_up:  person.cannot_pick_up,
+          medical_notes:   person.medical_notes,
+          checkin_time_id: group_time.checkin_time_id
         )
         ## record attendance for a person not in database (one at a time)
         #if person = params[:person] and @group
