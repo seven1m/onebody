@@ -25,7 +25,7 @@
       %tr
         %td= text_field_tag "family[people_attributes][#{index}][first_name]",    @family.people[index].first_name,    size: 25, id: "family_people_attributes_#{index}_first_name", class: 'name form-control'
         %td= text_field_tag "family[people_attributes][#{index}][last_name]",     @family.people[index].last_name,     size: 25, id: "family_people_attributes_#{index}_last_name", class: 'name family-last-name form-control', onkeyup: index == 0 ? 'setLastName(this.value)' : nil, onblur: index == 0 ? 'setLastName(this.value)' : nil
-        %td= text_field_tag "family[people_attributes][#{index}][birthday]",      @family.people[index].birthday,      size: 12, id: "family_people_attributes_#{index}_birthday", class: 'date-field form-control'
+        %td= date_field_tag "family[people_attributes][#{index}][birthday]",      @family.people[index].birthday,      size: 12, id: "family_people_attributes_#{index}_birthday", class: 'date-field form-control'
         %td= text_field_tag "family[people_attributes][#{index}][medical_notes]", @family.people[index].medical_notes, size: 25, id: "family_people_attributes_#{index}_medical_notes", class: 'form-control'
   .form-group
     = form.label :barcode_id, t('checkin.family.new.barcode')
@@ -41,7 +41,6 @@
 
 - content_for :js do
   :javascript
-    $('.date-field').datepicker({changeYear:true, yearRange:'1900:2025'});
     $('.date-field').blur(function() { var el=$(this); window.setTimeout(function(){ el.datepicker('hide'); }, 100); });
     var rows = $('#family_people tr');
     for(var i=9; i<rows.length; i++) {
