@@ -106,6 +106,10 @@
         %tr
           %td= t('.details.location')
           %td= preserve_breaks(@group.location)
+      - if @group.attachments.any? or @group.admin?(@logged_in)
+        %tr
+          %td= t('.details.attachments')
+          %td= link_to t('.details.attachment_count', count: @group.attachments.count), group_attachments_path(@group)
 
   .col-sm-6.col-sm-pull-6
     = timeline @stream_items

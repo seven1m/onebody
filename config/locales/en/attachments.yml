@@ -1,5 +1,10 @@
 en:
   attachments:
+    heading: "Group Files"
+
+    new:
+      button: "New File"
+
     deleted: Attachment deleted.
     file: File
     file_deleted: This file has been deleted.

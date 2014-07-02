@@ -1,6 +1,12 @@
 class AttachmentsController < ApplicationController
   skip_before_filter :authenticate_user, only: %w(get)
 
+  load_and_authorize_parent :group, only: :index
+
+  def index
+    @attachments = attachments
+  end
+
   def show
     @attachment = Attachment.find(params[:id])
     if @logged_in.can_see?(@attachment)
@@ -15,15 +21,12 @@ class AttachmentsController < ApplicationController
     end
   end
 
-  # only for page and group attachments
   def get
     @attachment = Attachment.find(params[:id])
     if @attachment.file.exists? and !@attachment.message
       data = File.read(@attachment.file.path)
       details = {filename: @attachment.name, type: @attachment.content_type || 'application/octet-stream'}
-      if @attachment.page and (@attachment.page.published? or (get_user and @logged_in.admin?(:edit_pages)))
-        send_data data, details.merge(disposition: 'inline')
-      elsif @attachment.group and (get_user and @logged_in.can_see?(@attachment.group))
+      if @attachment.group and (get_user and @logged_in.can_see?(@attachment.group))
         send_data data, details.merge(disposition: 'inline')
       else
         render text: t('attachments.file_not_found'), layout: true, status: 404
@@ -34,46 +37,26 @@ class AttachmentsController < ApplicationController
   end
 
   def new
-    if params[:page_id]
-      @page = Page.find(params[:page_id])
-      if @logged_in.can_edit?(@page)
-        @attachment = Attachment.new(page_id: @page.id)
-      else
-        render text: t('not_authorized'), layout: true, status: 401
-      end
-    elsif params[:group_id]
-      @group = Group.find(params[:group_id])
-      if @group.admin?(@logged_in)
-        @attachment = Attachment.new(group_id: @group.id)
-      else
-        render text: t('not_authorized'), layout: true, status: 401
-      end
+    @group = Group.find(params[:group_id])
+    if @group.admin?(@logged_in)
+      @attachment = Attachment.new(group_id: @group.id)
     else
-      render text: t('attachments.unknown_type'), layout: true, status: 500
+      render text: t('not_authorized'), layout: true, status: 401
     end
   end
 
   def create
-    if params[:attachment][:page_id].to_s.any?
-      @page = Page.find(params[:attachment][:page_id])
-      if @logged_in.can_edit?(@page)
-        Attachment.create_from_file(attachment_params)
+    @group = Group.find(params[:attachment][:group_id])
+    if @group.admin?(@logged_in)
+      attachment = Attachment.create_from_file(attachment_params)
+      if attachment.valid?
         flash[:notice] = t('attachments.saved')
-        redirect_back
       else
-        render text: t('not_authorized'), layout: true, status: 401
+        add_errors_to_flash(attachment)
       end
-    elsif params[:attachment][:group_id].to_s.any?
-      @group = Group.find(params[:attachment][:group_id])
-      if @group.admin?(@logged_in)
-        Attachment.create_from_file(attachment_params)
-        flash[:notice] = t('attachments.saved')
-        redirect_to edit_group_path(@group, anchor: 'attachments')
-      else
-        render text: t('not_authorized'), layout: true, status: 401
-      end
+      redirect_to group_attachments_path(@group)
     else
-      render text: t('attachments.unknown_type'), layout: true, status: 500
+      render text: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -91,7 +74,7 @@ class AttachmentsController < ApplicationController
   private
 
   def attachment_params
-    params.require(:attachment).permit(:group_id, :page_id, :file)
+    params.require(:attachment).permit(:group_id, :file)
   end
 
 end
