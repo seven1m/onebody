@@ -21,4 +21,4 @@
   = form.label :creator
   = form.text_field :creator, value: (@group.creator ? @group.creator.name : nil), readonly: true, name: 'creator_name', class: 'form-control'
 .form-group
-  = form.submit t('save_changes'), class: 'btn btn-primary'
+  = form.submit t('save_changes'), class: 'btn btn-success'

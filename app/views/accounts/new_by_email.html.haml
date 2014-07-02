@@ -9,4 +9,4 @@
     %label{for: "verification_email"}= t('accounts.type_your_email')
     = text_field_tag 'verification[email]', params[:email] == 'true' ? '' : params[:email], class: 'form-control'
   .form-group
-    = submit_tag t('accounts.verify_email'), class: 'btn btn-primary'
+    = submit_tag t('accounts.verify_email'), class: 'btn btn-success'
