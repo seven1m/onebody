@@ -8,19 +8,21 @@ module ApplicationHelper
   # TODO needed?
   include ERB::Util
 
-  def flash_class(level)
-    case level
-      when :info    then 'flash callout callout-info'
-      when :notice  then 'flash callout callout-info'
-      when :success then 'flash callout callout-success'
-      when :error   then 'flash callout callout-danger'
-      when :warning then 'flash callout callout-warning'
-    end
-  end
+  FLASH_CLASSES = {
+    info:    'flash callout callout-info',
+    notice:  'flash callout callout-info',
+    success: 'flash callout callout-success',
+    error:   'flash callout callout-danger',
+    warning: 'flash callout callout-warning'
+  }
 
   def flash_messages
     flash.map do |key, value|
-      content_tag(:div, preserve_breaks(value), class: flash_class(key))
+      if css_class = FLASH_CLASSES[key]
+        content_tag(:div, preserve_breaks(value), class: css_class)
+      else
+        ''
+      end
     end.join.html_safe
   end
 
