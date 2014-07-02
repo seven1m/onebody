@@ -138,6 +138,36 @@ describe Verification do
         end
       end
     end
+
+    context 'given an email matching an existing person alternate_email' do
+      before do
+        ActionMailer::Base.deliveries.clear
+        @person.alternate_email = 'test@other.com'
+        @person.save!
+        @verification = Verification.new(email: 'test@other.com')
+      end
+
+      context 'person can sign in' do
+        before do
+          @return = @verification.save
+        end
+
+        it 'should return true' do
+          expect(@return).to eq(true)
+        end
+
+        it 'should not be verified' do
+          expect(@verification.reload.verified?).to eq(false)
+        end
+
+        it 'should send verification email' do
+          email = ActionMailer::Base.deliveries.last
+          expect(email.subject).to eq("Verify Email")
+          expect(email.to).to eq(['test@other.com'])
+          expect(email.body.to_s).to match(/account\/verify_code\?id=\d+&code=\d+/)
+        end
+      end
+    end
   end
 
   context '#check!' do

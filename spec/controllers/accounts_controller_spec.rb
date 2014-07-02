@@ -130,7 +130,7 @@ describe AccountsController do
 
             context 'user is an adult' do
               before do
-                post :create, {signup: {email: 'rick@example.com', first_name: 'Rick', last_name: 'Smith', birthday: '4/1/1980'}}
+                post :create, {signup: {email: 'rick@example.com', mobile_phone: '0000000000', first_name: 'Rick', last_name: 'Smith', birthday: '4/1/1980'}}
                 expect(assigns[:signup].errors).to be_empty
                 @person = Person.last
               end
@@ -185,7 +185,7 @@ describe AccountsController do
           context 'sign up approval required' do
             before do
               Setting.set(1, 'Features', 'Sign Up Approval Email', 'admin@example.com')
-              post :create, {signup: {email: 'rick@example.com', first_name: 'Rick', last_name: 'Smith', birthday: '4/1/1980'}}
+              post :create, {signup: {email: 'rick@example.com', mobile_phone: '0000000000', first_name: 'Rick', last_name: 'Smith', birthday: '4/1/1980'}}
               expect(assigns[:signup].errors).to be_empty
               @person = Person.last
             end
@@ -216,7 +216,7 @@ describe AccountsController do
         context 'sign up with existing user email' do
           before do
             @existing = FactoryGirl.create(:person, email: 'rick@example.com')
-            post :create, {signup: {email: 'rick@example.com', first_name: 'Rick', last_name: 'Smith', birthday: '4/1/1980'}}
+            post :create, {signup: {email: 'rick@example.com', mobile_phone: '0000000000', first_name: 'Rick', last_name: 'Smith', birthday: '4/1/1980'}}
           end
 
           it 'should send email verification email' do
@@ -230,7 +230,7 @@ describe AccountsController do
 
         context 'sign up missing name' do
           before do
-            post :create, {signup: {email: 'rick@example.com', birthday: '4/1/1980'}}
+            post :create, {signup: {email: 'rick@example.com', mobile_phone: '0000000000', birthday: '4/1/1980'}}
           end
 
           it 'should render the new template again' do
@@ -639,11 +639,12 @@ describe AccountsController do
   it "should create account with birthday in american date format" do
     Setting.set(1, 'Features', 'Sign Up', true)
     Setting.set(1, 'Formats', 'Date', '%m/%d/%Y')
-    post :create, {signup: {email:      'bob@example.com',
-                            first_name: 'Bob',
-                            last_name:  'Morgan',
-                            gender:     'Male',
-                            birthday:   '01/02/1980'}}
+    post :create, {signup: {email:        'bob@example.com',
+                            mobile_phone: '0000000000',
+                            first_name:   'Bob',
+                            last_name:    'Morgan',
+                            gender:       'Male',
+                            birthday:     '01/02/1980'}}
     expect(response).to be_success
     expect(bob = Person.where(email: "bob@example.com").first).to be
     expect(bob.birthday.strftime("%m/%d/%Y")).to eq("01/02/1980")
@@ -652,11 +653,12 @@ describe AccountsController do
   it "should create account with birthday in european date format" do
     Setting.set(1, 'Features', 'Sign Up', true)
     Setting.set(1, 'Formats', 'Date', '%d/%m/%Y')
-    post :create, {signup: {email:      'bob@example.com',
-                            first_name: 'Bob',
-                            last_name:  'Morgan',
-                            gender:     'Male',
-                            birthday:   '02/01/1980'}}
+    post :create, {signup: {email:        'bob@example.com',
+                            mobile_phone: '0000000000',
+                            first_name:   'Bob',
+                            last_name:    'Morgan',
+                            gender:       'Male',
+                            birthday:     '02/01/1980'}}
     expect(response).to be_success
     expect(bob = Person.where(email: "bob@example.com").first).to be
     expect(bob.birthday.strftime("%b %d, %Y")).to eq("Jan 02, 1980")
