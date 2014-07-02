@@ -74,14 +74,9 @@ table.table {
   }
 }
 
-body > .content,
-body > .content-centered {
-  min-height: calc(100% - 95px);
-}
-
 body > .footer {
   height: 30px;
-  margin-top: 15px;
+  margin-top: -30px; // brings footer onto page
   text-align: center;
   background-color: #eee;
   color: #555;
