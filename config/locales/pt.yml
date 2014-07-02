@@ -523,6 +523,9 @@ pt:
         Updates Must Be Approved:
           name: Atualizações Precisam ser Aprovadas
           description: Se habilitado, todas as mudanças nas informações "básicas" de um usuário (telefone, endereço, etc.) irão aguardar a aprovação de um administrador antes de serem aplicadas.
+        Notify on Photo Change:
+          name: Notificar-me por Photo Mudar
+          description: Se ativado, os administradores serão notificados sempre que um usuário muda suas fotos pessoais ou familiares.
         Sign Up:
           name: Registro
           description: Se habilitado, membros em potencial poderão criar as suas próprias contas no site. É altamente recomendável que você também insira um endereço de email de aprovação no próximo campo para que você possa revisar as inscrições antes de permitir o login.

@@ -72,6 +72,9 @@ Features:
   Updates Must Be Approved:
     format: boolean
     value: true
+  Notify on Photo Change:
+    format: boolean
+    value: true
   Edit Legacy Ids:
     format: boolean
     value: false
