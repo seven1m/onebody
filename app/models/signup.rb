@@ -4,12 +4,12 @@ class Signup
   include ActiveModel::Naming
   include ActiveModel::Validations
 
-  PARAMS = [:email, :password, :password_confirmation, :first_name, :last_name, :gender, :birthday, :a_phone_number]
+  PARAMS = [:email, :password, :password_confirmation, :first_name, :last_name, :gender, :birthday, :mobile_phone, :a_phone_number]
 
   attr_accessor *PARAMS
   attr_accessor :family, :person
 
-  validates :email, :first_name, :last_name, :birthday, presence: true
+  validates :email, :first_name, :last_name, :birthday, :mobile_phone, presence: true
   validate :validate_adult
   validate :validate_not_a_bot
   validate :validate_sign_up_allowed
@@ -27,7 +27,7 @@ class Signup
     if sign_up_approval_required?
       deliver_signup_approval
     else
-      create_and_deliver_verification
+      create_and_deliver_email_verification
     end
     true
   end
@@ -45,12 +45,24 @@ class Signup
     !!@approval_sent
   end
 
+  def can_verify_mobile?
+    !!@can_verify_mobile
+  end
+
+  def persisted?
+    false
+  end
+
   protected
 
   def validate_existing
     if @person = Person.where(email: email).first
       @family = @person.family
-      create_and_deliver_verification
+      create_and_deliver_email_verification
+      true
+    elsif @person = Person.where(mobile_phone: mobile_phone.digits_only).first
+      @family = @person.family
+      @can_verify_mobile = true
       true
     end
   end
@@ -87,7 +99,7 @@ class Signup
     !sign_up_approval_required?
   end
 
-  def create_and_deliver_verification
+  def create_and_deliver_email_verification
     Verification.create!(email: @person.email)
     @verification_sent = true
   end

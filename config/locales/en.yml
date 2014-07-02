@@ -57,6 +57,8 @@ en:
             birthday:
               blank: Birthday cannot be blank.
               too_young: You are too young to sign up for this service.
+            mobile_phone:
+              blank: Mobile phone cannot be blank.
 
   activerecord:
     attributes:

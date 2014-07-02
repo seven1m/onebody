@@ -2,11 +2,20 @@ en:
 
   accounts:
 
+    create:
+      heading: "Create Account"
+      button: "Create Account"
+      existing_account:
+        by_email: "We found an existing account with this email address."
+        by_mobile: "We found an existing account with this mobile phone number."
+
+    forgot:
+      heading: "Recover Account"
+
     birthday: "Birthday"
     call_office: "Call %{phone}"
     call_office_message: "Call the office during business hours."
     check_code: "Check Code"
-    create: "Create Account"
     description: "Description"
     enter_code: "Enter the code"
     enter_your_email: "Enter your email address, then click the button below. If we have the address on file, an email will be sent to it allowing you to verify yourself and gain access to this site."
@@ -40,5 +49,5 @@ en:
     verify_by_phone_description_html: "Enter your mobile phone number, select your carrier, then click the button below. If we have the number on file, a text message will be sent to it allowing you to verify yourself and gain access to this site. <strong>Text messaging fees may apply.</strong>"
     verify_by_phone_message: "We send you a text message, you type the code it contains, and you're done."
     verify_mobile: "Verify Mobile"
-    verify_who_you_are: "First, we need to verify you are who you say you are. Please choose one of the following options to verify your identity. You only have to do this once, and it only takes a few minutes."
+    verify_who_you_are: "Please choose one of the following options for logging in with your existing account."
     wrong_code_html: "You entered the wrong code. <a href='/account/new?phone=true'>Try again.</a>"
