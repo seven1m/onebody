@@ -1,4 +1,4 @@
-pt:
+﻿pt:
 
   About: Sobre
   Answer_yes: Sim
@@ -1203,6 +1203,7 @@ pt:
     new: Novo
     old: Velho
     person_had_their_email_changed: "%{name} teve o seu email alterado."
+    person_has_changed_photo: "%{name} mudou sua foto."
     person_has_signed_for_account: "%{name} se inscreveu para uma conta."
     person_wants_to_be_your_friend: "%{name} quer ser seu amigo no %{site}."
     please_make_updates: Por favor faça as atualizações apropriadas para a base de membros.

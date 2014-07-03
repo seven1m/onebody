@@ -14,6 +14,7 @@ en:
     new: New
     old: Old
     person_had_their_email_changed: "%{name} has had their email changed."
+    person_has_changed_photo: "%{name} has changed their photo."
     person_has_signed_for_account: "%{name} has signed up for an account."
     person_wants_to_be_your_friend: "%{name} wants to be your friend on %{site}."
     please_make_updates: Please make the appropriate updates to the membership database.
