@@ -1,28 +1,25 @@
 class MessagesController < ApplicationController
 
+  load_and_authorize_parent :group, only: [:index, :new, :create], optional: true
+  load_and_authorize_resource except: [:index, :new]
+
   def index
-    @group = Group.find(params[:group_id])
-    if @logged_in.can_see?(@group) and @group.email?
-      @messages = @group.messages.order('created_at desc').page(params[:page])
+    if @logged_in.member_of?(@group) and @group.email?
+      @messages = messages.order(created_at: :desc).page(params[:page])
     else
       render text: t('not_authorized'), layout: true, status: 401
     end
   end
 
   def new
-    if params[:to_person_id] and @person = Person.find(params[:to_person_id]) and @logged_in.can_see?(@person)
+    if @group
+      @message = @group.messages.new
+    elsif params[:to_person_id] and @person = Person.find(params[:to_person_id])
       @message = Message.new(to_person_id: @person.id)
-    elsif params[:group_id] and @group = Group.find(params[:group_id]) and @group.can_post?(@logged_in)
-      @message = Message.new(group_id: @group.id)
-      if params[:message]
-        @message.subject = params[:message][:subject]
-        @message.body    = params[:message][:body]
-      end
-    elsif params[:parent_id] and @parent = Message.find(params[:parent_id]) and @logged_in.can_see?(@parent)
-      @message = Message.new(parent: @parent, group_id: @parent.group_id, subject: "Re: #{@parent.subject}", dont_send: true)
-    else
-      render text: t('There_was_an_error'), layout: true, status: 500
+    elsif params[:parent_id] and @parent = Message.find(params[:parent_id])
+      @message = Message.new(parent: @parent, group_id: @parent.group_id, subject: "Re: #{@parent.subject}")
     end
+    Authority.enforce(:create, @message, current_user)
   end
 
   def create
@@ -40,20 +37,11 @@ class MessagesController < ApplicationController
   end
 
   def show
-    @message = Message.find(params[:id])
-    unless @logged_in.can_see?(@message)
-      render text: t('messages.not_found'), layout: true, status: 404
-    end
   end
 
   def destroy
-    @message = Message.find(params[:id])
-    if @logged_in.can_edit?(@message)
-      @message.destroy
-      redirect_to @message.group ? @message.group : stream_path
-    else
-      render text: t('messages.not_authorized_delete'), layout: true, status: 500
-    end
+    @message.destroy
+    redirect_to @message.group ? @message.group : stream_path
   end
 
   private
@@ -100,8 +88,10 @@ class MessagesController < ApplicationController
     else
       @message = Message.create_with_attachments(attributes, params[:files].to_a)
       if @message.errors.any?
-        add_errors_to_flash(@message)
-        redirect_back
+        if @message.errors[:base] and @message.errors[:base].include?('already saved')
+          @message.errors[:base].delete('already saved')
+        end
+        render action: 'new'
         false
       else
         true

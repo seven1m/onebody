@@ -9,6 +9,10 @@
       %li.header
         = @logged_in.email
       %li
+        = link_to @logged_in do
+          = icon 'fa fa-user'
+          = t('nav.profile_sub.show')
+      %li
         = link_to edit_person_path(@logged_in) do
           = icon 'fa fa-pencil'
           = t('nav.profile_sub.edit')

@@ -8,6 +8,8 @@ describe Message do
     @admin_person = FactoryGirl.create(:person, admin: Admin.create(manage_groups: true))
     @group = Group.create! name: 'Some Group', category: 'test'
     @group.memberships.create! person: @person
+    @group_admin = FactoryGirl.create(:person)
+    @group_admin.memberships.create!(group: @group, admin: true)
   end
 
   it "should create a new message with attachments" do
@@ -33,8 +35,9 @@ describe Message do
 
       it 'knows who can see the message' do
         expect(@person.can_see?(@message)).to eq(true)
-        expect(@second_person.can_see?(@message)).to eq(true)
-        expect(@admin_person.can_see?(@message)).to eq(true)
+        expect(!!@second_person.can_see?(@message)).to eq(false)
+        expect(!!@admin_person.can_see?(@message)).to eq(false)
+        expect(@group_admin.can_see?(@message)).to eq(true)
       end
 
       context 'in a private group' do
@@ -44,8 +47,9 @@ describe Message do
 
         it 'knows who can see the message' do
           expect(@person.can_see?(@message)).to eq(true)
-          expect(@second_person.can_see?(@message)).to eq(false)
-          expect(@admin_person.can_see?(@message)).to eq(true)
+          expect(!!@second_person.can_see?(@message)).to eq(false)
+          expect(!!@admin_person.can_see?(@message)).to eq(false)
+          expect(@group_admin.can_see?(@message)).to eq(true)
         end
 
         context 'admin cannot manage groups' do
@@ -54,7 +58,7 @@ describe Message do
           end
 
           it 'does not allow admin to see' do
-            expect(@admin_person.can_see?(@message)).to eq(false)
+            expect(!!@admin_person.can_see?(@message)).to eq(false)
           end
         end
       end

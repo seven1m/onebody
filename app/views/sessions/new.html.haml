@@ -23,4 +23,4 @@
         = t('session.sign_in_button')
       %p
         = link_to t('session.sign_up_button'), new_account_path, class: 'btn btn-info'
-        = link_to t('session.forgot_password_button'), new_account_path(email: true), class: 'btn btn-warning pull-right'
+        = link_to t('session.forgot_password_button'), new_account_path(forgot: true), class: 'btn btn-warning pull-right'

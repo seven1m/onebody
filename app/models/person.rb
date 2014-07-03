@@ -150,50 +150,6 @@ class Person < ActiveRecord::Base
     memberships.where(["share_#{attribute.to_s} = ?", true]).map(&:group)
   end
 
-  def can_see?(*whats)
-    whats.select do |what|
-      case what.class.name
-      when 'Person'
-        !what.deleted? and (
-          what == self or
-          what.family_id == self.family_id or
-          admin?(:view_hidden_profiles) or
-          staff? or what.visible?
-        )
-      when 'Family'
-        !what.deleted? and (what.visible? or admin?(:view_hidden_profiles))
-      when 'Group'
-        not (what.hidden? or what.private?) or self.member_of?(what) or what.admin?(self)
-      when 'Message'
-        what.can_see?(self)
-      when 'Attachment'
-        what.visible_to?(self)
-      when 'PrayerRequest'
-        what.person == self or
-          (what.group and (self.member_of?(what.group) or what.group.admin?(self)))
-      when 'Song'
-        what.visible_to?(self)
-      when 'Note'
-        what.person and can_see?(what.person)
-      when 'Picture', 'Verse'
-        true
-      when 'Album'
-        what.is_public? or can_see?(what.person)
-      when 'Picture'
-        what.album.is_public? or can_see?(what.person)
-      else
-        raise "Unrecognized argument to can_see? (#{what.inspect})"
-      end
-    end.length == whats.length
-  end
-
-  alias_method :sees?, :can_see?
-
-  # deprecated
-  def can_edit?(what)
-    @can_edit ||= can_update?(what)
-  end
-
   def can_sign_in?
     read_attribute(:can_sign_in) and adult_or_consent?
   end
@@ -201,6 +157,10 @@ class Person < ActiveRecord::Base
   def messages_enabled?
     read_attribute(:messages_enabled) and email.present?
   end
+
+  # deprecated
+  alias_method :can_see?, :can_read?
+  alias_method :can_edit?, :can_update?
 
   def member_of?(group)
     memberships.where(group_id: group.id).first

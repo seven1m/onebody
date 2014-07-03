@@ -8,6 +8,8 @@ en:
     new:
       heading: "New Person in family %{family}"
 
+    title_html: "%{name}<span class='discreet'>, %{description}</span>"
+
     edit:
       about: "About"
       basics: "Basics"
@@ -86,6 +88,11 @@ en:
     updates:
       pending_callout: "Updates to this profile are pending."
 
+    verification_email:
+      heading: "Complete User Setup"
+      intro: "Before this user can sign in, they must complete setup by clicking a link in their email. Click below to send them the email."
+      button: "Send a password setup email to this user."
+
     advanced: "Advanced"
     can_sign_in: "Can Sign In"
     cant_delete_yourself: "You cannot delete yourself."
@@ -93,7 +100,6 @@ en:
     changes_must_be_reviewed_html: "Changes to the details below must be <strong>reviewed by staff</strong>. To request changes, enter the details below and click 'Submit Changes.'"
     changes_submitted: "Changes submitted."
     child: "Child"
-    click_to_send_verification_email: "Send a password setup email to this user."
     deleted_html: "This person has been deleted. You can restore the record <a href='%{url}'>here</a>."
     family: "Family"
     family_legacy_external_id: "Family Legacy/External ID"

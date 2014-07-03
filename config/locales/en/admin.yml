@@ -299,6 +299,9 @@ en:
         Updates Must Be Approved: 
           name: Updates Must Be Approved
           description: If enabled, all changes to a user's "basic" information (phone, address, etc.) will await approval from an admin before being applied.
+        Notify on Photo Change: 
+          name: Notify on Photo Change
+          description: If enabled, admins will be notified whenever a user changes their personal or family photos.
         Sign Up: 
           name: Sign Up
           description: If enabled, potential members can create their own login account on the site. It is highly recommended that you also enter an approval email address in the next field so that you can review signups before allowing login.

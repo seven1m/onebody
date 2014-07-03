@@ -56,9 +56,7 @@ class FamiliesController < ApplicationController
   def create
     respond_to do |format|
       if @family.save
-        format.html do
-          redirect_to params[:redirect_to] || @family
-        end
+        format.html { redirect_to @family, notice: t('families.new.created.notice') }
         format.xml  { render xml: @family, status: :created, location: @family }
       else
         format.html { render action: "new" }

@@ -1,0 +1,3 @@
+= link_to account_path(verification: {email: @person.email}, via_admin: true), method: 'post', data: { confirm: t('are_you_sure') }, class: 'btn btn-warning' do
+  = icon 'fa fa-envelope'
+  = t('people.verification_email.button')

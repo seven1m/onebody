@@ -15,14 +15,12 @@ class GroupsController < ApplicationController
     # /groups?name=college
     elsif params[:category] or params[:name]
       @categories = Group.category_names
-      conditions = []
-      conditions.add_condition ['hidden = ? and approved = ?', false, true] unless @logged_in.admin?(:manage_groups)
-      conditions.add_condition ['category = ?', params[:category]] if params[:category]
-      conditions.add_condition ['name like ?', '%' + params[:name] + '%'] if params[:name]
-      @groups = Group.where(conditions).order('name')
-      conditions_for_hidden = conditions.dup
-      conditions_for_hidden[1] = true # only hidden groups
-      @hidden_groups = Group.where(conditions_for_hidden).order('name')
+      @groups = Group.all
+      @groups.where!(hidden: false, approved: true) unless @logged_in.admin?(:manage_groups)
+      @groups.where!(category: params[:category]) if params[:category].present?
+      @groups.where!('name like ?', "%#{params[:name]}%") if params[:name].present?
+      @groups.order!(:name)
+      @hidden_groups = @groups.where(hidden: true)
       respond_to do |format|
         format.html { render action: 'search' }
         format.js
@@ -60,9 +58,11 @@ class GroupsController < ApplicationController
     if not (@group.approved? or @group.admin?(@logged_in))
       render text: t('groups.pending_approval'), layout: true
     elsif @logged_in.can_see?(@group)
-      @members = @group.people.minimal unless fragment_exist?(controller: 'groups', action: 'show', id: @group.id, fragment: 'members')
+      @members = @group.people.minimal
       @member_of = !!@logged_in.member_of?(@group)
-      @stream_items = @group.stream_items.paginate(page: params[:timeline_page], per_page: 5)
+      @stream_items = StreamItem.shared_with(@logged_in).where(group: @group).paginate(page: params[:timeline_page], per_page: 5)
+      @pictures = @group.album_pictures.references(:album)
+      @pictures.where!('albums.is_public' => true) unless @logged_in.member_of?(@group)
     else
       render action: 'show_limited'
     end

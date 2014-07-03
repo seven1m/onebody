@@ -5,7 +5,19 @@ class FamilyAuthorizer < ApplicationAuthorizer
   end
 
   def readable_by?(user)
-    false # TODO
+    # my family
+    if resource == user.family and not resource.deleted?
+      true
+    # visible to everyone
+    elsif resource.visible? and not resource.deleted?
+      true
+    # visible and deleted
+    elsif resource.visible? and resource.deleted?
+      true if user.admin?(:edit_profiles)
+    # invisible and deleted
+    elsif not resource.visible? and resource.deleted?
+      true if user.admin?(:edit_profiles) and user.admin?(:view_hidden_profiles)
+    end
   end
 
   def updatable_by?(user)

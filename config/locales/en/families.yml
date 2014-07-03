@@ -6,6 +6,8 @@ en:
 
     new:
       heading: "New Family"
+      created:
+        notice: "The family was created. Now, add people to this family using the 'New Person' button below..."
 
     edit:
       heading: "Edit Family"

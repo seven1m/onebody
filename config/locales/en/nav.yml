@@ -17,6 +17,7 @@ en:
       business: "Business Directory"
       printed: "Printed Directory"
       advanced: "Advanced Search"
+      new_family: "New Family"
     groups: "Groups"
     groups_sub:
       edit: "Edit Group"
@@ -37,9 +38,10 @@ en:
     profile: "Profile"
     profile_sub:
       edit: "Edit Profile"
-      password: "Password"
       email: "Email"
+      password: "Password"
       privacy: "Privacy"
       relationships: "Relationships"
+      show: "View Profile"
     syncs: "Syncs"
     verses: "Verses"

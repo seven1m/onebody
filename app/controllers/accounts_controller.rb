@@ -13,7 +13,9 @@ class AccountsController < ApplicationController
 
   def new
     @verification ||= Verification.new
-    if params[:email]
+    if params[:forgot]
+      render action: 'forgot'
+    elsif params[:email]
       render action: 'new_by_email'
     elsif params[:phone]
       render action: 'new_by_mobile'
@@ -29,10 +31,14 @@ class AccountsController < ApplicationController
     if params[:signup]
       @signup = Signup.new(params[:signup])
       if @signup.save
-        if @signup.verification_sent?
-          render text: t('accounts.verification_email_sent'), layout: true
-        elsif @signup.approval_sent?
+        if @signup.approval_sent?
           render text: t('accounts.pending_approval'), layout: true
+        elsif @signup.verification_sent?
+          flash.now[:notice] = t('accounts.create.existing_account.by_email')
+          render text: t('accounts.verification_email_sent'), layout: true
+        elsif @signup.can_verify_mobile?
+          flash[:notice] = t('accounts.create.existing_account.by_mobile')
+          redirect_to new_account_path(phone: @signup.mobile_phone)
         end
       else
         render action: 'new'
@@ -44,6 +50,9 @@ class AccountsController < ApplicationController
         if params[:phone]
           flash[:notice] = t('accounts.verification_message_sent')
           render action: 'verify_code'
+        elsif params[:via_admin]
+          flash[:warning] = t('accounts.verification.email.via_admin')
+          redirect_to @verification.people.first
         else
           render text: t('accounts.verification_email_sent'), layout: true
         end
@@ -66,7 +75,6 @@ class AccountsController < ApplicationController
       else
         person = v.people.first
         session[:logged_in_id] = person.id
-        flash[:sticky_notice] = true
         if v.mobile_phone?
           flash[:warning] = t('accounts.set_your_email')
         else

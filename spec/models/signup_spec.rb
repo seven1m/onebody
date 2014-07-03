@@ -97,6 +97,57 @@ describe Signup do
       end
     end
 
+    context 'user already exists with mobile phone' do
+      before do
+        @person = FactoryGirl.create(:person, mobile_phone: '1234567890')
+        @signup = FactoryGirl.build(:signup, email: 'a@b', mobile_phone: '(123) 456-7890')
+      end
+
+      it 'should be valid' do
+        expect(@signup).to be_valid
+      end
+
+      context '#save' do
+        before do
+          @family_count = Family.count
+          @person_count = Person.count
+          Notifier.deliveries.clear
+          @return = @signup.save
+        end
+
+        it 'should return true' do
+          expect(@return).to eq(true)
+        end
+
+        it 'should not create any records' do
+          expect(Family.count).to eq(@family_count)
+          expect(Person.count).to eq(@person_count)
+        end
+
+        it 'should not deliver verification email to user' do
+          expect(Notifier.deliveries).to be_empty
+        end
+
+        context '#verification_sent?' do
+          it 'should return false' do
+            expect(@signup.verification_sent?).to eq(false)
+          end
+        end
+
+        context '#approval_sent?' do
+          it 'should return false' do
+            expect(@signup.approval_sent?).to eq(false)
+          end
+        end
+
+        context '#can_verify_mobile?' do
+          it 'should return true' do
+            expect(@signup.can_verify_mobile?).to eq(true)
+          end
+        end
+      end
+    end
+
     context 'honeypot field contains text' do
       before do
         @signup = Signup.new(a_phone_number: '1234567890')
@@ -173,6 +224,10 @@ describe Signup do
 
               it 'should have a birthday' do
                 expect(@person.birthday).to eq(Date.new(1980, 1, 1))
+              end
+
+              it 'should have a mobile phone' do
+                expect(@person.mobile_phone).to eq('1234567890')
               end
 
               it 'should be able to sign in' do

@@ -1,11 +1,17 @@
 class PrayerRequestAuthorizer < ApplicationAuthorizer
 
   def readable_by?(user)
-    false # TODO
+    if resource.person == user
+      true
+    elsif resource.group and user.member_of?(resource.group)
+      true
+    end
   end
 
   def creatable_by?(user)
-    false # TODO
+    if resource.group and user.member_of?(resource.group) and resource.group.prayer?
+      true
+    end
   end
 
   def updatable_by?(user)
@@ -20,4 +26,11 @@ class PrayerRequestAuthorizer < ApplicationAuthorizer
 
   alias_method :deletable_by?, :updatable_by?
 
+  def self.readable_for_group_by_user(group, user)
+    if user.member_of?(group)
+      group.prayer_requests
+    else
+      group.prayer_requests.none
+    end
+  end
 end

@@ -16,7 +16,7 @@
   = form.select :suffix, [nil]+Setting.get(:system, :suffixes), {}, class: 'form-control'
 .form-group
   = form.label :description, t('accounts.description')
-  = form.text_field :description, class: 'form-control'
+  = form.text_field :description, class: 'form-control', maxlength: 25
   %span.help-block= t('people.edit.description_hint')
 .form-group
   = form.label :gender, t('accounts.gender')

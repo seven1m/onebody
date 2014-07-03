@@ -1,8 +1,8 @@
 class PicturesController < ApplicationController
 
   LoadAndAuthorizeResource::METHOD_TO_ACTION_NAMES.merge!(
-    'next' => 'rotate',
-    'prev' => 'rotate',
+    'next' => 'read',
+    'prev' => 'read',
   )
 
   load_and_authorize_parent :group, optional: true, only: :create, children: :albums

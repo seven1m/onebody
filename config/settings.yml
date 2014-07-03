@@ -1,5 +1,5 @@
---- 
-Contact: 
+---
+Contact:
   Tech Support Email:
     format: string
     value: admin@example.com
@@ -10,66 +10,69 @@ Contact:
   Community Office Phone:
     format: string
     value: (123) 456-7890
-  Bug Notification Email: 
+  Bug Notification Email:
     format: string
-    value: 
+    value:
     global: true
-  Birthday Verification Email: 
+  Birthday Verification Email:
     format: string
     value: admin@beonebody.com
-  Send Email Changes To: 
+  Send Email Changes To:
     format: string
     value: admin@beonebody.com
-  Community Address: 
+  Community Address:
     format: string
     value: 123 West Imaginary Street, Broken Arrow, OK 12345-6789
   Send Updates To:
     format: string
     value: admin@beonebody.com
-Name: 
-  Community: 
+Name:
+  Community:
     format: string
     value: One Church
-  Site: 
+  Site:
     format: string
-    value: One Church
-  Slogan: 
+    value: CHURCH.IO
+  Slogan:
     format: string
     value: Welcome home.
-Features: 
-  Multisite: 
+Features:
+  Multisite:
     format: boolean
     value: false
     global: true
-  SSL: 
+  SSL:
     format: boolean
     value: false
     global: true
-  Sign Up: 
+  Sign Up:
     format: boolean
     value: false
-  Groups: 
+  Groups:
     format: boolean
     value: true
-  Pictures: 
+  Pictures:
     format: boolean
     value: true
   Notes:
     format: boolean
     value: true
-  Friends: 
+  Friends:
     format: boolean
     value: true
-  Sign Up Approval Email: 
+  Sign Up Approval Email:
     format: string
-    value: 
-  Verses: 
+    value:
+  Verses:
     format: boolean
     value: true
-  Recipes: 
+  Recipes:
     format: boolean
     value: false
   Updates Must Be Approved:
+    format: boolean
+    value: true
+  Notify on Photo Change:
     format: boolean
     value: true
   Edit Legacy Ids:
@@ -88,30 +91,30 @@ Features:
   Checkin:
     format: boolean
     value: false
-Services: 
-  Yahoo: 
+Services:
+  Yahoo:
     format: string
-    value: 
+    value:
     global: true
-  Analytics: 
+  Analytics:
     format: string
-    value: 
-URL: 
-  Visitor: 
+    value:
+URL:
+  Visitor:
     format: string
     value: http://beonebody.com
-  Site: 
+  Site:
     format: string
     value: http://beonebody.com/
     hidden: true
-  News Feed: 
+  News Feed:
     format: string
-    value: 
+    value:
 System:
   Language:
     format: string
     value: en
-  Suffixes: 
+  Suffixes:
     format: list
     value:
       - Jr.
@@ -119,7 +122,7 @@ System:
       - II
       - III
 
-  Time Zone: 
+  Time Zone:
     format: string
     value: Central Time (US & Canada)
   Online Only Relationships:
@@ -129,26 +132,26 @@ System:
   Adult Age:
     format: string
     value: 18
-Formats: 
-  Full Date and Time: 
+Formats:
+  Full Date and Time:
     format: string
     value: "%m/%d/%Y %I:%M %p"
-  Time: 
+  Time:
     format: string
     value: "%I:%M %p"
-  Phone: 
+  Phone:
     format: string
     value: (ddd) ddd-dddd
-  Mobile Phone: 
+  Mobile Phone:
     format: string
     value: (ddd) ddd-dddd
-  Date: 
+  Date:
     format: string
     value: "%m/%d/%Y"
-  Date Without Year: 
+  Date Without Year:
     format: string
     value: "%b %d"
-Appearance: 
+Appearance:
   Theme Primary Color:
     format: string
     value: 5F9128
@@ -161,14 +164,14 @@ Appearance:
   Theme Nav Color:
     format: string
     value: E4E4E4
-Privacy: 
-  Allow Unencrypted Logins: 
+Privacy:
+  Allow Unencrypted Logins:
     format: boolean
     value: false
-  Relay All Email: 
+  Relay All Email:
     format: boolean
     value: true
-  Max Sign in Attempts: 
+  Max Sign in Attempts:
     format: string
     value: 10
   Share Address by Default:

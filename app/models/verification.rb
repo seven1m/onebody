@@ -32,11 +32,13 @@ class Verification < ActiveRecord::Base
     end
   end
 
-  def criteria
+  def criteria(for_verification=false)
     if mobile_phone
       {mobile_phone: mobile_phone.digits_only}
-    elsif email
+    elsif email and for_verification
       {email: email}
+    elsif email
+      ["email = :email or alternate_email = :email", email: email]
     end
   end
 
@@ -87,7 +89,7 @@ class Verification < ActiveRecord::Base
   end
 
   def validate_max_attempts
-    count = Verification.where(criteria).where('created_at > ?', 1.day.ago).count
+    count = Verification.where(criteria(:for_verification)).where('created_at > ?', 1.day.ago).count
     if count >= MAX_DAILY_VERIFICATION_ATTEMPTS
       errors.add :base, I18n.t('accounts.verification_max_attempts_reached')
       return false

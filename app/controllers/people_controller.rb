@@ -116,7 +116,7 @@ class PeopleController < ApplicationController
         respond_to do |format|
           format.html do
             flash[:notice] = t('people.changes_submitted')
-            flash[:show_verification_link] = @updater.changes[:person].try(:[], :can_sign_in)
+            flash[:show_verification_link] = @updater.show_verification_link?
             redirect_to @person
           end
           format.xml { render xml: @person.to_xml } if can_export?

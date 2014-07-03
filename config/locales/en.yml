@@ -57,6 +57,8 @@ en:
             birthday:
               blank: Birthday cannot be blank.
               too_young: You are too young to sign up for this service.
+            mobile_phone:
+              blank: Mobile phone cannot be blank.
 
   activerecord:
     attributes:
@@ -104,6 +106,10 @@ en:
         link_code: "External Link Code"
         parents_of: "Link to parents of another group"
         hidden: "Hidden (Archived) Group"
+      person:
+        email: "Email"
+        first_name: "First Name"
+        last_name: "Last Name"
       prayer_request:
         answer: "Answer"
         answered_at: "Date Answered"
@@ -199,6 +205,8 @@ en:
               taken: This person has already requested membership in this group.
         message:
           attributes:
+            base:
+              taken: "This message has already been sent. Try changing the subject or body if you wish to send another email."
             body:
               blank: The message must have a body.
               too_short: The message body is too short.

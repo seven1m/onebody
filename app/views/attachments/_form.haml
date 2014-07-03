@@ -1,7 +1,6 @@
 = form_for @attachment, html: {multipart: true, style: 'width:400px;border:none;'} do |form|
   = form.hidden_field :group_id
-  %p
-    = label_tag 'attachment_file', t('attachments.file')
+  .form-group
     = file_field_tag 'attachment[file]', id: 'attachment_file'
-    %br/
-    = form.submit t('attachments.upload_file')
+  .form-group
+    = form.button t('attachments.upload_file'), class: 'btn btn-success'

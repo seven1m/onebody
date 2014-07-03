@@ -1,11 +1,16 @@
-- unless @person.description.blank?
-  - @title = @person.name + " - " + @person.description
-- else
-  - @title = @person.name
+- @title = person_title(@person)
 
 - if has_type?(@person)
   - content_for :sub_title do
     = link_to_person_role(@person, only_one: true)
+
+- if flash[:show_verification_link]
+  .box.box-warning
+    .box-header
+      %h3.box-title= t('people.verification_email.heading')
+    .box-body
+      %p= t('people.verification_email.intro')
+      %p= render partial: 'admin_send_verification_button'
 
 - unless @person.visible?
   .callout.callout-warning
@@ -120,4 +125,4 @@
           = link_to new_message_path(to_person_id: @person), class: 'btn btn-info' do
             = icon 'fa fa-envelope'
             = t('messages.send_message')
-    = timeline @stream_items
+    = timeline(@stream_items) || timeline_none

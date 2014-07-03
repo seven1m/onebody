@@ -9,6 +9,16 @@
     position: relative;
     z-index: 10;
   }
+  .icon-disabled {
+    // no animation please
+    position: absolute;
+    top: auto;
+    bottom: 5px;
+    right: 5px;
+    z-index: 0;
+    font-size: 90px;
+    color: rgba(0, 0, 0, 0.15);
+  }
 }
 
 .box .box-header a:not(.btn) {

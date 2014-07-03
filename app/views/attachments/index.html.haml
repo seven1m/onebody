@@ -1,0 +1,27 @@
+- @title = t('attachments.heading')
+
+%table.table
+  - @attachments.each do |attachment|
+    %tr{ class: attachment.image? ? 'row-with-avatar' : nil }
+      - if attachment.image?
+        %td.avatar
+          = link_to get_attachment_path(attachment) do
+            = image_tag attachment.file.try(:url), style: 'width: 75px', class: 'thumbnail'
+      - else
+        %td
+      %td
+        = link_to attachment.name, get_attachment_path(attachment)
+      %td
+        = number_to_human_size(attachment.file.try(:size))
+      %td
+        = attachment.created_at.to_s(:full)
+      %td.actions
+        - if @logged_in.can_delete?(attachment)
+          = link_to group_attachment_path(@group, attachment), data: { method: 'delete', confirm: t('are_you_sure') }, class: 'btn btn-delete' do
+            = icon 'fa fa-trash-o'
+
+- if @logged_in.can_create?(@group.attachments.new)
+  %p
+    = link_to new_group_attachment_path(@group), class: 'btn btn-success' do
+      = icon 'fa fa-plus'
+      = t('attachments.new.button')

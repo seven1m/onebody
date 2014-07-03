@@ -50,7 +50,8 @@ rspec
 
 ## Get Help
 
-* [Wiki](http://wiki.github.com/churchio/onebody) - A wonderful resource full of helpful information; Check here first.
+* IRC channel #church.io on Freenode (try the [web-based IRC client](https://webchat.freenode.net/?channels=#church.io))
+* [Wiki](http://wiki.github.com/churchio/onebody) - There is some (possibly outdated) information here. We'll work to clean this up shortly after releasing 3.0.
 * [Google Group](http://groups.google.com/group/churchio) - Community of people building open source church software. If you're stuck, ask nicely for some help and you will probably get it.
 
 

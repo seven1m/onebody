@@ -81,6 +81,7 @@ class Message < ActiveRecord::Base
   validate on: :create do |record|
     if Message.same_as(self).any?
       record.errors.add :base, 'already saved' # Notifier relies on this message (don't change it)
+      record.errors.add :base, :taken
     end
     if record.subject =~ /Out of Office/i
       record.errors.add :base, 'autoreply' # don't change!
@@ -210,20 +211,6 @@ class Message < ActiveRecord::Base
       code = rand(999999)
       write_attribute :code, code
     end until code > 0
-  end
-
-  def can_see?(p)
-    if group
-      if group.private?
-        p.member_of?(group) or p.admin?(:manage_groups)
-      else
-        true
-      end
-    elsif to
-      to == p or person == p
-    else
-      raise 'Invalid message.'
-    end
   end
 
   def code_hash

@@ -26,7 +26,7 @@ describe AttachmentsController do
   it "should create a new group attachment" do
     @admin = FactoryGirl.create(:person, :admin_manage_groups)
     post :create, {attachment: {group_id: @group.id, file: Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/attachment.pdf'), 'application/pdf', true)}}, {logged_in_id: @admin.id}
-    expect(response).to redirect_to(edit_group_path(@group, anchor: 'attachments'))
+    expect(response).to redirect_to(group_attachments_path(@group))
     expect(@group.attachments.count).to eq(1)
   end
 

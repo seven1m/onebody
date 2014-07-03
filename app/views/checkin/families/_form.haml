@@ -41,7 +41,6 @@
 
 - content_for :js do
   :javascript
-    $('.date-field').blur(function() { var el=$(this); window.setTimeout(function(){ el.datepicker('hide'); }, 100); });
     var rows = $('#family_people tr');
     for(var i=9; i<rows.length; i++) {
       if(rows[i].getElementsByTagName('input')[0].value == '') $(rows[i]).hide();

@@ -59,6 +59,7 @@
         .col-sm-offset-2.col-sm-10
           = button_tag t('save_changes'), class: 'btn btn-success'
     .tab-pane#membership_management
+      = setting_row('Features', 'Notify on Photo Change')
       = setting_row('Features', 'Updates Must Be Approved')
       = setting_row('Features', 'Sign Up')
       = setting_row('Features', 'Sign Up Approval Email')

@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
 
     def get_site
       if ENV['ONEBODY_SITE']
-        Site.current = Site.where(name: ENV["ONEBODY_SITE"], active: true).first
+        Site.current = Site.where(id: ENV["ONEBODY_SITE"], active: true).first
       elsif Setting.get(:features, :multisite)
         Site.current = Site.where(host: request.host, active: true).first
       else

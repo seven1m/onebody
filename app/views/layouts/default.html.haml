@@ -3,7 +3,7 @@
   %head
     %meta{ charset: 'UTF-8' }
     %title
-      CHURCH.IO
+      = setting(:name, :site)
       - if @title.present?
         == | #{@title.gsub(/<.+?>/, '').html_safe}
     %meta{ content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no', name: 'viewport' }
@@ -12,6 +12,7 @@
     = yield(:css)
     = csrf_meta_tags
     = render partial: 'layouts/favicons'
+    %link{ href: "//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,300italic,400italic,600italic|Abel", rel: "stylesheet" }
     /[if lt IE 9]
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
@@ -28,7 +29,7 @@
   %body.skin-blue{ date: { 'datepicker-format' => datepicker_format } }
     / header logo: style can be found in header.less
     %header.header
-      = link_to 'CHURCH.IO', root_path, class: 'logo'
+      = link_to setting(:name, :site), root_path, class: 'logo'
       / Header Navbar: style can be found in header.less
       %nav.navbar.navbar-static-top{ role: "navigation" }
         / Sidebar toggle button
@@ -40,7 +41,7 @@
         .navbar-right
           = render 'layouts/navbar_right'
         %h3.site-name
-          = link_to setting(:name, :site), root_path
+          = link_to setting(:name, :community), root_path
     .wrapper.row-offcanvas.row-offcanvas-left
       / Left side column. contains the logo and sidebar
       %aside.left-side.sidebar-offcanvas
@@ -139,6 +140,11 @@
                     = link_to search_path(advanced: true) do
                       = icon 'fa fa-search'
                       = t('nav.directory_sub.advanced')
+                  - if @logged_in.can_create?(Family)
+                    %li
+                      = link_to new_family_path do
+                        = icon 'fa fa-plus'
+                        = t('nav.directory_sub.new_family')
             - if @logged_in.admin?
               %li{ class: tab_selected?(:admin) ? 'active' : '' }
                 = link_to admin_path do
