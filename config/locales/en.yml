@@ -200,6 +200,8 @@ en:
               taken: This person has already requested membership in this group.
         message:
           attributes:
+            base:
+              taken: "This message has already been sent. Try changing the subject or body if you wish to send another email."
             body:
               blank: The message must have a body.
               too_short: The message body is too short.

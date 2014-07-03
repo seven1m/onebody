@@ -6,9 +6,6 @@
 - elsif @message.group
   - @title = t('messages.group.heading')
   - content_for :sub_title, link_to(@message.group.name, @message.group)
-  %p
-    = t('messages.group.description_html', group: link_to(@message.group.name, @message.group))
-    - unless @group.private?
-      %strong= t('messages.group.not_private')
+  %p= t('messages.group.description_html', group: link_to(@message.group.name, @message.group))
 
 = render partial: 'form'

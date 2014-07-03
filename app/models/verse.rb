@@ -214,12 +214,8 @@ class Verse < ActiveRecord::Base
     'Revelation'      => 1..22
   }
 
-  def youversion_url
-    "http://www.youversion.com/bible/web/#{YOUVERSION_BOOKS[book || 0]}/#{chapter}/#{verse}"
-  end
-
-  def ebible_url
-    "http://ebible.com/##{URI.encode(reference)}"
+  def readable_by?(*args)
+    true # everyone can see bible verses!
   end
 
   class << self

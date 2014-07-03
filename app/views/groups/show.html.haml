@@ -31,11 +31,16 @@
       - if @group.email?
         = group_content_column do
           .small-box.bg-aqua
-            = link_to group_messages_path(@group) do
+            - if @member_of
+              = link_to group_messages_path(@group) do
+                .inner
+                  %h3= @group.messages.count
+                  %p= t('groups.box.messages.text', count: @group.messages.count)
+            - else
               .inner
                 %h3= @group.messages.count
                 %p= t('groups.box.messages.text', count: @group.messages.count)
-            .icon
+            %div{ class: @member_of ? 'icon' : 'icon-disabled' }
               = icon 'fa fa-envelope-o'
             - if @group.can_send?(@logged_in)
               = link_to new_group_message_path(@group), class: 'small-box-footer' do

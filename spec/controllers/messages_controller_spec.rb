@@ -54,9 +54,9 @@ describe MessagesController do
 
   it "should not allow someone to post to a group they don't belong to unless they're an admin" do
     get :new, {group_id: @group.id}, {logged_in_id: @other_person.id}
-    expect(response).to be_error
+    expect(response).to be_forbidden
     post :create, {message: {group_id: @group.id, subject: 'Hello There', body: 'body'}}, {logged_in_id: @other_person.id}
-    expect(response).to be_error
+    expect(response).to be_forbidden
   end
 
   it "should create new group messages with an attachment" do
@@ -85,9 +85,9 @@ describe MessagesController do
   it "should not allow parent_id on message user cannot see" do
     @message = FactoryGirl.create(:message, to: @other_person)
     get :new, {parent_id: @message.id}, {logged_in_id: @person.id}
-    expect(response.status).to eq(500)
+    expect(response).to be_forbidden
     post :create, {message: {to_person_id: @other_person.id, subject: 'Hello There', body: 'body', parent_id: @message.id}}, {logged_in_id: @person.id}
-    expect(response).to be_unauthorized
+    expect(response).to be_forbidden
   end
 
   it "should show a message" do
