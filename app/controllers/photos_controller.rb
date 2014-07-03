@@ -17,8 +17,8 @@ class PhotosController < ApplicationController
         # this is a total hack
         if @object.valid? or (errors = @object.errors.select { |a, e| a.to_s =~ /^photo/ }).empty?
           @object.save(validate: false)
-          if @id_key=='family_id' or @id_key=='person_id'
-            Notifier.photo_update(@object, @id_key=='family_id') if Setting.get(:features, :notify_on_photo_change)
+          if @id_key == 'family_id' or @id_key == 'person_id'
+            Notifier.photo_update(@object, @id_key == 'family_id') if Setting.get(:features, :notify_on_photo_change)
           end
         else
           @errors = errors
