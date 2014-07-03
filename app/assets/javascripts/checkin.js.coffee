@@ -15,8 +15,9 @@ class Checkin
       @people[id] = new CheckinPerson($("#person_#{id}"))
     $('#add-a-guest').click(@addGuest)
     $('.checkin-print .btn').click(@print)
-    @sp = new SonicProtocol()
-    @sp.listen()
+    if SonicProtocol.isSupported()
+      @sp = new SonicProtocol()
+      @sp.listen()
     @
 
   selectPerson: (e) =>
@@ -188,6 +189,9 @@ class CheckinTime
     @elm.find('.checkin-not-attending-header').hide()
 
 class SonicProtocol
+
+  @isSupported: ->
+    window.webkitAudioContext?
 
   constructor: () ->
     @audioContext = new webkitAudioContext();
