@@ -1,7 +1,4 @@
-- unless @person.description.blank?
-  - @title = @person.name + " - " + @person.description
-- else
-  - @title = @person.name
+- @title = person_title(@person)
 
 - if has_type?(@person)
   - content_for :sub_title do

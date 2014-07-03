@@ -16,6 +16,14 @@ module PeopleHelper
 
   alias_method :attribute, :show_attribute? # TODO remove this
 
+  def person_title(person)
+    if person.description.present?
+      t('people.title_html', name: person.name, description: person.description)
+    else
+      person.name
+    end
+  end
+
   def business_categories
     [[t('people.edit.business_category.new'), '!']] + Person.business_categories
   end

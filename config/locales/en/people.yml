@@ -8,6 +8,8 @@ en:
     new:
       heading: "New Person in family %{family}"
 
+    title_html: "%{name}<span class='discreet'>, %{description}</span>"
+
     edit:
       about: "About"
       basics: "Basics"
