@@ -15,6 +15,7 @@ class BreadcrumbPresenter
   def generate!
     crumbs << ['fa fa-home', t('nav.home'), root_path]
     directory_crumb
+    family_crumb
     person_crumb
     group_crumb
     album_crumb
@@ -29,14 +30,20 @@ class BreadcrumbPresenter
   private
 
   def directory_crumb
-    if @controller == 'people' and @action != 'import'
+    if (@controller == 'people' and @action != 'import') or @controller == 'families'
       if @params[:business]
         crumbs << ['fa fa-archive', t('nav.directory_sub.business'), search_path(business: true)]
       else
         crumbs << ['fa fa-archive', t('nav.directory'), search_path]
       end
-    elsif %w(searches printable_directories).include?(@controller)
+    elsif %w(searches printable_directories).include?(@controller) and @action != 'show'
       crumbs << ['fa fa-archive', t('nav.directory'), search_path]
+    end
+  end
+
+  def family_crumb
+    if person and @route == 'people#show'
+      crumbs << ['fa fa-users', person.family.try(:name), family_path(person.family)]
     end
   end
 
