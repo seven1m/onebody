@@ -29,7 +29,7 @@ describe PrayerRequestsController do
 
   it "should not show a prayer request if the user is not a member of the group" do
     get :show, {id: @prayer_request.id, group_id: @group.id}, {logged_in_id: @other_person.id}
-    expect(response).to be_missing
+    expect(response).to be_forbidden
   end
 
   it "should create a prayer request" do
@@ -45,9 +45,9 @@ describe PrayerRequestsController do
 
   it "should not create a prayer request if the user is not a member of the group" do
     get :new, {group_id: @group.id}, {logged_in_id: @other_person.id}
-    expect(response).to be_unauthorized
+    expect(response).to be_forbidden
     post :create, {group_id: @group.id, prayer_request: {request: 'test req', answer: 'test answer', answered_at: '1/1/2010'}}, {logged_in_id: @other_person.id}
-    expect(response).to be_unauthorized
+    expect(response).to be_forbidden
   end
 
   it "should edit a prayer request" do
@@ -62,9 +62,9 @@ describe PrayerRequestsController do
 
   it "should not edit a prayer request if the user is not a member of the group" do
     get :edit, {id: @prayer_request.id, group_id: @group.id}, {logged_in_id: @other_person.id}
-    expect(response).to be_unauthorized
+    expect(response).to be_forbidden
     post :update, {id: @prayer_request.id, group_id: @group.id, prayer_request: {request: 'test req', answer: 'test answer', answered_at: '1/1/2010'}}, {logged_in_id: @other_person.id}
-    expect(response).to be_unauthorized
+    expect(response).to be_forbidden
   end
 
   it "should delete a prayer request" do
@@ -77,7 +77,7 @@ describe PrayerRequestsController do
 
   it "should not delete a prayer request if the user is not a member of the group" do
     post :destroy, {id: @prayer_request.id, group_id: @group.id}, {logged_in_id: @other_person.id}
-    expect(response).to be_unauthorized
+    expect(response).to be_forbidden
   end
 
 end

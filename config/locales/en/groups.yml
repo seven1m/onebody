@@ -73,6 +73,11 @@ en:
         message: "Send Message"
         prayer_request: "Request Prayer"
 
+    stream:
+      none:
+        heading: "No Activity"
+        message: "This is where group activity will appear."
+
     new:
       heading: "New Group"
 

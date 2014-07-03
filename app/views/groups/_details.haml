@@ -1,0 +1,38 @@
+%table.table
+  - if @group.created_at
+    %tr
+      %td= t('groups.show.details.created_at')
+      %td= @group.created_at.to_s(:date)
+  - if @group.creator
+    %tr
+      %td= t('groups.show.details.created_by')
+      %td= link_to(@group.creator.name, @group.creator)
+  - if @group.leader
+    %tr
+      %td= t('groups.show.details.leader')
+      %td= link_to(@group.leader.name, @group.leader)
+  - if @group.admins.any? and @group.admins.to_a != [@group.leader]
+    %tr
+      %td= t('groups.show.details.admins')
+      %td= @group.admins.map { |p| link_to(p.try(:name), p) }.join(', ').html_safe
+  %tr
+    %td= t('groups.show.details.member_count_label')
+    %td
+      = link_to t('groups.show.details.member_count', count: @group.people.count), group_memberships_path(@group)
+      - if @group.people.any?
+        = t('groups.show.details.birthdays_this_month_html', count: @group.people.with_birthday_month(Time.now.month).count, url: group_memberships_path(@group, birthdays: true))
+      - if @group.attendance? and @group.admin?(@logged_in)
+        %p
+        = link_to t('groups.show.details.attendance.button'), group_attendance_index_path(@group), class: 'btn btn-xs btn-info'
+  - if @group.meets.present?
+    %tr
+      %td= t('groups.show.details.meets')
+      %td= preserve_breaks(@group.meets)
+  - if @group.location.present?
+    %tr
+      %td= t('groups.show.details.location')
+      %td= preserve_breaks(@group.location)
+  - if @group.attachments.any? or @group.admin?(@logged_in)
+    %tr
+      %td= t('groups.show.details.attachments')
+      %td= link_to t('groups.show.details.attachment_count', count: @group.attachments.count), group_attachments_path(@group)

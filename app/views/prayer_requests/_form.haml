@@ -1,4 +1,4 @@
-= form_for [@group, @req] do |form|
+= form_for [@group, @prayer_request] do |form|
   = error_messages_for(form)
   = form.hidden_field :group_id
 
@@ -16,7 +16,7 @@
 
   .form-group
     = form.label :answered_at
-    = form.date_field :answered_at, value: @req.answered_at && @req.answered_at.to_s(:date), class: 'form-control'
+    = form.date_field :answered_at, value: @prayer_request.answered_at && @prayer_request.answered_at.to_s(:date), class: 'form-control'
   .form-group
     = form.label :answer
     = form.text_area :answer, rows: 5, class: 'form-control'

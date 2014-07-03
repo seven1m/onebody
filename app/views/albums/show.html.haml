@@ -3,22 +3,7 @@
 %p= @album.description
 
 .row
-  .col-lg-6
-    - if @album.cover
-      = link_to image_tag(@album.cover.photo.url(:large), alt: t('pictures.click_to_enlarge'), class: 'picture thumbnail'), |
-        [@album, @album.cover], title: t('pictures.click_to_enlarge')
-
-    - if @logged_in.can_edit?(@album)
-      .page-controls
-        = link_to edit_album_path(@album), class: 'btn btn-info' do
-          = icon 'fa fa-pencil'
-          = t('albums.edit.button')
-        - if @logged_in.can_delete?(@album)
-          = link_to @album, data: { method: :delete, confirm: t('are_you_sure') }, class: 'btn btn-delete' do
-            = icon 'fa fa-trash-o'
-            = t('albums.delete.button')
-
-  .col-lg-6
+  .col-sm-6.col-sm-push-6
     = pagination @pictures
 
     .pictures
@@ -38,3 +23,20 @@
         .box-body
           = form_for [@album, @album.pictures.new], html: { multipart: true } do
             = picture_upload(@album)
+
+  .col-sm-6.col-sm-pull-6
+    - if @album.cover
+      = link_to image_tag(@album.cover.photo.url(:large), alt: t('pictures.click_to_enlarge'), class: 'picture thumbnail'), |
+        [@album, @album.cover], title: t('pictures.click_to_enlarge')
+    - else
+      = image_tag 'picture.large.jpg', class: 'picture thumbnail'
+
+    - if @logged_in.can_edit?(@album)
+      .page-controls
+        = link_to edit_album_path(@album), class: 'btn btn-info' do
+          = icon 'fa fa-pencil'
+          = t('albums.edit.button')
+        - if @logged_in.can_delete?(@album)
+          = link_to @album, data: { method: :delete, confirm: t('are_you_sure') }, class: 'btn btn-delete' do
+            = icon 'fa fa-trash-o'
+            = t('albums.delete.button')

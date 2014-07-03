@@ -183,7 +183,7 @@ class Group < ActiveRecord::Base
   end
 
   def can_add_prayer_request?(person)
-    prayer? and (person.member_of?(self) or admin?(person))
+    person.can_create?(prayer_requests.new)
   end
 
   def can_add_album?(person)

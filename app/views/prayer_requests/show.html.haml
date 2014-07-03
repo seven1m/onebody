@@ -1,20 +1,20 @@
 - @title = t('prayer_requests.show.heading')
 
-%p= t('prayer_requests.by', person: link_to(@req.person.try(:name), @req.person)).html_safe
+%p= t('prayer_requests.by', person: link_to(@prayer_request.person.try(:name), @prayer_request.person)).html_safe
 
-%p= @req.request
+%p= @prayer_request.request
 
-- if @req.answer.present?
+- if @prayer_request.answer.present?
   %h3= t('prayer_requests.answer.heading')
-  - if @req.answered_at
-    %p= t('prayer_requests.answer.on_date', date: @req.answered_at.to_s(:date))
-  %p= @req.answer
+  - if @prayer_request.answered_at
+    %p= t('prayer_requests.answer.on_date', date: @prayer_request.answered_at.to_s(:date))
+  %p= @prayer_request.answer
 
-- if @logged_in.can_edit?(@req)
+- if @logged_in.can_edit?(@prayer_request)
   .page-controls
-    = link_to edit_group_prayer_request_path(@req.group, @req), class: 'btn btn-info' do
+    = link_to edit_group_prayer_request_path(@prayer_request.group, @prayer_request), class: 'btn btn-info' do
       = icon 'fa fa-pencil'
       = t('prayer_requests.edit.button')
-    = link_to [@req.group, @req], method: :delete, data: { confirm: t('are_you_sure') }, class: 'btn bg-gray text-red' do
+    = link_to [@prayer_request.group, @prayer_request], method: :delete, data: { confirm: t('are_you_sure') }, class: 'btn bg-gray text-red' do
       = icon 'fa fa-trash-o'
       = t('prayer_requests.delete.button')

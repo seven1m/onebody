@@ -18,9 +18,11 @@ module TimelineHelper
         end.join.html_safe
       end.html_safe +
       (timeline_has_more?(stream_items) ? timeline_load_more : '')
-    else
-      content_tag(:div, t('stream.none'), class: 'timeline-none')
     end
+  end
+
+  def timeline_none(label=t('stream.none'))
+    content_tag(:div, label, class: 'timeline-none')
   end
 
   def timeline_date_label(stream_item)

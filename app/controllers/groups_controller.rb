@@ -58,9 +58,9 @@ class GroupsController < ApplicationController
     if not (@group.approved? or @group.admin?(@logged_in))
       render text: t('groups.pending_approval'), layout: true
     elsif @logged_in.can_see?(@group)
-      @members = @group.people.minimal unless fragment_exist?(controller: 'groups', action: 'show', id: @group.id, fragment: 'members')
+      @members = @group.people.minimal
       @member_of = !!@logged_in.member_of?(@group)
-      @stream_items = @group.stream_items.paginate(page: params[:timeline_page], per_page: 5)
+      @stream_items = StreamItem.shared_with(@logged_in).where(group: @group).paginate(page: params[:timeline_page], per_page: 5)
     else
       render action: 'show_limited'
     end

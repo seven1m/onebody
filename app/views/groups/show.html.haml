@@ -44,11 +44,16 @@
       - if @group.prayer?
         = group_content_column do
           .small-box.bg-purple
-            = link_to group_prayer_requests_path(@group) do
+            - if @member_of
+              = link_to group_prayer_requests_path(@group) do
+                .inner
+                  %h3= @group.prayer_requests.count
+                  %p= t('groups.box.prayer_requests.text', count: @group.prayer_requests.count)
+            - else
               .inner
                 %h3= @group.prayer_requests.count
                 %p= t('groups.box.prayer_requests.text', count: @group.prayer_requests.count)
-            .icon
+            %div{ class: @member_of ? 'icon' : 'icon-disabled' }
               = icon 'fa fa-heart-o'
             - if @group.can_add_prayer_request?(@logged_in)
               = link_to new_group_prayer_request_path(@group), class: 'small-box-footer' do
@@ -68,49 +73,24 @@
                 = t('groups.box.pictures.new_link')
                 = icon 'fa fa-plus-circle'
 
-    = group_avatar_tag(@group, size: :large)
+    .group-avatar
+      = group_avatar_tag(@group, size: :large)
 
-    - if @group.description.present?
-      .group-description= auto_link(preserve_breaks(@group.description))
-
-    %table.table
-      - if @group.created_at
-        %tr
-          %td= t('.details.created_at')
-          %td= @group.created_at.to_s(:date)
-      - if @group.creator
-        %tr
-          %td= t('.details.created_by')
-          %td= link_to(@group.creator.name, @group.creator)
-      - if @group.leader
-        %tr
-          %td= t('.details.leader')
-          %td= link_to(@group.leader.name, @group.leader)
-      - if @group.admins.any? and @group.admins.to_a != [@group.leader]
-        %tr
-          %td= t('.details.admins')
-          %td= @group.admins.map { |p| link_to(p.try(:name), p) }.join(', ').html_safe
-      %tr
-        %td= t('.details.member_count_label')
-        %td
-          = link_to t('.details.member_count', count: @group.people.count), group_memberships_path(@group)
-          - if @group.people.any?
-            = t('.details.birthdays_this_month_html', count: @group.people.with_birthday_month(Time.now.month).count, url: group_memberships_path(@group, birthdays: true))
-          - if @group.attendance? and @group.admin?(@logged_in)
-            %p
-            = link_to t('.details.attendance.button'), group_attendance_index_path(@group), class: 'btn btn-xs btn-info'
-      - if @group.meets.present?
-        %tr
-          %td= t('.details.meets')
-          %td= preserve_breaks(@group.meets)
-      - if @group.location.present?
-        %tr
-          %td= t('.details.location')
-          %td= preserve_breaks(@group.location)
-      - if @group.attachments.any? or @group.admin?(@logged_in)
-        %tr
-          %td= t('.details.attachments')
-          %td= link_to t('.details.attachment_count', count: @group.attachments.count), group_attachments_path(@group)
+    - if @member_of
+      = render partial: 'description'
+      = render :partial => 'details'
 
   .col-sm-6.col-sm-pull-6
-    = timeline @stream_items
+    - if @member_of
+      - if content = timeline(@stream_items)
+        = content
+      - else
+        .alert.alert-info.alert-dismissable
+          = icon 'fa fa-comments'
+          %button.close{ 'aria-hidden' => 'true', 'data-dismiss' => 'alert', 'type' => 'button' } ×
+          %strong= t('groups.stream.none.heading')
+          = t('groups.stream.none.message')
+    - else
+      = render partial: 'description'
+      = render :partial => 'details'
+
