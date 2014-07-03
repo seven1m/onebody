@@ -116,7 +116,7 @@ en:
       approval_required_to_join:
         help: "If checked, an approval request will be sent to group admins before someone can join."
       private_group:
-        help: "If checked, messages and other content are only visible to members of the group. If checked, we recommend you also check the above 'Approval required to join' box as well."
+        help: "If checked, the group description, membership list, and other group information will be hidden from non-members (only the title will be displayed). We recommend you also check the above 'Approval required' box as well."
       members_send:
         help: "If checked, any member of this group can send an email message to everyone else in the group."
       class_link_code:
