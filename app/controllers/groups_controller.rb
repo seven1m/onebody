@@ -61,6 +61,8 @@ class GroupsController < ApplicationController
       @members = @group.people.minimal
       @member_of = !!@logged_in.member_of?(@group)
       @stream_items = StreamItem.shared_with(@logged_in).where(group: @group).paginate(page: params[:timeline_page], per_page: 5)
+      @pictures = @group.album_pictures.references(:album)
+      @pictures.where!('albums.is_public' => true) unless @logged_in.member_of?(@group)
     else
       render action: 'show_limited'
     end

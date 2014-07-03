@@ -69,8 +69,8 @@
           .small-box.bg-orange
             = link_to group_albums_path(@group) do
               .inner
-                %h3= @group.album_pictures.count
-                %p= t('groups.box.pictures.text', count: @group.album_pictures.count)
+                %h3= @pictures.count
+                %p= t('groups.box.pictures.text', count: @pictures.count)
             .icon
               = icon 'fa fa-picture-o'
             - if @group.can_add_album?(@logged_in)
