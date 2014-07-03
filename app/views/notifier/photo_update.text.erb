@@ -1,0 +1,3 @@
+<%=raw t('notifier.person_has_changed_photo', name: @person.name) %>
+
+<%=raw Setting.get(:url, :site) %>people/<%= @person.id %>/edit
