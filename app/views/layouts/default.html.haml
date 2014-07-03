@@ -140,10 +140,11 @@
                     = link_to search_path(advanced: true) do
                       = icon 'fa fa-search'
                       = t('nav.directory_sub.advanced')
-                  %li
-                    = link_to new_family_path do
-                      = icon 'fa fa-plus'
-                      = t('nav.directory_sub.new_family')
+                  - if @logged_in.can_create?(Family)
+                    %li
+                      = link_to new_family_path do
+                        = icon 'fa fa-plus'
+                        = t('nav.directory_sub.new_family')
             - if @logged_in.admin?
               %li{ class: tab_selected?(:admin) ? 'active' : '' }
                 = link_to admin_path do
