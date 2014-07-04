@@ -55,7 +55,7 @@ class Checkin
         labels = []
         (labels = labels.concat(l)) for _, l of resp.responseJSON.labels
         alert("should print #{labels.length} label(s) - NOT YET IMPLEMENTED")
-        location.replace('/checkin')
+        window.print()
 
 
 class CheckinPerson

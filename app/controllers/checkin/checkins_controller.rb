@@ -3,9 +3,9 @@ class Checkin::CheckinsController < ApplicationController
   skip_before_filter :authenticate_user
   before_filter :ensure_campus_selection
   before_filter :reset_family, except: :edit
-  #before_filter -> {
-    #Timecop.freeze(Time.local(2014, 7, 6, 9, 00)) # TEMP for testing the UI
-  #}
+  before_filter -> {
+    Timecop.freeze(Time.local(2014, 6, 29, 9, 00)) # TEMP for testing the UI
+  }
 
   layout 'checkin'
 
@@ -45,7 +45,7 @@ class Checkin::CheckinsController < ApplicationController
         labels[person.id] << record.as_json if record.print_extra_nametag? and labels[person.id].length < 2
       end
     end
-    session.delete(:checkin_family_id)
+    #session.delete(:checkin_family_id)
     render json: { labels: labels }
   end
 
