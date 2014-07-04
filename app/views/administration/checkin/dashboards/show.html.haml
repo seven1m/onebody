@@ -11,8 +11,11 @@
         = button_tag class: 'btn btn-info' do
           = icon 'fa fa-search'
           = t('checkin.search.button')
-        = link_to t('checkin.search.clear'), administration_checkin_root_path
     #results
+    #clear_family_form{ style: 'display:none' }
+      = link_to administration_checkin_root_path, class: 'btn btn-warning btn' do
+        = icon 'fa fa-times-circle'
+        = t('checkin.search.clear')
     #no_families_found{ style: 'display:none' }
       %em= t('checkin.search.none_found')
 
