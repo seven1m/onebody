@@ -148,6 +148,14 @@ class Notifier < ActionMailer::Base
     )
   end
 
+  def photo_update(person, is_family)
+    @person = person
+    mail(
+      to:      Setting.get(:features, :send_updates_to),
+      subject: is_family ? "Family Photo Changed" : "Photo Changed"
+    )
+  end
+
   def printed_directory(person, file)
     @person = person
     # TODO check that it is ok that we don't specify content-type application/pdf here

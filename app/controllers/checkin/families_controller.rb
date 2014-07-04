@@ -3,8 +3,8 @@ class Checkin::FamiliesController < ApplicationController
   def show
     @family = Family.find_by_id_and_deleted(params[:id], false)
     raise ActiveRecord::RecordNotFound unless @family
-    @family_people = @family.people.find_all_by_deleted(false, :order => 'sequence')
-    @attendance_records = AttendanceRecord.find_for_people_and_date(@family_people.map { |p| p.id }, Date.today).group_by &:person_id
+    @family_people = @family.people.undeleted.order(:sequence)
+    @attendance_records = AttendanceRecord.find_for_people_and_date(@family_people.map(&:id), Date.today).group_by(&:person_id)
     respond_to do |format|
       format.js
     end
@@ -17,20 +17,25 @@ class Checkin::FamiliesController < ApplicationController
 
   def create
     parents = ['0', '1'].map { |i| params[:family][:people_attributes][i] }
+    parents.each { |p| p[:child] = false }
     params[:family][:people_attributes].reject! { |i, p| p[:first_name].blank? }
     @family = Family.new(family_params)
-    if not params[:family][:people_attributes].all? { |i, p| Date.parse(p[:birthday]) rescue nil or ['0', '1'].include?(i) }
-      @family.errors.add :base, "Birthday must be specified for each child."
+    if not params[:family][:people_attributes].all? { |i, p| Date.parse_in_locale(p[:birthday]) rescue nil or ['0', '1'].include?(i) }
+      @family.errors.add :base, t('checkin.family.error.no_birthdays')
       build_family_people
-      render :action => "new"
+      render action: 'new'
     elsif @family.people.empty?
-      @family.errors.add :base, "No people entered."
+      @family.errors.add :base, t('checkin.family.error.no_people')
       build_family_people
-      render :action => "new"
+      render action: 'new'
+    elsif @family.people.none?(&:adult?)
+      @family.errors.add :base, t('checkin.family.error.no_parents')
+      build_family_people
+      render action: 'new'
     elsif params[:family][:barcode_id].blank?
-      @family.errors.add :base, "Barcode is missing."
+      @family.errors.add :base, t('checkin.family.error.no_barcode')
       build_family_people
-      render :action => "new"
+      render action: 'new'
     else
       parents.reject! { |p| p['first_name'].blank? }
       if parents.length == 2
@@ -45,7 +50,7 @@ class Checkin::FamiliesController < ApplicationController
       @family.last_name = parents[0]['last_name']
       unless @family.save
         build_family_people
-        render :action => "new"
+        render action: 'new'
       end
     end
   end
@@ -63,10 +68,15 @@ class Checkin::FamiliesController < ApplicationController
   private
 
   def family_params
-    params[:family].permit(:barcode_id, people_attributes: [:first_name, :last_name, :birthday, :medical_notes])
+    params[:family].permit(:barcode_id, people_attributes: [:first_name, :last_name, :birthday, :medical_notes, :child])
   end
 
   def build_family_people
-    (25 - @family.people.length).times { @family.people.build }
+    @people = @family.people.to_a
+    adults = []
+    adults << @people.shift until adults.length >= 2 or @people.first.nil? or @people.first.child?
+    adults << @family.people.adults.build until adults.length >= 2
+    @people.unshift(*adults)
+    @people << @family.people.children.build until @people.length >= 25
   end
 end

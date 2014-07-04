@@ -3,8 +3,8 @@ class Administration::Checkin::TimesController < ApplicationController
   before_filter :only_admins
 
   def index
-    @recurring_times = CheckinTime.recurring
-    @single_times = CheckinTime.upcoming_singles
+    @recurring_times = CheckinTime.recurring.order(:weekday, :time)
+    @single_times = CheckinTime.upcoming_singles.order(:the_datetime)
   end
 
   def create

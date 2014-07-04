@@ -6,7 +6,7 @@ class PagesController < ApplicationController
   before_filter :feature_enabled?, only: %w(show_for_public) # must follow get_page
 
   def index
-    @pages = Page.where(system: true).order(:title)
+    @pages = Page.where(system: true, published: true).order(:title)
   end
 
   def show_for_public

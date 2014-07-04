@@ -17,6 +17,9 @@ class PhotosController < ApplicationController
         # this is a total hack
         if @object.valid? or (errors = @object.errors.select { |a, e| a.to_s =~ /^photo/ }).empty?
           @object.save(validate: false)
+          if @id_key == 'family_id' or @id_key == 'person_id'
+            Notifier.photo_update(@object, @id_key == 'family_id') if Setting.get(:features, :notify_on_photo_change)
+          end
         else
           @errors = errors
         end
@@ -61,6 +64,7 @@ class PhotosController < ApplicationController
     # /families/123/photo
     # /families/123/photo/large
     if id_key = params.keys.select { |k| k =~ /_id$/ }.last and model = PHOTO_TYPES[id_key]
+      @id_key = id_key
       @object = model.find(params[id_key])
     else
       render text: t('photos.object_not_found'), layout: true, status: 404
