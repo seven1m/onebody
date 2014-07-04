@@ -19,8 +19,8 @@ class Checkin::FamiliesController < ApplicationController
     parents = ['0', '1'].map { |i| params[:family][:people_attributes][i] }
     params[:family][:people_attributes].reject! { |i, p| p[:first_name].blank? }
     @family = Family.new(family_params)
-    if not params[:family][:people_attributes].all? { |i, p| Date.parse(p[:birthday]) rescue nil }
-      @family.errors.add :base, "Birthday must be specified for each person."
+    if not params[:family][:people_attributes].all? { |i, p| Date.parse(p[:birthday]) rescue nil or ['0', '1'].include?(i) }
+      @family.errors.add :base, "Birthday must be specified for each child."
       build_family_people
       render :action => "new"
     elsif @family.people.empty?
