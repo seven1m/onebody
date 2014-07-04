@@ -17,18 +17,19 @@ class Checkin::FamiliesController < ApplicationController
 
   def create
     parents = ['0', '1'].map { |i| params[:family][:people_attributes][i] }
+    parents.each { |p| p[:child] = false }
     params[:family][:people_attributes].reject! { |i, p| p[:first_name].blank? }
     @family = Family.new(family_params)
     if not params[:family][:people_attributes].all? { |i, p| Date.parse(p[:birthday]) rescue nil }
-      @family.errors.add :base, "Birthday must be specified for each person."
+      @family.errors.add :base, t('checkin.family.error.no_birthdays')
       build_family_people
       render :action => "new"
     elsif @family.people.empty?
-      @family.errors.add :base, "No people entered."
+      @family.errors.add :base, t('checkin.family.error.no_people')
       build_family_people
       render :action => "new"
     elsif params[:family][:barcode_id].blank?
-      @family.errors.add :base, "Barcode is missing."
+      @family.errors.add :base, t('checkin.family.error.no_barcode')
       build_family_people
       render :action => "new"
     else
