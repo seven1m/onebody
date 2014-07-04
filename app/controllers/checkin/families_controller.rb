@@ -20,7 +20,7 @@ class Checkin::FamiliesController < ApplicationController
     parents.each { |p| p[:child] = false }
     params[:family][:people_attributes].reject! { |i, p| p[:first_name].blank? }
     @family = Family.new(family_params)
-    if not params[:family][:people_attributes].all? { |i, p| Date.parse(p[:birthday]) rescue nil }
+    if not params[:family][:people_attributes].all? { |i, p| Date.parse_in_locale(p[:birthday]) rescue nil }
       @family.errors.add :base, t('checkin.family.error.no_birthdays')
       build_family_people
       render action: 'new'
