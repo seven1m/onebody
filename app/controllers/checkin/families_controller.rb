@@ -3,8 +3,8 @@ class Checkin::FamiliesController < ApplicationController
   def show
     @family = Family.find_by_id_and_deleted(params[:id], false)
     raise ActiveRecord::RecordNotFound unless @family
-    @family_people = @family.people.find_all_by_deleted(false, :order => 'sequence')
-    @attendance_records = AttendanceRecord.find_for_people_and_date(@family_people.map { |p| p.id }, Date.today).group_by &:person_id
+    @family_people = @family.people.undeleted.order(:sequence)
+    @attendance_records = AttendanceRecord.find_for_people_and_date(@family_people.map(&:id), Date.today).group_by(&:person_id)
     respond_to do |format|
       format.js
     end
@@ -23,15 +23,15 @@ class Checkin::FamiliesController < ApplicationController
     if not params[:family][:people_attributes].all? { |i, p| Date.parse(p[:birthday]) rescue nil }
       @family.errors.add :base, t('checkin.family.error.no_birthdays')
       build_family_people
-      render :action => "new"
+      render action: 'new'
     elsif @family.people.empty?
       @family.errors.add :base, t('checkin.family.error.no_people')
       build_family_people
-      render :action => "new"
+      render action: 'new'
     elsif params[:family][:barcode_id].blank?
       @family.errors.add :base, t('checkin.family.error.no_barcode')
       build_family_people
-      render :action => "new"
+      render action: 'new'
     else
       parents.reject! { |p| p['first_name'].blank? }
       if parents.length == 2
@@ -46,7 +46,7 @@ class Checkin::FamiliesController < ApplicationController
       @family.last_name = parents[0]['last_name']
       unless @family.save
         build_family_people
-        render :action => "new"
+        render action: 'new'
       end
     end
   end
