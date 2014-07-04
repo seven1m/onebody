@@ -2,35 +2,35 @@
 
 %h3
   = t('checkin.times.recurring.heading')
-  = link_to_function "$(this.parentNode).hide();$('#new_recurring_time').show()", class: 'btn btn-success btn-xs' do
+  = link_to '#', class: 'btn btn-success btn-xs', data: { toggle: '#new_recurring_time' } do
     = icon 'fa fa-plus'
     = t('checkin.times.recurring.new.button')
+
+= form_for :checkin_time, url: administration_checkin_times_path, html: { class: 'form-inline', style: 'display:none;', id: 'new_recurring_time' }, method: 'post' do |form|
+  .form-group
+    = form.select :weekday, Date::DAYNAMES.with_indexes, {}, class: 'form-control'
+    = form.text_field :time, size: 8, class: 'form-control', placeholder: t('checkin.times.recurring.time')
+    = form.select :campus, options_for_select([[t('checkin.times.edit.campus.new'), '!']] + CheckinTime.campuses), { include_blank: true }, class: 'form-control can-create'
+    = form.button t('checkin.times.recurring.add.button'), class: 'btn btn-success'
 
 - if @recurring_times.any?
   = render partial: 'times', object: @recurring_times
 - else
   %p= t('none')
 
-= form_for :checkin_time, url: administration_checkin_times_path, html: { class: 'form-inline', style: 'display:none;', id: 'new_recurring_time' }, method: 'post' do |form|
-  .form-group
-    = form.select :weekday, Date::DAYNAMES.with_indexes, {}, class: 'form-control'
-    = form.text_field :time, size: 8, class: 'form-control', placeholder: t('checkin.times.recurring.time')
-    = form.text_field :campus, size: 15, class: 'form-control', placeholder: t('checkin.times.recurring.campus')
-    = form.button t('checkin.times.recurring.add.button'), class: 'btn btn-success'
-
 %h3
   = t('checkin.times.single.heading')
-  = link_to_function "$(this.parentNode).hide();$('#new_single_time').show()", class: 'btn btn-success btn-xs' do
+  = link_to '#', class: 'btn btn-success btn-xs', data: { toggle: '#new_single_time' } do
     = icon 'fa fa-plus'
     = t('checkin.times.single.new.button')
+
+= form_for :checkin_time, url: administration_checkin_times_path, html: { class: 'form-inline', style: 'display:none;', id: 'new_single_time' }, method: 'post' do |form|
+  %p
+    = form.text_field :the_datetime, size: 15, class: 'form-control', placeholder: t('checkin.times.single.datetime')
+    = form.select :campus, options_for_select([[t('checkin.times.edit.campus.new'), '!']] + CheckinTime.campuses), { include_blank: true }, class: 'form-control can-create'
+    = form.button t('checkin.times.single.add.button'), class: 'btn btn-success'
 
 - if @single_times.any?
   = render partial: 'times', object: @single_times
 - else
   %p= t('none')
-
-= form_for :checkin_time, url: administration_checkin_times_path, html: { class: 'form-inline', style: 'display:none;', id: 'new_single_time' }, method: 'post' do |form|
-  %p
-    = form.text_field :the_datetime, size: 15, class: 'form-control', placeholder: t('checkin.times.single.datetime')
-    = form.text_field :campus, size: 15, class: 'form-control', placeholder: t('checkin.times.single.campus')
-    = form.button t('checkin.times.single.add.button'), class: 'btn btn-success'

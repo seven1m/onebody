@@ -185,10 +185,8 @@ OneBody::Application.routes.draw do
       root to: 'dashboards#show'
       resource :dashboard
       resources :groups do
-        collection do
-          put :batch
-          post :reorder
-        end
+        put :batch, on: :collection
+        put :reorder, on: :member
       end
       resources :times do
         resources :groups

@@ -64,6 +64,11 @@ en:
             other: "%{count} destinations"
       edit:
         button: "edit"
+        heading: "Edit Check-in Time"
+        campus:
+          new: "[new campus]"
+        save:
+          button: "Save Changes"
       recurring:
         heading: "Recurring Times"
         new:

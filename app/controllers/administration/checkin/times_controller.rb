@@ -16,6 +16,17 @@ class Administration::Checkin::TimesController < ApplicationController
   def edit
     redirect_to administration_checkin_time_groups_path(params[:id])
   end
+  alias_method :show, :edit
+
+  def update
+    @time = CheckinTime.find(params[:id])
+    if @time.update_attributes(time_params)
+      flash[:notice] = t('changes_saved')
+    else
+      add_errors_to_flash(@time)
+    end
+    redirect_to administration_checkin_time_groups_path(params[:id])
+  end
 
   def destroy
     @time = CheckinTime.find(params[:id])

@@ -34,11 +34,10 @@ class Administration::Checkin::GroupsController < ApplicationController
   end
 
   def reorder
-    params["group"].to_a.each_with_index do |id, index|
-      t = GroupTime.find_by_group_id_and_checkin_time_id(id, params[:time_id])
-      t.update_attribute(:ordering, index+1)
-    end
-    render nothing: true
+    @group_time = GroupTime.find(params[:id])
+    @time = @group_time.checkin_time
+    @time.reorder_group(@group_time, params[:direction])
+    redirect_to administration_checkin_time_groups_path(@time)
   end
 
   private

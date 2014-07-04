@@ -1,8 +1,8 @@
 class CheckinTime < ActiveRecord::Base
-  has_many :group_times, dependent: :destroy
-  has_many :groups, through: :group_times, order: 'group_times.ordering'
+  has_many :group_times, -> { order('group_times.ordering, group_times.id') }, dependent: :destroy
+  has_many :groups, through: :group_times
 
-  validates :campus, presence: true
+  validates :campus, presence: true, exclusion: ['!']
 
   scope :recurring, -> { where(the_datetime: nil) }
   scope :upcoming_singles, -> { where('the_datetime is not null and the_datetime >= now()') }
@@ -13,21 +13,19 @@ class CheckinTime < ActiveRecord::Base
   }
   scope :today, -> campus { for_date(Time.now, campus) }
 
-  self.skip_time_zone_conversion_for_attributes = [:the_datetime]
-
   scope_by_site_id
 
-  def validate
+  validate do
     if weekday
       if time.nil?
-        errors.add_to_base('The time is not formatted correctly. Try something like "6:00 p.m."')
+        errors.add(:base, 'The time is not formatted correctly. Try something like "6:00 p.m."')
       end
       if the_datetime
-        errors.add_to_base('You cannot specify a specific date and time and a recurring time together.')
+        errors.add(:base, 'You cannot specify a specific date and time and a recurring time together.')
       end
     end
     if not weekday and not the_datetime
-      errors.add_to_base('You must specify either a recurring date and time or a specific date and time.')
+      errors.add(:base, 'You must specify either a recurring date and time or a specific date and time.')
     end
   end
 
@@ -59,5 +57,30 @@ class CheckinTime < ActiveRecord::Base
     else
       Time.parse(time.to_s.sub(/(\d+)(\d{2})$/, '\1:\2')).to_s(:time)
     end
+  end
+
+  def to_time
+    the_datetime || Time.parse(time_to_s)
+  end
+
+  def reorder_group(group, direction)
+    case direction
+    when 'up'
+      group.decrement!(:ordering) unless (group.ordering || 0) <= 1
+    when 'down'
+      group.increment!(:ordering) unless (group.ordering || 0) >= group_times.count
+    end
+    index = 1
+    group_times.where.not(id: group.id).each do |p|
+      index += 1 if index == group.ordering
+      p.ordering = index
+      p.save(validate: false)
+      index += 1
+    end
+  end
+
+
+  def self.campuses
+    distinct(:campus).pluck(:campus).sort
   end
 end

@@ -21,6 +21,12 @@
             %td
               = select_tag :section, options_for_select(checkin_group_sections, group_time.section), include_blank: true, onchange: "if(this.value != '!') $.ajax('#{administration_checkin_time_group_path(@time, group_time.group_id)}', {data: {section: this.value}, method: 'put'})", class: 'form-control can-create'
             %td.actions
+              - unless group_time.ordering == 1
+                = link_to reorder_administration_checkin_group_path(group_time, direction: 'up'), data: { method: 'put' }, class: 'btn bg-gray text-blue' do
+                  = icon 'fa fa-arrow-circle-up'
+              - unless group_time.ordering == @group_times.length
+                = link_to reorder_administration_checkin_group_path(group_time, direction: 'down'), data: { method: 'put' }, class: 'btn bg-gray text-blue' do
+                  = icon 'fa fa-arrow-circle-down'
               = link_to administration_checkin_time_group_path(@time, group_time.group_id), data: { method: 'delete', confirm: t('are_you_sure') }, class: 'btn btn-delete' do
                 = icon 'fa fa-trash-o'
 
@@ -44,3 +50,25 @@
             #group_results
             .form-group.push-down
               = button_tag t('checkin.groups.index.add_group.button'), class: 'btn btn-success'
+
+    .box.box-warning
+      .box-header
+        %h3.box-title= t('checkin.times.edit.heading')
+      .box-body
+        = form_for @time, url: administration_checkin_time_path(@time) do |form|
+          - if @time.weekday
+            .form-group
+              = form.select :weekday, Date::DAYNAMES.with_indexes, {}, class: 'form-control'
+            .form-group
+              = form.text_field :time, value: @time.time_to_s, size: 8, class: 'form-control', placeholder: t('checkin.times.recurring.time')
+          - else
+            .form-group
+              = form.text_field :the_datetime, value: @time.to_s, size: 15, class: 'form-control', placeholder: t('checkin.times.single.datetime')
+          .form-group
+            = form.select :campus, options_for_select([[t('checkin.times.edit.campus.new'), '!']] + CheckinTime.campuses, @time.campus), {}, class: 'form-control can-create'
+          .form-group
+            = form.button t('checkin.times.edit.save.button'), class: 'btn btn-success'
+            .pull-right
+              = link_to administration_checkin_time_path(@time), data: { method: 'delete', confirm: t('are_you_sure') }, class: 'btn btn-delete' do
+                = icon 'fa fa-trash-o'
+
