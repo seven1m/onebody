@@ -6,6 +6,10 @@ describe CheckinPresenter do
 
   subject { CheckinPresenter.new('Broken Arrow', person) }
 
+  before do
+    Time.zone = 'America/Chicago'
+  end
+
   describe '#times' do
     context 'given a recurring time in the morning' do
       let!(:checkin_time) { FactoryGirl.create(:checkin_time, :recurring, time: '9:00 am') }
