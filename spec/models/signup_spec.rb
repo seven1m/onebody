@@ -94,6 +94,12 @@ describe Signup do
             expect(@signup.approval_sent?).to eq(false)
           end
         end
+
+        context '#found_existing?' do
+          it 'should return true' do
+            expect(@signup.found_existing?).to eq(true)
+          end
+        end
       end
     end
 
@@ -143,6 +149,12 @@ describe Signup do
         context '#can_verify_mobile?' do
           it 'should return true' do
             expect(@signup.can_verify_mobile?).to eq(true)
+          end
+        end
+
+        context '#found_existing?' do
+          it 'should return true' do
+            expect(@signup.found_existing?).to eq(true)
           end
         end
       end
@@ -251,6 +263,12 @@ describe Signup do
           context '#save!' do
             it 'should return true' do
               expect(@signup.save!).to eq(true)
+            end
+          end
+
+          context '#found_existing?' do
+            it 'should return false' do
+              expect(@signup.found_existing?).to eq(false)
             end
           end
         end
