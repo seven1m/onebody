@@ -28,6 +28,10 @@ class Checkin::FamiliesController < ApplicationController
       @family.errors.add :base, t('checkin.family.error.no_people')
       build_family_people
       render action: 'new'
+    elsif @family.people.none?(&:adult?)
+      @family.errors.add :base, t('checkin.family.error.no_parents')
+      build_family_people
+      render action: 'new'
     elsif params[:family][:barcode_id].blank?
       @family.errors.add :base, t('checkin.family.error.no_barcode')
       build_family_people
