@@ -34,7 +34,9 @@ class AccountsController < ApplicationController
         if @signup.approval_sent?
           render text: t('accounts.pending_approval'), layout: true
         elsif @signup.verification_sent?
-          flash.now[:notice] = t('accounts.create.existing_account.by_email')
+          if @signup.found_existing?
+            flash.now[:notice] = t('accounts.create.existing_account.by_email')
+          end
           render text: t('accounts.verification_email_sent'), layout: true
         elsif @signup.can_verify_mobile?
           flash[:notice] = t('accounts.create.existing_account.by_mobile')

@@ -49,6 +49,10 @@ class Signup
     !!@can_verify_mobile
   end
 
+  def found_existing?
+    !!@found_existing
+  end
+
   def persisted?
     false
   end
@@ -58,11 +62,13 @@ class Signup
   def validate_existing
     if @person = Person.where(email: email).first
       @family = @person.family
+      @found_existing = true
       create_and_deliver_email_verification
       true
     elsif @person = Person.where(mobile_phone: mobile_phone.digits_only).first
       @family = @person.family
       @can_verify_mobile = true
+      @found_existing = true
       true
     end
   end

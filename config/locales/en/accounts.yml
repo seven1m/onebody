@@ -41,7 +41,7 @@ en:
     this_site_doesnt_allow_signup: "This site does not allow people to sign up. Instead, you must either verify your already-existing account information or contact %{office_phone}."
     type_your_email: "Type your email address here"
     type_your_mobile: "Type your mobile phone number here"
-    verification_email_sent: "The verification email has been sent. Please check your email and follow the instructions in the message you receive. (You may have to wait a minute or two for the email to arrive.)"
+    verification_email_sent: "A verification email has been sent to you. Please check your email and follow the instructions in the message you receive. (You may have to wait a minute or two for the email to arrive.)"
     verification_max_attempts_reached: "You have exceeded the daily limit for verification attempts."
     verification_message_sent: "The verification message has been sent. Please check your phone and enter the code you receive."
     verify: "Verify Account"
