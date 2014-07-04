@@ -31,6 +31,16 @@ describe CheckinPresenter do
           expect(subject.times.to_a).to eq([checkin_time])
         end
       end
+
+      context 'queried the day after' do
+        before do
+          Timecop.freeze(Time.local(2014, 7, 7, 9, 00))
+        end
+
+        it 'returns nothing' do
+          expect(subject.times.to_a).to eq([])
+        end
+      end
     end
 
     context 'given a recurring time at night' do
@@ -53,6 +63,16 @@ describe CheckinPresenter do
 
         it 'returns the recurring time' do
           expect(subject.times.to_a).to eq([checkin_time])
+        end
+      end
+
+      context 'queried the day after' do
+        before do
+          Timecop.freeze(Time.local(2014, 7, 7, 9, 00))
+        end
+
+        it 'returns nothing' do
+          expect(subject.times.to_a).to eq([])
         end
       end
     end
