@@ -43,7 +43,6 @@ group :development do
   gem 'zeus'
   gem 'watchr'
   gem 'terminal-notifier'
-  gem 'timecop'
 end
 
 group :development, :test do
@@ -54,6 +53,7 @@ group :development, :test do
   gem 'spring'
   gem 'spring-commands-rspec'
   gem 'guard-rspec', require: false
+  gem 'timecop'
 end
 
 group :production do
