@@ -68,10 +68,15 @@ class Checkin::FamiliesController < ApplicationController
   private
 
   def family_params
-    params[:family].permit(:barcode_id, people_attributes: [:first_name, :last_name, :birthday, :medical_notes])
+    params[:family].permit(:barcode_id, people_attributes: [:first_name, :last_name, :birthday, :medical_notes, :child])
   end
 
   def build_family_people
-    (25 - @family.people.length).times { @family.people.build }
+    @people = @family.people.to_a
+    adults = []
+    adults << @people.shift until adults.length >= 2 or @people.first.nil? or @people.first.child?
+    adults << @family.people.adults.build until adults.length >= 2
+    @people.unshift(*adults)
+    @people << @family.people.children.build until @people.length >= 25
   end
 end
