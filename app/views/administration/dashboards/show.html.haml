@@ -92,7 +92,7 @@
           %p
             = t('admin.admins.intro')
           %p
-            = link_to administration_admins_path, class: 'btn btn-info' do
+            = link_to administration_admins_path, class: 'btn btn-warning' do
               = icon 'fa fa-gavel'
               = t('admin.admins.button')
 
@@ -105,10 +105,10 @@
           %p
             = t('admin.customization.intro')
           %p
-            = link_to administration_settings_path, class: 'btn btn-info' do
+            = link_to administration_settings_path, class: 'btn btn-warning' do
               = icon 'fa fa-gear'
               = t('admin.settings.settings')
-            = link_to pages_path, class: 'btn btn-info' do
+            = link_to pages_path, class: 'btn btn-warning' do
               = icon 'fa fa-file'
               = t('admin.pages')
 
@@ -118,20 +118,39 @@
         .box-header
           %h3.box-title= t('admin.import_export')
         .box-body
-          - if @logged_in.admin?(:import_data)
-            %p= link_to t('admin.import_data_description'), import_people_path
-          - if @logged_in.admin?(:export_data)
-            %table.table
+          %table.table
+            %tr
+              %th
+                = t('people.people')
+                (#{@person_count})
+              %td
+                - if @logged_in.admin?(:export_data)
+                  = link_to people_path(format: 'xml'), class: 'btn btn-xs btn-info' do
+                    = icon 'fa fa-download'
+                    XML
+              %td
+                - if @logged_in.admin?(:export_data)
+                  = link_to people_path(format: 'csv'), class: 'btn btn-xs btn-info' do
+                    = icon 'fa fa-download'
+                    CSV
+              - if @logged_in.admin?(:import_data)
+                %td
+                  = link_to import_people_path, class: 'btn btn-xs btn-danger' do
+                    = icon 'fa fa-upload'
+                    CSV
+            - if Setting.get(:features, :groups)
               %tr
                 %th
-                  = t('people.people')
-                  (#{@person_count})
-                %td= link_to 'XML', people_path(format: 'xml')
-                %td= link_to 'CSV', people_path(format: 'csv')
-              - if Setting.get(:features, :groups)
-                %tr
-                  %th
-                    = t('nav.groups')
-                    (#{@group_count})
-                  %td= link_to 'XML', groups_path(format: 'xml')
-                  %td= link_to 'CSV', groups_path(format: 'csv')
+                  = t('nav.groups')
+                  (#{@group_count})
+                %td
+                  - if @logged_in.admin?(:export_data)
+                    = link_to groups_path(format: 'xml'), class: 'btn btn-xs btn-info' do
+                      = icon 'fa fa-download'
+                      XML
+                %td
+                  - if @logged_in.admin?(:export_data)
+                    = link_to groups_path(format: 'csv'), class: 'btn btn-xs btn-info' do
+                      = icon 'fa fa-download'
+                      CSV
+                %td

@@ -50,9 +50,9 @@
                 %td= person.family.id
                 %td= person.family.legacy_id
                 %td= person.family.name
-                %td= person.family.deleted? ? t('admin.logs.deleted') : link_to(t('admin.active'), person.family)
+                %td= person.family.deleted? ? t('admin.deleted_people.family_deleted') : link_to(t('admin.active'), person.family)
               - else
-                %td{:colspan => "4"}
+                %td{ colspan: 4 }
                   %em= t('.table.family_not_found')
               %td= person.updated_at.to_s
         .form-group
