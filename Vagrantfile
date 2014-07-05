@@ -61,7 +61,8 @@ user=$(cat <<USER
   # install apache and passenger
   if [[ ! -e /etc/apache2/conf-available/passenger.conf ]]; then
     rvm use #{$ruby_version}@global
-    gem install passenger
+    # passenger 4.0.x doesn't like our git-sourced gems; use the previous version for now
+    gem install passenger -v 3.0.21
     rvmsudo passenger-install-apache2-module
     rvmsudo passenger-install-apache2-module --snippet | sudo tee /etc/apache2/conf-available/passenger.conf
   fi
