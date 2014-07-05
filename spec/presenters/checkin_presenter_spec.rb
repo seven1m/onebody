@@ -80,21 +80,6 @@ describe CheckinPresenter do
         end
       end
 
-      context 'queried at night from different timezone' do
-        before do
-          Time.zone = 'GMT'
-          Timecop.freeze(Time.local(2014, 7, 7, 2, 00)) #Equals 8-9pm CT depent on daylight savings
-        end
-
-        it 'returns the recurring time' do
-          expect(subject.times.to_a).to eq([checkin_time])
-        end
-
-        after do
-          Time.zone = 'America/Chicago'
-        end
-      end
-
     end
   end
 

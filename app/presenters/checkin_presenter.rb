@@ -43,15 +43,13 @@ class CheckinPresenter
   private
 
   def checkin_times
-    zone = ActiveSupport::TimeZone.new(Setting.get(:system, :time_zone))
-    local_time = Time.now.in_time_zone(zone)
     CheckinTime.where(campus: @campus)
       .where(
         "(the_datetime is null and weekday = ?) or
          (the_datetime between ? and ?)",
-        local_time.wday,
-        local_time - 1.hour,
-        local_time + 4.hours
+        Time.current.wday,
+        Time.current - 1.hour,
+        Time.current + 4.hours
       )
   end
 
