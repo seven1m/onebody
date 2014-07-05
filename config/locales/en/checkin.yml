@@ -111,7 +111,7 @@ en:
       saved: "Family saved."
       errors: "There were errors saving this family."
       error:
-        no_birthdays: "You must enter a birthday for every person."
+        no_birthdays: "You must enter a birthday for each child."
         no_people: "You must enter at least one person."
         no_parents: "You must enter at least one parent."
         no_barcode: "Please scan the card into the field at the bottom of the form."
