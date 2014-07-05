@@ -45,6 +45,7 @@ en:
       tabs:
         people: "Deleted People"
         families: "Empty Families"
+      family_deleted: "deleted"
       heading: "Deleted People"
       empty_families:
         intro: "The following active families have no people in them and probably should be deleted."
@@ -108,7 +109,6 @@ en:
     group_administrators_description: Each group can designate people who can administer that particular group, regardless of their status on this page.
     group_administrators_help: To add/remove a person as a group administrator, click "edit" next to the group and promote an existing group member.
     group_membership_requests: Group Membership Requests
-    import_data_description: Import people data from a Comma Separated Values (CSV) file.
     import_export: Import/Export
     invalidate_confirmation: Are you sure you want to invalidate this key and create a new one?
     key: Key
@@ -118,8 +118,6 @@ en:
       logo: Logo
       size_information: Upload an image file below. It will be resized to be no larger than 300x80.
       upload: Upload Logo
-    logs:
-      deleted: deleted
     manage_group_administrators: Manage Group Administrators
     must_be_superadmin: You must be a super administrator to modify settings.
     new_admin_template: Create a new admin template.
