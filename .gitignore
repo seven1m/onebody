@@ -9,7 +9,6 @@ setup-secret
 config/database.yml
 config/database.yml.backup
 config/secrets.yml
-config/deploy.rb
 config/email.yml
 config/locale
 public/images/logo*

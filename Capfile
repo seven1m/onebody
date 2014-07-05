@@ -1,7 +1,6 @@
-load 'deploy' if respond_to?(:namespace) # cap2 differentiator
-Dir['vendor/plugins/*/recipes/*.rb'].each { |plugin| load(plugin) }
-Dir['plugins/*/recipes/*.rb'].each { |plugin| load(plugin) }
-Dir['lib/recipes/*.rb'].each { |recipe| load(recipe) }
-load 'config/deploy'
-load 'lib/cap'
-default_run_options[:pty] = true
+require 'capistrano/setup'
+require 'capistrano/deploy'
+require 'capistrano/bundler'
+require 'capistrano/rails/assets'
+require 'capistrano/rails/migrations'
+Dir.glob('lib/capistrano/tasks/*.rake').each { |r| import r }

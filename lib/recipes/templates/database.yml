@@ -1,9 +1,0 @@
-production:
-  adapter: mysql
-  host: localhost
-  database: onebody
-  username: onebody
-  password: <%= get_db_password %>
-  
-development:
-  production
