@@ -11,6 +11,7 @@ config/database.yml.backup
 config/secrets.yml
 config/email.yml
 config/locale
+config/deploy/production.rb
 public/images/logo*
 public/system/production
 public/system/development
