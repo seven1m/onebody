@@ -116,12 +116,11 @@ System:
     value: en
   Suffixes:
     format: list
-    value:
-      - Jr.
-      - Sr.
-      - II
-      - III
-
+    value: |
+      Jr.
+      Sr.
+      II
+      III
   Time Zone:
     format: string
     value: Central Time (US & Canada)
