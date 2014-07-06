@@ -23,7 +23,7 @@ For more help with Vagrant, check out the [Vagrant docs](http://docs.vagrantup.c
 1. Install Ruby 2.1.2 or higher (we recommend you use [RVM](https://rvm.io/)).
 2. Install MySQL.
 3. `git clone git://github.com/churchio/onebody.git && cd onebody`
-4. `mysql -u root -e "create database onebody_dev; grant all on onebody_dev.* to onebody@localhost identified by 'onebody';"`
+4. `mysql -u root -e "create database onebody_dev default character set utf8 default collate utf8_general_ci; grant all on onebody_dev.* to onebody@localhost identified by 'onebody';"`
 5. `cp config/database.yml{.example,}`
 6. `bundle install`
 7. `cp config/secrets.yml{.example,} && vim config/secrets.yml` - add a random secret token (you can use `rake secret` to generate a new random secret)
@@ -44,7 +44,7 @@ Please visit the [PostfixEmailSetup](http://github.com/churchio/onebody/wiki/Pos
 To run tests:
 
 ```
-mysql -u root -e "create database onebody_test; grant all on onebody_test.* to onebody@localhost identified by 'onebody';"
+mysql -u root -e "create database onebody_test default character set utf8 default collate utf8_general_ci; grant all on onebody_test.* to onebody@localhost identified by 'onebody';"
 rspec
 ```
 
