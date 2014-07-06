@@ -1,5 +1,8 @@
 class AttendanceController < ApplicationController
 
+  # TEMP for check-in stations to be able to POST records
+  skip_before_action :verify_authenticity_token
+
   def index
     @group = Group.find(params[:group_id])
     if @group.admin?(@logged_in)
