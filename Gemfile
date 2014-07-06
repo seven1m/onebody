@@ -43,6 +43,8 @@ group :development do
   gem 'zeus'
   gem 'watchr'
   gem 'terminal-notifier'
+  gem 'capistrano'
+  gem 'capistrano-newrelic'
 end
 
 group :development, :test do

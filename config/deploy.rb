@@ -10,6 +10,8 @@ set :linked_dirs, %w{log tmp public/system}
 
 namespace :deploy do
 
+  before :finished, 'newrelic:notice_deployment'
+
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
