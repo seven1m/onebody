@@ -38,7 +38,7 @@ module OneBody
     config.active_record.disable_implicit_join_references = true
 
     # Additional precompiled assets
-    config.assets.precompile += %w(editor.js.coffee editor.css.scss vendor/assets/images)
+    config.assets.precompile += %w(editor.js.coffee editor.css.scss)
 
     config.generators do |g|
       g.test_framework :rspec
