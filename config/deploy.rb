@@ -4,7 +4,7 @@ set :application, 'onebody'
 set :repo_url, 'git://github.com/churchio/onebody.git'
 set :deploy_to, '/var/www/apps/onebody'
 
-set :linked_files, %w{config/database.yml config/email.yml config/secrets.yml}
+set :linked_files, %w{config/database.yml config/email.yml config/secrets.yml config/newrelic.yml}
 
 set :linked_dirs, %w{log tmp public/system}
 

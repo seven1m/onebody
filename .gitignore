@@ -12,6 +12,7 @@ config/secrets.yml
 config/email.yml
 config/locale
 config/deploy/production.rb
+config/newrelic.yml
 public/images/logo*
 public/system/production
 public/system/development
