@@ -10,7 +10,7 @@ class CheckinTime < ActiveRecord::Base
 
   scope_by_site_id
 
-  def for_date(date, campus=nil)
+  def self.for_date(date, campus=nil)
     r = where("((the_datetime >= ? and the_datetime <= ?) or weekday = ?)", date.beginning_of_day, date.end_of_day, date.wday)
     r.where!(campus: campus) if campus
     r
