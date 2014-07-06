@@ -91,9 +91,6 @@ GEM
       activesupport (>= 3.0)
       request_store (~> 1.0.3)
     erubis (2.7.0)
-    exception_notification (4.0.1)
-      actionmailer (>= 3.0.4)
-      activesupport (>= 3.0.4)
     execjs (2.0.2)
     factory_girl (4.4.0)
       activesupport (>= 3.0.0)
@@ -143,6 +140,7 @@ GEM
     minitest (4.7.5)
     multi_json (1.10.1)
     mysql2 (0.3.15)
+    newrelic_rpm (3.9.0.229)
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
     paperclip (4.1.1)
@@ -273,7 +271,6 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   date_validator
   draper
-  exception_notification
   factory_girl_rails
   feedjira
   font-awesome-rails!
@@ -286,6 +283,7 @@ DEPENDENCIES
   loofah
   mini_magick
   mysql2
+  newrelic_rpm
   nokogiri
   paperclip
   pdf-writer!
