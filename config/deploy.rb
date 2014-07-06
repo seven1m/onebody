@@ -6,6 +6,8 @@ set :deploy_to, '/var/www/apps/onebody'
 
 set :linked_files, %w{config/database.yml config/email.yml config/secrets.yml}
 
+set :linked_dirs, %w{log tmp public/system db/photos db/attachments}
+
 namespace :deploy do
 
   desc 'Restart application'
