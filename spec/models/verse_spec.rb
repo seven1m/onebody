@@ -2,49 +2,58 @@ require_relative '../spec_helper'
 
 describe Verse do
   before do
-    allow_any_instance_of(Verse).to receive(:lookup) do |i|
-      i.translation = 'WEB'
-      i.text = 'test'
-      i.update_sortables
-    end
-    @verse = Verse.create(reference: '1 John 1:9', text: 'test')
+    @verse = Verse.create(reference: '1 John 1:9', text: 'If we confess our sins, he is faithful and righteous to forgive us the sins, and to cleanse us from all unrighteousness.')
   end
 
-  it "should find an existing verse by reference" do
+  it 'should find an existing verse by reference' do
     v = Verse.find(@verse.reference)
-    expect(v.text).to eq("test")
+    expect(v).to eq(@verse)
   end
 
-  it "should find an existing verse by id" do
+  it 'should find an existing verse by id' do
     v = Verse.find(@verse.id)
-    expect(v.text).to eq("test")
+    expect(v).to eq(@verse)
   end
 
-  it "should create a verse by reference" do
-    v = Verse.find('1 John 1:9')
-    expect(v.text).to eq("test")
+  context 'given a new verse' do
+    let(:payload) do
+      {
+        'reference' => 'John 3:16',
+        'text'      => 'For God so loved the world, that he gave his one and only Son, that whoever believes in him should not perish, but have eternal life.'
+      }
+    end
+
+    before do
+      expect(Verse).to receive(:fetch).with('jn 3:16') { payload }
+      expect(Verse).to receive(:fetch).with('John 3:16') { payload }
+      @verse = Verse.find('jn 3:16')
+    end
+
+    it 'normalizes the reference' do
+      expect(@verse.reference).to eq('John 3:16')
+    end
+
+    it 'sets the verse text' do
+      expect(@verse.text).to eq(payload['text'])
+    end
+
+    it 'updates the sortables' do
+      expect(@verse.book).to    eq(42)
+      expect(@verse.chapter).to eq(3)
+      expect(@verse.verse).to   eq(16)
+    end
   end
 
-  it "should link verses in a body of text" do
-    text = <<-END
-      Here is a verse: John 3:16.
-      Mark 1:1 is another verse.
-      Here is a complex verse: John 3:16-4:2
-      Another complex verse: Romans 12:5-6;13:9
-      Romans 12 should be NIV and
-      Romans 12 (MSG) should be The Message
-    END
-    linked = Verse.link_references_in_text(text)
-    expect(text.scan(/<a href/).length).to eq(6)
-    expect(linked.index('http://bible.gospelcom.net/cgi-bin/bible?passage=Romans+12&version=NIV')).to be
-    expect(linked.index('http://bible.gospelcom.net/cgi-bin/bible?passage=Romans+12&version=MSG')).to be
-  end
-
-  it "should normalize reference" do
-    expect(Verse.normalize_reference("3 john 1:1")).to eq("3 John 1:1")
-    expect(Verse.normalize_reference("ii chronicles 10:1")).to eq("2 Chronicles 10:1")
-    expect(Verse.normalize_reference("john 3:16")).to eq("John 3:16")
-    expect(Verse.normalize_reference("Song of Solomon 1:1")).to eq("Song of Solomon 1:1")
+  describe '#normalize' do
+    it 'normalizes the reference' do
+      expect(Verse).to receive(:fetch).with('ii chronicles 10:1') do
+        {
+          'reference' => '2 Chronicles 10:1',
+          'text'      => '...'
+        }
+      end
+      expect(Verse.normalize_reference('ii chronicles 10:1')).to eq('2 Chronicles 10:1')
+    end
   end
 
 end

@@ -343,7 +343,7 @@ en:
             reference:
               blank: The verse must have a reference.
             text:
-              blank: The passage is blank. Did you type the reference correctly?
+              blank: The passage could not be found. Did you type the reference correctly?
               too_long: The passage is too long. Try to specify a shorter passage.
 
   application:
