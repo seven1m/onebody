@@ -98,7 +98,7 @@ class BreadcrumbPresenter
         else
           crumbs << ['fa fa-camera-retro', t('nav.albums'), group_albums_path(album.owner_id)]
         end
-      else
+      elsif album.owner_type == 'Group'
         if @route == 'pictures#show'
           crumbs << ['fa fa-camera-retro', album.name, person_album_path(album.owner_id, album)]
         else

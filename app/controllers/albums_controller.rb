@@ -4,14 +4,11 @@ class AlbumsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    if @owner = @group || @person
-      @albums = albums.readable_by(current_user)
-      respond_to do |format|
-        format.html
-        format.js { render text: @albums.to_json }
-      end
-    else
-      redirect_to person_albums_path(@logged_in)
+    @owner = @group || @person
+    @albums = albums.readable_by(current_user)
+    respond_to do |format|
+      format.html
+      format.js { render text: @albums.to_json }
     end
   end
 
