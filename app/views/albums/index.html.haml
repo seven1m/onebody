@@ -1,8 +1,8 @@
 - @title = t('.heading')
 
-- if @logged_in.can_create?(@group.albums.new)
+- if @logged_in.can_create?(@owner.albums.new)
   .page-controls
-    = link_to [:new, @group || @person, :album], class: 'btn btn-success' do
+    = link_to [:new, @owner, :album], class: 'btn btn-success' do
       = icon 'fa fa-plus'
       = t('albums.new.button')
 
