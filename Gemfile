@@ -45,6 +45,8 @@ group :development do
   gem 'terminal-notifier'
   gem 'capistrano'
   gem 'capistrano-newrelic'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rails'
 end
 
 group :development, :test do
