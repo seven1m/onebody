@@ -1,5 +1,10 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  skip_before_action :verify_authenticity_token, if: -> { logged_in_from_api_key? }
+
+  # these are prepended so they happen before verify_authenticity_token
+  prepend_before_filter :authenticate_user_with_api_key
+  prepend_before_filter :get_site
 
   include LoadAndAuthorizeResource
 
@@ -7,7 +12,6 @@ class ApplicationController < ActionController::Base
 
   layout :layout
 
-  before_filter :get_site
   before_filter :feature_enabled?
   before_filter :authenticate_user
 
@@ -55,7 +59,7 @@ class ApplicationController < ActionController::Base
     end
 
     def authenticate_user # default
-      authenticate_user_with_http_basic_or_session
+      authenticate_user_with_session unless @logged_in
     end
 
     def authenticate_user_with_session
@@ -85,21 +89,20 @@ class ApplicationController < ActionController::Base
 
     def authenticate_user_with_code_or_session
       Person.logged_in = @logged_in = nil
-      unless params[:code] and Person.logged_in = @logged_in = Person.where(feed_code: params[:code], deleted: false).first
+      unless params[:code] and Person.logged_in = @logged_in = Person.undeleted.where(feed_code: params[:code], deleted: false).first
         authenticate_user_with_session
       end
     end
 
-    def authenticate_user_with_http_basic_or_session
-      Person.logged_in = @logged_in = nil
+    def authenticate_user_with_api_key
       authenticate_with_http_basic do |email, api_key|
-        if email.to_s.any? and api_key.to_s.length == 50
-          Person.logged_in = @logged_in = Person.where(email: email, api_key: api_key).first
-          Person.logged_in = @logged_in = nil unless @logged_in and @logged_in.super_admin?
+        if email.present? and
+          api_key.to_s.length == 50 and
+          person = Person.undeleted.where(email: email, api_key: api_key).first and
+          person.super_admin?
+          Person.logged_in = @logged_in = person
+          @logged_in_from_api_key = true
         end
-      end
-      unless @logged_in
-        authenticate_user_with_session
       end
     end
 
@@ -148,6 +151,10 @@ class ApplicationController < ActionController::Base
         render text: t('only_admins'), layout: true, status: 401
         return false
       end
+    end
+
+    def logged_in_from_api_key?
+      !!@logged_in_from_api_key
     end
 
     def feature_enabled?
