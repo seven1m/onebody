@@ -14,18 +14,19 @@ html, body {
 body {
   -moz-box-model: border-box;
   box-model: border-box;
-  width: 2in; // 4in
+  width: 4in; // 4in
   height: 1in;  // 2.31in
-  padding: 0.25in;
+  padding: 0in;
+  overflow:hidden;
 }
 
 #print-area {
   /*-webkit-transform: rotate(90deg);
   -moz-transform:rotate(90deg);*/
   display: block;
-  width: 2in; // 4in
+  width: 4in; // 4in
   height: 1in;  // 2.31in
-  border: 1px solid black;
+  /*border: 1px solid black;*/
   overflow: hidden;
   h1, h2, h3, h4, h5, h6, ul, li, p, div { display: block; }
 }
@@ -37,6 +38,7 @@ body {
 
 @page {
   /*size: landscape;*/
+  size: 4.25in 1.25in;
   margin: 0;
   padding: 0;
 }
