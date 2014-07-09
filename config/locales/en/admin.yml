@@ -190,6 +190,9 @@ en:
         title: Manage Checkin
         about: "Manage all aspects of checkin, including setup and configuration."
         order: checkin2
+      manage_documents:
+        title: Manage Documents
+        about: "Add, edit and delete documents."
     rest_api_information: To use the REST API with Ruby, you might do this
     settings:
       heading: "Site Settings"
@@ -363,6 +366,9 @@ en:
         Checkin:
           name: "Check-in"
           description: "If enabled, users can check-in to designated classes."
+        Documents:
+          name: "Documents"
+          description: "If enabled, admins can upload files in a general area where users can browse and download them."
       Privacy: 
         Hide Contact Details in Messages: 
           name: Hide Contact Details in Messages

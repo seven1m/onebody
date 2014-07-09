@@ -147,6 +147,10 @@ OneBody::Application.routes.draw do
     resources :attachments
   end
 
+  resources :documents do
+    get :download, on: :member
+  end
+
   get 'pages/*path' => 'pages#show_for_public', via: :get, as: :page_for_public
 
   get '/admin' => 'administration/dashboards#show'

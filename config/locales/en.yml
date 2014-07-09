@@ -65,6 +65,15 @@ en:
       album:
         name: "Name"
         description: "Description"
+      document:
+        name: "Name"
+        description: "Description"
+        file: "File"
+        folder_id: "Folder"
+      document_folder:
+        name: "Name"
+        description: "Description"
+        folder_id: "Parent Folder"
       family:
         name: Name
         last_name: Last Name
@@ -137,6 +146,26 @@ en:
               blank: The attendance record must specify a date and time.
             group_id:
               blank: The attendance record must be associated with a group.
+        document:
+          attributes:
+            file:
+              blank: "You must upload a file."
+            name:
+              blank: "You must enter a name."
+              too_long: "Please enter a shorter name."
+            description:
+              too_long: "Please enter a shorter description."
+        document_folder:
+          attributes:
+            name:
+              blank: "You must enter a name."
+              too_long: "Please enter a shorter name."
+            description:
+              too_long: "Please enter a shorter description."
+            folder_id:
+              invalid: "You cannot specify this folder as the parent folder."
+            parent_folder_ids:
+              too_long: "This folder is nested too deep. Please place it somewhere else."
         family:
           attributes:
             name:
