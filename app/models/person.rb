@@ -390,13 +390,9 @@ class Person < ActiveRecord::Base
         family_id = Family.connection.select_value("select id from families where legacy_id = #{record['legacy_family_id'].to_i} and site_id = #{Site.current.id}")
         if person.nil? and options['claim_families_by_barcode_if_no_legacy_id'] and family_id
           # family should have already been claimed by barcode -- we're just going to try to match up people by name
-          # mark all people in this family as deleted, in case we don't get them all matched up
-          destroy_all ["family_id = ? and legacy_id is null and deleted = ?", family_id, false]
-          family_people = where(family_id: family_id, legacy_id: nil).to_a
-          # try to match by name
-          person = family_people.detect { |p| p.first_name.soundex == record['first_name'].soundex and p.last_name.soundex == record['last_name'].soundex }
-          # it's not a huge deal if someone doesn't get matched up by name (a good percentage won't),
-          # because we'll just go ahead and create a new record below anyway (and non-matched ones are marked as deleted)
+          if person = where(family_id: family_id, legacy_id: nil, first_name: record['first_name'], last_name: record['last_name']).first
+            person.deleted = false
+          end
         end
         # last resort, create a new record
         person ||= new
