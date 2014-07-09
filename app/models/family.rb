@@ -58,11 +58,11 @@ class Family < ActiveRecord::Base
   end
 
   def mapable?
-    [address1, city, state].all?(&:present?)
+    latitude != 0.0 and longitude != 0.0
   end
 
   def location
-    pretty_address if mapable?
+    pretty_address if [address1, city, state].all?(&:present?)
   end
 
   # not HTML-escaped!
