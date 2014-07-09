@@ -28,7 +28,7 @@ class SessionsController < ApplicationController
       sticky_session! if params[:remember_me]
       if @person.full_access?
         if params[:from].present?
-          redirect_to URI.parse(params[:from]).path
+          redirect_to safe_redirect_path(params[:from])
         else
           redirect_to stream_path
         end

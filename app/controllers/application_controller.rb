@@ -131,15 +131,22 @@ class ApplicationController < ActionController::Base
 
     def redirect_back(fallback=nil)
       if params[:from]
-        redirect_to URI.parse(params[:from]).path
+        redirect_to safe_redirect_path(params[:from])
       elsif request.env["HTTP_REFERER"]
-        redirect_to URI.parse(request.env["HTTP_REFERER"]).path
+        redirect_to safe_redirect_path(request.env["HTTP_REFERER"])
       elsif fallback
         redirect_to fallback
       else
         redirect_to people_path
       end
       return false # in case you want to halt action
+    end
+
+    def safe_redirect_path(url)
+      uri = URI.parse(url)
+      uri.path.tap do |path|
+        path << '?' + uri.query if uri.query
+      end
     end
 
     def add_errors_to_flash(record)
