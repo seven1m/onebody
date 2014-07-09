@@ -59,7 +59,7 @@ class ApplicationController < ActionController::Base
     end
 
     def authenticate_user # default
-      authenticate_user_with_session unless @logged_in
+      authenticate_user_with_session unless logged_in_from_api_key?
     end
 
     def authenticate_user_with_session
