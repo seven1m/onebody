@@ -222,6 +222,9 @@ class Notifier < ActionMailer::Base
       return
     end
 
+    body[:text].encode!('utf-8', invalid: :replace, undef: :replace)
+    body[:html].encode!('utf-8', invalid: :replace, undef: :replace)
+
     @message_sent_to_group = false
     sent_to_count = 0
 
