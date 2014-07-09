@@ -222,8 +222,8 @@ class Notifier < ActionMailer::Base
       return
     end
 
-    body[:text].encode!('utf-8', invalid: :replace, undef: :replace)
-    body[:html].encode!('utf-8', invalid: :replace, undef: :replace)
+    body[:text].encode!('utf-8', invalid: :replace, undef: :replace) if body[:text]
+    body[:html].encode!('utf-8', invalid: :replace, undef: :replace) if body[:html]
 
     @message_sent_to_group = false
     sent_to_count = 0
