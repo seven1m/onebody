@@ -14,7 +14,7 @@ module DocumentsHelper
       'fa fa-file-powerpoint-o'
     when 'video/x-ms-asf', 'video/x-msvideo', 'video/x-flv', 'video/mp4', 'video/quicktime', 'video/x-ms-wmv'
       'fa fa-file-video-o'
-    when 'application/x-zip-compressed'
+    when 'application/x-zip-compressed', 'application/zip'
       'fa fa-file-archive-o'
     else
       'fa fa-file-o'

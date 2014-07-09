@@ -4,8 +4,8 @@ class DocumentsController < ApplicationController
   before_action :ensure_admin, except: %w(index show download)
 
   def index
-    @folders = @parent_folder.try(:folders) || DocumentFolder.active.top
-    @documents = @parent_folder.try(:documents) || Document.top
+    @folders = (@parent_folder.try(:folders) || DocumentFolder.active.top).order(:name)
+    @documents = (@parent_folder.try(:documents) || Document.top).order(:name)
   end
 
   def show

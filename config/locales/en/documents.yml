@@ -9,7 +9,8 @@ en:
         name: "Name"
         description: "Description"
         updated_at: "Updated"
-        item_count: "Items"
+        size: "Size"
+        item_count: "%{count} items"
       edit_folder:
         button: "Edit this folder"
       new_folder:
@@ -22,6 +23,7 @@ en:
         filename: "Filename"
         content_type: "Content Type"
         size: "Size"
+        updated_at: "Updated"
       download:
         button: "Download File"
       edit:

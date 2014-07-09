@@ -21,6 +21,9 @@
   %tr
     %td= t('.table.size')
     %td= number_to_human_size @document.file.size
+  %tr
+    %td= t('.table.updated_at')
+    %td= @document.updated_at.to_s(:full)
 %p
   = link_to download_document_path(@document), class: 'btn btn-info' do
     = icon 'fa fa-download'
