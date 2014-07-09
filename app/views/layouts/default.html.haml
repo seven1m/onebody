@@ -9,6 +9,7 @@
     %meta{ content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no', name: 'viewport' }
     = yield(:meta)
     = stylesheet_link_tag 'application'
+    = stylesheet_link_tag 'print', media: 'print'
     = yield(:css)
     = csrf_meta_tags
     = render partial: 'layouts/favicons'
