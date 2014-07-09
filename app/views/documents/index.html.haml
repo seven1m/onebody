@@ -1,0 +1,59 @@
+- @title = @parent_folder.try(:name) || t('.heading')
+
+%p
+  = @parent_folder.try(:description) || t('.intro')
+
+- if @folders.any? or @documents.any?
+  %table.table
+    %tr
+      %th= t('.table.name')
+      %th= t('.table.description')
+      %th= t('.table.updated_at')
+      %th= t('.table.item_count')
+      %th
+    - @folders.each do |folder|
+      %tr
+        %td
+          = link_to documents_path(folder_id: folder.id) do
+            = icon 'fa fa-folder'
+            = folder.name
+        %td
+          = folder.description
+        %td
+          = folder.updated_at.to_s(:full)
+        %td
+          = folder.item_count
+        %td.actions
+          - if @logged_in.admin?(:manage_documents)
+            = link_to edit_document_path(folder, folder: true), class: 'btn btn-info btn-xs' do
+              = icon 'fa fa-pencil'
+            = link_to document_path(folder, folder: true), data: { method: 'delete', confirm: t('documents.delete_folder.confirmation') }, class: 'btn btn-delete btn-xs' do
+              = icon 'fa fa-trash-o'
+    - @documents.each do |document|
+      %tr
+        %td
+          = link_to document_path(document.id) do
+            = icon document_icon_class(document)
+            = document.name
+        %td
+          = document.description
+        %td
+          = document.updated_at.to_s(:full)
+        %td
+        %td.actions
+          - if @logged_in.admin?(:manage_documents)
+            = link_to edit_document_path(document), class: 'btn btn-info btn-xs' do
+              = icon 'fa fa-pencil'
+            = link_to document_path(document), data: { method: 'delete', confirm: t('are_you_sure') }, class: 'btn btn-delete btn-xs' do
+              = icon 'fa fa-trash-o'
+- else
+  %em= t('none')
+
+- if @logged_in.admin?(:manage_documents)
+  .page-controls.push-down
+    = link_to new_document_path(folder: true, folder_id: @parent_folder), class: 'btn btn-success' do
+      = icon 'fa fa-folder'
+      = t('.new_folder.button')
+    = link_to new_document_path(folder_id: @parent_folder), class: 'btn btn-success' do
+      = icon 'fa fa-file'
+      = t('.new_document.button')

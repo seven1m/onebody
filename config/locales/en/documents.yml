@@ -1,0 +1,61 @@
+en:
+
+  documents:
+
+    index:
+      heading: "Documents"
+      intro: "This is a place for forms, publications, and other files available to users of this site."
+      table:
+        name: "Name"
+        description: "Description"
+        updated_at: "Updated"
+        item_count: "Items"
+      edit_folder:
+        button: "Edit this folder"
+      new_folder:
+        button: "New folder"
+      new_document:
+        button: "New document"
+
+    show:
+      table:
+        filename: "Filename"
+        content_type: "Content Type"
+        size: "Size"
+      download:
+        button: "Download File"
+      edit:
+        button: "Edit"
+      delete:
+        button: "Delete"
+
+    new:
+      heading: "New Document"
+
+    new_folder:
+      heading: "New Folder"
+
+    create:
+      notice: "Your document has been created."
+
+    create_folder:
+      notice: "Your folder has been created."
+
+    edit:
+      heading: "Edit %{document}"
+
+    edit_folder:
+      heading: "Edit %{folder}"
+
+    update:
+      notice: "The Document has been saved."
+
+    update_folder:
+      notice: "The Folder has been saved."
+
+    delete:
+      notice: "The document was deleted."
+
+    delete_folder:
+      confirmation: "Are you sure you want to delete this folder AND EVERYTHING INSIDE IT? There is no undo for this."
+      notice: "The folder and all its contents were deleted."

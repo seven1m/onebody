@@ -145,6 +145,11 @@
                       = link_to new_family_path do
                         = icon 'fa fa-plus'
                         = t('nav.directory_sub.new_family')
+            - if setting(:features, :documents)
+              %li{ class: tab_selected?(:documents) ? 'active' : '' }
+                = link_to documents_path do
+                  %i.fa.fa-file
+                  %span= t('nav.documents')
             - if @logged_in.admin?
               %li{ class: tab_selected?(:admin) ? 'active' : '' }
                 = link_to admin_path do

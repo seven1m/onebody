@@ -91,6 +91,9 @@ Features:
   Checkin:
     format: boolean
     value: false
+  Documents:
+    format: boolean
+    value: false
 Services:
   Yahoo:
     format: string
