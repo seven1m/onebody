@@ -10,7 +10,8 @@ class Search
                 :family_barcode_id,
                 :business,
                 :testimony,
-                :show_hidden
+                :show_hidden,
+                :select_person
 
   def initialize(params={})
     source = params.delete(:source) || :person
@@ -168,7 +169,7 @@ class Search
   end
 
   def show_hidden_profiles?
-    (show_hidden && Person.logged_in.admin?(:view_hidden_profiles))
+    ((show_hidden || select_person) && Person.logged_in.admin?(:view_hidden_profiles))
   end
 
   def like(str, position=:both)
