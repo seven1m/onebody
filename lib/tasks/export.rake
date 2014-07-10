@@ -45,6 +45,34 @@ namespace :onebody do
       end
     end
 
+    desc 'Export the files for a single site (pass SITE_ID and OUT_DIR arguments)'
+    task :site_files => :environment do
+      if ENV['SITE_ID'] and ENV['OUT_DIR']
+        Site.current = Site.find(ENV['SITE_ID'])
+        puts "copying attachments"
+        `mkdir -p #{ENV['OUT_DIR']}/public/system/production/attachments/files`
+        Attachment.all.each { |a| `cp -r public/system/production/attachments/files/#{a.id} #{ENV['OUT_DIR']}/public/system/production/attachments/files/` }
+        puts "copying families"
+        `mkdir -p #{ENV['OUT_DIR']}/public/system/production/families/photos`
+        Family.all.each { |a| `cp -r public/system/production/families/photos/#{a.id} #{ENV['OUT_DIR']}/public/system/production/families/photos/` }
+        puts "copying groups"
+        `mkdir -p #{ENV['OUT_DIR']}/public/system/production/groups/photos`
+        Group.all.each { |a| `cp -r public/system/production/groups/photos/#{a.id} #{ENV['OUT_DIR']}/public/system/production/groups/photos/` }
+        puts "copying people"
+        `mkdir -p #{ENV['OUT_DIR']}/public/system/production/people/photos`
+        Person.all.each { |a| `cp -r public/system/production/people/photos/#{a.id} #{ENV['OUT_DIR']}/public/system/production/people/photos/` }
+        puts "copying pictures"
+        `mkdir -p #{ENV['OUT_DIR']}/public/system/production/pictures/photos`
+        Picture.all.each { |a| `cp -r public/system/production/pictures/photos/#{a.id} #{ENV['OUT_DIR']}/public/system/production/pictures/photos/` }
+        puts "copying publications"
+        `mkdir -p #{ENV['OUT_DIR']}/public/system/production/publications/files`
+        Publication.all.each { |a| `cp -r public/system/production/publications/files/#{a.id} #{ENV['OUT_DIR']}/public/system/production/publications/files/` }
+        puts "done"
+      else
+        puts 'Must specify SITE_ID and OUT_DIR arguments'
+      end
+    end
+
     namespace :people do
 
       desc 'Export OneBody people data as XML file (pass FILE argument)'
