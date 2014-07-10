@@ -160,6 +160,16 @@ rspec
 * [Wiki](http://wiki.github.com/churchio/onebody) - There is some (possibly outdated) information here. We'll work to clean this up shortly after releasing 3.0.
 * [Google Group](http://groups.google.com/group/churchio) - Community of people building open source church software. If you're stuck, ask nicely for some help and you will probably get it.
 
+## Contributing
+
+To help fix a bug, first make sure it has a logged [issue](https://github.com/churchio/onebody/issues) (if not, create one), then:
+
+1. Fork this repo on GitHub.
+2. Set up the software on your computer by following the directions in one of the "Development" sections above.
+3. Fix the bug, run the tests (see the "Tests" section above) to make sure they all pass.
+4. Submit a Pull Request to get your bug fix merged!
+
+If you'd like to add an awesome new feature, please hop on IRC to talk about what you want to do. We might be able to save you some time building something that 1) we've already done, 2) won't work, or 3) we'll never use. Also, we'd like to give some guidance on approach, coding style, tests, etc.
 
 ## Copyright
 
