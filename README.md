@@ -2,7 +2,11 @@
 
 [![Build Status](https://travis-ci.org/churchio/onebody.png)](https://travis-ci.org/churchio/onebody)
 
-OneBody is open-source, web-based social networking and online directory software for churches. OneBody is built on Ruby 2.1.2, Rails 4.0 and MySQL.
+OneBody is open-source, web-based social networking, email list, online directory, and lightweight document management software for churches.
+
+*It's like a cross between Facebook, Google Groups, and Sharepoint, but it's completely free and open source and awesome.*
+
+OneBody is built with Ruby on Rails and MySQL, and has been in production use at churches for over seven years!
 
 ## Production Installation
 
