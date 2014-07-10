@@ -10,6 +10,18 @@ en:
 
     title_html: "%{name}<span class='discreet'>, %{description}</span>"
 
+    show:
+      details:
+        family: "%{family} Family"
+        website: "Website"
+        email: "Email"
+        mobile_phone: "Mobile Phone"
+        home_phone: "Home Phone"
+        work_phone: "Work Phone"
+        address: "Home Address"
+        birthday: "Birthday"
+        anniversary: "Anniversary"
+
     edit:
       about: "About"
       basics: "Basics"
