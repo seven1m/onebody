@@ -3,6 +3,10 @@
     cursor: pointer;
   }
 
+  form {
+    overflow: auto;
+  }
+
   th.name, td.name {
     width: 150px;
     font-weight: bold;

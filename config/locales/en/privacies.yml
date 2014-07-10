@@ -11,6 +11,8 @@ en:
     children:
       intro: "Control which of your children below have access to this website."
 
+    scroll_notice: "You may need to scroll left and right to see all the options here."
+
     activity: Activity
     address: Address
     agreement_saved: Agreement saved.
