@@ -78,7 +78,7 @@ On the other hand, if you're a I.T/sysadmin/hacker with guts, then please procee
 
     For Debian, that looks something like this: `vim /etc/apache2/sites-available/default` and change the DocumentRoot to be `/var/www/apps/onebody/public`.
 
-    Next you need to add these two lines to the config: `XSendFile On` and `XSendFilePath /var/www/onebody`. So, to recap, you need to have the following three lines in your Apache vhost:
+    Next you need to add these two lines to the config: `XSendFile On` and `XSendFilePath /var/www/onebody/public/system`. So, to recap, you need to have the following three lines in your Apache vhost:
 
         DocumentRoot /var/www/onebody/public
         XSendFile On
