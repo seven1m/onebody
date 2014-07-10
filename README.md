@@ -34,7 +34,7 @@ On the other hand, if you're a I.T/sysadmin/hacker with guts, then please procee
 
 4. `cd /var/www`, then type `git clone git://github.com/churchio/onebody.git && cd onebody`. This will put the latest and greatest, bleeding edge OneBody code in the `/var/www/onebody` directory.
 
-    Now, it's recommened you switch to a tagged release of OneBody, which you can do with the command `git checkout 3.0.0.beta1` (that is the latest version as of Tim remembering to update this readme, but may not be *the* latest, so check out a [list of releases here](https://github.com/churchio/onebody/releases)).
+    Now, it's recommened you switch to a tagged release of OneBody, which you can do with the command `git checkout 3.0.0.beta1` (that is the latest version as of the last time Tim remembered to update this readme, but may not be *the* latest, so check out a [list of releases here](https://github.com/churchio/onebody/releases)).
 
 5. Make sure Apache will be able to write tmp files and logs and such: `mkdir -p tmp/pids log` and `chmod -R 777 tmp log`.
 
