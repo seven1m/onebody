@@ -77,7 +77,7 @@ namespace :onebody do
 
       desc 'Export OneBody people data as XML file (pass FILE argument)'
       task :xml => :environment do
-        Site.current = site = ENV['SITE'] ? Site.where(name: ENV["SITE"]).first : Site.find(1)
+        Site.current = site = ENV['SITE'] ? Site.find(ENV['SITE']) : Site.find(1)
         if ENV['FILE']
           people = Person.all(:order => 'last_name, first_name, suffix')
           File.open(ENV['FILE'], 'w') do |file|
@@ -85,6 +85,30 @@ namespace :onebody do
           end
         else
           puts 'You must specify the output file path, e.g. FILE=people.xml'
+        end
+      end
+
+      desc 'Export OneBody people data as CSV file (pass FILE argument)'
+      task :csv => :environment do
+        Site.current = site = ENV['SITE'] ? Site.find(ENV['SITE']) : Site.find(1)
+        if ENV['FILE']
+          people = Person.all(:order => 'last_name, first_name, suffix', :include => :family)
+          people_attrs = people.first.attributes.keys.map(&:to_s)
+          family_attrs = people.first.family.attributes.keys.map(&:to_s)
+          CSV.open(ENV['FILE'], 'wb') do |file|
+            file << people_attrs + family_attrs.map { |a| "family_#{a}" }
+            people.each do |person|
+              data = people_attrs.map { |a| person.send(a) }
+              if person.family
+                family_attrs.each do |attr|
+                  data << person.family.send(attr)
+                end
+              end
+              file << data
+            end
+          end
+        else
+          puts 'You must specify the output file path, e.g. FILE=people.csv'
         end
       end
 
