@@ -97,7 +97,7 @@ Whew! We know that was a lot. If you made it this far, and OneBody is running, t
 
 What's next? Complete the form on the initial Setup screen, then head over to the Settings page in the Admin dashboard, and start customizing!
 
-## Production Setup with Capistrano
+## Production Deployment with Capistrano
 
 If you're familiar with Capistrano deployments, you can probably make use of the existing `config/deploy.rb` along with your own `config/deploy/production.rb` that includes your server name and custom config.
 
