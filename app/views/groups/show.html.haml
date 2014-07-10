@@ -83,7 +83,7 @@
 
     - if @member_of
       = render partial: 'description'
-      = render :partial => 'details'
+      = render partial: 'details'
 
   .col-sm-6.col-sm-pull-6
     - if @member_of
@@ -97,5 +97,5 @@
           = t('groups.stream.none.message')
     - else
       = render partial: 'description'
-      = render :partial => 'details'
+      = render partial: 'details'
 
