@@ -165,6 +165,19 @@ describe Notifier do
     end
   end
 
+  context 'given subject containing UTF-8 characters' do
+    before do
+      @email = "From: #{@user.email}\nTo: #{@group.full_address}\nContent-Type: text/html; charset=\"LATIN-1\"\nSubject: You don’t have to buy it all at frustrating prices!\n\ntest!"
+      Notifier.receive(@email.to_s)
+      @delivery = ActionMailer::Base.deliveries.last
+    end
+
+    it 'deliver the message' do
+      assert_deliveries 1
+      expect(@delivery.subject).to eq("You don’t have to buy it all at frustrating prices!")
+    end
+  end
+
   context 'given user sending from alternate email address' do
     before do
       @user.alternate_email = 'alternate@example.com'
