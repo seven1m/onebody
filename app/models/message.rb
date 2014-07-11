@@ -234,7 +234,7 @@ class Message < ActiveRecord::Base
       streamable_type: 'Message',
       streamable_id:   id,
       created_at:      created_at,
-      shared:          group && !group.hidden?
+      shared:          group
     )
   end
 
