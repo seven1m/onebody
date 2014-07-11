@@ -57,7 +57,7 @@ describe Notifier do
         end
 
         it 'should deliver email to both members' do
-          expect(ActionMailer::Base.deliveries.map(&:to).flatten.sort).to eq([@user.email, @user2.email])
+          expect(ActionMailer::Base.deliveries.map(&:to).flatten.sort).to include(@user.email, @user2.email)
         end
       end
     end
