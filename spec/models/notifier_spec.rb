@@ -99,9 +99,9 @@ describe Notifier do
     end
   end
 
-  context 'given invalid email address' do
+  context 'given invalid message (no subject)' do
     before do
-      email = to_email(from: @user.email, to: @group.full_address, subject: '')
+      email = to_email(from: @user.email, to: @group.full_address, subject: '', body: 'test!')
       Notifier.receive(email.to_s)
     end
 
@@ -110,6 +110,22 @@ describe Notifier do
       delivery = ActionMailer::Base.deliveries.first
       expect(delivery.to.first).to match(@user.email)
       expect(delivery.to_s).to match(/too short/)
+    end
+  end
+
+  context 'given user sending from alternate email address' do
+    before do
+      @user.alternate_email = 'alternate@example.com'
+      @user.save!
+      email = to_email(from: 'alternate@example.com', to: @group.full_address, subject: 'test from my alternate', body: 'test!')
+      Notifier.receive(email.to_s)
+    end
+
+    it 'should send the message' do
+      assert_deliveries 1
+      delivery = ActionMailer::Base.deliveries.first
+      expect(delivery.subject).to eq('test from my alternate')
+      expect(Message.last.person).to eq(@user)
     end
   end
 
