@@ -28,7 +28,8 @@ class Administration::SyncsController < ApplicationController
   # for api only
   def create
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
-      @sync = Sync.new(params[:sync])
+      data = Hash.from_xml(request.body.read)['sync']
+      @sync = Sync.new(data)
       @sync.person = @logged_in
       @sync.save!
       respond_to do |format|
@@ -43,7 +44,8 @@ class Administration::SyncsController < ApplicationController
   def update
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
       @sync = Sync.find(params[:id])
-      @sync.update_attributes!(params[:sync])
+      data = Hash.from_xml(request.body.read)['sync']
+      @sync.update_attributes!(data)
       respond_to do |format|
         format.xml { render xml: @sync.to_xml }
       end
@@ -69,11 +71,11 @@ class Administration::SyncsController < ApplicationController
 
   private
 
-    def only_admins
-      unless @logged_in.admin?(:manage_sync)
-        render text: t('only_admins'), layout: true, status: 401
-        return false
-      end
+  def only_admins
+    unless @logged_in.admin?(:manage_sync)
+      render text: t('only_admins'), layout: true, status: 401
+      return false
     end
+  end
 
 end
