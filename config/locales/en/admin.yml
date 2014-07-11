@@ -414,8 +414,7 @@ en:
           description: If enabled, new users will have their birthday shared with other site members.
       host:
         name: "Host/Domain Name"
-        description: "The domain name where this site is accessible on the web, e.g. example.com or members.mychurch.com"
-
+        description: "The domain name where this site is accessible on the web, e.g. example.com or members.mychurch.com (do not include http:// on the front)"
       advanced:
         heading: "Advanced"
         intro: "If settings aren't getting reloaded, click the button below to force reload."

@@ -347,7 +347,7 @@ en:
             host:
               blank: The host must be specified.
               taken: There is another site with the same host.
-              invalid: Do not include "www." in the hostname.
+              invalid: 'Do not include "http://" or "www." in the hostname.'
             name:
               blank: The site must have a name.
               taken: There is another site with the same name.
