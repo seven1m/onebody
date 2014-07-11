@@ -1,4 +1,5 @@
 = form_for @news_item do |form|
+  = error_messages_for(form)
   .form-group
     = form.label :title, t('news.title_description')
     = form.text_field :title, class: 'form-control'

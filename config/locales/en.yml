@@ -241,6 +241,12 @@ en:
               too_short: The message subject is too short.
             to_person_id:
               invalid: The recipient of this message does not have an email address. The message cannot be sent.
+        news_item:
+          attributes:
+            title:
+              blank: "You must enter a title for this news post."
+            body:
+              blank: "You must enter text for this news post."
         note:
           attributes:
             body:
