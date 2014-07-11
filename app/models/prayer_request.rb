@@ -42,7 +42,7 @@ class PrayerRequest < ActiveRecord::Base
       streamable_type: 'PrayerRequest',
       streamable_id:   id,
       created_at:      created_at,
-      shared:          group && !group.hidden?
+      shared:          !!group
     )
   end
 
