@@ -13,4 +13,15 @@ module MailHelper
       expect(matches.length).to eq(1)
     end
   end
+
+  def delivered_emails_as_hashes
+    ActionMailer::Base.deliveries.map do |mail|
+      {
+        from:    mail.from,
+        to:      mail.to,
+        subject: mail.subject,
+        body:    Notifier.get_body(mail)[:text]
+      }
+    end
+  end
 end

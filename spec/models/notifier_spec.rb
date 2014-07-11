@@ -63,6 +63,58 @@ describe Notifier do
     end
   end
 
+  context 'message sent to two groups' do
+    before do
+      @group2 = FactoryGirl.create(:group, address: 'group2')
+      @membership = @group2.memberships.create!(person: @user)
+    end
+
+    context 'both group emails in the TO field' do
+      before do
+        @email = to_email(from: @user.email, to: [@group.full_address, @group2.full_address], subject: 'test to two groups', body: 'hello')
+        Notifier.receive(@email.to_s)
+      end
+
+      it 'delivers a message to each group' do
+        assert_deliveries 2
+        expect(delivered_emails_as_hashes).to include(
+          include(subject: 'test to two groups', body: match(/group@example\.com/),  to: include(@user.email)),
+          include(subject: 'test to two groups', body: match(/group2@example\.com/), to: include(@user.email))
+        )
+      end
+    end
+
+    context 'one group email in the TO field and one in the CC field' do
+      before do
+        @email = to_email(from: @user.email, to: [@group.full_address], cc: [@group2.full_address], subject: 'test to two groups', body: 'hello')
+        Notifier.receive(@email.to_s)
+      end
+
+      it 'delivers a message to each group' do
+        assert_deliveries 2
+        expect(delivered_emails_as_hashes).to include(
+          include(subject: 'test to two groups', body: match(/group@example\.com/),  to: include(@user.email)),
+          include(subject: 'test to two groups', body: match(/group2@example\.com/), to: include(@user.email))
+        )
+      end
+    end
+
+    context 'both group emails in the CC field' do
+      before do
+        @email = to_email(from: @user.email, to: ['irrelevant@example.com'], cc: [@group.full_address, @group2.full_address], subject: 'test to two groups', body: 'hello')
+        Notifier.receive(@email.to_s)
+      end
+
+      it 'delivers a message to each group' do
+        assert_deliveries 2
+        expect(delivered_emails_as_hashes).to include(
+          include(subject: 'test to two groups', body: match(/group@example\.com/),  to: include(@user.email)),
+          include(subject: 'test to two groups', body: match(/group2@example\.com/), to: include(@user.email))
+        )
+      end
+    end
+  end
+
   context 'two identical emails incoming' do
     # we get two copies of mail if, say, there is a group address in the "to" field
     # and an unrecognized address in the "cc" field
