@@ -209,12 +209,15 @@ en:
         Birthday Verification Email: 
           name: Birthday Verification Email
           description: Email sent when someone requests verification via birthday (shouldn't be blank)
+        Tech Support Email:
+          name: "Tech Support Email"
+          description: "Users will be directed to send an email here if they need technical help with the site."
         Community Email: 
           name: Community Email
-          description: Visible in some places on site
+          description: "Users will be directed to send an email here if they want general/policy information about your community."
         Bug Notification Email: 
           name: Bug Notification Email
-          description: Email address to send bug reports to
+          description: "Automated software bug reports are sent to this email address."
         Send Email Changes To: 
           name: Send Email Changes To
           description: Email sent when someone changes their email address (can be blank for no email)
