@@ -19,4 +19,6 @@ RSpec.configure do |config|
       Site.current = Site.create!(name: 'Default', host: 'example.com')
     end
   end
+  config.filter_run_including focus: true
+  config.run_all_when_everything_filtered = true
 end
