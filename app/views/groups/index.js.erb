@@ -1,2 +1,2 @@
 $('#group_results').html('<%= escape_javascript render(partial: 'select_group') %>')
-$('#add_group').show();
+if ( $('#group_results').html() == '' ) $('#add_group').hide(); else $('#add_group').show();

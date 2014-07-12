@@ -79,6 +79,7 @@ describe CheckinPresenter do
           expect(subject.times.to_a).to eq([])
         end
       end
+
     end
   end
 

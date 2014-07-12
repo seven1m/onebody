@@ -47,9 +47,9 @@ class CheckinPresenter
       .where(
         "(the_datetime is null and weekday = ?) or
          (the_datetime between ? and ?)",
-        Time.now.wday,
-        Time.now - 1.hour,
-        Time.now + 4.hours
+        Time.current.wday,
+        Time.current - 1.hour,
+        Time.current + 4.hours
       )
   end
 
