@@ -4,7 +4,7 @@ class Administration::SettingsController < ApplicationController
 
   def index
     @settings = {}
-    Setting.where(site_id: Site.current.id, hidden: false).order('section, name').each do |setting|
+    our_settings.each do |setting|
       @settings[setting.section] ||= {}
       @settings[setting.section][setting['name']] = setting
     end
@@ -14,12 +14,12 @@ class Administration::SettingsController < ApplicationController
   def batch
     Site.current.host = params[:hostname] if params[:hostname]
     if Site.current.save
-      Setting.where(site_id: Site.current.id).each do |setting|
-        next if setting.hidden?
-        value = params[setting.id.to_s]
-        value = value == '' ? nil : value
-        value = value == 'true' if setting.format == 'boolean'
-        setting.update_attributes! value: value
+      our_settings.each do |setting|
+        if value = params[setting.id.to_s]
+          value = value == '' ? nil : value
+          value = value == 'true' if setting.format == 'boolean'
+          setting.update_attributes! value: value
+        end
       end
       reload_settings
       flash[:notice] = t('application.settings_saved')
@@ -37,15 +37,19 @@ class Administration::SettingsController < ApplicationController
 
   private
 
-    def only_admins
-      unless @logged_in.super_admin?
-        render text: t('admin.must_be_superadmin'), layout: true, status: 401
-        return false
-      end
-    end
+  def our_settings
+    Setting.where(hidden: false).where("site_id = ? or global = ?", Site.current.id, true).order('section, name')
+  end
 
-    def reload_settings
-      Site.current.update_attribute(:settings_changed_at, Time.now)
-      expire_fragment(%r{views/})
+  def only_admins
+    unless @logged_in.super_admin?
+      render text: t('admin.must_be_superadmin'), layout: true, status: 401
+      return false
     end
+  end
+
+  def reload_settings
+    Site.current.update_attribute(:settings_changed_at, Time.now)
+    expire_fragment(%r{views/})
+  end
 end

@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+SOURCE = "#{ENV['HOME']}/Downloads/OneBody.zip"
+
+if File.exist?(SOURCE)
+  puts `unzip #{SOURCE} -d /tmp/i18n`
+  Dir['/tmp/i18n/*'].each do |dir|
+    next unless File.directory?(dir)
+    dest = File.split(dir).last
+    Dir[File.join(dir, '*')].each do |file|
+      locale = File.split(file).last.split('.').first
+      puts `mv #{file} config/locales/#{locale}/#{dest}`
+    end
+  end
+  puts `rm -rf /tmp/i18n`
+else
+  puts "#{SOURCE} not found."
+  exit(1)
+end

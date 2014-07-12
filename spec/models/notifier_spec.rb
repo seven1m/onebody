@@ -57,8 +57,60 @@ describe Notifier do
         end
 
         it 'should deliver email to both members' do
-          expect(ActionMailer::Base.deliveries.map(&:to).flatten.sort).to eq([@user.email, @user2.email])
+          expect(ActionMailer::Base.deliveries.map(&:to).flatten.sort).to include(@user.email, @user2.email)
         end
+      end
+    end
+  end
+
+  context 'message sent to two groups' do
+    before do
+      @group2 = FactoryGirl.create(:group, address: 'group2')
+      @membership = @group2.memberships.create!(person: @user)
+    end
+
+    context 'both group emails in the TO field' do
+      before do
+        @email = to_email(from: @user.email, to: [@group.full_address, @group2.full_address], subject: 'test to two groups', body: 'hello')
+        Notifier.receive(@email.to_s)
+      end
+
+      it 'delivers a message to each group' do
+        assert_deliveries 2
+        expect(delivered_emails_as_hashes).to include(
+          include(subject: 'test to two groups', body: match(/group@example\.com/),  to: include(@user.email)),
+          include(subject: 'test to two groups', body: match(/group2@example\.com/), to: include(@user.email))
+        )
+      end
+    end
+
+    context 'one group email in the TO field and one in the CC field' do
+      before do
+        @email = to_email(from: @user.email, to: [@group.full_address], cc: [@group2.full_address], subject: 'test to two groups', body: 'hello')
+        Notifier.receive(@email.to_s)
+      end
+
+      it 'delivers a message to each group' do
+        assert_deliveries 2
+        expect(delivered_emails_as_hashes).to include(
+          include(subject: 'test to two groups', body: match(/group@example\.com/),  to: include(@user.email)),
+          include(subject: 'test to two groups', body: match(/group2@example\.com/), to: include(@user.email))
+        )
+      end
+    end
+
+    context 'both group emails in the CC field' do
+      before do
+        @email = to_email(from: @user.email, to: ['irrelevant@example.com'], cc: [@group.full_address, @group2.full_address], subject: 'test to two groups', body: 'hello')
+        Notifier.receive(@email.to_s)
+      end
+
+      it 'delivers a message to each group' do
+        assert_deliveries 2
+        expect(delivered_emails_as_hashes).to include(
+          include(subject: 'test to two groups', body: match(/group@example\.com/),  to: include(@user.email)),
+          include(subject: 'test to two groups', body: match(/group2@example\.com/), to: include(@user.email))
+        )
       end
     end
   end
@@ -99,9 +151,9 @@ describe Notifier do
     end
   end
 
-  context 'given invalid email address' do
+  context 'given invalid message (no subject)' do
     before do
-      email = to_email(from: @user.email, to: @group.full_address, subject: '')
+      email = to_email(from: @user.email, to: @group.full_address, subject: '', body: 'test!')
       Notifier.receive(email.to_s)
     end
 
@@ -110,6 +162,35 @@ describe Notifier do
       delivery = ActionMailer::Base.deliveries.first
       expect(delivery.to.first).to match(@user.email)
       expect(delivery.to_s).to match(/too short/)
+    end
+  end
+
+  context 'given subject containing UTF-8 characters' do
+    before do
+      @email = "From: #{@user.email}\nTo: #{@group.full_address}\nContent-Type: text/html; charset=\"LATIN-1\"\nSubject: You don’t have to buy it all at frustrating prices!\n\ntest!"
+      Notifier.receive(@email.to_s)
+      @delivery = ActionMailer::Base.deliveries.last
+    end
+
+    it 'deliver the message' do
+      assert_deliveries 1
+      expect(@delivery.subject).to eq("You don’t have to buy it all at frustrating prices!")
+    end
+  end
+
+  context 'given user sending from alternate email address' do
+    before do
+      @user.alternate_email = 'alternate@example.com'
+      @user.save!
+      email = to_email(from: 'alternate@example.com', to: @group.full_address, subject: 'test from my alternate', body: 'test!')
+      Notifier.receive(email.to_s)
+    end
+
+    it 'should send the message' do
+      assert_deliveries 1
+      delivery = ActionMailer::Base.deliveries.first
+      expect(delivery.subject).to eq('test from my alternate')
+      expect(Message.last.person).to eq(@user)
     end
   end
 

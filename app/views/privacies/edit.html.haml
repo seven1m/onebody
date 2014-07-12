@@ -15,7 +15,12 @@
   .tab-pane.active#sharing
     %p= t('privacies.sharing.intro_html', url: help_path('privacy_policy'))
     #edit-privacy
-      = form_for @family, url: person_privacy_path(@family.people.first), html: {method: 'put', style: 'border:none;padding:0;'} do |form|
+      .visible-xs-block.push-down
+        .alert.alert-info.alert-dismissable
+          = icon 'fa fa-arrows-h'
+          %button.close{ 'aria-hidden' => 'true', 'data-dismiss' => 'alert' } ×
+          = t('privacies.scroll_notice')
+      = form_for @family, url: person_privacy_path(@family.people.first), html: { method: 'put' } do |form|
         %table.table
           %tr
             %th.name

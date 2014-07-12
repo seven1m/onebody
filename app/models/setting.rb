@@ -1,8 +1,6 @@
 class Setting < ActiveRecord::Base
   GLOBAL_SETTINGS = [
-    'Contact.Tech Support Email', 'Contact.Bug Notification Email',
-    'Services.Yahoo',
-    'Features.Multisite', 'Features.SSL', 'Features.Edit Legacy Ids', 'Features.Reporting'
+    'Contact.Bug Notification Email', 'Features.Multisite', 'Features.SSL'
   ]
 
   SETTINGS_FILE = Rails.root.join("config/settings.yml")

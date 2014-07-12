@@ -101,7 +101,7 @@ describe Person do
     it 'should know of basic group memberships' do
       @group.memberships.create! person: @person
       expect(@person.member_of?(@group)).to be
-      expect(@person2.member_of?(@group)).not_to be
+      expect(@person2.member_of?(@group)).to be_nil
     end
 
     it 'should know about linked group memberships' do
@@ -247,19 +247,12 @@ describe Person do
       expect(@person.child).to eq(false)
     end
 
-    it "sets child properly given a birthday and child attribute" do
-      @person = FactoryGirl.build(:person, child: true)
-      @person.birthday = 18.years.ago
-      @person.child = true
-      expect(@person.child).to eq(false)
-    end
-
     it "should not allow child and birthday to both be unspecified" do
       @person = FactoryGirl.create(:person)
       @person.birthday = nil
       @person.child = nil
       @person.save
-      expect(@person.errors[:child]).to be
+      expect(@person.errors[:child]).to_not be_empty
     end
   end
 
@@ -297,7 +290,7 @@ describe Person do
 
   it "should properly translate validation errors" do
     @person = FactoryGirl.create(:person)
-    expect(@person.update_attributes(website: 'bad/address')).not_to be
+    expect(@person.update_attributes(website: 'bad/address')).to eq(false)
     expect(@person.errors.full_messages).to eq([I18n.t("activerecord.errors.models.person.attributes.website.invalid")])
   end
 

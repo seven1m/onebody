@@ -42,16 +42,17 @@ class PrayerRequest < ActiveRecord::Base
       streamable_type: 'PrayerRequest',
       streamable_id:   id,
       created_at:      created_at,
-      shared:          group && !group.hidden?
+      shared:          !!group
     )
   end
 
-  after_update :update_stream_items
+  before_update :update_stream_items
 
   def update_stream_items
     return unless streamable?
     StreamItem.where(streamable_type: "PrayerRequest", streamable_id: id).each do |stream_item|
       stream_item.body = body
+      stream_item.created_at = updated_at if answer_changed?
       stream_item.save
     end
   end

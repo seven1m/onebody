@@ -4,6 +4,7 @@ class AlbumsController < ApplicationController
   load_and_authorize_resource
 
   def index
+    @owner = @group || @person
     @albums = albums.readable_by(current_user)
     respond_to do |format|
       format.html

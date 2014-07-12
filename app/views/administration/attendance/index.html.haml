@@ -24,50 +24,54 @@
       = pagination @records
 
       %table.table
-        %tr
-          %th= sortable_column_heading t('attendance.name'),          'attendance_records.last_name,attendance_records.first_name', %w(attended_at group_id)
-          %th= sortable_column_heading t('attendance.adult'),         'people.child',                                               %w(attended_at group_id)
-          %th= sortable_column_heading t('attendance.group'),         'groups.name',                                                %w(attended_at group_id)
-          %th= sortable_column_heading t('attendance.class_time'),    'attendance_records.attended_at',                             %w(attended_at group_id)
-          %th= sortable_column_heading t('attendance.recorded_time'), 'attendance_records.created_at',                              %w(attended_at group_id)
-          %th= t('attendance.can_pickup_people')
-          %th= t('attendance.cannot_pickup_people')
-        - @records.each do |record|
-          %tr{:id => "record#{record.id}"}
-            %td
-              - if record.first_name.present?
-                - if record.person
-                  = link_to "#{record.first_name} #{record.last_name}", record.person
+        %thead
+          %tr
+            %th= sortable_column_heading t('attendance.name'),          'attendance_records.last_name,attendance_records.first_name', %w(attended_at group_id)
+            %th= sortable_column_heading t('attendance.adult'),         'people.child',                                               %w(attended_at group_id)
+            %th= sortable_column_heading t('attendance.group'),         'groups.name',                                                %w(attended_at group_id)
+            %th= sortable_column_heading t('attendance.class_time'),    'attendance_records.attended_at',                             %w(attended_at group_id)
+            %th= sortable_column_heading t('attendance.recorded_time'), 'attendance_records.created_at',                              %w(attended_at group_id)
+            %th= t('attendance.can_pickup_people')
+            %th= t('attendance.cannot_pickup_people')
+            %th.actions
+        %tbody
+          - @records.each do |record|
+            %tr{:id => "record#{record.id}"}
+              %td
+                - if record.first_name.present?
+                  - if record.person
+                    = link_to "#{record.first_name} #{record.last_name}", record.person
+                  - else
+                    = record.first_name
+                    = record.last_name
+                - elsif record.person
+                  = link_to record.person.name, record.person
                 - else
-                  = record.first_name
-                  = record.last_name
-              - elsif record.person
-                = link_to record.person.name, record.person
-              - else
-                %em= t('attendance.name_unknown')
-            %td
-              - if record.person && record.person.adult?
-                = t('attendance.adult')
-            %td
-              - if record.group
-                = link_to record.group.name, record.group
-              - else
-                %em= t('attendance.group_missing')
-            %td
-              = record.attended_at.to_s(:time)
-            %td
-              = record.created_at.to_s(:time)
-            %td
-              = record.all_pickup_people.join(', ')
-            %td
-              = record.cannot_pick_up
-            %td
-              = link_to '', administration_attendance_path(record), remote: true, method: 'delete', data: { confirm: t('are_you_sure') }, class: 'delete-icon'
-          - if record.medical_notes.present?
-            %tr.details
-              %td{ colspan: 7 }
-                = t('attendance.medical_notes')
-                = record.medical_notes
+                  %em= t('attendance.name_unknown')
+              %td
+                - if record.person && record.person.adult?
+                  = t('attendance.adult')
+              %td
+                - if record.group
+                  = link_to record.group.name, record.group
+                - else
+                  %em= t('attendance.group_missing')
+              %td
+                = record.attended_at.to_s(:time)
+              %td
+                = record.created_at.to_s(:time)
+              %td
+                = record.all_pickup_people.join(', ')
+              %td
+                = record.cannot_pick_up
+              %td.actions
+                = link_to administration_attendance_path(record), data: { remote: true, method: 'delete', confirm: t('are_you_sure') }, class: 'btn btn-delete btn-xs' do
+                  = icon 'fa fa-trash-o'
+            - if record.medical_notes.present?
+              %tr.details
+                %td{ colspan: 7 }
+                  = t('attendance.medical_notes')
+                  = record.medical_notes
 
       = pagination @records
 
@@ -76,7 +80,7 @@
         %em= t('attendance.no_records')
 
   .col-md-3
-    .box.box-info.no-print
+    .box.box-info.hidden-print
       .box-heading
       .box-body
         .form-group

@@ -16,20 +16,16 @@ class VersesController < ApplicationController
   end
 
   def show
-    @verse = Verse.find(params[:id])
+    get_verse
   end
 
   def create
-    id = params[:verse] ? params[:verse][:id] : params[:id]
-    if @verse = Verse.find(id) rescue nil and @verse.valid?
-      unless @verse.people.include? @logged_in
+    if get_verse
+      unless @verse.people.include?(@logged_in)
         @verse.people << @logged_in
         @verse.create_as_stream_item(@logged_in)
       end
-      expire_fragment(%r{views/people/#{@logged_in.id}_})
       redirect_to @verse
-    else
-      render text: t('verses.not_found'), layout: true, status: 404
     end
   end
 
@@ -57,6 +53,26 @@ class VersesController < ApplicationController
     else
       @verse.destroy
       redirect_to verses_path
+    end
+  end
+
+  private
+
+  def get_verse
+    @verse = Verse.find(params[:id])
+    if @verse.try(:valid?)
+      if params[:id] !~ /^\d+$/ and @verse.reference != params[:id]
+        redirect_to verse_path(@verse.reference)
+        return false
+      end
+      true
+    elsif @verse and @verse.errors.any?
+      add_errors_to_flash(@verse)
+      redirect_to verses_path
+      false
+    else
+      render text: t('verses.not_found'), layout: true, status: 404
+      false
     end
   end
 

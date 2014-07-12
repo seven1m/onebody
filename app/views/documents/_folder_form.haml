@@ -1,0 +1,15 @@
+= form_for @folder, as: :folder, url: @folder.new_record? ? documents_path : document_path(@folder) do |form|
+  = error_messages_for(form)
+  = form.hidden_field :folder_id
+  - if parent_document_folder_options(@folder).any?
+    .form-group
+      = form.label :folder_id
+      = form.select :folder_id, parent_document_folder_options(@folder), { include_blank: true }, class: 'form-control'
+  .form-group
+    = form.label :name
+    = form.text_field :name, class: 'form-control'
+  .form-group
+    = form.label :description
+    = form.text_area :description, class: 'form-control'
+  .form-group
+    = form.button t('save'), class: 'btn btn-success'

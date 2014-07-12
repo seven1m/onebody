@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # credit: http://markmcb.com/2011/11/07/replacing-ae%E2%80%9C-ae%E2%84%A2-aeoe-etc-with-utf-8-characters-in-ruby-on-rails/
 
 namespace :onebody do

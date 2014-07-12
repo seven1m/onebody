@@ -29,8 +29,8 @@ debconf-set-selections <<< 'mysql-server mysql-server/root_password_again passwo
 apt-get install -q -y build-essential curl libcurl4-openssl-dev nodejs git mysql-server libmysqlclient-dev libaprutil1-dev libapr1-dev apache2 apache2-threaded-dev imagemagick
 
 # setup db
-mysql -u root -pvagrant -e "create database if not exists onebody_dev; grant all on onebody_dev.* to onebody@localhost identified by 'onebody';"
-mysql -u root -pvagrant -e "create database if not exists onebody_test; grant all on onebody_test.* to onebody@localhost identified by 'onebody';"
+mysql -u root -pvagrant -e "create database onebody_dev  default character set utf8 default collate utf8_general_ci; grant all on onebody_dev.*  to onebody@localhost identified by 'onebody';"
+mysql -u root -pvagrant -e "create database onebody_test default character set utf8 default collate utf8_general_ci; grant all on onebody_test.* to onebody@localhost identified by 'onebody';"
 
 user=$(cat <<USER
   set -ex
@@ -61,8 +61,9 @@ user=$(cat <<USER
   # install apache and passenger
   if [[ ! -e /etc/apache2/conf-available/passenger.conf ]]; then
     rvm use #{$ruby_version}@global
+    # passenger 4.0.x doesn't like our git-sourced gems; use the previous version for now
     gem install passenger
-    rvmsudo passenger-install-apache2-module
+    rvmsudo passenger-install-apache2-module -a
     rvmsudo passenger-install-apache2-module --snippet | sudo tee /etc/apache2/conf-available/passenger.conf
   fi
 USER

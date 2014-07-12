@@ -65,6 +65,15 @@ en:
       album:
         name: "Name"
         description: "Description"
+      document:
+        name: "Name"
+        description: "Description"
+        file: "File"
+        folder_id: "Folder"
+      document_folder:
+        name: "Name"
+        description: "Description"
+        folder_id: "Parent Folder"
       family:
         name: Name
         last_name: Last Name
@@ -142,6 +151,26 @@ en:
             campus:
               blank: "You must select a campus."
               exclusion: "You must select a campus."
+        document:
+          attributes:
+            file:
+              blank: "You must upload a file."
+            name:
+              blank: "You must enter a name."
+              too_long: "Please enter a shorter name."
+            description:
+              too_long: "Please enter a shorter description."
+        document_folder:
+          attributes:
+            name:
+              blank: "You must enter a name."
+              too_long: "Please enter a shorter name."
+            description:
+              too_long: "Please enter a shorter description."
+            folder_id:
+              invalid: "You cannot specify this folder as the parent folder."
+            parent_folder_ids:
+              too_long: "This folder is nested too deep. Please place it somewhere else."
         family:
           attributes:
             name:
@@ -217,6 +246,12 @@ en:
               too_short: The message subject is too short.
             to_person_id:
               invalid: The recipient of this message does not have an email address. The message cannot be sent.
+        news_item:
+          attributes:
+            title:
+              blank: "You must enter a title for this news post."
+            body:
+              blank: "You must enter text for this news post."
         note:
           attributes:
             body:
@@ -323,7 +358,7 @@ en:
             host:
               blank: The host must be specified.
               taken: There is another site with the same host.
-              invalid: Do not include "www." in the hostname.
+              invalid: 'Do not include "http://" or "www." in the hostname.'
             name:
               blank: The site must have a name.
               taken: There is another site with the same name.
@@ -348,7 +383,7 @@ en:
             reference:
               blank: The verse must have a reference.
             text:
-              blank: The passage is blank. Did you type the reference correctly?
+              blank: The passage could not be found. Did you type the reference correctly?
               too_long: The passage is too long. Try to specify a shorter passage.
 
   application:

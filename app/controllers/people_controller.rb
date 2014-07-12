@@ -163,11 +163,12 @@ class PeopleController < ApplicationController
   end
 
   def hashify
+    params.merge!(Hash.from_xml(request.body.read))
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
       ids = params[:hash][:legacy_id].to_s.split(',')
       raise 'error' if ids.length > 1000
       hashes = Person.hashify(legacy_ids: ids, attributes: params[:hash][:attrs].split(','), debug: params[:hash][:debug])
-      render xml: hashes
+      render xml: hashes.to_a
     else
       render text: t('not_authorized'), layout: true, status: 401
     end

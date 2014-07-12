@@ -43,6 +43,10 @@ group :development do
   gem 'zeus'
   gem 'watchr'
   gem 'terminal-notifier'
+  gem 'capistrano'
+  gem 'capistrano-newrelic'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rails'
 end
 
 group :development, :test do
@@ -57,5 +61,5 @@ group :development, :test do
 end
 
 group :production do
-  gem 'exception_notification'
+  gem 'newrelic_rpm'
 end

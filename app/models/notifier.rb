@@ -376,7 +376,7 @@ class Notifier < ActionMailer::Base
       people = Person.where("lcase(email) = ?", email.from.first.downcase).to_a
       if people.length == 0
         # user is not found in the system, try alternate email
-        Person.where("lcase(alternate_email) = ?", email.from.to_s.downcase).first
+        Person.where("lcase(alternate_email) = ?", email.from.first.downcase).first
       elsif people.length == 1
         people.first
       elsif people.length > 1
@@ -393,31 +393,17 @@ class Notifier < ActionMailer::Base
     end
 
     def self.get_body(email)
-      # if the message is multipart, try to grab the plain text and/or html parts
-      text = nil
-      html = nil
-      if email.multipart?
-        email.parts.each do |part|
-          case part.content_type.downcase.split(';').first
-            when 'text/plain'
-              text = part.body.to_s
-            when 'text/html'
-              html = part.body.to_s
-            when 'multipart/alternative'
-              if p = part.parts.detect { |p| p.content_type.downcase.split(';').first == 'text/plain' }
-                text ||= p.body.to_s
-              end
-              if p = part.parts.detect { |p| p.content_type.downcase.split(';').first == 'text/html'  }
-                html ||= p.body.to_s
-              end
-          end
-        end
-        return {text: text, html: html}
-      elsif email.content_type.downcase.split(';').first == 'text/html'
-        return {text: nil, html: email.body.to_s}
-      else
-        return {text: email.body.to_s}
+      body = {
+        text: email.text_part.try(:decoded),
+        html: email.html_part.try(:decoded)
+      }
+      type = email.content_type.downcase.split(';').first
+      if body[:text].nil? and type == 'text/plain'
+        body[:text] = email.decoded
+      elsif body[:html].nil? and type == 'text/html'
+        body[:html] = email.decoded
       end
+      body
     end
 
     def clean_body(body)

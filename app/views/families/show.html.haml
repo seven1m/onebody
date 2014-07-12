@@ -4,7 +4,7 @@
 - if show_family_name_suggestion
   .callout.callout-warning
     = icon 'fa fa-info-circle'
-    = t('families.show.suggested_name_html', count: @family.people.undeleted.adults.count, first: @family.people.undeleted.first.try(:name), second: @family.people.undeleted.second.try(:name), url: edit_family_path(@family), name: @family.suggested_name)
+    = t('families.show.suggested_name_html', count: @family.people.undeleted.adults.count, first: @family.people.undeleted.adults.first.try(:name), second: @family.people.undeleted.adults.second.try(:name), url: edit_family_path(@family), name: @family.suggested_name)
 
 - if @family.updates.pending.any? and @logged_in.can_edit?(@family)
   .callout.callout-info

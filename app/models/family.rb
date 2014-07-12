@@ -59,11 +59,11 @@ class Family < ActiveRecord::Base
   end
 
   def mapable?
-    [address1, city, state].all?(&:present?)
+    latitude != 0.0 and longitude != 0.0
   end
 
   def location
-    pretty_address if mapable?
+    pretty_address if [address1, city, state].all?(&:present?)
   end
 
   # not HTML-escaped!
@@ -224,7 +224,10 @@ class Family < ActiveRecord::Base
           # if no family was found by legacy id, let's try by barcode id
           # but only if the matched family has no legacy id!
           # (because two separate families could potentially have accidentally been assigned the same barcode)
-          family = where(legacy_id: nil, barcode_id: record["barcode_id"]).first
+          if family = where(legacy_id: nil, barcode_id: record["barcode_id"]).first
+            # mark all people in this family as deleted, and we'll try to revive them on the Person#update_batch side
+            family.people.where(legacy_id: nil).update_all(deleted: true)
+          end
         end
         # last resort, create a new record
         family ||= new

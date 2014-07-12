@@ -18,7 +18,7 @@ class Site < ActiveRecord::Base
 
   validates_presence_of :name, :host
   validates_uniqueness_of :name, :host
-  validates_format_of :host, without: /\Awww\./
+  validates_format_of :host, without: /\A(https?:\/\/|www\.)/
   do_not_validate_attachment_file_type :logo
 
   has_attached_file :logo,

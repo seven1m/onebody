@@ -84,7 +84,7 @@ class StreamItemDecorator < Draper::Decorator
   end
 
   def body
-    h.content_tag(:div, class: 'timeline-body') do
+    h.content_tag(:div, class: "timeline-body #{streamable_css_class}") do
       if streamable_type == 'Message'
         h.truncate_html(h.render_message_body(object), length: MAX_BODY_SIZE)
       elsif streamable_type == 'Person' and streamable
@@ -141,6 +141,10 @@ class StreamItemDecorator < Draper::Decorator
     else
       streamable
     end
+  end
+
+  def streamable_css_class
+    "streamable-#{streamable_type.underscore.dasherize}"
   end
 
 end

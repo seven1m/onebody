@@ -3,6 +3,8 @@
 # example:
 # script/worker -e production
 
+require 'bundler/setup'
+
 require 'optparse'
 options = {}
 parser = OptionParser.new do |opts|

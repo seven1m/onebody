@@ -25,6 +25,7 @@ class BreadcrumbPresenter
     prayer_request_crumb
     note_crumb
     admin_crumb
+    document_crumb
   end
 
   private
@@ -98,7 +99,7 @@ class BreadcrumbPresenter
         else
           crumbs << ['fa fa-camera-retro', t('nav.albums'), group_albums_path(album.owner_id)]
         end
-      else
+      elsif album.owner_type == 'Group'
         if @route == 'pictures#show'
           crumbs << ['fa fa-camera-retro', album.name, person_album_path(album.owner_id, album)]
         else
@@ -155,6 +156,23 @@ class BreadcrumbPresenter
       crumbs << ['fa fa-check-square-o', t('nav.checkin'), administration_checkin_dashboard_path]
       if @route == 'administration/checkin/groups#index' and @assigns['time']
         crumbs << ['fa fa-clock-o', t('nav.checkin_sub.times'), administration_checkin_times_path]
+      end
+    end
+  end
+
+  def document_crumb
+    if @controller == 'documents'
+      if folder = @assigns['document'] || @assigns['parent_folder'] || @assigns['folder']
+        folders = []
+        while folder = folder.folder
+          folders.unshift([
+            folders.empty? ? 'fa fa-folder-open-o' : 'fa fa-folder-o',
+            folder.name,
+            documents_path(folder_id: folder)
+          ])
+        end
+        @crumbs << ['fa fa-files-o', 'Documents', documents_path]
+        @crumbs += folders
       end
     end
   end

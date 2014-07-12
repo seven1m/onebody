@@ -44,7 +44,7 @@ require 'net/pop'
 Net::POP3.start(host, nil, username, password) do |pop|
   unless pop.mails.empty?
     require File.dirname(__FILE__) + '/../config/environment'
-    logger = RAILS_DEFAULT_LOGGER
+    logger = Rails.logger
     logger.info "Running Mail Importer..."
     pop.mails.each do |email|
       begin

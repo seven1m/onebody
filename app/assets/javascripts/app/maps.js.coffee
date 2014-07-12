@@ -1,4 +1,4 @@
-L.Icon.Default.imagePath = '/assets'
+L.Icon.Default.imagePath = '/images'
 
 map_voffset = 0.01 # shift center down just a bit to go under heading
 

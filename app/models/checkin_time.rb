@@ -6,14 +6,15 @@ class CheckinTime < ActiveRecord::Base
 
   scope :recurring, -> { where(the_datetime: nil) }
   scope :upcoming_singles, -> { where('the_datetime is not null and the_datetime >= now()') }
-  scope :for_date, -> (date, campus=nil) {
-    r = where("((the_datetime >= ? and the_datetime <= ?) or weekday = ?)", date.beginning_of_day, date.end_of_day, date.wday)
-    r.where!(campus: campus) if campus
-    r
-  }
   scope :today, -> campus { for_date(Time.now, campus) }
 
   scope_by_site_id
+
+  def self.for_date(date, campus=nil)
+    r = where("((the_datetime >= ? and the_datetime <= ?) or weekday = ?)", date.beginning_of_day, date.end_of_day, date.wday)
+    r.where!(campus: campus) if campus
+    r
+  end
 
   validate do
     if weekday

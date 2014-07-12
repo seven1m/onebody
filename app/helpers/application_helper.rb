@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module ApplicationHelper
 
   # TODO do we need these includes any more?

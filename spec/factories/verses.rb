@@ -4,5 +4,6 @@ FactoryGirl.define do
     book 1
     chapter 1
     verse 1
+    text 'test'
   end
 end

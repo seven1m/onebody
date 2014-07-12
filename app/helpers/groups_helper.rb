@@ -49,7 +49,7 @@ module GroupsHelper
     count = [@group.email?, @group.prayer?, @group.pictures?].count { |t| t }
     return if count == 0
     width = [12 / count, 6].min
-    content_tag(:div, class: "col-md-#{width}", &block)
+    content_tag(:div, class: "col-md-#{width} print-inline-block", &block)
   end
 
 end

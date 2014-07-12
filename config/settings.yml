@@ -3,29 +3,28 @@ Contact:
   Tech Support Email:
     format: string
     value: admin@example.com
-    global: true
   Community Email:
     format: string
-    value: info@beonebody.com
+    value: info@example.com
   Community Office Phone:
     format: string
     value: (123) 456-7890
   Bug Notification Email:
     format: string
-    value:
+    value: admin@example.com
     global: true
   Birthday Verification Email:
     format: string
-    value: admin@beonebody.com
+    value: admin@example.com
   Send Email Changes To:
     format: string
-    value: admin@beonebody.com
+    value: admin@example.com
   Community Address:
     format: string
     value: 123 West Imaginary Street, Broken Arrow, OK 12345-6789
   Send Updates To:
     format: string
-    value: admin@beonebody.com
+    value: admin@example.com
 Name:
   Community:
     format: string
@@ -78,7 +77,6 @@ Features:
   Edit Legacy Ids:
     format: boolean
     value: false
-    global: true
   Custom Person Type:
     format: boolean
     value: false
@@ -91,21 +89,20 @@ Features:
   Checkin:
     format: boolean
     value: false
+  Documents:
+    format: boolean
+    value: false
 Services:
-  Yahoo:
-    format: string
-    value:
-    global: true
   Analytics:
     format: string
     value:
 URL:
   Visitor:
     format: string
-    value: http://beonebody.com
+    value: http://example.com
   Site:
     format: string
-    value: http://beonebody.com/
+    value: http://members.example.com
     hidden: true
   News Feed:
     format: string
@@ -116,12 +113,11 @@ System:
     value: en
   Suffixes:
     format: list
-    value:
-      - Jr.
-      - Sr.
-      - II
-      - III
-
+    value: |
+      Jr.
+      Sr.
+      II
+      III
   Time Zone:
     format: string
     value: Central Time (US & Canada)

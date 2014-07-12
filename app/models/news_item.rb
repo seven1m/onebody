@@ -7,6 +7,8 @@ class NewsItem < ActiveRecord::Base
   belongs_to :person
   belongs_to :site
 
+  validates :title, :body, presence: true
+
   scope_by_site_id
 
   scope :active, -> { where(active: true) }

@@ -1,5 +1,7 @@
 # Learn more about this file: http://github.com/javan/whenever
 
+require 'yaml'
+
 set :environment, 'production'
 
 # the default job_template uses the -i flag, which throws a warning about "no job control"

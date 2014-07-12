@@ -9,6 +9,7 @@
     %meta{ content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no', name: 'viewport' }
     = yield(:meta)
     = stylesheet_link_tag 'application'
+    = stylesheet_link_tag 'print', media: 'print'
     = yield(:css)
     = csrf_meta_tags
     = render partial: 'layouts/favicons'
@@ -145,6 +146,11 @@
                       = link_to new_family_path do
                         = icon 'fa fa-plus'
                         = t('nav.directory_sub.new_family')
+            - if setting(:features, :documents)
+              %li{ class: tab_selected?(:documents) ? 'active' : '' }
+                = link_to documents_path do
+                  %i.fa.fa-file
+                  %span= t('nav.documents')
             - if @logged_in.admin?
               %li{ class: tab_selected?(:admin) ? 'active' : '' }
                 = link_to admin_path do
@@ -170,4 +176,4 @@
       = render partial: 'layouts/footer_links'
     = javascript_include_tag 'application'
     = yield(:js)
-    = setting(:services, :analytics) if Rails.env.production?
+    = setting(:services, :analytics).to_s.html_safe if Rails.env.production?

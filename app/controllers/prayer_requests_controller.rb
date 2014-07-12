@@ -19,6 +19,7 @@ class PrayerRequestsController < ApplicationController
   end
 
   def new
+    @prayer_request.person = @logged_in
   end
 
   def create
