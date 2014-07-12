@@ -2,6 +2,11 @@ header nav, section.sidebar, section.content-header .breadcrumb, .footer, .hidde
   display: none;
 }
 
+// fix for _fix function in adminlte messing up our print size
+.left-side, html, body {
+  min-height: 0 !important;
+}
+
 .print-inline-block {
   display: inline-block;
 }
