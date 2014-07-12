@@ -35,9 +35,7 @@
             %th= t('attendance.cannot_pickup_people')
             %th.actions
         %tbody
-          -#- @records.each do |record|
-          - (1..200).each do |i|
-            - record = @records.first
+          - @records.each do |record|
             %tr{:id => "record#{record.id}"}
               %td
                 - if record.first_name.present?
