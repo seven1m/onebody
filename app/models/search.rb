@@ -10,6 +10,8 @@ class Search
                 :family_barcode_id,
                 :business,
                 :testimony,
+                :phone,
+                :email,
                 :show_hidden,
                 :select_person
 
@@ -78,6 +80,8 @@ class Search
     birthday!
     anniversary!
     address!
+    phone!
+    email!
     type!
     family_barcode_id!
     @executed = true
@@ -154,6 +158,19 @@ class Search
     where!('families.city like ?',  like(address[:city],  :after)) if address[:city].present?
     where!('families.state like ?', like(address[:state], :after)) if address[:state].present?
     where!('families.zip like ?',   like(address[:zip],   :after)) if address[:zip].present?
+  end
+
+  def phone!
+    return unless Person.logged_in.admin?(:view_hidden_properties)
+    where!('people.mobile_phone = :phone or
+            people.work_phone   = :phone or
+            families.home_phone = :phone', phone: phone.digits_only) if phone.present?
+  end
+
+  def email!
+    return unless Person.logged_in.admin?(:view_hidden_properties)
+    where!('people.email = :email or
+            people.alternate_email = :email', email: email) if email.present?
   end
 
   def type!

@@ -42,6 +42,13 @@
         .form-group
           = label_tag 'type', t('search.form.type')
           = select_tag 'type', options_for_select(types_for_select, params[:type]), include_blank: true, class: 'form-control'
+        - if @logged_in.admin?(:view_hidden_properties)
+          .form-group
+            = label_tag 'phone', t('search.form.phone')
+            = text_field_tag 'phone', @search.phone, class: 'form-control'
+          .form-group
+            = label_tag 'email', t('search.form.email')
+            = text_field_tag 'email', @search.email, class: 'form-control'
         - if @logged_in.admin?(:view_hidden_profiles)
           .form-group
             = check_box_tag :show_hidden, true, params[:show_hidden], class: 'checkbox form-control inline'

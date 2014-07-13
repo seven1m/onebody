@@ -23,6 +23,8 @@ en:
       city: "City"
       state: "State"
       zip: "Zip"
+      phone: "Phone Number"
+      email: "Email Address"
       type: "Membership Type"
       types:
         member: "Member"
