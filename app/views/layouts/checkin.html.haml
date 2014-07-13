@@ -27,8 +27,6 @@
             $(".center").center();
           });
         });
-    -#.footer
-      -#= render partial: 'layouts/footer_links'
-    = javascript_include_tag 'application', 'checkin'
+    = javascript_include_tag 'checkin'
     = yield(:js)
     = setting(:services, :analytics) if Rails.env.production?
