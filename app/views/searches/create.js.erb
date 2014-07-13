@@ -4,13 +4,12 @@
 
 <% elsif params[:select_family] %>
   $('#results').html("<%= escape_javascript render(partial: 'select_family') %>");
+  $('#clear_family_form').show();
   <% if @families.empty? %>
     $('#select_family_form').hide();
-    $('#clear_family_form').hide();
     $('#no_families_found').show();
   <% else %>
     $('#select_family_form').show();
-    $('#clear_family_form').show();
     $('#no_families_found').hide();
   <% end %>
 
