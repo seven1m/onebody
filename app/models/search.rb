@@ -13,7 +13,8 @@ class Search
                 :phone,
                 :email,
                 :show_hidden,
-                :select_person
+                :select_person,
+                :select_family
 
   def initialize(params={})
     source = params.delete(:source) || :person
@@ -186,7 +187,7 @@ class Search
   end
 
   def show_hidden_profiles?
-    ((show_hidden || select_person) && Person.logged_in.admin?(:view_hidden_profiles))
+    ((show_hidden || select_person || select_family) && Person.logged_in.admin?(:view_hidden_profiles))
   end
 
   def like(str, position=:both)
