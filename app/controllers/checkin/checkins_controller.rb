@@ -46,8 +46,8 @@ class Checkin::CheckinsController < ApplicationController
         labels[person.id] << record.as_json if record.print_extra_nametag? and labels[person.id].length < 2
       end
     end
-    #session.delete(:checkin_family_id)
-    #session.delete(:barcode)
+    session.delete(:checkin_family_id)
+    session.delete(:barcode)
     render json: {
       labels: labels,
       today: Date.current.to_s(:date),

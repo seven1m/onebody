@@ -55,11 +55,8 @@ class Checkin
       dataType: 'json'
       method: 'put'
       complete: (resp) =>
-        for _, labels of resp.responseJSON.labels
-          for l in labels
-            data = $.extend {}, l, resp.responseJSON
-            label = new CheckinLabel(data)
-            label.print()
+        new CheckinLabelSet(resp.responseJSON).print()
+        location.href = '/checkin'
 
 
 class CheckinPerson
@@ -218,12 +215,25 @@ class SonicProtocol
     ssocket.send message.split('').join('.')
 
 
-class CheckinLabel
+class CheckinLabelSet
 
   constructor: (@data) ->
+    @labelSet = new dymo.label.framework.LabelSetBuilder()
+    labels = []
+    for _, labels of @data.labels
+      for l in labels
+        data = $.extend {}, l, @data
+        code = data.barcode_id.substring(data.barcode_id.length-4)
+        label = @labelSet.addRecord()
+        label.setText("COMMUNITY_NAME", data.community_name || '')
+        label.setText("FIRST_NAME",     data.first_name     || '')
+        label.setText("LAST_NAME",      data.last_name      || '')
+        label.setText("DATE",           data.today          || '')
+        label.setText("NOTES",          data.medical_notes  || '')
+        label.setText("CODE",           code                || '')
 
-  print: =>
-    labelXml = """
+  labelXml: ->
+    """
       <?xml version="1.0" encoding="utf-8"?>
       <DieCutLabel Version="8.0" Units="twips">
         <PaperOrientation>Landscape</PaperOrientation>
@@ -390,18 +400,16 @@ class CheckinLabel
         </ObjectInfo>
       </DieCutLabel>
     """
-    label = dymo.label.framework.openLabelXml(labelXml)
 
-    label.setObjectText("COMMUNITY_NAME", @data.community_name || '')
-    label.setObjectText("FIRST_NAME",     @data.first_name     || '')
-    label.setObjectText("LAST_NAME",      @data.last_name      || '')
-    label.setObjectText("DATE",           @data.today          || '')
-    label.setObjectText("NOTES",          @data.medical_notes  || '')
-
+  print: =>
     printers = (p for p in dymo.label.framework.getPrinters() \
                 when p.printerType == 'LabelWriterPrinter')
     if printers.length > 0
-      label.print(printers[0].name)
+      printer = printers[0].name
+      to_print = dymo.label.framework.openLabelXml(@labelXml())
+      to_print.print(printer, '', @labelSet);
+    else
+      alert('LabelWriter not found')
 
 
 window.checkin = new Checkin().render()
