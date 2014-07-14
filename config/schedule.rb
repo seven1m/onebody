@@ -17,12 +17,7 @@ if File.exist?("#{Dir.pwd}/config/email.yml")
 end
 
 every 1.minute do
-  yaml = YAML::load_file("#{Dir.pwd}/config/database.yml")
-  settings = yaml[@environment]
-  if settings.is_a?(String) and %w(production development).include?(settings)
-    settings = yaml[settings]
-  end
-  command "#{Dir.pwd}/script/worker -e #{@environment} \"#{settings['host']}\" \"#{settings['username']}\" \"#{settings['password']}\" \"#{settings['database']}\""
+  command "#{Dir.pwd}/script/worker -e #{@environment}"
 end
 
 every 1.hour, :at => 19 do
