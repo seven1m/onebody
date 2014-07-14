@@ -13,7 +13,7 @@ class AttendanceRecord < ActiveRecord::Base
   self.skip_time_zone_conversion_for_attributes = [:attended_at]
 
   def checkin_people
-    Relationship.where('person_id = ? and other_name like ?', person_id, '%Check-in Person').map(&:related).uniq
+    Relationship.where('person_id = ? and other_name like ?', person_id, '%Check-in Person%').map(&:related).uniq
   end
 
   def all_pickup_people
