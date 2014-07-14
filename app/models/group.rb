@@ -106,12 +106,17 @@ class Group < ActiveRecord::Base
       parents = Group.find(parents_of).people.map { |p| p.parents }.flatten.uniq
       update_membership_associations(parents)
     elsif linked?
-      # TODO use a scope
-      conditions = []
+      scope = Person.all
       link_code.downcase.split.each do |code|
-        conditions.add_condition ["lcase(classes) = ? or lcase(classes) like ? or lcase(classes) like ? or lcase(classes) like ? or lcase(classes) like ? or lcase(classes) like ?", code, "#{code},%", "%,#{code}", "%,#{code},%", "#{code}[%", "%,#{code}[%"], 'or'
+        scope.where!("lcase(classes) = ? or
+                      lcase(classes) like ? or lcase(classes) like ? or lcase(classes) like ? or
+                      lcase(classes) like ? or lcase(classes) like ?",
+                      code,
+                      "#{code},%", "%,#{code}", "%,#{code},%",
+                      "#{code}[%", "%,#{code}[%"
+                    )
       end
-      update_membership_associations(Person.where(conditions).to_a)
+      update_membership_associations(scope.to_a)
     elsif Membership.column_names.include?('auto')
       memberships.where(auto: true).each { |m| m.destroy }
     end
@@ -121,10 +126,35 @@ class Group < ActiveRecord::Base
 
   def update_membership_associations(new_people)
     new_people.reject! { |p| !p || p.deleted? }
-    self.people.reload
-    (new_people - self.people).each { |p| memberships.create!(person: p, auto: true) }
-    ids_to_delete = (self.people - new_people).each { |p| p.id }
-    Membership.delete_all(["group_id = ? and person_id in (?) and auto = ?", id, ids_to_delete, true])
+    people.reload
+    # update existing
+    memberships.where(person_id: (new_people & people).map(&:id)).includes(:person).each do |membership|
+      membership.roles = get_roles_for(membership.person)
+      membership.save!
+    end
+    # add new people
+    (new_people - people).each do |person|
+      memberships.create!(
+        person: person,
+        auto:   true,
+        roles:  get_roles_for(person)
+      )
+    end
+    # remove old people
+    memberships.where(
+      person_id: (people - new_people).map(&:id),
+      auto: true
+    ).delete_all
+  end
+
+  def get_roles_for(person)
+    return [] unless link_code.present?
+    classes = person.classes.to_s.split(/\s*,\s*/)
+    if data = classes.detect { |c| c.downcase.index(link_code.downcase) == 0 } and data.match(/\[(.+)\]/)
+      $1.split(/\s*\|\s*/)
+    else
+      []
+    end
   end
 
   def can_send?(person)

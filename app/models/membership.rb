@@ -13,6 +13,16 @@ class Membership < ActiveRecord::Base
 
   def family; person.family; end
 
+  serialize :roles, Array
+  validate :validate_roles
+
+  def validate_roles
+    if roles.any? { |r| r !~ /\A[a-z0-9 \-_\(\)]+\z/ }
+      errors.add(:roles, :invalid)
+    end
+  end
+
+
   before_create :generate_security_code
 
   def generate_security_code
