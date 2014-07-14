@@ -17,11 +17,10 @@ class Membership < ActiveRecord::Base
   validate :validate_roles
 
   def validate_roles
-    if roles.any? { |r| r !~ /\A[a-z0-9 \-_\(\)]+\z/ }
+    if roles.any? { |r| r !~ /\A[a-z0-9 \-_\(\)]+\z/i }
       errors.add(:roles, :invalid)
     end
   end
-
 
   before_create :generate_security_code
 

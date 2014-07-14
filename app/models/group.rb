@@ -151,7 +151,7 @@ class Group < ActiveRecord::Base
     return [] unless link_code.present?
     classes = person.classes.to_s.split(/\s*,\s*/)
     if data = classes.detect { |c| c.downcase.index(link_code.downcase) == 0 } and data.match(/\[(.+)\]/)
-      $1.split(/\s*\|\s*/)
+      $1.gsub(/[^a-z0-9 \-_\(\)\|]+/i, '').split(/\s*\|\s*/)
     else
       []
     end
