@@ -22,6 +22,17 @@ class AttendanceRecord < ActiveRecord::Base
     checkin_people.map(&:name) + [can_pick_up]
   end
 
+  def as_json(*args)
+    super.merge(symbol: symbol)
+  end
+
+  def symbol
+    ''.tap do |syms|
+      syms << '+' if medical_notes.present?
+      syms << '!' if cannot_pick_up.present?
+    end
+  end
+
   def self.groups_for_date(attended_at)
     Group.where(
       "id in (select group_id from attendance_records where attended_at >= ? and attended_at <= ?)",

@@ -232,6 +232,7 @@ class CheckinLabelSet
         label.setText("DATE",           data.today          || '')
         label.setText("NOTES",          data.medical_notes  || '')
         label.setText("CODE",           code                || '')
+        label.setText("SYMBOL",         data.symbol         || '')
     @labels = by_label_id
 
   print: =>

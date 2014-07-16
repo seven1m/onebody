@@ -162,4 +162,30 @@
     </TextObject>
     <Bounds X="370.1779" Y="1250.467" Width="4483.545" Height="213.9854"/>
   </ObjectInfo>
+  <ObjectInfo>
+    <TextObject>
+      <Name>SYMBOL</Name>
+      <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>
+      <BackColor Alpha="0" Red="255" Green="255" Blue="255"/>
+      <LinkedObjectName></LinkedObjectName>
+      <Rotation>Rotation0</Rotation>
+      <IsMirrored>False</IsMirrored>
+      <IsVariable>True</IsVariable>
+      <HorizontalAlignment>Right</HorizontalAlignment>
+      <VerticalAlignment>Middle</VerticalAlignment>
+      <TextFitMode>ShrinkToFit</TextFitMode>
+      <UseFullFontHeight>True</UseFullFontHeight>
+      <Verticalized>False</Verticalized>
+      <StyledText>
+        <Element>
+          <String>+</String>
+          <Attributes>
+            <Font Family="Lucida Grande" Size="13" Bold="False" Italic="False" Underline="False" Strikeout="False"/>
+            <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>
+          </Attributes>
+        </Element>
+      </StyledText>
+    </TextObject>
+    <Bounds X="4573.499" Y="1118.987" Width="373.8133" Height="373.8133"/>
+  </ObjectInfo>
 </DieCutLabel>
