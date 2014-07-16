@@ -6,7 +6,7 @@
       %table.table
         %tr
           %th= t('checkin.groups.index.table.group')
-          %th= t('checkin.groups.index.table.print_nametag')
+          %th= t('checkin.groups.index.table.label_id')
           %th= t('checkin.groups.index.table.print_extra_nametag')
           %th= t('checkin.groups.index.table.section')
           %th
@@ -15,7 +15,8 @@
             %td
               = group_time.group.name
             %td
-              %input{ type: 'checkbox', name: 'print_nametag', checked: group_time.print_nametag?, onchange: "$.ajax('#{administration_checkin_time_group_path(@time, group_time.group_id)}', {data: {print_nametag: this.checked}, method: 'put'})", class: 'simple' }
+              = select_tag :label_id, options_from_collection_for_select(@labels, :id, :name, group_time.label_id), |
+                include_blank: true, onchange: "$.ajax('#{administration_checkin_time_group_path(@time, group_time.group_id)}', {data: {label_id: this.value}, method: 'put'})"
             %td
               %input{ type: 'checkbox', name: 'print_extra_nametag', checked: group_time.print_extra_nametag?, onchange: "$.ajax('#{administration_checkin_time_group_path(@time, group_time.group_id)}', {data: {print_extra_nametag: this.checked}, method: 'put'})", class: 'simple' }
             %td

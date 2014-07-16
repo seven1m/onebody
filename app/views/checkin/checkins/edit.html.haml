@@ -76,5 +76,6 @@
 
 - content_for :js do
   :javascript
+    window.checkin_labels = #{ json_escape(checkin_labels_as_json.to_json) }
     attendance_records = #{ json_escape(@checkins.each_with_object({}) { |c, h| h[c.id] = c.attendance_records.group_by(&:checkin_time_id) }.to_json) };
     checkin.load(attendance_records);

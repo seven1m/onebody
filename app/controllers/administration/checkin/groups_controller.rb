@@ -5,6 +5,7 @@ class Administration::Checkin::GroupsController < ApplicationController
   def index
     @time = CheckinTime.find(params[:time_id])
     @group_times = @time.group_times
+    @labels = CheckinLabel.all.order(:name)
     @sections = GroupTime.distinct(:section).pluck(:section)
   end
 
@@ -22,7 +23,7 @@ class Administration::Checkin::GroupsController < ApplicationController
   def update
     @time = CheckinTime.find(params[:time_id])
     if @group_time = @time.group_times.where(group_id: params[:id]).first
-      @group_time.attributes = params.permit(:print_nametag, :print_extra_nametag, :section)
+      @group_time.attributes = params.permit(:label_id, :print_extra_nametag, :section)
       @group_time.save
     end
   end

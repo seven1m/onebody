@@ -44,14 +44,29 @@ en:
           button: "Add Group"
         table:
           group: "Destination (group name)"
-          print_nametag: "Print Nametag"
+          label_id: "Label (Nametag)"
           print_extra_nametag: "Extra Nametag"
           section: "Section"
       section:
         new: "[new section]"
 
+    labels:
+      button: "Labels Setup"
+      edit:
+        heading: "Edit Check-in Label"
+      delete:
+        notice: "Label deleted."
+      heading: "Check-in Labels"
+      new:
+        button: "New Label"
+        heading: "Edit Check-in Label"
+      table:
+        name: "Name"
+        description: "Description"
+        updated_at: "Updated"
+
     times:
-      button: "Setup"
+      button: "Times Setup"
       heading: "Check-in Times"
       intro: "Add, edit, and remove available checkin times here."
       table:

@@ -14,6 +14,8 @@ class Checkin::CheckinsController < ApplicationController
   end
 
   def new
+    session.delete(:checkin_family_id)
+    session.delete(:barcode)
   end
 
   def create
@@ -40,14 +42,8 @@ class Checkin::CheckinsController < ApplicationController
     params[:people].each do |person_id, times|
       person = Person.find(person_id)
       records = AttendanceRecord.check_in(person, times, session[:barcode])
-      records.compact.each do |record|
-        labels[person.id] ||= []
-        labels[person.id] << record.as_json if record.print_nametag? and labels[person.id].empty?
-        labels[person.id] << record.as_json if record.print_extra_nametag? and labels[person.id].length < 2
-      end
+      labels[person.id] = AttendanceRecord.labels_for(records)
     end
-    session.delete(:checkin_family_id)
-    session.delete(:barcode)
     render json: {
       labels: labels,
       today: Date.current.to_s(:date),

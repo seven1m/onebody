@@ -55,8 +55,8 @@ class Checkin
       dataType: 'json'
       method: 'put'
       complete: (resp) =>
-        new CheckinLabelSet(resp.responseJSON).print()
-        location.href = '/checkin'
+        if new CheckinLabelSet(resp.responseJSON).print()
+          location.href = '/checkin'
 
 
 class CheckinPerson
@@ -218,198 +218,33 @@ class SonicProtocol
 class CheckinLabelSet
 
   constructor: (@data) ->
-    @labelSet = new dymo.label.framework.LabelSetBuilder()
-    labels = []
+    by_label_id = {}
     for _, labels of @data.labels
       for l in labels
         data = $.extend {}, l, @data
         code = data.barcode_id.substring(data.barcode_id.length-4)
-        label = @labelSet.addRecord()
+        by_label_id[data.label_id] ||= new dymo.label.framework.LabelSetBuilder()
+        label = by_label_id[data.label_id].addRecord()
         label.setText("COMMUNITY_NAME", data.community_name || '')
         label.setText("FIRST_NAME",     data.first_name     || '')
         label.setText("LAST_NAME",      data.last_name      || '')
         label.setText("DATE",           data.today          || '')
         label.setText("NOTES",          data.medical_notes  || '')
         label.setText("CODE",           code                || '')
-
-  labelXml: ->
-    """
-      <?xml version="1.0" encoding="utf-8"?>
-      <DieCutLabel Version="8.0" Units="twips">
-        <PaperOrientation>Landscape</PaperOrientation>
-        <Id>Address</Id>
-        <PaperName>30252 Address</PaperName>
-        <DrawCommands>
-          <RoundRectangle X="0" Y="0" Width="1581" Height="5040" Rx="270" Ry="270"/>
-        </DrawCommands>
-        <ObjectInfo>
-          <TextObject>
-            <Name>CODE</Name>
-            <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>
-            <BackColor Alpha="0" Red="255" Green="255" Blue="255"/>
-            <LinkedObjectName></LinkedObjectName>
-            <Rotation>Rotation0</Rotation>
-            <IsMirrored>False</IsMirrored>
-            <IsVariable>True</IsVariable>
-            <HorizontalAlignment>Right</HorizontalAlignment>
-            <VerticalAlignment>Middle</VerticalAlignment>
-            <TextFitMode>AlwaysFit</TextFitMode>
-            <UseFullFontHeight>True</UseFullFontHeight>
-            <Verticalized>False</Verticalized>
-            <StyledText>
-              <Element>
-                <String>1234</String>
-                <Attributes>
-                  <Font Family="Helvetica CY" Size="13" Bold="False" Italic="False" Underline="False" Strikeout="False"/>
-                  <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>
-                </Attributes>
-              </Element>
-            </StyledText>
-          </TextObject>
-          <Bounds X="1111.793" Y="432.1721" Width="3841.807" Height="952.442"/>
-        </ObjectInfo>
-        <ObjectInfo>
-          <TextObject>
-            <Name>FIRST_NAME</Name>
-            <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>
-            <BackColor Alpha="0" Red="255" Green="255" Blue="255"/>
-            <LinkedObjectName></LinkedObjectName>
-            <Rotation>Rotation0</Rotation>
-            <IsMirrored>False</IsMirrored>
-            <IsVariable>True</IsVariable>
-            <HorizontalAlignment>Left</HorizontalAlignment>
-            <VerticalAlignment>Middle</VerticalAlignment>
-            <TextFitMode>ShrinkToFit</TextFitMode>
-            <UseFullFontHeight>True</UseFullFontHeight>
-            <Verticalized>False</Verticalized>
-            <StyledText>
-              <Element>
-                <String>First Name</String>
-                <Attributes>
-                  <Font Family="Helvetica" Size="24" Bold="False" Italic="False" Underline="False" Strikeout="False"/>
-                  <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>
-                </Attributes>
-              </Element>
-            </StyledText>
-          </TextObject>
-          <Bounds X="331.2" Y="340.1532" Width="2540" Height="600"/>
-        </ObjectInfo>
-        <ObjectInfo>
-          <TextObject>
-            <Name>LAST_NAME</Name>
-            <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>
-            <BackColor Alpha="0" Red="255" Green="255" Blue="255"/>
-            <LinkedObjectName></LinkedObjectName>
-            <Rotation>Rotation0</Rotation>
-            <IsMirrored>False</IsMirrored>
-            <IsVariable>True</IsVariable>
-            <HorizontalAlignment>Left</HorizontalAlignment>
-            <VerticalAlignment>Middle</VerticalAlignment>
-            <TextFitMode>ShrinkToFit</TextFitMode>
-            <UseFullFontHeight>True</UseFullFontHeight>
-            <Verticalized>False</Verticalized>
-            <StyledText>
-              <Element>
-                <String>Long Last Name Here</String>
-                <Attributes>
-                  <Font Family="Helvetica" Size="13" Bold="False" Italic="False" Underline="False" Strikeout="False"/>
-                  <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>
-                </Attributes>
-              </Element>
-            </StyledText>
-          </TextObject>
-          <Bounds X="347.6253" Y="751.9824" Width="2540" Height="572.9443"/>
-        </ObjectInfo>
-        <ObjectInfo>
-          <TextObject>
-            <Name>COMMUNITY_NAME</Name>
-            <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>
-            <BackColor Alpha="0" Red="255" Green="255" Blue="255"/>
-            <LinkedObjectName></LinkedObjectName>
-            <Rotation>Rotation0</Rotation>
-            <IsMirrored>False</IsMirrored>
-            <IsVariable>True</IsVariable>
-            <HorizontalAlignment>Left</HorizontalAlignment>
-            <VerticalAlignment>Middle</VerticalAlignment>
-            <TextFitMode>ShrinkToFit</TextFitMode>
-            <UseFullFontHeight>True</UseFullFontHeight>
-            <Verticalized>False</Verticalized>
-            <StyledText>
-              <Element>
-                <String>Cedar Ridge Christian Church</String>
-                <Attributes>
-                  <Font Family="Helvetica CY" Size="8" Bold="False" Italic="False" Underline="False" Strikeout="False"/>
-                  <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>
-                </Attributes>
-              </Element>
-            </StyledText>
-          </TextObject>
-          <Bounds X="374.0861" Y="96.98391" Width="4560.615" Height="296.0015"/>
-        </ObjectInfo>
-        <ObjectInfo>
-          <TextObject>
-            <Name>DATE</Name>
-            <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>
-            <BackColor Alpha="0" Red="255" Green="255" Blue="255"/>
-            <LinkedObjectName></LinkedObjectName>
-            <Rotation>Rotation0</Rotation>
-            <IsMirrored>False</IsMirrored>
-            <IsVariable>True</IsVariable>
-            <HorizontalAlignment>Right</HorizontalAlignment>
-            <VerticalAlignment>Middle</VerticalAlignment>
-            <TextFitMode>ShrinkToFit</TextFitMode>
-            <UseFullFontHeight>True</UseFullFontHeight>
-            <Verticalized>False</Verticalized>
-            <StyledText>
-              <Element>
-                <String>July 13, 2014</String>
-                <Attributes>
-                  <Font Family="Helvetica CY" Size="8" Bold="False" Italic="False" Underline="False" Strikeout="False"/>
-                  <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>
-                </Attributes>
-              </Element>
-            </StyledText>
-          </TextObject>
-          <Bounds X="3227.97" Y="57.59995" Width="1674.069" Height="357.5321"/>
-        </ObjectInfo>
-        <ObjectInfo>
-          <TextObject>
-            <Name>NOTES</Name>
-            <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>
-            <BackColor Alpha="0" Red="255" Green="255" Blue="255"/>
-            <LinkedObjectName></LinkedObjectName>
-            <Rotation>Rotation0</Rotation>
-            <IsMirrored>False</IsMirrored>
-            <IsVariable>True</IsVariable>
-            <HorizontalAlignment>Left</HorizontalAlignment>
-            <VerticalAlignment>Middle</VerticalAlignment>
-            <TextFitMode>ShrinkToFit</TextFitMode>
-            <UseFullFontHeight>True</UseFullFontHeight>
-            <Verticalized>False</Verticalized>
-            <StyledText>
-              <Element>
-                <String>Medical notes go here.</String>
-                <Attributes>
-                  <Font Family="Lucida Grande" Size="13" Bold="False" Italic="False" Underline="False" Strikeout="False"/>
-                  <ForeColor Alpha="255" Red="0" Green="0" Blue="0"/>
-                </Attributes>
-              </Element>
-            </StyledText>
-          </TextObject>
-          <Bounds X="370.1779" Y="1250.467" Width="4483.545" Height="213.9854"/>
-        </ObjectInfo>
-      </DieCutLabel>
-    """
+    @labels = by_label_id
 
   print: =>
     printers = (p for p in dymo.label.framework.getPrinters() \
                 when p.printerType == 'LabelWriterPrinter')
     if printers.length > 0
       printer = printers[0].name
-      to_print = dymo.label.framework.openLabelXml(@labelXml())
-      to_print.print(printer, '', @labelSet);
+      for label_id, label_set of @labels
+        xml = checkin_labels[label_id]
+        dymo.label.framework.openLabelXml(xml).print(printer, '', label_set)
+      true
     else
-      alert('LabelWriter not found')
+      alert('LabelWriter not found. You may need "Allow" access to the printer in your browser.')
+      false
 
 
 window.checkin = new Checkin().render()

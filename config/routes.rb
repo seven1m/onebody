@@ -195,7 +195,7 @@ OneBody::Application.routes.draw do
       resources :times do
         resources :groups
       end
-      resources :cards, :auths
+      resources :cards, :auths, :labels
     end
   end
 

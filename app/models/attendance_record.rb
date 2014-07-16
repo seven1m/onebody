@@ -3,6 +3,7 @@ class AttendanceRecord < ActiveRecord::Base
   belongs_to :group
   belongs_to :site
   belongs_to :checkin_time
+  belongs_to :checkin_label, foreign_key: :label_id
 
   scope_by_site_id
 
@@ -56,7 +57,7 @@ class AttendanceRecord < ActiveRecord::Base
           cannot_pick_up:      person.cannot_pick_up,
           medical_notes:       person.medical_notes,
           checkin_time_id:     group_time.checkin_time_id,
-          print_nametag:       group_time.print_nametag?,
+          label_id:            group_time.label_id,
           print_extra_nametag: group_time.print_extra_nametag?,
           barcode_id:          barcode_id
         )
@@ -69,6 +70,18 @@ class AttendanceRecord < ActiveRecord::Base
             #age:            person['age']
           #)
         #end
+      end
+    end
+  end
+
+  def self.labels_for(records)
+    [].tap do |labels|
+      records.compact.each do |record|
+        if record.checkin_label and labels.empty?
+          json = record.as_json.merge(label_id: record.label_id)
+          labels << json
+          labels << json if record.print_extra_nametag? and labels.length < 2
+        end
       end
     end
   end
