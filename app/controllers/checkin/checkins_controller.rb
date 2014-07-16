@@ -68,8 +68,11 @@ class Checkin::CheckinsController < ApplicationController
     end
   end
 
-  def reset_family
-    #session.delete(:checkin_family_id) # TODO
+  def feature_enabled?
+    unless Setting.get(:features, :checkin)
+      render text: 'This feature is unavailable.', layout: true
+      false
+    end
   end
 
 end
