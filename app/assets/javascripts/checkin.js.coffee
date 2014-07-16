@@ -1,6 +1,7 @@
 #= require jquery
 #= require jquery_ujs
 #= require sonicnet
+#= require DYMO.Label.Framework
 #= require ./app/center
 
 class Checkin
