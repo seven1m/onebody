@@ -4,6 +4,8 @@ class Document < ActiveRecord::Base
 
   scope :top, -> { where(folder_id: nil) }
 
+  scope_by_site_id
+
   validates :name, presence: true, length: { maximum: 255 }
   validates :description, length: { maximum: 1000 }
   validates :file, presence: true
