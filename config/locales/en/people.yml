@@ -92,6 +92,7 @@ en:
 
     checkin:
       heading: "Check-in Notes"
+      intro: "These are notes that are displayed on check-in screens and (optionally) on printed check-in labels in order to alert workers."
 
     testimony:
       box_heading: "Testimony"

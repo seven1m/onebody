@@ -22,6 +22,7 @@
     .box-header
       %h3.box-title= t('people.checkin.heading')
     .box-body
+      %p= t('people.checkin.intro')
       .form-group
         = form.label :can_pick_up
         = form.text_field :can_pick_up, class: 'form-control'
