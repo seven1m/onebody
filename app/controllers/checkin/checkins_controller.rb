@@ -26,7 +26,7 @@ class Checkin::CheckinsController < ApplicationController
       session[:barcode] = params[:barcode]
       redirect_to edit_checkin_path
     else
-      flash[:error] = 'card unknown'
+      flash.now[:error] = t('checkin.scan.unknown_card')
       render action: 'new'
     end
   end

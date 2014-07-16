@@ -20,6 +20,9 @@ en:
     assigned_cards:
       button: "Assigned Cards"
 
+    scan:
+      unknown_card: "card not found"
+
     cards:
       heading: "Assigned Check-in Cards"
       table:
