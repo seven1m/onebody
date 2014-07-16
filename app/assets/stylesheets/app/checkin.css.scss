@@ -1,13 +1,3 @@
-$checkin-font-family: "Roboto";
-
-a:active, *:focus { outline: none; -moz-outline-style: none; }
-
-.lockscreen {
-  background-image: url(/assets/blur-background10.jpg);
-  font-family: $checkin-font-family;
-  font-weight: 300;
-}
-
 .checkin {
   .subsection th {
     text-align: left;
@@ -22,16 +12,7 @@ a:active, *:focus { outline: none; -moz-outline-style: none; }
     font-weight: normal;
     text-decoration :none;
   }
-}
 
-.checkin-inner {
-  box-model: border-box;
-  -moz-box-model: border-box;
-  height: 100%;
-  padding: 25px;
-}
-
-.checkin {
   .callout-danger {
     background: transparent;
     text-shadow: 1px 3px 5px rgba(#000, 0.5);
@@ -41,6 +22,24 @@ a:active, *:focus { outline: none; -moz-outline-style: none; }
     text-align: center;
     color: #fff;
   }
+}
+
+$checkin-font-family: "Roboto";
+
+a:active, *:focus { outline: none; -moz-outline-style: none; }
+
+.lockscreen {
+  background-image: url(/assets/blur-background10.jpg);
+  font-family: $checkin-font-family;
+  font-weight: 300;
+}
+
+
+.checkin-inner {
+  box-model: border-box;
+  -moz-box-model: border-box;
+  height: 100%;
+  padding: 25px;
 }
 
 .checkin-help {

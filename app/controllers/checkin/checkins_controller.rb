@@ -3,9 +3,9 @@ class Checkin::CheckinsController < ApplicationController
   skip_before_filter :authenticate_user
   before_filter :ensure_campus_selection
   before_filter :reset_family, except: :edit
-  #before_filter -> {
-    #Timecop.freeze(Time.local(2014, 7, 6, 9, 00)) # TEMP for testing the UI
-  #}
+  before_filter -> {
+    Timecop.freeze(Time.local(2014, 6, 29, 9, 00)) # TEMP for testing the UI
+  }
 
   layout 'checkin'
 
@@ -19,6 +19,7 @@ class Checkin::CheckinsController < ApplicationController
   def create
     if @family = Family.undeleted.by_barcode(params[:barcode]).first
       session[:checkin_family_id] = @family.id
+      session[:barcode] = params[:barcode]
       redirect_to edit_checkin_path
     else
       flash[:error] = 'card unknown'
@@ -38,7 +39,7 @@ class Checkin::CheckinsController < ApplicationController
     labels = {}
     params[:people].each do |person_id, times|
       person = Person.find(person_id)
-      records = AttendanceRecord.check_in(person, times)
+      records = AttendanceRecord.check_in(person, times, session[:barcode])
       records.compact.each do |record|
         labels[person.id] ||= []
         labels[person.id] << record.as_json if record.print_nametag? and labels[person.id].empty?
@@ -46,7 +47,12 @@ class Checkin::CheckinsController < ApplicationController
       end
     end
     session.delete(:checkin_family_id)
-    render json: { labels: labels }
+    session.delete(:barcode)
+    render json: {
+      labels: labels,
+      today: Date.current.to_s(:date),
+      community_name: Setting.get(:name, :community)
+    }
   end
 
   private

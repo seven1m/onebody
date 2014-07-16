@@ -71,6 +71,9 @@
             = t('checkin.interface.print.button')
             .badge.pull-right.tag-count
 
+- content_for :css do
+  = stylesheet_link_tag 'checkin-print', media: 'print'
+
 - content_for :js do
   :javascript
     attendance_records = #{ json_escape(@checkins.each_with_object({}) { |c, h| h[c.id] = c.attendance_records.group_by(&:checkin_time_id) }.to_json) };

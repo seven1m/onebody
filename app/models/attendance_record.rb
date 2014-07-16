@@ -38,7 +38,7 @@ class AttendanceRecord < ActiveRecord::Base
     )
   end
 
-  def self.check_in(person, times)
+  def self.check_in(person, times, barcode_id)
     times.map do |checkin_time_id, group_time_id|
       checkin_time = CheckinTime.find(checkin_time_id)
       attended_at = checkin_time.to_time
@@ -58,6 +58,7 @@ class AttendanceRecord < ActiveRecord::Base
           checkin_time_id:     group_time.checkin_time_id,
           print_nametag:       group_time.print_nametag?,
           print_extra_nametag: group_time.print_extra_nametag?,
+          barcode_id:          barcode_id
         )
         ## record attendance for a person not in database (one at a time)
         #if person = params[:person] and @group
