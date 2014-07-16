@@ -103,7 +103,7 @@ a:active, *:focus { outline: none; -moz-outline-style: none; }
   }
 }
 
-.checkin-print {
+.checkin-actions {
   margin-top: 25px;
   h2 {
     color: #fff;
@@ -111,7 +111,7 @@ a:active, *:focus { outline: none; -moz-outline-style: none; }
     font-family: $checkin-font-family;
     font-weight: 300;
   }
-  .btn {
+  .print-btn {
     background-color: #00a65a;
     color: #eee;
     .small {
@@ -124,6 +124,9 @@ a:active, *:focus { outline: none; -moz-outline-style: none; }
       background-color: #fff;
       color: #00a65a;
     }
+  }
+  .cancel-btn {
+    margin-top: 50px;
   }
 }
 

@@ -18,7 +18,8 @@ class Checkin
       id = $(elm).data('id')
       @people[id] = new CheckinPerson($("#person_#{id}"))
     $('#add-a-guest').click(@addGuest)
-    $('.checkin-print .btn').click(@print)
+    $('.print-btn').click(@print)
+    $('.cancel-btn').click(@cancel)
     #if SonicProtocol.isSupported()
       #@sp = new SonicProtocol()
       #@sp.listen()
@@ -37,10 +38,10 @@ class Checkin
   personCheckedIn: (id, times) =>
     @checkedIn[id] = times
     if (id for id, s of times when s != null).length > 0
-      $('.checkin-print').show().find('.tag-count').text(@tagCount())
+      $('.checkin-actions').show().find('.tag-count').text(@tagCount())
     else
-      $('.checkin-print').find('.tag-count').text(@tagCount())
-      $('.checkin-print').hide() if @tagCount() == 0
+      $('.checkin-actions').find('.tag-count').text(@tagCount())
+      $('.checkin-actions').hide() if @tagCount() == 0
 
   tagCount: =>
     count = 0
@@ -58,6 +59,10 @@ class Checkin
       complete: (resp) =>
         if new CheckinLabelSet(resp.responseJSON).print()
           location.href = '/checkin'
+
+  cancel: (e) =>
+    e.preventDefault()
+    location.href = '/checkin'
 
 
 class CheckinPerson

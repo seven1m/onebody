@@ -17,11 +17,8 @@
             = t('checkin.interface.add_guest.button')
 
       .hidden-md.hidden-sm.hidden-xs
-        .checkin-print{ style: 'display:none' }
-          = link_to '#', class: 'btn checkin-btn' do
-            = icon 'fa fa-print'
-            = t('checkin.interface.print.button')
-            .badge.pull-right.tag-count
+        .checkin-actions{ style: 'display:none' }
+          = render partial: 'action_buttons'
 
     .col-lg-9
       - @checkins.each do |checkin|
@@ -65,11 +62,8 @@
                             = group_time.group.name
 
       .hidden-lg
-        .checkin-print{ style: 'display:none' }
-          .btn.checkin-btn
-            = icon 'fa fa-print'
-            = t('checkin.interface.print.button')
-            .badge.pull-right.tag-count
+        .checkin-actions{ style: 'display:none' }
+          = render partial: 'action_buttons'
 
 - content_for :css do
   = stylesheet_link_tag 'checkin-print', media: 'print'
