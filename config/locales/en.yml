@@ -87,18 +87,26 @@ en:
         address2: Address Line 2
         city: City
         state: State
-        zip: Zipe
+        zip: Zip
       person:
-        first_name: First Name
-        last_name: Last Name
-        suffix: Suffix
-        gender: Gender
-        mobile_phone: Mobile Phone
-        work_phone: Work Phone
-        fax: Fax
-        birthday: Birthday
-        anniversary: Anniversary
-        custom_type: Custom Role
+        email: "Email"
+        first_name: "First Name"
+        last_name: "Last Name"
+        suffix: "Suffix"
+        gender: "Gender"
+        mobile_phone: "Mobile Phone"
+        work_phone: "Work Phone"
+        fax: "Fax"
+        birthday: "Birthday"
+        anniversary: "Anniversary"
+        custom_type: "Custom Role"
+        can_sign_in: "Can sign in"
+        visible_to_everyone: "Visible on site"
+        visible_on_printed_directory: "Visible on printed directory"
+        full_access: "Full Access"
+        can_pick_up: "Can Pick Up"
+        cannot_pick_up: "Cannot Pick Up"
+        medical_notes: "Medical Notes"
       group:
         name: "Name"
         category: "Category"
@@ -120,10 +128,6 @@ en:
         link_code: "External Link Code"
         parents_of: "Link to parents of another group"
         hidden: "Hidden (Archived) Group"
-      person:
-        email: "Email"
-        first_name: "First Name"
-        last_name: "Last Name"
       prayer_request:
         answer: "Answer"
         answered_at: "Date Answered"

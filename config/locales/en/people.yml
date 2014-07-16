@@ -90,6 +90,9 @@ en:
       phone: "Phone"
       website: "Website"
 
+    checkin:
+      heading: "Check-in Notes"
+
     testimony:
       box_heading: "Testimony"
       heading: "Testimony of %{person}"
