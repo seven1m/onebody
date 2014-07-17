@@ -147,6 +147,22 @@ describe Family do
         end
       end
 
+      context 'given direction up and sequences are invalid and there is a deleted person' do
+        before do
+          child.destroy
+          @new_child = FactoryGirl.create(:person, family: subject, child: true)
+          subject.people.update_all(sequence: 2)
+          expect(subject.people.reload.undeleted).to eq([head, spouse, @new_child]) # database order
+          subject.reorder_person(@new_child.reload, 'up')
+        end
+
+        it 'fixes sequence numbers' do
+          expect(head.reload.sequence).to eq(1)
+          expect(@new_child.reload.sequence).to eq(2)
+          expect(spouse.reload.sequence).to eq(3)
+        end
+      end
+
       context 'given direction down' do
         before do
           subject.reorder_person(spouse, 'down')
