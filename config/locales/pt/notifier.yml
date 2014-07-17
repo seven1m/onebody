@@ -1,0 +1,29 @@
+---
+pt:
+  notifier:
+    attached_your_custom_directory: "Hello, %{name}. Attached is your custom printed directory from %{site}."
+    be_sure_to_send_verification_email: "Be sure to also click to \"send verification email\" to the user."
+    check_boxes_in_visibility_sidebar: "Check all the appropriate boxes in the \"Visibility\" tab and save."
+    click_link_to_complete_process: "Click the following link to complete the process: %{url}"
+    has_submited_profile_update: "submeteu uma atualização de perfil"
+    if_you_cannot_click_link: "If you cannot click the link above, you may need to copy and paste it into the address bar of your web browser."
+    if_you_approve_this_account_creation: "If you approve of this account creation, activate the account at this address"
+    if_you_dont_know_why_get_this_email: "If you don't know why you're getting this email, you may contact %{name} at %{phone}."
+    message_id: "ID da Mensagem"
+    name_has_requested_join_group: "%{name} solicitou para entrar no grupo %{group}."
+    name_submitted_birthday_request: "%{name} has submitted a birthday verification request"
+    new: Nova
+    old: Old
+    person_had_their_email_changed: "%{name} teve o seu email alterado."
+    person_has_changed_photo: "%{name} has changed their photo."
+    person_has_signed_for_account: "%{name} has signed up for an account."
+    person_wants_to_be_your_friend: "%{name} gostaria de ser seu amigo no %{site}."
+    please_make_updates: "Please make the appropriate updates to the membership database."
+    this_email_to_verify_email: "This email is to verify your email address for access to the %{site} website. To verify your email address, please click the link below"
+    this_notify_someone_reported: "This is to notify you that someone has reported that the date and time are incorrect at %{site}."
+    to_accept_or_decline: "To either accept or decline, please sign in here"
+    to_approve_or_ignore: "To approve or ignore, sign in and visit the following address"
+    update_record_membership: "Update their record in the membership database."
+    verification_code: "Código de Verificação"
+    verify_person_identity: "Verify this person's identity. Be cautious; if in doubt, use the phone number provided to validate this person is who they say they are."
+    wait_one_day_and_wait: "WAIT ONE DAY or manually trigger the database update script on the server and wait until it is finished."

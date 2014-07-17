@@ -1,0 +1,19 @@
+---
+pt:
+  friends:
+    index:
+      nobody_yet: "Ninguém ainda"
+    accept: "Aceitar Amigo"
+    add_friend_are_you_sure: "Are you sure? An email will be sent to this person requesting friendship."
+    add_to_friends: "Adicionar aos Amigos"
+    add_to_friends_pending: "Add to Friends (pending)"
+    decline: "Decline Friend"
+    friends: Amigos
+    pending_requests: "Pending Friend Requests"
+    people_requested: "The following people have requested to be your friend."
+    personal_friends: "Amigos de %{name}"
+    remove_from_friends: "Remove from Friends"
+    request_sent: "A friend request has been sent to %{name}."
+    search_in_the_directory: "Search for friends in the directory"
+    you_have_pending_requests: "You have pending friend requests."
+    friends_list_button: "Visualizar Amigos"
