@@ -58,7 +58,7 @@ class Family < ActiveRecord::Base
   end
 
   def mapable?
-    latitude != 0.0 and longitude != 0.0
+    latitude.to_i != 0.0 and longitude.to_i != 0.0
   end
 
   def location
