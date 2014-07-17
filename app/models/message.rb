@@ -177,12 +177,10 @@ class Message < ActiveRecord::Base
   end
 
   def email_from(to_person)
-    if not to_person.messages_enabled?
-      "\"#{person.name}\" <#{Site.current.noreply_email}>"
-    elsif group
-      relay_address("#{person.name} [#{group.name}]")
+    if group
+      from_address("#{person.name} [#{group.name}]")
     else
-      relay_address(person.name)
+      from_address(person.name)
     end
   end
 
@@ -190,17 +188,15 @@ class Message < ActiveRecord::Base
     if not to_person.messages_enabled?
       "\"DO NOT REPLY\" <#{Site.current.noreply_email}>"
     else
-      relay_address(person.name)
+      from_address(person.name)
     end
   end
 
-  def relay_address(name)
-    if person.email.to_s.any? and person.share_email? and !Setting.get(:privacy, :relay_all_email)
-      "\"#{name}\" <#{person.email}>"
-    else # special time-limited address that relays a private message directly back to the sender
-      email = person.name.downcase.scan(/[a-z]/).join('')
-      email = email + person.id.to_s if Group.where(address: email).first
-      "\"#{name}\" <#{email + '@' + Site.current.host}>"
+  def from_address(name)
+    if person.email.present?
+      %("#{name.gsub(/"/, '')}" <#{person.email}>)
+    else
+      "\"DO NOT REPLY\" <#{Site.current.noreply_email}>"
     end
   end
 
