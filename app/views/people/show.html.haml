@@ -36,7 +36,7 @@
         - if @stream_items.any?
           = render partial: 'details'
       .col-lg-6.col-lg-pull-6
-        - unless me? or not (setting(:features, :friends) and @person.messages_enabled?)
+        - if not me? and (setting(:features, :friends) or @person.messages_enabled?)
           .page-controls
             - if setting(:features, :friends)
               = render partial: 'friendship'
