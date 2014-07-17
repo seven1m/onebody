@@ -188,13 +188,13 @@ class Message < ActiveRecord::Base
     if not to_person.messages_enabled?
       "\"DO NOT REPLY\" <#{Site.current.noreply_email}>"
     else
-      from_address(person.name)
+      from_address(person.name, :real)
     end
   end
 
-  def from_address(name)
+  def from_address(name, real=false)
     if person.email.present?
-      %("#{name.gsub(/"/, '')}" <#{person.email}>)
+      %("#{name.gsub(/"/, '')}" <#{real ? person.email : Site.current.noreply_email}>)
     else
       "\"DO NOT REPLY\" <#{Site.current.noreply_email}>"
     end
