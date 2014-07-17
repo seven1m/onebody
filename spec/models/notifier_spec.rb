@@ -358,6 +358,33 @@ describe Notifier do
     end
   end
 
+  context 'given a repy email with attachment' do
+    before do
+      @user2 = FactoryGirl.create(:person, first_name: 'Jane')
+      @message = Message.create person: @user, to: @user2, subject: 'test', body: 'hello'
+      @sent = ActionMailer::Base.deliveries.first
+      reply = Mail.new(
+        from:        "#{@user2.name} <#{@user2.email}>",
+        to:          @sent.from,
+        subject:     're: test',
+        in_reply_to: @sent.message_id
+      )
+      reply.text_part = Mail::Part.new do
+        body 'hello!!!'
+      end
+      reply.attachments['myfile.pdf'] = File.read(Rails.root.join('spec/fixtures/files/attachment.pdf'))
+      ActionMailer::Base.deliveries = []
+      Notifier.receive(reply.to_s)
+      @sent = ActionMailer::Base.deliveries.first
+      @message = Message.last
+    end
+
+    it 'should save attachment' do
+      expect(@message.subject).to eq('re: test')
+      expect(@message.attachments.count).to eq(1)
+    end
+  end
+
   context 'email sent to the noreply address' do
     before do
       msg = Mail.new(

@@ -70,11 +70,6 @@ class Notifier < ActionMailer::Base
     end
     headers h
     msg.attachments.each do |a|
-      #attachments[a.name] = {
-        #:mime_type => a.content_type,
-        #:content   => File.read(a.file.path)
-      #}
-      # TODO check that it's ok to not specify content-type...
       attachments[a.name] = File.read(a.file.path)
     end
     mail(
@@ -158,7 +153,6 @@ class Notifier < ActionMailer::Base
 
   def printed_directory(person, file)
     @person = person
-    # TODO check that it is ok that we don't specify content-type application/pdf here
     attachments['directory.pdf'] = file.read
     mail(
       to:      "\"#{person.name}\" <#{person.email}>",
@@ -291,18 +285,7 @@ class Notifier < ActionMailer::Base
         dont_send: true
       )
       if message.valid?
-        if email.has_attachments?
-          email.attachments.each do |attachment|
-            name = File.split(attachment.filename.to_s).last
-            unless ATTACHMENTS_TO_IGNORE.include? name.downcase
-              message.attachments.create(
-                name:         name,
-                content_type: attachment.content_type.strip,
-                file:         FakeFile.new(attachment.body.to_s, name)
-              )
-            end
-          end
-        end
+        create_attachments(email, message)
         already_sent_to = email.to.to_a
         message.send_to_group(already_sent_to)
         @message_sent_to_group = true
@@ -333,9 +316,29 @@ class Notifier < ActionMailer::Base
             subject: email.subject,
             body: clean_body(body[:text]),
             html_body: clean_body(body[:html]),
-            parent: message
+            parent: message,
+            dont_send: true
           )
+          if message.valid?
+            create_attachments(email, message)
+            message.send_to_person(message.to)
+          end
           true
+        end
+      end
+    end
+
+    def create_attachments(email, message)
+      if email.has_attachments?
+        email.attachments.each do |attachment|
+          name = File.split(attachment.filename.to_s).last
+          unless ATTACHMENTS_TO_IGNORE.include? name.downcase
+            message.attachments.create(
+              name:         name,
+              content_type: attachment.content_type.strip,
+              file:         FakeFile.new(attachment.body.to_s, name)
+            )
+          end
         end
       end
     end
