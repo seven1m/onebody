@@ -183,7 +183,7 @@ class Search
   end
 
   def family_barcode_id!
-    where!('families.barcode_id = ?', family_barcode_id) if family_barcode_id
+    where!('families.barcode_id = :id or families.alternate_barcode_id = :id', id: family_barcode_id) if family_barcode_id
   end
 
   def show_hidden_profiles?
