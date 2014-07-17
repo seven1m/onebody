@@ -14,12 +14,14 @@ class Checkin
       @people[person_id]?.load(data)
 
   render: ->
-    $('.checkin-select-person').click(@selectPerson).each (i, elm) =>
+    $(document).on 'click', '.checkin-select-person', @selectPerson
+    $('.checkin-select-person').each (i, elm) =>
       id = $(elm).data('id')
       @people[id] = new CheckinPerson($("#person_#{id}"))
     $('#add-a-guest').click(@addGuest)
     $('.print-btn').click(@print)
     $('.cancel-btn').click(@cancel)
+    @guest = new AddGuest($('.add-a-guest-entry'))
     #if SonicProtocol.isSupported()
       #@sp = new SonicProtocol()
       #@sp.listen()
@@ -27,13 +29,19 @@ class Checkin
 
   selectPerson: (e) =>
     e.preventDefault()
-    p.hide() for _, p of @people
     id = $(e.delegateTarget).data('id')
+    @showPerson(id)
+
+  showPerson: (id) =>
+    p.hide() for _, p of @people
     @people[id].show()
 
   addGuest: (e) =>
     e.preventDefault()
-    alert('NOT YET IMPLEMENTED')
+    @guest.show()
+
+  addPerson: (id, name) =>
+    @people[id] = new CheckinPerson($("#person_#{id}"))
 
   personCheckedIn: (id, times) =>
     @checkedIn[id] = times
@@ -63,6 +71,41 @@ class Checkin
   cancel: (e) =>
     e.preventDefault()
     location.href = '/checkin'
+
+
+class AddGuest
+
+  constructor: (@elm) ->
+    @elm.find('.save-btn').click(@save)
+    @elm.find('.checkin-close').click(@hide)
+    @input = @elm.find('input')
+    @input.on 'keyup', @keypress
+    @person_id = 1
+
+  show: =>
+    @elm.show().find('input')[0].focus()
+
+  hide: =>
+    @elm.hide()
+
+  keypress: (e) =>
+    if e.keyCode == 13
+      @save(e)
+
+  save: (e) =>
+    e.preventDefault()
+    id = @person_id++
+    buttons = $('.checkin-people')
+    button = buttons.find('a[data-id="new"]')
+      .clone()
+      .data('id', "new#{id}")
+    name = @input.val()
+    button.find('.name').html(name)
+    buttons.append($('<li>').append(button))
+    @input.val('')
+    checkin.addPerson(id, name)
+    checkin.showPerson(id)
+    @hide()
 
 
 class CheckinPerson

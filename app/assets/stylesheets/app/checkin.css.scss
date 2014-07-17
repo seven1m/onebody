@@ -277,3 +277,32 @@ a:active, *:focus { outline: none; -moz-outline-style: none; }
 .expanded .checkin-folder {
   @extend .fa-folder-open-o;
 }
+
+.add-a-guest-entry {
+  border-top: none;
+  background-color: rgba(#fff, 0.6);
+  p {
+    font-size: 15pt;
+  }
+  input {
+    font-size: 25pt;
+    height: 55px;
+  }
+  .checkin-close {
+    font-size: 20pt;
+  }
+  .box-header {
+    padding: 5px 15px 5px 30px;
+    .box-title {
+      padding-left: 0;
+    }
+  }
+  .box-body {
+    padding: 0px 30px 30px;
+  }
+  .save-btn {
+    font-size: 25pt;
+    height: 55px;
+    margin-top: -10px;
+  }
+}

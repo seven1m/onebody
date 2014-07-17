@@ -3,12 +3,13 @@
     .col-lg-3
       %ul.list-unstyled.checkin-people
         - @checkins.each do |checkin|
-          %li
-            = link_to '#', class: 'btn checkin-btn checkin-select-person', data: { id: checkin.person.id } do
+          %li{ style: checkin.person.persisted? ? '' : 'display:none' }
+            = link_to '#', class: 'btn checkin-btn checkin-select-person', data: { id: checkin.person.id || 'new' } do
               .pull-right
                 = icon 'fa fa-chevron-right status'
               = avatar_tag(checkin.person, variation: :dark)
-              = checkin.person.name
+              %span.name= checkin.person.name
+      %ul.list-unstyled
         %li
           = link_to '#', class: 'btn checkin-btn', id: 'add-a-guest' do
             .pull-right
@@ -22,7 +23,7 @@
 
     .col-lg-9
       - @checkins.each do |checkin|
-        %div.checkin-person{ id: "person_#{checkin.id}", style: 'display:none', data: { id: checkin.id } }
+        %div.checkin-person{ id: "person_#{checkin.id || 'new'}", style: 'display:none', data: { id: checkin.id } }
 
           - if checkin.can_choose_same?
             .checkin-same
@@ -64,6 +65,18 @@
       .hidden-lg
         .checkin-actions{ style: 'display:none' }
           = render partial: 'action_buttons'
+
+      .add-a-guest-entry.box{ style: 'display:none' }
+        .box-header
+          %h2.box-title= t('checkin.interface.add_guest.heading')
+          .pull-right
+            = link_to '#', class: 'checkin-close' do
+              .icon
+        .box-body
+          %p= t('checkin.interface.add_guest.intro')
+          %input
+          = link_to t('checkin.interface.add_guest.save'), '#', class: 'btn btn-success save-btn'
+
 
 - content_for :css do
   = stylesheet_link_tag 'checkin-print', media: 'print'

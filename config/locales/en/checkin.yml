@@ -136,7 +136,10 @@ en:
 
     interface:
       add_guest:
+        heading: "Add a Guest"
+        intro: "Type the full name of your guest in the field below."
         button: "Add a guest"
+        save: "Save"
       barcode:
         placeholder: "Scan Your Card"
       heading: "Check In"

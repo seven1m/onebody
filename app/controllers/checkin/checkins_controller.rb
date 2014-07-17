@@ -37,6 +37,7 @@ class Checkin::CheckinsController < ApplicationController
     @checkins = @family.people.undeleted.map do |person|
       CheckinPresenter.new(session[:checkin_campus], person)
     end
+    @checkins << CheckinPresenter.new(session[:checkin_campus], Person.new) # add guest
   end
 
   def update
