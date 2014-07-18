@@ -46,7 +46,17 @@ module OneBody
 
     # TODO remove this when we get to Rails 4.1
     def secrets
-      @secrets ||= OpenStruct.new(YAML.load_file(Rails.root.join('config/secrets.yml'))[Rails.env])
+      @secrets ||= begin
+        path = Rails.root.join('config/secrets.yml')
+        if File.exist?(path)
+          OpenStruct.new(YAML.load_file(path)[Rails.env])
+        else
+          envs = ENV.to_a \
+                    .select { |(k, _)| %w(SECRET_TOKEN MAPQUEST_API_KEY).include?(k) } \
+                    .map    { |(k, v)| [k.downcase, v] }
+          OpenStruct.new(Hash[envs])
+        end
+      end
     end
   end
 end
