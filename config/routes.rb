@@ -186,7 +186,6 @@ OneBody::Application.routes.draw do
       end
     end
     resources :updates, :admins, :membership_requests
-    resource :api_key
     namespace :checkin do
       root to: 'dashboards#show'
       resource :dashboard
