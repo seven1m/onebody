@@ -18,7 +18,7 @@ You can see lots of [screenshots here](https://www.flickr.com/photos/timothymorg
 
 Operating System: Linux (Debian/Ubuntu recommended)
 
-First, a word of warning (this is the part where we try to talk you out of installing our beautifully and wonderfully hand-crafted software): OneBody is not a PHP app that can be FTP'd to a cheap web host. You *will* need a dedicated Linux server (or Virtual Private Server) with 1 Gb of memory and *root shell access*. We're sorry, that's just the way it is.
+First, a word of warning: OneBody is not a PHP app that can be FTP'd to a cheap web host. You *will* need a dedicated Linux server (or Virtual Private Server) with 1 Gb of memory and *root shell access*. We're sorry, that's just the way it is.
 
 If you don't feel comfortable logging into a web server from the console, typing lots of commands, reading the output, Googling error messages, and generally troubleshooting the whole process, then please don't try this. If you don't have a few hours to spare, then don't try to rush it, as it will only end in frustration—It would be better for you find a consultant on freelancer.com or oDesk and pay them to do it.
 
