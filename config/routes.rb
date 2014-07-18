@@ -121,6 +121,8 @@ OneBody::Application.routes.draw do
     resources :attachments
   end
 
+  resources :emails
+
   resources :tags, only: :show
 
   resources :pictures, :prayer_signups, :authentications, :verses, :shares,
