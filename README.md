@@ -92,7 +92,7 @@ On the other hand, if you're a I.T/sysadmin/hacker with guts, then please procee
 
     Oh, and a few more things:
 
-16. Follow the steps in [PostfixEmailSetup](http://github.com/churchio/onebody/wiki/PostfixEmailSetup) or [MailgunEmailSetup](https://github.com/churchio/onebody/wiki/MailgunEmailSetup) on the wiki for help with setting up incoming and outgoing email. (OneBody isn't half as good without this working, so this is a must.)
+16. Follow the steps in [PostfixEmailSetup](http://github.com/churchio/onebody/wiki/PostfixEmailSetup) (your own server, moderate difficulty) or [MailgunEmailSetup](https://github.com/churchio/onebody/wiki/MailgunEmailSetup) (commercial service, easier setup) on the wiki for help with setting up incoming and outgoing email. (OneBody isn't half as good without this working, so this is a must.)
 
 17. `RAILS_ENV=production whenever -w` to write the user crontab.
 
