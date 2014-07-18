@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/churchio/onebody.png)](https://travis-ci.org/churchio/onebody)
 
+http://church.io
+
 OneBody is open-source, web-based social networking, email list, online directory, and lightweight document management software for churches.
 
 *It's like a cross between Facebook, Google Groups, and SharePoint, but it's completely free and open source and awesome.*
