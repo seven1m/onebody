@@ -147,7 +147,7 @@ class Message < ActiveRecord::Base
       msg << "Hit \"Reply\" to send a message to #{self.person.name rescue 'the sender'} only.\n"
       if group.can_post? to_person
         if group.address.to_s.any?
-          msg << "Hit \"Reply to All\" to send a message to the group, or send to: #{group.address + '@' + Site.current.host}\n"
+          msg << "Hit \"Reply to All\" to send a message to the group, or send to: #{group.address + '@' + Site.current.email_host}\n"
           msg << "Group page: #{Setting.get(:url, :site)}groups/#{group.id}\n"
         else
           msg << "To reply: #{reply_url}\n"

@@ -173,7 +173,7 @@ class Group < ActiveRecord::Base
   end
 
   def full_address
-    address.to_s.any? ? (address + '@' + Site.current.host) : nil
+    address.to_s.any? ? (address + '@' + Site.current.email_host) : nil
   end
 
   def get_people_attendance_records_for_date(date)
