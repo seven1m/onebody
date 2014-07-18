@@ -64,7 +64,7 @@ class Setup
 
   def update_admin_settings!
     Setting.set_global('Contact', 'Bug Notification Email', @person.email)
-    Setting.set_global('Contact', 'Tech Support Email', @person.email)
+    Setting.set('Contact', 'Tech Support Email', @person.email)
   end
 
   def update_stream_item!
