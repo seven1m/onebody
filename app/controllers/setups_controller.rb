@@ -11,6 +11,8 @@ class SetupsController < ApplicationController
 
   def new
     @person = Person.new
+    @host = URI.parse(request.url).host
+    @host = nil if @host =~ /\A(localhost|\d+\.\d+\.\d+\.\d+)\z/
   end
 
   def create
