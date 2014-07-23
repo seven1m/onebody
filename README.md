@@ -14,7 +14,7 @@ You can see lots of [screenshots here](https://www.flickr.com/photos/timothymorg
 
 [![screnshots](https://farm4.staticflickr.com/3907/14330229528_250bd697d7.jpg)](https://www.flickr.com/photos/timothymorgan/sets/72157644451251789)
 
-## Production Installation
+## Production Installation the Manual Way
 
 Operating System: Linux (Debian/Ubuntu recommended)
 
@@ -107,13 +107,39 @@ Whew! We know that was a lot. If you made it this far, and OneBody is running, t
 
 What's next? Complete the form on the initial Setup screen, then head over to the Settings page in the Admin dashboard, and start customizing!
 
+## Production Installation Using Docker
+
+Operating System: Linux (Ubuntu recommended)
+
+**This technique is experimental** (Actually, Docker is stable production quality software, however my (Tim's) understanding of it isn't quite), so your mileage may vary.
+
+1. Get a dedicated server or Virtual Private Server (VPS) running Ubuntu Linux and install Docker on it. The absolute easiest and quickest is to sign up at [DigitalOcean](http://digitalocean.com) and use their one-click Docker install option.
+
+2. `ssh root@IP_OF_YOUR_HOST`, then type this:
+
+        apt-get install -y pwgen
+        git clone git://github.com/churchio/onebody.git && cd onebody
+        cp config/database.yml{.docker-example,}
+        sed "s/SOMETHING_RANDOM_HERE/$(pwgen -s -1 100)/" config/secrets.yml.example > config/secrets.yml
+        docker run -d --name="onebody-data" -p 127.0.0.1:3306:3306 -v /var/data:/data -e USER="onebody" -e PASS="$(pwgen -s -1 16)" paintedfox/mariadb
+        docker build -t onebody .
+        docker run -t -i --rm --link onebody-data:db onebody bundle exec rake db:create db:migrate
+        docker run -d --link onebody-data:db -p 80:3000 onebody /server
+
+3. Now visit your site at `http://IP_OF_YOUR_HOST` and set it up!
+
+   Of course, it would be preferable to set up DNS for your host so you can have a nice address.
+
+4. Set up email, using our [MailgunEmailSetup](https://github.com/churchio/onebody/wiki/MailgunEmailSetup) instructions.
+
+
 ## Production Deployment with Capistrano
 
 If you're familiar with Capistrano deployments, you can probably make use of the existing `config/deploy.rb` along with your own `config/deploy/production.rb` that includes your server name and custom config.
 
 If you've never heard of Capistrano and/or you don't love thinking about spending your precious time automating server stuff, then you should probably go back up to the previous section for the manual install instructions. :-)
 
-## Development Setup using Vagrant
+## Development Setup Using Vagrant
 
 Operating System: Windows, Mac, or Linux
 

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+mkdir -p /data/{log,tmp,system}
+ln -s /data/log log
+ln -s /data/tmp tmp
+ln -s /data/system public/system
+
+bundle exec rails server
