@@ -83,6 +83,6 @@ OneBody::Application.configure do
 
   if ENV['SERVE_ASSETS']
     config.middleware.delete "Rack::Sendfile"
-    config.middleware.use(Rack::Static, urls: ['/assets', '/system'], root: 'public')
+    config.middleware.use(Rack::Static, urls: ['/assets', '/images', '/system'], root: 'public')
   end
 end
