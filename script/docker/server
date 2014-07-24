@@ -1,8 +1,8 @@
 #!/bin/bash
 
-mkdir -p /data/{log,tmp,system}
-ln -s /data/log log
-ln -s /data/tmp tmp
-ln -s /data/system public/system
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-bundle exec rails server
+sudo $DIR/chown_data
+$DIR/link_dirs
+
+bundle exec rails server $@

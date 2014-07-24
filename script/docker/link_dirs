@@ -1,0 +1,13 @@
+#!/bin/bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+
+# clear out dirs created by build process
+[[ -h $DIR/../../log ]] || rm -rf $DIR/../../log
+[[ -h $DIR/../../tmp ]] || rm -rf $DIR/../../tmp
+
+mkdir -p /data/{log,tmp,system}
+ln -s /data/log $DIR/../../log
+ln -s /data/tmp $DIR/../../tmp
+ln -s /data/system $DIR/../../public/system

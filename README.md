@@ -121,10 +121,11 @@ Operating System: Linux (Ubuntu recommended)
         git clone git://github.com/churchio/onebody.git && cd onebody
         cp config/database.yml{.docker-example,}
         sed "s/SOMETHING_RANDOM_HERE/$(pwgen -s -1 100)/" config/secrets.yml.example > config/secrets.yml
-        docker run -d --name="onebody-data" -p 127.0.0.1:3306:3306 -v /var/data:/data -e USER="onebody" -e PASS="$(pwgen -s -1 16)" paintedfox/mariadb
+        docker run -d --name="onebody-data" -p 127.0.0.1:3306:3306 -v /var/data/onebody/db:/data -e USER="onebody" -e PASS="$(pwgen -s -1 16)" paintedfox/mariadb
         docker build -t onebody .
         docker run -t -i --rm --link onebody-data:db onebody bundle exec rake db:create db:migrate
-        docker run -d --link onebody-data:db -p 80:3000 onebody /server
+        docker run --name="server" -d --link onebody-data:db -v /var/data/onebody/files:/data -p 80:3000 onebody /server
+        docker run --name="worker" -d --link onebody-data:db -v /var/data/onebody/files:/data onebody /worker -c
 
 3. Now visit your site at `http://IP_OF_YOUR_HOST` and set it up!
 

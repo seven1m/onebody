@@ -6,17 +6,20 @@ RUN apt-get install -y -q wget vim build-essential curl libreadline-dev libcurl4
 RUN apt-get clean
 
 # install Ruby
-WORKDIR /tmp
-RUN wget http://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.2.tar.gz && tar xzvf ruby-2.1.2.tar.gz
-WORKDIR /tmp/ruby-2.1.2
-RUN ./configure --disable-install-doc && make install
-RUN rm -rf /tmp/ruby-2.1.2*
+RUN apt-get install -y software-properties-common
+RUN apt-add-repository -y ppa:brightbox/ruby-ng
+RUN apt-get update
+RUN apt-get install -y ruby2.1 ruby2.1-dev
+# manual compile way, leaving this just in case...
+#WORKDIR /tmp
+#RUN wget http://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.2.tar.gz && tar xzvf ruby-2.1.2.tar.gz
+#WORKDIR /tmp/ruby-2.1.2
+#RUN ./configure --disable-install-doc && make install
+#RUN rm -rf /tmp/ruby-2.1.2*
 RUN gem install bundler --no-rdoc --no-ri
 
 # set up user
 RUN adduser --gecos "" --disabled-password --home=/home/onebody onebody
-
-# from here on, be onebody
 USER onebody
 ENV HOME /home/onebody
 ENV GEM_HOME /home/onebody/.gems
@@ -39,20 +42,17 @@ USER root
 ADD . /var/www/onebody
 RUN chown -R onebody /var/www/onebody
 
-# copy scripts
-COPY script/docker/server /server
-COPY script/docker/console /console
+# allow onebody user to run special 'chown_data' script as root
+# workaround for volumes readonly to non-root users
+RUN echo "ALL ALL=NOPASSWD: /var/www/onebody/script/docker/chown_data" > /etc/sudoers.d/chown_data
 
-# fix for permissions bug
-# https://github.com/dotcloud/docker/issues/2969
-# https://github.com/kalamuna/kaladata-docker/commit/9e843ed361528011635d0290b095bb0050fcf32e
-RUN mkdir -p /data
-RUN touch /data/.perm-fix
-RUN chown -R onebody /data
+# copy scripts
+RUN echo "#!/bin/bash\n\n/var/www/onebody/script/docker/server \$@"  > /server  && chmod +x /server
+RUN echo "#!/bin/bash\n\n/var/www/onebody/script/docker/console \$@" > /console && chmod +x /console
+RUN echo "#!/bin/bash\n\n/var/www/onebody/script/docker/worker \$@"  > /worker  && chmod +x /worker
 
 # set up shared directories
 USER onebody
-VOLUME /data
 
 # compile assets
 WORKDIR /var/www/onebody
