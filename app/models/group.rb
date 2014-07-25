@@ -106,16 +106,17 @@ class Group < ActiveRecord::Base
       parents = Group.find(parents_of).people.map { |p| p.parents }.flatten.uniq
       update_membership_associations(parents)
     elsif linked?
-      scope = Person.all
+      q = []
+      p = []
       link_code.downcase.split.each do |code|
-        scope.where!("lcase(classes) = ? or
-                      lcase(classes) like ? or lcase(classes) like ? or lcase(classes) like ? or
-                      lcase(classes) like ? or lcase(classes) like ?",
-                      code,
-                      "#{code},%", "%,#{code}", "%,#{code},%",
-                      "#{code}[%", "%,#{code}[%"
-                    )
+        q << "lcase(classes) = ? or
+              lcase(classes) like ? or lcase(classes) like ? or lcase(classes) like ? or
+              lcase(classes) like ? or lcase(classes) like ?"
+        p += [code,
+              "#{code},%", "%,#{code}", "%,#{code},%",
+              "#{code}[%", "%,#{code}[%"]
       end
+      scope = Person.where(q.join(' or '), *p)
       update_membership_associations(scope.to_a)
     elsif Membership.column_names.include?('auto')
       memberships.where(auto: true).each { |m| m.destroy }
