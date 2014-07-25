@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-SOURCE = "#{ENV['HOME']}/Downloads/OneBody.zip"
+SOURCE = ARGV[0] || "#{ENV['HOME']}/Downloads/OneBody.zip"
 
 if File.exist?(SOURCE)
   puts `unzip #{SOURCE} -d /tmp/i18n`
