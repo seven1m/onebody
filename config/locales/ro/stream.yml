@@ -1,0 +1,73 @@
+---
+ro:
+  stream:
+    title: Acasă
+    sub_title: "(distribuite mie)"
+    none: "Nimic de afișat încă."
+    header:
+      noone: sistem
+      message: "%{who} a trimis un mesaj la %{group}"
+      news: "%{who} a postat %{title}"
+      note: "%{who} a postat o notiță"
+      person: "%{who} a fost adăugat la comunitate"
+      picture:
+        one: "%{who} a distribuit o fotografie în %{album}"
+        few: "%{who} a distibuit fotografii în %{album}"
+        other: "%{who} a distibuit fotografii în %{album}"
+      picture_in_group:
+        one: "%{who} a distribuit o fotografie în grupul %{group}"
+        few: "%{who} a distribuit cateva fotografii în grupul %{group}"
+        other: "%{who} a distribuit cateva fotografii în grupul %{group}"
+      prayer_request: "%{who} are o cerere de rugăciune în grupul %{group}"
+      site: "%{site}"
+      verse: "%{who} a distribuit %{title}"
+    body:
+      picture:
+        alt: "click pentru a mări"
+      person:
+        button: "Salută pe %{person}!"
+      site:
+        description: "Community site for %{site} was created!"
+    footer:
+      button_label:
+        album: "Show all"
+        note: "Read more"
+        verse: "Read more"
+        person: ""
+        site: ""
+    load_more: "load more..."
+    share:
+      heading:
+        friends: "Share with Friends"
+        everyone: "Share with Everyone"
+      intro:
+        friends_and_group_members: "Things you share here will be seen by your friends and fellow group members when they log in."
+        friends_only: "Things you share here will be seen by your friends when they log in."
+        group_members_only: "Things you share here will be seen by your fellow group members when they log in."
+        everyone: "Share something exciting with the entire community..."
+      button:
+        note: note
+        picture: picture
+        verse: "bible verse"
+        message: "group message"
+        news: "share a news post"
+      sharing_with_html:
+        one: "sharing with <a href='%{url}'>1 person</a>"
+        few: "sharing with <a href='%{url}'>%{count} people</a>"
+        other: "sharing with <a href='%{url}'>%{count} people</a>"
+    people:
+      heading: "Sharing with Friends"
+      intro: "These are the people who see what you share on the site."
+      intro_none: "No one to show."
+      column:
+        name: Name
+        family_name: "Family Name"
+        reason: Reason
+      reason:
+        family_html: "your <a href='%{url}'>family</a>"
+        friend_html: "your <a href='%{url}'>friend</a>"
+        groups_html:
+          one: "in this group with you: %{groups}"
+          few: "in these groups with you: %{groups}"
+          other: "in these groups with you: %{groups}"
+    feed: Feed
