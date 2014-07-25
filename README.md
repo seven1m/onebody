@@ -117,8 +117,13 @@ Operating System: Linux (Ubuntu recommended)
 
 2. `ssh root@IP_OF_YOUR_HOST`, then type this:
 
-        apt-get install -y pwgen
+        apt-get install -y ruby
         git clone git://github.com/churchio/onebody.git && cd onebody
+        script/docker/bootstrap
+
+    The bootstrap command does roughly the following (in case you want/need to run the commands yourself):
+
+        apt-get install pwgen
         cp config/database.yml{.docker-example,}
         sed "s/SOMETHING_RANDOM_HERE/$(pwgen -s -1 100)/" config/secrets.yml.example > config/secrets.yml
         docker run -d --name="onebody-data" -p 127.0.0.1:3306:3306 -v /var/data/onebody/db:/data -e USER="onebody" -e PASS="$(pwgen -s -1 16)" paintedfox/mariadb
