@@ -34,11 +34,12 @@ def run(cmd)
   exit(1) unless val == 0
 end
 
+migrate = false
 unless containers.grep(/onebody\-data/).any?
+  migrate = true
   puts '=> creating database container'
   pass = SecureRandom.hex(16)
   run "docker run -d --name='onebody-data' -p 127.0.0.1:3306:3306 -v /var/data/onebody/db:/data -e USER='onebody' -e PASS='#{pass}' paintedfox/mariadb"
-  run "docker run -t -i --rm --link onebody-data:db onebody bundle exec rake db:create db:migrate"
   puts '-> done'
   puts
 end
@@ -47,6 +48,13 @@ puts '=> building onebody'
 run "docker build -t onebody ."
 puts '-> done'
 puts
+
+if migrate
+  puts '=> creating database'
+  run "docker run --rm --link onebody-data:db onebody bundle exec rake db:create db:migrate"
+  puts '-> done'
+  puts
+end
 
 unless containers.grep(/server/).any?
   puts '=> creating server container'
