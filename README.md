@@ -90,6 +90,8 @@ IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING WILL ANY C
 
 This software is license under the GNU Affero General Public License, version 3. See LICENSE provided with this program for the entire text.
 
+"Church.IO" is a trademark of our federation of developers and cannot be used for promotional purposes without express written permission.
+
 ### Design
 
 Design is a derivative of AdminLTE, copyright (c) almasaeed2010, available [here](https://github.com/almasaeed2010/AdminLTE), licensed under MIT license. See [LICENSE](https://github.com/almasaeed2010/AdminLTE/blob/master/LICENSE).
