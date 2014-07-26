@@ -5,9 +5,6 @@ class Person < ActiveRecord::Base
 
   MAX_TO_BATCH_AT_A_TIME = 50
 
-  BASICS = %w(first_name last_name suffix mobile_phone work_phone fax city state zip birthday anniversary gender address1 address2 city state zip)
-  EXTRAS = %w(description email alternate_email website business_category business_name business_description business_phone business_email business_website business_address activities interests music tv_shows movies books quotes about testimony)
-
   cattr_accessor :logged_in # set in addition to @logged_in (for use by Notifier and other models)
 
   belongs_to :family
@@ -265,29 +262,6 @@ class Person < ActiveRecord::Base
       scope = family.people.undeleted
       scope = scope.where('id != ?', id) unless new_record?
       self.sequence = scope.maximum(:sequence).to_i + 1
-    end
-  end
-
-  def update_from_params(params)
-    params = HashWithIndifferentAccess.new(params) unless params.is_a? HashWithIndifferentAccess
-    if params[:photo_url] and params[:photo_url].length > 7 # not just "http://"
-      self.photo = params[:photo_url]
-      'photo'
-    elsif params[:photo]
-      self.photo = params[:photo] == 'remove' ? nil : params[:photo]
-      'photo'
-    elsif params[:person]
-      if Person.logged_in.can_edit_profile?
-        params[:family] ||= {}
-        params[:family][:legacy_id] = params[:person][:legacy_family_id] if params[:person][:legacy_family_id]
-        params[:person].cleanse(:birthday, :anniversary)
-        update_attributes(params[:person]) && family.update_attributes(params[:family])
-      else
-        Update.create_from_params(params, self)
-        update_attributes(params[:person].reject { |k, v| !EXTRAS.include?(k) })
-      end
-    else
-      self
     end
   end
 
