@@ -59,8 +59,14 @@ Now visit the site running in development mode at http://localhost:3000.
 To run tests:
 
 ```
-mysql -u root -e "create database onebody_test default character set utf8 default collate utf8_general_ci; grant all on onebody_test.* to onebody@localhost identified by 'onebody';"
+RAILS_ENV=test rake db:migrate
 rspec
+```
+
+If you don't have a test database yet, create it like you did the dev database:
+
+```
+mysql -u root -e "create database onebody_test default character set utf8 default collate utf8_general_ci; grant all on onebody_test.* to onebody@localhost identified by 'onebody';"
 ```
 
 ## Get Help
