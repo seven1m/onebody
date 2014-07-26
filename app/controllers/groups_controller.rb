@@ -56,7 +56,7 @@ class GroupsController < ApplicationController
   def show
     @group = Group.find(params[:id])
     if not (@group.approved? or @group.admin?(@logged_in))
-      render text: t('groups.pending_approval'), layout: true
+      render text: t('groups.pending_approval.this_group'), layout: true
     elsif @logged_in.can_see?(@group)
       @members = @group.people.minimal
       @member_of = !!@logged_in.member_of?(@group)
