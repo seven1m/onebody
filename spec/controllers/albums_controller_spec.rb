@@ -39,7 +39,7 @@ describe AlbumsController do
         end
 
         it 'should not list albums for strangers' do
-          assert_not_include assigns(:albums), @stranger_album
+          expect(assigns(:albums)).to_not include(@stranger_album)
         end
       end
     end
@@ -217,9 +217,7 @@ describe AlbumsController do
       end
 
       it 'should delete the album' do
-        assert_raise(ActiveRecord::RecordNotFound) do
-          @album.reload
-        end
+        expect { @album.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
 
       it 'should redirect to the person album index' do

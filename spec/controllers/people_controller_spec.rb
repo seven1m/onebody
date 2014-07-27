@@ -159,14 +159,11 @@ describe PeopleController do
     @admin = FactoryGirl.create(:person, admin: Admin.create(view_hidden_profiles: true))
     @person = Person.create!(first_name: 'Deanna', last_name: 'Troi', child: false, visible_to_everyone: true)
     # normal person should not see
-    assert_nothing_raised do
-      get :show, {id: @person.id}, {logged_in_id: @other_person.id}
-    end
+    expect { get :show, {id: @person.id}, {logged_in_id: @other_person.id} }.to_not raise_error
+    
     expect(response).to be_missing
     # admin should see a message
-    assert_nothing_raised do
-      get :show, {id: @person.id}, {logged_in_id: @admin.id}
-    end
+    expect { get :show, {id: @person.id}, {logged_in_id: @admin.id} }.to_not raise_error
     expect(response).to be_success
     expect(response.body).to include(I18n.t('people.no_family_for_this_person'))
   end

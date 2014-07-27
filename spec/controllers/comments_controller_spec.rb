@@ -31,9 +31,7 @@ describe CommentsController do
     @comment = FactoryGirl.create(:comment, person: @person)
     post :destroy, {id: @comment.id}, {logged_in_id: @person.id}
     expect(response).to be_redirect
-    assert_raise(ActiveRecord::RecordNotFound) do
-      @comment.reload
-    end
+    expect { @comment.reload }.to raise_error(ActiveRecord::RecordNotFound) 
   end
 
   it "should not delete a comment unless user is owner or admin" do

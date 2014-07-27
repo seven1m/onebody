@@ -16,12 +16,8 @@ describe Friendship do
   end
 
   it 'should not allow duplicate friendships' do
-    assert_nothing_raised(ActiveRecord::RecordInvalid) do
-      @user.friendships.create! friend: @other
-    end
-    assert_raise(ActiveRecord::RecordInvalid) do
-      @other.friendships.create! friend: @user
-    end
+    expect { @user.friendships.create! friend: @other }.to_not raise_error
+    expect { @other.friendships.create! friend: @user }.to raise_error(ActiveRecord::RecordInvalid)
   end
 
   it 'should destroy friendships' do

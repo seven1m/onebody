@@ -36,9 +36,7 @@ describe Page do
   end
 
   it "should raise RecordNotFound if page does not exist" do
-    assert_raise(ActiveRecord::RecordNotFound) do
-      Page.find('does/not/exist')
-    end
+    expect { Page.find('does/not/exist') }.to raise_error(ActiveRecord::RecordNotFound)
   end
 
   it "should not allow a slug of 'admin' or 'edit' or 'new'" do

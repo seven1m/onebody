@@ -240,9 +240,7 @@ describe PicturesController do
   context '#destroy' do
     it 'should delete a picture' do
       post :destroy, {album_id: @album.id, id: @picture.id}, {logged_in_id: @person.id}
-      assert_raise(ActiveRecord::RecordNotFound) do
-        @picture.reload
-      end
+      expect { @picture.reload }.to raise_error(ActiveRecord::RecordNotFound)
       expect(response).to redirect_to(album_path(@album))
     end
   end
