@@ -16,7 +16,7 @@ module ApplicationHelper
     success: 'flash callout callout-success',
     error:   'flash callout callout-danger',
     warning: 'flash callout callout-warning'
-  }
+  }.with_indifferent_access
 
   def flash_messages
     flash.map do |key, value|

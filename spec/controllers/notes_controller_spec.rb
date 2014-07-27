@@ -147,9 +147,7 @@ describe NotesController do
       end
 
       it 'should delete note' do
-        assert_raise(ActiveRecord::RecordNotFound) do
-          @note.reload
-        end
+        expect { @note.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
 
       it 'should redirect to the listing of notes for the person' do

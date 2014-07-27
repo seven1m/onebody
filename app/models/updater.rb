@@ -185,11 +185,11 @@ class Updater
   end
 
   def person_params
-    immediate_params[:person]
+    immediate_params.fetch(:person, {})
   end
 
   def family_params
-    immediate_params[:family]
+    immediate_params.fetch(:family, {})
   end
 
   def admin?

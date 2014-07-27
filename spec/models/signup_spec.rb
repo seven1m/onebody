@@ -26,7 +26,7 @@ describe Signup do
 
     context '#save!' do
       it 'should raise exception' do
-        assert_raises(ArgumentError) { @signup.save! }
+        expect { @signup.save! }.to raise_error(ArgumentError)
       end
     end
   end

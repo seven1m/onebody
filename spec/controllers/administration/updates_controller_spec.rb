@@ -87,9 +87,7 @@ describe Administration::UpdatesController do
 
     it 'should destroy the update' do
       delete :destroy, {id: @update.id}, {logged_in_id: @admin.id}
-      assert_raise ActiveRecord::RecordNotFound do
-        @update.reload
-      end
+      expect { @update.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 

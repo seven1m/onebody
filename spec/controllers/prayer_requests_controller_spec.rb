@@ -70,9 +70,7 @@ describe PrayerRequestsController do
   it "should delete a prayer request" do
     post :destroy, {id: @prayer_request.id, group_id: @group.id}, {logged_in_id: @person.id}
     expect(response).to be_redirect
-    assert_raise(ActiveRecord::RecordNotFound) do
-      @prayer_request.reload
-    end
+    expect { @prayer_request.reload }.to raise_error(ActiveRecord::RecordNotFound)
   end
 
   it "should not delete a prayer request if the user is not a member of the group" do
