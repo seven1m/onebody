@@ -1,0 +1,523 @@
+---
+pt:
+  admin:
+    attendance:
+      heading: Attendance
+      intro: "View and export attendance records."
+      button: "Attendance Records"
+    box:
+      updates:
+        text:
+          one: "Atualização de Perfil"
+          other: "Atualizações de Perfil"
+      changed_emails:
+        text:
+          one: "Email Alterado"
+          other: "Emails Alterados"
+      sync_errors:
+        text:
+          one: "Erro de Sincronização"
+          other: "Erros de Sincronização"
+      groups_pending_approval:
+        text:
+          one: "Grupo Pendente de Aprovação"
+          other: "Grupos Pendentes de Aprovação"
+      membership_requests:
+        text:
+          one: "Group Membership Request"
+          other: "Group Membership Requests"
+      deleted_people:
+        text:
+          one: "Excluir Pessoa"
+          other: "Excluir Pessoas"
+    checkin:
+      heading: Check-in
+      intro: "Manage check-in and assign cards."
+      cards_assigned: "Check-In Cards Assigned"
+      button: "Check-in Dashboard"
+    dashboard:
+      heading: "Painel do Administrador"
+    deleted_people:
+      tabs:
+        people: "Pessoas Excluídas"
+        families: "Famílias Vazias"
+      family_deleted: excluído
+      heading: "Pessoas Excluídas"
+      empty_families:
+        intro: "As seguintes famílias estão ativas e não possuem pessoas nelas. Provavelmente elas devem ser excluídas."
+        delete:
+          button: "Excluir as Famílias Selecionadas"
+        none: nada
+      none: nada
+      purge:
+        button: Purge
+      purge_family_when_empty: "and purge family when empty"
+      search_results:
+        intro: "Os resultados da sua busca são exibidos abaixo."
+      undelete:
+        button: "Undelete Selected People"
+    membership_requests:
+      count:
+        one: "%{count} pedido"
+        other: "%{count} pedidos"
+    active: ativo
+    admin_added: "%{name} adicionado."
+    admin_count:
+      one: "%{count} Administrador"
+      other: "%{count} Administradores"
+    admin_removed: "Admin removido."
+    admin_template_description: "Templates allow you to have predefined permission sets for use with more than one administrator."
+    admins:
+      heading: Administração
+      intro: "You can give any user administration privileges and the access they need to do perform their role in the community."
+      button: "Gerenciar Administradores"
+    add_individual: "Adicionar um indivíduo."
+    add_person: "Adicionar Pessoa"
+    add_selected: "Adicionar Selecionado"
+    add_template: "Adicionar Modelo"
+    already_admin: "%{name} já é um administrador."
+    api: API
+    api_login_details: "Seus detalhes de acesso da API"
+    customization:
+      heading: Customização
+      intro: "Customize o site da sua comunidade ajustando configurações e personalizando o conteúdo."
+    display: exibir
+    enable: Habilitar
+    enable_api_confirmation: "Você tem certeza que deseja habilitar a sua chave de API?"
+    emails:
+      intro_html: |
+          <p><em>This administration section is useful if you sync your data from an external source using UpdateAgent. If you do not, you may safely clear all the items from this list (or just ignore it entirely).</em></p>
+          <p>When a user changes their email address online, a flag is set, and subsequent syncs cannot change the email address back until the flag is cleared. To clear the flag, simply set the user's email address in your external database to be the same as below, and then run your sync process (or wait for it to run at its next scheduled time).</p>
+          <p>Alternatively, you can clear the flag manually here to allow your sync process to overwrite the value (but beware you may confuse your users if you do so).</p>
+      changed_addresses: "Endereço de Email Alterado"
+      clear_flags: "Clear Flags"
+      no_records: "There are currently no records with the changed email address flag set."
+      table:
+        id: ID
+        legacy_id: "ID Legado"
+        first_name: "Primeiro Nome"
+        last_name: Sobrenome
+        email: Email
+    generate: Gerar
+    group_administrators: "Administradores do Grupo"
+    group_administrators_description: "Each group can designate people who can administer that particular group, regardless of their status on this page."
+    group_administrators_help: "To add/remove a person as a group administrator, click \"edit\" next to the group and promote an existing group member."
+    group_membership_requests: "Group Membership Requests"
+    import_export: Importar/Exportar
+    invalidate_confirmation: "Are you sure you want to invalidate this key and create a new one?"
+    key: Key
+    logo:
+      delete: "delete logo"
+      format_information: "A transparent gif or png will look the best."
+      logo: Logo
+      size_information: "Upload an image file below. It will be resized to be no larger than 300x80."
+      upload: "Upload Logo"
+    manage_group_administrators: "Manage Group Administrators"
+    must_be_superadmin: "You must be a super administrator to modify settings."
+    new_admin_template: "Create a new admin template."
+    new_api_or: "a new API key or"
+    no_api_key: "You do not yet have an API key."
+    no_more_admins: "No more admins are allowed."
+    pages: Pages
+    privileges:
+      view_hidden_profiles:
+        title: "View Hidden Profiles"
+        about: "View hidden people in the database, e.g. children and others marked as invisible."
+        order: "1"
+      view_hidden_properties:
+        title: "View Hidden Properties"
+        about: "View hidden phone numbers, email addresses, and other private information."
+        order: "2"
+      edit_profiles:
+        title: "Edit Profiles"
+        about: "Edit name, phone numbers, email, password, and anything else associated with a user's profile."
+        order: "3"
+      manage_access:
+        title: "Manage Access"
+        about: "Manage site administrators. ('Manage Groups' must be selected to manage group administrators.)"
+        order: "4"
+      manage_attendance:
+        title: "Manage Attendance"
+        about: "View, edit, and export attendance."
+        order: "5"
+      manage_comments:
+        title: "Manage Comments"
+        about: "Ability to delete any site comments."
+        order: "6"
+      manage_groups:
+        title: "Manage Groups"
+        about: "View, edit, delete any group (even if hidden or private)."
+        order: "8"
+      manage_news:
+        title: "Manage News"
+        about: "View, edit, delete all news."
+        order: "9"
+      manage_notes:
+        title: "Gerenciar Notas"
+        about: "Editar e excluir quaisquer notas."
+        order: "10"
+      manage_pictures:
+        title: "Gerenciar Fotos"
+        about: "Visualizar, editar e excluir qualisquer fotos e álbuns."
+        order: "11"
+      manage_updates:
+        title: "Gerenciar Atualizações"
+        about: "Visualizar, editar e excluir atualizações de perfil pendentes feitas pelos usuários."
+        order: "14"
+      manage_sync:
+        title: "Gerenciar Sincronização"
+        about: "View and track synchronizations made with UpdateAgent."
+        order: "15"
+      import_data:
+        title: "Importar Dados"
+        about: "Importar dados de um arquivo CSV ou utilizando o UpdateAgent."
+        order: "16"
+      export_data:
+        title: "Exportar Dados"
+        about: "Exportar todos os dados do site para um arquivo XML ou CSV."
+        order: "17"
+      assign_checkin_cards:
+        title: "Assign Checkin Cards"
+        about: "Assign card numbers to families."
+        order: checkin1
+      manage_checkin:
+        title: "Manage Checkin"
+        about: "Manage all aspects of checkin, including setup and configuration."
+        order: checkin2
+      manage_documents:
+        title: "Gerenciar Documentos"
+        about: "Adicionar, editar e excluir documentos."
+    rest_api_information: "Para utilizar uma API REST com Ruby, você precisa fazer isto"
+    settings:
+      heading: "Configurações do Site"
+      Contact:
+        ? "Tech Support Email"
+        :
+          name: "Email de Suporte Técnico"
+          description: "Users will be directed to send an email here if they need technical help with the site."
+        ? "Community Address"
+        :
+          name: "Community Address"
+          description: "Visible on Terms of Use"
+        ? "Community Office Phone"
+        :
+          name: "Community Office Phone"
+          description: "Phone number for the office"
+        ? "Birthday Verification Email"
+        :
+          name: "Birthday Verification Email"
+          description: "Email sent when someone requests verification via birthday (shouldn't be blank)"
+        ? "Community Email"
+        :
+          name: "Community Email"
+          description: "Users will be directed to send an email here if they want general/policy information about your community."
+        ? "Bug Notification Email"
+        :
+          name: "Bug Notification Email"
+          description: "Automated software bug reports are sent to this email address."
+        ? "Send Email Changes To"
+        :
+          name: "Send Email Changes To"
+          description: "Email sent when someone changes their email address (can be blank for no email)"
+        ? "Send Updates To"
+        :
+          name: "Send Updates To"
+          description: "Email sent when someone updates their profile (can be blank for no email)"
+      Services:
+        Yahoo:
+          name: Yahoo
+          description: "Your Yahoo API key - https://developer.yahoo.com/wsregapp/index.php"
+        Analytics:
+          name: Analytics
+          description: "If you use Google Analytics or some other JavaScript-based stats service, put the code here. It will be inserted at the bottom of every page."
+      Name:
+        Community:
+          name: Community
+          description: "The name of your church or community, e.g. \"One Church\" or \"First Baptist of Fresno.\""
+        Slogan:
+          name: Slogan
+          description: "Slogan/tagline displayed just under the site name. Leave blank for none."
+        Site:
+          name: Site
+          description: "The name of this site, displayed at the top, e.g. \"My Church Family\" or \"One Church Central.\""
+      URL:
+        ? "News Feed"
+        :
+          name: "News Feed"
+          description: "URL for external community news feed in RSS or Atom format (news will be imported periodically)"
+        Visitor:
+          name: Visitante
+          description: "URL for main website (visitors will be pointed here if they happen across the member site.)"
+      System:
+        Suffixes:
+          name: Suffixes
+          description: "Name suffixes, one per line."
+        ? "Adult Age"
+        :
+          name: "Adult Age"
+          description: "Age at which a person is considered old enough to use the site and be seen by others in the directory."
+        Language:
+          name: Language
+          description: "Language for interface elements."
+        ? "Time Zone"
+        :
+          name: "Time Zone"
+          description: "Set to properly display dates and times on the site."
+      Appearance:
+        ? "Public Theme"
+        :
+          name: "Public Theme"
+          description: "Name of selected theme for the public CMS site."
+        Theme:
+          name: Theme
+          description: "Name of selected theme for site."
+        ? "Show Subheading"
+        :
+          name: "Show Subheading"
+          description: "Under the site title/logo, display the site address and slogan."
+        ? "Info Tab First"
+        :
+          name: "Info Tab First"
+          description: "If enabled, move the Info tab on profiles to the far left and have it open by default."
+      Formats:
+        ? "Full Date and Time"
+        :
+          name: "Full Date and Time"
+          description: "Format for displaying date and time."
+        Time:
+          name: Time
+          description: "Format for displaying time."
+        Date:
+          name: Date
+          description: "Format for displaying date."
+        Phone:
+          name: "Phone (Landline)"
+          description: "Format for displaying standard (landline) phone numbers."
+        ? "Date Without Year"
+        :
+          name: "Date Without Year"
+          description: "Format for displaying date without a year, e.g. birthdays."
+        ? "Mobile Phone"
+        :
+          name: "Mobile Phone"
+          description: "Format for displaying mobile phone numbers."
+      Features:
+        ? "Custom Person Type"
+        :
+          name: "Custom Person Type"
+          description: "If enabled, admins can specify a custom type along the lines of Elder, Deacon, etc."
+        ? "Community Google Calendar"
+        :
+          name: "Community Google Calendar"
+          description: "The URL for the community Google Calendar.  Can be either the public or private address, but the calendar itself will need to be shared publicly in order to be included in the indivdual (\"my calendar\") feature."
+        ? "Updates Must Be Approved"
+        :
+          name: "Updates Must Be Approved"
+          description: "If enabled, all changes to a user's \"basic\" information (phone, address, etc.) will await approval from an admin before being applied."
+        ? "Notify on Photo Change"
+        :
+          name: "Notify on Photo Change"
+          description: "If enabled, admins will be notified whenever a user changes their personal or family photos."
+        ? "Sign Up"
+        :
+          name: "Sign Up"
+          description: "If enabled, potential members can create their own login account on the site. It is highly recommended that you also enter an approval email address in the next field so that you can review signups before allowing login."
+        SSL:
+          name: SSL
+          description: "If you have SSL setup, you may turn on this feature, which will make the login page encrypted. If not, some advanced JavaScript hashing is enabled to make sure the users' passwords aren't being sent in plaintext."
+        Notes:
+          name: Notes
+          description: "Enable Note sharing."
+        Pictures:
+          name: Pictures
+          description: "Enable Picture sharing."
+        ? "Banner Message"
+        :
+          name: "Banner Message"
+          description: "Message to display across top of all pages on site (HTML), like an alert"
+        Multisite:
+          name: Multisite
+          description: "When enabled, this instance can handle multiple sites, based on domain name."
+        Groups:
+          name: Groups
+          description: "Enable Groups."
+        ? "News by Users"
+        :
+          name: "News by Users"
+          description: "Allow user submitted news content."
+        ? "Custom Person Fields"
+        :
+          name: "Custom Person Fields"
+          description: "Add custom field names, one per line. Including the word \"date\" (or \"Date\") makes a date field. Append an asterisk (*) to make the field visible and editable by users."
+        ? "Edit Legacy Ids"
+        :
+          name: "Edit Legacy Ids"
+          description: "If enabled, will allow admin access to manually modify Family and Person legacy ids."
+        ? "Sign Up Approval Email"
+        :
+          name: "Sign Up Approval Email"
+          description: "Where to send pending sign up requests (must be admin; leave blank to auto-approve)."
+        Friends:
+          name: Friends
+          description: "Enable mutual friendships (confirmed via email)"
+        ? "Sidebar Group Heading"
+        :
+          name: "Sidebar Group Heading"
+          description: "Heading to show above people in mutual groups (see above setting)"
+        Reporting:
+          name: Reporting
+          description: "Requires MongoDB to be setup and running."
+        ? "Sidebar Group Category"
+        :
+          name: "Sidebar Group Category"
+          description: "People in mutual groups of this category will be displayed on the user's profile sidebar."
+        ? "Content Management System"
+        :
+          name: "Content Management System"
+          description: "Enable \"Pages\" - Use OneBody to host your website."
+        ? "News Page"
+        :
+          name: "Página de Notícias"
+          description: "Habilite a página de notícias da comunidade. Notícias podem ser submetidas pelos administradores e/ou obtidas de um feed RSS (verifique a opção URL nas conifiguração RSS de Notícias)."
+        Verses:
+          name: Versículos
+          description: "Habilitar compartilhamento de Versículos."
+        Recipes:
+          name: Receitas
+          description: "Habilitar compartilhamento de Receitas."
+        Service:
+          name: Culto
+          description: "Se habilitado, os usuários administrativos podem acompanhar cultos individuais em áreas da comunidade."
+        Checkin:
+          name: Check-in
+          description: "If enabled, users can check-in to designated classes."
+        Documents:
+          name: Documentos
+          description: "Se habilitado, administradores podem carregar arquivos em uma área geral na qual os usuários podem procurá-los e baixá-los."
+      Privacy:
+        ? "Hide Contact Details in Messages"
+        :
+          name: "Ocultas Detalhes de Contato nas Mensagens"
+          description: "Se habilitado, tentativas são feitas de esconder números de telefone e endereços de email dentro das mensagens que são visualizadas online."
+        ? "Share Anniversary by Default"
+        :
+          name: "Compartilhar Aniversário de Casamento"
+          description: "If enabled, new users will have their anniversary shared with other site members."
+        ? "Share Email by Default"
+        :
+          name: "Compartilhar Email"
+          description: "If enabled, new users will have their email address shared with other site members."
+        ? "Allow Unencrypted Logins"
+        :
+          name: "Permitir Logins não criptografados"
+          description: "Logins are secured with public/private RSA encryption using JavaScript. Check this box to allow fallback for mobile phones and other browsers that are having trouble signing in."
+        ? "Share Home Phone by Default"
+        :
+          name: "Compartilhar Telefone Residencial"
+          description: "If enabled, new users will have their home phone shared with other site members."
+        ? "Allow Picture Comments"
+        :
+          name: "Permitir Comentários em Fotos"
+          description: "If enabled, users will be allowed to post comments on pictures."
+        ? "Share Work Phone by Default"
+        :
+          name: "Compartilhar Telefone Comercial"
+          description: "If enabled, new users will have their work phones shared with other site members."
+        ? "Share Fax by Default"
+        :
+          name: "Compartilhar Fax"
+          description: "If enabled, new users will have their fax shared with other site members."
+        ? "Max Sign in Attempts"
+        :
+          name: "Número Máximo de Tentativas de Acesso"
+          description: "Number of signin failures in a 15-minute period before account is locked out. (Account is automatically unlocked after 15 minutes.)"
+        ? "Share Mobile Phone by Default"
+        :
+          name: "Compartilhar Telefone Celular"
+          description: "If enabled, new users will have their mobile phones shared with other site members."
+        ? "Share Address by Default"
+        :
+          name: "Compartilhar Endereço"
+          description: "If enabled, new users will have their home address shared with other site members."
+        ? "Share Birthday by Default"
+        :
+          name: "Compartilhar Data de Nascimento"
+          description: "If enabled, new users will have their birthday shared with other site members."
+      host:
+        name: "Host/Domain Name"
+        description: "The domain name where this site is accessible on the web, e.g. example.com or members.mychurch.com (do not include http:// on the front)"
+      advanced:
+        heading: Avançado
+        intro: "Se as configurações não estiverem sendo recarregadas, clique no botão abaixo para forçar a atualização."
+      contact_automated_email_about: "These email addresses are sent email when certain things happen on the site. You can set them all to the same address or to different ones, depending on separation of duties in your community."
+      contact_community_info_about: "Enter contact information for your church or community office, where people can contact administrative staff."
+      contact_heading: Contato
+      disabled: Desabilitado
+      enabled: Habilitado
+      features_heading: Características
+      formats_heading: Formatos
+      formats_date_about_html: "Enter your own date and time formats to match your part of the world. See <a href=\"/date_formatting_options.txt\" target=\"_new\">here</a> for formatting options."
+      formats_phone_about: "Specify phone formatting with 'd', e.g. ddd-ddd-dddd or (dd) dddd-dddd, depending on your locale."
+      locale_heading: Locale
+      membership_management_heading: Membros
+      name_heading: Nome
+      one_per_line: "(um por linha)"
+      privacy_defaults: "Configurações de Privacidade Padrão"
+      privacy_defaults_about: "When a member's account is first created, the following privacy settings are applied to their information. (Members can still choose to show or hide any of their information at any time, regardless of the settings below.)"
+      privacy_heading: Privacidade
+      reload: "Recarregar Configurações"
+      reload_message: "Se você fez modificações no sistema pela linha de comando, você precisa recarregar todas as configurações para ver as mudanças em ação."
+      save: "Salvar Configurações"
+      services_heading: "Serviços Externos"
+      settings: Configurações
+      sharing_about: "OneBody fica melhor quando os membros participam adicionando o seu próprio conteúdo. Habilite o compartilhamento de conteúdo com estas configurações."
+      sharing_communications_about: "Compartilhe informações com os seus membros facilmente."
+      sharing_heading: Compartilhando
+    super_admin: "Super Admin"
+    super_admin_about: "Super Admins possuem controle total sobre o site, com todos os privilégios disponíveis. Tenha cuidado com quem você concede esta permissão - pode ser perigoso!"
+    syncs:
+      complete: Completado
+      duration: Duração
+      error: Erro
+      id: ID
+      legacy_id: "ID Legado"
+      name: Nome
+      none: "Nada ainda."
+      operation: Operação
+      rate: Rate
+      start: Iniciar
+      status: Status
+      success: Sucesso
+      show:
+        heading: "Sincronizado %{at}"
+      syncs: Sincronizações
+      type: Tipo
+    template: Modelo
+    templates: Modelos
+    updates:
+      apply: Aplicar
+      child: "É uma criança?"
+      child_alert: "Você precisa especificar se esta pessoa é uma criança (abaixo de %{years} anos) ou não para completar esta atualização."
+      child_select_options:
+        ? "You must select one"
+        : ""
+        ? "true"
+        : true
+        ? "false"
+        : false
+      diff:
+        person: Pessoa
+        property: Propriedade
+        before: Antes
+        after: Depois
+        created_at: Enviado
+      mark_complete: "Marcar Completo"
+      mark_incomplete: "Marcar Incompleto"
+      person_deleted: "pessoa excluída"
+      profile_updates: "Atualizações de Perfil"
+      toggle:
+        pending: Pendente
+        complete: Completo
+      updated: atualizado
+    username: Usuário
+    your_key: "sua chave"

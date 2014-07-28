@@ -64,14 +64,14 @@ pt:
         name: Nome
         description: Descrição
       document:
-        name: Name
-        description: Description
-        file: File
-        folder_id: Folder
+        name: Nome
+        description: Descrição
+        file: Arquivo
+        folder_id: Pasta
       document_folder:
-        name: Name
-        description: Description
-        folder_id: "Parent Folder"
+        name: Nome
+        description: Descrição
+        folder_id: "Pasta de Origem"
       family:
         name: Nome
         last_name: "Último Nome"
@@ -136,21 +136,21 @@ pt:
         document:
           attributes:
             file:
-              blank: "You must upload a file."
+              blank: "Você precisa carregar um arquivo."
             name:
-              blank: "You must enter a name."
-              too_long: "Please enter a shorter name."
+              blank: "Você precisa inserir um nome."
+              too_long: "Por favor insira um nome mais curto."
             description:
-              too_long: "Please enter a shorter description."
+              too_long: "Por favor insira uma descrição mais curta."
         document_folder:
           attributes:
             name:
-              blank: "You must enter a name."
-              too_long: "Please enter a shorter name."
+              blank: "Você precisa inserir um nome."
+              too_long: "Por favor insira um nome mais curto."
             description:
-              too_long: "Please enter a shorter description."
+              too_long: "Por favor insira uma descrição mais curta."
             folder_id:
-              invalid: "You cannot specify this folder as the parent folder."
+              invalid: "Você não pode especificar esta pasta como a pasta principal."
             parent_folder_ids:
               too_long: "This folder is nested too deep. Please place it somewhere else."
         family:
@@ -213,13 +213,13 @@ pt:
         membership_request:
           attributes:
             group_id:
-              taken: "This person has already requested membership in this group."
+              taken: "Esta pessoa já solicitou o participação neste grupo."
         message:
           attributes:
             base:
               taken: "This message has already been sent. Try changing the subject or body if you wish to send another email."
             body:
-              blank: "The message must have a body."
+              blank: "A mensagem precisa ter um corpo."
               too_short: "O corpo da mensagem é muito curto."
             person_id:
               blank: "Esta mensagem precisa ser associada a uma pessoa."
@@ -228,6 +228,12 @@ pt:
               too_short: "O assunto da mensagem é pequeno demais."
             to_person_id:
               invalid: "O destinatário desta mensagem não possui um endereço de email. A mensagem não pôde ser enviada."
+        news_item:
+          attributes:
+            title:
+              blank: "Você precisa inserir um título para esta notícia."
+            body:
+              blank: "Você precisa inserir um texto para esta notícia."
         note:
           attributes:
             body:
@@ -254,7 +260,7 @@ pt:
             birthday:
               not_a_date: "Please enter a valid date for the birthday."
             business_email:
-              invalid: "The business email address is not formatted correctly (something@example.com)."
+              invalid: "O email comercial não está formatado corretamente (algumacoisa@exemplo.com)."
             business_website:
               invalid: "The business website URL is not formatted correctly (are you missing 'http://' at the beginning?)"
             business_category:
@@ -264,23 +270,23 @@ pt:
             description:
               too_long: "Description must be less than 25 characters.  A word or two. :)"
             email:
-              invalid: "The email address is not formatted correctly (something@example.com)."
-              taken: "There is another person with the same email address."
+              invalid: "O email não está formatado corretamente (algumacoisa@exemplo.com)."
+              taken: "Existe outra pessoa com o mesmo endereço de email."
             feed_code:
               taken: "The same feed code exists on another person record."
             first_name:
-              blank: "The person must have a first name."
+              blank: "A pessoa precisa ter um primeiro nome."
             gender:
-              inclusion: "Gender must be either 'Male' or 'Female'."
+              inclusion: "Gênero precisa ser 'Masculino' ou 'Feminino'."
             last_name:
-              blank: "The person must have a last name."
+              blank: "A pessoa precisa ter um sobrenome."
             password:
-              confirmation: "The passwords do not match."
-              too_short: "The password is too short."
+              confirmation: "As senhas não são iguais."
+              too_short: "A senha é muito curta."
             website:
               invalid: "The website URL is not formatted correctly (are you missing 'http://' at the beginning?)"
             photo:
-              too_large: "The photo must be less than %{size} megabytes."
+              too_large: "A foto precisa ser menor do que %{size} megabytes."
               wrong_type: "The photo file type must be JPG, GIF, or PNG."
         picture:
           attributes:
@@ -334,7 +340,7 @@ pt:
             host:
               blank: "The host must be specified."
               taken: "There is another site with the same host."
-              invalid: "Do not include \"www.\" in the hostname."
+              invalid: "Do not include \"http://\" or \"www.\" in the hostname."
             name:
               blank: "The site must have a name."
               taken: "There is another site with the same name."
@@ -365,13 +371,13 @@ pt:
     api_access: "You must be a super administrator to use the API."
     no_default_site: "No Default site found."
     no_site_configured: "There is no site configured at this address: %{host}"
-    settings_reloaded: "Settings reloaded."
-    settings_saved: "Settings saved."
-    template_created: "Template created."
+    settings_reloaded: "Configurações recarregadas."
+    settings_saved: "Configurações salvas."
+    template_created: "Modelo criado."
   people_count:
-    one: "1 person"
-    other: "%{count} people"
+    one: "1 pessoa"
+    other: "%{count} pessoas"
   footer:
-    help: "Help using this site"
-    privacy_policy: "Privacy Policy"
-    powered_by: "Powered by CHURCH.IO"
+    help: "Ajuda para utilizar este site"
+    privacy_policy: "Política de Privacidade"
+    powered_by: "Provido por CHURCH.IO"
