@@ -34,9 +34,6 @@ module OneBody
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password, :password_confirmation]
 
-    # Disable implicit join references in ActiveRecord
-    config.active_record.disable_implicit_join_references = true
-
     # Additional precompiled assets
     config.assets.precompile += %w(editor.js editor.css print.css)
 
