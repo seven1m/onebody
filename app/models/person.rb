@@ -424,14 +424,12 @@ class Person < ActiveRecord::Base
 
   end
 
-  # model extensions
-  # TODO move this to concerns
-  Dir["#{Rails.root}/app/models/person/*.rb"].each do |ext|
-    load(ext)
-    mod_name = ext.split('/').last.split('.').first.classify
-    class_eval "include Person::#{mod_name}"
-  end
-
-  include ChildConcern
-  include PasswordConcern
+  # FIXME why does these have to be at the bottom?
+  include Concerns::Person::Child
+  include Concerns::Person::Password
+  include Concerns::Person::Friend
+  include Concerns::Person::Sharing
+  include Concerns::Person::Import
+  include Concerns::Person::Export
+  include Concerns::Person::PdfGen
 end

@@ -1,7 +1,7 @@
 class Album < ActiveRecord::Base
 
   include Authority::Abilities
-  include AbilityConcern
+  include Concerns::Ability
   self.authorizer_name = 'AlbumAuthorizer'
 
   belongs_to :owner, polymorphic: true
