@@ -6,5 +6,5 @@ script:
   - RAILS_ENV=test bundle exec rake --trace db:migrate
   - rspec
 before_script:
-  - "echo -e 'test:\\n  adapter: mysql2\\n  database: onebody_test\\n  username: travis\\n  encoding: utf8' > config/database.yml && echo -e 'test:\\n  secret_token: abc123' > config/secrets.yml"
+  - "echo -e 'test:\\n  adapter: mysql2\\n  database: onebody_test\\n  username: travis\\n  encoding: utf8' > config/database.yml && echo -e 'test:\\n  secret_token: abc123\\n  secret_key_base: 123abc' > config/secrets.yml"
   - mysql -e 'create database onebody_test'
