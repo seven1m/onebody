@@ -15,7 +15,7 @@ RSpec.configure do |config|
     begin
       Site.current ||= Site.find(1)
     rescue ActiveRecord::RecordNotFound
-      Site.connection.execute("DELETE FROM SITES; ALTER TABLE sites AUTO_INCREMENT = 1;")
+      Site.connection.execute("DELETE FROM sites; ALTER TABLE sites AUTO_INCREMENT = 1;")
       Site.current = Site.create!(name: 'Default', host: 'example.com')
     end
   end
