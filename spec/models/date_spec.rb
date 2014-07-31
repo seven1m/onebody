@@ -19,7 +19,7 @@ describe Date do
     Setting.set(1, 'Formats', 'Date', '%d/%m/%Y')
     expect(Date.parse_in_locale("02/01/2013").strftime("%b %d, %Y")).to eq("Jan 02, 2013")
     expect(Date.parse_in_locale("2/1/2013").strftime("%b %d, %Y")).to eq("Jan 02, 2013")
-    #Setting.set(1, 'Formats', 'Date', '%m/%d/%Y') # put this back
+    Setting.set(1, 'Formats', 'Date', '%m/%d/%Y') # put this back
   end
 
 end
