@@ -34,8 +34,6 @@ class Site < ActiveRecord::Base
     },
     default_url:   "/images/missing_:style.png"
 
-  after_create :create_as_stream_item, if: -> { StreamItem.table_exists? }
-
   def create_as_stream_item
     StreamItem.create!(
       title: Setting.get(:name, :community),

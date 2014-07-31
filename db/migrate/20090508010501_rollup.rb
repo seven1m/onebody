@@ -555,6 +555,7 @@ class Rollup < ActiveRecord::Migration
     end
 
     Site.current = Site.create :name => 'Default', :host => 'example.com'
+    Site.current.create_as_stream_item
   end
 
   def self.down

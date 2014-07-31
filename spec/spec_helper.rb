@@ -11,7 +11,8 @@ RSpec.configure do |config|
   config.order = 'random'
   config.include SessionHelper
   config.include MailHelper
-  config.before do
+  ActiveRecord::Migration.maintain_test_schema!
+  config.before(:all) do
     begin
       Site.current ||= Site.find(1)
     rescue ActiveRecord::RecordNotFound
@@ -19,6 +20,7 @@ RSpec.configure do |config|
       Site.connection.execute("ALTER TABLE sites AUTO_INCREMENT = 1;")
       Site.current = Site.create!(name: 'Default', host: 'example.com')
     end
+    Setting.update_all
   end
   config.filter_run_including focus: true
   config.run_all_when_everything_filtered = true
