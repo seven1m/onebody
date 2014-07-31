@@ -43,7 +43,6 @@
           = select_tag :name, options_for_select(['']+t('relationships.names').invert.sort), id: 'relationship_name', onchange: "if(this.value=='other') { $('#other_name').show()[0].focus() } else { $('#other_name').hide() }", class: 'form-control'
         = text_field_tag :other_name, nil, style: 'display:none;'
         :javascript
-          $('#other_name').autocomplete({source: #{raw json_escape(@other_names.to_json)}});
           $('#relationship_name').trigger('change');
         #results
         .form-group
