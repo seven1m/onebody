@@ -60,7 +60,6 @@ Now visit the site running in development mode at http://localhost:3000.
 To run tests:
 
 ```
-RAILS_ENV=test rake db:migrate
 rspec
 ```
 
