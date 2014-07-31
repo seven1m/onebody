@@ -1,0 +1,51 @@
+---
+pt:
+  documents:
+    index:
+      heading: Documents
+      intro: "This is a place for forms, publications, and other files available to users of this site."
+      table:
+        name: Name
+        description: Description
+        updated_at: Updated
+        size: Size
+        item_count: "%{count} items"
+      edit_folder:
+        button: "Edit this folder"
+      new_folder:
+        button: "New folder"
+      new_document:
+        button: "New document"
+    show:
+      table:
+        filename: Filename
+        content_type: "Content Type"
+        size: Size
+        updated_at: Updated
+      download:
+        button: "Baixar Arquivo"
+      edit:
+        button: Editar
+      delete:
+        button: Excluir
+    new:
+      heading: "Novo Documento"
+    new_folder:
+      heading: "Nova Pasta"
+    create:
+      notice: "O seu documento foi criado."
+    create_folder:
+      notice: "A sua pasta foi criada."
+    edit:
+      heading: "Editar %{document}"
+    edit_folder:
+      heading: "Editar %{folder}"
+    update:
+      notice: "O Documento foi salvo."
+    update_folder:
+      notice: "A Pasta foi salva."
+    delete:
+      notice: "O documento foi excluído."
+    delete_folder:
+      confirmation: "Você tem certeza que deseja exluir esta pasta E TUDO DENTRO DELA? Não há como desfazer isto."
+      notice: "A pasta e todo o seu conteúdo foram excluídos."

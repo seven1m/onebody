@@ -10,10 +10,10 @@ pt:
     checkin: Check-in
     checkin_sub:
       times: Times
-    directory: Directory
+    directory: Diretório
     directory_sub:
-      business: "Business Directory"
-      printed: "Printed Directory"
+      business: "Diretório de Negócios"
+      printed: "Diretório para Impressão"
       advanced: "Busa Avançada"
       new_family: "New Family"
     documents: Documents

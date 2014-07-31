@@ -1,0 +1,109 @@
+---
+pt:
+  checkin:
+    heading: Check-in
+    search:
+      label: "Type all or part of a name:"
+      button: Search
+      clear: clear
+      none_found: "no families found"
+    add_family:
+      button: "Add Family"
+    attendance:
+      button: Attendance
+    setup:
+      heading: Setup
+    assigned_cards:
+      button: "Assigned Cards"
+    cards:
+      heading: "Assigned Check-in Cards"
+      table:
+        id: ID
+        legacy_id: "Legacy ID"
+        family: Família
+        barcode: "Código de Barras"
+        assigned_at: Atribuído
+      export:
+        button: "Exportar para um Arquivo"
+      none: "nenhum registro para exibir"
+    groups:
+      heading: "Check-in Groups"
+      table:
+        group: Grupo
+      index:
+        heading: "%{time} no %{campus}"
+        add_group:
+          heading: "Add a destination (group)"
+          search: "Buscar pelo nome"
+          button: "Adicionar Grupo"
+        table:
+          group: "Destino (nome do grupo)"
+          print_nametag: "Print Nametag"
+          print_extra_nametag: "Extra Nametag"
+          section: Section
+      section:
+        new: "[new section]"
+    times:
+      button: Configuração
+      heading: "Check-in Times"
+      intro: "Add, edit, and remove available checkin times here."
+      table:
+        time: Hora
+        campus: Campus
+        groups:
+          heading: Destinations
+          count:
+            one: "1 destino"
+            other: "%{count} destinos"
+      edit:
+        button: editar
+        heading: "Edit Check-in Time"
+        campus:
+          new: "[novo campus]"
+        save:
+          button: "Salvar Alterações"
+      recurring:
+        heading: "Horários Recorrentes"
+        new:
+          button: "Novo Horário Recorrente"
+        weekday: "Dia da Semana"
+        time: Horário
+        campus: Campus
+        add:
+          button: Adicionar
+      single:
+        heading: "Single Dates and Times"
+        new:
+          button: "New Single Time"
+        datetime: "Data & Hora"
+        campus: Campus
+        add:
+          button: Adicionar
+    family:
+      new:
+        heading: "Nova Família"
+        first_name: Nome
+        last_name: Sobrenome
+        birthday: "Data de Nascimento"
+        medical_notes: "Anotações Médicas (opcional)"
+        parents: Pais
+        children: Crianças/Outros
+        barcode: "Ler Cartão"
+        ignore_spelling_errors: "Ignore suspected spelling errors."
+        save: "Salvar Família"
+        cancel: cancelar
+        success:
+          heading: "Family Saved"
+          return: Return
+          view: "View/Edit Family"
+          barcode: "Assigned number:"
+          not_checked_in: |
+              This family is not yet checked in—instruct the cardholder
+              they must now check in at one of the touch-screen stations.
+      saved: "Family saved."
+      errors: "There were errors saving this family."
+      error:
+        no_birthdays: "You must enter a birthday for each child."
+        no_people: "You must enter at least one person."
+        no_parents: "You must enter at least one parent."
+        no_barcode: "Please scan the card into the field at the bottom of the form."

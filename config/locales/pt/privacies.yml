@@ -11,7 +11,7 @@ pt:
     scroll_notice: "You may need to scroll left and right to see all the options here."
     activity: Atividade
     address: Endereço
-    agreement_saved: "Agreement saved."
+    agreement_saved: "Acordo salvo."
     anniversary: "Aniversário de Casamento"
     as_a_parent_agree_html: "I, as a parent or legal gaurdian of %{name}, hereby agree that I have read this site's <a href=\"%{url}\">Privacy Policy</a>, that the personal information of %{name} may be displayed for other users of the web site (as determined by the privacy settings on this page), and that %{name} may, if able, utilize this website as a normal user (including profile customization, and communication via private message, groups, etc.)."
     birthday: "Data de Aniversário"
@@ -20,7 +20,7 @@ pt:
     click_the_agree: "Clique no botão 'Eu Concordo'."
     detail: Detalhe
     email: Email
-    family_hidden: "%{your} family is currently hidden from all pages on this site!"
+    family_hidden: "%{your} família está atualmente oculta de todas as páginas deste site!"
     family_privacy: Família
     fax: Fax
     group_privacy: "Privacidade do Grupo"
