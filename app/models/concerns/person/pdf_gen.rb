@@ -37,14 +37,6 @@ module Concerns
         y =  pdf.absolute_top_margin - 200
         pdf.add_text x, y, I18n.t('nav.directory'), s
 
-        # disable for now, until we can ensure 16bit pngs don't blow up
-        # if Setting.get(:appearance, :logo).to_s.any?
-        #   logo_path = "#{Rails.root}/public/images/#{Setting.get(:appearance, :logo)}"
-        #   if File.exist?(logo_path) and img = MiniMagick::Image.from_blob(File.read(logo_path)) rescue nil
-        #     pdf.add_image img.to_blob, pdf.margin_x_middle - img['width']/2, pdf.absolute_top_margin - 200
-        #   end
-        # end
-
         t = I18n.t('printable_directories.created_for', { name: self.name, date: (Date.today.strftime '%B %e, %Y') } )
         s = 14
         w = pdf.text_width(t, s)
@@ -94,10 +86,10 @@ module Concerns
             else
               pdf.text family.name + "\n", font_size: 18
             end
-            if family.people.detect { |p| p.share_address_with(self) } and family.mapable?
+            if family.people.detect { |p| p.share_address_with(self) } and [family.address1, family.city, family.state].all?(&:present?)
               pdf.text family.address1 + "\n", font_size: 14
-              pdf.text family.address2 + "\n" if family.address2.to_s.any?
-              pdf.text family.city + ', ' + family.state + '  ' + family.zip + "\n"
+              pdf.text family.address2 + "\n" if family.address2.present?
+              pdf.text family.city + ', ' + family.state + '  ' + family.zip.to_s + "\n"
             end
             pdf.text ApplicationHelper.format_phone(family.home_phone), font_size: 14 if family.home_phone.to_i > 0
             family.people.where(deleted: false).each do |person|
