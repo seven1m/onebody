@@ -72,6 +72,9 @@ table.table {
     border-top: none;
     padding-top: 0;
   }
+  td.actions {
+    white-space: nowrap;
+  }
 }
 
 body > .footer {

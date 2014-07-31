@@ -36,8 +36,11 @@ class Administration::Checkin::GroupsController < ApplicationController
   def reorder
     @group_time = GroupTime.find(params[:id])
     @time = @group_time.checkin_time
-    @time.reorder_group(@group_time, params[:direction])
-    redirect_to administration_checkin_time_groups_path(@time)
+    @time.reorder_group(@group_time, params[:direction], params[:full_stop].present?)
+    respond_to do |format|
+      format.html { redirect_to administration_checkin_time_groups_path(@time) }
+      format.js
+    end
   end
 
   private

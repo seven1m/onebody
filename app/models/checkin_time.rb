@@ -64,22 +64,21 @@ class CheckinTime < ActiveRecord::Base
     the_datetime || Time.parse(time_to_s)
   end
 
-  def reorder_group(group, direction)
+  def reorder_group(group, direction, full_stop=false)
+    all = group_times.to_a
+    index = all.index(group)
     case direction
     when 'up'
-      group.decrement!(:ordering) unless (group.ordering || 0) <= 1
+      index = 1 if full_stop
+      all.delete(group)
+      all.insert([index - 1, 0].max, group)
     when 'down'
-      group.increment!(:ordering) unless (group.ordering || 0) >= group_times.count
+      index = all.length - 1 if full_stop
+      all.delete(group)
+      all.insert([index + 1, all.length].min, group)
     end
-    index = 1
-    group_times.where.not(id: group.id).each do |p|
-      index += 1 if index == group.ordering
-      p.ordering = index
-      p.save(validate: false)
-      index += 1
-    end
+    all.each_with_index { |g, i| g.update_attribute(:ordering, i + 1) }
   end
-
 
   def self.campuses
     distinct(:campus).pluck(:campus).sort
