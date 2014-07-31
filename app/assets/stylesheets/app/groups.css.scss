@@ -32,3 +32,13 @@
   @extend .btn-xs;
   margin-bottom: 4px;
 }
+
+.select-a-group {
+  .category, i.fa {
+    color: #999;
+  }
+  .name, .category {
+    margin-left: 16px;
+
+  }
+}

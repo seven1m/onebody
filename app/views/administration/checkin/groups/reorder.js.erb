@@ -1,0 +1,10 @@
+<% ids = @time.group_times.pluck(:id); index = ids.index(@group_time.id) %>
+var table = $('.group-times');
+var row = table.find('tr#group_time_<%= @group_time.id %>').remove();
+var sibling = table.find('tbody tr:eq(<%= index %>)');
+if(sibling[0]) row.insertBefore(sibling);
+else row.appendTo(table.find('tbody'));
+row.find('td').css('background-color', '#ff9').animate({'background-color': 'transparent'}, 1000);
+table.find('.up, .down').show();
+table.find('tbody tr:eq(0) .up').hide();
+table.find('tbody tr:eq(<%= ids.length - 1 %>) .down').hide();
