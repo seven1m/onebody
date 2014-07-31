@@ -10,8 +10,11 @@ class Search
                 :family_barcode_id,
                 :business,
                 :testimony,
+                :phone,
+                :email,
                 :show_hidden,
-                :select_person
+                :select_person,
+                :select_family
 
   def initialize(params={})
     source = params.delete(:source) || :person
@@ -78,6 +81,8 @@ class Search
     birthday!
     anniversary!
     address!
+    phone!
+    email!
     type!
     family_barcode_id!
     @executed = true
@@ -156,6 +161,19 @@ class Search
     where!('families.zip like ?',   like(address[:zip],   :after)) if address[:zip].present?
   end
 
+  def phone!
+    return unless Person.logged_in.admin?(:view_hidden_properties)
+    where!('people.mobile_phone = :phone or
+            people.work_phone   = :phone or
+            families.home_phone = :phone', phone: phone.digits_only) if phone.present?
+  end
+
+  def email!
+    return unless Person.logged_in.admin?(:view_hidden_properties)
+    where!('people.email = :email or
+            people.alternate_email = :email', email: email) if email.present?
+  end
+
   def type!
     if %w(member staff deacon elder).include?(type)
       where!("people.#{type} = ?", true)
@@ -165,11 +183,11 @@ class Search
   end
 
   def family_barcode_id!
-    where!('families.barcode_id = ?', family_barcode_id) if family_barcode_id
+    where!('families.barcode_id = :id or families.alternate_barcode_id = :id', id: family_barcode_id) if family_barcode_id
   end
 
   def show_hidden_profiles?
-    ((show_hidden || select_person) && Person.logged_in.admin?(:view_hidden_profiles))
+    ((show_hidden || select_person || select_family) && Person.logged_in.admin?(:view_hidden_profiles))
   end
 
   def like(str, position=:both)

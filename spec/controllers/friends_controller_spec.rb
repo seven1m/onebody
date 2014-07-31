@@ -61,9 +61,7 @@ describe FriendsController do
     @req = @person.friendship_requests.create!(from: @other_person)
     post :update, {person_id: @person.id, id: @req.id, accept: true}, {logged_in_id: @person.id}
     expect(response).to redirect_to(person_friends_path(@person))
-    assert_raise(ActiveRecord::RecordNotFound) do
-      @req.reload
-    end
+    expect { @req.reload }.to raise_error(ActiveRecord::RecordNotFound)
     expect(Friendship.count).to eq(friendship_count + 2)
   end
 
@@ -80,9 +78,7 @@ describe FriendsController do
     friendship_count = Friendship.count
     post :destroy, {person_id: @person.id, id: @friendship.friend.id}, {logged_in_id: @person.id}
     expect(response).to redirect_to(person_friends_path(@person))
-    assert_raise(ActiveRecord::RecordNotFound) do
-      @friendship.reload
-    end
+    expect { @friendship.reload }.to raise_error(ActiveRecord::RecordNotFound)
     expect(Friendship.count).to eq(friendship_count - 2)
   end
 

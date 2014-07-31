@@ -42,9 +42,7 @@ describe AttachmentsController do
     @attachment = Attachment.create_from_file(group_id: @group.id, file: Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/attachment.pdf'), 'application/pdf', true))
     post :destroy, {id: @attachment.id, from: edit_group_path(@group)}, {logged_in_id: @admin.id}
     expect(response).to redirect_to(edit_group_path(@group))
-    assert_raise(ActiveRecord::RecordNotFound) do
-      @attachment.reload
-    end
+    expect { @attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
   end
 
   it "should not delete a group attachment unless user is admin" do

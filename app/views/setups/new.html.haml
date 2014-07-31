@@ -9,7 +9,7 @@
 
   .form-group
     %label{for: 'domain_name'}= t('setup.domain_name')
-    = text_field_tag 'domain_name', Site.current.host, class: 'form-control'
+    = text_field_tag 'domain_name', @host, class: 'form-control'
     %p.help-block= t('setup.domain_name_note')
 
   %h3= t('setup.admin_account')

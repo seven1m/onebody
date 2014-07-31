@@ -1,7 +1,7 @@
 class Picture < ActiveRecord::Base
 
   include Authority::Abilities
-  include AbilityConcern
+  include Concerns::Ability
   self.authorizer_name = 'PictureAuthorizer'
 
   belongs_to :album

@@ -1,0 +1,21 @@
+---
+pt:
+  news:
+    heading: Notícias
+    edit:
+      heading: "Editar Post de Notícia"
+    edit_button: Editar
+    delete_button: Excluir
+    body_description: "Compartilhe o seu comunicado, informação ou novidade aqui:"
+    deleted: "Notícia excluída."
+    if_you_have_something_to_share_html: "If you have something newsworthy to share, <a href='%{url}'>submit it here</a>."
+    news_feed: "Feed de Notícias"
+    no_news_is_available: "Nenhuma notícia disponível neste momento."
+    save_news: "Salvar Notícia."
+    saved: "Notícia gravada."
+    submit_news: "Enviar Notícia"
+    subscribe:
+      button: Subscrever
+      description: "Obtenha atualizações de notícias no seu leitor de feeds."
+    title_description: "Give your post a concise title:"
+    welcome_to_the_place: "Bem vindo ao local das notícias da comunidade."

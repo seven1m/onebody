@@ -59,7 +59,7 @@ class Family < ActiveRecord::Base
   end
 
   def mapable?
-    latitude != 0.0 and longitude != 0.0
+    latitude.to_i != 0.0 and longitude.to_i != 0.0
   end
 
   def location
@@ -97,19 +97,17 @@ class Family < ActiveRecord::Base
   end
 
   def reorder_person(person, direction)
+    all = people.undeleted.to_a
+    index = all.index(person)
     case direction
     when 'up'
-      person.decrement!(:sequence) unless person.sequence <= 1
+      all.delete(person)
+      all.insert([index - 1, 0].max, person)
     when 'down'
-      person.increment!(:sequence) unless person.sequence >= people.undeleted.count
+      all.delete(person)
+      all.insert([index + 1, all.length].min, person)
     end
-    index = 1
-    people.undeleted.where.not(id: person.id).each do |p|
-      index += 1 if index == person.sequence
-      p.sequence = index
-      p.save(validate: false)
-      index += 1
-    end
+    all.each_with_index { |p, i| p.update_attribute(:sequence, i + 1) }
   end
 
   def suggested_relationships

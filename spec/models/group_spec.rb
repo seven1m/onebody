@@ -10,21 +10,68 @@ describe Group do
     FactoryGirl.create(:group, category: 'bar', hidden: true)
   end
 
-  it "should update its membership based on a link_code" do
-    3.times { FactoryGirl.create(:person, classes: 'foo') }
-    2.times { FactoryGirl.create(:person, classes: 'fooz,bar,baz') }
-    expect(@group.people.count).to eq(0)
-    @group.link_code = 'foo'
-    @group.save
-    expect(@group.people.count).to eq(3)
-    # should delete 3 old people and add 2 new people
-    @group.link_code = 'bar'
-    @group.save
-    expect(@group.reload.people.count).to eq(2)
-    # should delete all people
-    @group.link_code = nil
-    @group.save
-    expect(@group.reload.people.count).to eq(0)
+  describe '#update_memberships' do
+    context 'given user has a single class code' do
+      before do
+        @person = FactoryGirl.create(:person, classes: 'foo')
+        @group.link_code = 'foo'
+        @group.save
+      end
+
+      it 'adds the person to the group' do
+        expect(@group.people.reload).to match([@person])
+      end
+    end
+
+    context 'given user has multiple class codes' do
+      before do
+        @person = FactoryGirl.create(:person, classes: 'foo,bar,baz')
+        @group.link_code = 'bar'
+        @group.save
+      end
+
+      it 'adds the person to the group' do
+        expect(@group.people.reload).to match([@person])
+      end
+    end
+
+    context 'given user has multiple class codes with roles' do
+      before do
+        @person = FactoryGirl.create(:person, classes: 'foo[member],bar[participant|group leader],baz')
+        @group.link_code = 'bar'
+        @group.save
+      end
+
+      it 'adds the person to the group' do
+        expect(@group.people.reload).to match([@person])
+      end
+
+      it 'adds the roles to the membership' do
+        expect(@group.memberships.first.roles).to match(['participant', 'group leader'])
+      end
+
+      context 'user roles change' do
+        before do
+          @person.update_attribute(:classes, 'foo,bar[parent],baz')
+          @group.save
+        end
+
+        it 'changes the roles on the membership' do
+          expect(@group.memberships.first.roles).to match(['parent'])
+        end
+      end
+
+      context 'user code is removed' do
+        before do
+          @person.update_attribute(:classes, 'foo,baz')
+          @group.save
+        end
+
+        it 'removes the membership' do
+          expect(@group.memberships.count).to eq(0)
+        end
+      end
+    end
   end
 
   context 'given one group set as parents_of for another' do

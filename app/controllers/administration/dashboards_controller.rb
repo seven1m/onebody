@@ -11,8 +11,8 @@ class Administration::DashboardsController < ApplicationController
     if @attendance_last_date = AttendanceRecord.maximum(:attended_at)
       @attendance_records_count = AttendanceRecord.on_date(@attendance_last_date).count
     end
-    @last_sync = Sync.last(order: 'created_at')
-    @sync_counts = @last_sync.count_items if @last_sync
+    @last_sync = Sync.order('created_at').last
+    @sync_counts = @last_sync.try(:count_items)
     @group_type_counts = Group.count_by_type
     @linked_group_counts = Group.count_by_linked
     @person_count = Person.undeleted.count

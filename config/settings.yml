@@ -164,9 +164,6 @@ Privacy:
   Allow Unencrypted Logins:
     format: boolean
     value: false
-  Relay All Email:
-    format: boolean
-    value: true
   Max Sign in Attempts:
     format: string
     value: 10

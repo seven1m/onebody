@@ -22,7 +22,7 @@ describe 'Privacy' do
         expect(response).to be_success
         expect(response).to render_template('families/show')
         assert_select '.family .avatar', 2 # not 3 (should not see child)
-        assert_no_match(/Megan/, response.body)
+        expect(response.body).to_not match(/Megan/)
       end
 
       it 'should not show profile page of child' do

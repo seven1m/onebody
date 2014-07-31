@@ -10,19 +10,15 @@ set :environment, 'production'
 set :job_template, "bash -l -c ':job'"
 
 if File.exist?("#{Dir.pwd}/config/email.yml")
-  every 1.minute do
-    settings = YAML::load_file('config/email.yml')[@environment]['pop']
-    command "#{Dir.pwd}/script/inbox -e #{@environment} \"#{settings['host']}\" \"#{settings['username']}\" \"#{settings['password']}\""
+  if settings = YAML::load_file('config/email.yml')[@environment]['pop']
+    every 1.minute do
+      command "#{Dir.pwd}/script/inbox -e #{@environment} \"#{settings['host']}\" \"#{settings['username']}\" \"#{settings['password']}\""
+    end
   end
 end
 
 every 1.minute do
-  yaml = YAML::load_file("#{Dir.pwd}/config/database.yml")
-  settings = yaml[@environment]
-  if settings.is_a?(String) and %w(production development).include?(settings)
-    settings = yaml[settings]
-  end
-  command "#{Dir.pwd}/script/worker -e #{@environment} \"#{settings['host']}\" \"#{settings['username']}\" \"#{settings['password']}\" \"#{settings['database']}\""
+  command "#{Dir.pwd}/script/worker -e #{@environment}"
 end
 
 every 1.hour, :at => 19 do
@@ -30,5 +26,5 @@ every 1.hour, :at => 19 do
 end
 
 every 1.day, :at => '3:49 am' do
-  runner "Site.each { Group.update_memberships; Donortools::Persona.update_all; LogItem.flag_suspicious_activity; GeneratedFile.where(['created_at < ?', 1.day.ago.utc]).each { |f| f.destroy } }; ActiveRecord::SessionStore::Session.delete_all(['updated_at < ?', 1.day.ago.utc])"
+  runner "Site.each { Group.update_memberships; GeneratedFile.where(['created_at < ?', 1.day.ago.utc]).destroy_all }"
 end

@@ -69,9 +69,7 @@ describe VersesController do
   it "should destroy the verse if there are no more people" do
     post :destroy, {id: @verse.id}, {logged_in_id: @person.id}
     expect(response).to redirect_to(verses_path)
-    assert_raise(ActiveRecord::RecordNotFound) do
-      @verse.reload
-    end
+    expect { @verse.reload }.to raise_error(ActiveRecord::RecordNotFound)
   end
 
   it "should create a shared stream item when a verse is added and the owner is sharing their activity" do

@@ -1,10 +1,12 @@
 source 'http://rubygems.org'
 
-gem 'rails', '~> 4.0.0'
+ruby File.read(File.expand_path('../.ruby-version', __FILE__)).strip.sub(/ruby\-/, '')
+
+gem 'rails', '~> 4.1.4'
 gem 'rails_autolink'
 gem 'mysql2'
 gem 'jquery-rails'
-gem 'will_paginate'
+gem 'will_paginate', '3.0.7'
 gem 'highline'
 gem 'whenever'
 gem 'nokogiri'
@@ -26,7 +28,7 @@ gem 'mini_magick'
 gem 'activerecord-session_store'
 gem 'sass-rails', '~> 4.0.2'
 gem 'bootstrap-sass', '~> 3.1.1'
-gem 'will_paginate-bootstrap'
+gem 'will_paginate-bootstrap', '1.0.1'
 gem 'uglifier'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'font-awesome-rails', github: 'bokmann/font-awesome-rails'

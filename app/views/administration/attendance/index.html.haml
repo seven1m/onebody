@@ -83,26 +83,24 @@
     .box.box-info.hidden-print
       .box-heading
       .box-body
-        .form-group
-          = label_tag :attended_at, t('attendance.date')
-          = date_field_tag :attended_at, @attended_at.to_s(:date), class: 'form-control'
-        - if @groups.any?
+        = form_tag administration_attendance_index_path, method: :get do
           .form-group
-            = label_tag :group_name, t('attendance.group')
-            = select_tag :group_name, options_for_select(['']) + options_from_collection_for_select(@groups, :id, :name, params[:group_id].to_i), onchange: "location.href='?attended_at='+encodeURIComponent($('#attended_at').val())+'&group_id='+this.value", class: 'form-control'
-
-            %p
-              = form_tag administration_attendance_index_path, method: :get, class: 'form-inline' do
-                = hidden_field_tag :attended_at, @attended_at
-                = label_tag :person_name, t('attendance.search_person')
-                .input-group
-                  = text_field_tag :person_name, params[:person_name], class: 'form-control'
-                  %span.input-group-btn
-                    - if params[:person_name]
-                      = link_to administration_attendance_index_path(attended_at: @attended_at), class: 'btn btn-danger' do
-                        = icon 'fa fa-times-circle'
-                    = button_tag class: 'btn btn-info' do
-                      = icon 'fa fa-search'
+            = label_tag :attended_at, t('attendance.date')
+            = date_field_tag :attended_at, @attended_at.to_s(:date), class: 'form-control', onchange: 'this.form.submit()'
+          - if @groups.any?
+            .form-group
+              = label_tag :group_id, t('attendance.group')
+              = select_tag :group_id, options_for_select(['']) + options_from_collection_for_select(@groups, :id, :name, params[:group_id].to_i), onchange: 'this.form.submit()', class: 'form-control'
+            .form-group
+              = label_tag :person_name, t('attendance.search_person')
+              .input-group
+                = text_field_tag :person_name, params[:person_name], class: 'form-control'
+                %span.input-group-btn
+                  - if params[:person_name]
+                    = link_to administration_attendance_index_path(attended_at: @attended_at, group_id: params[:group_id]), class: 'btn btn-danger' do
+                      = icon 'fa fa-times-circle'
+                  = button_tag class: 'btn btn-info' do
+                    = icon 'fa fa-search'
         - if @records.any?
           %p
             = link_to administration_attendance_index_path(format: 'csv', attended_at: @attended_at, group_id: params[:group_id], person_name: params[:person_name]), class: 'btn btn-info' do

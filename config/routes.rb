@@ -121,6 +121,8 @@ OneBody::Application.routes.draw do
     resources :attachments
   end
 
+  resources :emails
+
   resources :tags, only: :show
 
   resources :pictures, :prayer_signups, :authentications, :verses, :shares,
@@ -184,7 +186,6 @@ OneBody::Application.routes.draw do
       end
     end
     resources :updates, :admins, :membership_requests
-    resource :api_key
     namespace :checkin do
       root to: 'dashboards#show'
       resource :dashboard

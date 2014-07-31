@@ -526,9 +526,7 @@ describe AccountsController do
       end
 
       it 'should raise RecordNotFound exception' do
-        assert_raise ActiveRecord::RecordNotFound do
-          get :verify_code, {id: @verification.id}
-        end
+        expect { get :verify_code, { id: @verification.id } }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 
@@ -561,9 +559,7 @@ describe AccountsController do
 
       context 'GET with improper id' do
         it 'should raise RecordNotFound exception' do
-          assert_raise ActiveRecord::RecordNotFound do
-            get :verify_code, {id: '111111111'}
-          end
+          expect { get :verify_code, {id: '111111111'} }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 

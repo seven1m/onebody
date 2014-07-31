@@ -1,0 +1,383 @@
+---
+pt:
+  Changes_saved: "Alterações salvar."
+  Delete: Excluir
+  From: De
+  Help: Ajuda
+  No_action_to_show: "No action responded to show"
+  No_more_records: "Não existem mais registros."
+  Page_no_longer_valid: "Esta página não é mais válida."
+  There_was_an_error: "Ocorreu um erro."
+  There_were_errors: "Ocorerram alguns erros."
+  To: Para
+  are_you_sure: "Você tem certeza?"
+  by: Por
+  changes_saved: "Alterações salvas."
+  click_here: "Clique aqui"
+  Comments: Comentários
+  delete: excluir
+  edit: editar
+  feature_unavailable: "Esta característica não está disponível."
+  for: para
+  multiple_files: "O seu navegador pode suportar o carregamento de múltiplos arquivos — tente selecionar múltiplos arquivos utilizando a tecla Ctrl (Windows) ou Command (Mac) no seu teclado."
+  name: Nome
+  none: nenhum
+  not_authorized: "Você não está autorizado."
+  ? "true"
+  : true
+  only_admins: "Você deve ser um administrador para usar esta seção."
+  person: Pessoa
+  phone: Telefone
+  req_notes: Notas
+  save: Salvar
+  saving: Salvando
+  save_changes: "Salvar Alterações"
+  show_all: "Mostrar Todos"
+  submit_changes: "Submeter Mudanças"
+  you_made_a_change_page: "Parece que você mudou alguma coisa nesta página. Clique OK para descartar as suas alterações e deixá-la."
+  errors:
+    format: "%{message}"
+  activemodel:
+    errors:
+      models:
+        signup:
+          attributes:
+            base:
+              disabled: "Sign up is disabled."
+              spam: "Sign up was completed by a robot."
+            first_name:
+              blank: "Primeiro Nome não pode ser vazio."
+            last_name:
+              blank: "Último nome não pode ser vazio."
+            email:
+              blank: "Email não pode ser vazio."
+            gender:
+              blank: "Sexo não pode ser vazio."
+            birthday:
+              blank: "Data de Nascimento não pode ser vazio."
+              too_young: "Você é muito novo para se inscrever neste serviço."
+            mobile_phone:
+              blank: "Mobile phone cannot be blank."
+  activerecord:
+    attributes:
+      album:
+        name: Nome
+        description: Descrição
+      document:
+        name: Nome
+        description: Descrição
+        file: Arquivo
+        folder_id: Pasta
+      document_folder:
+        name: Nome
+        description: Descrição
+        folder_id: "Pasta de Origem"
+      family:
+        name: Nome
+        last_name: "Último Nome"
+        home_phone: "Telefone Residencial"
+        address1: "Endereço - Linha 1"
+        address2: "Endereço - Linha 2"
+        city: Cidade
+        state: Estado
+        zip: CEP
+      person:
+        email: Email
+        first_name: "Primeiro Nome"
+        last_name: "Último Nome"
+      group:
+        name: Nome
+        category: Categoria
+        description: Descrição
+        other_notes: "Outras Notas"
+        leader_id: Líder
+        creator: Criador
+        meets: "Meets When"
+        location: "Location and Address"
+        direction: Direction
+        email: Email
+        prayer: "Pedidos de Oração"
+        pictures: "Compartilhamento de Fotos"
+        attendance: "Registro de Presença"
+        gcal_private_link: "Link Privado do Calendário do Google"
+        approval_required_to_join: "Approval required for people to join group"
+        private: "Private Group"
+        members_send: "Group Members Can Post Messages"
+        link_code: "External Link Code"
+        parents_of: "Link to parents of another group"
+        hidden: "Hidden (Archived) Group"
+      prayer_request:
+        answer: Answer
+        answered_at: "Date Answered"
+        person_id: "Person needing prayer"
+        request: Request
+      note:
+        title: Title
+        body: Body
+    errors:
+      models:
+        admin:
+          attributes:
+            template_name:
+              taken: "There is another template with this name. Please choose another name."
+        album:
+          attributes:
+            name:
+              blank: "The album must have a name."
+              taken: "There is another album with this name. Please choose another name."
+            owner:
+              blank: "The album must have an owner."
+        attendance_record:
+          attributes:
+            attended_at:
+              blank: "The attendance record must specify a date and time."
+            group_id:
+              blank: "The attendance record must be associated with a group."
+        document:
+          attributes:
+            file:
+              blank: "Você precisa carregar um arquivo."
+            name:
+              blank: "Você precisa inserir um nome."
+              too_long: "Por favor insira um nome mais curto."
+            description:
+              too_long: "Por favor insira uma descrição mais curta."
+        document_folder:
+          attributes:
+            name:
+              blank: "Você precisa inserir um nome."
+              too_long: "Por favor insira um nome mais curto."
+            description:
+              too_long: "Por favor insira uma descrição mais curta."
+            folder_id:
+              invalid: "Você não pode especificar esta pasta como a pasta principal."
+            parent_folder_ids:
+              too_long: "This folder is nested too deep. Please place it somewhere else."
+        family:
+          attributes:
+            name:
+              blank: "The family must have a name."
+            last_name:
+              blank: "The family must have a last name."
+            alternate_barcode_id:
+              invalid: "This family card (alternate barcode id) contains letters or symbols (only numbers are allowed)."
+              taken: "This family card (alternate barcode id) is already taken by another family."
+              too_long: "This family card (alternate barcode id) is too long (cannot be more than 50 digits)."
+              too_short: "This family card (alternate barcode id) is too short (must be 10 digits)."
+            barcode_id:
+              invalid: "This family card (barcode id) contains letters or symbols (only numbers are allowed)."
+              taken: "This family card (barcode id) is already taken by another family."
+              too_long: "This family card (barcode id) is too long (cannot be more than 50 digits)."
+              too_short: "This family card (barcode id) is too short (must be 10 digits)."
+            photo:
+              too_large: "The photo must be less than %{size} megabytes."
+              wrong_type: "The photo file type must be JPG, GIF, or PNG."
+        friendship:
+          attributes:
+            friend_id:
+              blank: "This friendship must be associated with a person."
+              taken: "This friendship already exists."
+            person_id:
+              blank: "This friendship must be associated with a person."
+        friendship_request:
+          attributes:
+            from_id:
+              blank: "This friendship request must be associated with a person."
+            person:
+              invalid_address: "The person must have a valid email address."
+              refused: "The person does not accept friend requests."
+            person_id:
+              blank: "This friendship request must be associated with a person."
+              taken: "This friendship request already exits."
+        group:
+          attributes:
+            address:
+              invalid: "The group address is not a valid email address."
+              taken: "There is another group with this email address. Please choose another address."
+              too_long: "O endereço de email do grupo é muito grande."
+              too_short: "O endereço de email do grupo é pequeno demais."
+            category:
+              blank: "O grupo necessita ter uma categoria."
+            name:
+              blank: "O grupo necessita ter um nome."
+              taken: "Já existe um outro grupo com este nome. Por favor escolha outro."
+            parents_of:
+              points_to_self: "This group cannot link to itself."
+            photo:
+              too_large: "A foto necessita ter menos do que %{size} megabytes."
+              wrong_type: "O tipo do arquivo da foto deve ser JPG, GIF ou PNG."
+        membership:
+          attributes:
+            group_id:
+              taken: "Esta pessoa já é membro deste grupo."
+        membership_request:
+          attributes:
+            group_id:
+              taken: "Esta pessoa já solicitou o participação neste grupo."
+        message:
+          attributes:
+            base:
+              taken: "This message has already been sent. Try changing the subject or body if you wish to send another email."
+            body:
+              blank: "A mensagem precisa ter um corpo."
+              too_short: "O corpo da mensagem é muito curto."
+            person_id:
+              blank: "Esta mensagem precisa ser associada a uma pessoa."
+            subject:
+              blank: "A mensagem precisa ter um assunto."
+              too_short: "O assunto da mensagem é pequeno demais."
+            to_person_id:
+              invalid: "O destinatário desta mensagem não possui um endereço de email. A mensagem não pôde ser enviada."
+        news_item:
+          attributes:
+            title:
+              blank: "Você precisa inserir um título para esta notícia."
+            body:
+              blank: "Você precisa inserir um texto para esta notícia."
+        note:
+          attributes:
+            body:
+              blank: "A nota está vazia."
+        page:
+          attributes:
+            body:
+              blank: "A página necessita ter um corpo."
+            path:
+              taken: "Existe outra página neste caminho."
+            slug:
+              blank: "The page must have a slug."
+              exclusion: "The page slug cannot be \"admin\", \"edit\", or \"new\""
+              invalid: "The page slug can only contain lowercase letters and underscore."
+            title:
+              blank: "A página precisa ter um título."
+        person:
+          attributes:
+            alternate_email:
+              invalid: "O endereço de email alternativo não está no formato correto (algumacoisa@exemplo.com.br)."
+              taken: "Existe outra pessoa com o mesmo email alternativo."
+            anniversary:
+              not_a_date: "Please enter a valid date for the anniversary."
+            birthday:
+              not_a_date: "Please enter a valid date for the birthday."
+            business_email:
+              invalid: "O email comercial não está formatado corretamente (algumacoisa@exemplo.com)."
+            business_website:
+              invalid: "The business website URL is not formatted correctly (are you missing 'http://' at the beginning?)"
+            business_category:
+              exclusion: "You must enter a category for your business."
+            child:
+              inclusion: "You must enter a birthday or specify whether this person is a child."
+            description:
+              too_long: "Description must be less than 25 characters.  A word or two. :)"
+            email:
+              invalid: "O email não está formatado corretamente (algumacoisa@exemplo.com)."
+              taken: "Existe outra pessoa com o mesmo endereço de email."
+            feed_code:
+              taken: "The same feed code exists on another person record."
+            first_name:
+              blank: "A pessoa precisa ter um primeiro nome."
+            gender:
+              inclusion: "Gênero precisa ser 'Masculino' ou 'Feminino'."
+            last_name:
+              blank: "A pessoa precisa ter um sobrenome."
+            password:
+              confirmation: "As senhas não são iguais."
+              too_short: "A senha é muito curta."
+            website:
+              invalid: "The website URL is not formatted correctly (are you missing 'http://' at the beginning?)"
+            photo:
+              too_large: "A foto precisa ser menor do que %{size} megabytes."
+              wrong_type: "The photo file type must be JPG, GIF, or PNG."
+        picture:
+          attributes:
+            album_id:
+              blank: "This picture must be associated with an album."
+            photo:
+              too_large: "The photo must be less than %{size} megabytes."
+              wrong_type: "The photo file type must be JPG, GIF, or PNG."
+        picture_uploader:
+          attributes:
+            album:
+              blank: "You must select an album."
+        prayer_request:
+          attributes:
+            group_id:
+              blank: "The prayer request must be associated with a group."
+            person_id:
+              blank: "The prayer request must be associated with a person."
+            request:
+              blank: "The prayer request cannot be blank."
+        recipe:
+          attributes:
+            directions:
+              blank: "The recipe must have directions."
+            ingredients:
+              blank: "The recipe must have ingredients."
+            title:
+              blank: "The recipe must have a title."
+        relationship:
+          attributes:
+            name:
+              blank: "You must specify the relationship type."
+              inclusion: "This relationship is not valid."
+              taken: "This relationship already exists."
+            other_name:
+              blank: "You must specify the relationship type."
+              taken: "This relationship already exists."
+            person_id:
+              blank: "The relationship must be associated with a person."
+            related_id:
+              blank: "The relationship must be associated with a person."
+        report:
+          attributes:
+            definition:
+              invalid: "The report definition is invalid."
+            name:
+              blank: "The report must have a name."
+              taken: "There is another report with this name. Please choose another name."
+        site:
+          attributes:
+            host:
+              blank: "The host must be specified."
+              taken: "There is another site with the same host."
+              invalid: "Do not include \"http://\" or \"www.\" in the hostname."
+            name:
+              blank: "The site must have a name."
+              taken: "There is another site with the same name."
+        tag:
+          attributes:
+            name:
+              blank: "The tag must have a name."
+              exclusion: "The tag name is invalid."
+              taken: "There is another tag with the same name."
+        verification:
+          attributes:
+            email:
+              invalid: "That email address could not be found in our system. If you have another address, try again."
+            carrier:
+              inclusion: "You must select a mobile carrier."
+            mobile_phone:
+              invalid: "That mobile number could not be found in our system. You may try again."
+            base:
+              unauthorized: "There is a problem with your record preventing you from signing in."
+        verse:
+          attributes:
+            reference:
+              blank: "The verse must have a reference."
+            text:
+              blank: "The passage could not be found. Did you type the reference correctly?"
+              too_long: "The passage is too long. Try to specify a shorter passage."
+  application:
+    api_access: "You must be a super administrator to use the API."
+    no_default_site: "No Default site found."
+    no_site_configured: "There is no site configured at this address: %{host}"
+    settings_reloaded: "Configurações recarregadas."
+    settings_saved: "Configurações salvas."
+    template_created: "Modelo criado."
+  people_count:
+    one: "1 pessoa"
+    other: "%{count} pessoas"
+  footer:
+    help: "Ajuda para utilizar este site"
+    privacy_policy: "Política de Privacidade"
+    powered_by: "Provido por CHURCH.IO"

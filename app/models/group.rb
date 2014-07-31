@@ -6,7 +6,7 @@ class Group < ActiveRecord::Base
   has_many :memberships, dependent: :destroy
   has_many :membership_requests, dependent: :destroy
   has_many :people, -> { order(:last_name, :first_name) }, through: :memberships
-  has_many :admins, -> { where('memberships.admin' => true).order(:last_name, :first_name) }, through: :memberships, source: :person
+  has_many :admins, -> { where('memberships.admin IS true').order(:last_name, :first_name) }, through: :memberships, source: :person
   has_many :messages, -> { order(updated_at: :desc) }, dependent: :destroy
   has_many :notes, -> { order(created_at: :desc) }
   has_many :prayer_requests, -> { order(created_at: :desc) }
@@ -106,12 +106,18 @@ class Group < ActiveRecord::Base
       parents = Group.find(parents_of).people.map { |p| p.parents }.flatten.uniq
       update_membership_associations(parents)
     elsif linked?
-      # TODO use a scope
-      conditions = []
+      q = []
+      p = []
       link_code.downcase.split.each do |code|
-        conditions.add_condition ["lcase(classes) = ? or lcase(classes) like ? or lcase(classes) like ? or lcase(classes) like ? or lcase(classes) like ? or lcase(classes) like ?", code, "#{code},%", "%,#{code}", "%,#{code},%", "#{code}[%", "%,#{code}[%"], 'or'
+        q << "lcase(classes) = ? or
+              lcase(classes) like ? or lcase(classes) like ? or lcase(classes) like ? or
+              lcase(classes) like ? or lcase(classes) like ?"
+        p += [code,
+              "#{code},%", "%,#{code}", "%,#{code},%",
+              "#{code}[%", "%,#{code}[%"]
       end
-      update_membership_associations(Person.where(conditions).to_a)
+      scope = Person.where(q.join(' or '), *p)
+      update_membership_associations(scope.to_a)
     elsif Membership.column_names.include?('auto')
       memberships.where(auto: true).each { |m| m.destroy }
     end
@@ -121,10 +127,35 @@ class Group < ActiveRecord::Base
 
   def update_membership_associations(new_people)
     new_people.reject! { |p| !p || p.deleted? }
-    self.people.reload
-    (new_people - self.people).each { |p| memberships.create!(person: p, auto: true) }
-    ids_to_delete = (self.people - new_people).each { |p| p.id }
-    Membership.delete_all(["group_id = ? and person_id in (?) and auto = ?", id, ids_to_delete, true])
+    people.reload
+    # update existing
+    memberships.where(person_id: (new_people & people).map(&:id)).includes(:person).each do |membership|
+      membership.roles = get_roles_for(membership.person)
+      membership.save!
+    end
+    # add new people
+    (new_people - people).each do |person|
+      memberships.create!(
+        person: person,
+        auto:   true,
+        roles:  get_roles_for(person)
+      )
+    end
+    # remove old people
+    memberships.where(
+      person_id: (people - new_people).map(&:id),
+      auto: true
+    ).delete_all
+  end
+
+  def get_roles_for(person)
+    return [] unless link_code.present?
+    classes = person.classes.to_s.split(/\s*,\s*/)
+    if data = classes.detect { |c| c.downcase.index(link_code.downcase) == 0 } and data.match(/\[(.+)\]/)
+      $1.gsub(/[^a-z0-9 \-_\(\)\|]+/i, '').split(/\s*\|\s*/)
+    else
+      []
+    end
   end
 
   def can_send?(person)
@@ -143,7 +174,7 @@ class Group < ActiveRecord::Base
   end
 
   def full_address
-    address.to_s.any? ? (address + '@' + Site.current.host) : nil
+    address.to_s.any? ? (address + '@' + Site.current.email_host) : nil
   end
 
   def get_people_attendance_records_for_date(date)

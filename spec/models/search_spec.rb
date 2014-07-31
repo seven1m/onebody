@@ -256,6 +256,13 @@ describe Search do
       @search.family_barcode_id = '1234567890'
       expect(@search.results).to eq([@user.family])
     end
+
+    it 'should return matching families by alternate barcode id' do
+      @user.family.alternate_barcode_id = '1234567890'
+      @user.family.save!
+      @search.family_barcode_id = '1234567890'
+      expect(@search.results).to eq([@user.family])
+    end
   end
 
   context 'search for businesses' do

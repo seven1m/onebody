@@ -34,9 +34,6 @@ module OneBody
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password, :password_confirmation]
 
-    # Disable implicit join references in ActiveRecord
-    config.active_record.disable_implicit_join_references = true
-
     # Additional precompiled assets
     config.assets.precompile += %w(editor.js editor.css print.css)
 
@@ -46,7 +43,17 @@ module OneBody
 
     # TODO remove this when we get to Rails 4.1
     def secrets
-      @secrets ||= OpenStruct.new(YAML.load_file(Rails.root.join('config/secrets.yml'))[Rails.env])
+      @secrets ||= begin
+        path = Rails.root.join('config/secrets.yml')
+        if File.exist?(path)
+          OpenStruct.new(YAML.load_file(path)[Rails.env])
+        else
+          envs = ENV.to_a \
+                    .select { |(k, _)| %w(SECRET_TOKEN MAPQUEST_API_KEY).include?(k) } \
+                    .map    { |(k, v)| [k.downcase, v] }
+          OpenStruct.new(Hash[envs])
+        end
+      end
     end
   end
 end

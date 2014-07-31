@@ -406,9 +406,6 @@ en:
         Share Address by Default: 
           name: Share Address
           description: If enabled, new users will have their home address shared with other site members.
-        Relay All Email: 
-          name: Relay All Email
-          description: If enabled, all email addresses are masked by relaying replies back through the site. If disabled, people who have their email address shared will have their address revealed in outgoing messages.
         Share Birthday by Default: 
           name: Share Birthday
           description: If enabled, new users will have their birthday shared with other site members.

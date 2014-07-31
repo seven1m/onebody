@@ -1,0 +1,36 @@
+---
+pt:
+  import:
+    changes:
+      count:
+        one: "1 mudança"
+        other: "%{count} mudanças"
+      show_button: exibir
+    results:
+      name: Nome
+      first_name: "Primeiro Nome"
+      last_name: Sobrenome
+      status: Status
+    apply_settings_to_imports: "Apply the following settings to all imports:"
+    attempt_match_existing_people: "Attempt to match existing people by name if no IDs are included."
+    completed_records: "Registros Completados"
+    error: Erro
+    error_updating: "Erro ao atualizar registro."
+    error_updating_message_html: "There was at least one error while attempting to update records in the database. Please correct the errors, then return to the <a href=\"%{url}\">Pending Updates</a> interface to complete the process."
+    errored_records: "Registros com Erro"
+    for_list_of_available_attributes: "para uma lista de atributos disponíveis (nem todos os atributos são requeridos)."
+    hint_excel_docs: "Dica: Documentos do Excel podem ser exportados como um CSV, no menu Arquivo → Salvar como."
+    import_data: "Importar Dados..."
+    import_people: "Importar Pessoas"
+    import_results: "Importar Resultados"
+    import_selected_people: "Importar Pessoas Selecionadas"
+    no_records_were_found: "Não foram encontrados registros para importação."
+    only_first_records_will_be_imported_html: "Only the first %{count} records will be imported. For larger files, you must divide records into multiple files, or use the <a href=\"http://wiki.github.com/churchio/onebody/updateagent\">UpdateAgent</a> to import a large batch at once."
+    people: "Importar Pessoas"
+    record: registro
+    records: Registros
+    select_csv_file: "Select a Comma Separated Values (CSV) file to import with attribute names as the header row."
+    the_changes_will_be_made: "The following changes will be made. Only selected records will be created/updated."
+    the_import_is_complete: "The import is complete"
+    visibility_access: Visibilidade/Acesso
+    with_errors: "com erros"

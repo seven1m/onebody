@@ -12,12 +12,13 @@
           = icon 'fa fa-search'
           = t('checkin.search.button')
     #results
+    #no_families_found{ style: 'display:none' }
+      %p
+        %em= t('checkin.search.none_found')
     #clear_family_form{ style: 'display:none' }
       = link_to administration_checkin_root_path, class: 'btn btn-warning btn' do
         = icon 'fa fa-times-circle'
         = t('checkin.search.clear')
-    #no_families_found{ style: 'display:none' }
-      %em= t('checkin.search.none_found')
 
   .col-md-9
     #checkin-notes.page-body

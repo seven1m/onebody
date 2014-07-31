@@ -1,0 +1,46 @@
+---
+pt:
+  nav:
+    hello: "Olá, %{person}"
+    admin: Admin
+    admin_sub:
+      admins: Administradores
+    albums: Álbuns
+    business_profile: Negócios
+    checkin: Check-in
+    checkin_sub:
+      times: Times
+    directory: Diretório
+    directory_sub:
+      business: "Diretório de Negócios"
+      printed: "Diretório para Impressão"
+      advanced: "Busa Avançada"
+      new_family: "New Family"
+    documents: Documents
+    groups: Grupos
+    groups_sub:
+      edit: "Editar Grupo"
+      new: "Novo Grupo"
+      new_count:
+        one: "1 novo"
+        other: "%{count} novos"
+    home: Início
+    home_sub:
+      new_count:
+        one: "1 novo"
+        other: "%{count} novos"
+    messages: Mensagens
+    news: Notícias
+    notes: Notas
+    pages: Páginas
+    prayer_requests: "Pedidos de Oração"
+    profile: Perfil
+    profile_sub:
+      edit: "Editar Perfil"
+      email: Email
+      password: Senha
+      privacy: Privacidade
+      relationships: Relacionamentos
+      show: "View Profile"
+    syncs: Sincronizações
+    verses: Versículos

@@ -65,8 +65,12 @@ class Site < ActiveRecord::Base
     end
   end
 
+  def email_host
+    self[:email_host].presence || host
+  end
+
   def noreply_email
-    "noreply@#{self.host}"
+    "noreply@#{self.email_host}"
   end
 
   def visible_name

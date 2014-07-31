@@ -1,0 +1,42 @@
+---
+pt:
+  families:
+    add:
+      new: "New Person"
+      existing: "Move Person"
+    new:
+      heading: "New Family"
+      created:
+        notice: "The family was created. Now, add people to this family using the 'New Person' button below..."
+    edit:
+      heading: "Edit Family"
+      name: "Family Name"
+      name_example_html: "<em>John Doe</em> or <em>John &amp; Jane Doe</em>"
+      name_suggestion_html: "Suggested: <strong>%{name}</strong>"
+      name_suggestion_button: Alterar
+      last_name: "Último Nome da Família"
+      home_phone: "Telefone Residencial"
+      address: Endereço
+      address2: "Endereço (linha 2 - opcional)"
+      city_st_zip: "Cidade, Estado e CEP"
+      photo: Foto
+      save: "Salvar Família"
+      saved: "Alterações na Família foram salvas."
+    delete:
+      button: "Excluir Família"
+      cannot_delete_your_own: "Você não pode excluir a sua própria família."
+    show:
+      edit_link: "Editar Família"
+      suggested_name_html:
+        one: "%{first} is the only adult in this family. Consider <a href='%{url}'>changing the family name</a> to “<strong>%{name}</strong>.”"
+        other: "%{first} and %{second} are the first two adults in this family. Consider <a href='%{url}'>changing the family name</a> to “<strong>%{name}</strong>.”"
+      table:
+        home_phone: "Telefone Residencial"
+        address: "Endereço Residencial"
+        anniversary: "Aniversário de Casamento"
+    name:
+      same_last_name: "%{adult1_fname} & %{adult2_fname} %{adult1_lname}"
+      different_last_names: "%{adult1_name} & %{adult2_name}"
+    not_found: "Família não encontrada"
+    updates:
+      pending_callout: "Updates to this family are pending."

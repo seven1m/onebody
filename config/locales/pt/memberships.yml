@@ -1,0 +1,18 @@
+---
+pt:
+  memberships:
+    index:
+      heading: "Pessoas no grupo %{group}"
+    add:
+      description: "Adicionar alguém neste grupo."
+      name_placeholder: "Type all or part of someone's name"
+    promote: "Promover membro para administrador"
+    demote: "Demote admin to regular member"
+    group_pending_approval: "This group is pending approval. You may not add people to it yet."
+    requests:
+      heading: "Requests to join this group"
+      select_some: "Select one or more above and choose an action."
+      accept:
+        button: Aceitar
+      ignore:
+        button: Ignorar

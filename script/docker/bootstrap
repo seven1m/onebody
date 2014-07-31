@@ -1,0 +1,71 @@
+#!/usr/bin/env ruby
+
+require 'fileutils'
+require 'securerandom'
+require 'open3'
+
+unless File.exist?('config/database.yml')
+  puts '=> creating config/database.yml'
+  FileUtils.cp('config/database.yml.docker-example', 'config/database.yml')
+  puts '-> done'
+  puts
+end
+
+unless File.exist?('config/secrets.yml')
+  puts '=> creating config/secrets.yml'
+  token = SecureRandom.hex(100)
+  config = File.read('config/secrets.yml.example')
+  config.gsub!(/SOMETHING_RANDOM_HERE/, token)
+  File.open('config/secrets.yml', 'w') { |f| f.write(config) }
+  puts '-> done'
+  puts
+end
+
+containers = `docker ps`.split(/\n/)
+
+def run(cmd)
+  puts "-> running command #{cmd}"
+  val = Open3.popen2e(cmd) do |i, o, p|
+    until o.eof?
+      print o.readpartial(512)
+    end
+    p.value
+  end
+  exit(1) unless val == 0
+end
+
+migrate = false
+unless containers.grep(/onebody\-data/).any?
+  migrate = true
+  puts '=> creating database container'
+  pass = SecureRandom.hex(16)
+  run "docker run -d --name='onebody-data' -p 127.0.0.1:3306:3306 -v /var/data/onebody/db:/data -e USER='onebody' -e PASS='#{pass}' paintedfox/mariadb"
+  puts '-> done'
+  puts
+end
+
+puts '=> building onebody'
+run "docker build -t onebody ."
+puts '-> done'
+puts
+
+if migrate
+  puts '=> creating database'
+  run "docker run --rm --link onebody-data:db onebody bundle exec rake db:create db:migrate"
+  puts '-> done'
+  puts
+end
+
+unless containers.grep(/server/).any?
+  puts '=> creating server container'
+  run "docker run --name='server' -d --link onebody-data:db -v /var/data/onebody/files:/data -p 80:3000 onebody /server"
+  puts '-> done'
+  puts
+end
+
+unless containers.grep(/worker/).any?
+  puts '=> creating worker container'
+  run "docker run --name='worker' -d --link onebody-data:db -v /var/data/onebody/files:/data onebody /worker -c"
+  puts '-> done'
+  puts
+end

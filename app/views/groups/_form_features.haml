@@ -5,7 +5,7 @@
   .input-group
     = form.text_field :address, size: 15, class: 'form-control'
     %span.input-group-addon
-      @#{Site.current.host}
+      @#{Site.current.email_host}
   %span.help-block
     = t('groups.edit.address.help')
 .form-group

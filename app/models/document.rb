@@ -1,4 +1,5 @@
 class Document < ActiveRecord::Base
+  include Concerns::FileImage
 
   belongs_to :folder, class_name: 'DocumentFolder', foreign_key: :folder_id, touch: true
 
@@ -14,6 +15,4 @@ class Document < ActiveRecord::Base
   do_not_validate_attachment_file_type :file
 
   validates_attachment_size :file, less_than: PAPERCLIP_FILE_MAX_SIZE
-
-  include FileImageConcern
 end

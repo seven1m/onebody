@@ -12,13 +12,20 @@ parser = OptionParser.new do |opts|
   opts.on("-e", '--environment production', "specify environment (development, production)") do |val|
     options[:environment] = val
   end
+  opts.on('-c', '--continuous', 'run continuously (good for running as a daemon)') do
+    options[:continuous] = true
+  end
   opts.on("--debug") do
     options[:debug] = true
   end
 end
 parser.parse!
 
-PID_PATH = File.expand_path('../../tmp/pids/worker.pid', __FILE__)
+require 'fileutils'
+PID_DIR = File.expand_path('../../tmp/pids', __FILE__)
+FileUtils.mkdir_p(PID_DIR)
+
+PID_PATH = PID_DIR + '/worker.pid'
 MAX_PID_LIFE = 30 * 60 # 30 mins
 
 require 'time'
@@ -32,50 +39,63 @@ if File.exist?(PID_PATH)
   end
 end
 
-options[:environment] ||= 'development'
+options[:environment] ||= ENV['RAILS_ENV'] || 'development'
 
 File.open(PID_PATH, 'w') { |f| f.write(Process.pid.to_s) }
 
+trap('INT') do
+  puts 'Interrupted by user.' if options[:debug]
+  File.delete(PID_PATH)
+  exit
+end
+
 require 'yaml'
-db_config = YAML.load_file(File.expand_path('../../config/database.yml', __FILE__))[options[:environment]]
+require 'erb'
+config_data = File.read(File.expand_path('../../config/database.yml', __FILE__))
+db_config = YAML.load(ERB.new(config_data).result)[options[:environment]]
 
 ENV["RAILS_ENV"] = options[:environment]
 
 require 'rubygems'
 require 'mysql2'
 
-db = Mysql2::Client.new(db_config)
-results = db.query("select site_id, id, command from jobs order by created_at")
-
-puts "#{results.count} job(s)" if options[:debug]
-
-if results.count > 0
-  require File.expand_path('../../config/environment', __FILE__)
-  results.each(as: :array) do |site_id, id, command|
-    p [site_id, id, command] if options[:debug]
-    logger = Rails.logger
-    logger.info "Worker running job #{id} in site #{site_id}..."
-    begin
-      Site.current = Site.find(site_id)
-      cmd = command.gsub(/JOB_ID/, id.to_s)
-      logger.info "Worker running command: #{cmd}"
-      logger.info eval(cmd)
-      puts 'done' if options[:debug]
-    rescue => e
-      logger.error(e.message)
-      backtrace = e.backtrace.is_a?(Array) ? e.backtrace.join("\n") : e.backtrace.to_s
-      logger.error(backtrace)
-      Notifier.simple_message(Setting.get(:contact, :bug_notification_email), '[OneBody] Worker Error', e.message + "\n\n" + backtrace).deliver
-      puts e.message if options[:debug]
-    ensure
-      db.query("delete from jobs where id = %d" % id)
+loop do
+  db = Mysql2::Client.new(db_config)
+  results = db.query("select site_id, id, command from jobs order by created_at")
+  
+  puts "#{results.count} job(s)" if options[:debug]
+  
+  if results.count > 0
+    require File.expand_path('../../config/environment', __FILE__)
+    results.each(as: :array) do |site_id, id, command|
+      p [site_id, id, command] if options[:debug]
+      logger = Rails.logger
+      logger.info "Worker running job #{id} in site #{site_id}..."
+      begin
+        Site.current = Site.find(site_id)
+        cmd = command.gsub(/JOB_ID/, id.to_s)
+        logger.info "Worker running command: #{cmd}"
+        logger.info eval(cmd)
+        puts 'done' if options[:debug]
+      rescue => e
+        logger.error(e.message)
+        backtrace = e.backtrace.is_a?(Array) ? e.backtrace.join("\n") : e.backtrace.to_s
+        logger.error(backtrace)
+        Notifier.simple_message(Setting.get(:contact, :bug_notification_email), '[OneBody] Worker Error', e.message + "\n\n" + backtrace).deliver
+        puts e.message if options[:debug]
+      ensure
+        db.query("delete from jobs where id = %d" % id)
+      end
+      logger.info "Finished job #{id}."
     end
-    logger.info "Finished job #{id}."
+  elsif options[:debug]
+    puts 'No jobs to process.'
   end
-elsif options[:debug]
-  puts 'No jobs to process.'
+  db.close
+
+  break unless options[:continuous]
+  sleep 10
 end
 
-db.close
 
 File.delete(PID_PATH)

@@ -151,7 +151,7 @@ describe AlbumAuthorizer do
     end
 
     it 'should not list album' do
-      assert_not_include AlbumAuthorizer.readable_by(@user), @album
+      expect(AlbumAuthorizer.readable_by(@user)).to_not include(@album)
     end
 
     context 'user is group member' do
