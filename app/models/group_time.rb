@@ -7,7 +7,7 @@ class GroupTime < ActiveRecord::Base
   scope_by_site_id
 
   def section=(s)
-    self[:section] = nil unless s.present?
+    self[:section] = s.presence
   end
 
   before_create :update_ordering
