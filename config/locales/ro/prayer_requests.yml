@@ -1,0 +1,29 @@
+---
+ro:
+  prayer_requests:
+    by: "de către %{person}"
+    name: "Cerere de rugăciune în %{group}"
+    index:
+      heading: "Cerere de rugăciune"
+    show:
+      heading: "Cerere de rugăciune"
+    new:
+      heading: "Cerere de rugăciune nouă"
+      button: "Cerere de rugăciune nouă"
+    edit:
+      heading: "Editează cerere de rugăciune"
+      button: "Editează cerere"
+    delete:
+      button: "Șterge cerere"
+    request:
+      heading: Cerere
+    answer:
+      heading: Răspuns
+      description: "Remember to come back and fill this section so your group can have a record of answered prayers."
+      on_date: "Răspuns în %{date}"
+    save: "Salvează cerere de rugăciune"
+    not_found: "Cererea de rugăciune nu a fost găsită"
+    error:
+      no_edit: "Nu poți edita această cerere de rugăciune"
+      no_delete: "Nu poți șterge această cerere de rugăciune"
+      no_post: "You cannot post a prayer request in this group because you are not a member."

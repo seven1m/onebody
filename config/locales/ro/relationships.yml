@@ -1,0 +1,57 @@
+---
+ro:
+  relationships:
+    heading: "Relații pentru %{person}"
+    reciprocate:
+      button: Reciprocate
+      failure: "A reciprocal relationship to %{name} cannot be automatically created."
+    add_relationship:
+      intro: "Adaugă o relație:"
+      button: "Adaugă relație"
+    family:
+      create:
+        intro: "Câteva relații sunt sugerate mai jos. Modifică după bunul plac și apoi apasă butonul Crează"
+        button: "Crează relație în familie"
+      heading: "Relații în familie pentru %{family}"
+      button: "Relație în familie"
+    inward:
+      heading: "Inward Relationships"
+    names:
+      aunt: Matușă
+      brother: Frate
+      brother_in_law: Cumnat
+      cousin: Văr/Verișoară
+      daughter: Fiică
+      daughter_in_law: Cumnată
+      father: Tată
+      father_in_law: Socru
+      granddaughter: Nepoată
+      grandfather: Bunic
+      grandmother: Bunică
+      grandson: Nepot
+      husband: Soț
+      mother: Mamă
+      mother_in_law: Soacră
+      nephew: Nepot
+      niece: Nepoată
+      ? ""
+      :
+        one: Altceva
+        few: Altceva
+        other: Altceva
+      sister: Soră
+      sister_in_law: Cumnată
+      son: Fiu
+      son_in_law: Cumnat
+      stepbrother: "Frate vitreg"
+      stepdaughter: "Soră vitregă"
+      stepfather: "Tată vitreg"
+      stepmother: "Mamă vitregă"
+      stepsister: "Soră vitregă"
+      stepson: "Fiu vitreg"
+      uncle: Unchi
+      wife: Nevastă
+    no_person_selected: "Nicio persoană selectată."
+    relationship: Relație
+    relationship_type: "Tip:"
+    toggle_individual: "Vezi relații individuale"
