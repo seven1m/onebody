@@ -142,12 +142,15 @@ en:
         save: "Save"
       barcode:
         placeholder: "Scan Your Card"
+      cancel:
+        button: "cancel"
       heading: "Check In"
       not_attending: "not attending"
       print:
         heading: "After making your selections..."
         button: "Print Tags"
-      cancel:
-        button: "cancel"
+      run_setup:
+        intro: "You must first set up your check-in times and destinations."
+        button: "Setup"
       same_as_last_week:
         button: "Choose same as last week"

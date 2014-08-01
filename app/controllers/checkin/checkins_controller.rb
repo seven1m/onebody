@@ -60,7 +60,10 @@ class Checkin::CheckinsController < ApplicationController
     if params[:campus]
       session[:checkin_campus] = params[:campus]
     elsif not session[:checkin_campus]
-      if (@campuses = CheckinTime.campuses).length == 1
+      @campuses = CheckinTime.campuses
+      if @campuses.none?
+        render action: 'run_setup'
+      elsif @campuses.length == 1
         session[:checkin_campus] = @campuses.first
       else
         render action: 'campus_select'
