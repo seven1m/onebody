@@ -67,37 +67,104 @@ describe Signup do
           @family_count = Family.count
           @person_count = Person.count
           Notifier.deliveries.clear
-          @return = @signup.save
         end
 
-        it 'should return true' do
-          expect(@return).to eq(true)
-        end
+        context 'existing user can sign in' do
+          before do
+            @return = @signup.save
+          end
 
-        it 'should not create any records' do
-          expect(Family.count).to eq(@family_count)
-          expect(Person.count).to eq(@person_count)
-        end
-
-        it 'should deliver email verification email to user' do
-          expect(Notifier.deliveries.map(&:subject)).to eq(["Verify Email"])
-        end
-
-        context '#verification_sent?' do
           it 'should return true' do
-            expect(@signup.verification_sent?).to eq(true)
+            expect(@return).to eq(true)
+          end
+
+          it 'should not create any records' do
+            expect(Family.count).to eq(@family_count)
+            expect(Person.count).to eq(@person_count)
+          end
+
+          it 'should deliver email verification email to user' do
+            expect(Notifier.deliveries.map(&:subject)).to eq(["Verify Email"])
+          end
+
+          context '#verification_sent?' do
+            it 'should return true' do
+              expect(@signup.verification_sent?).to eq(true)
+            end
+          end
+
+          context '#approval_sent?' do
+            it 'should return false' do
+              expect(@signup.approval_sent?).to eq(false)
+            end
+          end
+
+          context '#found_existing?' do
+            it 'should return true' do
+              expect(@signup.found_existing?).to eq(true)
+            end
           end
         end
 
-        context '#approval_sent?' do
-          it 'should return false' do
-            expect(@signup.approval_sent?).to eq(false)
+        context 'existing user cannot sign in' do
+          before do
+            @person.update_attributes(can_sign_in: false, full_access: false)
           end
-        end
 
-        context '#found_existing?' do
-          it 'should return true' do
-            expect(@signup.found_existing?).to eq(true)
+          context 'approval required for new users' do
+            before do
+              Setting.set(:features, :sign_up_approval_email, 'admin@example.com')
+              @return = @signup.save
+            end
+
+            it 'should return true' do
+              expect(@return).to eq(true)
+            end
+
+            it 'does not change visibility and sign in permission' do
+              expect(@signup.person.reload.can_sign_in?).to eq(false)
+              expect(@signup.person.full_access?).to eq(false)
+            end
+
+            context '#verification_sent?' do
+              it 'should return false' do
+                expect(@signup.verification_sent?).to eq(false)
+              end
+            end
+
+            context '#approval_sent?' do
+              it 'should return true' do
+                expect(@signup.approval_sent?).to eq(true)
+              end
+            end
+          end
+
+          context 'approval not required for new users' do
+            before do
+              Setting.set(:features, :sign_up_approval_email, nil)
+              @return = @signup.save
+            end
+
+            it 'should return true' do
+              expect(@return).to eq(true)
+            end
+
+            it 'sets visibility and sign in permission' do
+              expect(@signup.person.reload.can_sign_in?).to eq(true)
+              expect(@signup.person.full_access?).to eq(true)
+            end
+
+            context '#verification_sent?' do
+              it 'should return true' do
+                expect(@signup.verification_sent?).to eq(true)
+              end
+            end
+
+            context '#approval_sent?' do
+              it 'should return false' do
+                expect(@signup.approval_sent?).to eq(false)
+              end
+            end
           end
         end
       end
