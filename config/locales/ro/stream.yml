@@ -27,47 +27,47 @@ ro:
       person:
         button: "Salută pe %{person}!"
       site:
-        description: "Community site for %{site} was created!"
+        description: "Siteul comunității pentru %{site} a fost creat!"
     footer:
       button_label:
-        album: "Show all"
-        note: "Read more"
-        verse: "Read more"
+        album: "Arată tot"
+        note: "Citește mai mult"
+        verse: "Citește mai mult"
         person: ""
         site: ""
-    load_more: "load more..."
+    load_more: "incarcă mai mult..."
     share:
       heading:
-        friends: "Share with Friends"
-        everyone: "Share with Everyone"
+        friends: "Distribuie la prieteni"
+        everyone: "Distribuie cu toți"
       intro:
-        friends_and_group_members: "Things you share here will be seen by your friends and fellow group members when they log in."
-        friends_only: "Things you share here will be seen by your friends when they log in."
-        group_members_only: "Things you share here will be seen by your fellow group members when they log in."
-        everyone: "Share something exciting with the entire community..."
+        friends_and_group_members: "Ce distribui aici va fii văzut de către prietenii tăi si membrii grupului tău"
+        friends_only: "Ce distribui aici va fii văzut de către prietenii tăi"
+        group_members_only: "Ce distribui aici va fii văzut de către membrii grupului tău"
+        everyone: "Distribuie ceva interesant cu întreaga comunitate"
       button:
-        note: note
-        picture: picture
-        verse: "bible verse"
-        message: "group message"
-        news: "share a news post"
+        note: notiță
+        picture: fotografie
+        verse: "verset biblic"
+        message: "mesaj al grupului"
+        news: "distribuie postare nouă"
       sharing_with_html:
-        one: "sharing with <a href='%{url}'>1 person</a>"
-        few: "sharing with <a href='%{url}'>%{count} people</a>"
-        other: "sharing with <a href='%{url}'>%{count} people</a>"
+        one: "distribuit la <a href='%{url}'>1 persoana</a>"
+        few: "distribuit la <a href='%{url}'>%{count} persoane</a>"
+        other: "distribuit la <a href='%{url}'>%{count} persoane</a>"
     people:
-      heading: "Sharing with Friends"
-      intro: "These are the people who see what you share on the site."
-      intro_none: "No one to show."
+      heading: "Distribuit la prieteni"
+      intro: "Aceste persoane pot vedea ce ai distribuit pe acest site."
+      intro_none: "Nicio persoană"
       column:
-        name: Name
-        family_name: "Family Name"
-        reason: Reason
+        name: Nume
+        family_name: "Nume de familie"
+        reason: Motiv
       reason:
-        family_html: "your <a href='%{url}'>family</a>"
-        friend_html: "your <a href='%{url}'>friend</a>"
+        family_html: "<a href='%{url}'>familia</a> ta"
+        friend_html: "<a href='%{url}'>prietenul</a> tau"
         groups_html:
-          one: "in this group with you: %{groups}"
-          few: "in these groups with you: %{groups}"
-          other: "in these groups with you: %{groups}"
-    feed: Feed
+          one: "în acest grup cu tine: %{groups}"
+          few: "în aceste grupuri cu tine: %{groups}"
+          other: "în aceste grupuri cu tine: %{groups}"
+    feed: Noutăți
