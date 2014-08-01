@@ -416,7 +416,7 @@ en:
         Host:
           name: "Email Host Name"
           description: "A subdomain, e.g. mg.example.com, to use if your domain is already serving email. Defaults to the domain name."
-        Apikey:
+        mailgun_api_key:
           name: "Mailgun API Key"
           description: "API Key to use mailgun.com as the email receiver."
       advanced:

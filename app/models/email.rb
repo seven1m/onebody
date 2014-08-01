@@ -2,7 +2,7 @@ class Email
 
   include HTTParty
 
-  APIKEY = Setting.get(:email, :apikey)
+  APIKEY = Setting.get(:email, :mailgun_api_key)
 
   base_uri 'https://api.mailgun.net/v2'
   basic_auth 'api', APIKEY
@@ -15,7 +15,7 @@ class Email
     routes = self.show_routes(limit: 100)
     match = []
     routes["items"].each do |item|
-      if item["description"] == "Catch All Route - Created By Onebody" and item["expression"] == "match_recipient('.*@#{Site.current.email_host}')"
+      if item["description"] == "Catch All Route - Created By OneBody" and item["expression"] == "match_recipient('.*@#{Site.current.email_host}')"
         match << item
       end
     end
@@ -31,7 +31,7 @@ class Email
   def self.build_data
     data = {}
     data[:priority] = 0
-    data[:description] = "Catch All Route - Created By Onebody"
+    data[:description] = "Catch All Route - Created By OneBody"
     data[:expression] = "match_recipient('.*@#{Site.current.email_host}')"
     data[:action] = ["forward('http://#{Site.current.host}/emails.mime')", "stop()"]
     return data

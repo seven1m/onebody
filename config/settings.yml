@@ -26,7 +26,7 @@ Contact:
     format: string
     value: admin@example.com
 Email:
-  Apikey:
+  mailgun_api_key:
     format: string
     value:
 Name:

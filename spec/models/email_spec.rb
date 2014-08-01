@@ -4,7 +4,7 @@ describe Email do
 
   before do
     @body = {priority: 0,
-             description: "Catch All Route - Created By Onebody",
+             description: "Catch All Route - Created By OneBody",
              expression: "match_recipient('.*@example.com')",
              action: ["forward('http://example.com/emails.mime')", "stop()"]}
   end
@@ -53,7 +53,7 @@ describe Email do
       expect(Email).to receive(:show_routes) {
        {"total_count"=>1,
         "items"=>
-         [{"description"=>"Catch All Route - Created By Onebody",
+         [{"description"=>"Catch All Route - Created By OneBody",
            "created_at"=>"Thu, 31 Jul 2014 04:14:02 GMT",
            "actions"=>["forward('http://example.com/emails.mime')", "stop()"],
            "priority"=>0,
