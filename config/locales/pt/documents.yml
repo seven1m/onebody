@@ -2,26 +2,26 @@
 pt:
   documents:
     index:
-      heading: Documents
-      intro: "This is a place for forms, publications, and other files available to users of this site."
+      heading: Documentos
+      intro: "Este é um lugar para formulários, publicações, e outros arquivos disponíveis para os usuários deste site."
       table:
-        name: Name
-        description: Description
-        updated_at: Updated
-        size: Size
-        item_count: "%{count} items"
+        name: Nome
+        description: Descrição
+        updated_at: Atualizado
+        size: Tamanho
+        item_count: "%{count} itens"
       edit_folder:
-        button: "Edit this folder"
+        button: "Editar esta pasta"
       new_folder:
-        button: "New folder"
+        button: "Nova pasta"
       new_document:
-        button: "New document"
+        button: "Novo documento"
     show:
       table:
-        filename: Filename
-        content_type: "Content Type"
-        size: Size
-        updated_at: Updated
+        filename: "Nome de arquivo"
+        content_type: "Tipo de Conteúdo"
+        size: Tamanho
+        updated_at: Atualizado
       download:
         button: "Baixar Arquivo"
       edit:
