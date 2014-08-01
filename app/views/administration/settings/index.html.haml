@@ -111,10 +111,19 @@
       = setting_row('URL', 'News Feed')
       = setting_row('Services', 'Analytics')
       .form-group
+        = label_tag 'email_host', t('admin.settings.Email.Host.name'), class: 'col-sm-2 control-label'
+        .col-sm-10
+          = text_field_tag 'email_host', Site.current.host, class: 'form-control'
+          %span.help-block
+            = t('admin.settings.Email.Host.description')
+      = setting_row('Email', 'Apikey')
+      .form-group
         .col-sm-offset-2.col-sm-10
           = button_tag t('save_changes'), class: 'btn btn-success'
     - if @logged_in.super_admin?
       .tab-pane#advanced
+        %p= t('admin.settings.advanced.mailgun')
+        %p= link_to t('admin.settings.mailgun'), setup_email_path, method: 'put', title: t('admin.settings.mailgun_message'), class: 'btn btn-warning'
         %p= t('admin.settings.advanced.intro')
         %p= link_to t('admin.settings.reload'), reload_administration_settings_path, method: 'put', title: t('admin.settings.reload_message'), class: 'btn btn-warning'
 
@@ -134,4 +143,3 @@
   function scrollTo(id) {
     $('html, body').animate({'scrollTop':$('#'+id).offset().top}, 'slow');
   }
-

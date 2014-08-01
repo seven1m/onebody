@@ -25,6 +25,10 @@ Contact:
   Send Updates To:
     format: string
     value: admin@example.com
+Email:
+  Apikey:
+    format: string
+    value:
 Name:
   Community:
     format: string

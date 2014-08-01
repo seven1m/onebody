@@ -133,6 +133,9 @@ GEM
       tilt
     highline (1.6.21)
     hike (1.2.3)
+    httparty (0.13.1)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     i18n (0.6.11)
     jquery-rails (3.1.0)
       railties (>= 3.0, < 5.0)
@@ -155,6 +158,7 @@ GEM
     mini_portile (0.5.3)
     minitest (5.4.0)
     multi_json (1.10.1)
+    multi_xml (0.5.5)
     mysql2 (0.3.15)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
@@ -308,6 +312,7 @@ DEPENDENCIES
   guard-rspec
   haml
   highline
+  httparty
   jquery-rails
   load_and_authorize_resource!
   loofah
