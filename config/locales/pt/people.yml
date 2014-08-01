@@ -8,15 +8,15 @@ pt:
     title_html: "%{name}<span class='discreet'>, %{description}</span>"
     show:
       details:
-        family: "%{family} Family"
+        family: "%{family} Família"
         website: Website
         email: Email
-        mobile_phone: "Mobile Phone"
-        home_phone: "Home Phone"
-        work_phone: "Work Phone"
-        address: "Home Address"
-        birthday: Birthday
-        anniversary: Anniversary
+        mobile_phone: "Telefone Celular"
+        home_phone: "Telefone Residencial"
+        work_phone: "Telefone de Trabalho"
+        address: "Endereço Residencial"
+        birthday: "Data de Nascimento"
+        anniversary: Aniversário
     edit:
       about: Sobre
       basics: Básico

@@ -4,7 +4,7 @@ pt:
     heading: "Relacionamento para %{person}"
     reciprocate:
       button: Retribuir
-      failure: "A reciprocal relationship to %{name} cannot be automatically created."
+      failure: "Um relacionamento recíproco com %{name} não pode ser criado automaticamente."
     add_relationship:
       intro: "Adicionar um relacionamento:"
       button: "Adicionar um relacionamento:"
@@ -15,7 +15,7 @@ pt:
       heading: "Relacionamentos de Família de %{family}"
       button: "Relacionamentos de Família"
     inward:
-      heading: "Inward Relationships"
+      heading: "Relacionamento íntimo/familiar"
     names:
       aunt: Tia
       brother: Irmão(ã)
