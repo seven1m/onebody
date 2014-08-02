@@ -2,7 +2,7 @@ class Email
 
   include HTTParty
 
-  APIKEY = Setting.get(:email, :mailgun_api_key)
+  APIKEY = Setting.get(:email, :mailgunapikey)
 
   base_uri 'https://api.mailgun.net/v2'
   basic_auth 'api', APIKEY
