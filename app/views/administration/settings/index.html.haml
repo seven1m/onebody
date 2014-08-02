@@ -116,7 +116,7 @@
           = text_field_tag 'email_host', Site.current.email_host, class: 'form-control'
           %span.help-block
             = t('admin.settings.Email.Host.description')
-      = setting_row('Email', 'mailgun_api_key')
+      = setting_row('Email', 'MailgunApiKey')
       .form-group
         .col-sm-offset-2.col-sm-10
           = button_tag t('save_changes'), class: 'btn btn-success'
