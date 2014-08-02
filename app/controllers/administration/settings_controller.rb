@@ -13,6 +13,7 @@ class Administration::SettingsController < ApplicationController
 
   def batch
     Site.current.host = params[:hostname] if params[:hostname]
+    Site.current.email_host = params[:email_host] if params[:email_host]
     if Site.current.save
       our_settings.each do |setting|
         if value = params[setting.id.to_s]
