@@ -225,4 +225,27 @@ describe PeopleController do
       end
     end
   end
+
+  describe '#import' do
+    context 'user is not admin with import permission' do
+      before do
+        get :import, {}, { logged_in_id: @person.id }
+      end
+
+      it 'returns unauthorized' do
+        expect(response).to be_unauthorized
+      end
+    end
+
+    context 'user is admin with import permission' do
+      before do
+        @person.update_attribute(:admin, Admin.create(import_data: true))
+        get :import, {}, { logged_in_id: @person.id }
+      end
+
+      it 'renders the import template' do
+        expect(response).to render_template(:import)
+      end
+    end
+  end
 end

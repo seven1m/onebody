@@ -1,33 +1,40 @@
+require 'active_support/concern'
+
 module Concerns
   module Person
 
-    cattr_accessor :import_in_progress
+    # this is a regular module since ActiveSupport::Concern
+    # does not import constants by design
+    module ImportConstants
+      MAX_RECORDS_TO_IMPORT = 1000
 
-    MAX_RECORDS_TO_IMPORT = 1000 unless defined?(MAX_RECORDS_TO_IMPORT)
-
-    COLUMN_ALIASES = {
-      'First Name'             => 'first_name',
-      'Last Name'              => 'last_name',
-      'Household Name Format'  => 'family_name',
-      'Gender'                 => 'gender',
-      'DOB'                    => 'birthday',
-      'Address1'               => 'family_address1',
-      'Address 1'              => 'family_address1',
-      'Address2'               => 'family_address2',
-      'Address 2'              => 'family_address2',
-      'City'                   => 'family_city',
-      'State Province'         => 'family_state',
-      'Postal Code'            => 'family_zip',
-      'Home Phone'             => 'family_home_phone',
-      'Work Phone'             => 'work_phone',
-      'Cell Phone'             => 'mobile_phone',
-      'Individual Email'       => 'email',
-      'Household Email'        => 'family_email'
-    } unless defined?(COLUMN_ALIASES)
+      COLUMN_ALIASES = {
+        'First Name'             => 'first_name',
+        'Last Name'              => 'last_name',
+        'Household Name Format'  => 'family_name',
+        'Gender'                 => 'gender',
+        'DOB'                    => 'birthday',
+        'Address1'               => 'family_address1',
+        'Address 1'              => 'family_address1',
+        'Address2'               => 'family_address2',
+        'Address 2'              => 'family_address2',
+        'City'                   => 'family_city',
+        'State Province'         => 'family_state',
+        'Postal Code'            => 'family_zip',
+        'Home Phone'             => 'family_home_phone',
+        'Work Phone'             => 'work_phone',
+        'Cell Phone'             => 'mobile_phone',
+        'Individual Email'       => 'email',
+        'Household Email'        => 'family_email'
+      }
+    end
 
     module Import
-      def self.included(mod)
-        mod.extend(ClassMethods)
+      extend ActiveSupport::Concern
+
+      included do
+        cattr_accessor :import_in_progress
+        include ImportConstants
       end
 
       module ClassMethods
