@@ -13,7 +13,7 @@ class Checkin::GroupsController < ApplicationController
       format.json do
         render :text => {
           'groups'     => @groups,
-          'updated_at' => GroupTime.last(:order => 'updated_at').updated_at
+          'updated_at' => GroupTime.order('updated_at').last.updated_at
         }.to_json
       end
     end
