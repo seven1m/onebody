@@ -7,7 +7,7 @@ class Administration::Checkin::AuthsController < ApplicationController
       render :text => 'must specify group_id and code'
       return
     end
-    @people = Group.find(params[:group_id]).people.all(:order => 'last_name, first_name')
+    @people = Group.find(params[:group_id]).people.order('last_name, first_name').to_a
     if params[:max_age]
       @people.reject! { |p| p.adult? or (p.years_of_age and p.years_of_age > params[:max_age].to_i) }
     end

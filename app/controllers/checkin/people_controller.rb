@@ -29,7 +29,7 @@ class Checkin::PeopleController < ApplicationController
             })
           end,
           'meta' => {
-            'groups_updated_at' => GroupTime.last(:order => 'updated_at').updated_at
+            'groups_updated_at' => GroupTime.order('updated_at').last.updated_at
           }
         }.to_json
         render :text => json

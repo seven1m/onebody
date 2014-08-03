@@ -16,7 +16,7 @@ namespace :onebody do
   end
 
   task :settings => :environment do
-    sites = Site.all(:order => 'id')
+    sites = Site.order(:id).to_a
     site_choices = ['0'] + sites.map { |s| s.id.to_s }
     loop do
       puts
