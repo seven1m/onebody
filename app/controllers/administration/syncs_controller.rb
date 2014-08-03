@@ -10,10 +10,7 @@ class Administration::SyncsController < ApplicationController
   )
 
   def index
-    @syncs = Sync.paginate(
-      order:  'created_at desc',
-      page:   params[:page]
-    )
+    @syncs = Sync.order('created_at desc').page(params[:page])
   end
 
   def show
@@ -21,7 +18,7 @@ class Administration::SyncsController < ApplicationController
       params[:sort] = 'sync_items.status,sync_items.name'
     end
     @sync = Sync.find(params[:id])
-    @items = @sync.sync_items.paginate(order: params[:sort], page: params[:page])
+    @items = @sync.sync_items.order(params[:sort]).page(params[:page])
     @counts = @sync.count_items
   end
 
