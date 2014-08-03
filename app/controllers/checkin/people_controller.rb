@@ -7,14 +7,14 @@ class Checkin::PeopleController < ApplicationController
     elsif params[:q]
       search = Search.new_from_params(:family_name => params[:q])
       if (families = search.query(nil, 'family')).any?
-        @people = Person.all(:joins => :family, :conditions => ["families.id in (#{families.map(&:id).join(',')}) and people.deleted = ?", false], :select => select)
+        @people = Person.joins(:family).where("families.id in (#{families.map(&:id).join(',')}) and people.deleted = ?", false).select(select)
       else
         @people = []
       end
     else
       render :text => 'missing param', :status => 400
     end
-    @people += Relationship.all(:conditions => "related_id in (#{@people.map { |p| p.id }.join(',')}) and other_name like '%Check-in Person%'").map { |r| r.person }.uniq if @people.any?
+    @people += Relationship.where("related_id in (?) and other_name like '%Check-in Person%'", @people.map(&:id)).map(&:person).uniq if @people.any?
     respond_to do |format|
       format.json do
         json = {

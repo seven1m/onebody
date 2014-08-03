@@ -14,7 +14,9 @@
         %td= h person.years_of_age
         %td= h person.medical_notes
         %td
-          - if (auths = (person.family.people.select { |p| p.adult? } + person.relationships.all(:conditions => "other_name like '%Check-in Person%'").map { |r| r.related }).uniq.reject { |p| p.deleted? }.map { |p| p.name }).any?
+          -# TODO refactor
+          - auths = person.family.people.select(&:adult?).map(&:name) + person.relationships.where("other_name like '%Check-in Person%'").to_a.map(&:related).uniq.reject(&:deleted?).map(&:name)
+          - if auths.any?
             = h auths.join(', ')
             %br/
           - if person.can_pick_up.to_s.any?

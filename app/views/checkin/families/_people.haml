@@ -26,7 +26,7 @@
             %strong.very-strong Medical notes:
             = h person.medical_notes
             %br/
-          - if (checkin_people = Relationship.all(:conditions => ['person_id = ? and other_name like ?', person.id, '%Check-in Person%']).map { |r| r.related }.uniq).any?
+          - if (checkin_people = Relationship.where('person_id = ? and other_name like ?', person.id, '%Check-in Person%').to_a.map(&:related).uniq).any?
             %strong.very-strong Can check in/pick up:
             = raw checkin_people.map { |p| link_to(h(p.name), p) }.join(', ')
             %br/
