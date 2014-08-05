@@ -2,7 +2,7 @@
 
 [![Build Status](http://img.shields.io/travis/churchio/onebody.svg?style=flat)](https://travis-ci.org/churchio/onebody)
 [![Code Climate](http://img.shields.io/codeclimate/github/churchio/onebody.svg?style=flat)](https://codeclimate.com/github/churchio/onebody)
-[![Site](http://img.shields.io/badge/site-church.io-blue.svg?style=flat)](http://church.io)
+[![Site](http://img.shields.io/badge/site-church.io-blue.svg?style=flat)](http://church.io/?utm_source=github&utm_medium=referral&utm_campaign=churchio)
 
 OneBody is open-source, web-based social networking, email list, online directory, and lightweight document management software for churches.
 
