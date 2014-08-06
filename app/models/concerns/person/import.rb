@@ -38,6 +38,8 @@ module Concerns
       end
 
       module ClassMethods
+        include ImportConstants
+
         def importable_column_names
           # FIXME this is hacky
           (

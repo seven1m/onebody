@@ -160,7 +160,7 @@ describe PeopleController do
     @person = Person.create!(first_name: 'Deanna', last_name: 'Troi', child: false, visible_to_everyone: true)
     # normal person should not see
     expect { get :show, {id: @person.id}, {logged_in_id: @other_person.id} }.to_not raise_error
-    
+
     expect(response).to be_missing
     # admin should see a message
     expect { get :show, {id: @person.id}, {logged_in_id: @admin.id} }.to_not raise_error
@@ -245,6 +245,21 @@ describe PeopleController do
 
       it 'renders the import template' do
         expect(response).to render_template(:import)
+      end
+    end
+
+    context 'user is admin with import permission' do
+      before do
+        @person.update_attribute(:admin, Admin.create(import_data: true))
+        @file = ActionDispatch::Http::UploadedFile.new(tempfile: File.new("#{Rails.root}/spec/fixtures/files/person.csv"), filename: "person.csv")
+        @attributes = {can_sign_in: "true",
+                       full_access: "true",
+                       visible_to_everyone: "true",
+                       visible_on_printed_directory: "true"}
+        post :import, { file: @file, match_by_name: 'true', attributes: @attributes }, { logged_in_id: @person.id }
+      end
+      it 'uploads a file' do
+        expect(response).to render_template(:import_queue)
       end
     end
   end
