@@ -9,6 +9,7 @@ class Family < ActiveRecord::Base
   has_many :updates, -> { order(:created_at) }
   accepts_nested_attributes_for :people
   belongs_to :site
+  has_many :donations
 
   scope_by_site_id
 
