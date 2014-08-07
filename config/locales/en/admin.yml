@@ -46,6 +46,7 @@ en:
       intro: "Record donations and generate donation reports."
       add: "Add Donations"
       report: "Donation Report"
+      new: "New Donations"
 
     deleted_people:
       tabs:

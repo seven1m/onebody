@@ -67,10 +67,10 @@
         .box-body
           %p= t('admin.donation.intro')
           %p
-            = link_to administration_checkin_dashboard_path, class: 'btn btn-info' do
+            = link_to new_administration_donation_path, class: 'btn btn-info' do
               = icon 'fa fa-money'
               = t('admin.donation.add')
-            = link_to administration_checkin_dashboard_path, class: 'btn btn-info' do
+            = link_to administration_donations_path, class: 'btn btn-info' do
               = icon 'fa fa-list-alt'
               = t('admin.donation.report')
 
