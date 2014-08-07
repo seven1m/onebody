@@ -59,18 +59,6 @@
   .clearfix
 
 .floating-boxes.normalize-heights
-  - if @logged_in.admin?(:manage_attendance)
-    .floating-box
-      .box.box-info.normalize-height
-        .box-header
-          %h3.box-title= t('admin.attendance.heading')
-        .box-body
-          %p= t('admin.attendance.intro')
-          %p
-            = link_to administration_attendance_index_path, class: 'btn btn-info' do
-              = icon 'fa fa-bar-chart-o'
-              = t('admin.attendance.button')
-
   - if setting(:features, :checkin) and (@logged_in.admin?(:manage_checkin) or @logged_in.admin?(:assigned_checkin_cards))
     .floating-box
       .box.box-info.normalize-height
