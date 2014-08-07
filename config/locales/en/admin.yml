@@ -41,6 +41,12 @@ en:
     dashboard:
       heading: "Admin Dashboard"
 
+    donation:
+      heading: "Donations"
+      intro: "Record donations and generate donation reports."
+      add: "Add Donations"
+      report: "Donation Report"
+
     deleted_people:
       tabs:
         people: "Deleted People"

@@ -59,17 +59,20 @@
   .clearfix
 
 .floating-boxes.normalize-heights
-  - if setting(:features, :checkin) and (@logged_in.admin?(:manage_checkin) or @logged_in.admin?(:assigned_checkin_cards))
+  - if @logged_in.admin?
     .floating-box
       .box.box-info.normalize-height
         .box-header
-          %h3.box-title= t('admin.checkin.heading')
+          %h3.box-title= t('admin.donation.heading')
         .box-body
-          %p= t('admin.checkin.intro')
+          %p= t('admin.donation.intro')
           %p
             = link_to administration_checkin_dashboard_path, class: 'btn btn-info' do
-              = icon 'fa fa-check-square-o'
-              = t('admin.checkin.button')
+              = icon 'fa fa-money'
+              = t('admin.donation.add')
+            = link_to administration_checkin_dashboard_path, class: 'btn btn-info' do
+              = icon 'fa fa-list-alt'
+              = t('admin.donation.report')
 
   - if @logged_in.admin?(:manage_access)
     .floating-box
