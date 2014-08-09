@@ -5,8 +5,8 @@
       = form.text_field :name, class: 'form-control'
   .col-lg-4
     .form-group
-      = form.label :type, t('admin.donation.type')
-      = form.select :type, DONATION_TYPE, {}, class: 'form-control'
+      = form.label :donation_type, t('admin.donation.type')
+      = form.select :donation_type, DONATION_TYPE, {}, class: 'form-control'
   .col-lg-4
     .form-group
       = form.label :amount_cents, t('admin.donation.amount')

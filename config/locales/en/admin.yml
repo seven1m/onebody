@@ -46,8 +46,10 @@ en:
       intro: "Record donations and generate donation reports."
       add: "Add Donations"
       report: "Donation Report"
+      report_date: "Donations received on "
       new:
         heading: "New Donations"
+      number: "No."
       name: "Name"
       type: "Type"
       amount: "Amount"

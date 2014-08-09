@@ -1,1 +1,20 @@
 - @title = t('admin.donation.report')
+
+%p
+  = t("admin.donation.report_date")
+
+%table.table.search-results
+  %tr
+    %th= t('admin.donation.number')
+    %th= t('admin.donation.name')
+    - DONATION_TYPE.each do |type|
+      %th= type
+  - @donations.each do |donation|
+    %tr
+      %td= donation.id
+      %td= donation.person.try(:name)
+      - DONATION_TYPE.each do |type|
+        - if donation.donation_type == type
+          %td= donation.amount
+        - else
+          %td -
