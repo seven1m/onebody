@@ -4,7 +4,7 @@ class CreateDonations < ActiveRecord::Migration
       t.date :date
       t.references :person, index: true
       t.references :family, index: true
-      t.string :type
+      t.string :donation_type
 
       t.timestamps
     end
