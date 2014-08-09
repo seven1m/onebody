@@ -1,7 +1,8 @@
 - @title = t('admin.donation.report')
 
-%p
-  = t("admin.donation.report_date")
+.col-lg-4
+  %p
+    = t("admin.donation.report_date") + @date.strftime("%A, %e %B %Y")
 
 %table.table.search-results
   %tr
@@ -12,7 +13,7 @@
   - @donations.each do |donation|
     %tr
       %td= donation.id
-      %td= donation.person.try(:name)
+      %td= donation.person.try(:name) || donation.name
       - DONATION_TYPE.each do |type|
         - if donation.donation_type == type
           %td= donation.amount

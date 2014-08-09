@@ -1,13 +1,17 @@
+require 'chronic'
+
 class Administration::DonationsController < ApplicationController
 
   before_filter :only_admins
 
   def index
     @donations = Donation.all
+    @date = Chronic.parse('last sunday')
   end
 
   def new
     @donation = Donation.new
+    @date = Chronic.parse('last sunday')
   end
 
   def create

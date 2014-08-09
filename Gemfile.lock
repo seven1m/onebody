@@ -311,6 +311,7 @@ DEPENDENCIES
   capistrano-bundler
   capistrano-newrelic
   capistrano-rails
+  chronic
   coffee-rails (~> 4.0.0)
   date_validator
   draper
