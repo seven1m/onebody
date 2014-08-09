@@ -1,4 +1,6 @@
-- @title = t('admin.donation.new')
+- @title = t('admin.donation.new.heading')
 
 = form_for @donation, url: administration_donations_path do |form|
-  = render partial: 'form'
+  - 10.times do
+    = render 'form', form: form
+  = form.button 'Save'
