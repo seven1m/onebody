@@ -1,8 +1,11 @@
 - @title = t('admin.donation.report')
 
-.col-lg-4
-  %p
-    = t("admin.donation.report_date") + @date.strftime("%A, %e %B %Y")
+.row
+  .col-lg-6
+    %p
+      = t("admin.donation.report_date") + @date.strftime("%A, %e %B %Y")
+  .col-lg-6
+    = link_to 'Summary', summary_administration_donations_path, class: 'btn btn-info pull-right'
 
 %table.table.search-results
   %tr

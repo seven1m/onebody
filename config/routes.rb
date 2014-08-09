@@ -165,7 +165,11 @@ OneBody::Application.routes.draw do
         put :batch
       end
     end
-    resources :donations
+    resources :donations do
+      collection do
+        get :summary
+      end
+    end
     resources :settings do
       collection do
         put :batch
