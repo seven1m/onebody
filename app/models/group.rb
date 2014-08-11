@@ -221,6 +221,10 @@ class Group < ActiveRecord::Base
     person.can_create?(albums.new)
   end
 
+  def creator_name
+    creator.try :name
+  end
+
   class << self
     def update_memberships
       all(order: 'parents_of').each { |group| group.update_memberships }
