@@ -338,6 +338,10 @@ class Person < ActiveRecord::Base
     self.full_access = true
   end
 
+  def new_group_creation(*args)
+    GroupCreation.new self, *args
+  end
+
   class << self
 
     def new_with_default_sharing(attrs)

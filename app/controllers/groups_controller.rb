@@ -69,26 +69,20 @@ class GroupsController < ApplicationController
   end
 
   def new
-    @group = Group.new(creator_id: @logged_in.id)
-    @categories = Group.categories.keys
+    @group = @logged_in.new_group_creation
   end
 
   def create
-    params[:group].cleanse 'address'
-    @group = Group.new(group_params)
-    @group.creator = @logged_in
+    @group = @logged_in.new_group_creation(group_params)
     if @group.save
-      if @logged_in.admin?(:manage_groups)
-        @group.update_attribute(:approved, true)
-        flash[:notice] = t('groups.created')
+      flash[:notice] = if @group.pending_approval?
+        t('groups.created_pending_approval')
       else
-        @group.memberships.create(person: @logged_in, admin: true)
-        flash[:notice] = t('groups.created_pending_approval')
+        t('groups.created')
       end
       redirect_to @group
     else
-      @categories = Group.categories.keys
-      render action: 'new'
+      render :new
     end
   end
 

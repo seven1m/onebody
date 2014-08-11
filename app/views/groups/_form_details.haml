@@ -19,6 +19,6 @@
   = form.select :leader_id, @group.people.map { |m| [m.name, m.id] }, { include_blank: true }, class: 'form-control'
 .form-group
   = form.label :creator
-  = form.text_field :creator, value: (@group.creator ? @group.creator.name : nil), readonly: true, name: 'creator_name', class: 'form-control'
+  = form.text_field :creator, value: @group.creator_name, readonly: true, name: 'creator_name', class: 'form-control'
 .form-group
   = form.submit t('save_changes'), class: 'btn btn-success'
