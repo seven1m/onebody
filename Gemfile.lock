@@ -319,7 +319,7 @@ DEPENDENCIES
   mini_magick
   mysql2
   newrelic_rpm
-  nokogiri
+  nokogiri (~> 1.6.3)
   paperclip
   pdf-writer!
   pry
