@@ -1,0 +1,38 @@
+- @title = report.formatted_title
+
+- content_for :header do
+  %section.content-header
+    = breadcrumbs
+    %h1
+      = @title
+.row
+  .col-md-9
+    %p#download-csv
+    = link_to 'Download CSV', formatted_dossier_report_path('csv', report), class: 'download-csv'
+    %p#record-count
+      = t('attendance_totals.records', count: report.results.body.count)
+      %table.table
+        %thead
+          %tr
+            %th= sortable_column_heading t('attendance_totals.name'),        'groups.name', %w(groups.group_id)
+            %th= sortable_column_heading t('attendance_totals.attended_at'), 'attendance_records.attended_at', %w(groups.group_id)
+            %th= sortable_column_heading t('attendance_totals.count'),       'attendance_records.count', %w(groups.group_id)
+        %tbody
+          - report.results.body.each do |row|
+            %tr
+              - row.each do |value|
+                %td= value        
+  .col-md-3
+    .box.box-info.hidden-print
+      .box-heading
+      .box-body
+        = form_tag report, as: :options, url: url_for, html: {method: :get} do 
+          .form-group
+            = label_tag :fromdate, t('attendance_totals.fromdate')
+            = date_field_tag :fromdate, nil, class: 'form-control', placeholder: "Enter From Date"
+          .form-group
+            = label_tag :thrudate, t('attendance_totals.thrudate')
+            = date_field_tag :thrudate, nil, class: 'form-control', placeholder: "Enter Through Date"
+          .form-group
+            = link_to formatted_dossier_report_path('html', report), class: 'btn btn-info', onchange: 'this.form.submit()' do
+              = t('attendance_totals.submit')

@@ -1,0 +1,13 @@
+en:
+  attendance_totals:
+
+    attended_at: Attended At
+    count: Total Attendees
+    date: Date
+    fromdate: "From Date"
+    name: Name
+    records:
+      one: "1 record" 
+      other: "%{count} records"
+    submit: Submit
+    thrudate: Through Date
