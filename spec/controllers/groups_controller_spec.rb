@@ -115,33 +115,6 @@ describe GroupsController do
     expect(response).to be_unauthorized
   end
 
-  it "should create a group pending approval" do
-    get :new, nil, {logged_in_id: @person.id}
-    expect(response).to be_success
-    group_count = Group.count
-    post :create, {group: {name: 'test name', category: 'test cat'}}, {logged_in_id: @person.id}
-    expect(response).to be_redirect
-    expect(Group.count).to eq(group_count + 1)
-    new_group = Group.last
-    expect(new_group.name).to eq("test name")
-    expect(new_group.category).to eq("test cat")
-    expect(new_group).to_not be_approved
-  end
-
-  it "should create an approved group if user can manage groups" do
-    @admin = FactoryGirl.create(:person, :admin_manage_groups)
-    get :new, nil, {logged_in_id: @admin.id}
-    expect(response).to be_success
-    group_count = Group.count
-    post :create, {group: {name: 'test name', category: 'test cat'}}, {logged_in_id: @admin.id}
-    expect(response).to be_redirect
-    expect(Group.count).to eq(group_count + 1)
-    new_group = Group.last
-    expect(new_group.name).to eq("test name")
-    expect(new_group.category).to eq("test cat")
-    expect(new_group).to be_approved
-  end
-
   it "should batch edit groups" do
     @admin = FactoryGirl.create(:person, :admin_manage_groups)
     @group2 = FactoryGirl.create(:group)
@@ -178,4 +151,45 @@ describe GroupsController do
     expect(@response.body).to match(/\$\("#group#{@group.id}"\)\.addClass\('error'\)/)
   end
 
+  context 'group creation' do
+    before do
+      @params = {group: {name: 'test name', category: 'test cat'}}
+    end
+
+    it 'renders the new group form' do
+      get :new, nil, {logged_in_id: @person.id}
+      expect(response).to render_template(:new)
+    end
+
+    it 'creates a group' do
+      expect {
+        post :create, @params, {logged_in_id: @person.id}
+      }.to change {
+        Group.count
+      }.by 1
+    end
+
+    it 'assigns the attributes to the group' do
+      post :create, @params, {logged_in_id: @person.id}
+      new_group = Group.last
+      expect(new_group.name).to eq('test name')
+      expect(new_group.category).to eq('test cat')
+    end
+
+    it 'should create an unapproved group if the user cannot manage groups' do
+      post :create, @params, {logged_in_id: @person.id}
+      expect(Group.last).to_not be_approved
+    end
+
+    it "should create an approved group if user can manage groups" do
+      @admin = FactoryGirl.create(:person, :admin_manage_groups)
+      post :create, @params, {logged_in_id: @admin.id}
+      expect(Group.last).to be_approved
+    end
+
+    it "redirects to the group's URL" do
+      post :create, @params, {logged_in_id: @person.id}
+      expect(response).to redirect_to(group_path(Group.last))
+    end
+  end
 end
