@@ -63,16 +63,16 @@
     .floating-box
       .box.box-info.normalize-height
         .box-header
-          %h3.box-title= t('admin.donation.heading')
+          %h3.box-title= t('admin.offering.heading')
         .box-body
-          %p= t('admin.donation.intro')
+          %p= t('admin.offering.intro')
           %p
-            = link_to new_administration_donation_path, class: 'btn btn-info' do
+            = link_to new_administration_offering_path, class: 'btn btn-info' do
               = icon 'fa fa-money'
-              = t('admin.donation.add')
-            = link_to administration_donations_path, class: 'btn btn-info' do
+              = t('admin.offering.add')
+            = link_to administration_offerings_path, class: 'btn btn-info' do
               = icon 'fa fa-list-alt'
-              = t('admin.donation.report')
+              = t('admin.offering.report')
 
   - if @logged_in.admin?(:manage_access)
     .floating-box

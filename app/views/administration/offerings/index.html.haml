@@ -1,0 +1,24 @@
+- @title = t('admin.offering.report')
+
+.row
+  .col-lg-6
+    %p
+      = t("admin.offering.report_date") + @date.strftime("%A, %e %B %Y")
+  .col-lg-6
+    = link_to 'Summary', summary_administration_offerings_path, class: 'btn btn-info pull-right'
+
+%table.table.search-results
+  %tr
+    %th= t('admin.offering.number')
+    %th= t('admin.offering.name')
+    - OFFERING_TYPE.each do |type|
+      %th= type
+  - @offerings.each do |offering|
+    %tr
+      %td= offering.id
+      %td= offering.person.try(:name) || offering.name
+      - OFFERING_TYPE.each do |type|
+        - if offering.offering_type == type
+          %td= offering.amount
+        - else
+          %td -

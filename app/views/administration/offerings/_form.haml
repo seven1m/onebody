@@ -1,0 +1,14 @@
+.row
+  = hidden_field_tag :date, :value => @date
+  .col-lg-4
+    .form-group
+      = form.label :name, t('admin.offering.name')
+      = form.text_field :name, class: 'form-control'
+  .col-lg-4
+    .form-group
+      = form.label :offering_type, t('admin.offering.type')
+      = form.select :offering_type, OFFERING_TYPE, {}, class: 'form-control'
+  .col-lg-4
+    .form-group
+      = form.label :amount_cents, t('admin.offering.amount')
+      = form.text_field :amount_cents, class: 'form-control'

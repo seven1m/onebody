@@ -1,4 +1,4 @@
-DONATION_TYPE = [
+OFFERING_TYPE = [
   'Monthly',
   'Missions',
   'Thanksgiving',
