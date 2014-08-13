@@ -5,191 +5,508 @@ describe GroupsController do
 
   before do
     @person, @other_person = FactoryGirl.create_list(:person, 2)
-    @group = FactoryGirl.create(:group, creator: @person, category: 'Small Groups')
+    @group = FactoryGirl.create(:group, name: 'Morgan Group', creator: @person, category: 'Small Groups')
     @group.memberships.create(person: @person, admin: true)
   end
 
-  it "should show a group" do
-    get :show, {id: @group.id}, {logged_in_id: @person.id}
-    expect(response).to be_success
-    assert_tag tag: 'h1', content: Regexp.new(@group.name)
+  describe '#index' do
+    context 'for a person' do
+      before do
+        get :index, { person_id: @person.id }, { logged_in_id: @person.id }
+      end
+
+      it 'assigns the person' do
+        expect(assigns(:person)).to eq(@person)
+      end
+
+      it 'renders the index_for_person template' do
+        expect(response).to be_success
+        expect(response).to render_template('index_for_person')
+      end
+    end
+
+    context 'for a person with a hidden group' do
+      before do
+        @hidden_group = FactoryGirl.create(:group, hidden: true)
+        @hidden_group.memberships.create!(person: @person)
+      end
+
+      context 'user is not an admin' do
+        before do
+          get :index, { person_id: @person.id }, { logged_in_id: @person.id }
+        end
+
+        it 'does not list the hidden group' do
+          expect(response.body).to_not match(/<tr.*hidden-group/)
+        end
+      end
+
+      context 'user is admin with manage_groups privilege' do
+        before do
+          @person.admin = Admin.create(manage_groups: true)
+          @person.save!
+          get :index, { person_id: @person.id }, { logged_in_id: @person.id }
+        end
+
+        it 'lists the hidden group' do
+          expect(response.body).to match(/<tr.*hidden-group/)
+        end
+      end
+    end
+
+    context 'for a category' do
+      before do
+        get :index, { category: 'Small Groups' }, { logged_in_id: @person.id }
+      end
+
+      it 'assigns groups matching the category' do
+        expect(assigns(:groups).to_a).to eq([@group])
+      end
+
+      it 'renders the search template' do
+        expect(response).to be_success
+        expect(response).to render_template('search')
+      end
+    end
+
+    context 'for a group name' do
+      before do
+        get :index, { name: 'Morgan' }, { logged_in_id: @person.id }
+      end
+
+      it 'assigns groups matching the name' do
+        expect(assigns(:groups).to_a).to eq([@group])
+      end
+
+      it 'renders the search template' do
+        expect(response).to be_success
+        expect(response).to render_template('search')
+      end
+    end
+
+    context 'overview page' do
+      before do
+        get :index, {}, { logged_in_id: @person.id }
+      end
+
+      it 'assigns categories' do
+        expect(assigns(:categories)).to eq(['Small Groups'])
+      end
+
+      it 'renders the index template' do
+        expect(response).to be_success
+        expect(response).to render_template('index')
+      end
+    end
+
+    context 'overview page with an unapproved group' do
+      before do
+        @unapproved_group = FactoryGirl.create(:group, approved: false, creator: @person)
+      end
+
+      context 'user is group creator' do
+        before do
+          get :index, {}, { logged_in_id: @person.id }
+        end
+
+        it 'assigns the unapproved group' do
+          expect(assigns(:unapproved_groups)).to eq([@unapproved_group])
+        end
+      end
+
+      context 'user is not group creator' do
+        before do
+          get :index, {}, { logged_in_id: @other_person.id }
+        end
+
+        it 'does not assign the unapproved group' do
+          expect(assigns(:unapproved_groups)).to eq([])
+        end
+      end
+
+      context 'user is admin with manage_groups privilege' do
+        before do
+          @person.admin = Admin.create(manage_groups: true)
+          @person.save!
+          get :index, {}, { logged_in_id: @person.id }
+        end
+
+        it 'assigns the unapproved group' do
+          expect(assigns(:unapproved_groups)).to eq([@unapproved_group])
+        end
+      end
+    end
   end
 
-  it "shows a limited page if group is private and user is not a member of the group" do
-    @private_group = FactoryGirl.create(:group, private: true)
-    get :show, {id: @private_group.id}, {logged_in_id: @person.id}
-    expect(response).to render_template(:show_limited)
+  describe '#show' do
+    context 'group is not private' do
+      before do
+        get :show, { id: @group.id }, { logged_in_id: @person.id }
+      end
+
+      it 'renders the show template' do
+        expect(response).to be_success
+        expect(response).to render_template('show')
+      end
+    end
+
+    context 'group is private' do
+      before do
+        @group.update_attribute(:private, true)
+      end
+
+      context 'user is a member' do
+        before do
+          get :show, { id: @group.id }, { logged_in_id: @person.id }
+        end
+
+        it 'renders the show template' do
+          expect(response).to be_success
+          expect(response).to render_template('show')
+        end
+      end
+
+      context 'user is not a member' do
+        before do
+          get :show, { id: @group.id }, { logged_in_id: @other_person.id }
+        end
+
+        it 'renders the show template' do
+          expect(response).to be_success
+          expect(response).to render_template('show_limited')
+        end
+      end
+    end
+
+    context 'group is hidden' do
+      before do
+        @group.update_attribute(:hidden, true)
+      end
+
+      context 'user is a member' do
+        before do
+          get :show, { id: @group.id }, { logged_in_id: @person.id }
+        end
+
+        it 'renders the show template' do
+          expect(response).to be_success
+          expect(response).to render_template('show')
+        end
+      end
+
+      context 'user is not a member' do
+        before do
+          get :show, { id: @group.id }, { logged_in_id: @other_person.id }
+        end
+
+        it 'renders the show template (this may change in the future)' do
+          expect(response).to be_success
+          expect(response).to render_template('show_limited')
+        end
+      end
+
+      context 'user is an admin who can manage groups' do
+        before do
+          @person.admin = Admin.create(manage_groups: true)
+          @person.save!
+          get :show, { id: @group.id }, { logged_in_id: @person.id }
+        end
+
+        it 'renders the show template' do
+          expect(response).to be_success
+          expect(response).to render_template('show')
+        end
+      end
+    end
   end
 
-  it "shows a limited page if group is hidden and user is not a member of the group" do
-    @hidden_group = FactoryGirl.create(:group, hidden: true)
-    get :show, {id: @hidden_group.id}, {logged_in_id: @person.id}
-    expect(response).to render_template(:show_limited)
+  context '#update' do
+    context 'given a photo file' do
+      before do
+        post :update, {
+          id: @group.id,
+          group: {
+            photo: Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)
+          }
+        }, { logged_in_id: @person.id }
+      end
+
+      it 'saves the photo' do
+        expect(@group.reload.photo.exists?).to eq(true)
+      end
+
+      it 'redirects to the group page' do
+        expect(response).to redirect_to(group_path(@group))
+      end
+    end
+
+    context 'given photo="remove"' do
+      before do
+        @group.photo = File.open(Rails.root.join('spec/fixtures/files/image.jpg'))
+        @group.save!
+        post :update, { id: @group.id, group: { photo: 'remove' } },
+                      { logged_in_id: @person.id }
+      end
+
+      it 'removes the photo' do
+        expect(@group.reload.photo.exists?).to eq(false)
+      end
+
+      it 'redirects to the group page' do
+        expect(response).to redirect_to(group_path(@group))
+      end
+    end
   end
 
-  it "should show a hidden group if the user can manage groups" do
-    @hidden_group = FactoryGirl.create(:group, hidden: true)
-    @admin = FactoryGirl.create(:person, :admin_manage_groups)
-    get :show, {id: @hidden_group.id}, {logged_in_id: @admin.id}
-    expect(response).to be_success
-    assert_tag tag: 'h1', content: Regexp.new(@hidden_group.name)
+  describe '#edit' do
+    context 'user is group admin' do
+      before do
+        get :edit, { id: @group.id }, { logged_in_id: @person.id }
+      end
+
+      it 'renders the edit template' do
+        expect(response).to be_success
+        expect(response).to render_template('edit')
+      end
+    end
+
+    context 'user is admin with manage_groups privilege' do
+      before do
+        @other_person.admin = Admin.create!(manage_groups: true)
+        @other_person.save!
+        get :edit, { id: @group.id }, { logged_in_id: @other_person.id }
+      end
+
+      it 'renders the edit template' do
+        expect(response).to be_success
+        expect(response).to render_template('edit')
+      end
+    end
+
+    context 'user is not group admin' do
+      before do
+        get :edit, { id: @group.id }, { logged_in_id: @other_person.id }
+      end
+
+      it 'returns unauthorized' do
+        expect(response).to be_unauthorized
+      end
+    end
   end
 
-  it "should list a person's groups" do
-    get :index, {person_id: @person.id}, {logged_in_id: @person.id}
-    expect(response).to be_success
-    expect(assigns(:person).groups.length).to eq(1)
+  describe '#update' do
+    context 'user is group admin' do
+      before do
+        put :update, {
+          id: @group.id,
+          group: {
+            name: 'test name',
+            category: 'test cat'
+          }
+        }, { logged_in_id: @person.id }
+      end
+
+      it 'updates the group' do
+        expect(@group.reload.attributes).to include(
+          'name'     => 'test name',
+          'category' => 'test cat'
+        )
+      end
+
+      it 'redirect to the group page' do
+        expect(response).to redirect_to(group_path(@group))
+      end
+    end
+
+    context 'user is not group admin' do
+      before do
+        put :update, {
+          id: @group.id,
+          group: {
+            name: 'test name',
+            category: 'test cat'
+          }
+        }, { logged_in_id: @other_person.id }
+      end
+
+      it 'returns unauthorized' do
+        expect(response).to be_unauthorized
+      end
+    end
   end
 
-  it "should not list a person's hidden groups" do
-    @group.update_attribute :hidden, true
-    get :index, {person_id: @person.id}, {logged_in_id: @person.id}
-    assert_no_tag tag: 'tr', attributes: {class: 'grayed hidden-group'}
-  end
-
-  it "should list a person's hidden groups if the user can manage groups" do
-    @admin = FactoryGirl.create(:person, :admin_manage_groups)
-    @group.update_attribute :hidden, true
-    get :index, {person_id: @person.id}, {logged_in_id: @admin.id}
-    assert_select 'tr.grayed.hidden-group'
-  end
-
-  it "should search for groups by name" do
-    FactoryGirl.create(:group, name: 'foo')
-    get :index, {name: 'foo'}, {logged_in_id: @person.id}
-    expect(assigns(:groups).length).to eq(1)
-  end
-
-  it "should search for groups by category" do
-    get :index, {category: 'Small Groups'}, {logged_in_id: @person.id}
-    expect(assigns(:groups).length).to eq(1)
-  end
-
-  it "should list a person's unapproved groups" do
-    Group.delete_all
-    @group = FactoryGirl.create(:group, creator_id: @person.id, approved: false)
-    @group.memberships.create(person: @person, admin: true)
-    2.times { FactoryGirl.create(:group, approved: false) }
-    get :index, nil, {logged_in_id: @person.id}
-    expect(assigns(:unapproved_groups).length).to eq(1)
-  end
-
-  it "should list all unapproved groups if the user can manage groups" do
-    @admin = FactoryGirl.create(:person, :admin_manage_groups)
-    Group.delete_all
-    2.times { FactoryGirl.create(:group, approved: false) }
-    get :index, nil, {logged_in_id: @admin.id}
-    expect(assigns(:unapproved_groups).length).to eq(2)
-  end
-
-  it "should add a group photo" do
-    @group.photo = nil
-    expect(@group.photo).to_not be_exists
-    post :update, {id: @group.id, group: {photo: Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)}}, {logged_in_id: @person.id}
-    expect(response).to redirect_to(group_path(@group))
-    expect(Group.find(@group.id).photo).to be_exists
-  end
-
-  it "should remove a group photo" do
-    @group.photo = File.open(Rails.root.join('spec/fixtures/files/image.jpg'))
-    @group.save!
-    expect(@group.photo).to be_exists
-    post :update, {id: @group.id, group: {photo: 'remove'}}, {logged_in_id: @person.id}
-    expect(response).to redirect_to(group_path(@group))
-    expect(Group.find(@group.id).photo).to_not be_exists
-  end
-
-  it "should edit a group" do
-    get :edit, {id: @group.id}, {logged_in_id: @person.id}
-    expect(response).to be_success
-    post :update, {id: @group.id, group: {name: 'test name', category: 'test cat'}}, {logged_in_id: @person.id}
-    expect(response).to redirect_to(group_path(@group))
-    expect(@group.reload.name).to eq("test name")
-    expect(@group.category).to eq("test cat")
-  end
-
-  it "should not edit a group unless user is group admin or can manage groups" do
-    get :edit, {id: @group.id}, {logged_in_id: @other_person.id}
-    expect(response).to be_unauthorized
-    post :update, {id: @group.id, group: {name: 'test name', category: 'test cat'}}, {logged_in_id: @other_person.id}
-    expect(response).to be_unauthorized
-  end
-
-  it "should batch edit groups" do
-    @admin = FactoryGirl.create(:person, :admin_manage_groups)
-    @group2 = FactoryGirl.create(:group)
-    get :batch, nil, {logged_in_id: @admin.id}
-    expect(response).to be_success
-    expect(response).to render_template(:batch)
-    # regular post
-    post :batch, {groups: {@group.id.to_s => {name: "foobar", members_send: "0"}, @group2.id.to_s => {address: 'baz'}}}, {logged_in_id: @admin.id}
-    expect(response).to be_success
-    expect(response).to render_template(:batch)
-    expect(@group.reload.name).to eq("foobar")
-    expect(@group).to_not be_members_send
-    expect(@group2.reload.address).to eq("baz")
-    # ajax post
-    post :batch, {format: 'js', groups: {@group.id.to_s => {name: "lorem", members_send: "true"}, @group2.id.to_s => {address: 'ipsum'}}}, {logged_in_id: @admin.id}
-    expect(response).to be_success
-    expect(response).to render_template(:batch)
-    expect(@group.reload.name).to eq("lorem")
-    expect(@group).to be_members_send
-    expect(@group2.reload.address).to eq("ipsum")
-  end
-
-  it 'should report errors when batch editing groups' do
-    @admin = FactoryGirl.create(:person, :admin_manage_groups)
-    # regular post
-    post :batch, {groups: {@group.id.to_s => {address: "bad*address"}}}, {logged_in_id: @admin.id}
-    expect(response).to be_success
-    expect(response).to render_template(:batch)
-    assert_select "#group#{@group.id} .errors", I18n.t('activerecord.errors.models.group.attributes.address.invalid')
-    # ajax post
-    post :batch, {format: 'js', groups: {@group.id.to_s => {address: "bad*address"}}}, {logged_in_id: @admin.id}
-    expect(response).to be_success
-    expect(response).to render_template(:batch)
-    expect(@response.body).to match(/\$\("#group#{@group.id}"\)\.addClass\('error'\)/)
-  end
-
-  context 'group creation' do
+  describe '#batch' do
     before do
-      @params = {group: {name: 'test name', category: 'test cat'}}
+      @admin = FactoryGirl.create(:person, :admin_manage_groups)
+      @group2 = FactoryGirl.create(:group)
+    end
+
+    context 'GET' do
+      before do
+        get :batch, nil, { logged_in_id: @admin.id }
+      end
+
+      it 'renders the batch template' do
+        expect(response).to be_success
+        expect(response).to render_template(:batch)
+      end
+    end
+
+    context 'POST' do
+      context 'given valid data' do
+        before do
+          post :batch, {
+            groups: {
+              @group.id.to_s => {
+                name: 'foobar',
+                members_send: '0'
+              },
+              @group2.id.to_s => {
+                address: 'baz'
+              }
+            }
+          }, { logged_in_id: @admin.id }
+        end
+
+        it 'renders the batch template again' do
+          expect(response).to be_success
+          expect(response).to render_template(:batch)
+        end
+
+        it 'updates the groups' do
+          expect(@group.reload.name).to eq('foobar')
+          expect(@group).to_not be_members_send
+          expect(@group2.reload.address).to eq('baz')
+        end
+      end
+
+      context 'given invalid data' do
+        before do
+          post :batch, {
+            groups: {
+              @group.id.to_s => {
+                address: 'bad*address'
+              }
+            }
+          }, { logged_in_id: @admin.id }
+        end
+
+        it 'shows errors' do
+          expect(response.body).to include(
+            I18n.t('activerecord.errors.models.group.attributes.address.invalid')
+          )
+        end
+      end
+    end
+
+    context 'POST via ajax' do
+      context 'given valid data' do
+        before do
+          post :batch, {
+            format: 'js',
+            groups: {
+              @group.id.to_s => {
+                name: 'lorem',
+                members_send: 'true'
+              },
+              @group2.id.to_s => {
+                address: 'ipsum'
+              }
+            }
+          }, { logged_in_id: @admin.id }
+        end
+
+        it 'updates the groups' do
+          expect(@group.reload.name).to eq('lorem')
+          expect(@group).to be_members_send
+          expect(@group2.reload.address).to eq('ipsum')
+        end
+      end
+
+      context 'given invalid data' do
+        before do
+          post :batch, {
+            format: 'js',
+            groups: {
+              @group.id.to_s => {
+                address: 'bad*address'
+              }
+            }
+          }, { logged_in_id: @admin.id }
+        end
+
+        it 'shows errors' do
+          expect(@response.body).to match(/\$\("#group#{@group.id}"\)\.addClass\('error'\)/)
+        end
+      end
+    end
+  end
+
+  describe '#new' do
+    before do
+      get :new, nil, { logged_in_id: @person.id }
     end
 
     it 'renders the new group form' do
-      get :new, nil, {logged_in_id: @person.id}
       expect(response).to render_template(:new)
     end
+  end
 
-    it 'creates a group' do
-      expect {
-        post :create, @params, {logged_in_id: @person.id}
-      }.to change {
-        Group.count
-      }.by 1
+  context '#create' do
+    context 'user is not an admin' do
+      before do
+        post :create, { group: { name: 'test name', category: 'test cat' } },
+                      { logged_in_id: @person.id }
+        @group = Group.last
+      end
+
+      it 'creates the group' do
+        expect(@group.attributes).to include(
+          'name'     => 'test name',
+          'category' => 'test cat'
+        )
+      end
+
+      it 'does not mark the group as approved' do
+        expect(@group).to_not be_approved
+      end
+
+      it 'adds the creator as a group member' do
+        expect(@person.member_of?(@group)).to eq(true)
+      end
+
+      it "redirects to the group's URL" do
+        expect(response).to redirect_to(group_path(Group.last))
+      end
     end
 
-    it 'assigns the attributes to the group' do
-      post :create, @params, {logged_in_id: @person.id}
-      new_group = Group.last
-      expect(new_group.name).to eq('test name')
-      expect(new_group.category).to eq('test cat')
-    end
+    context 'user is an admin' do
+      before do
+        @person.admin = Admin.create(manage_groups: true)
+        @person.save!
+        post :create, { group: { name: 'test name', category: 'test cat' } },
+                      { logged_in_id: @person.id }
+        @group = Group.last
+      end
 
-    it 'should create an unapproved group if the user cannot manage groups' do
-      post :create, @params, {logged_in_id: @person.id}
-      expect(Group.last).to_not be_approved
-    end
+      it 'creates the group' do
+        expect(@group.attributes).to include(
+          'name'     => 'test name',
+          'category' => 'test cat'
+        )
+      end
 
-    it "should create an approved group if user can manage groups" do
-      @admin = FactoryGirl.create(:person, :admin_manage_groups)
-      post :create, @params, {logged_in_id: @admin.id}
-      expect(Group.last).to be_approved
-    end
+      it 'marks the group as approved' do
+        expect(@group).to be_approved
+      end
 
-    it "redirects to the group's URL" do
-      post :create, @params, {logged_in_id: @person.id}
-      expect(response).to redirect_to(group_path(Group.last))
+      it 'does not add the creator as a group member' do
+        expect(@person.member_of?(@group)).to eq(false)
+      end
+
+      it "redirects to the group's URL" do
+        expect(response).to redirect_to(group_path(Group.last))
+      end
     end
   end
 end
