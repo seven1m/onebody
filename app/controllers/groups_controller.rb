@@ -15,8 +15,7 @@ class GroupsController < ApplicationController
     if not (@group.approved? or @group.admin?(@logged_in))
       render text: t('groups.pending_approval.this_group'), layout: true
     elsif @logged_in.can_see?(@group)
-      @members = @group.people.minimal
-      @member_of = !!@logged_in.member_of?(@group)
+      @member_of = @logged_in.member_of?(@group)
       @stream_items = StreamItem.shared_with(@logged_in).where(group: @group).paginate(page: params[:timeline_page], per_page: 5)
       @pictures = @group.album_pictures.references(:album)
       @pictures.where!('albums.is_public' => true) unless @logged_in.member_of?(@group)
