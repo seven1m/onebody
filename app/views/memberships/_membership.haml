@@ -2,7 +2,7 @@
 %tr.row-with-avatar{ id: "membership_#{membership.id}", style: defined?(hide) ? 'display:none' : '' }
   - if @logged_in.can_edit?(@group)
     %td
-      = check_box_tag 'ids[]', person.try(:id), false, class: 'checkbox'
+      = check_box_tag 'ids[]', person.try(:id), false, class: 'checkbox simple'
   %td.avatar
     = avatar_tag person
   %td
