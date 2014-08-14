@@ -19,10 +19,10 @@ class StreamItem < ActiveRecord::Base
     .where(shared: true)
     .where("(group_id is not null or streamable_type != 'Message')")
     .where(
-      "(group_id in (:group_ids) or (group_id is null and person_id in (:friend_ids)) or person_id = :id or streamable_type in ('NewsItem', 'Site', 'Person') or is_public = :true)" ,
+      "(group_id in (:group_ids) or (group_id is null and person_id in (:friend_ids)) or person_id = :id or streamable_type in ('NewsItem', 'Site', 'Person') or is_public = :true)",
       group_ids:  person.groups.active.pluck(:id),
       friend_ids: person.sharing_with_people.pluck(:id),
-      id:         person.id,      
+      id:         person.id,
       true:       true
     )  
     .where("streamable_type != 'Person' or person_id != :id", id: person.id)  
