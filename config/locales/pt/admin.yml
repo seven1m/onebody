@@ -105,35 +105,35 @@ pt:
     group_membership_requests: "Group Membership Requests"
     import_export: Importar/Exportar
     invalidate_confirmation: "Are you sure you want to invalidate this key and create a new one?"
-    key: Key
+    key: Chave
     logo:
-      delete: "delete logo"
-      format_information: "A transparent gif or png will look the best."
-      logo: Logo
+      delete: "excluir logotipo"
+      format_information: "Um gif ou png transparente irá ficar melhor."
+      logo: Logotipo
       size_information: "Upload an image file below. It will be resized to be no larger than 300x80."
-      upload: "Upload Logo"
-    manage_group_administrators: "Manage Group Administrators"
+      upload: "Carregar Logotipo"
+    manage_group_administrators: "Gerenciar Administradores de Grupo"
     must_be_superadmin: "You must be a super administrator to modify settings."
     new_admin_template: "Create a new admin template."
     new_api_or: "a new API key or"
     no_api_key: "You do not yet have an API key."
     no_more_admins: "No more admins are allowed."
-    pages: Pages
+    pages: Páginas
     privileges:
       view_hidden_profiles:
-        title: "View Hidden Profiles"
+        title: "Visualizar Perfis Ocultos"
         about: "View hidden people in the database, e.g. children and others marked as invisible."
         order: "1"
       view_hidden_properties:
-        title: "View Hidden Properties"
+        title: "Visualizar Propriedades Ocultas"
         about: "View hidden phone numbers, email addresses, and other private information."
         order: "2"
       edit_profiles:
-        title: "Edit Profiles"
+        title: "Editar Perfis"
         about: "Edit name, phone numbers, email, password, and anything else associated with a user's profile."
         order: "3"
       manage_access:
-        title: "Manage Access"
+        title: "Gerenciar Acesso"
         about: "Manage site administrators. ('Manage Groups' must be selected to manage group administrators.)"
         order: "4"
       manage_attendance:
@@ -149,8 +149,8 @@ pt:
         about: "View, edit, delete any group (even if hidden or private)."
         order: "8"
       manage_news:
-        title: "Manage News"
-        about: "View, edit, delete all news."
+        title: "Gerenciar Notícias"
+        about: "Visualizar, editar ou excluir todas as notícias."
         order: "9"
       manage_notes:
         title: "Gerenciar Notas"
@@ -197,7 +197,7 @@ pt:
           description: "Users will be directed to send an email here if they need technical help with the site."
         ? "Community Address"
         :
-          name: "Community Address"
+          name: "Endereço da Comunidade"
           description: "Visible on Terms of Use"
         ? "Community Office Phone"
         :
@@ -213,7 +213,7 @@ pt:
           description: "Users will be directed to send an email here if they want general/policy information about your community."
         ? "Bug Notification Email"
         :
-          name: "Bug Notification Email"
+          name: "Email de Notificação de Falhas"
           description: "Automated software bug reports are sent to this email address."
         ? "Send Email Changes To"
         :
@@ -221,19 +221,19 @@ pt:
           description: "Email sent when someone changes their email address (can be blank for no email)"
         ? "Send Updates To"
         :
-          name: "Send Updates To"
+          name: "Enviar Atualizações para"
           description: "Email sent when someone updates their profile (can be blank for no email)"
       Services:
         Yahoo:
           name: Yahoo
-          description: "Your Yahoo API key - https://developer.yahoo.com/wsregapp/index.php"
+          description: "A sua chave API do Yahoo - https://developer.yahoo.com/wsregapp/index.php"
         Analytics:
           name: Analytics
           description: "If you use Google Analytics or some other JavaScript-based stats service, put the code here. It will be inserted at the bottom of every page."
       Name:
         Community:
-          name: Community
-          description: "The name of your church or community, e.g. \"One Church\" or \"First Baptist of Fresno.\""
+          name: Comunidade
+          description: "O nome da sua igreja ou comunidade. Ex. \"Primeira Igreja...\"."
         Slogan:
           name: Slogan
           description: "Slogan/tagline displayed just under the site name. Leave blank for none."
@@ -254,23 +254,23 @@ pt:
           description: "Name suffixes, one per line."
         ? "Adult Age"
         :
-          name: "Adult Age"
-          description: "Age at which a person is considered old enough to use the site and be seen by others in the directory."
+          name: "Idade Adulta"
+          description: "Idade na qual a pessoa é considerada velha o bastante para utilizar o site e ser vista por outros no diretório."
         Language:
-          name: Language
-          description: "Language for interface elements."
+          name: Idioma
+          description: "Idioma dos elementos da interface."
         ? "Time Zone"
         :
-          name: "Time Zone"
-          description: "Set to properly display dates and times on the site."
+          name: "Fuso Horário"
+          description: "Ajuste para exibir datas e horários corretamente no site."
       Appearance:
         ? "Public Theme"
         :
-          name: "Public Theme"
-          description: "Name of selected theme for the public CMS site."
+          name: "Tema Público"
+          description: "Nome do tema selecionado para o site público."
         Theme:
-          name: Theme
-          description: "Name of selected theme for site."
+          name: Tema
+          description: "Nome do tema selecionado para o site."
         ? "Show Subheading"
         :
           name: "Show Subheading"
@@ -282,25 +282,25 @@ pt:
       Formats:
         ? "Full Date and Time"
         :
-          name: "Full Date and Time"
-          description: "Format for displaying date and time."
+          name: "Data e Horário Completos"
+          description: "Formato de exibição da data e horário."
         Time:
-          name: Time
-          description: "Format for displaying time."
+          name: Horário
+          description: "Formato para exibição de horários."
         Date:
-          name: Date
-          description: "Format for displaying date."
+          name: Data
+          description: "Formato para exibição de datas."
         Phone:
-          name: "Phone (Landline)"
-          description: "Format for displaying standard (landline) phone numbers."
+          name: "Telefone (Fixo)"
+          description: "Formato para exibição de números de telefone fixo."
         ? "Date Without Year"
         :
-          name: "Date Without Year"
-          description: "Format for displaying date without a year, e.g. birthdays."
+          name: "Data sem o ano"
+          description: "Formato para exibição de datas sem o ano, por exemplo, aniversários."
         ? "Mobile Phone"
         :
-          name: "Mobile Phone"
-          description: "Format for displaying mobile phone numbers."
+          name: "Telefone Celular"
+          description: "Formato para exibição de números de telefone celular."
       Features:
         ? "Custom Person Type"
         :
@@ -308,11 +308,11 @@ pt:
           description: "If enabled, admins can specify a custom type along the lines of Elder, Deacon, etc."
         ? "Community Google Calendar"
         :
-          name: "Community Google Calendar"
+          name: "Calendário do Google da Comunidade"
           description: "The URL for the community Google Calendar.  Can be either the public or private address, but the calendar itself will need to be shared publicly in order to be included in the indivdual (\"my calendar\") feature."
         ? "Updates Must Be Approved"
         :
-          name: "Updates Must Be Approved"
+          name: "Atualizações Precisam ser Aprovadas"
           description: "If enabled, all changes to a user's \"basic\" information (phone, address, etc.) will await approval from an admin before being applied."
         ? "Notify on Photo Change"
         :
@@ -326,55 +326,55 @@ pt:
           name: SSL
           description: "If you have SSL setup, you may turn on this feature, which will make the login page encrypted. If not, some advanced JavaScript hashing is enabled to make sure the users' passwords aren't being sent in plaintext."
         Notes:
-          name: Notes
-          description: "Enable Note sharing."
+          name: Notas
+          description: "Habilitar Compartilhamento de Notas."
         Pictures:
-          name: Pictures
-          description: "Enable Picture sharing."
+          name: Fotos
+          description: "Habilitar Compartilhamento de Fotos."
         ? "Banner Message"
         :
           name: "Banner Message"
           description: "Message to display across top of all pages on site (HTML), like an alert"
         Multisite:
-          name: Multisite
-          description: "When enabled, this instance can handle multiple sites, based on domain name."
+          name: "Múltiplos Sites"
+          description: "Quando habilitado, esta instância pode gerenciar múltiplos sites, baseados no nome de domínio."
         Groups:
-          name: Groups
-          description: "Enable Groups."
+          name: Grupos
+          description: "Habilitar Grupos."
         ? "News by Users"
         :
-          name: "News by Users"
-          description: "Allow user submitted news content."
+          name: "Notícias enviadas pelos Usuários"
+          description: "Permitir conteúdo de notícias enviado pelos usuários."
         ? "Custom Person Fields"
         :
-          name: "Custom Person Fields"
+          name: "Campos Pessoais Customizados"
           description: "Add custom field names, one per line. Including the word \"date\" (or \"Date\") makes a date field. Append an asterisk (*) to make the field visible and editable by users."
         ? "Edit Legacy Ids"
         :
-          name: "Edit Legacy Ids"
+          name: "Editar IDs Legados"
           description: "If enabled, will allow admin access to manually modify Family and Person legacy ids."
         ? "Sign Up Approval Email"
         :
           name: "Sign Up Approval Email"
           description: "Where to send pending sign up requests (must be admin; leave blank to auto-approve)."
         Friends:
-          name: Friends
+          name: Amigos
           description: "Enable mutual friendships (confirmed via email)"
         ? "Sidebar Group Heading"
         :
           name: "Sidebar Group Heading"
           description: "Heading to show above people in mutual groups (see above setting)"
         Reporting:
-          name: Reporting
-          description: "Requires MongoDB to be setup and running."
+          name: Relatórios
+          description: "Requer o MongoDB para ser configurado e colocado em execução."
         ? "Sidebar Group Category"
         :
           name: "Sidebar Group Category"
           description: "People in mutual groups of this category will be displayed on the user's profile sidebar."
         ? "Content Management System"
         :
-          name: "Content Management System"
-          description: "Enable \"Pages\" - Use OneBody to host your website."
+          name: "Sistema Gerenciador de Conteúdo"
+          description: "Habilitar \"Páginas\" - Use o OneBody para hospedar o seu website."
         ? "News Page"
         :
           name: "Página de Notícias"

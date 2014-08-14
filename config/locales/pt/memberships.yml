@@ -7,11 +7,11 @@ pt:
       description: "Adicionar alguém neste grupo."
       name_placeholder: "Type all or part of someone's name"
     promote: "Promover membro para administrador"
-    demote: "Demote admin to regular member"
-    group_pending_approval: "This group is pending approval. You may not add people to it yet."
+    demote: "Alterar de admin para um membro regular"
+    group_pending_approval: "Este grupo está com a aprovação pendente. Você ainda não poderá adicionar pessoas nele."
     requests:
-      heading: "Requests to join this group"
-      select_some: "Select one or more above and choose an action."
+      heading: "Solicita para entrar neste grupo"
+      select_some: "Selecione um ou mais abaixo e escolha uma ação."
       accept:
         button: Aceitar
       ignore:
