@@ -78,6 +78,7 @@ en:
         heading: "Group Email"
 
     groups:
+      heading: "Groups"
       members: "members"
       messages: "messages"
       join:
