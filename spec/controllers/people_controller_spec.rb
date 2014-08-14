@@ -63,6 +63,7 @@ describe PeopleController do
       {
         id: @person.id,
         person: {
+          first_name: @person.first_name, # no change
           testimony: 'testimony',
           interests: 'interests'
         }
