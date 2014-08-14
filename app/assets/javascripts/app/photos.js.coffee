@@ -11,7 +11,6 @@ class PhotoForm
     @input = @el.find('input[type="file"]').change @select
     @url = @el.data('upload-url')
     @id = @el.data('object-id')
-    @album_id = @el.parents('form').find('[name="album_id"]').val()
 
   browse: (e) =>
     e.preventDefault()
@@ -44,6 +43,7 @@ class PhotoForm
 
   upload: (e) =>
     e?.preventDefault()
+    @album_id = @el.parents('form').find('[name="album_id"]').val()
     @files = if @input.attr('multiple')
       @input[0].files
     else
