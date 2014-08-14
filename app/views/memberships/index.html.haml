@@ -70,11 +70,11 @@
     = pagination @memberships
 
   .col-md-4
-    .box.box-success
-      .box-header
-        %h3.box-title Add Someone
-      .box-body
-        - if @logged_in.can_edit?(@group)
+    - if @logged_in.can_edit?(@group)
+      .box.box-success
+        .box-header
+          %h3.box-title Add Someone
+        .box-body
           - if @group.approved?
             = form_tag search_path, remote: true do
               = hidden_field_tag :select_person, true
