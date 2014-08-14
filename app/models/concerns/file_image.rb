@@ -17,6 +17,16 @@ module Concerns
       image and %w(JPEG PNG GIF).include?(image[:format])
     end
 
+    def width
+      image[:width] if image?
+    end
+
+    def height
+      image[:height] if image?
+    end
+
+    private
+
     def mini_magick_image
       begin
         img = MiniMagick::Image.new(file.path)

@@ -161,7 +161,7 @@ class Person < ActiveRecord::Base
   alias_method :can_edit?, :can_update?
 
   def member_of?(group)
-    memberships.where(group_id: group.id).first
+    memberships.where(group_id: group.id).any?
   end
 
   def birthday=(d)

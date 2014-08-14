@@ -251,7 +251,7 @@ describe PeopleController do
     context 'user is admin with import permission' do
       before do
         @person.update_attribute(:admin, Admin.create(import_data: true))
-        @file = ActionDispatch::Http::UploadedFile.new(tempfile: File.new("#{Rails.root}/spec/fixtures/files/person.csv"), filename: "person.csv")
+        @file = ActionDispatch::Http::UploadedFile.new(tempfile: File.new("#{Rails.root}/spec/fixtures/files/people.csv"), filename: "person.csv")
         @attributes = {can_sign_in: "true",
                        full_access: "true",
                        visible_to_everyone: "true",

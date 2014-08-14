@@ -223,7 +223,7 @@ class Group < ActiveRecord::Base
 
   class << self
     def update_memberships
-      all(order: 'parents_of').each { |group| group.update_memberships }
+      order(:parents_of).each(&:update_memberships)
     end
 
     def categories

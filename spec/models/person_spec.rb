@@ -100,8 +100,8 @@ describe Person do
 
     it 'should know of basic group memberships' do
       @group.memberships.create! person: @person
-      expect(@person.member_of?(@group)).to be
-      expect(@person2.member_of?(@group)).to be_nil
+      expect(@person.member_of?(@group)).to eq(true)
+      expect(@person2.member_of?(@group)).to eq(false)
     end
 
     it 'should know about linked group memberships' do
