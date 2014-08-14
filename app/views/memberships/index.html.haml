@@ -11,10 +11,10 @@
           .box-body
             %table.table
               %tr
-                %th{ style: 'width:75px' } Select
+                %th{ style: 'width:75px' }
                 %th
-                %th Name
-                %th Requested
+                %th= t('memberships.requests.name')
+                %th= t('memberships.requests.created_at')
               - @requests.each do |req|
                 %tr.row-with-avatar
                   %td
@@ -44,13 +44,13 @@
           %thead
             %tr
               - if @logged_in.can_edit?(@group)
-                %th{ style: 'width:75px' } Select
+                %th{ style: 'width:75px' }
               %th
-              %th Name
+              %th= t('.details.name')
               - if params[:birthdays]
-                %th Birthday
+                %th= t('.details.birthday')
               - else
-                %th Added
+                %th= t('.details.created_at')
               - if @logged_in.can_edit?(@group)
                 %th
           %tbody#memberships
@@ -62,7 +62,7 @@
           .page-controls
             = button_tag class: 'btn btn-delete' do
               = icon 'fa fa-minus-circle'
-              Remove Selected
+              = t('.remove.button')
 
     - else
       %p= t('none')
@@ -73,7 +73,8 @@
     - if @logged_in.can_edit?(@group)
       .box.box-success
         .box-header
-          %h3.box-title Add Someone
+          %h3.box-title
+            = t('memberships.add.heading')
         .box-body
           - if @group.approved?
             = form_tag search_path, remote: true do

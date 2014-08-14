@@ -4,8 +4,17 @@ en:
 
     index:
       heading: "People in %{group}"
+      details:
+        name: "Name"
+        birthday: "Birthday"
+        created_at: "Added"
+        manual:
+          tooltip: "This person was added manually."
+      remove:
+        button: "Remove Selected"
 
     add:
+      heading: "Add Someone"
       description: "Add someone to this group."
       name_placeholder: "Type all or part of someone's name"
       parents_of_warning_html: |
@@ -23,6 +32,8 @@ en:
     requests:
       heading: "Requests to join this group"
       select_some: "Select one or more above and choose an action."
+      name: "Name"
+      created_at: "Requested"
       accept:
         button: "Accept"
       ignore:
