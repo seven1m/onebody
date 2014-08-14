@@ -1,0 +1,29 @@
+---
+ro:
+  notifier:
+    attached_your_custom_directory: "Hello, %{name}. Attached is your custom printed directory from %{site}."
+    be_sure_to_send_verification_email: "Be sure to also click to \"send verification email\" to the user."
+    check_boxes_in_visibility_sidebar: "Check all the appropriate boxes in the \"Visibility\" tab and save."
+    click_link_to_complete_process: "Click the following link to complete the process: %{url}"
+    has_submited_profile_update: "și-a actualizat profilul"
+    if_you_cannot_click_link: "Dacă nu poți da click pe link, trebuie să îl copiezi în bara de adresă a browserului."
+    if_you_approve_this_account_creation: "Dacă ești de acord cu crearea contului, activează-l la următoarea adresă"
+    if_you_dont_know_why_get_this_email: "If you don't know why you're getting this email, you may contact %{name} at %{phone}."
+    message_id: "IDul mesajului"
+    name_has_requested_join_group: "%{name} has requested to join the group %{group}."
+    name_submitted_birthday_request: "%{name} has submitted a birthday verification request"
+    new: Nou
+    old: Vechi
+    person_had_their_email_changed: "%{name} și-a schimbat adresa de email."
+    person_has_changed_photo: "%{name} has changed their photo."
+    person_has_signed_for_account: "%{name} a creat un nou cont."
+    person_wants_to_be_your_friend: "%{name} vrea să îți fie prieten pe %{site}"
+    please_make_updates: "Please make the appropriate updates to the membership database."
+    this_email_to_verify_email: "This email is to verify your email address for access to the %{site} website. To verify your email address, please click the link below"
+    this_notify_someone_reported: "This is to notify you that someone has reported that the date and time are incorrect at %{site}."
+    to_accept_or_decline: "Ca să accepți sau să respingi, logează-te aici"
+    to_approve_or_ignore: "To approve or ignore, sign in and visit the following address"
+    update_record_membership: "Update their record in the membership database."
+    verification_code: "Cod de verificare"
+    verify_person_identity: "Verify this person's identity. Be cautious; if in doubt, use the phone number provided to validate this person is who they say they are."
+    wait_one_day_and_wait: "WAIT ONE DAY or manually trigger the database update script on the server and wait until it is finished."

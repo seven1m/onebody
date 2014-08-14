@@ -1,0 +1,16 @@
+---
+ro:
+  notes:
+    index:
+      heading: Notițe
+    new:
+      heading: "Notiță nouă"
+      button: Nou
+    edit:
+      heading: "Editează notiță"
+      button: Editează
+    delete:
+      button: Șterge
+    posted: "postat %{when}"
+    save: "Salvează notiță"
+    saved: "Notiță salvată"

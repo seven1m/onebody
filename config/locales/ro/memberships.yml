@@ -1,0 +1,18 @@
+---
+ro:
+  memberships:
+    index:
+      heading: "Oameni în %{group}"
+    add:
+      description: "Adaugă pe cineva în grup"
+      name_placeholder: "Type all or part of someone's name"
+    promote: "Promovează membrul ca şi admin"
+    demote: "Demote admin to regular member"
+    group_pending_approval: "Acest grup aşteaptă aprobare. Nu poţi adăuga oameni incă."
+    requests:
+      heading: "Cereri de înscriere în acest grup"
+      select_some: "Select one or more above and choose an action."
+      accept:
+        button: Acceptă
+      ignore:
+        button: Ignoră
