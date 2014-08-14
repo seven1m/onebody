@@ -8,6 +8,12 @@ en:
     add:
       description: "Add someone to this group."
       name_placeholder: "Type all or part of someone's name"
+      parents_of_warning_html: |
+        This is a group automatically linked with parents of people in %{group}.
+        If you add someone manually, that person won't be managed automatically.
+      linked_group_warning_html: |
+        This group is linked with class code <strong>%{code}</strong>.
+        If you add someone manually, that person won't be managed automatically.
 
     promote: "Promote member to admin"
     demote: "Demote admin to regular member"

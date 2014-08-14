@@ -83,10 +83,11 @@
                   = t('memberships.add.description')
                 = text_field_tag 'name', nil, id: 'add_person_name', class: 'form-control', placeholder: t('memberships.add.name_placeholder')
                 - if @group.parents_of
-                  %strong
-                    Remember, this is a group automatically containing
-                    parents of people in #{link_to @group.parents_of_group.name, @group.parents_of_group}.
-                    Adding people manually should be done sparingly.
+                  .callout.callout-danger.push-down
+                    = t('memberships.add.parents_of_warning_html', group: link_to(@group.parents_of_group.try(:name), @group.parents_of_group))
+                - elsif @group.linked?
+                  .callout.callout-danger.push-down
+                    = t('memberships.add.linked_group_warning_html', code: @group.link_code)
               .form-group
                 = button_tag t('search.search_by_name'), class: 'btn btn-info'
             #add_member{ style: 'display:none' }
