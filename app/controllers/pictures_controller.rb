@@ -36,9 +36,7 @@ class PicturesController < ApplicationController
   def create
     @uploader = PictureUploader.new(@album, params, current_user)
     if @uploader.save
-      notices = [t('pictures.saved', success: @uploader.success)]
-      notices << t('pictures.failed', fail: @uploader.fail) if @uploader.fail > 0
-      flash[:notice] = notices.join('<br/>').html_safe
+      flash[:notice] = t('pictures.saved', success: @uploader.success)
       respond_to do |format|
         format.html { redirect_to @album }
         format.json { render json: { status: 'success', url: album_path(@album) } }
