@@ -1,0 +1,6 @@
+- @title = t('admin.offering.new.heading')
+
+= form_for @offering, url: administration_offerings_path do |form|
+  - 10.times do
+    = render 'form', form: form
+  = form.button 'Save'

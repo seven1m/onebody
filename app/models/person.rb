@@ -35,6 +35,7 @@ class Person < ActiveRecord::Base
   has_many :generated_files
   has_one :stream_item, as: :streamable
   belongs_to :site
+  has_many :offerings
 
   scope_by_site_id
 
