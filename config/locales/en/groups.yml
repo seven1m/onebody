@@ -40,6 +40,7 @@ en:
 
     browse:
       heading: "Browse by Category"
+      all: "Show All"
     create:
       heading: "Create a Group"
       description: "If you can't find a group, it's easy to create one!"
