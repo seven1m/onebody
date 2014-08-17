@@ -27,9 +27,17 @@
     .box.box-info
       .box-header
         %h3.box-title= t('groups.browse.heading')
-      .box-body
-        .group-category-lookup.form-inline
-          = select_tag 'category', options_for_select(@categories), include_blank: true, class: 'form-control'
+      .row
+        .col-md-3
+          .box-body
+            .group-category-lookup.form-inline
+              = select_tag 'category', options_for_select(@categories), include_blank: true, class: 'form-control'
+        .col-md-4
+          .box-body
+            .form-group
+              = link_to groups_path(name: ''), class: 'btn btn-info' do
+                = icon 'fa fa-group'
+                = 'Show All'
 
     .box.box-success
       .box-header
