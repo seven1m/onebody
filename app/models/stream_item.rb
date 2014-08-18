@@ -24,7 +24,8 @@ class StreamItem < ActiveRecord::Base
       friend_ids: person.sharing_with_people.pluck(:id),
       id:         person.id,
       true:       true
-    )
+    )  
+    .where("streamable_type != 'Person' or person_id != :id", id: person.id)  
   end
 
   def self.shared_streamable_types
