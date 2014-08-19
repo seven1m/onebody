@@ -46,8 +46,7 @@ class AccountsController < ApplicationController
         render action: 'new'
       end
     elsif params[:verification]
-      params.permit! # FIXME
-      @verification = Verification.new(params[:verification])
+      @verification = Verification.new(verification_params)
       if @verification.save
         if params[:phone]
           flash[:notice] = t('accounts.verification_message_sent')
@@ -123,6 +122,10 @@ class AccountsController < ApplicationController
       end
       redirect_to edit_person_account_path(person)
     end
+  end
+
+  def verification_params
+    params.require(:verification).permit(:email, :mobile_phone, :carrier)
   end
 
   def person_params
