@@ -39,7 +39,8 @@ en:
     email_on: "email on"
 
     browse:
-      heading: "Browse by Category"
+      heading: "Browse Groups"
+      select_category: "Show by Category"
       all: "Show All"
     create:
       heading: "Create a Group"
