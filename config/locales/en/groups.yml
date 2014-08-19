@@ -210,3 +210,6 @@ en:
           one: "Picture"
           other: "Pictures"
         new_link: "New Picture"
+
+    show_hidden:
+      button: "Show Hidden Groups (%{count})"
