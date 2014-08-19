@@ -69,23 +69,15 @@ class AccountsController < ApplicationController
   end
 
   def verify_code
-    v = Verification.pending.find(params[:id])
-    if v.check!(params[:code])
-      if v.people.count > 1
-        session[:select_from_people] = v.people.to_a
-        redirect_to select_account_path
+    @verification = Verification.find(params[:id])
+    if not @verification.pending?
+      render text: t('accounts.verification.not_pending', url: new_account_path(forgot: true)), layout: true
+    elsif request.post?
+      if @verification.check!(params[:code])
+        redirect_for_verification
       else
-        person = v.people.first
-        session[:logged_in_id] = person.id
-        if v.mobile_phone?
-          flash[:warning] = t('accounts.set_your_email')
-        else
-          flash[:warning] = t('accounts.set_your_email_may_be_different')
-        end
-        redirect_to edit_person_account_path(person)
+        render text: t('accounts.wrong_code_html'), layout: true, status: :bad_request
       end
-    else
-      render text: t('accounts.wrong_code_html'), layout: true, status: :bad_request
     end
   end
 
@@ -116,6 +108,22 @@ class AccountsController < ApplicationController
   end
 
   private
+
+  def redirect_for_verification
+    if @verification.people.count > 1
+      session[:select_from_people] = @verification.people.to_a
+      redirect_to select_account_path
+    else
+      person = @verification.people.first
+      session[:logged_in_id] = person.id
+      flash[:warning] = if @verification.mobile_phone?
+        t('accounts.set_your_email')
+      else
+        t('accounts.set_your_email_may_be_different')
+      end
+      redirect_to edit_person_account_path(person)
+    end
+  end
 
   def person_params
     params.require(:person).permit(:email, :password, :password_confirmation)

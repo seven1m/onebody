@@ -520,13 +520,44 @@ describe AccountsController do
   end
 
   context '#verify_code' do
+    context 'GET without a code' do
+      before do
+        @verification = Verification.create!(email: @person.email)
+        get :verify_code, { id: @verification.id }
+      end
+
+      it 'renders the verify_code template' do
+        expect(response).to render_template(:verify_code)
+      end
+
+      it 'does not auto-submit the form' do
+        expect(response.body).to_not match(/submit\(\)/)
+      end
+    end
+
+    context 'GET with a code' do
+      before do
+        @verification = Verification.create!(email: @person.email)
+        get :verify_code, { id: @verification.id, code: '1234' }
+      end
+
+      it 'renders the verify_code template' do
+        expect(response).to render_template(:verify_code)
+      end
+
+      it 'auto-submits the form' do
+        expect(response.body).to match(/submit\(\)/)
+      end
+    end
+
     context 'given a non-pending email verification' do
       before do
         @verification = Verification.create!(email: @person.email, verified: false)
+        post :verify_code, { id: @verification.id }
       end
 
-      it 'should raise RecordNotFound exception' do
-        expect { get :verify_code, { id: @verification.id } }.to raise_error(ActiveRecord::RecordNotFound)
+      it 'should show a not valid message' do
+        expect(response.body).to match(/no longer valid/)
       end
     end
 
@@ -535,9 +566,9 @@ describe AccountsController do
         @verification = Verification.create!(email: @person.email)
       end
 
-      context 'GET with proper id and code' do
+      context 'POST with proper id and code' do
         before do
-          get :verify_code, {id: @verification.id, code: @verification.code}
+          post :verify_code, {id: @verification.id, code: @verification.code}
         end
 
         it 'should mark the verification verified' do
@@ -557,15 +588,15 @@ describe AccountsController do
         end
       end
 
-      context 'GET with improper id' do
+      context 'POST with improper id' do
         it 'should raise RecordNotFound exception' do
-          expect { get :verify_code, {id: '111111111'} }.to raise_error(ActiveRecord::RecordNotFound)
+          expect { post :verify_code, {id: '111111111'} }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 
-      context 'GET with proper id and wrong code' do
+      context 'POST with proper id and wrong code' do
         before do
-          get :verify_code, {id: @verification.id, code: '1'}
+          post :verify_code, {id: @verification.id, code: '1'}
         end
 
         it 'should not mark the verification verified' do
@@ -586,9 +617,9 @@ describe AccountsController do
           @spouse = FactoryGirl.create(:person, family: @person.family, email: @person.email)
         end
 
-        context 'GET with proper id and code' do
+        context 'POST with proper id and code' do
           before do
-            get :verify_code, {id: @verification.id, code: @verification.code}
+            post :verify_code, {id: @verification.id, code: @verification.code}
           end
 
           it 'should mark the verification verified' do
@@ -612,9 +643,9 @@ describe AccountsController do
         @verification = Verification.create!(mobile_phone: @person.mobile_phone, carrier: 'AT&T')
       end
 
-      context 'GET with proper id and code' do
+      context 'POST with proper id and code' do
         before do
-          get :verify_code, {id: @verification.id, code: @verification.code}
+          post :verify_code, {id: @verification.id, code: @verification.code}
         end
 
         it 'should mark the verification verified' do
