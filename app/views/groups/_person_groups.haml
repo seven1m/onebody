@@ -1,6 +1,6 @@
-- show_email_settings = params[:controller] == 'people' and (me? or @logged_in.admin?(:manage_groups))
+- show_email_settings = params[:controller] == 'people' && (me? or @logged_in.admin?(:manage_groups))
 
-- if @person.groups.any?
+- if @person.groups.active.any? or (@logged_in.admin?(:manage_groups) and @person.groups.any?)
   %table.table.group-list
     %tr
       %th

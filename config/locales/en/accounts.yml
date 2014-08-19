@@ -13,6 +13,7 @@ en:
       heading: "Recover Account"
 
     verification:
+      not_pending: "This verification link is no longer valid. Please <a href='%{url}'>try again</a>."
       email:
         via_admin: "A verification email has been sent to this user."
 

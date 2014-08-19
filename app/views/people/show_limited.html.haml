@@ -1,0 +1,18 @@
+- @title = @person.name
+
+%p= t('people.limited_access')
+
+- if @person.home_phone.present?
+  %p
+    = "#{t('people.show.details.home_phone')}:"
+    = format_phone @person.home_phone
+
+- if not me? and @person.messages_enabled?
+  .page-controls
+    = link_to new_message_path(to_person_id: @person), class: 'btn btn-info' do
+      = icon 'fa fa-envelope'
+      = t('messages.send_message')
+
+%h3= t('people.groups.heading')
+
+= render partial: 'groups/person_groups'

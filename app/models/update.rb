@@ -28,8 +28,8 @@ class Update < ActiveRecord::Base
     return false if complete?
     transaction do
       record_diff
-      person.update_attributes!(data[:person])
-      family.update_attributes!(data[:family])
+      person.update_attributes!(data[:person]) if data[:person]
+      family.update_attributes!(data[:family]) if data[:family]
       update_attributes!(complete: true)
     end
   end

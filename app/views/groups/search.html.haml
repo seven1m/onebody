@@ -1,6 +1,8 @@
-- @title = t('groups.search.results_heading')
+- @title = "#{t('groups.search.results_heading')} (#{@groups.count})"
 
 - if @groups.any?
+  = pagination @groups
+
   %table.table.group-list
     %tr
       %th
@@ -9,33 +11,34 @@
       %th= t('groups.table.member_count')
 
     - @groups.each do |group|
-      - if not group.hidden? or @logged_in.admin?(:manage_groups)
-        %tr.row-with-avatar{class: group.hidden? ? 'grayed hidden-group' : ''}
-          %td.avatar
-            = group_avatar_tag(group)
-          %td.group
-            = link_to group.name, group
-            - if group.private?
-              %span.label.label-warning
-                = icon 'fa fa-lock'
-                = t('groups.private.label')
-            - if group.hidden?
-              %span.label.label-danger
-                = icon 'fa fa-eye-slash'
-                = t('groups.hidden.label')
+      %tr.row-with-avatar{class: group.hidden? ? 'grayed' : ''}
+        %td.avatar
+          = group_avatar_tag(group)
+        %td.group
+          = link_to group.name, group
+          - if group.private?
+            %span.label.label-warning
+              = icon 'fa fa-lock'
+              = t('groups.private.label')
+          - if group.hidden?
+            %span.label.label-danger
+              = icon 'fa fa-eye-slash'
+              = t('groups.hidden.label')
+        %td
+          = link_to(group.leader.try(:name), group.leader) if group.leader
+        %td
+          = group.memberships.count
+      - if group.description.present?
+        %tr.description{class: group.hidden? ? 'grayed hidden-group' : ''}
           %td
-            = link_to(group.leader.try(:name), group.leader) if group.leader
-          %td
-            = group.memberships.count
-        - if group.description.present?
-          %tr.description{class: group.hidden? ? 'grayed hidden-group' : ''}
-            %td
-            %td{colspan: 3}
-              = group.description
+          %td{colspan: 3}
+            = group.description
 
-  - if @logged_in.admin?(:manage_groups) and @groups.detect { |g| g.hidden? }
+  - if @logged_in.admin?(:manage_groups) and @hidden_groups.any? and not params[:include_hidden]
     %p
-      = link_to_function t('people.show_hidden_groups'), "$('.hidden-group').toggle()", class: 'btn btn-warning'
+      = link_to t('groups.show_hidden.button', count: @hidden_groups.count), groups_path(params_without_action.merge(include_hidden: true, page: nil)), class: 'btn btn-warning'
+
+  = pagination @groups
 
 - else
   %p

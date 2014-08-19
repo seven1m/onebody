@@ -2,7 +2,7 @@
 pt:
   generated_files:
     building: "Criando o seu arquivo..."
-    complete_heading: Done!
-    complete_message: "Your file is complete and ready to download."
+    complete_heading: Feito!
+    complete_message: "O seu arquivo está completo e pronto para o download."
     failure_heading: Desculpem-nos...
     failure_message: "Parece que houve um erro ao gerar o seu arquivo."

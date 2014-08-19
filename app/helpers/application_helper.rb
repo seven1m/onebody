@@ -203,6 +203,19 @@ module ApplicationHelper
     end
   end
 
+  # this is an ugly hack for Rails 4 because I18n.exception_handler isn't working with the t() helper
+  def t(*args)
+    if Rails.env.production?
+      super
+    else
+      super.tap do |result|
+        if result =~ /"(translation missing: .*)"/
+          raise $1
+        end
+      end
+    end
+  end
+
   class << self
     include ApplicationHelper
   end

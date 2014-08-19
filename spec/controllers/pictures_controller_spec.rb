@@ -100,6 +100,7 @@ describe PicturesController do
 
     context 'given one bad image and one good image' do
       before do
+        Picture.delete_all
         post :create, {
           album: 'My Stuff',
           pictures: [
@@ -110,7 +111,8 @@ describe PicturesController do
       end
 
       it 'should create one image and fail one image' do
-        expect(flash[:notice]).to eq("1 picture(s) saved<br/>1 not saved due to errors")
+        expect(Picture.count).to eq(1)
+        expect(flash[:error]).to eq("image.bmp")
       end
     end
 

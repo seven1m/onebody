@@ -29,8 +29,8 @@ pt:
     people: "Importar Pessoas"
     record: registro
     records: Registros
-    select_csv_file: "Select a Comma Separated Values (CSV) file to import with attribute names as the header row."
-    the_changes_will_be_made: "The following changes will be made. Only selected records will be created/updated."
-    the_import_is_complete: "The import is complete"
+    select_csv_file: "Selecione um arquivo separado por vírgulas (CSV) para importar com os nomes dos atributos na linha de cabeçalho."
+    the_changes_will_be_made: "As seguintes alterações serão feitas. Somente os registros selecionados serão criados/atualizados."
+    the_import_is_complete: "A importação está completa"
     visibility_access: Visibilidade/Acesso
     with_errors: "com erros"

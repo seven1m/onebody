@@ -1,6 +1,6 @@
 %p= t('accounts.verify_code_intro')
 
-= form_tag verify_code_account_path do
+= form_tag verify_code_account_path, id: 'verify-form' do
   = hidden_field_tag :id, @verification.id
 
   .form-group
@@ -8,3 +8,7 @@
     = text_field_tag :code, params[:code], class: 'form-control'
   .form-group
     = submit_tag t('accounts.check_code'), class: 'btn btn-success'
+
+- if params[:code].present?
+  :javascript
+    document.getElementById('verify-form').submit();

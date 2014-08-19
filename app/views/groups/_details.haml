@@ -21,6 +21,10 @@
       = link_to t('groups.show.details.member_count', count: @group.people.count), group_memberships_path(@group)
       - if @group.people.any?
         = t('groups.show.details.birthdays_this_month_html', count: @group.people.with_birthday_month(Time.now.month).count, url: group_memberships_path(@group, birthdays: true))
+      - if @group.linked?
+        = icon 'fa fa-link', title: t('groups.show.linked.tooltip', code: @group.link_code)
+      - elsif @group.parents_of
+        = icon 'fa fa-link', title: t('groups.show.parents_of.tooltip', group: @group.parents_of_group.try(:name))
       - if @group.attendance? and @group.admin?(@logged_in)
         %p
         = link_to t('groups.show.details.attendance.button'), group_attendance_index_path(@group), class: 'btn btn-xs btn-info'
