@@ -39,7 +39,9 @@ en:
     email_on: "email on"
 
     browse:
-      heading: "Browse by Category"
+      heading: "Browse Groups"
+      select_category: "Show by Category"
+      all: "Show All"
     create:
       heading: "Create a Group"
       description: "If you can't find a group, it's easy to create one!"
@@ -208,3 +210,6 @@ en:
           one: "Picture"
           other: "Pictures"
         new_link: "New Picture"
+
+    show_hidden:
+      button: "Show Hidden Groups (%{count})"
