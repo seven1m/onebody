@@ -37,10 +37,12 @@
     %tr
       %td= t('people.show.details.anniversary')
       %td= @person.anniversary.to_s(:date_without_year)
-  - if @person.has_social_networks?
+  - if has_social_networks?(@person)
     %tr
-      %td.right{colspan: 2}
+      %td{colspan: 2}
         - if @person.facebook_url.present?
-          %a.social-link.facebook{href: @person.facebook_url, target: '_blank'}
+          = link_to(@person.facebook_url, target: '_blank') do
+            = icon 'fa fa-facebook fa-lg text-blue'
         - if @person.twitter.present?
-          %a.social-link.twitter{href: @person.twitter_url, target: '_blank'}
+          = link_to(twitter_url(@person), target: '_blank') do
+            = icon 'fa fa-twitter fa-lg fa-fw'

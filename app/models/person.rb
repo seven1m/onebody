@@ -78,15 +78,6 @@ class Person < ActiveRecord::Base
     self.twitter = twitter[1..-1] if self.twitter.start_with?("@")
   end
 
-  def twitter_url
-    return unless twitter.present?
-    "http://twitter.com/#{twitter}"
-  end
-
-  def has_social_networks?
-    twitter.present? or facebook_url.present?
-  end
-
   def validate_email_unique
     return unless email.present? and not deleted?
     if Person.where("email = ? and family_id != ? and id != ? and deleted = ?", email, family_id || 0, id || 0, false).any?

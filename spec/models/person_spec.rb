@@ -165,28 +165,6 @@ describe Person do
     should allow_value("fifteencharacte").for(:twitter)
   end
 
-  it "should have a twitter user url" do
-    @person = FactoryGirl.build(:person)
-    @person.twitter = "@username"
-    @person.save
-    expect(@person.twitter_url).to eq("http://twitter.com/username")
-  end
-
-  it "should have social networks" do
-    @person = FactoryGirl.build(:person)
-    @person.twitter = "@username"
-    expect(@person.has_social_networks?).to eq(true)
-    @person.facebook_url = "https://www.facebook.com/tester"
-    expect(@person.has_social_networks?).to eq(true)
-    @person.twitter = nil
-    expect(@person.has_social_networks?).to eq(true)
-  end
-
-  it "should not have social networks" do
-    @person = FactoryGirl.build(:person)
-    expect(@person.has_social_networks?).to eq(false)
-  end
-
   it "should mark email_changed when email address changes" do
     @person = FactoryGirl.create(:person)
     @person.email = 'newaddress@example.com'
