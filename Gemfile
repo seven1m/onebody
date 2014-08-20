@@ -9,7 +9,7 @@ gem 'jquery-rails'
 gem 'will_paginate', '3.0.7'
 gem 'highline'
 gem 'whenever'
-gem 'nokogiri'
+gem 'nokogiri', '~>1.6.3'
 gem 'builder'
 gem 'loofah'
 gem 'feedjira'
@@ -43,6 +43,8 @@ group :test do
 end
 
 group :development do
+  gem 'better_errors'
+  gem 'binding_of_caller'
   gem 'zeus'
   gem 'watchr'
   gem 'terminal-notifier'
@@ -53,6 +55,7 @@ group :development do
 end
 
 group :development, :test do
+  gem 'byebug'
   gem 'pry'
   gem 'pry-remote'
   gem 'pry-rails'

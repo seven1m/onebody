@@ -64,9 +64,17 @@ GEM
       activesupport (>= 3.0.0)
       rake (>= 0.8.7)
     bcrypt (3.1.7)
+    better_errors (1.1.0)
+      coderay (>= 1.0.0)
+      erubis (>= 2.6.6)
+    binding_of_caller (0.7.2)
+      debug_inspector (>= 0.0.1)
     bootstrap-sass (3.1.1.1)
       sass (~> 3.2)
     builder (3.2.2)
+    byebug (3.2.0)
+      columnize (~> 0.8)
+      debugger-linecache (~> 1.2)
     capistrano (3.2.1)
       i18n
       rake (>= 10.0.0)
@@ -97,9 +105,12 @@ GEM
     coffee-script-source (1.7.0)
     color (1.7)
     colorize (0.7.3)
+    columnize (0.8.9)
     curb (0.8.5)
     date_validator (0.7.0)
       activemodel (>= 3)
+    debug_inspector (0.0.2)
+    debugger-linecache (1.2.0)
     diff-lcs (1.2.5)
     draper (1.3.0)
       actionpack (>= 3.0)
@@ -296,8 +307,11 @@ DEPENDENCIES
   acts_as_taggable_on_steroids!
   authority
   bcrypt
+  better_errors
+  binding_of_caller
   bootstrap-sass (~> 3.1.1)
   builder
+  byebug
   capistrano
   capistrano-bundler
   capistrano-newrelic
@@ -319,7 +333,7 @@ DEPENDENCIES
   mini_magick
   mysql2
   newrelic_rpm
-  nokogiri
+  nokogiri (~> 1.6.3)
   paperclip
   pdf-writer!
   pry
