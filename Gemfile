@@ -43,6 +43,8 @@ group :test do
 end
 
 group :development do
+  gem 'better_errors'
+  gem 'binding_of_caller'
   gem 'zeus'
   gem 'watchr'
   gem 'terminal-notifier'
@@ -53,6 +55,7 @@ group :development do
 end
 
 group :development, :test do
+  gem 'byebug'
   gem 'pry'
   gem 'pry-remote'
   gem 'pry-rails'
