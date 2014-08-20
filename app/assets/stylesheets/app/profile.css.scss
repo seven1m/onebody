@@ -8,3 +8,17 @@
 .testimony .box-title a {
   color: white !important;
 }
+
+.social-link {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+}
+
+.facebook {
+  background-image: image-url("icon_facebook_25x25.png");
+}
+
+.twitter {
+  background-image: image-url("icon_twitter_25x25.jpg");
+}

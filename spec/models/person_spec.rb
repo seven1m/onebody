@@ -74,6 +74,18 @@ describe Person do
     end
   end
 
+  it 'should allow good facebook_url' do
+    GOOD_WEB_ADDRESSES.each do |address|
+      should allow_value(address).for(:facebook_url)
+    end
+  end
+
+  it 'should not allow bad facebook_url' do
+    BAD_WEB_ADDRESSES.each do |address|
+      should_not allow_value(address).for(:facebook_url)
+    end
+  end
+
   context 'Email Address Sharing' do
 
     it 'should allow people in the same family to have the same email address' do
@@ -136,6 +148,43 @@ describe Person do
       expect(@person2.member_of?(@parent_group)).not_to be
     end
 
+  end
+
+  it 'should remove @ from twitter username' do
+    @person = FactoryGirl.build(:person)
+    @person.twitter = "@username"
+    @person.save
+    expect(@person.twitter).to eq("username")
+  end
+
+  it "should not accept twitter username with more than 15 characters" do
+    should_not allow_value("fifteencharacter").for(:twitter)
+  end
+
+  it "should accept twitter username with at most 15 characters" do
+    should allow_value("fifteencharacte").for(:twitter)
+  end
+
+  it "should have a twitter user url" do
+    @person = FactoryGirl.build(:person)
+    @person.twitter = "@username"
+    @person.save
+    expect(@person.twitter_url).to eq("http://twitter.com/username")
+  end
+
+  it "should have social networks" do
+    @person = FactoryGirl.build(:person)
+    @person.twitter = "@username"
+    expect(@person.has_social_networks?).to eq(true)
+    @person.facebook_url = "https://www.facebook.com/tester"
+    expect(@person.has_social_networks?).to eq(true)
+    @person.twitter = nil
+    expect(@person.has_social_networks?).to eq(true)
+  end
+
+  it "should not have social networks" do
+    @person = FactoryGirl.build(:person)
+    expect(@person.has_social_networks?).to eq(false)
   end
 
   it "should mark email_changed when email address changes" do
