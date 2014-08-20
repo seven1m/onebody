@@ -414,14 +414,26 @@ describe Person do
     end
   end
 
-  private
+  describe '#create_as_stream_item' do
+    context 'given no people were created just prior' do
+      let!(:person) { FactoryGirl.create(:person) }
 
-    def partial_fixture(table, name, valid_attributes)
-      YAML::load(File.open(Rails.root.join("spec/fixtures/#{table}.yml")))[name].tap do |fixture|
-        fixture.delete_if { |key, val| !valid_attributes.include? key }
-        fixture.each do |key, val|
-          fixture[key] = val.to_s
-        end
+      it 'creates a new stream item' do
+        expect(StreamItem.last.attributes).to include(
+          'title'     => person.name,
+          'person_id' => person.id
+        )
       end
     end
+
+    context 'given two people were created just prior' do
+      let!(:person1) { FactoryGirl.create(:person) }
+      let!(:person2) { FactoryGirl.create(:person) }
+      let!(:person3) { FactoryGirl.create(:person) }
+
+      it 'does not create a third stream item' do
+        expect(StreamItem.count).to eq(2)
+      end
+    end
+  end
 end

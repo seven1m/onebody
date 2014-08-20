@@ -98,6 +98,7 @@ class Person < ActiveRecord::Base
   after_create :create_as_stream_item
 
   def create_as_stream_item
+    return unless can_create_stream_item?
     StreamItem.create!(
       title: name,
       person_id: id,
@@ -106,6 +107,15 @@ class Person < ActiveRecord::Base
       created_at: created_at,
       shared: visible? && email.present?
     )
+  end
+
+  LIMIT_CONSECUTIVE_STREAM_ITEMS = 2
+
+  def can_create_stream_item?
+    previous = StreamItem.limit(LIMIT_CONSECUTIVE_STREAM_ITEMS)
+                         .order(id: :desc)
+                         .pluck(:streamable_type)
+    previous != ['Person'] * LIMIT_CONSECUTIVE_STREAM_ITEMS
   end
 
   after_update :update_stream_item
