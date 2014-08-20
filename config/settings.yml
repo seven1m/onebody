@@ -13,9 +13,6 @@ Contact:
     format: string
     value: admin@example.com
     global: true
-  Birthday Verification Email:
-    format: string
-    value: admin@example.com
   Send Email Changes To:
     format: string
     value: admin@example.com

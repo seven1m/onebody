@@ -122,19 +122,6 @@ class Notifier < ActionMailer::Base
     )
   end
 
-  def birthday_verification(name, email, phone, birthday, notes)
-    @name     = name
-    @email    = email
-    @phone    = phone
-    @birthday = birthday
-    @notes    = notes
-    mail(
-      to:      Setting.get(:contact, :birthday_verification_email),
-      from:    email,
-      subject: "Birthday Verification"
-    )
-  end
-
   def pending_sign_up(person)
     @person = person
     mail(

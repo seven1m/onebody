@@ -206,9 +206,6 @@ en:
         Community Office Phone:
           name: Community Office Phone
           description: Phone number for the office
-        Birthday Verification Email:
-          name: Birthday Verification Email
-          description: Email sent when someone requests verification via birthday (shouldn't be blank)
         Tech Support Email:
           name: "Tech Support Email"
           description: "Users will be directed to send an email here if they need technical help with the site."
