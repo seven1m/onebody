@@ -20,7 +20,7 @@ describe PeopleHelper do
 
     it "should have a twitter user url" do
       @person = FactoryGirl.create(:person, twitter: '@username')
-      expect(twitter_url(@person)).to eq("http://twitter.com/username")
+      expect(twitter_url(@person)).to eq("https://twitter.com/username")
     end
   end
 end
