@@ -6,33 +6,38 @@
     %h1
       = @title
 .row
-  .col-md-9
-    %p#download-csv
-    = link_to 'Download CSV', formatted_dossier_report_path('csv', report), class: 'download-csv'
-    %p#record-count
-      = t('attendance_totals.records', count: report.results.body.count)
-      %table.table
-        %thead
-          %tr
-            %th= sortable_column_heading t('attendance_totals.name'),        'groups.name', %w(groups.group_id)
-            %th= sortable_column_heading t('attendance_totals.attended_at'), 'attendance_records.attended_at', %w(groups.group_id)
-            %th= sortable_column_heading t('attendance_totals.count'),       'attendance_records.count', %w(groups.group_id)
-        %tbody
-          - report.results.body.each do |row|
-            %tr
-              - row.each do |value|
-                %td= value        
   .col-md-3
     .box.box-info.hidden-print
       .box-heading
       .box-body
-        = form_tag report, as: :options, url: url_for, html: {method: :get} do 
+        = form_for report, as: :options, url: url_for, html: {method: :get} do |f|
           .form-group
-            = label_tag :fromdate, t('attendance_totals.fromdate')
-            = date_field_tag :fromdate, nil, class: 'form-control', placeholder: "Enter From Date"
+            = f.label t('attendance_totals.fromdate')
+            = f.date_field :fromdate, class: 'form-control', placeholder: Date.today.to_s(:date)
+            = f.label t('attendance_totals.thrudate')
+            = f.date_field :thrudate, class: 'form-control', placeholder: Date.tomorrow.to_s(:date)
+
           .form-group
-            = label_tag :thrudate, t('attendance_totals.thrudate')
-            = date_field_tag :thrudate, nil, class: 'form-control', placeholder: "Enter Through Date"
-          .form-group
-            = link_to formatted_dossier_report_path('html', report), class: 'btn btn-info', onchange: 'this.form.submit()' do
-              = t('attendance_totals.submit')
+            %tr
+              %td
+                = f.submit t('attendance_totals.submit'), class: 'btn btn-info'
+                = link_to formatted_dossier_report_path('csv', report), class: 'btn btn-info' do
+                  = icon 'fa fa-download'
+                  CSV
+                = link_to formatted_dossier_report_path('xls', report), class: 'btn btn-info' do
+                  = icon 'fa fa-download'
+                  XLS
+  .col-md-9
+    %table.table
+      %thead
+        %tr
+          %th= t('attendance_totals.name')
+          %th= t('attendance_totals.attended_at')
+          %th= t('attendance_totals.count')
+      %tbody
+        - report.results.body.each do |row|
+          %tr
+            - row.each do |value|
+              %td= value
+  .col-md-9
+    = t('attendance_totals.records', count: report.results.body.count)

@@ -40,6 +40,7 @@ gem 'date_validator'
 gem 'country_select', github: 'stefanpenner/country_select'
 gem 'dossier'
 
+
 group :test do
   gem 'factory_girl_rails'
   gem 'shoulda-matchers', require: false
