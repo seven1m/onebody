@@ -38,6 +38,8 @@ class Updater
       messages_enabled:     :immediate,
       friends_enabled:      :immediate,
       photo:                :immediate,
+      facebook_url:         :immediate,
+      twitter:              :immediate,
       email:                :notify,
       classes:              :admin,
       shepherd:             :admin,
