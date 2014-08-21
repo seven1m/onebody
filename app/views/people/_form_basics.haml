@@ -26,10 +26,10 @@
   = form.text_field :email, class: 'form-control'
 .form-group
   = form.label :facebook_url
-  = form.text_field :facebook_url, class: 'form-control'
+  = form.text_field :facebook_url, class: 'form-control', placeholder: 'https://www.facebook.com/username'
 .form-group
   = form.label :twitter
-  = form.text_field :twitter, class: 'form-control'
+  = form.text_field :twitter, class: 'form-control', placeholder: '@username'
 .form-group
   = form.label :mobile_phone, t('privacies.mobile_phone')
   = form.phone_field :mobile_phone, class: 'form-control'

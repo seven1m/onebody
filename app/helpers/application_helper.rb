@@ -43,8 +43,13 @@ module ApplicationHelper
     preserve_breaks(text, false)
   end
 
-  def simple_url(url)
-    url.sub(/^https?:\/\//, '').sub(/\/$/, '')
+  def simple_url(url, options={ www: true })
+    if options[:www]
+      regex = /^https?:\/\//
+    else
+      regex = /^https?:\/\/(www\.)?/
+    end
+    url.sub(regex, '').sub(/\/$/, '')
   end
 
   def me?

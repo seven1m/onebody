@@ -108,6 +108,6 @@ module PeopleHelper
 
   def twitter_url(person)
     return unless person.twitter.present?
-    "http://twitter.com/#{person.twitter}"
+    "https://twitter.com/#{person.twitter}"
   end
 end

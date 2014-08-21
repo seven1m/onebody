@@ -75,15 +75,11 @@ describe Person do
   end
 
   it 'should allow good facebook_url' do
-    GOOD_WEB_ADDRESSES.each do |address|
-      should allow_value(address).for(:facebook_url)
-    end
+    should allow_value('https://www.facebook.com/seven1m').for(:facebook_url)
   end
 
   it 'should not allow bad facebook_url' do
-    BAD_WEB_ADDRESSES.each do |address|
-      should_not allow_value(address).for(:facebook_url)
-    end
+    should_not allow_value('http://notfacebook.com/foo').for(:facebook_url)
   end
 
   context 'Email Address Sharing' do
@@ -163,6 +159,14 @@ describe Person do
 
   it "should accept twitter username with at most 15 characters" do
     should allow_value("fifteencharacte").for(:twitter)
+  end
+
+  it "should not accept twitter username with symbols" do
+    should_not allow_value("foo!").for(:twitter)
+  end
+
+  it "should accept twitter username with alphanumeric characters" do
+    should allow_value("User_Name123").for(:twitter)
   end
 
   it "should mark email_changed when email address changes" do

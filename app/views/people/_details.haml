@@ -39,10 +39,15 @@
       %td= @person.anniversary.to_s(:date_without_year)
   - if has_social_networks?(@person)
     %tr
-      %td{colspan: 2}
-        - if @person.facebook_url.present?
-          = link_to(@person.facebook_url, target: '_blank') do
-            = icon 'fa fa-facebook fa-lg text-blue'
+      %td= t('people.show.details.social')
+      %td
         - if @person.twitter.present?
-          = link_to(twitter_url(@person), target: '_blank') do
-            = icon 'fa fa-twitter fa-lg fa-fw'
+          .social-link
+            = link_to(twitter_url(@person), target: '_blank') do
+              = icon 'fa fa-twitter'
+              = @person.twitter
+        - if @person.facebook_url.present?
+          .social-link
+            = link_to(@person.facebook_url, target: '_blank') do
+              = icon 'fa fa-facebook'
+              = simple_url(@person.facebook_url, www: false)
