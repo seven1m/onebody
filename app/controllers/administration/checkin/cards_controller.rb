@@ -6,21 +6,14 @@ class Administration::Checkin::CardsController < ApplicationController
   
   def index
     respond_to do |format|
+      scope = Family.where("barcode_id is not null and barcode_id != '' and deleted = ?", false)
       format.html do
         params[:sort] = 'barcode_assigned_at desc' unless VALID_SORT_COLS.include?(params[:sort])
-        @families = Family.paginate(
-          :conditions => ["barcode_id is not null and barcode_id != '' and deleted = ?", false],
-          :order      => params[:sort],
-          :page       => params[:page],
-          :per_page   => 100
-        )
+        @families = scope.order(params[:sort]).paginate(per_page: 100, page: params[:page])
       end
       format.csv do
-        @families = Family.all(
-          :select     => 'id, legacy_id, name, last_name, barcode_id, barcode_assigned_at',
-          :conditions => ["barcode_id is not null and barcode_id != '' and deleted = ?", false],
-          :order      => 'barcode_assigned_at desc'
-        )
+        @families = scope.select('id, legacy_id, name, last_name, barcode_id, barcode_assigned_at')
+                         .order('barcode_assigned_at desc')
         out = CSV.generate do |csv|
           @families.each do |family|
             csv << [family.id, family.legacy_id, family.name, family.barcode_id, family.barcode_assigned_at]

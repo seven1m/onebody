@@ -3,7 +3,9 @@
 # example:
 # script/worker -e production
 
-require 'bundler/setup'
+ENV['BUNDLE_GEMFILE'] = File.expand_path('../../Gemfile', __FILE__)
+require 'bundler'
+Bundler.setup
 
 require 'optparse'
 options = {}
@@ -56,7 +58,6 @@ db_config = YAML.load(ERB.new(config_data).result)[options[:environment]]
 
 ENV["RAILS_ENV"] = options[:environment]
 
-require 'rubygems'
 require 'mysql2'
 
 loop do
@@ -81,7 +82,7 @@ loop do
         logger.error(e.message)
         backtrace = e.backtrace.is_a?(Array) ? e.backtrace.join("\n") : e.backtrace.to_s
         logger.error(backtrace)
-        Notifier.simple_message(Setting.get(:contact, :bug_notification_email), '[OneBody] Worker Error', e.message + "\n\n" + backtrace).deliver
+        Notifier.simple_message(Setting.get(:contact, :bug_notification_email), '[OneBody] Worker Error', e.message + "\n\n" + backtrace + "\n\n#{cmd}").deliver
         puts e.message if options[:debug]
       ensure
         db.query("delete from jobs where id = %d" % id)

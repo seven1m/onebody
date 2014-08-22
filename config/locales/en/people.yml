@@ -21,6 +21,7 @@ en:
         address: "Home Address"
         birthday: "Birthday"
         anniversary: "Anniversary"
+        social: "Social"
 
     edit:
       about: "About"
@@ -78,6 +79,7 @@ en:
         heading: "Group Email"
 
     groups:
+      heading: "Groups"
       members: "members"
       messages: "messages"
       join:

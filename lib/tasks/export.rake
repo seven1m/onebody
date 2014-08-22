@@ -79,7 +79,7 @@ namespace :onebody do
       task :xml => :environment do
         Site.current = site = ENV['SITE'] ? Site.find(ENV['SITE']) : Site.find(1)
         if ENV['FILE']
-          people = Person.all(:order => 'last_name, first_name, suffix')
+          people = Person.order('last_name, first_name, suffix').to_a
           File.open(ENV['FILE'], 'w') do |file|
             file.write people.to_xml(:except => %w(feed_code encrypted_password salt api_key site_id), :include => [:groups, :family])
           end
@@ -92,7 +92,8 @@ namespace :onebody do
       task :csv => :environment do
         Site.current = site = ENV['SITE'] ? Site.find(ENV['SITE']) : Site.find(1)
         if ENV['FILE']
-          people = Person.all(:order => 'last_name, first_name, suffix', :include => :family)
+          # TODO use find_each
+          people = Person.order('last_name, first_name, suffix').includes(:family).to_a
           people_attrs = people.first.attributes.keys.map(&:to_s)
           family_attrs = people.first.family.attributes.keys.map(&:to_s)
           CSV.open(ENV['FILE'], 'wb') do |file|

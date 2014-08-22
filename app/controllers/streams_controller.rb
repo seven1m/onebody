@@ -6,6 +6,7 @@ class StreamsController < ApplicationController
   include TimelineHelper
 
   def show
+    redirect_to(@logged_in) and return unless @logged_in.full_access?
     if params[:group_id]
       @group = Group.find(params[:group_id])
       @stream_items = @logged_in.can_see?(@group) ? @group.stream_items : @group.stream_items.none

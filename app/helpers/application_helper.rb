@@ -43,8 +43,13 @@ module ApplicationHelper
     preserve_breaks(text, false)
   end
 
-  def simple_url(url)
-    url.sub(/^https?:\/\//, '').sub(/\/$/, '')
+  def simple_url(url, options={ www: true })
+    if options[:www]
+      regex = /^https?:\/\//
+    else
+      regex = /^https?:\/\/(www\.)?/
+    end
+    url.sub(regex, '').sub(/\/$/, '')
   end
 
   def me?
@@ -155,15 +160,6 @@ module ApplicationHelper
     Setting.get(:formats, :date) =~ %r{%d/%m} ? 'dd/mm/yyyy' : 'mm/dd/yyyy'
   end
 
-  # TODO remove after upgrade to Rails 4.1
-  # https://github.com/rails/rails/blob/654dd04af6172/activesupport/lib/active_support/core_ext/string/output_safety.rb#L103
-  JSON_ESCAPE = { '&' => '\u0026', '>' => '\u003e', '<' => '\u003c', "\u2028" => '\u2028', "\u2029" => '\u2029' }
-  JSON_ESCAPE_REGEXP = /[\u2028\u2029&><]/u
-  def json_escape(s)
-    result = s.to_s.gsub(JSON_ESCAPE_REGEXP, JSON_ESCAPE)
-    s.html_safe? ? result.html_safe : result
-  end
-
   # TODO replace all inline JS links with unobtrusive JS
   def link_to_function(*args, &block)
     options = args.extract_options!
@@ -212,7 +208,6 @@ module ApplicationHelper
     end
   end
 
-  # TODO reevaluate with Rails 4.1
   # this is an ugly hack for Rails 4 because I18n.exception_handler isn't working with the t() helper
   def t(*args)
     if Rails.env.production?

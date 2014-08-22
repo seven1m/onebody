@@ -25,6 +25,7 @@ class StreamItem < ActiveRecord::Base
       id:         person.id,
       true:       true
     )
+    .where("streamable_type != 'Person' or person_id != :id", id: person.id)  
   end
 
   def self.shared_streamable_types

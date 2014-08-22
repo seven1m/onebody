@@ -2,9 +2,8 @@ class Administration::MembershipRequestsController < ApplicationController
   before_filter :only_admins
 
   def index
-    @reqs_by_group = MembershipRequest.find(:all).group_by &:group
+    @reqs_by_group = MembershipRequest.all.to_a.group_by(&:group)
   end
-
 
   private
 

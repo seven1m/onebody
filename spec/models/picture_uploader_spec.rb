@@ -29,10 +29,6 @@ describe PictureUploader do
         expect(subject.errors[:album]).to eq(['You must select an album.'])
       end
     end
-
-    context 'given an album' do
-      it 'creates a picture'
-    end
   end
 
 end

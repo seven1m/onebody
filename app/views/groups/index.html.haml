@@ -28,8 +28,13 @@
       .box-header
         %h3.box-title= t('groups.browse.heading')
       .box-body
-        .group-category-lookup.form-inline
-          = select_tag 'category', options_for_select(@categories), include_blank: true, class: 'form-control'
+        .form-group
+          .group-category-lookup
+            = select_tag 'category', options_for_select([[t('groups.browse.select_category'), '']] + @categories), class: 'form-control'
+        .form-group
+          = link_to groups_path(name: '') do
+            = icon 'fa fa-group'
+            = t('groups.browse.all')
 
     .box.box-success
       .box-header

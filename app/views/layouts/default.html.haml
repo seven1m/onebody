@@ -27,7 +27,7 @@
           event_queue.push(e);
         }
       }, false);
-  %body.skin-blue{ date: { 'datepicker-format' => datepicker_format } }
+  %body.skin-blue{ data: { 'datepicker-format' => datepicker_format } }
     / header logo: style can be found in header.less
     %header.header
       = link_to setting(:name, :site), root_path, class: 'logo'

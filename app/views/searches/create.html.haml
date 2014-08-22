@@ -12,47 +12,48 @@
           = label_tag 'category', t('search.business_category')
           = select_tag 'category', options_for_select(Person.business_categories, params[:category]), include_blank: true, class: 'form-control'
 
-      .form-group
-        = check_box_tag 'advanced', 'true', params[:advanced], id: 'enable-advanced-search', class: 'form-control inline'
-        = label_tag 'enable-advanced-search', t('search.form.advanced')
+      - if @logged_in.full_access?
+        .form-group
+          = check_box_tag 'advanced', 'true', params[:advanced], id: 'enable-advanced-search', class: 'form-control inline'
+          = label_tag 'enable-advanced-search', t('search.form.advanced')
 
-      .advanced-controls{style: 'display:none'}
-        .form-group
-          = label_tag 'birthday_month', t('search.form.birthday')
-          %br
-          = select_tag 'birthday[month]', options_for_select(MONTHS_FOR_SELECT, @search.birthday(:month)), include_blank: true, class: 'form-control inline'
-          = select_tag 'birthday[day]', options_for_select(1..31, @search.birthday(:day)), include_blank: true, class: 'form-control inline'
-        .form-group
-          = label_tag 'anniversary_month', t('search.form.anniversary')
-          %br
-          = select_tag 'anniversary[month]', options_for_select(MONTHS_FOR_SELECT, @search.anniversary(:month)), include_blank: true, class: 'form-control inline'
-          = select_tag 'anniversary[day]', options_for_select(1..31, @search.anniversary(:day)), include_blank: true, class: 'form-control inline'
-        .form-group
-          = label_tag 'gender', t('search.form.gender')
-          = select_tag 'gender', options_for_select(t('search.form.genders').invert, @search.gender), include_blank: true, class: 'form-control'
-        .form-group
-          = label_tag 'address_city', t('search.form.city')
-          = text_field_tag 'address[city]', @search.address(:city), class: 'form-control'
-        .form-group
-          = label_tag 'address_state', t('search.form.state')
-          = text_field_tag 'address[state]', @search.address(:state), class: 'form-control'
-        .form-group
-          = label_tag 'address_zip', t('search.form.zip')
-          = text_field_tag 'address[zip]', @search.address(:zip), class: 'form-control'
-        .form-group
-          = label_tag 'type', t('search.form.type')
-          = select_tag 'type', options_for_select(types_for_select, params[:type]), include_blank: true, class: 'form-control'
-        - if @logged_in.admin?(:view_hidden_properties)
+        .advanced-controls{style: 'display:none'}
           .form-group
-            = label_tag 'phone', t('search.form.phone')
-            = text_field_tag 'phone', @search.phone, class: 'form-control'
+            = label_tag 'birthday_month', t('search.form.birthday')
+            %br
+            = select_tag 'birthday[month]', options_for_select(MONTHS_FOR_SELECT, @search.birthday(:month)), include_blank: true, class: 'form-control inline'
+            = select_tag 'birthday[day]', options_for_select(1..31, @search.birthday(:day)), include_blank: true, class: 'form-control inline'
           .form-group
-            = label_tag 'email', t('search.form.email')
-            = text_field_tag 'email', @search.email, class: 'form-control'
-        - if @logged_in.admin?(:view_hidden_profiles)
+            = label_tag 'anniversary_month', t('search.form.anniversary')
+            %br
+            = select_tag 'anniversary[month]', options_for_select(MONTHS_FOR_SELECT, @search.anniversary(:month)), include_blank: true, class: 'form-control inline'
+            = select_tag 'anniversary[day]', options_for_select(1..31, @search.anniversary(:day)), include_blank: true, class: 'form-control inline'
           .form-group
-            = check_box_tag :show_hidden, true, params[:show_hidden], class: 'checkbox form-control inline'
-            %label.inline{for: "show_hidden"}= t('search.show_hidden')
+            = label_tag 'gender', t('search.form.gender')
+            = select_tag 'gender', options_for_select(t('search.form.genders').invert, @search.gender), include_blank: true, class: 'form-control'
+          .form-group
+            = label_tag 'address_city', t('search.form.city')
+            = text_field_tag 'address[city]', @search.address(:city), class: 'form-control'
+          .form-group
+            = label_tag 'address_state', t('search.form.state')
+            = text_field_tag 'address[state]', @search.address(:state), class: 'form-control'
+          .form-group
+            = label_tag 'address_zip', t('search.form.zip')
+            = text_field_tag 'address[zip]', @search.address(:zip), class: 'form-control'
+          .form-group
+            = label_tag 'type', t('search.form.type')
+            = select_tag 'type', options_for_select(types_for_select, params[:type]), include_blank: true, class: 'form-control'
+          - if @logged_in.admin?(:view_hidden_properties)
+            .form-group
+              = label_tag 'phone', t('search.form.phone')
+              = text_field_tag 'phone', @search.phone, class: 'form-control'
+            .form-group
+              = label_tag 'email', t('search.form.email')
+              = text_field_tag 'email', @search.email, class: 'form-control'
+          - if @logged_in.admin?(:view_hidden_profiles)
+            .form-group
+              = check_box_tag :show_hidden, true, params[:show_hidden], class: 'checkbox form-control inline'
+              %label.inline{for: "show_hidden"}= t('search.show_hidden')
 
       .form-group
         = button_tag class: 'btn btn-info' do

@@ -2,17 +2,17 @@
 pt:
   families:
     add:
-      new: "New Person"
-      existing: "Move Person"
+      new: "Nova Pessoa"
+      existing: "Mover Pessoa"
     new:
-      heading: "New Family"
+      heading: "Nova Família"
       created:
         notice: "The family was created. Now, add people to this family using the 'New Person' button below..."
     edit:
-      heading: "Edit Family"
-      name: "Family Name"
-      name_example_html: "<em>John Doe</em> or <em>John &amp; Jane Doe</em>"
-      name_suggestion_html: "Suggested: <strong>%{name}</strong>"
+      heading: "Editar Família"
+      name: "Nome da Família"
+      name_example_html: "<em>José dos Santos</em> ou <em>José &amp; Maria dos Santos</em>"
+      name_suggestion_html: "Sugerido: <strong>%{name}</strong>"
       name_suggestion_button: Alterar
       last_name: "Último Nome da Família"
       home_phone: "Telefone Residencial"
@@ -39,4 +39,4 @@ pt:
       different_last_names: "%{adult1_name} & %{adult2_name}"
     not_found: "Família não encontrada"
     updates:
-      pending_callout: "Updates to this family are pending."
+      pending_callout: "Atualizações para esta família estão pendentes."

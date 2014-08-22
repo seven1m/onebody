@@ -31,8 +31,11 @@ ENV RAILS_ENV production
 ADD .ruby-version /var/www/onebody/.ruby-version
 ADD Gemfile /var/www/onebody/Gemfile
 ADD Gemfile.lock /var/www/onebody/Gemfile.lock
+USER root
+RUN chown -R onebody /var/www/onebody
 
 # install gems
+USER onebody
 WORKDIR /var/www/onebody
 RUN bundle install
 RUN gem install thin --no-rdoc --no-ri

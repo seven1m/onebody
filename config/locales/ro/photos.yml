@@ -1,0 +1,13 @@
+---
+ro:
+  photos:
+    object_not_found: "Object not found."
+    browse: "Select Photo"
+    remove: "Remove Photo"
+    unavailable: "Photo unavailable."
+    upload:
+      button: Upload
+      error: "Your photo could not be saved."
+      wrong_type: "Tipul pozei trebuie să fie JPG, GIF sau PNG"
+    ready_filename: "Ready to upload %{filename}"
+    uploading_filename: "Uploading %{filename}"

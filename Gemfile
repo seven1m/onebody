@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 ruby File.read(File.expand_path('../.ruby-version', __FILE__)).strip.sub(/ruby\-/, '')
 
-gem 'rails', '~> 4.1.4'
+gem 'rails', '~> 4.1.5'
 gem 'rails_autolink'
 gem 'mysql2'
 gem 'jquery-rails'
@@ -17,6 +17,7 @@ gem 'rubyzip'
 gem 'zip-zip'
 gem 'sanitize'
 gem 'haml'
+gem 'httparty'
 gem 'draper'
 gem 'paperclip'
 gem 'acts_as_taggable_on_steroids', github: 'seven1m/acts_as_taggable_on_steroids'

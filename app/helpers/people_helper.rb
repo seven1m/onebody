@@ -105,4 +105,13 @@ module PeopleHelper
     end
     button_tag label, class: 'btn btn-primary'
   end
+
+  def has_social_networks?(person)
+    person.twitter.present? or person.facebook_url.present?
+  end
+
+  def twitter_url(person)
+    return unless person.twitter.present?
+    "https://twitter.com/#{person.twitter}"
+  end
 end

@@ -11,10 +11,10 @@
           .box-body
             %table.table
               %tr
-                %th{ style: 'width:75px' } Select
+                %th{ style: 'width:75px' }
                 %th
-                %th Name
-                %th Requested
+                %th= t('memberships.requests.name')
+                %th= t('memberships.requests.created_at')
               - @requests.each do |req|
                 %tr.row-with-avatar
                   %td
@@ -44,13 +44,13 @@
           %thead
             %tr
               - if @logged_in.can_edit?(@group)
-                %th{ style: 'width:75px' } Select
+                %th{ style: 'width:75px' }
               %th
-              %th Name
+              %th= t('.details.name')
               - if params[:birthdays]
-                %th Birthday
+                %th= t('.details.birthday')
               - else
-                %th Added
+                %th= t('.details.created_at')
               - if @logged_in.can_edit?(@group)
                 %th
           %tbody#memberships
@@ -62,7 +62,7 @@
           .page-controls
             = button_tag class: 'btn btn-delete' do
               = icon 'fa fa-minus-circle'
-              Remove Selected
+              = t('.remove.button')
 
     - else
       %p= t('none')
@@ -70,11 +70,12 @@
     = pagination @memberships
 
   .col-md-4
-    .box.box-success
-      .box-header
-        %h3.box-title Add Someone
-      .box-body
-        - if @logged_in.can_edit?(@group)
+    - if @logged_in.can_edit?(@group)
+      .box.box-success
+        .box-header
+          %h3.box-title
+            = t('memberships.add.heading')
+        .box-body
           - if @group.approved?
             = form_tag search_path, remote: true do
               = hidden_field_tag :select_person, true
@@ -83,10 +84,11 @@
                   = t('memberships.add.description')
                 = text_field_tag 'name', nil, id: 'add_person_name', class: 'form-control', placeholder: t('memberships.add.name_placeholder')
                 - if @group.parents_of
-                  %strong
-                    Remember, this is a group automatically containing
-                    parents of people in #{link_to @group.parents_of_group.name, @group.parents_of_group}.
-                    Adding people manually should be done sparingly.
+                  .callout.callout-danger.push-down
+                    = t('memberships.add.parents_of_warning_html', group: link_to(@group.parents_of_group.try(:name), @group.parents_of_group))
+                - elsif @group.linked?
+                  .callout.callout-danger.push-down
+                    = t('memberships.add.linked_group_warning_html', code: @group.link_code)
               .form-group
                 = button_tag t('search.search_by_name'), class: 'btn btn-info'
             #add_member{ style: 'display:none' }

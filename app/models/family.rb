@@ -237,9 +237,9 @@ class Family < ActiveRecord::Base
         record.each do |key, value|
           value = nil if value == ''
           # avoid overwriting a newer barcode
-          if key == 'barcode_id' and family.barcode_id_changed?
+          if key == 'barcode_id' and family[:barcode_id_changed]
             if value == family.barcode_id # barcode now matches (presumably, the external db has been updated to match the OneBody db)
-              family.barcode_id_changed = false # clear the flag
+              family[:barcode_id_changed] = false # clear the flag
             else
               next # don't overwrite the newer barcode with an older one
             end
