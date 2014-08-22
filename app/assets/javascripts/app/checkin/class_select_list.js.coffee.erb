@@ -1,0 +1,19 @@
+{div, ul, li} = React.DOM
+
+Checkin.ClassSelectList = React.createClass
+
+  displayName: 'ClassSelectList'
+
+  render: ->
+    if @props.person
+      div(null,
+        @renderSameButton(),
+        ul(null, li(null, 'test')))
+    else
+      div()
+
+  renderSameButton: ->
+    if @props.person.can_choose_same
+      div(className: 'btn',
+        "<%= I18n.t('checkin.interface.same_as_last_week.button') %>")
+

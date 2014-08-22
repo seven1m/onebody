@@ -34,10 +34,7 @@ class Checkin::CheckinsController < ApplicationController
   def edit
     return redirect_to(action: 'show') unless session[:checkin_family_id]
     @family = Family.find(session[:checkin_family_id])
-    @checkins = @family.people.undeleted.map do |person|
-      CheckinPresenter.new(session[:checkin_campus], person)
-    end
-    @checkins << CheckinPresenter.new(session[:checkin_campus], Person.new) # add guest
+    @checkin = CheckinPresenter.new(session[:checkin_campus], @family)
   end
 
   def update

@@ -1,22 +1,22 @@
 class CheckinPresenter
   extend ActiveModel::Naming
 
-  attr_reader :campus, :person
+  attr_reader :campus, :family
 
-  def initialize(campus, person)
+  def initialize(campus, family)
     @campus = campus
-    @person = person
+    @family = family
   end
 
   def id
-    person.id
+    family.id
   end
 
   def times
     checkin_times.decorate
   end
 
-  def all_attendance_records
+  def all_attendance_records(person)
     group_ids = checkin_times.flat_map { |t| t.group_times.pluck(:group_id) }.uniq
     person.attendance_records.where(
       group_id:        group_ids,
@@ -24,20 +24,45 @@ class CheckinPresenter
     )
   end
 
-  def attendance_records(times=nil)
+  def attendance_records(person, times=nil)
     times ||= checkin_times.map { |ct| ct.to_time }
-    all_attendance_records.where(
+    all_attendance_records(person).where(
       attended_at: times
     )
   end
 
-  def can_choose_same?
-    checkin_times.all? { |ct| ct.weekday } and last_week_records.any?
+  def can_choose_same?(person)
+    checkin_times.all? { |ct| ct.weekday } and last_week_records(person).any?
   end
 
-  def last_week_records
+  def last_week_records(person)
     times = checkin_times.where(the_datetime: nil).map { |ct| ct.to_time - 1.week }
-    attendance_records(times)
+    attendance_records(person, times)
+  end
+
+  def as_json(*args)
+    {
+      people: people_as_json,
+      times: checkin_times.map { |time|
+        time.as_json.merge(
+          sections: time.group_times
+        )
+      }
+    }
+  end
+
+  def people_as_json
+    family.people.undeleted.minimal.map do |person|
+      person.as_json.merge(
+        avatar: avatar(person),
+        attendance_records: attendance_records(person),
+        can_choose_same: can_choose_same?(person)
+      )
+    end
+  end
+
+  def avatar(person)
+    person.photo.url(:tn) if person.photo.exists?
   end
 
   private
