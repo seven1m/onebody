@@ -29,7 +29,7 @@ class Checkin
 
   selectPerson: (e) =>
     e.preventDefault()
-    id = $(e.delegateTarget).data('id')
+    id = $(e.target).closest('.checkin-select-person').data('id')
     @showPerson(id)
 
   showPerson: (id) =>
