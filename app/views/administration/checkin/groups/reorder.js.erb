@@ -1,10 +1,12 @@
-<% ids = @time.group_times.pluck(:id); index = ids.index(@group_time.id) %>
+<% ids = @entry.parent.entries.map { |e| dom_id(e) }; index = ids.index(dom_id(@entry)) %>
 var table = $('.group-times');
-var row = table.find('tr#group_time_<%= @group_time.id %>').remove();
-var sibling = table.find('tbody tr:eq(<%= index %>)');
+var row = table.find('tr#<%= @entry.class.name.underscore %>_<%= @entry.id %>').remove();
+var trs = table.find('<%= @entry.checkin_folder_id ? "tbody tr.for-folder-#{@entry.checkin_folder_id}" : 'tbody tr:not(.sub-item)' %>');
+var sibling = trs.eq(<%= index %>);
 if(sibling[0]) row.insertBefore(sibling);
-else row.appendTo(table.find('tbody'));
+else row.insertAfter(trs[<%= index - 1 %>]);
 row.find('td').css('background-color', '#ff9').animate({'background-color': 'transparent'}, 1000);
-table.find('.up, .down').show();
-table.find('tbody tr:eq(0) .up').hide();
-table.find('tbody tr:eq(<%= ids.length - 1 %>) .down').hide();
+var trs = $(trs.selector); // refresh the selector results
+trs.find('.up, .down').show();
+trs.eq(0).find('.up').hide();
+trs.eq(<%= ids.length - 1 %>).find('.down').hide();

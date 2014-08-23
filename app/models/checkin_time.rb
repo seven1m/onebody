@@ -1,6 +1,10 @@
 class CheckinTime < ActiveRecord::Base
-  has_many :group_times, -> { order('group_times.ordering, group_times.id') }, dependent: :destroy
+
+  include Concerns::Reorder
+
+  has_many :group_times, -> { order('group_times.sequence, group_times.id') }, dependent: :destroy
   has_many :groups, through: :group_times
+  has_many :checkin_folders
 
   validates :campus, presence: true, exclusion: ['!']
 
@@ -64,20 +68,8 @@ class CheckinTime < ActiveRecord::Base
     the_datetime || Time.parse(time_to_s)
   end
 
-  def reorder_group(group, direction, full_stop=false)
-    all = group_times.to_a
-    index = all.index(group)
-    case direction
-    when 'up'
-      index = 1 if full_stop
-      all.delete(group)
-      all.insert([index - 1, 0].max, group)
-    when 'down'
-      index = all.length - 1 if full_stop
-      all.delete(group)
-      all.insert([index + 1, all.length].min, group)
-    end
-    all.each_with_index { |g, i| g.update_attribute(:ordering, i + 1) }
+  def entries
+    (checkin_folders.to_a + group_times.to_a).sort_by(&:sequence)
   end
 
   def self.campuses

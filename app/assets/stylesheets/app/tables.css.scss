@@ -1,3 +1,17 @@
 tr.row-with-actions {
   @extend tr.row-with-avatar;
 }
+
+td.icon-inset {
+  padding-left: 24px !important;
+}
+
+tr.expanding {
+  .folder-icon {
+    @extend .fa;
+    @extend .fa-folder-o;
+  }
+  &.expanded .folder-icon {
+    @extend .fa-folder-open-o;
+  }
+}

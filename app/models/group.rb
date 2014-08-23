@@ -31,7 +31,7 @@ class Group < ActiveRecord::Base
   scope :standard, -> { where("parents_of is null and (link_code is null or link_code = '')") }
   scope :linked, -> { where("link_code is not null and link_code != ''") }
   scope :parents_of, -> { where("parents_of is not null") }
-  scope :checkin_destinations, -> { includes(:group_times).where('group_times.checkin_time_id is not null').order('group_times.ordering') }
+  scope :checkin_destinations, -> { includes(:group_times).where('group_times.checkin_time_id is not null').order('group_times.sequence') }
   scope :recent, -> age { where("created_at >= ?", age.ago) }
 
   scope_by_site_id

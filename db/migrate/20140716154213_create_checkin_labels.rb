@@ -18,7 +18,7 @@ class CreateCheckinLabels < ActiveRecord::Migration
         name: 'Default',
         xml: '<file src="default.xml"/>'
       )
-      GroupTime.all.each do |group_time|
+      GroupTime.reorder(:id).all.each do |group_time|
         if group_time.print_nametag?
           group_time.update_attribute(:label_id, default.id)
         end

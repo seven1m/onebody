@@ -3,6 +3,8 @@ class Family < ActiveRecord::Base
   include Authority::Abilities
   self.authorizer_name = 'FamilyAuthorizer'
 
+  include Concerns::Reorder
+
   MAX_TO_BATCH_AT_A_TIME = 50
 
   has_many :people, -> { order(:sequence) }, dependent: :destroy
@@ -96,19 +98,8 @@ class Family < ActiveRecord::Base
     end
   end
 
-  def reorder_person(person, direction)
-    all = people.undeleted.to_a
-    index = all.index(person)
-    case direction
-    when 'up'
-      all.delete(person)
-      all.insert([index - 1, 0].max, person)
-    when 'down'
-      all.delete(person)
-      all.insert([index + 1, all.length].min, person)
-    end
-    all.each_with_index { |p, i| p.update_attribute(:sequence, i + 1) }
-  end
+  def entries; people.undeleted; end
+  alias_method :reorder_person, :reorder_entry
 
   def suggested_relationships
     all_people = people.undeleted.order(:sequence)

@@ -3,10 +3,9 @@ class Administration::Checkin::GroupsController < ApplicationController
   before_filter :only_admins
 
   def index
-    @time = CheckinTime.find(params[:time_id])
-    @group_times = @time.group_times
+    @time = CheckinTime.find(params[:time_id]).decorate
+    @entries = @time.entries
     @labels = CheckinLabel.all.order(:name)
-    @sections = GroupTime.distinct(:section).pluck(:section)
   end
 
   def create
@@ -21,30 +20,38 @@ class Administration::Checkin::GroupsController < ApplicationController
   end
 
   def update
-    @time = CheckinTime.find(params[:time_id])
-    if @group_time = @time.group_times.where(group_id: params[:id]).first
-      @group_time.attributes = params.permit(:label_id, :print_extra_nametag, :section)
+    if @group_time = GroupTime.find(params[:id])
+      @group_time.attributes = params.permit(:label_id, :print_extra_nametag)
       @group_time.save
     end
   end
 
   def destroy
-    @time = CheckinTime.find(params[:time_id])
-    GroupTime.where(group_id: params[:id], checkin_time_id: @time.id).destroy_all
-    redirect_to administration_checkin_time_groups_path(@time)
+    @entry = find_entry(params[:id])
+    @entry.destroy
+    redirect_to administration_checkin_time_groups_path(@entry.time)
   end
 
   def reorder
-    @group_time = GroupTime.find(params[:id])
-    @time = @group_time.checkin_time
-    @time.reorder_group(@group_time, params[:direction], params[:full_stop].present?)
+    @entry = find_entry(params[:id])
+    @entry.parent.reorder_entry(@entry, params[:direction], params[:full_stop].present?)
     respond_to do |format|
-      format.html { redirect_to administration_checkin_time_groups_path(@time) }
+      format.html { redirect_to administration_checkin_time_groups_path(@entry.time) }
       format.js
     end
   end
 
   private
+
+  def find_entry(id)
+    if id.sub!(/group_time_/, '')
+      GroupTime.find(id)
+    elsif id.sub!(/checkin_folder_/, '')
+      CheckinFolder.find(id)
+    else
+      raise "could not find record by id #{id}"
+    end
+  end
 
   def only_admins
     unless @logged_in.admin?(:manage_checkin)

@@ -2,34 +2,31 @@
 
 .row
   .col-md-8
-    - if @group_times.any?
+    - if @entries.any?
       %table.table.group-times
         %thead
           %tr
-            %th= t('checkin.groups.index.table.group')
+            %th= t('checkin.groups.index.table.name')
             %th= t('checkin.groups.index.table.label_id')
             %th= t('checkin.groups.index.table.print_extra_nametag')
-            %th= t('checkin.groups.index.table.section')
             %th
         %tbody
-          - @group_times.each do |group_time|
-            %tr.row-with-actions{ id: dom_id(group_time) }
-              %td
-                = group_time.group.name
-              %td
-                = select_tag "label_id_for_#{group_time.id}", options_from_collection_for_select(@labels, :id, :name, group_time.label_id), |
-                  include_blank: true, onchange: "$.ajax('#{administration_checkin_time_group_path(@time, group_time.group_id)}', {data: {label_id: this.value}, method: 'put'})"
-              %td
-                %input{ type: 'checkbox', name: "print_extra_nametag_for#{group_time.id}", checked: group_time.print_extra_nametag?, onchange: "$.ajax('#{administration_checkin_time_group_path(@time, group_time.group_id)}', {data: {print_extra_nametag: this.checked}, method: 'put'})", class: 'simple' }
-              %td
-                = select_tag "section_for_#{group_time.id}", options_for_select(checkin_group_sections, group_time.section), include_blank: true, onchange: "if(this.value != '!') $.ajax('#{administration_checkin_time_group_path(@time, group_time.group_id)}', {data: {section: this.value}, method: 'put'})", class: 'form-control can-create'
-              %td.actions
-                = link_to reorder_administration_checkin_group_path(group_time, direction: 'up'), data: { method: 'put' }, class: 'btn bg-gray text-blue up', style: group_time.ordering == 1 ? 'display:none' : '' do
-                  = icon 'fa fa-arrow-circle-up'
-                = link_to reorder_administration_checkin_group_path(group_time, direction: 'down'), data: { method: 'put' }, class: 'btn bg-gray text-blue down', style: group_time.ordering == @group_times.length ? 'display:none' : '' do
-                  = icon 'fa fa-arrow-circle-down'
-                = link_to administration_checkin_time_group_path(@time, group_time.group_id), data: { method: 'delete', confirm: t('are_you_sure') }, class: 'btn btn-delete' do
-                  = icon 'fa fa-trash-o'
+          - @entries.each_with_index do |entry, top_index|
+            - if entry.is_a?(CheckinFolder)
+              %tr.expanding.row-with-actions{ id: dom_id(entry) }
+                %td
+                  = link_to '#', class: 'folder-link', data: { id: entry.id } do
+                    %i.folder-icon
+                    = entry.name
+                  == (#{entry.group_times.count})
+                %td{ colspan: 2 }
+                %td.actions
+                  = render partial: 'actions', locals: { entry: entry, first: top_index == 0, last: top_index == @entries.length - 1 }
+              - times = entry.group_times.includes(:group)
+              - times.each_with_index do |group_time, folder_index|
+                = render partial: 'group_time_row', locals: { entry: group_time, first: folder_index == 0, last: folder_index == times.length - 1 }
+            - else
+              = render partial: 'group_time_row', locals: { entry: entry, first: top_index == 0, last: top_index == @entries.length - 1 }
 
     - else
       %p= t('none')

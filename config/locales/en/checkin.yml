@@ -46,7 +46,7 @@ en:
           search: "Search by name"
           button: "Add Group"
         table:
-          group: "Destination (group name)"
+          name: "Name"
           label_id: "Label (Nametag)"
           print_extra_nametag: "Extra Nametag"
           section: "Section"
