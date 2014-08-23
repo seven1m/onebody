@@ -1,6 +1,6 @@
-$('tr.expanding .folder-link').click (e) ->
+$(document).on 'click', 'tr.expanding .folder-link', (e) ->
   e.preventDefault()
-  elm = $(e.delegateTarget)
+  elm = $(e.target)
   id = elm.data('id')
   tr = elm.closest('tr')
   if tr.hasClass('expanded')

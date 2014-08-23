@@ -24,9 +24,9 @@
                   = render partial: 'actions', locals: { entry: entry, first: top_index == 0, last: top_index == @entries.length - 1 }
               - times = entry.group_times.includes(:group)
               - times.each_with_index do |group_time, folder_index|
-                = render partial: 'group_time_row', locals: { entry: group_time, first: folder_index == 0, last: folder_index == times.length - 1 }
+                = render partial: 'group_time_row', locals: { entry: group_time, indent: true, first: false, last: false }
             - else
-              = render partial: 'group_time_row', locals: { entry: entry, first: top_index == 0, last: top_index == @entries.length - 1 }
+              = render partial: 'group_time_row', locals: { entry: entry, indent: false, first: top_index == 0, last: top_index == @entries.length - 1 }
 
     - else
       %p= t('none')

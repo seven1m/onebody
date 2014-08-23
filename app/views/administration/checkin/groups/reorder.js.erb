@@ -1,12 +1,28 @@
 <% ids = @entry.parent.entries.map { |e| dom_id(e) }; index = ids.index(dom_id(@entry)) %>
 var table = $('.group-times');
+
+// remove row (and children, if any) from table
 var row = table.find('tr#<%= @entry.class.name.underscore %>_<%= @entry.id %>').remove();
+<% if @entry.is_a?(CheckinFolder) %>
+var children = table.find('tr.for-folder-<%= @entry.id %>').remove();
+<% end %>
+
+// insert row (and children, if any) into new spot
 var trs = table.find('<%= @entry.checkin_folder_id ? "tbody tr.for-folder-#{@entry.checkin_folder_id}" : 'tbody tr:not(.sub-item)' %>');
 var sibling = trs.eq(<%= index %>);
+var last = trs.eq(<%= index - 1 %>);
 if(sibling[0]) row.insertBefore(sibling);
-else row.insertAfter(trs[<%= index - 1 %>]);
+else if(last.hasClass('expanding')) row.appendTo(table.find('tbody'))
+else row.insertAfter(last);
+<% if @entry.is_a?(CheckinFolder) %>
+children.insertAfter(row);
+<% end %>
+
+// highlight movement
 row.find('td').css('background-color', '#ff9').animate({'background-color': 'transparent'}, 1000);
+
+// update the up/down arrows
 var trs = $(trs.selector); // refresh the selector results
-trs.find('.up, .down').show();
-trs.eq(0).find('.up').hide();
-trs.eq(<%= ids.length - 1 %>).find('.down').hide();
+table.find('.up, .down').show();
+table.find('tbody tr:eq(0) .up').hide();
+table.find('tbody tr:not(.sub-item):last .down').hide();
