@@ -69,7 +69,7 @@ class CheckinTime < ActiveRecord::Base
   end
 
   def entries
-    (checkin_folders.to_a + group_times.to_a).sort_by(&:sequence)
+    (checkin_folders.to_a + group_times.to_a).sort_by { |e| e.sequence.to_i }
   end
 
   def self.campuses

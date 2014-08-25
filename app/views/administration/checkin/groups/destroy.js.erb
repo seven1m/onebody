@@ -1,0 +1,13 @@
+var table = $('.group-times');
+
+<% if @entry.is_a?(CheckinFolder) %>
+var rows = table.find('tr#<%= @entry.class.name.underscore %>_<%= @entry.id %>, tr.for-folder-<%= @entry.id %>');
+<% else %>
+var rows = table.find('tr#<%= @entry.class.name.underscore %>_<%= @entry.id %>');
+<% end %>
+
+count = rows.find('td').length;
+rows.find('td').css('opacity', 1).animate({'opacity': 0}, 1000, function() {
+  count--;
+  if(count == 0) rows.remove();
+});

@@ -2,4 +2,6 @@
   alert("<%= t('There_was_an_error') %>")
 <% elsif @group_time.errors.any? %>
   alert("<%= escape_javascript @group_time.errors.full_messages.join('; ') %>")
+<% else %>
+  $('#<%= dom_id(@group_time) %>').highlight();
 <% end %>

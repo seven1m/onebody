@@ -1,6 +1,5 @@
 %tr.row-with-actions{ id: dom_id(entry), class: entry.checkin_folder_id ? "sub-item for-folder-#{entry.checkin_folder_id}" : '', style: entry.checkin_folder_id ? 'display:none;' : '' }
   %td{ class: indent ? 'icon-inset' : '' }
-    = dom_id(entry)
     = entry.group.name
   %td
     = select_tag "label_id_for_#{entry.id}", options_from_collection_for_select(@labels, :id, :name, entry.label_id), |

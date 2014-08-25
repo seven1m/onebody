@@ -7,6 +7,8 @@ class GroupTime < ActiveRecord::Base
 
   scope_by_site_id
 
+  before_create { parent.update_sequence(self) if parent }
+
   def parent
     checkin_folder || checkin_time
   end
@@ -15,13 +17,16 @@ class GroupTime < ActiveRecord::Base
     checkin_time || checkin_folder.try(:checkin_time)
   end
 
-  # FIXME!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  before_create :update_ordering
-  def update_ordering
-    if checkin_time and ordering.nil?
-      scope = checkin_time.group_times
-      scope = scope.where.not(id: id) unless new_record?
-      self.ordering = scope.maximum(:ordering).to_i + 1
+  def remove_from_checkin_folder(placement=:above)
+    cf = checkin_folder
+    self.checkin_time = checkin_folder.checkin_time
+    self.sequence = cf.sequence + (placement == :above ? 0 : 1)
+    self.checkin_folder = nil
+    checkin_time.entries.select { |e| e.sequence >= sequence }.each_with_index do |gt, index|
+      gt.update_attribute(:sequence, sequence + index + 1)
     end
+    save
+    checkin_time.reload
+    cf.resequence
   end
 end

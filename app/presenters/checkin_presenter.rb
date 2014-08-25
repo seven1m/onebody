@@ -25,14 +25,14 @@ class CheckinPresenter
   end
 
   def attendance_records(person, times=nil)
-    times ||= checkin_times.map { |ct| ct.to_time }
+    times ||= checkin_times.map(&:to_time)
     all_attendance_records(person).where(
       attended_at: times
     )
   end
 
   def can_choose_same?(person)
-    checkin_times.all? { |ct| ct.weekday } and last_week_records(person).any?
+    checkin_times.all?(&:weekday) and last_week_records(person).any?
   end
 
   def last_week_records(person)
@@ -43,11 +43,7 @@ class CheckinPresenter
   def as_json(*args)
     {
       people: people_as_json,
-      times: checkin_times.map { |time|
-        time.as_json.merge(
-          sections: time.group_times
-        )
-      }
+      times: checkin_times.decorate.as_json
     }
   end
 
@@ -70,11 +66,11 @@ class CheckinPresenter
   def checkin_times
     CheckinTime.where(campus: @campus)
       .where(
-        "(the_datetime is null and weekday = ?) or
-         (the_datetime between ? and ?)",
-        Time.current.wday,
-        Time.current - 1.hour,
-        Time.current + 4.hours
+        "(the_datetime is null and weekday = :today) or
+         (the_datetime between :from and :to)",
+        today: Time.current.wday,
+        from:  Time.current - 1.hour,
+        to:    Time.current + 4.hours
       )
   end
 

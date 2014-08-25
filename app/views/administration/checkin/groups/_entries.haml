@@ -1,0 +1,28 @@
+- if @entries.any?
+  %table.table.group-times
+    %thead
+      %tr
+        %th= t('checkin.groups.index.table.name')
+        %th= t('checkin.groups.index.table.label_id')
+        %th= t('checkin.groups.index.table.print_extra_nametag')
+        %th
+    %tbody
+      - @entries.each_with_index do |entry, top_index|
+        - if entry.is_a?(CheckinFolder)
+          %tr.expanding.row-with-actions{ id: dom_id(entry) }
+            %td
+              = link_to '#', class: 'folder-link', data: { id: entry.id } do
+                %i.folder-icon
+                = entry.name
+              == (#{entry.group_times.count})
+            %td{ colspan: 2 }
+            %td.actions
+              = render partial: 'actions', locals: { entry: entry, first: top_index == 0, last: top_index == @entries.length - 1 }
+          - times = entry.group_times.includes(:group)
+          - times.each_with_index do |group_time, folder_index|
+            = render partial: 'group_time_row', locals: { entry: group_time, indent: true, first: false, last: false }
+        - else
+          = render partial: 'group_time_row', locals: { entry: entry, indent: false, first: top_index == 0, last: top_index == @entries.length - 1 }
+
+- else
+  %p= t('none')

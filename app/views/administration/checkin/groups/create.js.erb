@@ -1,3 +1,28 @@
-$("#groups_for_time_<%= @time.id %>").html('<%= escape_javascript render(:partial => 'group', :collection => @groups, :locals => {:time => @time}) %>');
-// page.sortable "groups_for_time_#{@time.id}",
-//  :url => reorder_administration_checkin_groups_path(:time_id => @time.id)
+var table = $('.group-times');
+var expanded = $.map(table.find('tr.expanding.expanded'), function(elm) {
+  return $(elm).attr('id');
+});
+
+// replace table content
+$('.checkin-groups-table-wrapper').html('<%= escape_javascript render(partial: 'entries') %>')
+
+// reopen folders
+$.each(expanded, function(i, id) {
+  $('tr.expanding#' + id).addClass('expanded');
+  $('.for-folder-' + id.replace(/checkin_folder_/, '')).show();
+});
+
+// highlight rows that were added
+<% @added.each do |group_time| %>
+  $('#<%= dom_id(group_time) %>').highlight();
+  <% if group_time.checkin_folder_id %>
+    $('#<%= dom_id(group_time.checkin_folder) %>').highlight();
+  <% end %>
+<% end %>
+
+// reset form
+$('#add_group').hide().find('#group_results').html('');
+$('#group-search input[name="name"]').val('');
+
+// update folders
+$('#folder-select').html('<%= escape_javascript render(partial: 'folder_select') %>')

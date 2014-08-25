@@ -24,6 +24,26 @@
   }
 }
 
+.checkin-group-folder-help {
+  margin-top: 50px;
+  .up {
+    @extend .fa;
+    @extend .fa-arrow-circle-up;
+    @extend .text-blue;
+  }
+  .down {
+    @extend .fa;
+    @extend .fa-arrow-circle-down;
+    @extend .text-blue;
+  }
+  .highlight {
+    background-color: #ffc;
+    font-variant: small-caps;
+    padding: 0 5px;
+    border-radius: 3px;
+  }
+}
+
 $checkin-font-family: "Roboto";
 
 a:active, *:focus { outline: none; -moz-outline-style: none; }

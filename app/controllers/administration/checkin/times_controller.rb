@@ -7,16 +7,19 @@ class Administration::Checkin::TimesController < ApplicationController
     @single_times = CheckinTime.upcoming_singles.order(:the_datetime)
   end
 
+  def show
+    redirect_to administration_checkin_time_groups_path(params[:id])
+  end
+
+  def edit
+    @time = CheckinTime.find(params[:id])
+  end
+
   def create
     @time = CheckinTime.create(time_params)
     add_errors_to_flash(@time) unless @time.valid?
     redirect_to administration_checkin_times_path
   end
-
-  def edit
-    redirect_to administration_checkin_time_groups_path(params[:id])
-  end
-  alias_method :show, :edit
 
   def update
     @time = CheckinTime.find(params[:id])
@@ -25,7 +28,7 @@ class Administration::Checkin::TimesController < ApplicationController
     else
       add_errors_to_flash(@time)
     end
-    redirect_to administration_checkin_time_groups_path(params[:id])
+    redirect_to administration_checkin_times_path
   end
 
   def destroy

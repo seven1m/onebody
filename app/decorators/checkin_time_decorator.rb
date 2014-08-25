@@ -10,4 +10,11 @@ class CheckinTimeDecorator < Draper::Decorator
     object.group_times.includes(:group).references(:group).order("section, groups.name").group_by(&:section)
   end
 
+  def as_json
+    object.as_json.merge(
+      time:     time_to_s,
+      sections: group_times
+    )
+  end
+
 end

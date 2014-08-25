@@ -1,28 +1,16 @@
-<% ids = @entry.parent.entries.map { |e| dom_id(e) }; index = ids.index(dom_id(@entry)) %>
 var table = $('.group-times');
+var expanded = $.map(table.find('tr.expanding.expanded'), function(elm) {
+  return $(elm).attr('id');
+});
 
-// remove row (and children, if any) from table
-var row = table.find('tr#<%= @entry.class.name.underscore %>_<%= @entry.id %>').remove();
-<% if @entry.is_a?(CheckinFolder) %>
-var children = table.find('tr.for-folder-<%= @entry.id %>').remove();
-<% end %>
+// replace table content
+$('.checkin-groups-table-wrapper').html('<%= escape_javascript render(partial: 'entries') %>')
 
-// insert row (and children, if any) into new spot
-var trs = table.find('<%= @entry.checkin_folder_id ? "tbody tr.for-folder-#{@entry.checkin_folder_id}" : 'tbody tr:not(.sub-item)' %>');
-var sibling = trs.eq(<%= index %>);
-var last = trs.eq(<%= index - 1 %>);
-if(sibling[0]) row.insertBefore(sibling);
-else if(last.hasClass('expanding')) row.appendTo(table.find('tbody'))
-else row.insertAfter(last);
-<% if @entry.is_a?(CheckinFolder) %>
-children.insertAfter(row);
-<% end %>
+// reopen folders
+$.each(expanded, function(i, id) {
+  $('tr.expanding#' + id).addClass('expanded');
+  $('.for-folder-' + id.replace(/checkin_folder_/, '')).show();
+});
 
-// highlight movement
-row.find('td').css('background-color', '#ff9').animate({'background-color': 'transparent'}, 1000);
-
-// update the up/down arrows
-var trs = $(trs.selector); // refresh the selector results
-table.find('.up, .down').show();
-table.find('tbody tr:eq(0) .up').hide();
-table.find('tbody tr:not(.sub-item):last .down').hide();
+// highlight row that moved
+$('#<%= dom_id(@entry) %>').highlight();
