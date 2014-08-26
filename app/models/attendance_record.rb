@@ -7,8 +7,8 @@ class AttendanceRecord < ActiveRecord::Base
 
   scope :on_date, -> d { where('date(attended_at) = date(?)', d) }
 
-  validates_presence_of :group_id
-  validates_presence_of :attended_at
+  validates :group, presence: true
+  validates :attended_at, presence: true
 
   self.skip_time_zone_conversion_for_attributes = [:attended_at]
 

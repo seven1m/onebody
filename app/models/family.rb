@@ -18,7 +18,9 @@ class Family < ActiveRecord::Base
   scope :deleted, -> { where(deleted: true) }
   scope :has_printable_people, -> { where('(select count(*) from people where family_id = families.id and visible_on_printed_directory = ?) > 0', true) }
 
-  validates_presence_of :name, :last_name
+  validates :name, presence: true
+  validates :last_name, presence: true
+
   validates_uniqueness_of :barcode_id, allow_nil: true, scope: [:site_id, :deleted], unless: Proc.new { |f| f.deleted? }
   validates_uniqueness_of :alternate_barcode_id, allow_nil: true, scope: [:site_id, :deleted], unless: Proc.new { |f| f.deleted? }
   validates_length_of :barcode_id, :alternate_barcode_id, in: 5..50, allow_nil: true
