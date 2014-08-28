@@ -13,9 +13,9 @@
         = form_for report, as: :options, url: url_for, html: {method: :get} do |f|
           .form-group
             = f.label t('attendance_totals.fromdate')
-            = f.date_field :fromdate, class: 'form-control', placeholder: Date.today.to_s(:date)
+            = f.date_field :fromdate, class: 'form-control', value: report.fromdate ? report.fromdate.to_s(:date) : nil
             = f.label t('attendance_totals.thrudate')
-            = f.date_field :thrudate, class: 'form-control', placeholder: Date.tomorrow.to_s(:date)
+            = f.date_field :thrudate, class: 'form-control', value: report.thrudate ? report.thrudate.to_s(:date) : nil
 
           .form-group
             %tr
