@@ -18,23 +18,23 @@ pt:
     replies:
       heading: Respostas
     reply_all:
-      button: "Reply to this message (send to entire group)"
+      button: "Responder esta mensagem (enviar para todo o grupo)"
     ago: atrás
     attachment_optional: "Anexo (opcional)"
     attachments: Anexos
     file_missing: "arquivo não encontrado"
     flag_cleared: "Flag(s) cleared."
     from: De
-    in: in
-    messages_in_html: "Messages in <a href=\"%{url}\">%{name}</a>"
-    missing_param: "Missing the message param."
+    in: em
+    messages_in_html: "Mensagens em <a href=\"%{url}\">%{name}</a>"
+    missing_param: "Parâmetro da mensagem faltando."
     no_email_for_person: "Desculpe. Nós não temos um endereço de email para %{name} em nossos arquivos."
     not_authorized_delete: "Você não está autorizado a excluir esta mensagem."
     not_found: "Mensagem não encontrada"
     posted_by: "postado por"
     send_message: "Enviar Email"
     sent: "A sua mensagem foi enviada."
-    show_quoted_content: "show quoted content"
+    show_quoted_content: "exibir conteúdo citado"
     some_quoted_text_is_hidden: "Some quoted text in this message is hidden;"
     subject: Assunto
     to_show_the_entire_message: "para exibir a mensagem completa."

@@ -36,14 +36,9 @@
         - if @stream_items.any?
           = render partial: 'details'
       .col-lg-6.col-lg-pull-6
-        - if not me? and (setting(:features, :friends) or @person.messages_enabled?)
+        - if (contact_controls = render(partial: 'contact_controls')).present?
           .page-controls
-            - if setting(:features, :friends)
-              = render partial: 'friendship'
-            - if @person.messages_enabled?
-              = link_to new_message_path(to_person_id: @person), class: 'btn btn-info' do
-                = icon 'fa fa-envelope'
-                = t('messages.send_message')
+            = contact_controls
         - if @stream_items.any?
           = timeline(@stream_items) || timeline_none
         - else

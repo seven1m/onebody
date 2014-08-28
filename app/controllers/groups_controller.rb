@@ -1,55 +1,12 @@
 class GroupsController < ApplicationController
 
   def index
-    # people/1/groups
     if params[:person_id]
-      @person = Person.find(params[:person_id])
-      respond_to do |format|
-        format.js   { render partial: 'person_groups' }
-        format.html { render action: 'index_for_person' }
-        if can_export?
-          format.xml { render xml:  @person.groups.to_xml(except: %w(site_id)) }
-        end
-      end
-    # /groups?category=Small+Groups
-    # /groups?name=college
+      person_index
     elsif params[:category] or params[:name]
-      @categories = Group.category_names
-      @groups = Group.all
-      @groups.where!(hidden: false, approved: true) unless @logged_in.admin?(:manage_groups)
-      @groups.where!(category: params[:category]) if params[:category].present?
-      @groups.where!('name like ?', "%#{params[:name]}%") if params[:name].present?
-      @groups.order!(:name)
-      @hidden_groups = @groups.where(hidden: true)
-      respond_to do |format|
-        format.html { render action: 'search' }
-        format.js
-        if can_export?
-          format.xml { render xml:  @groups.to_xml(except: %w(site_id)) }
-        end
-      end
-    # /groups
+      search_index
     else
-      @categories = Group.category_names
-      if @logged_in.admin?(:manage_groups)
-        @unapproved_groups = Group.unapproved
-      else
-        @unapproved_groups = Group.unapproved.where(creator_id: @logged_in.id)
-      end
-      @person = @logged_in
-      respond_to do |format|
-        format.html
-        if can_export?
-          format.xml do
-            job = Group.create_to_xml_job
-            redirect_to generated_file_path(job.id)
-          end
-          format.csv do
-            job = Group.create_to_csv_job
-            redirect_to generated_file_path(job.id)
-          end
-        end
-      end
+      overview_index
     end
   end
 
@@ -58,8 +15,7 @@ class GroupsController < ApplicationController
     if not (@group.approved? or @group.admin?(@logged_in))
       render text: t('groups.pending_approval.this_group'), layout: true
     elsif @logged_in.can_see?(@group)
-      @members = @group.people.minimal
-      @member_of = !!@logged_in.member_of?(@group)
+      @member_of = @logged_in.member_of?(@group)
       @stream_items = StreamItem.shared_with(@logged_in).where(group: @group).paginate(page: params[:timeline_page], per_page: 5)
       @pictures = @group.album_pictures.references(:album)
       @pictures.where!('albums.is_public' => true) unless @logged_in.member_of?(@group)
@@ -153,6 +109,56 @@ class GroupsController < ApplicationController
   end
 
   private
+
+  def person_index
+    @person = Person.find(params[:person_id])
+    respond_to do |format|
+      format.js   { render partial: 'person_groups' }
+      format.html { render action: 'index_for_person' }
+      if can_export?
+        format.xml { render xml:  @person.groups.to_xml(except: %w(site_id)) }
+      end
+    end
+  end
+
+  def search_index
+    @categories = Group.category_names
+    @groups = Group.all
+    @groups.where!(category: params[:category]) if params[:category].present?
+    @groups.where!('name like ?', "%#{params[:name]}%") if params[:name].present?
+    @groups.order!(:name)
+    @hidden_groups = @groups.where(hidden: true)
+    @groups.where!(approved: true) unless @logged_in.admin?(:manage_groups)
+    @groups.where!(hidden: false) unless @logged_in.admin?(:manage_groups) and params[:include_hidden]
+    @groups = @groups.page(params[:page])
+    respond_to do |format|
+      format.html { render action: 'search' }
+      format.js
+      if can_export?
+        format.xml { render xml:  @groups.to_xml(except: %w(site_id)) }
+      end
+    end
+  end
+
+  def overview_index
+    @categories = Group.category_names
+    @unapproved_groups = Group.unapproved
+    @unapproved_groups.where!(creator_id: @logged_in.id) unless @logged_in.admin?(:manage_groups)
+    @person = @logged_in
+    respond_to do |format|
+      format.html
+      if can_export?
+        format.xml do
+          job = Group.create_to_xml_job
+          redirect_to generated_file_path(job.id)
+        end
+        format.csv do
+          job = Group.create_to_csv_job
+          redirect_to generated_file_path(job.id)
+        end
+      end
+    end
+  end
 
   def group_attributes
     base = [:name, :description, :photo, :meets, :location, :directions, :other_notes, :address, :members_send, :private, :category, :leader_id, :blog, :email, :prayer, :attendance, :gcal_private_link, :approval_required_to_join, :pictures, :cm_api_list_id]

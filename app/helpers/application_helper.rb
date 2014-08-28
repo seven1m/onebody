@@ -43,8 +43,13 @@ module ApplicationHelper
     preserve_breaks(text, false)
   end
 
-  def simple_url(url)
-    url.sub(/^https?:\/\//, '').sub(/\/$/, '')
+  def simple_url(url, options={ www: true })
+    if options[:www]
+      regex = /^https?:\/\//
+    else
+      regex = /^https?:\/\/(www\.)?/
+    end
+    url.sub(regex, '').sub(/\/$/, '')
   end
 
   def me?
@@ -199,6 +204,19 @@ module ApplicationHelper
             end
           end
         )
+      end
+    end
+  end
+
+  # this is an ugly hack for Rails 4 because I18n.exception_handler isn't working with the t() helper
+  def t(*args)
+    if Rails.env.production?
+      super
+    else
+      super.tap do |result|
+        if result =~ /"(translation missing: .*)"/
+          raise $1
+        end
       end
     end
   end

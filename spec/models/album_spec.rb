@@ -6,6 +6,30 @@ describe Album do
     @album = FactoryGirl.create(:album)
   end
 
+  context '#name' do
+    context 'album name is empty' do
+      before do
+        @album.name = nil
+      end
+
+      it 'should be invalid' do
+        expect(@album).to be_invalid
+      end
+    end
+  end
+
+  context '#owner' do
+    context 'album owner is empty' do
+      before do
+        @album.owner = nil
+      end
+
+      it 'should be invalid' do
+        expect(@album).to be_invalid
+      end
+    end
+  end
+
   context '#cover' do
     context 'album has a picture marked as cover' do
       before do

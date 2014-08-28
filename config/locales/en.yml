@@ -119,6 +119,8 @@ en:
         email: "Email"
         first_name: "First Name"
         last_name: "Last Name"
+        facebook_url: "Facebook URL"
+        twitter: "Twitter Username"
       prayer_request:
         answer: "Answer"
         answered_at: "Date Answered"
@@ -285,6 +287,8 @@ en:
             email:
               invalid: The email address is not formatted correctly (something@example.com).
               taken: There is another person with the same email address.
+            facebook_url:
+              invalid: "Facebook URL is invalid."
             feed_code:
               taken: The same feed code exists on another person record.
             first_name:
@@ -296,11 +300,14 @@ en:
             password:
               confirmation: The passwords do not match.
               too_short: The password is too short.
-            website:
-              invalid: The website URL is not formatted correctly (are you missing 'http://' at the beginning?)
             photo:
               too_large: "The photo must be less than %{size} megabytes."
               wrong_type: "The photo file type must be JPG, GIF, or PNG."
+            twitter:
+              invalid: "Twitter username is invalid."
+              too_long: "Twitter username is too long."
+            website:
+              invalid: The website URL is not formatted correctly (are you missing 'http://' at the beginning?)
         picture:
           attributes:
             album_id:

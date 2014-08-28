@@ -101,38 +101,38 @@ pt:
         attendance: "Registro de Presença"
         gcal_private_link: "Link Privado do Calendário do Google"
         approval_required_to_join: "Approval required for people to join group"
-        private: "Private Group"
+        private: "Grupo Privado"
         members_send: "Group Members Can Post Messages"
         link_code: "External Link Code"
         parents_of: "Link to parents of another group"
         hidden: "Hidden (Archived) Group"
       prayer_request:
-        answer: Answer
-        answered_at: "Date Answered"
-        person_id: "Person needing prayer"
-        request: Request
+        answer: Resposta
+        answered_at: "Data Respondida"
+        person_id: "Pessoa precisando de oração"
+        request: Pedido
       note:
-        title: Title
-        body: Body
+        title: Título
+        body: Corpo
     errors:
       models:
         admin:
           attributes:
             template_name:
-              taken: "There is another template with this name. Please choose another name."
+              taken: "Já existe um outro modelo com este nome. Por favor escolha outro nome."
         album:
           attributes:
             name:
-              blank: "The album must have a name."
-              taken: "There is another album with this name. Please choose another name."
+              blank: "O álbum precisa ter um nome."
+              taken: "Já existe um outro álbum com este nome. Por favor escolha outro nome."
             owner:
-              blank: "The album must have an owner."
+              blank: "O álbum deve ter um dono."
         attendance_record:
           attributes:
             attended_at:
-              blank: "The attendance record must specify a date and time."
+              blank: "O registro de presença precisa conter uma data e hora."
             group_id:
-              blank: "The attendance record must be associated with a group."
+              blank: "O registro de presença precisa estar associado a um grupo."
         document:
           attributes:
             file:
@@ -156,9 +156,9 @@ pt:
         family:
           attributes:
             name:
-              blank: "The family must have a name."
+              blank: "A família precisa ter um nome."
             last_name:
-              blank: "The family must have a last name."
+              blank: "A família precisa ter um sobrenome."
             alternate_barcode_id:
               invalid: "This family card (alternate barcode id) contains letters or symbols (only numbers are allowed)."
               taken: "This family card (alternate barcode id) is already taken by another family."
@@ -170,8 +170,8 @@ pt:
               too_long: "This family card (barcode id) is too long (cannot be more than 50 digits)."
               too_short: "This family card (barcode id) is too short (must be 10 digits)."
             photo:
-              too_large: "The photo must be less than %{size} megabytes."
-              wrong_type: "The photo file type must be JPG, GIF, or PNG."
+              too_large: "A foto precisa ter menos de %{size} megabytes."
+              wrong_type: "O arquivo de foto deve ser JPG, GIF ou PNG."
         friendship:
           attributes:
             friend_id:
@@ -184,16 +184,16 @@ pt:
             from_id:
               blank: "This friendship request must be associated with a person."
             person:
-              invalid_address: "The person must have a valid email address."
-              refused: "The person does not accept friend requests."
+              invalid_address: "A pessoa precisa de um endereço de email válido."
+              refused: "A pessoa não aceita pedidos de amizade."
             person_id:
-              blank: "This friendship request must be associated with a person."
-              taken: "This friendship request already exits."
+              blank: "O pedido de amizade deve ser associado a uma pessoa."
+              taken: "Este pedido de amizade já existe."
         group:
           attributes:
             address:
-              invalid: "The group address is not a valid email address."
-              taken: "There is another group with this email address. Please choose another address."
+              invalid: "O endereço do grupo não é um email válido."
+              taken: "Já existe um outro grupo com este mesmo endereço de email. Por favor escolha outro."
               too_long: "O endereço de email do grupo é muito grande."
               too_short: "O endereço de email do grupo é pequeno demais."
             category:
@@ -202,7 +202,7 @@ pt:
               blank: "O grupo necessita ter um nome."
               taken: "Já existe um outro grupo com este nome. Por favor escolha outro."
             parents_of:
-              points_to_self: "This group cannot link to itself."
+              points_to_self: "Este grupo não pode fazer um link para ele mesmo."
             photo:
               too_large: "A foto necessita ter menos do que %{size} megabytes."
               wrong_type: "O tipo do arquivo da foto deve ser JPG, GIF ou PNG."
@@ -264,9 +264,9 @@ pt:
             business_website:
               invalid: "The business website URL is not formatted correctly (are you missing 'http://' at the beginning?)"
             business_category:
-              exclusion: "You must enter a category for your business."
+              exclusion: "Você precisa inserir uma categoria para o seu negócio."
             child:
-              inclusion: "You must enter a birthday or specify whether this person is a child."
+              inclusion: "Você precisa inserir uma data de nascimento ou especificar se esta pessoa é uma criança."
             description:
               too_long: "Description must be less than 25 characters.  A word or two. :)"
             email:
@@ -287,75 +287,75 @@ pt:
               invalid: "The website URL is not formatted correctly (are you missing 'http://' at the beginning?)"
             photo:
               too_large: "A foto precisa ser menor do que %{size} megabytes."
-              wrong_type: "The photo file type must be JPG, GIF, or PNG."
+              wrong_type: "O arquivo de foto deve ser JPG, GIF ou PNG."
         picture:
           attributes:
             album_id:
-              blank: "This picture must be associated with an album."
+              blank: "Esta foto precisa ser associada com um álbum."
             photo:
-              too_large: "The photo must be less than %{size} megabytes."
-              wrong_type: "The photo file type must be JPG, GIF, or PNG."
+              too_large: "A foto precisa ter menos de %{size} megabytes."
+              wrong_type: "O arquivo de foto deve ser JPG, GIF ou PNG."
         picture_uploader:
           attributes:
             album:
-              blank: "You must select an album."
+              blank: "Você precisa selecionar um álbum."
         prayer_request:
           attributes:
             group_id:
-              blank: "The prayer request must be associated with a group."
+              blank: "O pedido de oração precisa ser associado a um grupo."
             person_id:
-              blank: "The prayer request must be associated with a person."
+              blank: "O pedido de oração deve ser associado a uma pessoa."
             request:
-              blank: "The prayer request cannot be blank."
+              blank: "O pedido de oração não pode estar em branco."
         recipe:
           attributes:
             directions:
               blank: "The recipe must have directions."
             ingredients:
-              blank: "The recipe must have ingredients."
+              blank: "A receita deve conter ingredientes."
             title:
-              blank: "The recipe must have a title."
+              blank: "A receita deve conter um título."
         relationship:
           attributes:
             name:
-              blank: "You must specify the relationship type."
-              inclusion: "This relationship is not valid."
-              taken: "This relationship already exists."
+              blank: "Você deve especificar um tipo de relacionamento."
+              inclusion: "Este relacionamento não é válido."
+              taken: "Este relacionamento já existe."
             other_name:
-              blank: "You must specify the relationship type."
-              taken: "This relationship already exists."
+              blank: "Você deve especificar um tipo de relacionamento."
+              taken: "Este relacionamento já existe."
             person_id:
-              blank: "The relationship must be associated with a person."
+              blank: "O relacionamento precisa ser associado a uma pessoa."
             related_id:
-              blank: "The relationship must be associated with a person."
+              blank: "O relacionamento precisa ser associado a uma pessoa."
         report:
           attributes:
             definition:
-              invalid: "The report definition is invalid."
+              invalid: "A definição de relatório é inválida."
             name:
-              blank: "The report must have a name."
-              taken: "There is another report with this name. Please choose another name."
+              blank: "O relatório deve possuir um nome."
+              taken: "Já existe outro relatório com este nome. Por favor escolha outro."
         site:
           attributes:
             host:
               blank: "The host must be specified."
               taken: "There is another site with the same host."
-              invalid: "Do not include \"http://\" or \"www.\" in the hostname."
+              invalid: "Não inclua \"http://\" ou \"www.\" no nome de domínio."
             name:
-              blank: "The site must have a name."
-              taken: "There is another site with the same name."
+              blank: "Este site precisa ter um nome."
+              taken: "Já existe outro site com o mesmo nome."
         tag:
           attributes:
             name:
-              blank: "The tag must have a name."
-              exclusion: "The tag name is invalid."
-              taken: "There is another tag with the same name."
+              blank: "A etiqueta precisa ter um nome."
+              exclusion: "O nome da etiqueta é inválido."
+              taken: "Já existe outra etiqueta com o mesmo nome."
         verification:
           attributes:
             email:
               invalid: "That email address could not be found in our system. If you have another address, try again."
             carrier:
-              inclusion: "You must select a mobile carrier."
+              inclusion: "Você precisa seleciona uma operadora de celular."
             mobile_phone:
               invalid: "That mobile number could not be found in our system. You may try again."
             base:
@@ -365,11 +365,11 @@ pt:
             reference:
               blank: "The verse must have a reference."
             text:
-              blank: "The passage could not be found. Did you type the reference correctly?"
+              blank: "A passagem não foi encontrada. Você digitou a referência corretamente?"
               too_long: "The passage is too long. Try to specify a shorter passage."
   application:
     api_access: "You must be a super administrator to use the API."
-    no_default_site: "No Default site found."
+    no_default_site: "Nenhum site padrão encontrado."
     no_site_configured: "There is no site configured at this address: %{host}"
     settings_reloaded: "Configurações recarregadas."
     settings_saved: "Configurações salvas."

@@ -38,6 +38,8 @@ class Updater
       messages_enabled:     :immediate,
       friends_enabled:      :immediate,
       photo:                :immediate,
+      facebook_url:         :immediate,
+      twitter:              :immediate,
       email:                :notify,
       classes:              :admin,
       shepherd:             :admin,
@@ -84,7 +86,7 @@ class Updater
 
   # all params
   def params
-    filter_params { |_, _, val| val }
+    filter_params { |_, _, _, val| val }
   end
 
   # set new params
@@ -132,27 +134,32 @@ class Updater
 
   # params that should update the model directly without approval
   def immediate_params
-    filter_params do |access, key, val|
+    filter_params do |access, _, _, val|
       val if immediate_access_types.include?(access)
     end
   end
 
   # params that require approval
   def approval_params
-    filter_params do |access, key, val|
-      val if :approve == access and approvals_enabled? and not admin?
+    filter_params do |access, section, key, val|
+      if :approve == access and
+        changes[section].try(:[], key) and
+        approvals_enabled? and
+        not admin?
+          val
+      end
     end
   end
 
   # returns only params that are allowed by the supplied block
-  def filter_params(unfiltered=@params, spec=PARAMS, &block)
+  def filter_params(section=nil, unfiltered=@params, spec=PARAMS, &block)
     ActionController::Parameters.new.tap do |permitted|
       unfiltered.each do |key, val|
         if access = find_spec(spec, key)
           if Hash === access
-            permitted[key] = filter_params(val, access, &block)
+            permitted[key] = filter_params(key, val, access, &block)
             permitted[key].permit!
-          elsif val = yield(access, key, val)
+          elsif val = yield(access, section, key, val)
             val = cleanse_value(val)
             permitted[key] = val
           end

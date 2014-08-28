@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 
   include LoadAndAuthorizeResource
 
-  LIMITED_ACCESS_AVAILABLE_ACTIONS = %w(groups/show groups/index people/* pages/* sessions/* accounts/*)
+  LIMITED_ACCESS_AVAILABLE_ACTIONS = %w(groups/show groups/index memberships/* people/* pages/* sessions/* accounts/* privacies/* searches/* messages/new messages/create streams/show)
 
   layout :layout
 

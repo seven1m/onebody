@@ -8,3 +8,27 @@
 .testimony .box-title a {
   color: white !important;
 }
+
+.social-link {
+  margin-bottom: 5px;
+  .fa {
+    display: inline-block;
+    font-size: 15pt;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-right: 3px;
+    &.fa-twitter {
+      color: #2FC2EF;
+    }
+    &.fa-facebook {
+      box-sizing: border-box;
+      color: #fff;
+      background-color: #3B5998;
+      padding: 2px;
+      border-radius: 3px;
+      overflow: hidden;
+      padding-left: 6px;
+    }
+  }
+}

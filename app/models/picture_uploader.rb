@@ -27,10 +27,11 @@ class PictureUploader
         @success += 1
       else
         @fail += 1
+        @errors.add(:picture, pic.original_filename)
         picture.destroy rescue nil # TODO is this really needed?
       end
     end
-    true
+    @fail == 0
   end
 
   def read_attribute_for_validation(attr)

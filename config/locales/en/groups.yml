@@ -39,7 +39,9 @@ en:
     email_on: "email on"
 
     browse:
-      heading: "Browse by Category"
+      heading: "Browse Groups"
+      select_category: "Show by Category"
+      all: "Show All"
     create:
       heading: "Create a Group"
       description: "If you can't find a group, it's easy to create one!"
@@ -72,6 +74,10 @@ en:
         leave: "Leave Group"
         message: "Send Message"
         prayer_request: "Request Prayer"
+      linked:
+        tooltip: "This group is linked via code %{code}"
+      parents_of:
+        tooltip: "This group is linked to parents of %{group}"
 
     stream:
       none:
@@ -204,3 +210,6 @@ en:
           one: "Picture"
           other: "Pictures"
         new_link: "New Picture"
+
+    show_hidden:
+      button: "Show Hidden Groups (%{count})"

@@ -22,9 +22,9 @@ pt:
     hidden_groups:
       heading: "Grupos Ocultos"
       description: "Somente administradores (como você) podem ver esta lista."
-    linked_group: "This group is maintained by office staff."
+    linked_group: "Este grupo é mantido pelo pessoal do escritório."
     private:
-      callout: "This group is private. Messages posted here can only be seen by group members and site administrators."
+      callout: "Este grupo é privado. Mensagens postadas aqui somente serão vistas pelos membros do grupo ou administradores do site."
       label: Privado
     email_off: "email desligado"
     email_on: "email ligado"
@@ -126,7 +126,7 @@ pt:
       hidden: Oculto
       class_link_code: "Link Code(s)"
       approval_required_to_join: "Aprovação Requerida"
-      errors: "There was one or more errors in saving the changes. Errored records are highlighted below."
+      errors: "Existem um ou mais erros ao salvar as mudanças. Os registros com erro estão destacados abaixo."
     files:
       heading:
         name: Nome
@@ -150,25 +150,25 @@ pt:
     no_groups_found: "Nenhum grupo encontrado"
     join:
       confirm: "Você tem certeza? Uma requisição será enviada para o administrador(es) do grupo."
-      request_sent: "A request to join this group has been sent to the group administrator(s)."
-    last_admin_remove: "%{name} is the last admin and cannot be removed."
-    user_settings_saved: "User settings saved."
-    email_settings_changed: "Your email settings for the group have been changed."
+      request_sent: "Um pedido para entrar neste grupo foi enviado para o administrador."
+    last_admin_remove: "%{name} é o último administrador e não pode ser excluído."
+    user_settings_saved: "Configurações do usuário salvas."
+    email_settings_changed: "As suas configurações de email para o grupo foram alteradas."
     limited:
-      intro: "You cannot see this group because it is private and you are not a member. Click below to request to join this group."
+      intro: "Você não pode visualizar este grupo porque ele é privado e você não é um membro. Clique abaixo para solicitar o acesso a este grupo."
     box:
       messages:
         text:
-          one: Message
-          other: Messages
-        new_link: "New Message"
+          one: Mensagem
+          other: Mensagens
+        new_link: "Nova Mensagem"
       prayer_requests:
         text:
-          one: "Prayer Request"
-          other: "Prayer Requests"
-        new_link: "New Request"
+          one: "Pedido de Oração"
+          other: "Pedidos de Oração"
+        new_link: "Novo Pedido"
       pictures:
         text:
-          one: Picture
-          other: Pictures
-        new_link: "New Picture"
+          one: Foto
+          other: Fotos
+        new_link: "Nova Foto"

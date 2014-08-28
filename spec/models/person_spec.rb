@@ -74,6 +74,14 @@ describe Person do
     end
   end
 
+  it 'should allow good facebook_url' do
+    should allow_value('https://www.facebook.com/seven1m').for(:facebook_url)
+  end
+
+  it 'should not allow bad facebook_url' do
+    should_not allow_value('http://notfacebook.com/foo').for(:facebook_url)
+  end
+
   context 'Email Address Sharing' do
 
     it 'should allow people in the same family to have the same email address' do
@@ -100,8 +108,8 @@ describe Person do
 
     it 'should know of basic group memberships' do
       @group.memberships.create! person: @person
-      expect(@person.member_of?(@group)).to be
-      expect(@person2.member_of?(@group)).to be_nil
+      expect(@person.member_of?(@group)).to eq(true)
+      expect(@person2.member_of?(@group)).to eq(false)
     end
 
     it 'should know about linked group memberships' do
@@ -136,6 +144,29 @@ describe Person do
       expect(@person2.member_of?(@parent_group)).not_to be
     end
 
+  end
+
+  it 'should remove @ from twitter username' do
+    @person = FactoryGirl.build(:person)
+    @person.twitter = "@username"
+    @person.save
+    expect(@person.twitter).to eq("username")
+  end
+
+  it "should not accept twitter username with more than 15 characters" do
+    should_not allow_value("fifteencharacter").for(:twitter)
+  end
+
+  it "should accept twitter username with at most 15 characters" do
+    should allow_value("fifteencharacte").for(:twitter)
+  end
+
+  it "should not accept twitter username with symbols" do
+    should_not allow_value("foo!").for(:twitter)
+  end
+
+  it "should accept twitter username with alphanumeric characters" do
+    should allow_value("User_Name123").for(:twitter)
   end
 
   it "should mark email_changed when email address changes" do
@@ -383,14 +414,26 @@ describe Person do
     end
   end
 
-  private
+  describe '#create_as_stream_item' do
+    context 'given no people were created just prior' do
+      let!(:person) { FactoryGirl.create(:person) }
 
-    def partial_fixture(table, name, valid_attributes)
-      YAML::load(File.open(Rails.root.join("spec/fixtures/#{table}.yml")))[name].tap do |fixture|
-        fixture.delete_if { |key, val| !valid_attributes.include? key }
-        fixture.each do |key, val|
-          fixture[key] = val.to_s
-        end
+      it 'creates a new stream item' do
+        expect(StreamItem.last.attributes).to include(
+          'title'     => person.name,
+          'person_id' => person.id
+        )
       end
     end
+
+    context 'given two people were created just prior' do
+      let!(:person1) { FactoryGirl.create(:person) }
+      let!(:person2) { FactoryGirl.create(:person) }
+      let!(:person3) { FactoryGirl.create(:person) }
+
+      it 'does not create a third stream item' do
+        expect(StreamItem.count).to eq(2)
+      end
+    end
+  end
 end

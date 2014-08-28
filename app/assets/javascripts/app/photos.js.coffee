@@ -43,16 +43,22 @@ class PhotoForm
 
   upload: (e) =>
     e?.preventDefault()
-    @show_progress(25)
-    url = @el.data('upload-url') + '.json'
-    data = new FormData()
-    if @input.attr('multiple')
-      for file in @input[0].files
-        data.append @el.data('upload-field-name'), file
+    @album_id = @el.parents('form').find('[name="album_id"]').val()
+    @files = if @input.attr('multiple')
+      @input[0].files
     else
-      data.append @el.data('upload-field-name'), @input[0].files[0]
-    if album_id = @el.parents('form').find('[name="album_id"]').val()
-      data.append 'album_id', album_id
+      [@input[0].files[0]]
+    @show_progress(5)
+    @complete = []
+    @errors = false
+    for file in @files
+      @uploadFile(file)
+
+  uploadFile: (file) =>
+    data = new FormData()
+    data.append(@el.data('upload-field-name'), file)
+    data.append('album_id', @album_id) if @album_id
+    url = @el.data('upload-url') + '.json'
     $.ajax
       url: url
       type: @el.data('upload-verb') || 'PUT'
@@ -62,25 +68,22 @@ class PhotoForm
       processData: false
       contentType: false
       complete: (d) =>
-        @show_progress(100)
-        setTimeout (=> @show_progress(null)), 800
-        @uploading_status.hide()
         response = d.responseJSON
-        if response.status == 'success'
-          if response.url
-            location.href = response.url
-          else
-            @updateAll(response.photo)
-            @delete_button.show()
-            @error_callout.hide()
-        else
-          @error_callout.show().find('.body').html(response.errors.join("<br>"))
-      xhr: =>
-        x = jQuery.ajaxSettings.xhr()
-        progress = (e) =>
-          @show_progress(e.loaded / e.total) if e.lengthComputable
-        x.upload.addEventListener 'progress', progress, false
-        return x
+        @complete.push(file)
+        @show_progress(@complete.length / @files.length * 100)
+        if @complete.length == @files.length
+          setTimeout (=> @show_progress(null)), 800
+          @uploading_status.hide()
+          if response.status == 'success'
+            if response.url
+              location.href = response.url unless @errors
+            else
+              @updateAll(response.photo)
+              @delete_button.show()
+        if response.status != 'success'
+          console.log(response)
+          @errors = true
+          @error_callout.show().find('.body').append(response.errors.join("<br>") + "<br>")
 
   delete: (e) =>
     e.preventDefault()
