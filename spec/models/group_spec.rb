@@ -72,6 +72,18 @@ describe Group do
         end
       end
     end
+
+    context 'group is set to auto_add "adults"' do
+      before do
+        @person2 = FactoryGirl.create(:person)
+        @child = FactoryGirl.create(:person, child: true)
+        @group.update_attribute(:auto_add, 'adults')
+      end
+
+      it 'adds all people' do
+        expect(@group.people.reload).to include(@person, @person2)
+      end
+    end
   end
 
   context 'given one group set as parents_of for another' do

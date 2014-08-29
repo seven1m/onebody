@@ -99,6 +99,13 @@ en:
 
       advanced:
         description: "The settings below are for advanced users."
+        membership_mode:
+          label: "Select a mode"
+          options:
+            manual: "Add members manually (default)"
+            link_code: "Automatic by external link (class) code."
+            parents_of: "Link to a child group to get parents of those children."
+            adults: "Include all adults in this community."
 
       files:
         description: "Files added here will be visible to all members of this group."

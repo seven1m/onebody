@@ -162,7 +162,7 @@ class GroupsController < ApplicationController
 
   def group_attributes
     base = [:name, :description, :photo, :meets, :location, :directions, :other_notes, :address, :members_send, :private, :category, :leader_id, :blog, :email, :prayer, :attendance, :gcal_private_link, :approval_required_to_join, :pictures, :cm_api_list_id]
-    base += [:approved, :link_code, :parents_of, :hidden] if @logged_in.admin?(:manage_groups)
+    base += [:approved, :auto_add, :link_code, :parents_of, :hidden] if @logged_in.admin?(:manage_groups)
     base
   end
 

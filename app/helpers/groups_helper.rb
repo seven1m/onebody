@@ -52,4 +52,10 @@ module GroupsHelper
     content_tag(:div, class: "col-md-#{width} print-inline-block", &block)
   end
 
+  def group_membership_modes
+    t('groups.edit.advanced.membership_mode.options').dup.tap { |options|
+      options.delete(:adults) if Person.undeleted.adults.count > Group::EVERYONE_LIMIT
+    }.invert
+  end
+
 end

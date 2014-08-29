@@ -101,8 +101,14 @@ class Group < ActiveRecord::Base
 
   after_save :update_memberships
 
+  EVERYONE_LIMIT = 1000
+
   def update_memberships
-    if parents_of
+    if auto_add == 'everyone' and Person.undeleted.count <= EVERYONE_LIMIT
+      update_membership_associations(Person.undeleted.to_a)
+    elsif auto_add == 'adults' and Person.undeleted.adults.count <= EVERYONE_LIMIT
+      update_membership_associations(Person.undeleted.adults.to_a)
+    elsif parents_of
       parents = Group.find(parents_of).people.map { |p| p.parents }.flatten.uniq
       update_membership_associations(parents)
     elsif linked?
