@@ -112,9 +112,9 @@ en:
         approval_required_to_join: "Approval required for people to join group"
         private: "Private Group"
         members_send: "Group Members Can Post Messages"
-        membership_mode: "Select a mode"
+        membership_mode: "Select how group members should be added to this group"
         link_code: "External Link Code"
-        parents_of: "Link to parents of another group"
+        parents_of: "Child Group"
         hidden: "Hidden (Archived) Group"
       person:
         email: "Email"

@@ -13,8 +13,14 @@ en:
 
     delete:
       heading: "Delete This Group"
-      intro: "If you wish for a group to disappear from all pages of the site, it is best to Hide (archive) it (see option above). If you really want to delete the group and all its contents (messages, prayer requests, pictures, etc.) forever, then you may do so below:"
+      intro: "If you really want to delete the group and all its contents (messages, prayer requests, pictures, etc.) forever, then you may do so below:"
       button: "Delete this group forever"
+
+    hide:
+      heading: "Hide (Archive) This Group"
+      intro: "If you wish for a group to disappear from all pages of the site, hide it by clicking the button below:"
+      button: "Hide this group"
+      unhide_button: "Unhide this group"
 
     your_groups: "Your Groups"
     groups_of:
@@ -102,7 +108,7 @@ en:
         membership_mode:
           options:
             manual: "Add members manually (default)"
-            link_code: "Automatic by external link (class) code."
+            link_code: "Add members automatic by external link code."
             parents_of: "Link to a child group to get parents of those children."
             adults: "Include all adults in this community."
 
@@ -132,9 +138,13 @@ en:
       members_send:
         help: "If checked, any member of this group can send an email message to everyone else in the group."
       class_link_code:
-        help_html: "Useful for syncing with external systems. <a href='https://github.com/churchio/onebody/wiki/HowGroupMembershipWorks'>See here</a> for more information. Separate multiple codes with a space."
+        help_html: |
+          <p>This is useful for syncing with external systems. Separate multiple codes with a space. <a href='https://github.com/churchio/onebody/wiki/HowGroupMembershipWorks'>See here</a> for more information.</p>
+          <p>Click <strong>Save</strong> to update group members immediately. Group members will also be updated automatically every night.</p>
       parents_of:
-        help: "Membership will be auto-generated from parents of selected group's members."
+        help_html: |
+          <p>Membership will be auto-generated from parents of selected group's members.</p>
+          <p>Click <strong>Save</strong> to update group members immediately. Group members will also be updated automatically every night.</p>
 
       enable_calendar: "Enable Calendar"
 
