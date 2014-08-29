@@ -113,6 +113,7 @@ describe Person do
     end
 
     it 'should know about linked group memberships' do
+      @group.membership_mode = 'link_code'
       @group.link_code = 'B345'
       @group.save!
       @person.classes = 'A123,B345,C567'
@@ -125,7 +126,7 @@ describe Person do
     it 'should know about parent_of group memberships via basic group membership' do
       @child = FactoryGirl.create(:person, family: @person.family, child: true)
       @group.memberships.create! person: @child
-      @parent_group = FactoryGirl.create(:group, parents_of: @group.id)
+      @parent_group = FactoryGirl.create(:group, membership_mode: 'parents_of', parents_of: @group.id)
       @parent_group.update_memberships
       expect(@person.member_of?(@parent_group)).to be
       expect(@person2.member_of?(@parent_group)).not_to be
@@ -133,12 +134,13 @@ describe Person do
 
     it 'should know about parent_of group memberships via linked group membership' do
       @child = FactoryGirl.create(:person, family: @person.family, child: true)
+      @group.membership_mode = 'link_code'
       @group.link_code = 'B345'
       @group.save!
       @child.classes = 'A123,B345,C567'
       @child.save!
       @group.update_memberships
-      @parent_group = FactoryGirl.create(:group, parents_of: @group.id)
+      @parent_group = FactoryGirl.create(:group, membership_mode: 'parents_of', parents_of: @group.id)
       @parent_group.update_memberships
       expect(@person.member_of?(@parent_group)).to be
       expect(@person2.member_of?(@parent_group)).not_to be
