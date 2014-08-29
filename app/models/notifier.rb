@@ -1,7 +1,7 @@
 class Notifier < ActionMailer::Base
   helper :notifier, :application
 
-  default from: -> _ { Site.current.noreply_email }, charset: 'UTF-8'
+  default charset: 'UTF-8', from: -> _ { get_from_address.to_s }
 
   def profile_update(person, updates)
     @person = person
@@ -399,5 +399,12 @@ class Notifier < ActionMailer::Base
     def clean_body(body)
       # this has the potential for error, but we'll just go with it and see
       body.to_s.split(/^[>\s]*\- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \-/).first.to_s.strip
+    end
+
+    def get_from_address
+      Mail::Address.new.tap do |addr|
+        addr.address = Site.current.noreply_email
+        addr.display_name = Setting.get(:name, :community)
+      end
     end
 end
