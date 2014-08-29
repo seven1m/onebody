@@ -323,7 +323,7 @@ en:
           description: Enable Groups.
         News by Users:
           name: News by Users
-          description: Allow user submitted news content.
+          description: "Allow user submitted news content. (Requires 'News Page' to be enabled above.)"
         Custom Person Fields:
           name: Custom Person Fields
           description: Add custom field names, one per line. Including the word "date" (or "Date") makes a date field. Append an asterisk (*) to make the field visible and editable by users.
