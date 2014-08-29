@@ -230,13 +230,10 @@ en:
           description: If you use Google Analytics or some other JavaScript-based stats service, put the code here. It will be inserted at the bottom of every page.
       Name:
         Community:
-          name: Community
+          name: Community Name
           description: The name of your church or community, e.g. "One Church" or "First Baptist of Fresno."
-        Slogan:
-          name: Slogan
-          description: Slogan/tagline displayed just under the site name. Leave blank for none.
         Site:
-          name: Site
+          name: Site Name
           description: The name of this site, displayed at the top, e.g. "My Church Family" or "One Church Central."
       URL:
         News Feed:
