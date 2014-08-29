@@ -95,7 +95,7 @@ describe Verification do
       it 'should send verification email' do
         email = ActionMailer::Base.deliveries.last
         expect(email.subject).to eq("Verify Mobile")
-        expect(email.to_s).to match(/From: One Church <noreply@example\.com>/)
+        expect(email.to_s).to match(/From: "CHURCH\.IO" <noreply@example\.com>/)
       end
     end
 
