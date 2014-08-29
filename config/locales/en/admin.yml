@@ -366,6 +366,9 @@ en:
         Documents:
           name: "Documents"
           description: "If enabled, admins can upload files in a general area where users can browse and download them."
+        Small Group Size:
+          name: 'Max size of a "small group"'
+          description: 'People in groups with this many members or fewer are considered in a "small group" together, and can easily share content with one another via the homepage.'
       Privacy:
         Hide Contact Details in Messages:
           name: Hide Contact Details in Messages
@@ -443,6 +446,9 @@ en:
       sharing_about: OneBody is best when members participate by adding their own content. Enable content sharing with these settings.
       sharing_communications_about: Share information with your members easily.
       sharing_heading: Sharing
+      small_group_sharing:
+        disable: "disable sharing among small groups"
+        all: "share with all groups, regardless of size"
     super_admin: Super Admin
     super_admin_about: Super Admins have full control over the site, with all available privileges. Be careful who you give this to — it could be dangerous!
     syncs:
