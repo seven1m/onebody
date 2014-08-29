@@ -427,6 +427,8 @@ describe Person do
     end
 
     context 'given two people were created just prior' do
+      before { StreamItem.delete_all }
+
       let!(:person1) { FactoryGirl.create(:person) }
       let!(:person2) { FactoryGirl.create(:person) }
       let!(:person3) { FactoryGirl.create(:person) }
