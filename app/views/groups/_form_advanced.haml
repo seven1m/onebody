@@ -1,9 +1,8 @@
 %p= t('groups.edit.advanced.description')
 
 .form-group
-  = form.label :group_membership_mode, t('groups.edit.advanced.membership_mode.label')
-  = select_tag :group_membership_mode, options_for_select(group_membership_modes), class: 'form-control'
-  = form.hidden_field :auto_add
+  = form.label :membership_mode
+  = form.select :membership_mode, group_membership_modes, {}, class: 'form-control'
 .form-group#link_code.membership-mode-option
   = form.label :link_code
   = form.text_field :link_code, class: 'form-control'

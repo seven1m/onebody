@@ -100,7 +100,6 @@ en:
       advanced:
         description: "The settings below are for advanced users."
         membership_mode:
-          label: "Select a mode"
           options:
             manual: "Add members manually (default)"
             link_code: "Automatic by external link (class) code."

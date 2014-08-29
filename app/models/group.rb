@@ -99,19 +99,19 @@ class Group < ActiveRecord::Base
     memberships.where(person_id: person.id).first.update_attributes!(options)
   end
 
+  attr_accessor :dont_update_memberships
   after_save :update_memberships
 
   EVERYONE_LIMIT = 1000
 
   def update_memberships
-    if auto_add == 'everyone' and Person.undeleted.count <= EVERYONE_LIMIT
-      update_membership_associations(Person.undeleted.to_a)
-    elsif auto_add == 'adults' and Person.undeleted.adults.count <= EVERYONE_LIMIT
+    return if dont_update_memberships
+    if membership_mode == 'adults' and Person.undeleted.adults.count <= EVERYONE_LIMIT
       update_membership_associations(Person.undeleted.adults.to_a)
-    elsif parents_of
+    elsif membership_mode == 'parents_of' and parents_of
       parents = Group.find(parents_of).people.map { |p| p.parents }.flatten.uniq
       update_membership_associations(parents)
-    elsif linked?
+    elsif membership_mode == 'link_code' and linked?
       q = []
       p = []
       link_code.downcase.split.each do |code|
