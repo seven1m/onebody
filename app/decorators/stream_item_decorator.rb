@@ -29,8 +29,6 @@ class StreamItemDecorator < Draper::Decorator
 
   def icon
     case streamable_type
-    when 'Note'
-      h.icon('fa fa-envelope bg-blue')
     when 'Album'
       h.icon('fa fa-camera bg-orange')
     when 'Verse'
@@ -58,8 +56,6 @@ class StreamItemDecorator < Draper::Decorator
         who = I18n.t('stream.header.noone')
       end
       case streamable_type
-      when 'Note'
-        I18n.t('stream.header.note', who: who)
       when 'Album'
         args = { who: who, count: Array(object.context['picture_ids']).length, album: h.link_to(title, h.album_path(streamable_id)) }
         if streamable.group
@@ -134,7 +130,7 @@ class StreamItemDecorator < Draper::Decorator
 
   def path
     case streamable_type
-    when 'Album', 'Note', 'Message', 'Person', 'Verse', 'NewsItem'
+    when 'Album', 'Message', 'Person', 'Verse', 'NewsItem'
       h.send(streamable_type.underscore + '_path', streamable_id)
     when 'Site'
       ''

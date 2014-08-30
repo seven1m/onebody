@@ -8,13 +8,12 @@ class Comment < ActiveRecord::Base
 
   # TODO: use polymorphism
   belongs_to :verse
-  belongs_to :note
   belongs_to :picture
 
   scope_by_site_id
 
   def on
-    verse || note || picture
+    verse || picture
   end
 
   def name

@@ -19,19 +19,11 @@ describe CommentsController do
     expect(Comment.count).to eq(num_comments + 1)
   end
 
-  it "should add a comment to a note" do
-    @note = FactoryGirl.create(:note, person: @person)
-    num_comments = Comment.count
-    post :create, {text: 'dude', note_id: @note.id}, {logged_in_id: @person.id}
-    expect(response).to be_redirect
-    expect(Comment.count).to eq(num_comments + 1)
-  end
-
   it "should delete a comment" do
     @comment = FactoryGirl.create(:comment, person: @person)
     post :destroy, {id: @comment.id}, {logged_in_id: @person.id}
     expect(response).to be_redirect
-    expect { @comment.reload }.to raise_error(ActiveRecord::RecordNotFound) 
+    expect { @comment.reload }.to raise_error(ActiveRecord::RecordNotFound)
   end
 
   it "should not delete a comment unless user is owner or admin" do
