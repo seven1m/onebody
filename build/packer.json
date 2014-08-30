@@ -13,6 +13,14 @@
       "client_id": "{{user `digital_ocean_client_id`}}"
     },
     {
+      "type": "amazon-ebs",
+      "ami_name": "onebody-3.1.1",
+      "instance_type": "t2.micro",
+      "region": "us-west-1",
+      "source_ami": "ami-05717d40",
+      "ssh_username": "ubuntu"
+    },
+    {
       "type": "virtualbox-iso",
       "vm_name": "onebody",
       "boot_command": [

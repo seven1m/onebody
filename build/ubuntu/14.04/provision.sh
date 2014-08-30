@@ -29,7 +29,7 @@ fi
 
 cd /var/www
 [[ ! -e onebody ]] && sudo git clone git://github.com/churchio/onebody.git
-sudo chown -R onebody /var/www/onebody
+sudo chown -R $USER /var/www/onebody
 
 cd /var/www/onebody
 git checkout stable
