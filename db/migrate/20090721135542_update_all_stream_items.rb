@@ -1,7 +1,6 @@
 class UpdateAllStreamItems < ActiveRecord::Migration
   def self.up
     Site.each do
-      Note.all.each        { |o| o.create_as_stream_item }
       Picture.all.each     { |o| o.create_as_stream_item }
       if defined?(Recipe)
         Recipe.all.each      { |o| o.create_as_stream_item }
