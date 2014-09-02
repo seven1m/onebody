@@ -7,7 +7,7 @@ pt:
     new:
       heading: "Nova Família"
       created:
-        notice: "The family was created. Now, add people to this family using the 'New Person' button below..."
+        notice: "A família foi criada. Agora, adicione pessoas utilizando o botão 'Nova Pessoa' abaixo..."
     edit:
       heading: "Editar Família"
       name: "Nome da Família"
@@ -28,8 +28,8 @@ pt:
     show:
       edit_link: "Editar Família"
       suggested_name_html:
-        one: "%{first} is the only adult in this family. Consider <a href='%{url}'>changing the family name</a> to “<strong>%{name}</strong>.”"
-        other: "%{first} and %{second} are the first two adults in this family. Consider <a href='%{url}'>changing the family name</a> to “<strong>%{name}</strong>.”"
+        one: "%{first} é o(a) único(a) adulto(a) nesta família. Considere <a href='%{url}'>mudar o nome da família</a> para “<strong>%{name}</strong>.”"
+        other: "%{first} e %{second} são os primeiros dois adultos desta família. Considere <a href='%{url}'>mudar o nome da família</a> para “<strong>%{name}</strong>.”"
       table:
         home_phone: "Telefone Residencial"
         address: "Endereço Residencial"

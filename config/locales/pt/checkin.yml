@@ -3,23 +3,23 @@ pt:
   checkin:
     heading: Check-in
     search:
-      label: "Type all or part of a name:"
-      button: Search
-      clear: clear
-      none_found: "no families found"
+      label: "Digite o nome parcial ou completo:"
+      button: Buscar
+      clear: limpar
+      none_found: "nenhuma família encontrada"
     add_family:
-      button: "Add Family"
+      button: "Adicionar Família"
     attendance:
-      button: Attendance
+      button: Presença
     setup:
-      heading: Setup
+      heading: Configuração
     assigned_cards:
-      button: "Assigned Cards"
+      button: "Cartões Atribuídos"
     cards:
-      heading: "Assigned Check-in Cards"
+      heading: "Cartões de Check-in Atribuídos"
       table:
         id: ID
-        legacy_id: "Legacy ID"
+        legacy_id: "ID Legado"
         family: Família
         barcode: "Código de Barras"
         assigned_at: Atribuído
@@ -27,37 +27,37 @@ pt:
         button: "Exportar para um Arquivo"
       none: "nenhum registro para exibir"
     groups:
-      heading: "Check-in Groups"
+      heading: "Check-in em Grupos"
       table:
         group: Grupo
       index:
         heading: "%{time} no %{campus}"
         add_group:
-          heading: "Add a destination (group)"
+          heading: "Adicionar um destino (grupo)"
           search: "Buscar pelo nome"
           button: "Adicionar Grupo"
         table:
           group: "Destino (nome do grupo)"
-          print_nametag: "Print Nametag"
-          print_extra_nametag: "Extra Nametag"
-          section: Section
+          print_nametag: "Imprimir Etiqueta de Nome"
+          print_extra_nametag: "Etiqueta de Nome Adicional"
+          section: Seção
       section:
-        new: "[new section]"
+        new: "[nova seção]"
     times:
       button: Configuração
-      heading: "Check-in Times"
-      intro: "Add, edit, and remove available checkin times here."
+      heading: "Horários de Check-in"
+      intro: "Adicione, edite e exclua horários disponíveis de check-in aqui."
       table:
         time: Hora
         campus: Campus
         groups:
-          heading: Destinations
+          heading: Destinos
           count:
             one: "1 destino"
             other: "%{count} destinos"
       edit:
         button: editar
-        heading: "Edit Check-in Time"
+        heading: "Editar Horário de Check-in"
         campus:
           new: "[novo campus]"
         save:
@@ -72,9 +72,9 @@ pt:
         add:
           button: Adicionar
       single:
-        heading: "Single Dates and Times"
+        heading: "Horários e Datas Individuais"
         new:
-          button: "New Single Time"
+          button: "Novo Horário Individual"
         datetime: "Data & Hora"
         campus: Campus
         add:
@@ -89,21 +89,20 @@ pt:
         parents: Pais
         children: Crianças/Outros
         barcode: "Ler Cartão"
-        ignore_spelling_errors: "Ignore suspected spelling errors."
+        ignore_spelling_errors: "Ignoras erros suspeitos de ortografia."
         save: "Salvar Família"
         cancel: cancelar
         success:
-          heading: "Family Saved"
-          return: Return
-          view: "View/Edit Family"
-          barcode: "Assigned number:"
-          not_checked_in: |
-              This family is not yet checked in—instruct the cardholder
-              they must now check in at one of the touch-screen stations.
-      saved: "Family saved."
-      errors: "There were errors saving this family."
+          heading: "Família Salva"
+          return: Voltar
+          view: "Visualizar/Editar Família"
+          barcode: "Número atribuído:"
+          not_checked_in: "Esta família ainda não fez o check-in — instrua o responsável\n\
+              eles precisam agora realizar o check-in em uma das estações. \n"
+      saved: "Família salva."
+      errors: "Houveram erros ao salvar esta família."
       error:
-        no_birthdays: "You must enter a birthday for each child."
-        no_people: "You must enter at least one person."
-        no_parents: "You must enter at least one parent."
-        no_barcode: "Please scan the card into the field at the bottom of the form."
+        no_birthdays: "Você precisa inserir a data de nascimento para cada criança."
+        no_people: "Você precisa inserir pelo menos uma pessoa."
+        no_parents: "Você precisa inserir pelo menos um pai ou mãe."
+        no_barcode: "Por favor, passe o campo no final do cartão no leitor."
