@@ -9,13 +9,13 @@ pt:
     business_profile: Negócios
     checkin: Check-in
     checkin_sub:
-      times: Times
+      times: Horários
     directory: Diretório
     directory_sub:
       business: "Diretório de Negócios"
       printed: "Diretório para Impressão"
       advanced: "Busa Avançada"
-      new_family: "New Family"
+      new_family: "Nova Família"
     documents: Documentos
     groups: Grupos
     groups_sub:
@@ -41,6 +41,6 @@ pt:
       password: Senha
       privacy: Privacidade
       relationships: Relacionamentos
-      show: "View Profile"
+      show: "Visualizar Perfil"
     syncs: Sincronizações
     verses: Versículos

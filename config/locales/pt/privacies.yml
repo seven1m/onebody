@@ -8,7 +8,7 @@ pt:
       intro_html: "Você pode alterar as configurações de privacidade da sua família aqui. Items marcados são visíveis por outros membros que conectarem neste website. Clique no <i class='fa fa-plus-circle'></i> para configurar a privacidade dos seus grupos (opcional). Para entender como nós usamos as informações pessoais suas e de sua família, por favor leia a nossa <a href='%{url}'>Política de Privacidade</a>."
     children:
       intro: "Controle o que as crianças abaixo podem acessar neste web site."
-    scroll_notice: "You may need to scroll left and right to see all the options here."
+    scroll_notice: "Você pode precisar mover para a esquerda e direita para visualizar todas as opções aqui."
     activity: Atividade
     address: Endereço
     agreement_saved: "Acordo salvo."
