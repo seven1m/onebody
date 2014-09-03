@@ -13,9 +13,11 @@ class Notifier < ActionMailer::Base
   end
 
   def email_update(person)
+    to_address = Setting.get(:contact, :send_email_changes_to)
+    return unless to_address.present?
     @person = person
     mail(
-      to:      Setting.get(:contact, :send_email_changes_to),
+      to:      to_address,
       subject: "#{person.name} Changed Email"
     )
   end
