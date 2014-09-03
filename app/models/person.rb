@@ -15,7 +15,6 @@ class Person < ActiveRecord::Base
   has_many :albums, as: :owner
   has_many :pictures, -> { order(created_at: :desc) }
   has_many :messages
-  has_many :notes, -> { order(created_at: :desc) }
   has_many :updates, -> { order(:created_at) }
   has_many :prayer_signups
   has_and_belongs_to_many :verses
