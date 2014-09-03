@@ -33,6 +33,8 @@ Now visit the site running in development mode at localhost:8080
 
 Whenever gems are updated or new migrations are needed, you can just run `vagrant provision`.
 
+To gain access to the vagrant box, run `vagrant ssh` to get an active SSH session. The OneBody directory is mirrored at `/vagrant` inside the Vagrant box.
+
 To restart the Rails server, type `touch tmp/restart.txt`. Or you can `vagrant reload` to restart the dev box.
 
 For more help with Vagrant, check out the [Vagrant docs](http://docs.vagrantup.com/v2/).
