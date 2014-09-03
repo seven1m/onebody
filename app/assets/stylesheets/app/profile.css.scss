@@ -32,3 +32,21 @@
     }
   }
 }
+
+.person-albums {
+  margin-bottom: 15px;
+  .thumbnail {
+    margin-bottom: 0;
+  }
+  .thumbnail {
+    height: 80px;
+    width: 80px;
+    font-size: 50pt;
+    line-height: 0.8;
+    vertical-align: middle;
+    .fa {
+      vertical-align: middle;
+      margin-left: 2px;
+    }
+  }
+}

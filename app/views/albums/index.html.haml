@@ -1,4 +1,4 @@
-- @title = t('.heading')
+- @title = link_to(@owner.name, @owner) + ' ' + t('.heading')
 
 - if @owner and @logged_in.can_create?(@owner.albums.new)
   .page-controls

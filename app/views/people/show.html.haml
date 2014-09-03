@@ -62,6 +62,19 @@
         .box-footer
           = link_to t('people.testimony.find_more'), search_path(testimony: true), class: 'btn bg-gray btn-xs'
 
+    - if @person.albums.any?
+      .person-albums
+        - @person.albums.order(id: :desc).limit(3).reverse.each do |album|
+          = link_to album do
+            - if album.cover
+              = link_to image_tag(album.cover.photo.url(:tn), alt: t('pictures.click_to_enlarge'), class: 'picture thumbnail'), |
+                album, title: t('pictures.click_to_enlarge')
+            - else
+              = image_tag 'picture.tn.jpg', class: 'picture thumbnail'
+        = link_to person_albums_path(@person) do
+          .thumbnail
+            = icon 'fa fa-camera-retro'
+
     - @groups.each do |group|
       .box{class: group_box_class(group)}
         .box-header
