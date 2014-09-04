@@ -1,20 +1,28 @@
 class AttendanceTotalsReport < Dossier::Report
 
+  include ReportsHelper
+
   def sql
- 	  Group.select("name").joins(:attendance_records).select(:attended_at, "count(*) as
-  att_count").references(:attendance_records).where("attended_at >= :fromdate and attended_at <= :thrudate").group("name", "attended_at").to_sql
+    Group.select(:name)
+         .joins(:attendance_records)
+         .select(:attended_at, 'count(*) as att_count')
+         .references(:attendance_records)
+         .where('attended_at >= :fromdate and attended_at <= :thrudate')
+         .group(:name, :attended_at)
+         .order(:name)
+         .to_sql
   end
 
   def fromdate
-    Date.strptime(options[:fromdate], Setting.get(:formats, :date)) unless options[:fromdate].nil?
+    format_dateparam(options[:fromdate], (Date.current - 1.week))
   end
 
   def thrudate
-    Date.strptime(options[:thrudate], Setting.get(:formats, :date)) unless options[:thrudate].nil?
+    format_dateparam(options[:thrudate])
   end
 
   def format_attended_at(value)
-    value.strftime(Setting.get(:formats, :date))
+    format_date(value)
   end
 
 end
