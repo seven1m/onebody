@@ -42,12 +42,16 @@ en:
         new: "[create role]"
         create_prompt: "Enter the role name:"
       description_hint: "A word or two about yourself — some people put their job title here."
+      facebook_url:
+        placeholder: 'https://www.facebook.com/username'
       family_photo: "Family Photo"
       header: "Edit Profile"
       person_type: "Roles"
       person_type_hint: "These do not control access — only designation."
       photo: "Profile Photo"
       required_field: "required"
+      twitter:
+        placeholder: '@username'
       visibility: "Visibility"
 
     move:
