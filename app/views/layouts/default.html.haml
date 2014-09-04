@@ -143,9 +143,9 @@
                       = t('nav.directory_sub.advanced')
                   - if @logged_in.can_create?(Family)
                     %li
-                      = link_to new_family_path do
+                      = link_to new_person_path do
                         = icon 'fa fa-plus'
-                        = t('nav.directory_sub.new_family')
+                        = t('nav.directory_sub.new_person')
             - if setting(:features, :documents)
               %li{ class: tab_selected?(:documents) ? 'active' : '' }
                 = link_to documents_path do

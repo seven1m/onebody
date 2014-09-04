@@ -2,39 +2,45 @@
 
   .row
     .col-lg-8
+      - unless @family.persisted?
+        .alert.alert-warning.alert-dismissable
+          = icon 'fa fa-warning'
+          %button{ class: 'close', aria: { hidden: true }, data: { dismiss: 'alert' }, type: 'button' } ×
+          %p= t('people.new.no_family_warning_html')
+
       %p.discreet.small
         = t('privacies.please_read_our_privacy_policy_html', url: help_path('privacy_policy'))
 
-        %ul.nav.nav-tabs
-          %li.active
-            = link_to t('people.edit.basics'), '#basics', data: { toggle: 'tab' }
+      %ul.nav.nav-tabs
+        %li.active
+          = link_to t('people.edit.basics'), '#basics', data: { toggle: 'tab' }
+        %li
+          = link_to t('people.edit.about'), '#about', data: { toggle: 'tab' }
+        %li
+          = link_to t('people.edit.business'), '#business', data: { toggle: 'tab' }
+        - if @logged_in.admin?(:edit_profiles)
           %li
-            = link_to t('people.edit.about'), '#about', data: { toggle: 'tab' }
+            = link_to t('people.edit.person_type'), '#roles', data: { toggle: 'tab' }
           %li
-            = link_to t('people.edit.business'), '#business', data: { toggle: 'tab' }
-          - if @logged_in.admin?(:edit_profiles)
-            %li
-              = link_to t('people.edit.person_type'), '#roles', data: { toggle: 'tab' }
-            %li
-              = link_to t('people.edit.visibility'), '#visibility', data: { toggle: 'tab' }
+            = link_to t('people.edit.visibility'), '#visibility', data: { toggle: 'tab' }
 
-        .tab-content
-          .tab-pane.active#basics
-            = render partial: 'form_basics', object: form, as: :form
+      .tab-content
+        .tab-pane.active#basics
+          = render partial: 'form_basics', object: form, as: :form
+          .form-group= submit_or_save_button
+        .tab-pane#about
+          = render partial: 'form_about', object: form, as: :form
+          .form-group= submit_or_save_button
+        .tab-pane#business
+          = render partial: 'form_business', object: form, as: :form
+          .form-group= submit_or_save_button
+        - if @logged_in.admin?(:edit_profiles)
+          .tab-pane#roles
+            = render partial: 'form_roles', object: form, as: :form
             .form-group= submit_or_save_button
-          .tab-pane#about
-            = render partial: 'form_about', object: form, as: :form
+          .tab-pane#visibility
+            = render partial: 'form_visibility', object: form, as: :form
             .form-group= submit_or_save_button
-          .tab-pane#business
-            = render partial: 'form_business', object: form, as: :form
-            .form-group= submit_or_save_button
-          - if @logged_in.admin?(:edit_profiles)
-            .tab-pane#roles
-              = render partial: 'form_roles', object: form, as: :form
-              .form-group= submit_or_save_button
-            .tab-pane#visibility
-              = render partial: 'form_visibility', object: form, as: :form
-              .form-group= submit_or_save_button
 
     .col-lg-4
       %h3= t('people.edit.photo')

@@ -5,6 +5,7 @@ pt:
       callout: "Esta conta está congelada. Mudanças não podem ser feitas até que ela seja normalizada."
     new:
       heading: "Nova Pessoa na família %{family}"
+      heading_without_family: "Nova Pessoa"
     title_html: "%{name}<span class='discreet'>, %{description}</span>"
     show:
       details:

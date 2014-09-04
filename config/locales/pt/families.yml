@@ -26,6 +26,7 @@ pt:
       button: "Excluir Família"
       cannot_delete_your_own: "Você não pode excluir a sua própria família."
     show:
+      heading: "%{family} Família"
       edit_link: "Editar Família"
       suggested_name_html:
         one: "%{first} é o(a) único(a) adulto(a) nesta família. Considere <a href='%{url}'>mudar o nome da família</a> para “<strong>%{name}</strong>.”"

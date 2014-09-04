@@ -7,6 +7,10 @@ en:
 
     new:
       heading: "New Person in family %{family}"
+      heading_without_family: "New Person"
+      no_family_warning_html: |
+        You are about to create a new person and a <strong>new family record</strong>.
+        If instead you wish to add a person to an existing family, first go to that family's page and add a person there.
 
     title_html: "%{name}<span class='discreet'>, %{description}</span>"
 
@@ -26,23 +30,24 @@ en:
     edit:
       about: "About"
       basics: "Basics"
-      child:
-        enabled: "Yes"
-        disabled: "No"
-      child_hint: "If no birthday is specified, you must indicate whether this is a child or an adult."
-      description_hint: "A word or two about yourself — some people put their job title here."
-      family_photo: "Family Photo"
-      person_type: "Roles"
-      person_type_hint: "These do not control access — only designation."
-      photo: "Profile Photo"
-      header: "Edit Profile"
       business: "Business"
       business_category:
         new: "[create a new category]"
         create_prompt: "Enter the category for your business:"
+      child:
+        enabled: "Yes"
+        disabled: "No"
+      child_hint: "If no birthday is specified, you must indicate whether this is a child or an adult."
       custom_type:
         new: "[create role]"
         create_prompt: "Enter the role name:"
+      description_hint: "A word or two about yourself — some people put their job title here."
+      family_photo: "Family Photo"
+      header: "Edit Profile"
+      person_type: "Roles"
+      person_type_hint: "These do not control access — only designation."
+      photo: "Profile Photo"
+      required_field: "required"
       visibility: "Visibility"
 
     move:
