@@ -3,6 +3,14 @@ class Person < ActiveRecord::Base
   include Authority::Abilities
   self.authorizer_name = 'PersonAuthorizer'
 
+  include Concerns::Person::Child
+  include Concerns::Person::Password
+  include Concerns::Person::Friend
+  include Concerns::Person::Sharing
+  include Concerns::Person::Import
+  include Concerns::Person::Export
+  include Concerns::Person::PdfGen
+
   MAX_TO_BATCH_AT_A_TIME = 50
 
   cattr_accessor :logged_in # set in addition to @logged_in (for use by Notifier and other models)
@@ -185,9 +193,10 @@ class Person < ActiveRecord::Base
 
   def birthday=(d)
     if d.is_a?(String) and d.length > 0 and date = Date.parse_in_locale(d).try(:rfc3339)
-      self[:birthday] = date
+      # birthday= is already defined in Child concern, so call super
+      super date
     else
-      self[:birthday] = d
+      super d
     end
   end
 
@@ -442,13 +451,4 @@ class Person < ActiveRecord::Base
     end
 
   end
-
-  # FIXME why does these have to be at the bottom?
-  include Concerns::Person::Child
-  include Concerns::Person::Password
-  include Concerns::Person::Friend
-  include Concerns::Person::Sharing
-  include Concerns::Person::Import
-  include Concerns::Person::Export
-  include Concerns::Person::PdfGen
 end
