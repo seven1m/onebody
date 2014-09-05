@@ -1,0 +1,11 @@
+en:
+  tasks:
+    index:
+      heading: "Tasks"
+    new:
+      heading: "New task"
+      button: "New task"
+    edit:
+      heading: "Edit task"
+    heading: "Task"
+    save: "Save Task"

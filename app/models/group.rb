@@ -16,6 +16,7 @@ class Group < ActiveRecord::Base
   has_many :attachments, dependent: :delete_all
   has_many :group_times, dependent: :destroy
   has_many :checkin_times, through: :group_times
+  has_many :tasks
   belongs_to :creator, class_name: 'Person', foreign_key: 'creator_id'
   belongs_to :leader, class_name: 'Person', foreign_key: 'leader_id'
   belongs_to :parents_of_group, class_name: 'Group', foreign_key: 'parents_of'
@@ -174,7 +175,8 @@ class Group < ActiveRecord::Base
         (email? and can_post?(person)) or \
         blog? or \
         pictures? or \
-        prayer?
+        prayer? or
+        has_tasks?
       )
   end
 
@@ -220,6 +222,10 @@ class Group < ActiveRecord::Base
 
   def can_add_prayer_request?(person)
     person.can_create?(prayer_requests.new)
+  end
+
+  def can_add_task?(person)
+    person.can_create?(tasks.new)
   end
 
   def can_add_album?(person)

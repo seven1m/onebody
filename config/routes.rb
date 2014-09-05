@@ -87,6 +87,11 @@ OneBody::Application.routes.draw do
         post :batch
       end
     end
+    resources :tasks do
+      member do
+        patch :complete
+      end
+    end
     resource :stream
     resource :photo
     resources :prayer_requests, :albums, :attachments

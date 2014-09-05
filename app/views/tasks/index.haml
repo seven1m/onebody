@@ -1,0 +1,23 @@
+- @title = t('tasks.index.heading')
+
+.page-controls
+  = link_to new_group_task_path(@group), class: 'btn btn-success' do
+    = icon 'fa fa-plus'
+    = t('tasks.new.button')
+
+= pagination @tasks
+
+%table.table.table-hover
+  - @tasks.each do |task|
+    %tr.task{ class: ("completed" if task.completed) }
+      %td.small-col
+        = form_for [:complete, @group, task], html: { class: "complete-task-form" } do |form|
+          = form.check_box :completed, autocomplete: "off"
+      %td
+        = link_to task.name, [:edit, task.group, task]
+      %td
+        = task.person.name
+      %td
+        = task.duedate ? l(task.duedate) : "-"
+
+= pagination @tasks
