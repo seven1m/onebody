@@ -19,8 +19,8 @@
         = form.label :gender
         = form.select :gender, [[t('search.male'), 'Male'], [t('search.female'), 'Female']], {include_blank: true}, class: 'form-control'
       .form-group
-        = form.label :birthday
-        = form.date_field :birthday, value: @signup.birthday, class: 'form-control'
+        = form.label :birthday, class:  'birthday-select'
+        = form.date_select :birthday, start_year: 1920, value: @signup.birthday, with_css_classes: true, class: 'form-control'
       .form-group
         = form.label :mobile_phone
         = form.phone_field :mobile_phone, class: 'form-control'
