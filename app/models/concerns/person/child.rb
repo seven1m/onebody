@@ -11,8 +11,11 @@ module Concerns
       end
 
       def guess_child
-        return unless family
-        self.child = family.people.undeleted.count >= 2
+        if family
+          self.child = family.people.undeleted.count >= 2
+        else
+          self.child = false
+        end
       end
 
       def birthday=(d)

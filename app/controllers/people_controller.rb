@@ -57,8 +57,13 @@ class PeopleController < ApplicationController
 
   def new
     if @logged_in.admin?(:edit_profiles)
-      @family = Family.find(params[:family_id])
-      @person = @family.people.new
+      if params[:family_id]
+        @family = Family.find(params[:family_id])
+        @person = @family.people.new
+      else
+        @family = Family.new
+        @person = Person.new(family: @family)
+      end
       @person.set_default_visibility
     else
       render text: t('not_authorized'), layout: true, status: 401
@@ -67,17 +72,22 @@ class PeopleController < ApplicationController
 
   def create
     if @logged_in.admin?(:edit_profiles)
-      @business_categories = Person.business_categories
-      @custom_types = Person.custom_types
-      params[:person].cleanse(:birthday, :anniversary)
       @person = Person.new_with_default_sharing(person_params)
-      @family = Family.find(params[:person][:family_id])
+      if (family_id = params[:person][:family_id]).present?
+        @family = Family.find(family_id)
+      else
+        @family = Family.new(family_params.merge(
+          name: @person.name,
+          last_name: @person.last_name
+        ))
+      end
       @person.family = @family
       respond_to do |format|
-        if @person.save
+        if @family.save and @person.save
           format.html { redirect_to @person.family }
           format.xml  { render xml: @person, status: :created, location: @person }
         else
+          @person.valid? # trigger any error messages
           format.html { render action: "new" }
           format.xml  { render xml: @person.errors, status: :unprocessable_entity }
         end
@@ -214,9 +224,12 @@ class PeopleController < ApplicationController
 
   private
 
-  # FIXME this is temporary
   def person_params
     Updater.new(params).params[:person]
+  end
+
+  def family_params
+    Updater.new(params).params[:family] || {}
   end
 
 end
