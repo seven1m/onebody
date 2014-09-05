@@ -23,7 +23,7 @@
       = link_to group_path(@group, 'group[hidden]' => false), data: { method: 'put', confirm: t('are_you_sure') }, class: 'btn btn-success' do
         = icon 'fa fa-eye'
         = t('groups.hide.unhide_button')
-    - else
+    - elsif @group.id
       = link_to group_path(@group, 'group[hidden]' => true), data: { method: 'put', confirm: t('are_you_sure') }, class: 'btn btn-warning' do
         = icon 'fa fa-eye-slash'
         = t('groups.hide.button')
