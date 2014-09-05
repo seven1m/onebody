@@ -1,23 +1,24 @@
-- @title = t('tasks.index.heading')
+- if @group
+  - @title = t('tasks.index.group_heading', group: @group.name)
+- else
+  - @title = t('tasks.index.heading')
 
-.page-controls
-  = link_to new_group_task_path(@group), class: 'btn btn-success' do
-    = icon 'fa fa-plus'
-    = t('tasks.new.button')
-
-= pagination @tasks
-
-%table.table.table-hover
-  - @tasks.each do |task|
-    %tr.task{ class: ("completed" if task.completed) }
-      %td.small-col
-        = form_for [:complete, @group, task], html: { class: "complete-task-form" } do |form|
-          = form.check_box :completed, autocomplete: "off"
-      %td
-        = link_to task.name, [:edit, task.group, task]
-      %td
-        = task.person.name
-      %td
-        = task.duedate ? l(task.duedate) : "-"
+- if @group
+  .page-controls
+    = link_to new_group_task_path(@group), class: 'btn btn-success' do
+      = icon 'fa fa-plus'
+      = t('tasks.new.button')
 
 = pagination @tasks
+
+- if @group
+  = render partial: 'index', locals: { tasks: @group.tasks }
+- else
+  - @logged_in.groups.each do |group|
+    .page-header
+      %h3
+        = group.name
+        = link_to group_path(group), class: "btn btn-primary btn-xs" do
+          = t("tasks.go_to_group")
+          = icon "fa fa-arrow-circle-right"
+    = render partial: 'index', locals: { tasks: group.tasks }

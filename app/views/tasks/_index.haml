@@ -1,0 +1,12 @@
+%table.table.table-hover
+  - tasks.each do |task|
+    %tr.task{ class: ("completed" if task.completed) }
+      %td.small-col
+        = form_for [:complete, @group, task], html: { class: "complete-task-form" } do |form|
+          = form.check_box :completed, autocomplete: "off"
+      %td
+        = link_to task.name, [:edit, task.group, task]
+      %td
+        = task.person.try(:name)
+      %td
+        = l(task.duedate) if task.duedate

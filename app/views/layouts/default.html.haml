@@ -151,6 +151,11 @@
                 = link_to documents_path do
                   %i.fa.fa-file
                   %span= t('nav.documents')
+            - if @logged_in.tasks.present?
+              %li{ class: tab_selected?(:tasks) ? 'active' : '' }
+                = link_to tasks_path do
+                  %i.fa.fa-check-square
+                  %span= t('nav.tasks')
             - if @logged_in.admin?
               %li{ class: tab_selected?(:admin) ? 'active' : '' }
                 = link_to admin_path do

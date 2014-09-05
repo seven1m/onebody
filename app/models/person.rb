@@ -40,6 +40,7 @@ class Person < ActiveRecord::Base
   has_many :attendance_records
   has_many :stream_items
   has_many :generated_files
+  has_many :tasks
   has_one :stream_item, as: :streamable
   belongs_to :site
 

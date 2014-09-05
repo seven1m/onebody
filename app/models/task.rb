@@ -9,5 +9,5 @@ class Task < ActiveRecord::Base
 
   scope_by_site_id
 
-  validates_presence_of :name, :group_id, :person_id
+  validates_presence_of :name, :group_id
 end
