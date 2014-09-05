@@ -23,6 +23,10 @@ module Concerns
         self[:child] = !at_least?(Setting.get(:system, :adult_age).to_i) if d
       end
 
+      def child=(c)
+        self[:child] = c unless ['', nil].include?(c)
+      end
+
       def at_least?(age)
         (y = years_of_age and y >= age)
       end
