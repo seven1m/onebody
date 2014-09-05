@@ -29,6 +29,9 @@ class AccountsController < ApplicationController
 
   def create
     if params[:signup]
+      params[:signup][:birthday] = Date.new(params[:signup]["birthday(1i)"].to_i, 
+                                            params[:signup]["birthday(2i)"].to_i, 
+                                            params[:signup]["birthday(3i)"].to_i)
       @signup = Signup.new(params[:signup])
       if @signup.save
         if @signup.approval_sent?
