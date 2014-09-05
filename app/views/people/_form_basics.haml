@@ -43,7 +43,11 @@
   = form.phone_field :fax, class: 'form-control'
 .form-group
   = form.label :birthday, t('privacies.birthday')
-  = form.date_field :birthday, value: (@person.birthday ? @person.birthday.to_s(:date) : nil), class: 'form-control'
+  .input-group
+    .input-group-btn
+      %button{ type: 'button', class: 'btn btn-info date-picker-btn' }
+        = icon 'fa fa-calendar'
+    = form.date_field :birthday, class: 'form-control'
 - if @logged_in.admin?(:edit_profiles)
   .form-group#child-selection
     = form.label :child, t('people.child')
@@ -51,7 +55,11 @@
     = select_tag "person[child]", options_for_select([[t('people.edit.child.enabled'), true], [t('people.edit.child.disabled'), false]], @person.child), id: "person_child", class: 'form-control'
 .form-group
   = form.label :anniversary, t('privacies.anniversary')
-  = form.date_field :anniversary, value: (@person.anniversary ? @person.anniversary.to_s(:date) : nil), class: 'form-control'
+  .input-group
+    .input-group-btn
+      %button{ type: 'button', class: 'btn btn-info date-picker-btn' }
+        = icon 'fa fa-calendar'
+    = form.date_field :anniversary, class: 'form-control'
 - unless @person.new_record?
   = fields_for @family do |family|
     = render partial: 'families/form_fields', locals: {form: family}

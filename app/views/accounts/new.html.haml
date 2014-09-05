@@ -20,7 +20,11 @@
         = form.select :gender, [[t('search.male'), 'Male'], [t('search.female'), 'Female']], {include_blank: true}, class: 'form-control'
       .form-group
         = form.label :birthday
-        = form.date_field :birthday, value: @signup.birthday, class: 'form-control'
+        .input-group
+          .input-group-btn
+            %button{ type: 'button', class: 'btn btn-info date-picker-btn' }
+              = icon 'fa fa-calendar'
+          = form.date_field :birthday, class: 'form-control'
       .form-group
         = form.label :mobile_phone
         = form.phone_field :mobile_phone, class: 'form-control'

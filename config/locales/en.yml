@@ -35,6 +35,11 @@ en:
   submit_changes: "Submit Changes"
   you_made_a_change_page: Looks like you made a change to something on this page. Click OK to discard your edits and leave this page.
 
+  date_format:
+    DD: "DD"
+    MM: "MM"
+    YYYY: "YYYY"
+
   errors:
     format: "%{message}"
 
