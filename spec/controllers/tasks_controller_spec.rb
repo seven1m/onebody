@@ -17,6 +17,7 @@ describe TasksController do
   end
 
   it "should create a task" do
+    @group.update_attribute(:has_tasks, true)
     get :new, {group_id: @group.id}, {logged_in_id: @person.id}
     expect(response).to be_success
     post :create, {group_id: @group.id, task: {person_id: @person.id, name: 'test task', description: 'test description', duedate: '1/1/2010'}}, {logged_in_id: @person.id}

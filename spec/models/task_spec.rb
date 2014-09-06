@@ -8,6 +8,6 @@ describe Task do
   end
 
   it "should have a name" do
-    expect(@task.name).to eq("Prepare study")
+    expect(@task.name).to eq("Task 1")
   end
 end
