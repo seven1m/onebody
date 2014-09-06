@@ -3,6 +3,7 @@ en:
     index:
       heading: "Tasks"
       group_heading: "Tasks for %{group}"
+      comment_count: "%{count} comments"
     new:
       heading: "New task"
       button: "New task"

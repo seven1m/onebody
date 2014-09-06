@@ -17,6 +17,9 @@
           %span.label.label-primary
             %i.fa.fa-user 
             = task.person.name
+          %span.label.label-default
+            %i.fa.fa-comments-o
+            = t("tasks.index.comment_count", count: task.comments.count)
         .tools.show
           =link_to "", edit_group_task_path(task.group, task), class: "fa fa-edit"
           =link_to "", "#", class: "fa fa-trash-o"
