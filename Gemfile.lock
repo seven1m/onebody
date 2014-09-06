@@ -59,6 +59,8 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    acts_as_list (0.4.0)
+      activerecord (>= 3.0)
     arel (5.0.1.20140414130214)
     authority (3.0.0)
       activesupport (>= 3.0.0)
@@ -140,6 +142,8 @@ GEM
     jquery-rails (3.1.0)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
+    jquery-ui-rails (5.0.0)
+      railties (>= 3.2.16)
     json (1.8.1)
     listen (2.7.5)
       celluloid (>= 0.15.2)
@@ -293,6 +297,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-session_store
+  acts_as_list
   acts_as_taggable_on_steroids!
   authority
   bcrypt
@@ -314,6 +319,7 @@ DEPENDENCIES
   highline
   httparty
   jquery-rails
+  jquery-ui-rails
   load_and_authorize_resource!
   loofah
   mini_magick

@@ -162,6 +162,7 @@ OneBody::Application.routes.draw do
   resources :tasks do
     member do
       patch :complete
+      post :update_position      
     end
   end
 

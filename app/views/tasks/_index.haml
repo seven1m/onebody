@@ -1,6 +1,6 @@
-%ul.todo-list.ui-sortable
+%ul.todo-list
   - tasks.each do |task|
-    %li.task{ class: ("done" if task.completed) }
+    %li.task{ class: ("done" if task.completed), data: {id: task.id} }
       = form_for [:complete, task.group, task], html: { class: "complete-task-form" } do |form|
         - if @group.present?
           %span.handle
@@ -10,11 +10,11 @@
         %span.text
           = link_to task.name, [task.group, task]
         - if task.duedate
-          %span.label.label-warning
+          %span.label.label-primary
             %i.fa.fa-calendar 
             = l(task.duedate)
         - if task.person
-          %span.label.label-success
+          %span.label.label-primary
             %i.fa.fa-user 
             = task.person.name
         .tools.show

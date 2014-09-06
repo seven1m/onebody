@@ -40,6 +40,12 @@ class TasksController < ApplicationController
     render nothing: true
   end
 
+  def update_position
+    @task = Task.find(params[:id])
+    @task.insert_at(params[:position].to_i)
+    render nothing: true
+  end
+
   private
 
   def task_params
