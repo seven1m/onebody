@@ -13,3 +13,7 @@
     = render partial: 'news_item_meta', object: @news_item, as: :news_item
 
 .news-item= sanitize_html @news_item.body
+
+%h3= t('Comments')
+= render partial: 'comments/comments', locals: { object: @news_item }
+
