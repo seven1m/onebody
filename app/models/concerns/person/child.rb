@@ -8,20 +8,21 @@ module Concerns
       included do
         after_initialize :guess_child, if: -> p { p.child.nil? and p.birthday.nil? }
         validates :child, inclusion: [true, false], unless: -> p { p.deleted? }
-
-        # birthday= is already a setter, so we must chain them
-        alias_method :birthday_without_child=, :birthday=
-        remove_method :birthday=
+        before_validation :set_child
       end
 
       def guess_child
-        return unless family
-        self.child = family.people.undeleted.count >= 2
+        if family
+          self.child = family.people.undeleted.count >= 2
+        else
+          self.child = false
+        end
       end
 
-      def birthday=(d)
-        self.birthday_without_child = d
-        self[:child] = !at_least?(Setting.get(:system, :adult_age).to_i) if d
+      def set_child
+        return unless birthday
+        self.child = !at_least?(Setting.get(:system, :adult_age).to_i)
+        true # don't return false or validation will fail
       end
 
       def at_least?(age)

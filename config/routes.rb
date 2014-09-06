@@ -45,7 +45,7 @@ OneBody::Application.routes.draw do
     end
     resource :stream
     resource :photo
-    resources :groups, :pictures, :groupies, :services, :albums, :notes, :verses
+    resources :groups, :pictures, :groupies, :services, :albums, :verses
     resource :privacy, :blog, :calendar
   end
 
@@ -89,7 +89,7 @@ OneBody::Application.routes.draw do
     end
     resource :stream
     resource :photo
-    resources :notes, :prayer_requests, :albums, :attachments
+    resources :prayer_requests, :albums, :attachments
     resource :calendar
   end
 
@@ -130,7 +130,6 @@ OneBody::Application.routes.draw do
   resources :pictures, :prayer_signups, :authentications, :verses, :shares,
             :comments, :prayer_requests, :generated_files
 
-  resources :notes, except: :index
 
   resource  :setup, :session, :search, :printable_directory, :privacy
 

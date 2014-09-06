@@ -78,7 +78,12 @@ class Verification < ActiveRecord::Base
     end
   end
 
+  def check(param)
+    pending? and param.to_i == code
+  end
+
   def check!(param)
+    return false unless pending?
     self.verified = (param.to_i == code and people.any?)
     save!
     self.verified

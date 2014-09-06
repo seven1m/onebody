@@ -7,11 +7,16 @@ require 'shoulda/matchers'
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
 RSpec.configure do |config|
-  config.use_transactional_fixtures = true
-  config.order = 'random'
   config.include SessionHelper
   config.include MailHelper
+
+  config.order = 'random'
+  config.use_transactional_fixtures = true
   ActiveRecord::Migration.maintain_test_schema!
+
+  config.filter_run_including focus: true
+  config.run_all_when_everything_filtered = true
+
   config.before(:all) do
     begin
       Site.current ||= Site.find(1)
@@ -22,8 +27,11 @@ RSpec.configure do |config|
     end
     Setting.update_all
   end
-  config.filter_run_including focus: true
-  config.run_all_when_everything_filtered = true
+
+  config.before(:each) do
+    ActionMailer::Base.deliveries.clear
+  end
+
   config.after(:suite) do
     FileUtils.rm_rf(Rails.root.join('public/system/test'))
   end

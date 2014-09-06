@@ -8,7 +8,7 @@ pt:
     delete_button: Excluir
     body_description: "Compartilhe o seu comunicado, informação ou novidade aqui:"
     deleted: "Notícia excluída."
-    if_you_have_something_to_share_html: "If you have something newsworthy to share, <a href='%{url}'>submit it here</a>."
+    if_you_have_something_to_share_html: "Se você possui uma notícia para compartilhar, <a href='%{url}'> envie aqui</a>."
     news_feed: "Feed de Notícias"
     no_news_is_available: "Nenhuma notícia disponível neste momento."
     save_news: "Salvar Notícia."
@@ -17,5 +17,5 @@ pt:
     subscribe:
       button: Subscrever
       description: "Obtenha atualizações de notícias no seu leitor de feeds."
-    title_description: "Give your post a concise title:"
+    title_description: "Forneça um título resumido a sua publicação:"
     welcome_to_the_place: "Bem vindo ao local das notícias da comunidade."

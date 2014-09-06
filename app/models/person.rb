@@ -3,6 +3,14 @@ class Person < ActiveRecord::Base
   include Authority::Abilities
   self.authorizer_name = 'PersonAuthorizer'
 
+  include Concerns::Person::Child
+  include Concerns::Person::Password
+  include Concerns::Person::Friend
+  include Concerns::Person::Sharing
+  include Concerns::Person::Import
+  include Concerns::Person::Export
+  include Concerns::Person::PdfGen
+
   MAX_TO_BATCH_AT_A_TIME = 50
 
   cattr_accessor :logged_in # set in addition to @logged_in (for use by Notifier and other models)
@@ -15,7 +23,6 @@ class Person < ActiveRecord::Base
   has_many :albums, as: :owner
   has_many :pictures, -> { order(created_at: :desc) }
   has_many :messages
-  has_many :notes, -> { order(created_at: :desc) }
   has_many :updates, -> { order(:created_at) }
   has_many :prayer_signups
   has_and_belongs_to_many :verses
@@ -55,6 +62,8 @@ class Person < ActiveRecord::Base
   validates_presence_of :first_name, :last_name
   validates_length_of :password, minimum: 5, allow_nil: true, if: Proc.new { Person.logged_in }
   validates_length_of :description, maximum: 25
+  validates_length_of :twitter, maximum: 15, allow_nil: true, allow_blank: true
+  validates_format_of :twitter, with: /\A[a-z0-9_]+\z/i, allow_nil: true, allow_blank: true
   validates_confirmation_of :password, if: Proc.new { Person.logged_in }
   validates_uniqueness_of :alternate_email, allow_nil: true, scope: [:site_id, :deleted], unless: Proc.new { |p| p.deleted? }
   validates_uniqueness_of :feed_code, allow_nil: true, scope: :site_id
@@ -63,12 +72,20 @@ class Person < ActiveRecord::Base
   validates_format_of :business_email, allow_nil: true, allow_blank: true, with: VALID_EMAIL_ADDRESS
   validates_format_of :email, allow_nil: true, allow_blank: true, with: VALID_EMAIL_ADDRESS
   validates_format_of :alternate_email, allow_nil: true, allow_blank: true, with: VALID_EMAIL_ADDRESS
+  validates_format_of :facebook_url, allow_nil: true, allow_blank: true, with: /\Ahttps?\:\/\/www\.facebook\.com\/.+/
   validates_exclusion_of :business_category, in: ['!']
   validates_inclusion_of :gender, in: %w(Male Female), allow_nil: true
   validates_date_of :birthday, :anniversary, allow_nil: true
   validates_attachment_size :photo, less_than: PAPERCLIP_PHOTO_MAX_SIZE
   validates_attachment_content_type :photo, content_type: PAPERCLIP_PHOTO_CONTENT_TYPES
   validate :validate_email_unique
+
+  before_validation :clean_twitter_username
+
+  def clean_twitter_username
+    return unless twitter.present?
+    self.twitter = twitter[1..-1] if self.twitter.start_with?("@")
+  end
 
   def validate_email_unique
     return unless email.present? and not deleted?
@@ -89,6 +106,7 @@ class Person < ActiveRecord::Base
   after_create :create_as_stream_item
 
   def create_as_stream_item
+    return unless can_create_stream_item?
     StreamItem.create!(
       title: name,
       person_id: id,
@@ -97,6 +115,15 @@ class Person < ActiveRecord::Base
       created_at: created_at,
       shared: visible? && email.present?
     )
+  end
+
+  LIMIT_CONSECUTIVE_STREAM_ITEMS = 2
+
+  def can_create_stream_item?
+    previous = StreamItem.limit(LIMIT_CONSECUTIVE_STREAM_ITEMS)
+                         .order(id: :desc)
+                         .pluck(:streamable_type)
+    previous != ['Person'] * LIMIT_CONSECUTIVE_STREAM_ITEMS
   end
 
   after_update :update_stream_item
@@ -139,8 +166,8 @@ class Person < ActiveRecord::Base
     birthday and ((birthday.yday()+365 - today.yday()).modulo(365) < BIRTHDAY_SOON_DAYS)
   end
 
-  fall_through_attributes :home_phone, :address, :address1, :address2, :city, :state, :zip, :short_zip, :mapable?, to: :family
-  sharable_attributes     :home_phone, :mobile_phone, :work_phone, :fax, :email, :birthday, :address, :anniversary, :activity
+  delegate             :home_phone, :address, :address1, :address2, :city, :state, :zip, :short_zip, :mapable?, to: :family, allow_nil: true
+  sharable_attributes  :home_phone, :mobile_phone, :work_phone, :fax, :email, :birthday, :address, :anniversary, :activity
 
   self.skip_time_zone_conversion_for_attributes = [:birthday, :anniversary]
   self.digits_only_for_attributes = [:mobile_phone, :work_phone, :fax, :business_phone]
@@ -424,13 +451,4 @@ class Person < ActiveRecord::Base
     end
 
   end
-
-  # FIXME why does these have to be at the bottom?
-  include Concerns::Person::Child
-  include Concerns::Person::Password
-  include Concerns::Person::Friend
-  include Concerns::Person::Sharing
-  include Concerns::Person::Import
-  include Concerns::Person::Export
-  include Concerns::Person::PdfGen
 end

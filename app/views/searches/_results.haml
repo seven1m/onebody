@@ -35,7 +35,7 @@
         %tr.row-with-avatar
           %td.avatar
             = link_to person do
-              = avatar_tag person
+              = avatar_tag person, fallback_to_family: true
           - if @search.business
             %td= link_to person.business_name, person_path(person, business: true)
             %td

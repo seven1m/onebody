@@ -1,18 +1,32 @@
 %p= t('groups.edit.advanced.description')
 
 .form-group
+  = form.label :membership_mode
+  = form.select :membership_mode, group_membership_modes, {}, class: 'form-control'
+.form-group#link_code.membership-mode-option
   = form.label :link_code
   = form.text_field :link_code, class: 'form-control'
   %span.help-block= t('groups.edit.class_link_code.help_html')
-.form-group
+.form-group#parents_of.membership-mode-option
   = form.label :parents_of
   = form.select :parents_of, [['(' + t('none') + ')', '']] + (Group.where(hidden: false).order('name').to_a - [@group]).map { |g| [g.name, g.id] }, {}, class: 'form-control'
-  %span.help-block= t('groups.edit.parents_of.help')
-.form-group
-  = form.label :hidden
-  = form.check_box :hidden, class: 'form-control'
+  %span.help-block= t('groups.edit.parents_of.help_html')
 .form-group
   = form.submit t('save_changes'), class: 'btn btn-success'
+
+.box.box-warning{ style: 'margin-top:50px' }
+  .box-header
+    %h3.box-title= t('groups.hide.heading')
+  .box-body
+    %p= t('groups.hide.intro')
+    - if @group.hidden?
+      = link_to group_path(@group, 'group[hidden]' => false), data: { method: 'put', confirm: t('are_you_sure') }, class: 'btn btn-success' do
+        = icon 'fa fa-eye'
+        = t('groups.hide.unhide_button')
+    - elsif @group.id
+      = link_to group_path(@group, 'group[hidden]' => true), data: { method: 'put', confirm: t('are_you_sure') }, class: 'btn btn-warning' do
+        = icon 'fa fa-eye-slash'
+        = t('groups.hide.button')
 
 .box.box-danger{ style: 'margin-top:50px' }
   .box-header

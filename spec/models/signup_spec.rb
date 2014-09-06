@@ -66,7 +66,6 @@ describe Signup do
         before do
           @family_count = Family.count
           @person_count = Person.count
-          Notifier.deliveries.clear
         end
 
         context 'existing user can sign in' do
@@ -184,7 +183,6 @@ describe Signup do
         before do
           @family_count = Family.count
           @person_count = Person.count
-          Notifier.deliveries.clear
           @return = @signup.save
         end
 
@@ -256,7 +254,6 @@ describe Signup do
         context 'sign up approval not required' do
           before do
             Setting.set(:features, :sign_up_approval_email, nil)
-            Notifier.deliveries.clear
           end
 
           context '#save' do
@@ -343,7 +340,6 @@ describe Signup do
         context 'sign up approval required' do
           before do
             Setting.set(:features, :sign_up_approval_email, 'admin@example.com')
-            Notifier.deliveries.clear
           end
 
           context '#save' do

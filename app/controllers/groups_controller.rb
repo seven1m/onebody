@@ -124,11 +124,13 @@ class GroupsController < ApplicationController
   def search_index
     @categories = Group.category_names
     @groups = Group.all
-    @groups.where!(hidden: false, approved: true) unless @logged_in.admin?(:manage_groups)
     @groups.where!(category: params[:category]) if params[:category].present?
     @groups.where!('name like ?', "%#{params[:name]}%") if params[:name].present?
     @groups.order!(:name)
     @hidden_groups = @groups.where(hidden: true)
+    @groups.where!(approved: true) unless @logged_in.admin?(:manage_groups)
+    @groups.where!(hidden: false) unless @logged_in.admin?(:manage_groups) and params[:include_hidden]
+    @groups = @groups.page(params[:page])
     respond_to do |format|
       format.html { render action: 'search' }
       format.js
@@ -160,7 +162,7 @@ class GroupsController < ApplicationController
 
   def group_attributes
     base = [:name, :description, :photo, :meets, :location, :directions, :other_notes, :address, :members_send, :private, :category, :leader_id, :blog, :email, :prayer, :attendance, :gcal_private_link, :approval_required_to_join, :pictures, :cm_api_list_id]
-    base += [:approved, :link_code, :parents_of, :hidden] if @logged_in.admin?(:manage_groups)
+    base += [:approved, :membership_mode, :link_code, :parents_of, :hidden] if @logged_in.admin?(:manage_groups)
     base
   end
 

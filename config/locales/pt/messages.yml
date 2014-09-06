@@ -5,7 +5,7 @@ pt:
       button: "Nova Mensagen"
     private:
       heading: "Mensagem Privada"
-      description_html: "This will send a <em>private</em> email to %{person}."
+      description_html: "Isto irá enviar um email <em>privado</em> para %{person}."
     group:
       heading: "Mensagem do Grupo"
       description_html: "Isto irá enviar um email para todos os membros do grupo %{group}."
@@ -23,7 +23,7 @@ pt:
     attachment_optional: "Anexo (opcional)"
     attachments: Anexos
     file_missing: "arquivo não encontrado"
-    flag_cleared: "Flag(s) cleared."
+    flag_cleared: "Marcação(ões) removidas."
     from: De
     in: em
     messages_in_html: "Mensagens em <a href=\"%{url}\">%{name}</a>"
@@ -35,7 +35,7 @@ pt:
     send_message: "Enviar Email"
     sent: "A sua mensagem foi enviada."
     show_quoted_content: "exibir conteúdo citado"
-    some_quoted_text_is_hidden: "Some quoted text in this message is hidden;"
+    some_quoted_text_is_hidden: "Algum conteúdo citado está oculto nesta mensagem;"
     subject: Assunto
     to_show_the_entire_message: "para exibir a mensagem completa."
     unknown_type: "Tipo de mensagem desconhecido."

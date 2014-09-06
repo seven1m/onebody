@@ -43,8 +43,13 @@ module ApplicationHelper
     preserve_breaks(text, false)
   end
 
-  def simple_url(url)
-    url.sub(/^https?:\/\//, '').sub(/\/$/, '')
+  def simple_url(url, options={ www: true })
+    if options[:www]
+      regex = /^https?:\/\//
+    else
+      regex = /^https?:\/\/(www\.)?/
+    end
+    url.sub(regex, '').sub(/\/$/, '')
   end
 
   def me?
@@ -151,8 +156,16 @@ module ApplicationHelper
     controller.params_without_action
   end
 
+  def date_format
+    placeholder = Setting.get(:formats, :date)
+      .gsub(/%Y/, I18n.t('date_format.YYYY'))
+      .gsub(/%m/, I18n.t('date_format.MM'))
+      .gsub(/%d/, I18n.t('date_format.DD'))
+    placeholder unless placeholder.include?('%')
+  end
+
   def datepicker_format
-    Setting.get(:formats, :date) =~ %r{%d/%m} ? 'dd/mm/yyyy' : 'mm/dd/yyyy'
+    date_format.downcase
   end
 
   # TODO replace all inline JS links with unobtrusive JS

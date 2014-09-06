@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 ruby File.read(File.expand_path('../.ruby-version', __FILE__)).strip.sub(/ruby\-/, '')
 
-gem 'rails', '~> 4.1.4'
+gem 'rails', '~> 4.1.5'
 gem 'rails_autolink'
 gem 'mysql2'
 gem 'jquery-rails'

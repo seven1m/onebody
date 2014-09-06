@@ -27,7 +27,7 @@
           event_queue.push(e);
         }
       }, false);
-  %body.skin-blue{ date: { 'datepicker-format' => datepicker_format } }
+  %body.skin-blue{ data: { 'datepicker-format' => datepicker_format } }
     / header logo: style can be found in header.less
     %header.header
       = link_to setting(:name, :site), root_path, class: 'logo'
@@ -143,9 +143,9 @@
                       = t('nav.directory_sub.advanced')
                   - if @logged_in.can_create?(Family)
                     %li
-                      = link_to new_family_path do
+                      = link_to new_person_path do
                         = icon 'fa fa-plus'
-                        = t('nav.directory_sub.new_family')
+                        = t('nav.directory_sub.new_person')
             - if setting(:features, :documents)
               %li{ class: tab_selected?(:documents) ? 'active' : '' }
                 = link_to documents_path do

@@ -13,9 +13,6 @@ Contact:
     format: string
     value: admin@example.com
     global: true
-  Birthday Verification Email:
-    format: string
-    value: admin@example.com
   Send Email Changes To:
     format: string
     value: admin@example.com
@@ -96,6 +93,9 @@ Features:
   Documents:
     format: boolean
     value: false
+  Small Group Size:
+    format: string
+    value: 75
 Services:
   Analytics:
     format: string

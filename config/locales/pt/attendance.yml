@@ -2,10 +2,10 @@
 pt:
   attendance:
     heading_html: "Presença do grupo %{group} em %{when}"
-    heading_without_group: "Attendance for %{when}"
-    medical_notes: "Medical notes:"
-    can_pickup_people: "Can Pick Up"
-    cannot_pickup_people: "Cannot Pick Up"
+    heading_without_group: "Presença para %{when}"
+    medical_notes: "Notas Médicas:"
+    can_pickup_people: "Pode Buscar"
+    cannot_pickup_people: "Não Pode Buscar"
     add_somebody_not_in_group: "Adicionar alguém que não faz parte deste grupo"
     add_visitor: "Adicionar um visitante."
     adult: Adulto
@@ -15,7 +15,7 @@ pt:
     date: Data
     export: "Exportar para um Arquivo"
     group: Grupo
-    group_missing: "group missing"
+    group_missing: "grupo não encontrado"
     id: ID
     name: Nome
     name_unknown: "nome desconhecido"
@@ -23,10 +23,10 @@ pt:
     no_records: "nenhum registro para exibir"
     not_enabled: "Registro de presença não está habilitado para este grupo."
     prev_date: "data anterior"
-    recorded_time: "Recorded Time"
+    recorded_time: "Horário Registrado"
     records:
-      one: "1 record"
-      other: "%{count} records"
+      one: "1 registro"
+      other: "%{count} registros"
     save: "Salvar Presença"
     saved: "Presença salva."
     Search: Buscar

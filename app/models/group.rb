@@ -8,7 +8,6 @@ class Group < ActiveRecord::Base
   has_many :people, -> { order(:last_name, :first_name) }, through: :memberships
   has_many :admins, -> { where('memberships.admin IS true').order(:last_name, :first_name) }, through: :memberships, source: :person
   has_many :messages, -> { order(updated_at: :desc) }, dependent: :destroy
-  has_many :notes, -> { order(created_at: :desc) }
   has_many :prayer_requests, -> { order(created_at: :desc) }
   has_many :attendance_records
   has_many :albums, as: :owner
@@ -99,13 +98,19 @@ class Group < ActiveRecord::Base
     memberships.where(person_id: person.id).first.update_attributes!(options)
   end
 
+  attr_accessor :dont_update_memberships
   after_save :update_memberships
 
+  EVERYONE_LIMIT = 1000
+
   def update_memberships
-    if parents_of
+    return if dont_update_memberships
+    if membership_mode == 'adults' and Person.undeleted.adults.count <= EVERYONE_LIMIT
+      update_membership_associations(Person.undeleted.adults.to_a)
+    elsif membership_mode == 'parents_of' and parents_of
       parents = Group.find(parents_of).people.map { |p| p.parents }.flatten.uniq
       update_membership_associations(parents)
-    elsif linked?
+    elsif membership_mode == 'link_code' and linked?
       q = []
       p = []
       link_code.downcase.split.each do |code|
@@ -258,6 +263,7 @@ class Group < ActiveRecord::Base
       }.reject { |k, v| v == 0 }
     end
 
+# TODO: remove other_notes since notes is deleted
     EXPORT_COLS = {
       group: %w(
         name

@@ -201,4 +201,35 @@ describe Family do
     end
   end
 
+  context '#name' do
+    before do
+      @family = FactoryGirl.create(:family)
+    end
+
+    context 'family name is empty' do
+      before do
+        @family.name = nil
+      end
+
+      it 'should be invalid' do
+        expect(@family).to be_invalid
+      end
+    end
+  end
+
+  context '#last_name' do
+    before do
+      @family = FactoryGirl.create(:family)
+    end
+
+    context 'family last name is empty' do
+      before do
+        @family.last_name = nil
+      end
+
+      it 'should be invalid' do
+        expect(@family).to be_invalid
+      end
+    end
+  end
 end

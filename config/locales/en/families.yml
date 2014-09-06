@@ -29,6 +29,7 @@ en:
       cannot_delete_your_own: "You cannot delete your own family."
 
     show:
+      heading: "%{family} Family"
       edit_link: "Edit Family"
       suggested_name_html:
         one: "%{first} is the only adult in this family. Consider <a href='%{url}'>changing the family name</a> to “<strong>%{name}</strong>.”"

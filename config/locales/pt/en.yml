@@ -4,7 +4,7 @@ pt:
   Delete: Excluir
   From: De
   Help: Ajuda
-  No_action_to_show: "No action responded to show"
+  No_action_to_show: "Nenhuma ação respondeu para ser exibida"
   No_more_records: "Não existem mais registros."
   Page_no_longer_valid: "Esta página não é mais válida."
   There_was_an_error: "Ocorreu um erro."
@@ -43,8 +43,8 @@ pt:
         signup:
           attributes:
             base:
-              disabled: "Sign up is disabled."
-              spam: "Sign up was completed by a robot."
+              disabled: "Registro está desativado."
+              spam: "Registro foi completado de forma automatizada."
             first_name:
               blank: "Primeiro Nome não pode ser vazio."
             last_name:
@@ -57,7 +57,7 @@ pt:
               blank: "Data de Nascimento não pode ser vazio."
               too_young: "Você é muito novo para se inscrever neste serviço."
             mobile_phone:
-              blank: "Mobile phone cannot be blank."
+              blank: "Telefone celular não pode ficar vazio."
   activerecord:
     attributes:
       album:
@@ -85,6 +85,8 @@ pt:
         email: Email
         first_name: "Primeiro Nome"
         last_name: "Último Nome"
+        facebook_url: "URL do Facebook"
+        twitter: "Usuário do Twitter"
       group:
         name: Nome
         category: Categoria
@@ -92,20 +94,21 @@ pt:
         other_notes: "Outras Notas"
         leader_id: Líder
         creator: Criador
-        meets: "Meets When"
-        location: "Location and Address"
-        direction: Direction
+        meets: "Se encontra quando"
+        location: "Local e Endereço"
+        direction: Direção
         email: Email
         prayer: "Pedidos de Oração"
         pictures: "Compartilhamento de Fotos"
         attendance: "Registro de Presença"
         gcal_private_link: "Link Privado do Calendário do Google"
-        approval_required_to_join: "Approval required for people to join group"
+        approval_required_to_join: "Uma aprovação é necessária para as pessoas entrarem no grupo"
         private: "Grupo Privado"
-        members_send: "Group Members Can Post Messages"
-        link_code: "External Link Code"
-        parents_of: "Link to parents of another group"
-        hidden: "Hidden (Archived) Group"
+        members_send: "Membros do Grupo Podem Postar Mensagens"
+        membership_mode: "Selecione como os membros do grupo devem ser adicionados"
+        link_code: "Código de Link Externo"
+        parents_of: "Fazer o link para os pais em outro grupo"
+        hidden: "Grupo Oculto (Arquivado)"
       prayer_request:
         answer: Resposta
         answered_at: "Data Respondida"
@@ -152,7 +155,7 @@ pt:
             folder_id:
               invalid: "Você não pode especificar esta pasta como a pasta principal."
             parent_folder_ids:
-              too_long: "This folder is nested too deep. Please place it somewhere else."
+              too_long: "Esta pasta está numa estrutura muito complexa. Por favor coloque em outro lugar."
         family:
           attributes:
             name:
@@ -160,29 +163,29 @@ pt:
             last_name:
               blank: "A família precisa ter um sobrenome."
             alternate_barcode_id:
-              invalid: "This family card (alternate barcode id) contains letters or symbols (only numbers are allowed)."
-              taken: "This family card (alternate barcode id) is already taken by another family."
-              too_long: "This family card (alternate barcode id) is too long (cannot be more than 50 digits)."
-              too_short: "This family card (alternate barcode id) is too short (must be 10 digits)."
+              invalid: "Este cartão de família (código de barras alternativo) contém letras ou símbolos (somente números são permitios)."
+              taken: "Este cartão de família (código de barras alternativo)  já está em uso por outra família."
+              too_long: "Este cartão de família (código de barras alternativo) é grande demais (não pode possuir mais do que 50 dígitos)."
+              too_short: "Este cartão de família (código de barras alternativo) é muito curto (deve possuir pelo menos 10 dígitos)."
             barcode_id:
-              invalid: "This family card (barcode id) contains letters or symbols (only numbers are allowed)."
-              taken: "This family card (barcode id) is already taken by another family."
-              too_long: "This family card (barcode id) is too long (cannot be more than 50 digits)."
-              too_short: "This family card (barcode id) is too short (must be 10 digits)."
+              invalid: "Este cartão de família (código de barras) contém letras ou símbolos (somente números são permitios)."
+              taken: "Este cartão de família (código de barras) já está em uso por outra família."
+              too_long: "Este cartão de família (código de barras) é grande demais (não pode possuir mais do que 50 dígitos)."
+              too_short: "Este cartão de família (código de barras) é muito curto (deve possuir pelo menos 10 dígitos)."
             photo:
               too_large: "A foto precisa ter menos de %{size} megabytes."
               wrong_type: "O arquivo de foto deve ser JPG, GIF ou PNG."
         friendship:
           attributes:
             friend_id:
-              blank: "This friendship must be associated with a person."
-              taken: "This friendship already exists."
+              blank: "Esta amizade necessita estar associada com uma pessoa."
+              taken: "Esta amizade já existe."
             person_id:
-              blank: "This friendship must be associated with a person."
+              blank: "Esta amizade necessita estar associada com uma pessoa."
         friendship_request:
           attributes:
             from_id:
-              blank: "This friendship request must be associated with a person."
+              blank: "Esta amizade necessita estar associada com uma pessoa."
             person:
               invalid_address: "A pessoa precisa de um endereço de email válido."
               refused: "A pessoa não aceita pedidos de amizade."
@@ -217,7 +220,7 @@ pt:
         message:
           attributes:
             base:
-              taken: "This message has already been sent. Try changing the subject or body if you wish to send another email."
+              taken: "Esta mensagem já foi enviada. Tente mudar o assunto ou conteúdo se você deseja enviar outro email."
             body:
               blank: "A mensagem precisa ter um corpo."
               too_short: "O corpo da mensagem é muito curto."
@@ -245,9 +248,9 @@ pt:
             path:
               taken: "Existe outra página neste caminho."
             slug:
-              blank: "The page must have a slug."
-              exclusion: "The page slug cannot be \"admin\", \"edit\", or \"new\""
-              invalid: "The page slug can only contain lowercase letters and underscore."
+              blank: "A página deve conter um caminho amigável."
+              exclusion: "O caminho amigável não pode ser \"admin\", \"edit\" ou \"new\""
+              invalid: "O caminho amigável pode somente conter caracteres minúsculos e \"underscore\"."
             title:
               blank: "A página precisa ter um título."
         person:
@@ -256,24 +259,26 @@ pt:
               invalid: "O endereço de email alternativo não está no formato correto (algumacoisa@exemplo.com.br)."
               taken: "Existe outra pessoa com o mesmo email alternativo."
             anniversary:
-              not_a_date: "Please enter a valid date for the anniversary."
+              not_a_date: "Por favor insira uma data de aniversário válida."
             birthday:
-              not_a_date: "Please enter a valid date for the birthday."
+              not_a_date: "Por favor insira uma data válida para o nascimento."
             business_email:
               invalid: "O email comercial não está formatado corretamente (algumacoisa@exemplo.com)."
             business_website:
-              invalid: "The business website URL is not formatted correctly (are you missing 'http://' at the beginning?)"
+              invalid: "O endereço da empresa não está formatado corretamente (você está incluindo o prefixo 'http://' no início?)"
             business_category:
               exclusion: "Você precisa inserir uma categoria para o seu negócio."
             child:
               inclusion: "Você precisa inserir uma data de nascimento ou especificar se esta pessoa é uma criança."
             description:
-              too_long: "Description must be less than 25 characters.  A word or two. :)"
+              too_long: "Descrição precisa ser menor do que 25 caracteres. Uma palavra ou duas. :)"
             email:
               invalid: "O email não está formatado corretamente (algumacoisa@exemplo.com)."
               taken: "Existe outra pessoa com o mesmo endereço de email."
+            facebook_url:
+              invalid: "URL do Facebook é inválida."
             feed_code:
-              taken: "The same feed code exists on another person record."
+              taken: "O mesmo código de feed existe para outra pessoa."
             first_name:
               blank: "A pessoa precisa ter um primeiro nome."
             gender:
@@ -283,11 +288,14 @@ pt:
             password:
               confirmation: "As senhas não são iguais."
               too_short: "A senha é muito curta."
-            website:
-              invalid: "The website URL is not formatted correctly (are you missing 'http://' at the beginning?)"
             photo:
               too_large: "A foto precisa ser menor do que %{size} megabytes."
               wrong_type: "O arquivo de foto deve ser JPG, GIF ou PNG."
+            twitter:
+              invalid: "Usuário do Twitter é inválido."
+              too_long: "Usuário do Twitter é muito grande."
+            website:
+              invalid: "O endereço não está formatado corretamente (você está incluindo o prefixo 'http://' no início?)"
         picture:
           attributes:
             album_id:
@@ -310,7 +318,7 @@ pt:
         recipe:
           attributes:
             directions:
-              blank: "The recipe must have directions."
+              blank: "A receita deve ter instruções."
             ingredients:
               blank: "A receita deve conter ingredientes."
             title:
@@ -338,8 +346,8 @@ pt:
         site:
           attributes:
             host:
-              blank: "The host must be specified."
-              taken: "There is another site with the same host."
+              blank: "O servidor deve ser fornecido."
+              taken: "Já existe um outro site neste mesmo servidor."
               invalid: "Não inclua \"http://\" ou \"www.\" no nome de domínio."
             name:
               blank: "Este site precisa ter um nome."
@@ -353,24 +361,27 @@ pt:
         verification:
           attributes:
             email:
-              invalid: "That email address could not be found in our system. If you have another address, try again."
+              invalid: "Este endereço de email não foi encontrado no nosso sistema. Se você possui outro endereço, tente novamente."
             carrier:
               inclusion: "Você precisa seleciona uma operadora de celular."
             mobile_phone:
-              invalid: "That mobile number could not be found in our system. You may try again."
+              invalid: "Este número de celular não foi encontrado no nosso sistema. Você pode tesntar novamente."
             base:
-              unauthorized: "There is a problem with your record preventing you from signing in."
+              unauthorized: "Existe um problema com o seu registro, prevenindo você de acessar."
         verse:
           attributes:
             reference:
-              blank: "The verse must have a reference."
+              blank: "O versículo deve conter uma referência."
             text:
               blank: "A passagem não foi encontrada. Você digitou a referência corretamente?"
-              too_long: "The passage is too long. Try to specify a shorter passage."
+              too_long: "A passagem é grande demais. Tente especificar uma passagem mais curta."
   application:
-    api_access: "You must be a super administrator to use the API."
+    api_access: "Você deve ser um super administrador para usar a API."
+    mailgun_route_found: "A rota já existe."
+    mailgun_route_created: "A rota foi criada."
+    mailgun_route_error: "Ocorreu um erro ao tentar criar a rota."
     no_default_site: "Nenhum site padrão encontrado."
-    no_site_configured: "There is no site configured at this address: %{host}"
+    no_site_configured: "Não existe um site configurado no endereço %{host}"
     settings_reloaded: "Configurações recarregadas."
     settings_saved: "Configurações salvas."
     template_created: "Modelo criado."
@@ -380,4 +391,4 @@ pt:
   footer:
     help: "Ajuda para utilizar este site"
     privacy_policy: "Política de Privacidade"
-    powered_by: "Provido por CHURCH.IO"
+    powered_by: "Fornecido por CHURCH.IO"
