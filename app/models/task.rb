@@ -6,7 +6,7 @@ class Task < ActiveRecord::Base
   belongs_to :group
   belongs_to :person
   belongs_to :site
-  has_many :comments, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
 
   scope_by_site_id
 
