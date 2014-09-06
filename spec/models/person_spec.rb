@@ -316,12 +316,14 @@ describe Person do
     it "sets child=true when birthday is set and person is < 18 years old" do
       @person = FactoryGirl.build(:person, child: false)
       @person.birthday = 17.years.ago
+      @person.valid? # trigger callback
       expect(@person.child).to eq(true)
     end
 
     it "sets child=false when birthday is set and person is >= 18 years old" do
       @person = FactoryGirl.build(:person, child: true)
       @person.birthday = 18.years.ago
+      @person.valid? # trigger callback
       expect(@person.child).to eq(false)
     end
 

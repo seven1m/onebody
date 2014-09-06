@@ -193,10 +193,9 @@ class Person < ActiveRecord::Base
 
   def birthday=(d)
     if d.is_a?(String) and d.length > 0 and date = Date.parse_in_locale(d).try(:rfc3339)
-      # birthday= is already defined in Child concern, so call super
-      super date
+      self[:birthday] = date
     else
-      super d
+      self[:birthday] = d
     end
   end
 
