@@ -21,9 +21,10 @@
   = t('comments.add_a_comment')
   #new_comment
     = form_for Comment.new, html: {style: 'border:none;'} do |form|
-      = hidden_field_tag object.class.name.downcase + '_id', object.id
+      = hidden_field_tag 'comment[commentable_type]', object.class
+      = hidden_field_tag 'comment[commentable_id]', object.id
       = hidden_field_tag :return_to, request.fullpath
       .form-group
-        = text_area_tag 'text', '', rows: 3, cols: 40, id: 'new_comment_textarea', class: 'form-control'
+        = text_area_tag 'comment[text]', '', rows: 3, cols: 40, id: 'new_comment_textarea', class: 'form-control'
       .form-group
         = form.submit t('comments.save'), class: 'btn btn-success'

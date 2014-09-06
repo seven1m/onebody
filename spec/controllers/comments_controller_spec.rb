@@ -14,7 +14,7 @@ describe CommentsController do
     end
     @verse = FactoryGirl.create(:verse)
     num_comments = Comment.count
-    post :create, {text: 'dude', verse_id: @verse.id}, {logged_in_id: @person.id}
+    post :create, { comment: {text: 'dude', commentable_type: 'Verse', commentable_id: @verse.id} }, {logged_in_id: @person.id}
     expect(response).to be_redirect
     expect(Comment.count).to eq(num_comments + 1)
   end

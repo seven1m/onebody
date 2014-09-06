@@ -1,7 +1,7 @@
 class NewsItemAuthorizer < ApplicationAuthorizer
 
   def readable_by?(user)
-    false # TODO
+    true
   end
 
   def updatable_by?(user)
