@@ -10,7 +10,12 @@
         .row
           .col-md-6
             = form.label :duedate
-            = form.date_field :duedate, value: @task.duedate && @task.duedate.to_s(:date), class: 'form-control'
+            .input-group
+              .input-group-btn
+                %button{ type: 'button', class: 'btn btn-info date-picker-btn' }
+                  = icon 'fa fa-calendar'
+              = form.date_field :duedate, class: 'form-control'
+            / = form.date_field :duedate, value: @task.duedate && @task.duedate.to_s(:date), class: 'form-control'
           .col-md-6
             = form.label :person_id
             = form.select :person_id, @group.people.map { |p| [p.name, p.id] }, {include_blank: true}, class: 'form-control'

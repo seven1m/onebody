@@ -3,7 +3,9 @@ class TasksController < ApplicationController
   load_and_authorize_resource
 
   def index
-    if !@group or @logged_in.member_of?(@group)
+    if !@group
+      @groups = @logged_in.tasks.map(&:group).uniq
+    elsif @logged_in.member_of?(@group)
       @tasks = tasks.order(completed: :asc, duedate: :asc).page(params[:page])
     else
       render text: t('not_authorized'), layout: true, status: :forbidden

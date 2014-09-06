@@ -9,14 +9,12 @@
       = icon 'fa fa-plus'
       = t('tasks.new.button')
 
-= pagination @tasks
-
 - if @group
   .box
     .box-body
       = render partial: 'index', locals: { tasks: @group.tasks }
 - else
-  - @logged_in.groups.each do |group|
+  - @groups.each do |group|
     .box.box-primary
       .box-header
         %h3.box-title
@@ -26,4 +24,4 @@
             = t("tasks.go_to_group")
             = icon "fa fa-arrow-circle-right"
       .box-body
-        = render partial: 'index', locals: { tasks: group.tasks }
+        = render partial: 'index', locals: { tasks: group.tasks.where(person: @logged_in) }

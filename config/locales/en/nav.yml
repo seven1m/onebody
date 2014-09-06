@@ -47,3 +47,7 @@ en:
     syncs: "Syncs"
     verses: "Verses"
     tasks: "Tasks"
+    tasks_sub:
+      assigned_count:
+        one: "1 assigned"
+        other: "%{count} assigned"

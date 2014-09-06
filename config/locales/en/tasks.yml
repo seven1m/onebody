@@ -10,6 +10,7 @@ en:
       heading: "Edit task"
     show:
       heading: "Task: %{task}"
+      edit: "Edit Task"
     heading: "Task"
     save: "Save Task"
     go_to_group: "Go to group"

@@ -156,6 +156,7 @@
                 = link_to tasks_path do
                   %i.fa.fa-check-square
                   %span= t('nav.tasks')
+                  = assigned_tasks_badge
             - if @logged_in.admin?
               %li{ class: tab_selected?(:admin) ? 'active' : '' }
                 = link_to admin_path do
