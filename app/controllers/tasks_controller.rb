@@ -10,9 +10,11 @@ class TasksController < ApplicationController
     end
   end
 
-  def new
+  def show
   end
 
+  def new
+  end
   def create
     if @task.save
       redirect_to group_tasks_path(@group)

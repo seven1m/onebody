@@ -12,13 +12,18 @@
 = pagination @tasks
 
 - if @group
-  = render partial: 'index', locals: { tasks: @group.tasks }
+  .box
+    .box-body
+      = render partial: 'index', locals: { tasks: @group.tasks }
 - else
   - @logged_in.groups.each do |group|
-    .page-header
-      %h3
-        = group.name
-        = link_to group_path(group), class: "btn btn-primary btn-xs" do
-          = t("tasks.go_to_group")
-          = icon "fa fa-arrow-circle-right"
-    = render partial: 'index', locals: { tasks: group.tasks }
+    .box.box-primary
+      .box-header
+        %h3.box-title
+          = group.name
+        .box-tools.pull-right
+          = link_to group_tasks_path(group), class: "btn btn-primary btn-sm" do
+            = t("tasks.go_to_group")
+            = icon "fa fa-arrow-circle-right"
+      .box-body
+        = render partial: 'index', locals: { tasks: group.tasks }

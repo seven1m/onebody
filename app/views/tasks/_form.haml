@@ -1,24 +1,21 @@
-= form_for [@group, @task] do |form|
-  = error_messages_for(form)
-  = form.hidden_field :group_id
-
-  %h3= t('tasks.heading')
-  .form-group
-    = form.text_field :name, class: 'form-control'
-  - if @task.id
-    .form-group
-      = form.check_box :completed, class: 'checkbox'
-      = form.label :completed, class: 'inline'
-  .form-group
-    .row
-      .col-md-6
-        = form.label :duedate
-        = form.date_field :duedate, value: @task.duedate && @task.duedate.to_s(:date), class: 'form-control'
-      .col-md-6
-        = form.label :person_id
-        = form.select :person_id, @group.people.map { |p| [p.name, p.id] }, {include_blank: true}, class: 'form-control'
-  .form-group
-    = form.label :description
-    = form.text_area :description, rows: 5, class: 'form-control'
-  .form-group
-    = form.button t('tasks.save'), class: 'btn btn-success'
+.box
+  .box-body
+    = form_for [@group, @task] do |form|
+      = error_messages_for(form)
+      = form.hidden_field :group_id
+      .form-group
+        = form.label :name
+        = form.text_field :name, class: 'form-control'
+      .form-group
+        .row
+          .col-md-6
+            = form.label :duedate
+            = form.date_field :duedate, value: @task.duedate && @task.duedate.to_s(:date), class: 'form-control'
+          .col-md-6
+            = form.label :person_id
+            = form.select :person_id, @group.people.map { |p| [p.name, p.id] }, {include_blank: true}, class: 'form-control'
+      .form-group
+        = form.label :description
+        = form.text_area :description, rows: 5, class: 'form-control'
+      .form-group
+        = form.button t('tasks.save'), class: 'btn btn-success'

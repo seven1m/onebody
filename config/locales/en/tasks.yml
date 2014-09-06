@@ -8,6 +8,18 @@ en:
       button: "New task"
     edit:
       heading: "Edit task"
+    show:
+      heading: "Task: %{task}"
     heading: "Task"
     save: "Save Task"
     go_to_group: "Go to group"
+
+  activerecord:
+    attributes:
+      task:
+        name: Task
+        description: Description
+        person: Assigned to
+        person_id: Assigned to
+        duedate: Due on
+        completed: Completed

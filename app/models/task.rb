@@ -6,8 +6,9 @@ class Task < ActiveRecord::Base
   belongs_to :group
   belongs_to :person
   belongs_to :site
+  has_many :comments, dependent: :destroy
 
   scope_by_site_id
 
-  validates_presence_of :name, :group_id
+  validates :name, :group_id, presence: true
 end

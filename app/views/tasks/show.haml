@@ -1,0 +1,44 @@
+- @title = t('tasks.show.heading', task: @task.name)
+
+.page-controls
+  = link_to "", class: 'btn btn-success' do
+    = icon 'fa fa-plus'
+    = t('albums.new.button')
+
+.box
+  .box-header
+    %h3.box-title= simple_format @task.name
+  .box-body
+    %dl.dl-horizontal
+      %dt
+        = t "activerecord.attributes.task.description"
+      %dd
+        = simple_format @task.description
+      %dt
+        = t "activerecord.attributes.task.person"
+      %dd
+        - if @task.person
+          = link_to @task.person.name, person_path(@task.person)
+      %dt
+        = t "activerecord.attributes.task.duedate"
+      %dd
+        = l(@task.duedate) if @task.duedate
+/ .form-group
+/   = form.text_field :name, class: 'form-control'
+/ - if @task.id
+/   .form-group
+/     = form.check_box :completed, class: 'checkbox'
+/     = form.label :completed, class: 'inline'
+/ .form-group
+/   .row
+/     .col-md-6
+/       = form.label :duedate
+/       = form.date_field :duedate, value: @task.duedate && @task.duedate.to_s(:date), class: 'form-control'
+/     .col-md-6
+/       = form.label :person_id
+/       = form.select :person_id, @group.people.map { |p| [p.name, p.id] }, {include_blank: true}, class: 'form-control'
+/ .form-group
+/   = form.label :description
+/   = form.text_area :description, rows: 5, class: 'form-control'
+/ .form-group
+/   = form.button t('tasks.save'), class: 'btn btn-success'

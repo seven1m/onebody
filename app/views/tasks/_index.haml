@@ -1,12 +1,22 @@
-%table.table.table-hover
+%ul.todo-list.ui-sortable
   - tasks.each do |task|
-    %tr.task{ class: ("completed" if task.completed) }
-      %td.small-col
-        = form_for [:complete, @group, task], html: { class: "complete-task-form" } do |form|
-          = form.check_box :completed, autocomplete: "off"
-      %td
-        = link_to task.name, [:edit, task.group, task]
-      %td
-        = task.person.try(:name)
-      %td
-        = l(task.duedate) if task.duedate
+    %li.task{ class: ("done" if task.completed) }
+      = form_for [:complete, task.group, task], html: { class: "complete-task-form" } do |form|
+        - if @group.present?
+          %span.handle
+            %i.fa.fa-ellipsis-v
+            %i.fa.fa-ellipsis-v  
+        = form.check_box :completed, autocomplete: "off"
+        %span.text
+          = link_to task.name, [task.group, task]
+        - if task.duedate
+          %span.label.label-warning
+            %i.fa.fa-calendar 
+            = l(task.duedate)
+        - if task.person
+          %span.label.label-success
+            %i.fa.fa-user 
+            = task.person.name
+        .tools.show
+          =link_to "", edit_group_task_path(task.group, task), class: "fa fa-edit"
+          =link_to "", "#", class: "fa fa-trash-o"
