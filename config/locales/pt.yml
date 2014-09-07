@@ -1,2 +1,6 @@
 ﻿pt:
+  date_format:
+    DD: "DD"
+    MM: "MM"
+    YYYY: "AAAA"
 
