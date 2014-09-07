@@ -110,7 +110,7 @@ module NavHelper
   end
 
   def assigned_tasks_badge
-    if (count = @logged_in.tasks.count) > 0
+    if (count = @logged_in.incomplete_tasks_count) > 0
       content_tag(:small, class: 'badge bg-green') do
         t('nav.tasks_sub.assigned_count', count: count)
       end

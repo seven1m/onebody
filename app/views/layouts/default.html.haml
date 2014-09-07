@@ -151,7 +151,7 @@
                 = link_to documents_path do
                   %i.fa.fa-file
                   %span= t('nav.documents')
-            - if @logged_in.tasks.present?
+            - if @logged_in.incomplete_tasks_count > 0
               %li{ class: tab_selected?(:tasks) ? 'active' : '' }
                 = link_to tasks_path do
                   %i.fa.fa-check-square

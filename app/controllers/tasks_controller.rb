@@ -36,16 +36,27 @@ class TasksController < ApplicationController
     end
   end
 
+  def destroy
+    @task = Task.find(params[:id])
+    if @logged_in.can_delete?(@task)
+      @task.destroy
+      flash[:notice] = t('tasks.deleted')
+      redirect_back
+    else
+      render text: t('not_authorized'), layout: true, status: 401
+    end
+  end
+
   def complete
     @task = @group.tasks.find(params[:id])
     @task.update_attribute(:completed, params[:task][:completed])
     render nothing: true
   end
 
-  def update_position
+  def reorder
     @task = Task.find(params[:id])
-    @task.insert_at(params[:position].to_i)
-    render nothing: true
+    params[:direction] == "up" ?  @task.move_higher : @task.move_lower
+    redirect_back
   end
 
   private

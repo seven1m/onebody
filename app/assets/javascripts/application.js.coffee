@@ -2,7 +2,6 @@
 #= require jquery_ujs
 #= require jquery.scrollTo
 #= require jquery.color-2.1.2
-#= require jquery-ui
 #= require bootstrap
 #= require bootstrap-datepicker
 #= require admin_lte

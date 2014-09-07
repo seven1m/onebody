@@ -12,5 +12,14 @@ class Task < ActiveRecord::Base
 
   scope_by_site_id
 
+  scope :incomplete, -> { where(completed: false) }
+
   validates :name, :group_id, presence: true
+
+  after_save :update_counter_cache
+  after_destroy :update_counter_cache
+
+  def update_counter_cache    
+    self.person.update_attribute(:incomplete_tasks_count, self.person.tasks.incomplete.count) if self.person.present?
+  end
 end

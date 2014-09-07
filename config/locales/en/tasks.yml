@@ -3,7 +3,9 @@ en:
     index:
       heading: "Tasks"
       group_heading: "Tasks for %{group}"
-      comment_count: "%{count} comments"
+      comment_count:
+        one: "1 comment"
+        other: "%{count} comments"
     new:
       heading: "New task"
       button: "New task"
@@ -15,13 +17,4 @@ en:
     heading: "Task"
     save: "Save Task"
     go_to_group: "Go to group"
-
-  activerecord:
-    attributes:
-      task:
-        name: Task
-        description: Description
-        person: Assigned to
-        person_id: Assigned to
-        duedate: Due on
-        completed: Completed
+    deleted: "Task deleted"

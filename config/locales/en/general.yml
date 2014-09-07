@@ -1,5 +1,4 @@
 en:
-
   Changes_saved: Changes saved.
   Delete: Delete
   From: From
@@ -121,6 +120,7 @@ en:
         link_code: "External Link Code"
         parents_of: "Child Group"
         hidden: "Hidden (Archived) Group"
+        has_tasks: "Tasks"
       person:
         email: "Email"
         first_name: "First Name"
@@ -135,6 +135,13 @@ en:
       note:
         title: "Title"
         body: "Body"
+      task:
+        name: Task
+        description: Description
+        person: Assigned to
+        person_id: Assigned to
+        duedate: Due on
+        completed: Completed
     errors:
       models:
         admin:
