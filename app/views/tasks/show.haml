@@ -1,0 +1,28 @@
+- @title = t('tasks.show.heading', task: @task.name)
+
+.box
+  .box-header
+    %h3.box-title
+      = simple_format @task.name
+    .box-tools.pull-right
+      = link_to edit_group_task_path(@task.group, @task), class: "btn btn-sm btn-primary" do
+        %i.fa.fa-edit
+        = t("tasks.show.edit")
+  .box-body
+    %dl.dl-horizontal
+      %dt
+        = t("activerecord.attributes.task.description")
+      %dd
+        = simple_format @task.description
+      %dt
+        = t("activerecord.attributes.task.person")
+      %dd
+        - if @task.person
+          = link_to @task.person.name, person_path(@task.person)
+      %dt
+        = t("activerecord.attributes.task.duedate")
+      %dd
+        = l(@task.duedate) if @task.duedate
+
+%h3= t('Comments')
+= render partial: 'comments/comments', locals: { object: @task }

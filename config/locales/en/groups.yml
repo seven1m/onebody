@@ -226,6 +226,11 @@ en:
           one: "Picture"
           other: "Pictures"
         new_link: "New Picture"
+      tasks:
+        text:
+          one: "Task"
+          other: "Tasks"
+        new_link: "New Task"
 
     show_hidden:
       button: "Show Hidden Groups (%{count})"

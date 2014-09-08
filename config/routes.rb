@@ -87,6 +87,11 @@ OneBody::Application.routes.draw do
         post :batch
       end
     end
+    resources :tasks do
+      member do
+        patch :complete
+      end
+    end
     resource :stream
     resource :photo
     resources :prayer_requests, :albums, :attachments
@@ -153,6 +158,14 @@ OneBody::Application.routes.draw do
   resources :documents do
     get :download, on: :member
   end
+
+  resources :tasks do
+    member do
+      patch :complete
+      put :reorder      
+    end
+  end
+
 
   get 'pages/*path' => 'pages#show_for_public', via: :get, as: :page_for_public
 

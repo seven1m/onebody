@@ -1,0 +1,27 @@
+- if @group
+  - @title = t('tasks.index.group_heading', group: @group.name)
+- else
+  - @title = t('tasks.index.heading')
+
+- if @group
+  .page-controls
+    = link_to new_group_task_path(@group), class: 'btn btn-success' do
+      = icon 'fa fa-plus'
+      = t('tasks.new.button')
+
+- if @group
+  .box
+    .box-body
+      = render partial: 'index', locals: { tasks: @group.tasks }
+- else
+  - @groups.each do |group|
+    .box.box-primary
+      .box-header
+        %h3.box-title
+          = group.name
+        .box-tools.pull-right
+          = link_to group_tasks_path(group), class: "btn btn-primary btn-sm" do
+            = t("tasks.go_to_group")
+            = icon "fa fa-arrow-circle-right"
+      .box-body
+        = render partial: 'index', locals: { tasks: group.tasks.where(person: @logged_in) }

@@ -59,6 +59,8 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    acts_as_list (0.4.0)
+      activerecord (>= 3.0)
     arel (5.0.1.20140414130214)
     authority (3.0.0)
       activesupport (>= 3.0.0)
@@ -293,6 +295,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-session_store
+  acts_as_list
   acts_as_taggable_on_steroids!
   authority
   bcrypt

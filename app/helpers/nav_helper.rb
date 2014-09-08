@@ -68,7 +68,7 @@ module NavHelper
       :home
     when *%w(people accounts privacies relationships)
       :profile if @person.try(:persisted?) and (me? or @logged_in.can_edit?(@person))
-    when 'groups'
+    when *%w(groups tasks)
       :groups
     when *%w(searches printable_directories)
       :directory
@@ -109,4 +109,11 @@ module NavHelper
     end
   end
 
+  def assigned_tasks_badge
+    if (count = @logged_in.incomplete_tasks_count) > 0
+      content_tag(:small, class: 'badge bg-green') do
+        t('nav.tasks_sub.assigned_count', count: count)
+      end
+    end
+  end
 end
