@@ -10,9 +10,12 @@
       = t('tasks.new.button')
 
 - if @group
-  .box
-    .box-body
-      = render partial: 'index', locals: { tasks: @group.tasks }
+  - if @group.tasks.any?
+    .box
+      .box-body
+        = render partial: 'index', locals: { tasks: @group.tasks }
+  - else
+    %p= t('none')
 - else
   - @groups.each do |group|
     .box.box-primary
