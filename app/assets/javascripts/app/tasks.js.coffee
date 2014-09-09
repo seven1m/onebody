@@ -5,9 +5,6 @@ $(document).on 'change, ifToggled', '.complete-task-form input', (event) ->
 
 todolist = $('ul.todo-list')
 
-todolist.sortable
-  handle: '.handle'
-
 todolist.on 'sortupdate', (event, ui) ->
   task = $(ui.item)
   position = task.parent().children().index(ui.item)
