@@ -25,6 +25,7 @@ class BreadcrumbPresenter
     prayer_request_crumb
     admin_crumb
     document_crumb
+    task_crumb
   end
 
   private
@@ -167,6 +168,12 @@ class BreadcrumbPresenter
         @crumbs << ['fa fa-files-o', 'Documents', documents_path]
         @crumbs += folders
       end
+    end
+  end
+
+  def task_crumb
+    if @controller == 'tasks' and group
+      crumbs << ['fa fa-check-square', t('nav.tasks'), group_tasks_path(group)] unless @action == 'index'
     end
   end
 
