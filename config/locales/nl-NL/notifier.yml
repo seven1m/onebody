@@ -1,0 +1,29 @@
+---
+nl-NL:
+  notifier:
+    attached_your_custom_directory: "Hoi %{name}. Bijgevoegd vindt je je aangevraagde ledenlijst van de %{site}."
+    be_sure_to_send_verification_email: "Vergeet niet de verificatie e-mail te versturen."
+    check_boxes_in_visibility_sidebar: "Check all the appropriate boxes in the \"Visibility\" tab and save."
+    click_link_to_complete_process: "Klik op de volgende link om het proces te voltooien: %{url}"
+    has_submited_profile_update: "heeft een profiel wijziging ingediend"
+    if_you_cannot_click_link: "Je kunt niet klikken op de bovenstaande link. Kopier en plak de link in je adresbalk."
+    if_you_approve_this_account_creation: "If you approve of this account creation, activate the account at this address"
+    if_you_dont_know_why_get_this_email: "Als je vragen hebt over deze e-mail kun je contact opnemen met %{name} via %{phone}."
+    message_id: ID
+    name_has_requested_join_group: "%{name} wil graag deelnemen aan de groep %{group}."
+    name_submitted_birthday_request: "%{name} heeft een verjaardagsverificatie ingediend."
+    new: Nieuw
+    old: Oud
+    person_had_their_email_changed: "%{name} heeft zijn/haar e-mail adres aangepast."
+    person_has_changed_photo: "%{name} has changed their photo."
+    person_has_signed_for_account: "%{name} heeft een account aangevraagd."
+    person_wants_to_be_your_friend: "%{name} heeft je een vriendschapsverzoek verstuurd voor %{site}."
+    please_make_updates: "Update de gewenste gegevens in het ledenbestand."
+    this_email_to_verify_email: "Via deze e-mail kun je je e-mail adres verifiëren kunt inloggen op de site van%{site}. Klik op onderstaande link om je e-mail adress te verifiëren."
+    this_notify_someone_reported: "This is to notify you that someone has reported that the date and time are incorrect at %{site}."
+    to_accept_or_decline: "Log eerst in om het verzoek te accepteren/weigeren."
+    to_approve_or_ignore: "Log eerst in en ga naar onderstaand adres om het verzoek te accepteren/negeren."
+    update_record_membership: "Pas de gegevens aan in het ledenbestand."
+    verification_code: "Verificatie code"
+    verify_person_identity: "Bevestig de identiteit van deze persoon. Bij twijfel; Neem telefonisch contact op met deze persoon ter controle."
+    wait_one_day_and_wait: "Over 1 dag zijn de aanpassingen doorgevoerd."

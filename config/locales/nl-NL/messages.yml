@@ -1,0 +1,43 @@
+---
+nl-NL:
+  messages:
+    new:
+      button: "Nieuw bericht"
+    private:
+      heading: "Prive bericht"
+      description_html: "Je verstuurd een <em>prive</em> bericht naar %{person}."
+    group:
+      heading: Goepsbericht
+      description_html: "Deze email wordt verstuurd naar de gehele groep %{group}."
+    sent_at_html: "Verstuurd %{when} door %{who}"
+    sent_to_html: "naar %{who}"
+    read_more: "Lees meer"
+    delete:
+      button: Verwijderen
+    in_reply_to_html: "Reactie  op %{message}"
+    replies:
+      heading: Reacties
+    reply_all:
+      button: "Reageer op deze e-mail (wordt verstuurd naar gehele groep)"
+    ago: geleden
+    attachment_optional: Bijlage
+    attachments: Bijlages
+    file_missing: "Geen bestand gekozen"
+    flag_cleared: "Markering verwijderd."
+    from: Van
+    in: in
+    messages_in_html: "Berichten in <a href=\"%{url}\">%{name}</a>"
+    missing_param: "Er is een fout opgetreden. Zorg ervoor dat alle velden ingevuld zijn."
+    no_email_for_person: |-
+        Sorry..
+        Er is geen e-mail adres bekend van %{name}.
+    not_authorized_delete: "Je bent niet bevoegd om dit bericht te verwijderen."
+    not_found: "Geen resultaat."
+    posted_by: "geplaatst door"
+    send_message: "Verstuur e-mail"
+    sent: "Het bericht is verstuurd."
+    show_quoted_content: "toon content"
+    some_quoted_text_is_hidden: "Sommige tekst is niet zichtbaar in dit bericht;"
+    subject: Onderwerp
+    to_show_the_entire_message: "Toon het gehele bericht."
+    unknown_type: "Onbekend type bericht."
