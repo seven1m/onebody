@@ -50,7 +50,7 @@ module Concerns
         alpha = nil
 
         families = Family.has_printable_people.includes(:people) \
-          .order('families.last_name, families.name, people.sequence').references(:people)
+          .order('families.last_name, families.name, people.position').references(:people)
         families.each do |family|
           if family.mapable? or family.home_phone.to_i > 0
             pdf.move_pointer 120 if pdf.y < 120

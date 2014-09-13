@@ -56,12 +56,13 @@ OneBody::Application.routes.draw do
       post :batch
       post :select
     end
-    member do
-      put :reorder
-    end
     resource :photo
     resources :relationships
-    resources :people
+    resources :people do
+      member do
+        post :update_position
+      end
+    end
     resource :search
   end
 
@@ -90,6 +91,7 @@ OneBody::Application.routes.draw do
     resources :tasks do
       member do
         patch :complete
+        post :update_position
       end
     end
     resource :stream
@@ -162,7 +164,6 @@ OneBody::Application.routes.draw do
   resources :tasks do
     member do
       patch :complete
-      put :reorder      
     end
   end
 

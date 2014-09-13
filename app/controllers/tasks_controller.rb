@@ -53,10 +53,10 @@ class TasksController < ApplicationController
     render nothing: true
   end
 
-  def reorder
+  def update_position
     @task = Task.find(params[:id])
-    params[:direction] == "up" ?  @task.move_higher : @task.move_lower
-    redirect_back
+    @task.insert_at(params[:position].to_i) if @task.updatable_by?(@logged_in)
+    render nothing: true
   end
 
   private

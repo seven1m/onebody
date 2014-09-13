@@ -56,7 +56,7 @@ class Updater
       medical_notes:        :admin,
       can_pick_up:          :admin,
       cannot_pick_up:       :admin,
-      sequence:             :admin,
+      position:             :admin,
       family_id:            :admin,
       legacy_id:            :admin,
       legacy_family_id:     :admin,

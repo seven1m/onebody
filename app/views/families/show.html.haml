@@ -34,27 +34,25 @@
 
   .col-md-6
     %table.table.family
-      - @people.each_with_index do |person, person_index|
-        %tr.row-with-avatar
-          %td.avatar= link_to avatar_tag(person), person
-          %td
-            = link_to person.name, person
-            - unless person.visible?
-              %i.fa.fa-lock
-          %td.actions
+      %tbody.sortable
+        - @people.each_with_index do |person, person_index|
+          %tr.row-with-avatar{ data: {update_position_path: update_position_family_person_path(@family, person)} }
             - if @logged_in.can_reorder?(@family)
-              - unless person_index == 0
-                = link_to reorder_family_path(@family, person_id: person, direction: 'up'), data: { method: 'put' }, class: 'btn bg-gray btn-xs text-blue' do
-                  = icon 'fa fa-arrow-circle-up'
-              - unless person_index == @people.length - 1
-                = link_to reorder_family_path(@family, person_id: person, direction: 'down'), data: { method: 'put' }, class: 'btn bg-gray btn-xs text-blue' do
-                  = icon 'fa fa-arrow-circle-down'
-            - if @logged_in.can_edit?(person)
-              = link_to edit_person_path(person), class: 'btn bg-gray btn-xs text-yellow' do
-                = icon 'fa fa-pencil'
-            - if @logged_in.can_delete?(person)
-              = link_to person, data: { method: 'delete', confirm: t('are_you_sure') },  class: 'btn bg-gray btn-xs text-red' do
-                = icon 'fa fa-minus-circle'
+              %td.handle
+                = icon 'fa fa-ellipsis-v'
+                = icon 'fa fa-ellipsis-v'
+            %td.avatar= link_to avatar_tag(person), person
+            %td
+              = link_to person.name, person
+              - unless person.visible?
+                %i.fa.fa-lock
+            %td.actions
+              - if @logged_in.can_edit?(person)
+                = link_to edit_person_path(person), class: 'btn bg-gray btn-xs text-yellow' do
+                  = icon 'fa fa-pencil'
+              - if @logged_in.can_delete?(person)
+                = link_to person, data: { method: 'delete', confirm: t('are_you_sure') },  class: 'btn bg-gray btn-xs text-red' do
+                  = icon 'fa fa-minus-circle'
 
     - if @logged_in.can_edit?(@family)
       .page-controls

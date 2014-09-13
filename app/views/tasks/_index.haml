@@ -1,34 +1,29 @@
-%ul.todo-list
+%ul.todo-list.sortable
   - tasks.each_with_index do |task, task_index|
-    %li.task{ class: ("done" if task.completed), data: {id: task.id} }
+    %li.task{ class: ("done" if task.completed), data: {update_position_path: update_position_group_task_path(task.group, task)} }
       = form_for [:complete, task.group, task], html: { class: "complete-task-form" } do |form|
+        - if @group.present?
+          %span.handle
+            %i.fa.fa-ellipsis-v
+            %i.fa.fa-ellipsis-v
         = form.check_box :completed, autocomplete: "off"
         %span.text
           = link_to task.name, [task.group, task]
         - if task.duedate
           %span.label.label-primary
-            %i.fa.fa-calendar 
+            %i.fa.fa-calendar
             = l(task.duedate)
         - if task.person
-          %span.label.label-primary
-            %i.fa.fa-user 
+          %span.label.label-primary.hidden-xs
+            %i.fa.fa-user
             = task.person.name
-          %span.label.label-default
+          %span.label.label-default.hidden-xs
             %i.fa.fa-comments-o
             = t("tasks.index.comment_count", count: task.comments.count)
         .tools.show
-          - if @logged_in.can_update?(task)
-            - if @group.present?
-              - unless task_index == 0
-                = link_to reorder_task_path(task, direction: 'up'), data: { method: 'put' }, class: 'btn bg-gray btn-xs text-blue' do
-                  = icon 'fa fa-arrow-circle-up'
-              - unless task_index == tasks.length - 1
-                = link_to reorder_task_path(task, direction: 'down'), data: { method: 'put' }, class: 'btn bg-gray btn-xs text-blue' do
-                  = icon 'fa fa-arrow-circle-down'
-
-            - if @logged_in.can_edit?(task)
-              = link_to edit_group_task_path(task.group, task), class: 'btn bg-gray btn-xs text-yellow' do
-                = icon 'fa fa-pencil'
-            - if @logged_in.can_delete?(task)
-              = link_to task, data: { method: 'delete', confirm: t('are_you_sure') },  class: 'btn bg-gray btn-xs text-red' do
-                = icon 'fa fa-minus-circle'
+          - if @logged_in.can_edit?(task)
+            = link_to edit_group_task_path(task.group, task), class: 'btn bg-gray btn-xs text-yellow' do
+              = icon 'fa fa-pencil'
+          - if @logged_in.can_delete?(task)
+            = link_to task, data: { method: 'delete', confirm: t('are_you_sure') },  class: 'btn bg-gray btn-xs text-red' do
+              = icon 'fa fa-minus-circle'
