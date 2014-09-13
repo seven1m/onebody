@@ -24,6 +24,9 @@
   .form-group
     = form.label :answer
     = form.text_area :answer, rows: 5, class: 'form-control'
+  .form-group
+    = check_box_tag :send_email, class: 'form-control'
+    = t('prayer_requests.send_email')
 
   .form-group
     = form.button t('prayer_requests.save'), class: 'btn btn-success'

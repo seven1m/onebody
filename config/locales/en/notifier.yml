@@ -26,3 +26,4 @@ en:
     verification_code: Verification code
     verify_person_identity: "Verify this person's identity. Be cautious; if in doubt, use the phone number provided to validate this person is who they say they are."
     wait_one_day_and_wait: WAIT ONE DAY or manually trigger the database update script on the server and wait until it is finished.
+    person_send_prayer_request: "%{name} has posted a new prayer request on %{group_name}: "
