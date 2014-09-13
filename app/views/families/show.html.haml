@@ -38,8 +38,8 @@
         %tr.row-with-avatar{ data: {id: person.id} }
           - if @logged_in.can_reorder?(@family)
             %td.handle
-              %i.fa.fa-ellipsis-v
-              %i.fa.fa-ellipsis-v
+              = icon 'fa fa-ellipsis-v'
+              = icon 'fa fa-ellipsis-v'
           %td.avatar= link_to avatar_tag(person), person
           %td
             = link_to person.name, person
