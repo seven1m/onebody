@@ -55,7 +55,7 @@ class TasksController < ApplicationController
 
   def update_position
     @task = Task.find(params[:id])
-    @task.insert_at(params[:position].to_i)
+    @task.insert_at(params[:position].to_i) if @task.updatable_by?(@logged_in)
     render nothing: true
   end
 

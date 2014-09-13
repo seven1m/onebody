@@ -13,6 +13,8 @@ class Person < ActiveRecord::Base
 
   MAX_TO_BATCH_AT_A_TIME = 50
 
+  acts_as_list scope: :family
+
   cattr_accessor :logged_in # set in addition to @logged_in (for use by Notifier and other models)
 
   belongs_to :family
@@ -247,10 +249,10 @@ class Person < ActiveRecord::Base
     write_attribute(:gender, g)
   end
 
-  # get the parents/guardians by grabbing people in family sequence 1 and 2 and adult?
+  # get the parents/guardians by grabbing people in family position 1 and 2 and adult?
   def parents
     if family
-      family.people.select { |p| !p.deleted? and p.adult? and [1, 2].include?(p.sequence) }
+      family.people.select { |p| !p.deleted? and p.adult? and [1, 2].include?(p.position) }
     end
   end
 
@@ -279,18 +281,6 @@ class Person < ActiveRecord::Base
 
   def generate_api_key
     write_attribute :api_key, SecureRandom.hex(50)[0...50]
-  end
-
-  attr_writer :no_auto_sequence
-
-  before_save :update_sequence
-  def update_sequence
-    return if @no_auto_sequence
-    if family and sequence.nil?
-      scope = family.people.undeleted
-      scope = scope.where('id != ?', id) unless new_record?
-      self.sequence = scope.maximum(:sequence).to_i + 1
-    end
   end
 
   def can_edit_profile?

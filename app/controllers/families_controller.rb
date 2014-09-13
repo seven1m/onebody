@@ -100,16 +100,6 @@ class FamiliesController < ApplicationController
     end
   end
 
-  def reorder
-    @family = Family.find(params[:id])
-
-    if @family.reorderable_by?(@logged_in)
-      @family.reorder_person(@family.people.find(params[:person_id]), params[:index].to_i)
-    end
-
-    render nothing: true
-  end
-
   def hashify
     params.merge!(Hash.from_xml(request.body.read))
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?

@@ -1,11 +1,10 @@
 class Family < ActiveRecord::Base
-
   include Authority::Abilities
   self.authorizer_name = 'FamilyAuthorizer'
 
   MAX_TO_BATCH_AT_A_TIME = 50
 
-  has_many :people, -> { order(:sequence) }, dependent: :destroy
+  has_many :people, -> { order(:position) }, dependent: :destroy
   has_many :updates, -> { order(:created_at) }
   accepts_nested_attributes_for :people
   belongs_to :site
@@ -97,17 +96,8 @@ class Family < ActiveRecord::Base
     end
   end
 
-  def reorder_person(person, index)
-    all = people.undeleted.to_a
-    all.delete(person)
-    index = 0 if index < 0
-    index = all.length if index > all.length
-    all.insert(index, person)
-    all.each_with_index { |p, i| p.update_attribute(:sequence, i + 1) }
-  end
-
   def suggested_relationships
-    all_people = people.undeleted.order(:sequence)
+    all_people = people.undeleted.order(:position)
     relations = {
       adult: {
         male: {
