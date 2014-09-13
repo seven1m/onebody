@@ -97,17 +97,12 @@ class Family < ActiveRecord::Base
     end
   end
 
-  def reorder_person(person, direction)
+  def reorder_person(person, index)
     all = people.undeleted.to_a
-    index = all.index(person)
-    case direction
-    when 'up'
-      all.delete(person)
-      all.insert([index - 1, 0].max, person)
-    when 'down'
-      all.delete(person)
-      all.insert([index + 1, all.length].min, person)
-    end
+    all.delete(person)
+    index = 0 if index < 0
+    index = all.length if index > all.length
+    all.insert(index, person)
     all.each_with_index { |p, i| p.update_attribute(:sequence, i + 1) }
   end
 

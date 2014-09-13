@@ -123,9 +123,9 @@ describe Family do
       let!(:spouse) { FactoryGirl.create(:person, family: subject, child: false, first_name: "Jennie", last_name: "Morgan") }
       let!(:child)  { FactoryGirl.create(:person, family: subject, child: true,  first_name: "Mac",    last_name: "Morgan") }
 
-      context 'given direction up' do
+      context 'given index 0' do
         before do
-          subject.reorder_person(spouse, 'up')
+          subject.reorder_person(spouse, 0)
         end
 
         it 'changes the order' do
@@ -135,9 +135,9 @@ describe Family do
         end
       end
 
-      context 'given direction up and person is already first' do
+      context 'given index 0 and person is already first' do
         before do
-          subject.reorder_person(head, 'up')
+          subject.reorder_person(head, 0)
         end
 
         it 'does not change the order' do
@@ -147,13 +147,13 @@ describe Family do
         end
       end
 
-      context 'given direction up and sequences are invalid and there is a deleted person' do
+      context 'given index 0 and sequences are invalid and there is a deleted person' do
         before do
           child.destroy
           @new_child = FactoryGirl.create(:person, family: subject, child: true)
           subject.people.update_all(sequence: 2)
           expect(subject.people.reload.undeleted).to eq([head, spouse, @new_child]) # database order
-          subject.reorder_person(@new_child.reload, 'up')
+          subject.reorder_person(@new_child.reload, 1)
         end
 
         it 'fixes sequence numbers' do
@@ -163,9 +163,9 @@ describe Family do
         end
       end
 
-      context 'given direction down' do
+      context 'given a higher index' do
         before do
-          subject.reorder_person(spouse, 'down')
+          subject.reorder_person(spouse, 2)
         end
 
         it 'changes the order' do
@@ -175,21 +175,9 @@ describe Family do
         end
       end
 
-      context 'given direction down and person is already last' do
+      context 'given a higher index and person is already last' do
         before do
-          subject.reorder_person(child, 'down')
-        end
-
-        it 'does not change the order' do
-          expect(head.reload.sequence).to eq(1)
-          expect(spouse.reload.sequence).to eq(2)
-          expect(child.reload.sequence).to eq(3)
-        end
-      end
-
-      context 'given invalid direction' do
-        before do
-          subject.reorder_person(child, 'sideways')
+          subject.reorder_person(child, 3)
         end
 
         it 'does not change the order' do

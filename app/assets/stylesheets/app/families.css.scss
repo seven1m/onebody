@@ -5,3 +5,8 @@
   border: 1px solid #ccc;
   border-top: none;
 }
+
+table.family .handle {
+  cursor: move;
+  width: 25px;
+}

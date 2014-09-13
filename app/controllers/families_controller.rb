@@ -102,8 +102,12 @@ class FamiliesController < ApplicationController
 
   def reorder
     @family = Family.find(params[:id])
-    @family.reorder_person(@family.people.find(params[:person_id]), params[:direction])
-    redirect_to @family
+
+    if @family.reorderable_by?(@logged_in)
+      @family.reorder_person(@family.people.find(params[:person_id]), params[:index].to_i)
+    end
+
+    render nothing: true
   end
 
   def hashify

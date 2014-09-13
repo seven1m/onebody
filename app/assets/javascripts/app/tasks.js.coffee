@@ -3,9 +3,13 @@ $(document).on 'change, ifToggled', '.complete-task-form input', (event) ->
   $(this).closest('li.task').toggleClass('done')
   $.post form.attr('action'), form.serialize()
 
-todolist = $('ul.todo-list')
+container = $("ul.todo-list")[0]
+if container
+  new Sortable(container,
+    handle: '.handle'
 
-todolist.on 'sortupdate', (event, ui) ->
-  task = $(ui.item)
-  position = task.parent().children().index(ui.item)
-  $.post '/tasks/'+task.data("id")+'/update_position', {position: position+1}
+    onUpdate: (event) ->
+      task = $(event.target)
+      position = task.parent().children().index(event.target)
+      $.post '/tasks/'+task.data("id")+'/update_position', {position: position+1}
+  )
