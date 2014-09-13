@@ -1,0 +1,109 @@
+---
+nl-NL:
+  checkin:
+    heading: Check-in
+    search:
+      label: "Type all or part of a name:"
+      button: Search
+      clear: clear
+      none_found: "Geen resultaten."
+    add_family:
+      button: "Add Family"
+    attendance:
+      button: Attendance
+    setup:
+      heading: Setup
+    assigned_cards:
+      button: "Assigned Cards"
+    cards:
+      heading: "Assigned Check-in Cards"
+      table:
+        id: ID
+        legacy_id: "Legacy ID"
+        family: Family
+        barcode: Barcode
+        assigned_at: Assigned
+      export:
+        button: "Export to File"
+      none: "no records to display"
+    groups:
+      heading: "Check-in Groups"
+      table:
+        group: Group
+      index:
+        heading: "%{time} at %{campus}"
+        add_group:
+          heading: "Add a destination (group)"
+          search: "Search by name"
+          button: "Add Group"
+        table:
+          group: "Destination (group name)"
+          print_nametag: "Print Nametag"
+          print_extra_nametag: "Extra Nametag"
+          section: Section
+      section:
+        new: "[new section]"
+    times:
+      button: Setup
+      heading: "Check-in Times"
+      intro: "Add, edit, and remove available checkin times here."
+      table:
+        time: Time
+        campus: Campus
+        groups:
+          heading: Destinations
+          count:
+            one: "1 destination"
+            other: "%{count} destinations"
+      edit:
+        button: edit
+        heading: "Edit Check-in Time"
+        campus:
+          new: "[new campus]"
+        save:
+          button: "Save Changes"
+      recurring:
+        heading: "Recurring Times"
+        new:
+          button: "New Recurring Time"
+        weekday: Weekday
+        time: Time
+        campus: Campus
+        add:
+          button: Add
+      single:
+        heading: "Single Dates and Times"
+        new:
+          button: "New Single Time"
+        datetime: "Date & Time"
+        campus: Campus
+        add:
+          button: Add
+    family:
+      new:
+        heading: "New Family"
+        first_name: "First Name"
+        last_name: "Last Name"
+        birthday: Birthday
+        medical_notes: "Medical Notes (optional)"
+        parents: Parents
+        children: Children/Others
+        barcode: "Scan Card"
+        ignore_spelling_errors: "Ignore suspected spelling errors."
+        save: "Save Family"
+        cancel: cancel
+        success:
+          heading: "Family Saved"
+          return: Return
+          view: "View/Edit Family"
+          barcode: "Assigned number:"
+          not_checked_in: |
+              This family is not yet checked in—instruct the cardholder
+              they must now check in at one of the touch-screen stations.
+      saved: "Family saved."
+      errors: "There were errors saving this family."
+      error:
+        no_birthdays: "You must enter a birthday for each child."
+        no_people: "You must enter at least one person."
+        no_parents: "You must enter at least one parent."
+        no_barcode: "Please scan the card into the field at the bottom of the form."

@@ -1,0 +1,145 @@
+---
+nl-NL:
+  people:
+    account_frozen:
+      callout: "Account geblokkeerd. Wijzigingen zijn niet mogelijk tot deze gedeblokkeerd wordt."
+    new:
+      heading: "Nieuw persoon in familie %{family}"
+      heading_without_family: "New Person"
+      no_family_warning_html: |
+          You are about to create a new person and a <strong>new family record</strong>.
+          If instead you wish to add a person to an existing family, first go to that family's page and add a person there.
+    title_html: "%{name}<span class='discreet'>, %{description}</span>"
+    show:
+      details:
+        family: "%{family} Family"
+        website: Website
+        email: Email
+        mobile_phone: "Mobile Phone"
+        home_phone: "Home Phone"
+        work_phone: "Work Phone"
+        address: "Home Address"
+        birthday: Birthday
+        anniversary: Anniversary
+        social: Social
+    edit:
+      about: Over
+      basics: Basis
+      business: Bedrijf
+      business_category:
+        new: "[maak een nieuwe categorie aan]"
+        create_prompt: "Vul de categorie van je bedrijf in:"
+      child:
+        enabled: Ja
+        disabled: Nee
+      child_hint: "Als er geen verjaardag is opgegeven, moet aangegeven worden of het een kind of volwassene is."
+      custom_type:
+        new: "[rol aanmaken]"
+        create_prompt: "Vul de naam van de rol in:"
+      description_hint: "Omschrijf jezelf in een woord of twee  — bijvoorbeeld je beroep."
+      facebook_url:
+        placeholder: "https://www.facebook.com/username"
+      family_photo: "Familie foto"
+      header: "Profiel wijzigen"
+      person_type: Rollen
+      person_type_hint: "Dit stelt geen toegang in — enkel de benaming."
+      photo: "Profiel foto"
+      required_field: required
+      twitter:
+        placeholder: "@username"
+      visibility: Zichtbaarheid
+    move:
+      heading: "Voeg toe aan %{family}"
+      description_html: "Zoek een persoon om toe te voegen aan <a href='%{url}'>%{family}</a> en klik op Toevoegen..."
+      button: "Verplaats naar familie"
+      success_message: "%{person} is toegevoegd aan %{family}."
+    roles:
+      elder: Oudste
+      deacon: Diaken
+      staff: Staff
+      member: Lid
+    email:
+      heading: "Email instellingen"
+      primary:
+        heading: "Primair email adres"
+        description_html: |
+            <p>Dit is je primaire email adres gebruikt vor inloggen en mail ontvangen. Let op:</p>
+            <ul>
+            <li>Dit email adres is nodig om in te loggen.</li>
+            <li>Alle groep en prive emails worden naar dit adres verzonden</li>
+            </ul>
+      alternate:
+        heading: "Alternatief email adres"
+        description_html: |
+            <p>Als je een tweede email adres wenst te gebruik om email naar groepen te sturen, kan je die hier invullen. Let op:</p>
+            <ul>
+            <li>Dit email adres is voor niemand zichtbaar behalve beheerders</li>
+            <li>Je kunt met dit email adres niet inloggen op de site.</li>
+            </ul>
+      groups:
+        heading: "Groep email"
+    groups:
+      heading: Groups
+      members: leden
+      messages: berichten
+      join:
+        button: "Zoek en wordt lid van een groep"
+    business:
+      services_provided_by: "Diensten geleverd door %{person}"
+      address: Adres
+      email: Email
+      phone: Telefoon
+      website: Website
+    testimony:
+      box_heading: Getuigenis
+      heading: "Getuigenis van %{person}"
+      view_profile: "Bekijk profiel"
+      view_full: "Lees meer"
+      find_more: "Lees andere getuigenissen"
+    updates:
+      pending_callout: "Wijzigingen voor dit profiel wachten op goedkeuring."
+    verification_email:
+      heading: "Complete User Setup"
+      intro: "Before this user can sign in, they must complete setup by clicking a link in their email. Click below to send them the email."
+      button: "Send a password setup email to this user."
+    advanced: Geavanceerd
+    can_sign_in: Inloggen
+    cant_delete_yourself: "Je bent niet bevoegd om je account te verwijderen."
+    cant_delete: "Je bent niet bevoegd om deze persoon te verwijderen."
+    changes_must_be_reviewed_html: "Wijziging in deze gegevens moeten worden <strong>goedgekeurd</strong>. Vul de wijzigingen in en klik op 'indienen'."
+    changes_submitted: "Wijzigingen ingediend."
+    child: Kind
+    deleted_html: "Deze persoon is verwijderd. Je kunt <a href='%{url}'>hier</a> het verwijderen ongedaan maken."
+    family: Familie
+    family_legacy_external_id: ID
+    find_a_group_html: "Vind <a href='%{url}'>hier</a> een groep"
+    friend_not_found: "Geen resultaten"
+    friendship_accepted: "Vriendschap geaccepteerd."
+    friendship_manage: "Je kunt alleen voor jezelf vriendschappen beheren."
+    friendship_must_specify: "Must specify accept=true or reject=true"
+    friendship_rejected: "Vriendschap afgewezen."
+    full_access: "Volledige toegang"
+    if_you_wish_to_be_listed_business_dir_html: "Als je wilt dat je bedrijf getoond wordt op de <a href='%{url}'>site</a> kun je hieronder je bedrijfsnaam, beschrijven en andere details opgeven."
+    if_you_wish_to_remove_something_html: "If you wish to remove something in order to keep others from seeing it, instead go to the <a href='%{url}'>Privacy</a> page and hide it."
+    legacy_external_id: ID
+    limited_access: "Je account heeft beperkte toegang; de profiel pagina's worden beknopt getoond."
+    limited_access_denied: "Je account heeft momenteel beperkte toegang."
+    no_family_for_this_person: "Deze persoon is geen onderdeel van deze familie. Het is niet mogelijk voor deze persoon om in te loggen en is niet zichtbaar voor andere leden."
+    not_deleted: "De persoon is niet verwijderd."
+    not_found: "Geen resultaten"
+    pending_approval: "wacht op goedkeuring"
+    people: Personen
+    person:
+      one: "1 persoon"
+      other: "%{count} personen"
+    person_isnt_any_groups: "%{person} is momenteel geen lid van een groep."
+    share_your_personal_testimony: "Deel je getuigenis."
+    show_hidden_groups: "Toon verborgen groepen"
+    tell_us_about_yourself: "Vertel over jezelf. Wat voor een persoon ben jij? Wat zouden goede vrienden over je vertellen?"
+    this_event_doesnt_have_pictures: "Aan dit evenement zijn nog geen foto's toegevoegd."
+    this_person_is_not_an_adult: "Deze persoon is jonger dan %{years} jaar en heeft geen toestemming van een ouder/verzorger."
+    this_profile_is_hidden: "Dit profiel is verborgen."
+    update_to_profile_is: "Een update van het profiel"
+    visible_on_printed_directory: "Zichtbaar in ledenlijst printen"
+    visible_to_everyone: "Zichtbaar voor iedereen"
+    you_arent_in_any_groups: "Je bent nog geen lid van groepen."
