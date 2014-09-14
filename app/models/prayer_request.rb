@@ -62,4 +62,8 @@ class PrayerRequest < ActiveRecord::Base
   def delete_stream_items
     StreamItem.destroy_all(streamable_type: 'PrayerRequest', streamable_id: id)
   end
+
+  def send_group_email    
+    Notifier.prayer_request(self, group).deliver if group.people.count > 1  
+  end
 end

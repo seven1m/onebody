@@ -53,6 +53,17 @@ class Notifier < ActionMailer::Base
     )
   end
 
+  def prayer_request(prayer_request, group)
+    @prayer_request =  prayer_request
+    @group = group
+    to = group.people.select { |p| p.id != prayer_request.person.id }.map { |p| "#{p.name} <#{p.email}>" }
+    mail(
+      to:       to,
+      from:     prayer_request.person.email,  
+      subject:  t('prayer_requests.email_subject')
+    )
+  end
+
   def full_message(to, msg, id_and_code=nil)
     @to          = to
     @msg         = msg

@@ -24,6 +24,9 @@ class PrayerRequestsController < ApplicationController
 
   def create
     if @prayer_request.save
+      if params[:send_email] 
+        @prayer_request.send_group_email
+      end
       redirect_to group_prayer_requests_path(@group)
     else
       render action: 'new'
