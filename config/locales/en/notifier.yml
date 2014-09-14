@@ -10,7 +10,6 @@ en:
     if_you_dont_know_why_get_this_email: If you don't know why you're getting this email, you may contact %{name} at %{phone}.
     message_id: Message ID
     name_has_requested_join_group: "%{name} has requested to join the group %{group}."
-    name_submitted_birthday_request: "%{name} has submitted a birthday verification request"
     new: New
     old: Old
     person_had_their_email_changed: "%{name} has had their email changed."
@@ -25,5 +24,4 @@ en:
     update_record_membership: Update their record in the membership database.
     verification_code: Verification code
     verify_person_identity: "Verify this person's identity. Be cautious; if in doubt, use the phone number provided to validate this person is who they say they are."
-    wait_one_day_and_wait: WAIT ONE DAY or manually trigger the database update script on the server and wait until it is finished.
-    person_send_prayer_request: "%{name} has posted a new prayer request on %{group_name}: "
+    person_send_prayer_request: "%{person} has posted a new prayer request on %{group}."
