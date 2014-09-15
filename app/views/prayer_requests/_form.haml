@@ -16,10 +16,17 @@
 
   .form-group
     = form.label :answered_at
-    = form.date_field :answered_at, value: @prayer_request.answered_at && @prayer_request.answered_at.to_s(:date), class: 'form-control'
+    .input-group
+      .input-group-btn
+        %button{ type: 'button', class: 'btn btn-info date-picker-btn' }
+          = icon 'fa fa-calendar'
+      = form.date_field :answered_at, class: 'form-control'
   .form-group
     = form.label :answer
     = form.text_area :answer, rows: 5, class: 'form-control'
+  .form-group
+    = check_box_tag :send_email, class: 'form-control'
+    = t('prayer_requests.send_email')
 
   .form-group
     = form.button t('prayer_requests.save'), class: 'btn btn-success'

@@ -2,11 +2,6 @@ class Email
 
   include HTTParty
 
-  APIKEY = Setting.get(:email, :mailgunapikey)
-
-  base_uri 'https://api.mailgun.net/v2'
-  basic_auth 'api', APIKEY
-
   def self.show_routes(skip: 0, limit: 1)
     self.get("/routes", params: {skip: skip, limit: limit})
   end
@@ -20,7 +15,8 @@ class Email
       end
     end
     if match.empty?
-      self.post("https://api:#{APIKEY}@api.mailgun.net/v2/routes", body: self.build_data)
+      key = Setting.get(:email, :mailgunapikey)
+      self.post("https://api:#{key}@api.mailgun.net/v2/routes", body: self.build_data)
     else
       {"message"=>"Route found."}
     end

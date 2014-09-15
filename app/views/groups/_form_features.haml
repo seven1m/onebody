@@ -17,6 +17,9 @@
 .form-group
   = form.check_box :attendance, class: 'checkbox'
   = form.label :attendance, class: 'inline'
+.form-group
+  = form.check_box :has_tasks, class: 'checkbox'
+  = form.label :has_tasks, class: 'inline'
 -#.form-group
 -#  = check_box_tag :calendar, nil, @group.gcal_private_link.to_s.any?, class: 'checkbox', data: { toggle: '#group_calendar_field' }
 -#  = label_tag :calendar, t('groups.edit.enable_calendar'), class: 'inline'

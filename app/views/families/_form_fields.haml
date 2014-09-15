@@ -13,21 +13,7 @@
 .form-group
   = form.label :last_name, t('families.edit.last_name')
   = form.text_field :last_name, class: 'form-control'
-.form-group
-  = form.label :home_phone, t('families.edit.home_phone')
-  = form.phone_field :home_phone, class: 'form-control'
-.form-group
-  = form.label :address1, t('families.edit.address')
-  = form.text_field :address1, class: 'form-control'
-.form-group
-  = form.label :address2, t('families.edit.address2')
-  = form.text_field :address2, class: 'form-control'
-.form-group
-  = form.label :city, t('families.edit.city_st_zip')
-  %br
-  = form.text_field :city, class: 'form-control inline'
-  = form.text_field :state, size: 4, class: 'form-control inline'
-  = form.text_field :zip, size: 11, class: 'form-control inline'
+= render partial: 'families/phone_and_address_fields', locals: { form: form }
 
 :javascript
   function set_last_name() {

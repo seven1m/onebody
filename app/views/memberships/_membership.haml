@@ -15,7 +15,7 @@
       = membership.created_at.to_s(:date) if membership.created_at
   - if @logged_in.can_edit?(@group)
     %td.actions
-      - if (@group.linked? or @group.parents_of) and not membership.auto?
+      - if (@group.linked? or @group.parents_of?) and not membership.auto?
         = icon 'fa fa-exclamation-circle text-gray', title: t('memberships.index.details.manual.tooltip')
       - if membership.admin?
         = link_to group_membership_path(@group, membership, promote: false), data: { method: :put, confirm: t('are_you_sure') }, class: 'btn btn-warning btn-xs', title: t('memberships.demote') do

@@ -1,0 +1,69 @@
+---
+nl-NL:
+  stream:
+    title: Home
+    sub_title: "(dingen die met mij gedeeld zijn)"
+    none: "Er is nog niets om hier te tonen."
+    header:
+      noone: systeem
+      message: "%{who} stuurde een bericht naar %{group}"
+      news: "%{who} plaatste %{title}"
+      note: "%{who} plaatste een notitie"
+      person: "%{who} is lid geworden van de gemeenschap"
+      picture:
+        one: "%{who} deelde een afbeelding in %{album}"
+        other: "%{who} deelde afbeeldingen in %{album}"
+      picture_in_group:
+        one: "%{who} deelde een afbeelding in de groep %{group}"
+        other: "%{who} deelde afbeeldingen in de groep %{group}"
+      prayer_request: "%{who} heeft een gebed aangevraagd in de groep %{group}"
+      site: "%{site}"
+      verse: "%{who} deelde %{title}"
+    body:
+      picture:
+        alt: "klik om te vergroten"
+      person:
+        button: "Stuur %{person} een groet!"
+      site:
+        description: "Community site voor %{site} aangemaakt!"
+    footer:
+      button_label:
+        album: "Toon alles"
+        note: "Lees meer"
+        verse: "Lees meer"
+        person: ""
+        site: ""
+    load_more: "meer laden..."
+    share:
+      heading:
+        friends: "Deel met vrienden"
+        everyone: "Deel met iedereen"
+      intro:
+        friends_and_group_members: "Wat je hier deelt is zichtbaar voor vrienden en groepsleden."
+        friends_only: "Wat je hier deelt is zichtbaar voor vrienden."
+        group_members_only: "Wat je hier deelt is zichtbaar voor groepsleden."
+        everyone: "Deel met de hele gemeenschap..."
+      button:
+        note: notitie
+        picture: foto
+        verse: bijbeltekst
+        message: "groep bericht"
+        news: "deel een nieuws bericht"
+      sharing_with_html:
+        one: "delen met <a href='%{url}'>1 persoon</a>"
+        other: "delen met <a href='%{url}'>%{count} personen</a>"
+    people:
+      heading: "Delen met vrienden"
+      intro: "Deze mensen zien wat je deelt op de site."
+      intro_none: "Niemand om te tonen."
+      column:
+        name: Naam
+        family_name: Familienaam
+        reason: Reden
+      reason:
+        family_html: "je <a href='%{url}'>familie</a>"
+        friend_html: "je <a href='%{url}'>vriend</a>"
+        groups_html:
+          one: "in deze groep met jou samen: %{groups}"
+          other: "in deze groepen met jou samen: %{groups}"
+    feed: Nieuwsfeed

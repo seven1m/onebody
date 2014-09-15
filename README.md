@@ -33,6 +33,8 @@ Now visit the site running in development mode at localhost:8080
 
 Whenever gems are updated or new migrations are needed, you can just run `vagrant provision`.
 
+To gain access to the vagrant box, run `vagrant ssh` to get an active SSH session. The OneBody directory is mirrored at `/vagrant` inside the Vagrant box.
+
 To restart the Rails server, type `touch tmp/restart.txt`. Or you can `vagrant reload` to restart the dev box.
 
 For more help with Vagrant, check out the [Vagrant docs](http://docs.vagrantup.com/v2/).
@@ -50,7 +52,7 @@ Operating System: Mac or Linux (See Vagrant above if you're on Windows)
 7. `cp config/database.yml{.example,}`
 8. `bundle install`
 9. `cp config/secrets.yml{.example,} && vim config/secrets.yml` and add a random secret token to both the "development" and "test" sections (you can use `rake secret` to generate a new random secret).
-10. `rake db:migrate`
+10. `rake db:migrate db:seed`
 11. `rails server`
 
 Now visit the site running in development mode at http://localhost:3000.

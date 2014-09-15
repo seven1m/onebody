@@ -1,7 +1,7 @@
 class Notifier < ActionMailer::Base
   helper :notifier, :application
 
-  default from: -> _ { Site.current.noreply_email }, charset: 'UTF-8'
+  default charset: 'UTF-8', from: -> _ { get_from_address.to_s }
 
   def profile_update(person, updates)
     @person = person
@@ -13,9 +13,11 @@ class Notifier < ActionMailer::Base
   end
 
   def email_update(person)
+    to_address = Setting.get(:contact, :send_email_changes_to)
+    return unless to_address.present?
     @person = person
     mail(
-      to:      Setting.get(:contact, :send_email_changes_to),
+      to:      to_address,
       subject: "#{person.name} Changed Email"
     )
   end
@@ -48,6 +50,17 @@ class Notifier < ActionMailer::Base
       to:      to,
       from:    person.email.to_s.any? ? "\"#{person.name}\" <#{person.email}>" : Site.current.noreply_email,
       subject: "Request to Join Group from #{person.name}"
+    )
+  end
+
+  def prayer_request(prayer_request, group)
+    @prayer_request =  prayer_request
+    @group = group
+    to = group.people.select { |p| p.id != prayer_request.person.id }.map { |p| "#{p.name} <#{p.email}>" }
+    mail(
+      to:       to,
+      from:     prayer_request.person.email,
+      subject:  t('prayer_requests.email.subject', group: prayer_request.group.try(:name))
     )
   end
 
@@ -399,5 +412,12 @@ class Notifier < ActionMailer::Base
     def clean_body(body)
       # this has the potential for error, but we'll just go with it and see
       body.to_s.split(/^[>\s]*\- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \-/).first.to_s.strip
+    end
+
+    def get_from_address
+      Mail::Address.new.tap do |addr|
+        addr.address = Site.current.noreply_email
+        addr.display_name = Setting.get(:name, :site)
+      end
     end
 end

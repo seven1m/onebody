@@ -1,0 +1,15 @@
+---
+nl-NL:
+  attachments:
+    heading: "Group Files"
+    new:
+      button: "New File"
+    deleted: "Bijlage verwijderd."
+    file: Bestand
+    file_deleted: "Het bestand is verwijderd."
+    file_not_found: "Het bestand is niet gevonden."
+    not_found: "Geen resultaten."
+    saved: "Bijlage opgeslagen."
+    unknown_type: "Onbekend bestand."
+    upload_attachment: "Upload bijlage"
+    upload_file: "Bestand uploaden"

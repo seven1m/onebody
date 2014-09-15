@@ -14,7 +14,12 @@ module Concerns
       end
 
       def small_groups
-        groups.active.where("(select count(*) from memberships where group_id=groups.id) <= #{MAX_PEOPLE_IN_SMALL_GROUP}")
+        size = Setting.get(:features, :small_group_size)
+        if size == 'all'
+          groups.active
+        else
+          groups.active.where("(select count(*) from memberships where group_id=groups.id) <= #{size.to_i}")
+        end
       end
 
       def small_group_people

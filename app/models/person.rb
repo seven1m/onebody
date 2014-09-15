@@ -3,7 +3,17 @@ class Person < ActiveRecord::Base
   include Authority::Abilities
   self.authorizer_name = 'PersonAuthorizer'
 
+  include Concerns::Person::Child
+  include Concerns::Person::Password
+  include Concerns::Person::Friend
+  include Concerns::Person::Sharing
+  include Concerns::Person::Import
+  include Concerns::Person::Export
+  include Concerns::Person::PdfGen
+
   MAX_TO_BATCH_AT_A_TIME = 50
+
+  acts_as_list scope: :family
 
   cattr_accessor :logged_in # set in addition to @logged_in (for use by Notifier and other models)
 
@@ -15,7 +25,6 @@ class Person < ActiveRecord::Base
   has_many :albums, as: :owner
   has_many :pictures, -> { order(created_at: :desc) }
   has_many :messages
-  has_many :notes, -> { order(created_at: :desc) }
   has_many :updates, -> { order(:created_at) }
   has_many :prayer_signups
   has_and_belongs_to_many :verses
@@ -33,6 +42,7 @@ class Person < ActiveRecord::Base
   has_many :attendance_records
   has_many :stream_items
   has_many :generated_files
+  has_many :tasks
   has_one :stream_item, as: :streamable
   belongs_to :site
 
@@ -158,8 +168,8 @@ class Person < ActiveRecord::Base
     birthday and ((birthday.yday()+365 - today.yday()).modulo(365) < BIRTHDAY_SOON_DAYS)
   end
 
-  fall_through_attributes :home_phone, :address, :address1, :address2, :city, :state, :zip, :short_zip, :mapable?, to: :family
-  sharable_attributes     :home_phone, :mobile_phone, :work_phone, :fax, :email, :birthday, :address, :anniversary, :activity
+  delegate             :home_phone, :address, :address1, :address2, :city, :state, :zip, :short_zip, :mapable?, to: :family, allow_nil: true
+  sharable_attributes  :home_phone, :mobile_phone, :work_phone, :fax, :email, :birthday, :address, :anniversary, :activity
 
   self.skip_time_zone_conversion_for_attributes = [:birthday, :anniversary]
   self.digits_only_for_attributes = [:mobile_phone, :work_phone, :fax, :business_phone]
@@ -239,10 +249,10 @@ class Person < ActiveRecord::Base
     write_attribute(:gender, g)
   end
 
-  # get the parents/guardians by grabbing people in family sequence 1 and 2 and adult?
+  # get the parents/guardians by grabbing people in family position 1 and 2 and adult?
   def parents
     if family
-      family.people.select { |p| !p.deleted? and p.adult? and [1, 2].include?(p.sequence) }
+      family.people.select { |p| !p.deleted? and p.adult? and [1, 2].include?(p.position) }
     end
   end
 
@@ -271,18 +281,6 @@ class Person < ActiveRecord::Base
 
   def generate_api_key
     write_attribute :api_key, SecureRandom.hex(50)[0...50]
-  end
-
-  attr_writer :no_auto_sequence
-
-  before_save :update_sequence
-  def update_sequence
-    return if @no_auto_sequence
-    if family and sequence.nil?
-      scope = family.people.undeleted
-      scope = scope.where('id != ?', id) unless new_record?
-      self.sequence = scope.maximum(:sequence).to_i + 1
-    end
   end
 
   def can_edit_profile?
@@ -443,13 +441,4 @@ class Person < ActiveRecord::Base
     end
 
   end
-
-  # FIXME why does these have to be at the bottom?
-  include Concerns::Person::Child
-  include Concerns::Person::Password
-  include Concerns::Person::Friend
-  include Concerns::Person::Sharing
-  include Concerns::Person::Import
-  include Concerns::Person::Export
-  include Concerns::Person::PdfGen
 end

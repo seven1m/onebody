@@ -3,7 +3,7 @@ class Checkin::FamiliesController < ApplicationController
   def show
     @family = Family.find_by_id_and_deleted(params[:id], false)
     raise ActiveRecord::RecordNotFound unless @family
-    @family_people = @family.people.undeleted.order(:sequence)
+    @family_people = @family.people.undeleted.order(:position)
     @attendance_records = AttendanceRecord.find_for_people_and_date(@family_people.map(&:id), Date.today).group_by(&:person_id)
     respond_to do |format|
       format.js
