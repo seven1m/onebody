@@ -16,23 +16,23 @@ class Group < ActiveRecord::Base
   has_many :attachments, dependent: :delete_all
   has_many :group_times, dependent: :destroy
   has_many :checkin_times, through: :group_times
-  has_many :tasks, -> { order("position ASC") }
+  has_many :tasks, -> { order(:position) }
   belongs_to :creator, class_name: 'Person', foreign_key: 'creator_id'
   belongs_to :leader, class_name: 'Person', foreign_key: 'leader_id'
   belongs_to :parents_of_group, class_name: 'Group', foreign_key: 'parents_of'
   belongs_to :site
 
-  scope :active, -> { where(hidden: false) }
-  scope :hidden, -> { where(hidden: true) }
+  scope :active,     -> { where(hidden: false) }
+  scope :hidden,     -> { where(hidden: true) }
   scope :unapproved, -> { where(approved: false) }
-  scope :approved, -> { where(approved: true) }
-  scope :is_public, -> { where(private: false, hidden: false) } # cannot be 'public'
+  scope :approved,   -> { where(approved: true) }
+  scope :is_public,  -> { where(private: false, hidden: false) } # cannot be 'public'
   scope :is_private, -> { where(private: true, hidden: false) } # cannot be 'private'
-  scope :standard, -> { where("parents_of is null and (link_code is null or link_code = '')") }
-  scope :linked, -> { where("link_code is not null and link_code != ''") }
+  scope :standard,   -> { where("parents_of is null and (link_code is null or link_code = '')") }
+  scope :linked,     -> { where("link_code is not null and link_code != ''") }
   scope :parents_of, -> { where("parents_of is not null") }
+  scope :recent,     -> age { where("created_at >= ?", age.ago) }
   scope :checkin_destinations, -> { includes(:group_times).where('group_times.checkin_time_id is not null').order('group_times.ordering') }
-  scope :recent, -> age { where("created_at >= ?", age.ago) }
 
   scope_by_site_id
 
@@ -47,8 +47,6 @@ class Group < ActiveRecord::Base
   validates_uniqueness_of :cm_api_list_id, allow_nil: true, allow_blank: true, scope: :site_id
   validates_attachment_size :photo, less_than: PAPERCLIP_PHOTO_MAX_SIZE, message: I18n.t('photo.too_large', size: 10, :scope => 'activerecord.errors.models.group.attributes')
   validates_attachment_content_type :photo, content_type: PAPERCLIP_PHOTO_CONTENT_TYPES, message: I18n.t('photo.wrong_type', :scope => 'activerecord.errors.models.group.attributes')
-
-  serialize :cached_parents
 
   validate :validate_self_referencing_parents_of
 
