@@ -54,7 +54,7 @@ describe PrayerRequestsController do
     expect(new_req.request).to eq("test req")
     expect(new_req.answer).to eq("test answer")
     expect(new_req.answered_at.strftime("%m/%d/%Y")).to eq("01/01/2010")
-    expect(ActionMailer::Base.deliveries.last.subject).to eq("New Prayer Request")
+    expect(ActionMailer::Base.deliveries.last.subject).to match(/Prayer Request in Small Group/)
   end
 
   it "should not create a prayer request if the user is not a member of the group" do
