@@ -4,7 +4,7 @@ en:
 
     by: "by %{person}"
 
-    name: "Prayer Request in %{group}"
+    name: &name "Prayer Request in %{group}"
 
     index:
       heading: "Prayer Requests"
@@ -41,5 +41,6 @@ en:
       no_post: "You cannot post a prayer request in this group because you are not a member."
 
     send_email: "Send as email to group members."
-    email_subject: "New Prayer Request"
+    email:
+      subject: *name
 

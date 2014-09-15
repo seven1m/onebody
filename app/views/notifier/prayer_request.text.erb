@@ -1,3 +1,13 @@
-<%=raw t('notifier.person_send_prayer_request', { name: @prayer_request.person.name, group_name: @group.name })%>
+<%=raw t('notifier.person_send_prayer_request', person: @prayer_request.person.try(:name), group: @group.name)%>
 
 <%=raw @prayer_request.body %>
+
+<%- if @prayer_request.answer.present? -%>
+<%- if @prayer_request.answered_at -%>
+<%=raw t('prayer_requests.answer.on_date', date: @prayer_request.answered_at.to_s(:date)) %>
+<%- else -%>
+<%=raw t('prayer_requests.answer.heading') %>
+<%- end -%>
+
+<%=raw @prayer_request.answer %>
+<%- end -%>

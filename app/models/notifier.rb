@@ -59,8 +59,8 @@ class Notifier < ActionMailer::Base
     to = group.people.select { |p| p.id != prayer_request.person.id }.map { |p| "#{p.name} <#{p.email}>" }
     mail(
       to:       to,
-      from:     prayer_request.person.email,  
-      subject:  t('prayer_requests.email_subject')
+      from:     prayer_request.person.email,
+      subject:  t('prayer_requests.email.subject', group: prayer_request.group.try(:name))
     )
   end
 
