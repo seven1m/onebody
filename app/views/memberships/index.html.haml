@@ -9,7 +9,7 @@
           .box-header
             %h3.box-title= t('memberships.requests.heading')
           .box-body
-            %table.table
+            %table.table.print-full-width
               %tr
                 %th{ style: 'width:75px' }
                 %th
@@ -40,7 +40,7 @@
 
     - if @group.people.any?
       = form_tag batch_group_memberships_path(@group), method: :delete do
-        %table.members.table
+        %table.members.table.print-full-width
           %thead
             %tr
               - if @logged_in.can_edit?(@group)
@@ -69,7 +69,7 @@
 
     = pagination @memberships
 
-  .col-md-4
+  .col-md-4.hidden-print
     - if @logged_in.can_edit?(@group)
       .box.box-success
         .box-header
