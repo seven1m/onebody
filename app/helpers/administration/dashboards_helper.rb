@@ -20,14 +20,6 @@ module Administration::DashboardsHelper
     link_to(label, url, onclick: "if(page=prompt('Page number:', 1))location.href = '#{url}?page=' + page; return false;")
   end
 
-  def display_metric(alert, options={}, &block)
-    options.symbolize_keys!
-    options.reverse_merge!(content_tag: :p)
-    html = with_output_buffer(&block)
-    @alerts << html if alert
-    content_tag(options[:content_tag]) { html }
-  end
-
   def metric_alerts
     @alerts.map { |a| "<p>#{a}</p>" }.join("\n").html_safe
   end
