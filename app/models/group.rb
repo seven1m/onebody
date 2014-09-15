@@ -82,7 +82,11 @@ class Group < ActiveRecord::Base
   end
 
   def linked?
-    link_code and link_code.any?
+    membership_mode == 'link_code' and link_code and link_code.any?
+  end
+
+  def parents_of?
+    membership_mode == 'parents_of' and parents_of
   end
 
   def mapable?
@@ -106,10 +110,10 @@ class Group < ActiveRecord::Base
     return if dont_update_memberships
     if membership_mode == 'adults' and Person.undeleted.adults.count <= EVERYONE_LIMIT
       update_membership_associations(Person.undeleted.adults.to_a)
-    elsif membership_mode == 'parents_of' and parents_of
+    elsif parents_of?
       parents = Group.find(parents_of).people.map { |p| p.parents }.flatten.uniq
       update_membership_associations(parents)
-    elsif membership_mode == 'link_code' and linked?
+    elsif linked?
       q = []
       p = []
       link_code.downcase.split.each do |code|

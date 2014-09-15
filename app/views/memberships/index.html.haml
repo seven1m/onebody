@@ -83,7 +83,7 @@
                 = label_tag :add_person_name do
                   = t('memberships.add.description')
                 = text_field_tag 'name', nil, id: 'add_person_name', class: 'form-control', placeholder: t('memberships.add.name_placeholder')
-                - if @group.parents_of
+                - if @group.parents_of?
                   .callout.callout-danger.push-down
                     = t('memberships.add.parents_of_warning_html', group: link_to(@group.parents_of_group.try(:name), @group.parents_of_group))
                 - elsif @group.linked?
