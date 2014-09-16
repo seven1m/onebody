@@ -424,7 +424,7 @@ describe Notifier do
       it 'delivers in proper site' do
         assert_deliveries 1
         expect(@sent.to).to eq(@email.from)
-        expect(@sent.subject).to eq("Message Not Sent: test")
+        expect(@sent.subject).to eq('Message Not Sent: test')
         expect(@sent.from).to eq([Site.current.noreply_email])
         expect(@sent.body.to_s).to match(/the system does not recognize/i)
       end
@@ -446,7 +446,7 @@ describe Notifier do
     Notifier.receive(email)
     expect(ActionMailer::Base.deliveries).to have(1).delivery
     rejection = ActionMailer::Base.deliveries.last
-    expect(rejection.subject).to eq("Message Not Sent: Rich Text test")
+    expect(rejection.subject).to eq('Message Not Sent: Rich Text test')
     expect(rejection.body).to match(/cannot read your message/)
   end
 
@@ -460,7 +460,7 @@ describe Notifier do
     Notifier.receive(email)
     expect(ActionMailer::Base.deliveries).to have(1).delivery
     rejection = ActionMailer::Base.deliveries.last
-    expect(rejection.subject).to eq("Message Error: x")
+    expect(rejection.subject).to eq('Message Error: x')
     expect(rejection.body).to match(/message subject is too short/)
   end
 
@@ -474,7 +474,7 @@ describe Notifier do
     Notifier.receive(email)
     expect(ActionMailer::Base.deliveries).to have(1).delivery
     rejection = ActionMailer::Base.deliveries.last
-    expect(rejection.subject).to eq("Message Not Sent: email to nowhere")
+    expect(rejection.subject).to eq('Message Not Sent: email to nowhere')
     expect(rejection.body.to_s.gsub("\n", ' ')).to match(/could not find any valid group addresses/)
   end
 
