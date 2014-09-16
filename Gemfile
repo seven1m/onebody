@@ -37,6 +37,8 @@ gem 'font-awesome-rails', github: 'bokmann/font-awesome-rails'
 gem 'truncate_html'
 gem 'geocoder'
 gem 'date_validator'
+gem 'dossier'
+
 
 group :test do
   gem 'factory_girl_rails'
