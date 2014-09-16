@@ -309,7 +309,7 @@ describe AccountsController do
           end
 
           it 'should send email verification email' do
-            expect(ActionMailer::Base.deliveries.last.subject).to eq("Verify Mobile")
+            expect(ActionMailer::Base.deliveries.last.subject).to eq("Verify Mobile Phone")
           end
 
           it 'should indicate that message was sent' do

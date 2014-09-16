@@ -1,4 +1,6 @@
-<%=raw t('notifier.person_send_prayer_request', person: @prayer_request.person.try(:name), group: @group.name)%>
+<%=raw t('notifier.prayer_request.intro',
+         person: @prayer_request.person.try(:name),
+         group: @group.name) %>
 
 <%=raw @prayer_request.body %>
 

@@ -8,7 +8,7 @@ class Notifier < ActionMailer::Base
     @updates = updates
     mail(
       to:      Setting.get(:contact, :send_updates_to),
-      subject: "Profile Update from #{person.name}."
+      subject: I18n.t('notifier.profile_update.subject', person: person.name)
     )
   end
 
@@ -18,14 +18,7 @@ class Notifier < ActionMailer::Base
     @person = person
     mail(
       to:      to_address,
-      subject: "#{person.name} Changed Email"
-    )
-  end
-
-  def date_and_time_report
-    mail(
-      to:      Setting.get(:contact, :tech_support_email),
-      subject: "Date & Time Incorrect"
+      subject: I18n.t('notifier.email_update.subject', person: person.name)
     )
   end
 
@@ -33,8 +26,8 @@ class Notifier < ActionMailer::Base
     @person = person
     @friend = friend
     mail(
-      to:      "\"#{friend.name}\" <#{friend.email}>",
-      subject: "Friend Request from #{person.name}"
+      to:      friend.formatted_email,
+      subject: I18n.t('notifier.friend_request.subject', person: person.name)
     )
   end
 
@@ -48,8 +41,8 @@ class Notifier < ActionMailer::Base
     end
     mail(
       to:      to,
-      from:    person.email.to_s.any? ? "\"#{person.name}\" <#{person.email}>" : Site.current.noreply_email,
-      subject: "Request to Join Group from #{person.name}"
+      from:    person.formatted_email || Site.current.noreply_email,
+      subject: I18n.t('notifier.membership_request.subject', person: person.name)
     )
   end
 
@@ -60,7 +53,7 @@ class Notifier < ActionMailer::Base
     mail(
       to:       to,
       from:     prayer_request.person.email,
-      subject:  t('prayer_requests.email.subject', group: prayer_request.group.try(:name))
+      subject:  t('notifier.prayer_request.subject', group: prayer_request.group.try(:name))
     )
   end
 
@@ -74,7 +67,7 @@ class Notifier < ActionMailer::Base
         'List-ID' => "#{msg.group.name} group on #{Setting.get(:name, :site)} <#{msg.group.address}.#{URI.parse(Setting.get(:url, :site)).host}>",
         'List-Help' => "<#{Setting.get(:url, :site)}groups/#{msg.group.id}>",
         'List-Unsubscribe' => msg.disable_group_email_link(to),
-        'List-Post' => (msg.group.can_post?(to) ? "<#{Setting.get(:url, :site)}groups/#{msg.group.id}>" : 'NO (you are not allowed to post to this list)'),
+        'List-Post' => (msg.group.can_post?(to) ? "<#{Setting.get(:url, :site)}groups/#{msg.group.id}>" : "NO (#{I18n.t('notifier.not_allowed_to_post')})"),
         'List-Archive' => "<#{Setting.get(:url, :site)}groups/#{msg.group.id}>"
       ) unless to.new_record? # allows preview to work
       if msg.group.address.to_s.any? and msg.group.can_post?(msg.person)
@@ -111,19 +104,11 @@ class Notifier < ActionMailer::Base
     end
   end
 
-  def prayer_reminder(person, times)
-    @times = times
-    mail(
-      to:      person.email,
-      subject: "24-7 Prayer: Don't Forget!"
-    )
-  end
-
   def email_verification(verification)
     @verification = verification
     mail(
       to:      verification.email,
-      subject: "Verify Email"
+      subject: I18n.t('notifier.email_verification.subject')
     )
   end
 
@@ -131,7 +116,7 @@ class Notifier < ActionMailer::Base
     @verification = verification
     mail(
       to:      verification.email,
-      subject: "Verify Mobile"
+      subject: I18n.t('notifier.mobile_verification.subject')
     )
   end
 
@@ -139,7 +124,7 @@ class Notifier < ActionMailer::Base
     @person = person
     mail(
       to:      Setting.get(:features, :sign_up_approval_email),
-      subject: "Pending Sign Up"
+      subject: I18n.t('notifier.pending_sign_up.subject')
     )
   end
 
@@ -147,7 +132,7 @@ class Notifier < ActionMailer::Base
     @person = person
     mail(
       to:      Setting.get(:features, :send_updates_to),
-      subject: is_family ? "Family Photo Changed" : "Photo Changed"
+      subject: I18n.t(is_family ? 'family_subject' : 'person_subject', scope: 'notifier.photo_update')
     )
   end
 
@@ -156,7 +141,7 @@ class Notifier < ActionMailer::Base
     attachments['directory.pdf'] = file.read
     mail(
       to:      "\"#{person.name}\" <#{person.email}>",
-      subject: "#{Setting.get(:name, :site)} Directory"
+      subject: I18n.t('notifier.printed_directory.subject', site: Setting.get(:name, :site))
     )
   end
 
@@ -166,37 +151,36 @@ class Notifier < ActionMailer::Base
     return unless email.from.to_s.any?
     return if email['Auto-Submitted'] and not %w(false no).include?(email['Auto-Submitted'].to_s.downcase)
     return if email['Return-Path'] and ['<>', ''].include?(email['Return-Path'].to_s)
-    return if sent_to.detect { |a| a =~ /no\-?reply|postmaster|mailer\-daemon/i }
+    return if sent_to.any? { |a| a =~ /no\-?reply|postmaster|mailer\-daemon/i }
     return if email.from.to_s =~ /no\-?reply|postmaster|mailer\-daemon/i
     return if email.subject =~ /^undelivered mail returned to sender|^returned mail|^delivery failure/i
     return if email.message_id =~ Message::MESSAGE_ID_RE and m = Message.unscoped { Message.where(id: $1).first } and m.code_hash == $2 # just sent, looping back into the receiver
-    return if ProcessedMessage.where(header_message_id: email.message_id).first
+    return if ProcessedMessage.where(header_message_id: email.message_id).any?
     return unless get_site(email)
 
-    unless @person = get_from_person(email)
-      if @multiple_people_with_same_email
-        reject_msg = \
-        "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
-        "Sorry for the inconvenience, but the system cannot determine who you are because more " +
-        "than one person in your family share the same email address. You can fix this by " +
-        "configuring your own personal email address in the system, or by setting the sender name " +
-        "in your email account to be the same as your name in our database. " +
-        "Alternatively, you can sign in at #{Setting.get(:url, :site)} and " +
-        "send your message via the Web."
+    destinations = sent_to.map do |address|
+      address, domain = address.strip.downcase.split('@')
+      next unless address.present? and domain.present?
+      next unless [Site.current.email_host, Site.current.secondary_host].compact.include?(domain)
+      Group.where(address: address).first
+    end.compact
+
+    @person = get_from_person(email, destinations)
+
+    if [nil, :multiple].include?(@person)
+      if @person == :multiple
+        reject_subject = I18n.t('notifier.rejection.multiple_people.subject', subject: email.subject)
+        reject_msg = I18n.t('notifier.rejection.multiple_people',
+                            subject: email.subject,
+                            url: Setting.get(:url, :site))
       else
-        reject_msg = \
-        "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
-        "Sorry for the inconvenience, but the system does not recognize your email address " +
-        "as a user of the system. If you want to send a message to someone, please send from " +
-        "your registered account email address or sign in at #{Setting.get(:url, :site)} and " +
-        "send your message via the Web."
+        reject_subject = I18n.t('notifier.rejection.unknown_person.subject', subject: email.subject)
+        reject_msg = I18n.t('notifier.rejection.unknown_person',
+                            subject: email.subject,
+                            url: Setting.get(:url, :site))
       end
       if return_to = email['Return-Path'] ? email['Return-Path'].to_s : email.from
-        Notifier.simple_message(
-          return_to,
-          "Message Rejected: #{email.subject}",
-          reject_msg
-        ).deliver
+        Notifier.simple_message(return_to, reject_subject, reject_msg).deliver
       end
       return
     end
@@ -204,14 +188,8 @@ class Notifier < ActionMailer::Base
     unless body = get_body(email) and (body[:text] or body[:html])
       Notifier.simple_message(
         email['Return-Path'] ? email['Return-Path'].to_s : email.from,
-        "Message Unreadable: #{email.subject}",
-        "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
-        "Sorry for the inconvenience, but the #{Setting.get(:name, :site)} site cannot read " +
-        "the message because it is not formatted as either plain text or HTML. " +
-        "Please set your email client to plain text (turn off Rich Text), " +
-        "or you may send your message directly from the site after signing into " +
-        "#{Setting.get(:url, :site)}. If you continue to have trouble, please contact " +
-        "#{Setting.get(:contact, :tech_support_contact)}."
+        I18n.t('notifier.rejection.cannot_read.subject', subject: email.subject),
+        I18n.t('notifier.rejection.cannot_read.body', subject: email.subject, url: Setting.get(:url, :site))
       ).deliver
       return
     end
@@ -219,31 +197,21 @@ class Notifier < ActionMailer::Base
     @message_sent_to_group = false
     sent_to_count = 0
 
-    sent_to.each do |address|
-      address, domain = address.strip.downcase.split('@')
-      next unless address.any? and domain.any?
-      our_domain = [Site.current.email_host, Site.current.secondary_host].compact.include?(domain)
-      if our_domain and group = Group.where(address: address).first and group.can_send?(@person)
-        message = group_email(group, email, body)
-        if @message_sent_to_group
-          sent_to_count += 1
-        elsif !message.valid? and message.errors[:base] !~ /already saved|autoreply/
-          Notifier.simple_message(
-            email['Return-Path'] ? email['Return-Path'].to_s : email.from,
-            "Message Error: #{email.subject}",
-            "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
-            "Sorry for the inconvenience, but the #{Setting.get(:name, :site)} site had " +
-            "trouble saving the message (#{message.errors.full_messages.join('; ')}). " +
-            "You may post your message directly from the site after signing into " +
-            "#{Setting.get(:url, :site)}. If you continue to have trouble, please contact " +
-            "#{Setting.get(:contact, :tech_support_contact)}."
-          ).deliver
-          sent_to_count += 1
-          break
-        end
-      elsif address.to_s.any? and not @message_sent_to_group # reply to previous message
-        result = reply_email(email, body)
-        sent_to_count += 1 if result
+    destinations.each do |group|
+      message = group_email(group, email, body)
+      if @message_sent_to_group
+        sent_to_count += 1
+      elsif !message.valid? and message.errors[:base] !~ /already saved|autoreply/
+        Notifier.simple_message(
+          email['Return-Path'] ? email['Return-Path'].to_s : email.from,
+          I18n.t('notifier.rejection.invalid.subject', subject: email.subject),
+          I18n.t('notifier.rejection.invalid.body',
+                 subject: email.subject,
+                 errors: message.errors.full_messages.join("\n"),
+                 support: Setting.get(:contact, :tech_support_contact))
+        ).deliver
+        sent_to_count += 1
+        break
       end
     end
 
@@ -251,11 +219,10 @@ class Notifier < ActionMailer::Base
       # notify the sender that no mail was sent
       Notifier.simple_message(
         return_to,
-        "Message Rejected: #{email.subject}",
-        "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
-        "Sorry for the inconvenience, but it appears the message was not properly addressed. " +
-        "If you want to send a message to someone, please sign in at #{Setting.get(:url, :site)}, " +
-        "find the person, and click \"Send Email.\""
+        I18n.t('notifier.rejection.no_recipients.subject', subject: email.subject),
+        I18n.t('notifier.rejection.no_recipients.body',
+               subject: email.subject,
+               url: Setting.get(:url, :site))
       ).deliver
     end
 
@@ -291,41 +258,6 @@ class Notifier < ActionMailer::Base
         @message_sent_to_group = true
       end
       message
-    end
-
-    def reply_email(email, body)
-      message, code_hash = get_in_reply_to_message_and_code(email)
-      if message and message.code_hash == code_hash
-        if message.created_at < (DateTime.now - MAX_DAYS_FOR_REPLIES)
-          Notifier.simple_message(
-            email['Return-Path'] ? email['Return-Path'].to_s : email.from,
-            "Message Too Old: #{email.subject}",
-            "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
-            "Sorry for the inconvenience, but the message to which you're replying is too old. " +
-            "This is to prevent unsolicited email to our users. If you wish to send a message " +
-            "to this person, please sign into #{Setting.get(:url, :site)} and send the message " +
-            "via the web site. If you need help, please contact " +
-            "#{Setting.get(:contact, :tech_support_contact)}."
-          ).deliver
-          false
-        else
-          to_person = message.person
-          message = Message.create(
-            to: to_person,
-            person: @person,
-            subject: email.subject,
-            body: clean_body(body[:text]),
-            html_body: clean_body(body[:html]),
-            parent: message,
-            dont_send: true
-          )
-          if message.valid?
-            create_attachments(email, message)
-            message.send_to_person(message.to)
-          end
-          true
-        end
-      end
     end
 
     def create_attachments(email, message)
@@ -375,7 +307,7 @@ class Notifier < ActionMailer::Base
       nil
     end
 
-    def get_from_person(email)
+    def get_from_person(email, destinations)
       people = Person.where("lcase(email) = ?", email.from.first.downcase).to_a
       if people.length == 0
         # user is not found in the system, try alternate email
@@ -383,11 +315,30 @@ class Notifier < ActionMailer::Base
       elsif people.length == 1
         people.first
       elsif people.length > 1
-        @multiple_people_with_same_email = true
-        # try to narrow it down based on name in the from line
-        people.detect do |p|
-          p.name.downcase.split.first == email.header['from'].value.to_s.downcase.split.first
+        by_name = find_person_by_name(people, email)
+        if by_name.length == 1
+          by_name.first
+        else
+          by_group = find_person_by_group(people, destinations)
+          if by_group.length == 1
+            by_group.first
+          else
+            :multiple
+          end
         end
+      end
+    end
+
+    def find_person_by_name(people, email)
+      name = email.header['from'].value.to_s.downcase.split.first
+      people.select do |p|
+        p.name.downcase.split.first == name
+      end
+    end
+
+    def find_person_by_group(people, groups)
+      people.select do |person|
+        groups.any? { |g| person.member_of?(g) }
       end
     end
 

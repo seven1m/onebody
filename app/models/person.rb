@@ -149,6 +149,13 @@ class Person < ActiveRecord::Base
     end
   end
 
+  def formatted_email
+    return unless email.present?
+    Mail::Address.new(email).tap do |address|
+      address.display_name = name
+    end
+  end
+
   # FIXME this assumes English - how to fix?
   def name_possessive
     name =~ /s$/ ? "#{name}'" : "#{name}'s"
