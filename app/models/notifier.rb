@@ -235,140 +235,140 @@ class Notifier < ActionMailer::Base
 
   private
 
-    def group_email(group, email, body)
-      # if is this looks like a reply, try to link this message to its original based on the subject
-      if email.subject =~ /^re:/i
-        parent = group.messages.where(subject: email.subject.sub(/^re:\s?/i, '')).order('id desc').first
-      else
-        parent = nil
-      end
-      message = Message.create(
-        group: group,
-        parent: parent,
-        person: @person,
-        subject: email.subject,
-        body: clean_body(body[:text]),
-        html_body: clean_body(body[:html]),
-        dont_send: true
-      )
-      if message.valid?
-        create_attachments(email, message)
-        already_sent_to = email.to.to_a
-        message.send_to_group(already_sent_to)
-        @message_sent_to_group = true
-      end
-      message
+  def group_email(group, email, body)
+    # if is this looks like a reply, try to link this message to its original based on the subject
+    if email.subject =~ /^re:/i
+      parent = group.messages.where(subject: email.subject.sub(/^re:\s?/i, '')).order('id desc').first
+    else
+      parent = nil
     end
+    message = Message.create(
+      group: group,
+      parent: parent,
+      person: @person,
+      subject: email.subject,
+      body: clean_body(body[:text]),
+      html_body: clean_body(body[:html]),
+      dont_send: true
+    )
+    if message.valid?
+      create_attachments(email, message)
+      already_sent_to = email.to.to_a
+      message.send_to_group(already_sent_to)
+      @message_sent_to_group = true
+    end
+    message
+  end
 
-    def create_attachments(email, message)
-      if email.has_attachments?
-        email.attachments.each do |attachment|
-          name = File.split(attachment.filename.to_s).last
-          unless ATTACHMENTS_TO_IGNORE.include? name.downcase
-            message.attachments.create(
-              name:         name,
-              content_type: attachment.content_type.strip,
-              file:         FakeFile.new(attachment.body.to_s, name)
-            )
-          end
+  def create_attachments(email, message)
+    if email.has_attachments?
+      email.attachments.each do |attachment|
+        name = File.split(attachment.filename.to_s).last
+        unless ATTACHMENTS_TO_IGNORE.include? name.downcase
+          message.attachments.create(
+            name:         name,
+            content_type: attachment.content_type.strip,
+            file:         FakeFile.new(attachment.body.to_s, name)
+          )
         end
       end
     end
+  end
 
-    def get_in_reply_to_message_and_code(email)
-      message_id, code_hash, message = nil
-      # first try in-reply-to and references headers
-      (Array(email.in_reply_to) + Array(email.references)).each do |in_reply_to|
-        message_id, code_hash = (m = in_reply_to.match(Message::MESSAGE_ID_RE)) && m[1..2]
-        if message = Message.where(id: message_id).first
-          return [message, code_hash]
-        end
-      end
-      # fallback to using id and code hash inside email body
-      # (Outlook does not use the psuedo-standard headers we rely on above)
-      message_id, code_hash = (m = get_body(email).to_s.match(Message::MESSAGE_ID_RE_IN_BODY)) && m[1..2]
+  def get_in_reply_to_message_and_code(email)
+    message_id, code_hash, message = nil
+    # first try in-reply-to and references headers
+    (Array(email.in_reply_to) + Array(email.references)).each do |in_reply_to|
+      message_id, code_hash = (m = in_reply_to.match(Message::MESSAGE_ID_RE)) && m[1..2]
       if message = Message.where(id: message_id).first
         return [message, code_hash]
       end
     end
-
-    def get_site(email)
-      # prefer the to address
-      (Array(email.cc) + Array(email.to)).each do |address|
-        return Site.current if Site.current = Site.where(host: address.downcase.split("@").last).first
-      end
-      # fallback if to address was rewritten
-      # Calvin College in MI is known to rewrite our from/reply-to addresses to be the same as the host that made the connection
-      if get_body(email).to_s =~ Message::MESSAGE_ID_RE_IN_BODY
-        Site.each do
-          return Site.current if get_in_reply_to_message_and_code(email)
-        end
-      end
-      nil
+    # fallback to using id and code hash inside email body
+    # (Outlook does not use the psuedo-standard headers we rely on above)
+    message_id, code_hash = (m = get_body(email).to_s.match(Message::MESSAGE_ID_RE_IN_BODY)) && m[1..2]
+    if message = Message.where(id: message_id).first
+      return [message, code_hash]
     end
+  end
 
-    def get_from_person(email, destinations)
-      people = Person.where("lcase(email) = ?", email.from.first.downcase).to_a
-      if people.length == 0
-        # user is not found in the system, try alternate email
-        Person.where("lcase(alternate_email) = ?", email.from.first.downcase).first
-      elsif people.length == 1
-        people.first
-      elsif people.length > 1
-        by_name = find_person_by_name(people, email)
-        if by_name.length == 1
-          by_name.first
+  def get_site(email)
+    # prefer the to address
+    (Array(email.cc) + Array(email.to)).each do |address|
+      return Site.current if Site.current = Site.where(host: address.downcase.split("@").last).first
+    end
+    # fallback if to address was rewritten
+    # Calvin College in MI is known to rewrite our from/reply-to addresses to be the same as the host that made the connection
+    if get_body(email).to_s =~ Message::MESSAGE_ID_RE_IN_BODY
+      Site.each do
+        return Site.current if get_in_reply_to_message_and_code(email)
+      end
+    end
+    nil
+  end
+
+  def get_from_person(email, destinations)
+    people = Person.where("lcase(email) = ?", email.from.first.downcase).to_a
+    if people.length == 0
+      # user is not found in the system, try alternate email
+      Person.where("lcase(alternate_email) = ?", email.from.first.downcase).first
+    elsif people.length == 1
+      people.first
+    elsif people.length > 1
+      by_name = find_person_by_name(people, email)
+      if by_name.length == 1
+        by_name.first
+      else
+        by_group = find_person_by_group(people, destinations)
+        if by_group.length == 1
+          by_group.first
         else
-          by_group = find_person_by_group(people, destinations)
-          if by_group.length == 1
-            by_group.first
-          else
-            :multiple
-          end
+          :multiple
         end
       end
     end
+  end
 
-    def find_person_by_name(people, email)
-      name = email.header['from'].value.to_s.downcase.split.first
-      people.select do |p|
-        p.name.downcase.split.first == name
-      end
+  def find_person_by_name(people, email)
+    name = email.header['from'].value.to_s.downcase.split.first
+    people.select do |p|
+      p.name.downcase.split.first == name
     end
+  end
 
-    def find_person_by_group(people, groups)
-      people.select do |person|
-        groups.any? { |g| person.member_of?(g) }
-      end
+  def find_person_by_group(people, groups)
+    people.select do |person|
+      groups.any? { |g| person.member_of?(g) }
     end
+  end
 
-    def get_body(email)
-      self.class.get_body(email)
-    end
+  def get_body(email)
+    self.class.get_body(email)
+  end
 
-    def self.get_body(email)
-      body = {
-        text: email.text_part.try(:decoded),
-        html: email.html_part.try(:decoded)
-      }
-      type = email.content_type.downcase.split(';').first
-      if body[:text].nil? and type == 'text/plain'
-        body[:text] = email.decoded
-      elsif body[:html].nil? and type == 'text/html'
-        body[:html] = email.decoded
-      end
-      body
+  def self.get_body(email)
+    body = {
+      text: email.text_part.try(:decoded),
+      html: email.html_part.try(:decoded)
+    }
+    type = email.content_type.downcase.split(';').first
+    if body[:text].nil? and type == 'text/plain'
+      body[:text] = email.decoded
+    elsif body[:html].nil? and type == 'text/html'
+      body[:html] = email.decoded
     end
+    body
+  end
 
-    def clean_body(body)
-      # this has the potential for error, but we'll just go with it and see
-      body.to_s.split(/^[>\s]*\- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \-/).first.to_s.strip
-    end
+  def clean_body(body)
+    # this has the potential for error, but we'll just go with it and see
+    body.to_s.split(/^[>\s]*\- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \-/).first.to_s.strip
+  end
 
-    def get_from_address
-      Mail::Address.new.tap do |addr|
-        addr.address = Site.current.noreply_email
-        addr.display_name = Setting.get(:name, :site)
-      end
+  def get_from_address
+    Mail::Address.new.tap do |addr|
+      addr.address = Site.current.noreply_email
+      addr.display_name = Setting.get(:name, :site)
     end
+  end
 end
