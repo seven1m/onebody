@@ -9,3 +9,9 @@ EmptyLinesAroundBody:
 
 Not:
   Enabled: false
+
+DotPosition:
+  EnforcedStyle: trailing
+
+StringLiterals:
+  EnforcedStyle: single_quotes
