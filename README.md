@@ -59,6 +59,17 @@ Operating System: Mac or Linux (See Vagrant above if you're on Windows)
 
 Now visit the site running in development mode at http://localhost:3000.
 
+Note: In order to run the people and groups exports, you need to run a worker process.
+
+```
+ script/worker -e <environment_name>
+```
+You can set this up to run via cron or, alternatively, run the above with the -c switch keep checking for and running new jobs.
+
+```
+ script/worker -e <environment_name> -c
+```
+
 ## Tests
 
 To run tests:
