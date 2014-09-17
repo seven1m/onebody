@@ -10,6 +10,10 @@ html.full-height, html.full-height body {
   height: 100%;
 }
 
+.full-width {
+  width: 100%;
+}
+
 .site-name {
   @extend .hidden-sm;
   @extend .hidden-xs;

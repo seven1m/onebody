@@ -79,14 +79,15 @@ en:
         description: "Description"
         folder_id: "Parent Folder"
       family:
-        name: Name
-        last_name: Last Name
-        home_phone: Home Phone
-        address1: Address Line 1
-        address2: Address Line 2
-        city: City
-        state: State
-        zip: Zipe
+        address1: "Address Line 1"
+        address2: "Address Line 2 (optional)"
+        city: "City"
+        country: "Country"
+        home_phone: "Home Phone"
+        last_name: "Last Name"
+        name: "Name"
+        state: "State"
+        zip: "Zip"
       person:
         first_name: First Name
         last_name: Last Name

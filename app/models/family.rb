@@ -41,6 +41,11 @@ class Family < ActiveRecord::Base
     end
   end
 
+  def initialize(*args)
+    super
+    self.country = Setting.get(:system, :default_country) unless self.country.present?
+  end
+
   geocoded_by :location
   after_validation :geocode
 

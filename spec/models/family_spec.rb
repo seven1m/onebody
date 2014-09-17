@@ -115,7 +115,7 @@ describe Family do
     end
   end
 
-  context '#name' do
+  describe '#name' do
     before do
       @family = FactoryGirl.create(:family)
     end
@@ -131,7 +131,7 @@ describe Family do
     end
   end
 
-  context '#last_name' do
+  describe '#last_name' do
     before do
       @family = FactoryGirl.create(:family)
     end
@@ -143,6 +143,18 @@ describe Family do
 
       it 'should be invalid' do
         expect(@family).to be_invalid
+      end
+    end
+  end
+
+  describe 'country' do
+    context 'default country is New Zealand' do
+      before do
+        Setting.set(:system, :default_country, 'NZ')
+      end
+
+      it 'sets the country on a new family' do
+        expect(Family.new.country).to eq('NZ')
       end
     end
   end
