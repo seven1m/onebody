@@ -1,1 +1,3 @@
-<%=raw t('notifier.attached_your_custom_directory', { name: @person.name, site: Setting.get(:name, :site) } ) %>
+<%=raw t('notifier.printed_directory.intro',
+         person: @person.name,
+         site: Setting.get(:name, :site)) %>

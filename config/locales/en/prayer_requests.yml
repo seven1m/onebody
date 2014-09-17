@@ -41,6 +41,3 @@ en:
       no_post: "You cannot post a prayer request in this group because you are not a member."
 
     send_email: "Send as email to group members."
-    email:
-      subject: *name
-

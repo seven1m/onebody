@@ -26,7 +26,7 @@ describe Notifier do
         Notifier.receive(@email.to_s)
       end
 
-      it 'should delivers email to both users' do
+      it 'delivers the email to both users' do
         assert_deliveries 2
         assert_emails_delivered(@email, @group.people)
       end
@@ -39,11 +39,11 @@ describe Notifier do
           Notifier.receive(@email.to_s)
         end
 
-        it 'should deliver email to sender' do
+        it 'delivers the email to sender' do
           expect(ActionMailer::Base.deliveries.map(&:to).flatten).to include(@user2.email)
         end
 
-        it 'should not deliver email to user who received it out-of-band' do
+        it 'does not deliver email to user who received it out-of-band' do
           expect(ActionMailer::Base.deliveries.map(&:to).flatten).to_not include(@user.email)
         end
       end
@@ -56,8 +56,33 @@ describe Notifier do
           Notifier.receive(@email.to_s)
         end
 
-        it 'should deliver email to both members' do
+        it 'delivers the email to both members' do
           expect(ActionMailer::Base.deliveries.map(&:to).flatten.sort).to include(@user.email, @user2.email)
+        end
+      end
+
+      context 'given a repy email with attachment' do
+        before do
+          @sent = ActionMailer::Base.deliveries.first
+          reply = Mail.new(
+            from:        "#{@user2.name} <#{@user2.email}>",
+            to:          @group.full_address,
+            subject:     're: Hello Group',
+            in_reply_to: @sent.message_id
+          )
+          reply.text_part = Mail::Part.new do
+            body 'hello!!!'
+          end
+          reply.attachments['myfile.pdf'] = File.read(Rails.root.join('spec/fixtures/files/attachment.pdf'))
+          ActionMailer::Base.deliveries = []
+          Notifier.receive(reply.to_s)
+          @sent = ActionMailer::Base.deliveries.first
+          @message = Message.last
+        end
+
+        it 'saves the attachment' do
+          expect(@message.subject).to eq('re: Hello Group')
+          expect(@message.attachments.count).to eq(1)
         end
       end
     end
@@ -131,7 +156,7 @@ describe Notifier do
       Notifier.receive(@email.to_s)
     end
 
-    it 'should not send rejection if previous copy of message was delivered' do
+    it 'does not send rejection if previous copy of message was delivered' do
       expect(ActionMailer::Base.deliveries).to eq([])
     end
   end
@@ -146,7 +171,7 @@ describe Notifier do
       Notifier.receive(email.to_s)
     end
 
-    it 'should not deliver to same email address twice' do
+    it 'does not deliver to same email address twice' do
       expect(ActionMailer::Base.deliveries.map(&:to).flatten.sort).to eq([@jack.email, @user.email])
     end
   end
@@ -157,7 +182,7 @@ describe Notifier do
       Notifier.receive(email.to_s)
     end
 
-    it 'should send rejection notice' do
+    it 'sends a rejection notice' do
       assert_deliveries 1
       delivery = ActionMailer::Base.deliveries.first
       expect(delivery.to.first).to match(@user.email)
@@ -186,7 +211,7 @@ describe Notifier do
       Notifier.receive(email.to_s)
     end
 
-    it 'should send the message' do
+    it 'sends the message' do
       assert_deliveries 1
       delivery = ActionMailer::Base.deliveries.first
       expect(delivery.subject).to eq('test from my alternate')
@@ -194,7 +219,69 @@ describe Notifier do
     end
   end
 
-  it 'should send email update' do
+  context 'given two users in the same family with same email address' do
+    before do
+      @user.dont_mark_email_changed = true
+      @user.email = 'shared@gmail.com'
+      @user.first_name = 'Jim'
+      @user.save!
+      @spouse = FactoryGirl.create(:person, first_name: 'Jane', family: @user.family, email: 'shared@gmail.com')
+      @membership2 = @group.memberships.create!(person: @spouse)
+    end
+
+    context 'given no name on email' do
+      before do
+        email = to_email(from: 'shared@gmail.com',
+                         to: @group.full_address,
+                         subject: 'test from my shared address',
+                         body: 'test!')
+        Notifier.receive(email.to_s)
+      end
+
+      it 'rejects the message' do
+        assert_deliveries 1
+        delivery = ActionMailer::Base.deliveries.first
+        expect(delivery.subject).to eq('Message Not Sent: test from my shared address')
+      end
+    end
+
+    context 'given one person in the group and one is not' do
+      before do
+        @membership2.destroy
+        email = to_email(from: 'shared@gmail.com',
+                         to: @group.full_address,
+                         subject: 'test from my shared address',
+                         body: 'test!')
+        Notifier.receive(email.to_s)
+      end
+
+      it 'sends the message, assigning to user belonging to the group' do
+        assert_deliveries 1
+        delivery = ActionMailer::Base.deliveries.first
+        expect(delivery.subject).to eq('test from my shared address')
+        expect(Message.last.person).to eq(@user)
+      end
+    end
+
+    context 'given a name on email to help determine user' do
+      before do
+        email = to_email(from: 'Jane Smith <shared@gmail.com>',
+                         to: @group.full_address,
+                         subject: 'test from my shared address',
+                         body: 'test!')
+        Notifier.receive(email.to_s)
+      end
+
+      it 'sends the message, assigning to user with same first name' do
+        assert_deliveries 1
+        delivery = ActionMailer::Base.deliveries.first
+        expect(delivery.subject).to eq('test from my shared address')
+        expect(Message.last.person).to eq(@spouse)
+      end
+    end
+  end
+
+  it 'sends an email update' do
     Notifier.email_update(@user).deliver
     expect(ActionMailer::Base.deliveries).to_not be_empty
     sent = ActionMailer::Base.deliveries.first
@@ -204,6 +291,32 @@ describe Notifier do
     expect(sent.body.to_s).to include("Email: #{@user.email}")
   end
 
+  it 'sends a profile update' do
+    Notifier.profile_update(@user, first_name: ['Tim', 'Timothy']).deliver
+    expect(ActionMailer::Base.deliveries).to have(1).delivery
+    sent = ActionMailer::Base.deliveries.last
+    expect(sent.subject).to eq("Profile Update from #{@user.name}")
+    expect(sent.body.to_s).to match(/has submitted a profile update/)
+  end
+
+  it 'sends a friend request' do
+    @friend = FactoryGirl.create(:person)
+    Notifier.friend_request(@user, @friend).deliver
+    expect(ActionMailer::Base.deliveries).to have(1).delivery
+    sent = ActionMailer::Base.deliveries.last
+    expect(sent.subject).to eq("Friend Request from #{@user.name}")
+    expect(sent.body.to_s).to match(/wants to be your friend/)
+  end
+
+  it 'sends a group membership request' do
+    @admin = FactoryGirl.create(:person, :super_admin)
+    Notifier.membership_request(@group, @user).deliver
+    expect(ActionMailer::Base.deliveries).to have(1).delivery
+    sent = ActionMailer::Base.deliveries.last
+    expect(sent.subject).to eq("Request to Join Group from #{@user.name}")
+    expect(sent.body.to_s).to match(/has requested to join the group/)
+  end
+
   context 'given a private message between two people' do
     before do
       @user2 = FactoryGirl.create(:person, first_name: 'Jane')
@@ -211,127 +324,19 @@ describe Notifier do
       @sent = ActionMailer::Base.deliveries.first
     end
 
-    it 'should deliver message' do
+    it 'delivers the message' do
       expect(ActionMailer::Base.deliveries.length).to eq(1)
       expect(@sent.to).to eq([@user2.email])
       expect(@sent.subject).to eq("test")
       expect(@sent.body.to_s).to match(/^hello/)
     end
 
-    it 'should deliver with reply-to address of user' do
+    it 'sets the reply-to address to the user actual email' do
       expect(@sent.reply_to.first).to eq(@user.email)
     end
 
-    it 'should maintain message_id generated by OneBody' do
+    it 'maintains the message_id generated by OneBody' do
       expect(@sent.message_id).to match(/<#{@message.id_and_code}_/)
-    end
-
-    context 'given a reply message' do
-      before do
-        reply = Mail.new(
-          from:        "#{@user2.name} <#{@user2.email}>",
-          to:          'something@example.com',
-          subject:     're: test',
-          body:        'hello!!!',
-          in_reply_to: @sent.message_id
-        )
-        ActionMailer::Base.deliveries = []
-        Notifier.receive(reply.to_s)
-        @sent = ActionMailer::Base.deliveries.first
-      end
-
-      it 'should deliver message' do
-        expect(ActionMailer::Base.deliveries.length).to eq(1)
-        expect(@sent.to).to eq([@user.email])
-        expect(@sent.subject).to eq("re: test")
-        expect(@sent.body.to_s).to match(/^hello!!!/)
-      end
-
-      it 'should deliver with reply-to address of user' do
-        expect(@sent.reply_to.first).to eq(@user2.email)
-      end
-    end
-
-    context 'given a reply message without in-reply-to header' do
-      before do
-        reply = Mail.new(
-          from:        "#{@user2.name} <#{@user2.email}>",
-          to:          'something@example.com',
-          subject:     're: test',
-          body:        'hello!!!' + @sent.body.to_s
-        )
-        ActionMailer::Base.deliveries = []
-        Notifier.receive(reply.to_s)
-      end
-
-      it 'should match message based on id in body' do
-        expect(Message.count).to eq(2)
-        expect(Message.last.parent).to eq(@message)
-      end
-    end
-
-    context 'given a reply message without any linkage to original' do
-      before do
-        reply = Mail.new(
-          from:        "#{@user2.name} <#{@user2.email}>",
-          to:          'something@example.com',
-          subject:     're: test',
-          body:        'hello!!!'
-        )
-        ActionMailer::Base.deliveries = []
-        Notifier.receive(reply.to_s)
-        @sent = ActionMailer::Base.deliveries.last
-      end
-
-      it 'should deliver rejection notice to sender' do
-        expect(ActionMailer::Base.deliveries.length).to eq(1)
-        expect(@sent.to).to eq([@user2.email])
-        expect(@sent.subject).to eq("Message Rejected: re: test")
-        expect(@sent.from).to eq([Site.current.noreply_email])
-        expect(@sent.body.to_s).to match(/not properly addressed/)
-      end
-    end
-
-    context 'given a reply message with a mismatched to address' do
-      before do
-        reply = Mail.new(
-          from:        "#{@user2.name} <#{@user2.email}>",
-          to:          'somethingelse@foo.com',
-          subject:     're: test',
-          body:        'hello!!!' + @sent.body.to_s,
-          in_reply_to: @sent.message_id
-        )
-        ActionMailer::Base.deliveries = []
-        Notifier.receive(reply.to_s)
-      end
-
-      it 'should match message based on id in body' do
-        expect(Message.count).to eq(2)
-        expect(Message.last.parent).to eq(@message)
-      end
-    end
-
-    context 'given a reply message from an unknown sender' do
-      before do
-        reply = Mail.new(
-          from:        "#{@user2.name} <unknown@foo.com>",
-          to:          'something@example.com',
-          subject:     're: test',
-          body:        'hello!!!' + @sent.body.to_s,
-          in_reply_to: @sent.message_id
-        )
-        ActionMailer::Base.deliveries = []
-        Notifier.receive(reply.to_s)
-        @sent = ActionMailer::Base.deliveries.last
-      end
-
-      it 'should deliver rejection notice to sender' do
-        expect(ActionMailer::Base.deliveries.length).to eq(1)
-        expect(@sent.to).to eq(["unknown@foo.com"])
-        expect(@sent.subject).to eq("Message Rejected: re: test")
-        expect(@sent.from).to eq([Site.current.noreply_email])
-        expect(@sent.body.to_s).to match(/the system does not recognize your email address/)
-      end
     end
   end
 
@@ -344,43 +349,16 @@ describe Notifier do
       @message = Message.order('id desc').first
     end
 
-    it 'should save both html and text part' do
+    it 'saves both the html and text part' do
       expect(@message.body).to match(/This is a test of complicated multipart message/)
       expect(@message.html_body).to match(/<p>This is a test of complicated multipart message.<\/p>/)
     end
 
-    it 'should deliver the message to the group' do
+    it 'delivers the message to the group' do
       expect(ActionMailer::Base.deliveries.length).to eq(1)
     end
 
-    it 'should save attachment' do
-      expect(@message.attachments.count).to eq(1)
-    end
-  end
-
-  context 'given a repy email with attachment' do
-    before do
-      @user2 = FactoryGirl.create(:person, first_name: 'Jane')
-      @message = Message.create person: @user, to: @user2, subject: 'test', body: 'hello'
-      @sent = ActionMailer::Base.deliveries.first
-      reply = Mail.new(
-        from:        "#{@user2.name} <#{@user2.email}>",
-        to:          'something@example.com',
-        subject:     're: test',
-        in_reply_to: @sent.message_id
-      )
-      reply.text_part = Mail::Part.new do
-        body 'hello!!!'
-      end
-      reply.attachments['myfile.pdf'] = File.read(Rails.root.join('spec/fixtures/files/attachment.pdf'))
-      ActionMailer::Base.deliveries = []
-      Notifier.receive(reply.to_s)
-      @sent = ActionMailer::Base.deliveries.first
-      @message = Message.last
-    end
-
-    it 'should save attachment' do
-      expect(@message.subject).to eq('re: test')
+    it 'saves the attachment' do
       expect(@message.attachments.count).to eq(1)
     end
   end
@@ -388,15 +366,15 @@ describe Notifier do
   context 'email sent to the noreply address' do
     before do
       msg = Mail.new(
-        from:        @user.email,
-        to:          Site.current.noreply_email,
-        subject:     're: test',
-        body:        'hello!!!'
+        from:    @user.email,
+        to:      Site.current.noreply_email,
+        subject: 're: test',
+        body:    'hello!!!'
       )
       Notifier.receive(msg.to_s)
     end
 
-    it 'should not deliver any messages' do
+    it 'does not deliver any messages' do
       expect(ActionMailer::Base.deliveries.length).to eq(0)
     end
   end
@@ -416,7 +394,7 @@ describe Notifier do
         Notifier.receive(@email.to_s)
       end
 
-      it 'should deliver in proper site' do
+      it 'delivers in proper site' do
         assert_deliveries 1
         assert_emails_delivered(@email, @group.people)
         expect(Site.current).to eq(@site1)
@@ -429,7 +407,7 @@ describe Notifier do
         Notifier.receive(@email.to_s)
       end
 
-      it 'should deliver in proper site' do
+      it 'delivers in proper site' do
         assert_deliveries 1
         assert_emails_delivered(@email, @site2group.people)
         expect(Site.current).to eq(@site2)
@@ -443,12 +421,12 @@ describe Notifier do
         @sent = ActionMailer::Base.deliveries.first
       end
 
-      it 'should deliver in proper site' do
+      it 'delivers in proper site' do
         assert_deliveries 1
         expect(@sent.to).to eq(@email.from)
-        expect(@sent.subject).to eq("Message Rejected: test")
+        expect(@sent.subject).to eq('Message Not Sent: test')
         expect(@sent.from).to eq([Site.current.noreply_email])
-        expect(@sent.body.to_s).to match(/the system does not recognize your email address/)
+        expect(@sent.body.to_s).to match(/the system does not recognize/i)
       end
     end
 
@@ -457,10 +435,47 @@ describe Notifier do
     end
   end
 
-  it 'should properly parse html email' do
+  it 'properly parses html email' do
     body = Notifier.get_body(Mail.read(File.join(FIXTURES_PATH, 'html.email')))
     expect(body[:text]).to eq(nil)
     expect(body[:html]).to be
+  end
+
+  it 'rejects email without a text or html body' do
+    email = File.read(File.join(FIXTURES_PATH, 'rich_text.email')).sub('FROM', @user.email)
+    Notifier.receive(email)
+    expect(ActionMailer::Base.deliveries).to have(1).delivery
+    rejection = ActionMailer::Base.deliveries.last
+    expect(rejection.subject).to eq('Message Not Sent: Rich Text test')
+    expect(rejection.body).to match(/cannot read your message/)
+  end
+
+  it 'rejects email with a short subject' do
+    email = Mail.new(
+      from:    @user.email,
+      to:      @group.full_address,
+      subject: 'x',
+      body:    'hello!!!'
+    )
+    Notifier.receive(email)
+    expect(ActionMailer::Base.deliveries).to have(1).delivery
+    rejection = ActionMailer::Base.deliveries.last
+    expect(rejection.subject).to eq('Message Error: x')
+    expect(rejection.body).to match(/message subject is too short/)
+  end
+
+  it 'replies to the sender when no valid destinations were recognized' do
+    email = Mail.new(
+      from:    @user.email,
+      to:      "nothing@#{Site.current.host}",
+      subject: 'email to nowhere',
+      body:    'hello!!!'
+    )
+    Notifier.receive(email)
+    expect(ActionMailer::Base.deliveries).to have(1).delivery
+    rejection = ActionMailer::Base.deliveries.last
+    expect(rejection.subject).to eq('Message Not Sent: email to nowhere')
+    expect(rejection.body.to_s.gsub("\n", ' ')).to match(/could not find any valid group addresses/)
   end
 
   private

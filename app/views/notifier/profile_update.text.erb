@@ -1,12 +1,15 @@
 <%=raw Setting.get(:url, :site) %>admin/updates
 
-<%=raw @person.name %> (<%=raw @person.family.name %>) <%= t('notifier.has_submited_profile_update') %>:
+<%=raw t('notifier.profile_update.intro', person: @person.name, family: @person.family.try(:name)) %>
 
-<%- (Update::PERSON_ATTRIBUTES + Update::FAMILY_ATTRIBUTES).each do |attribute| -%>
-<%- if change = @updates[attribute] -%>
-<%=raw attribute.humanize %>
-  <%= t('notifier.old') %>: <%= format_changed_attribute(attribute, change.first) %>
-  <%= t('notifier.new') %>: <%= format_changed_attribute(attribute, change.last) %>
+<%- Updater::PARAMS.each do |type, attrs| -%>
+<%- model = type.to_s.classify.constantize -%>
+<%- attrs.each do |attr, _| -%>
+<%- if change = @updates[attr] -%>
+<%=raw model.human_attribute_name(attr) %>
+  <%= t('notifier.profile_update.label.old') %>: <%= format_changed_attribute(attr, change.first) %>
+  <%= t('notifier.profile_update.label.new') %>: <%= format_changed_attribute(attr, change.last) %>
 
+<%- end -%>
 <%- end -%>
 <%- end -%>
