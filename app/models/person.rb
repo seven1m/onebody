@@ -10,6 +10,7 @@ class Person < ActiveRecord::Base
   include Concerns::Person::Import
   include Concerns::Person::Export
   include Concerns::Person::PdfGen
+  include Concerns::DateWriter
 
   MAX_TO_BATCH_AT_A_TIME = 50
 
@@ -194,21 +195,7 @@ class Person < ActiveRecord::Base
     memberships.where(group_id: group.id).any?
   end
 
-  def birthday=(d)
-    if d.is_a?(String) and d.length > 0 and date = Date.parse_in_locale(d).try(:rfc3339)
-      self[:birthday] = date
-    else
-      self[:birthday] = d
-    end
-  end
-
-  def anniversary=(d)
-    if d.is_a?(String) and d.length > 0 and date = Date.parse_in_locale(d).try(:rfc3339)
-      self[:anniversary] = date
-    else
-      self[:anniversary] = d
-    end
-  end
+  date_writer :birthday, :anniversary
 
   def parental_consent?; parental_consent.present?; end
   def adult_or_consent?; adult? or parental_consent?; end

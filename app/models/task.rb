@@ -1,7 +1,8 @@
 class Task < ActiveRecord::Base
-
   include Authority::Abilities
   self.authorizer_name = 'TaskAuthorizer'
+
+  include Concerns::DateWriter
 
   acts_as_list scope: :group
 
@@ -19,7 +20,9 @@ class Task < ActiveRecord::Base
   after_save :update_counter_cache
   after_destroy :update_counter_cache
 
-  def update_counter_cache    
+  def update_counter_cache
     self.person.update_attribute(:incomplete_tasks_count, self.person.tasks.incomplete.count) if self.person.present?
   end
+
+  date_writer :duedate
 end
