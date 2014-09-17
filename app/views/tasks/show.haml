@@ -22,7 +22,7 @@
       %dt
         = t("activerecord.attributes.task.duedate")
       %dd
-        = l(@task.duedate) if @task.duedate
+        = @task.duedate.to_s(:date) if @task.duedate
 
 %h3= t('Comments')
 = render partial: 'comments/comments', locals: { object: @task }

@@ -4,21 +4,21 @@
       = form_for [:complete, task.group, task], html: { class: "complete-task-form" } do |form|
         - if @group.present?
           %span.handle
-            %i.fa.fa-ellipsis-v
-            %i.fa.fa-ellipsis-v
+            = icon 'fa fa-reorder'
         = form.check_box :completed, autocomplete: "off"
         %span.text
           = link_to task.name, [task.group, task]
         - if task.duedate
           %span.label.label-primary
-            %i.fa.fa-calendar
-            = l(task.duedate)
+            = icon 'fa fa-calendar'
+            = task.duedate.to_s(:date)
         - if task.person
           %span.label.label-primary.hidden-xs
-            %i.fa.fa-user
+            = icon 'fa fa-user'
             = task.person.name
+        - if task.comments.any?
           %span.label.label-default.hidden-xs
-            %i.fa.fa-comments-o
+            = icon 'fa fa-comment'
             = t("tasks.index.comment_count", count: task.comments.count)
         .tools.show
           - if @logged_in.can_edit?(task)
