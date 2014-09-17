@@ -11,15 +11,10 @@ en:
 
     edit:
       heading: "Edit Family"
-      name: "Family Name"
       name_example_html: "<em>John Doe</em> or <em>John &amp; Jane Doe</em>"
       name_suggestion_html: "Suggested: <strong>%{name}</strong>"
       name_suggestion_button: "Change"
-      last_name: "Family Last Name"
-      home_phone: "Home Phone"
-      address: "Address"
-      address2: "Address Line 2 (optional)"
-      city_st_zip: "City, State and Zip"
+      city_st_zip: "City, State and Zip/Postal Code"
       photo: "Photo"
       save: "Save Family"
       saved: "Family changes saved."

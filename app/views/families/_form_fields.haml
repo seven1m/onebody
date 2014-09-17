@@ -1,5 +1,5 @@
 .form-group
-  = form.label :name, t('families.edit.name')
+  = form.label :name
   = form.text_field :name, onkeyup: 'set_last_name()', class: 'form-control'
   - if @family.new_record?
     .family-name-suggestion
@@ -11,7 +11,7 @@
         = icon 'fa fa-bolt'
         = t('families.edit.name_suggestion_button')
 .form-group
-  = form.label :last_name, t('families.edit.last_name')
+  = form.label :last_name
   = form.text_field :last_name, class: 'form-control'
 = render partial: 'families/phone_and_address_fields', locals: { form: form }
 

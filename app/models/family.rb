@@ -41,6 +41,11 @@ class Family < ActiveRecord::Base
     end
   end
 
+  def initialize(*args)
+    super
+    self.country = Setting.get(:system, :default_country) unless country.present?
+  end
+
   geocoded_by :location
   after_validation :geocode
 
@@ -63,7 +68,15 @@ class Family < ActiveRecord::Base
   end
 
   def location
-    pretty_address if [address1, city, state].all?(&:present?)
+    if [address1, city, state].all?(&:present?)
+      {
+        street: address,
+        city: city,
+        state: state,
+        postalCode: zip,
+        adminArea1: country
+      }
+    end
   end
 
   # not HTML-escaped!

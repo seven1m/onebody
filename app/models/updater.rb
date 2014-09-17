@@ -70,6 +70,7 @@ class Updater
       city:                 :approve,
       state:                :approve,
       zip:                  :approve,
+      country:              :approve,
       share_:               :immediate,
       visible:              :immediate,
       photo:                :immediate,

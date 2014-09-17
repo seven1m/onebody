@@ -39,8 +39,7 @@
           %tr.row-with-avatar{ data: {update_position_path: update_position_family_person_path(@family, person)} }
             - if @logged_in.can_reorder?(@family)
               %td.handle
-                = icon 'fa fa-ellipsis-v'
-                = icon 'fa fa-ellipsis-v'
+                = icon 'fa fa-reorder', style: 'color: #999'
             %td.avatar= link_to avatar_tag(person), person
             %td
               = link_to person.name, person
