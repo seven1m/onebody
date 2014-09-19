@@ -90,7 +90,7 @@ class Group < ActiveRecord::Base
   end
 
   def mapable?
-    latitude and longitude
+    latitude.to_f != 0.0 and longitude.to_f != 0.0
   end
 
   def get_options_for(person)
