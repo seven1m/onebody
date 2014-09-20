@@ -255,6 +255,9 @@ en:
         Time Zone:
           name: Time Zone
           description: Set to properly display dates and times on the site.
+        Default Country:
+          name: Default Country
+          description: Select the default country fot the site.
       Appearance:
         Public Theme:
           name: Public Theme
