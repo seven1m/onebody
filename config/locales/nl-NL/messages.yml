@@ -8,7 +8,7 @@ nl-NL:
       description_html: "Je verstuurd een <em>prive</em> bericht naar %{person}."
     group:
       heading: Goepsbericht
-      description_html: "Deze email wordt verstuurd naar de gehele groep %{group}."
+      description_html: "Deze e-mail wordt verstuurd naar de gehele groep %{group}."
     sent_at_html: "Verstuurd %{when} door %{who}"
     sent_to_html: "naar %{who}"
     read_more: "Lees meer"
@@ -36,7 +36,7 @@ nl-NL:
     posted_by: "geplaatst door"
     send_message: "Verstuur e-mail"
     sent: "Het bericht is verstuurd."
-    show_quoted_content: "toon content"
+    show_quoted_content: "toon bericht"
     some_quoted_text_is_hidden: "Sommige tekst is niet zichtbaar in dit bericht;"
     subject: Onderwerp
     to_show_the_entire_message: "Toon het gehele bericht."

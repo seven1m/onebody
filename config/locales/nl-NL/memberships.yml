@@ -4,15 +4,15 @@ nl-NL:
     index:
       heading: "Groepsleden in de groep %{group}"
       details:
-        name: Name
-        birthday: Birthday
-        created_at: Added
+        name: Naam
+        birthday: Verjaardag
+        created_at: Toegevoegd.
         manual:
-          tooltip: "This person was added manually."
+          tooltip: "Deze persoon is handmatig toegevoegd."
       remove:
-        button: "Remove Selected"
+        button: Verwijderen
     add:
-      heading: "Add Someone"
+      heading: "Persoon toevoegen"
       description: "Voeg een persoon toe aan deze groep."
       name_placeholder: "Type de naam of een deel van de naam"
       parents_of_warning_html: |
@@ -27,8 +27,8 @@ nl-NL:
     requests:
       heading: "Deelnemen aan de groep"
       select_some: "Selecteer een van de bovenstaande opties en kies een actie."
-      name: Name
-      created_at: Requested
+      name: Naam
+      created_at: Aangevraagd
       accept:
         button: Accepteer
       ignore:

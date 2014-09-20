@@ -11,7 +11,7 @@ nl-NL:
     domain_name: Domeinnaam
     first_name: Voornaam
     last_name: Achternaam
-    email: "Email adres"
+    email: "E-mail adres"
     password: Wachtwoord
     password_confirmation: "Wachtwoord bevestigen"
     submit_button_html: "Wijzigingen opslaan"

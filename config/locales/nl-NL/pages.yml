@@ -9,7 +9,7 @@ nl-NL:
       edit_button: Wijzig
     descriptions:
       help: "Help - hulp bij het inloggen"
-      bad_status: "Shown when user is in the database but they do not have permission to sign in."
+      bad_status: "Getoond wanneer het account is in het bestand maar geen recht geeft om in te loggen."
       privacy_policy: "Document - Privacy Policy"
       safeguarding_children: "Document - Omgang met informatie van kinderen"
       unauthorized: "Help - niet bevoegd om in te loggen"

@@ -10,14 +10,9 @@ nl-NL:
         notice: "De familie is aangemaakt. Voeg familieleden toe aan deze familie door de knop 'Nieuwe persoon' te gebruiken."
     edit:
       heading: "Wijzig familie"
-      name: "Familie naam"
       name_example_html: "<em>Rianne van Diepen</em> of <em>Rianne & Stephan van Diepen</em>"
       name_suggestion_html: "Voorstel: <strong>%{name}</strong>"
       name_suggestion_button: Wijzig
-      last_name: Familienaam
-      home_phone: Telefoon
-      address: Adres
-      address2: "Adresregel 2 (optioneel)"
       city_st_zip: "Plaats en postcode"
       photo: "Familie foto"
       save: "Familie opslaan"

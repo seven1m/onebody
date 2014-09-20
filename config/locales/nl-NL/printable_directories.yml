@@ -3,7 +3,7 @@ nl-NL:
   printable_directories:
     heading: Printen
     already_sent: "De ledenlijst is kort geleden nog verzonden. Controleer je email (kijk voor de zekerheid ook eens in spam)."
-    click_to_have_custom_pdf_via_email: "Klik onderstaande knop om een aangepaste ledenlijst als PDF naar je mail te verzenden."
+    click_to_have_custom_pdf_via_email: "Klik onderstaande knop om een geselecteerde ledenlijst als PDF naar je mail te verzenden."
     created_for: "Aangemaakt voor %{name} op %{date}"
     email_custom_directory: "Email mijn geselecteerde ledenlijst"
     include_family_pictures: "voeg familie foto toe"

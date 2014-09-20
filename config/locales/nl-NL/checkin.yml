@@ -1,109 +1,109 @@
 ---
 nl-NL:
   checkin:
-    heading: Check-in
+    heading: "Check-in systeem"
     search:
-      label: "Type all or part of a name:"
-      button: Search
-      clear: clear
+      label: "Zoeken op naam:"
+      button: Zoeken
+      clear: Verwijder
       none_found: "Geen resultaten."
     add_family:
-      button: "Add Family"
+      button: "Familie toevoegen"
     attendance:
-      button: Attendance
+      button: Bezoekers
     setup:
-      heading: Setup
+      heading: Installatie
     assigned_cards:
-      button: "Assigned Cards"
+      button: "Toegewezen kaarten"
     cards:
-      heading: "Assigned Check-in Cards"
+      heading: "Toegewezen kaarten"
       table:
         id: ID
-        legacy_id: "Legacy ID"
-        family: Family
+        legacy_id: ID
+        family: Familie
         barcode: Barcode
-        assigned_at: Assigned
+        assigned_at: Toegewezen
       export:
-        button: "Export to File"
-      none: "no records to display"
+        button: Exporteren
+      none: "Geen resultaten"
     groups:
-      heading: "Check-in Groups"
+      heading: "Check-in groepen"
       table:
-        group: Group
+        group: Groep
       index:
-        heading: "%{time} at %{campus}"
+        heading: "%{time} op %{campus}"
         add_group:
-          heading: "Add a destination (group)"
-          search: "Search by name"
-          button: "Add Group"
+          heading: "Bestemming toevoegen (groep)"
+          search: "Zoeken op naam"
+          button: "Groep toevoegen"
         table:
-          group: "Destination (group name)"
-          print_nametag: "Print Nametag"
-          print_extra_nametag: "Extra Nametag"
-          section: Section
+          group: "Bestemming (groepsnaam)"
+          print_nametag: "Print naamkaart"
+          print_extra_nametag: "Extra naamkaart"
+          section: Afdeling
       section:
-        new: "[new section]"
+        new: "[nieuwe afdeling]"
     times:
-      button: Setup
-      heading: "Check-in Times"
-      intro: "Add, edit, and remove available checkin times here."
+      button: Installatie
+      heading: "Check-in tijden"
+      intro: "Je kunt hier check-in tijden toevoegen, wijzigen en verwijderen."
       table:
-        time: Time
+        time: Tijd
         campus: Campus
         groups:
-          heading: Destinations
+          heading: Bestemmingen
           count:
-            one: "1 destination"
-            other: "%{count} destinations"
+            one: "1 bestemming"
+            other: "%{count} bestemmingen"
       edit:
-        button: edit
-        heading: "Edit Check-in Time"
+        button: Wijzig
+        heading: "Wijzig check-in tijd"
         campus:
-          new: "[new campus]"
+          new: "[nieuw campus]"
         save:
-          button: "Save Changes"
+          button: "Wijzigingen opslaan"
       recurring:
-        heading: "Recurring Times"
+        heading: "Tijden herhalen"
         new:
-          button: "New Recurring Time"
-        weekday: Weekday
-        time: Time
+          button: "Nieuwe tijd (herhaling)"
+        weekday: Werkdag
+        time: Tijd
         campus: Campus
         add:
-          button: Add
+          button: Toevoegen
       single:
-        heading: "Single Dates and Times"
+        heading: "Losse dagen en tijden"
         new:
-          button: "New Single Time"
-        datetime: "Date & Time"
+          button: "Nieuwe tijd (los)"
+        datetime: "Datum en tijd"
         campus: Campus
         add:
-          button: Add
+          button: Toevoegen
     family:
       new:
-        heading: "New Family"
-        first_name: "First Name"
-        last_name: "Last Name"
-        birthday: Birthday
-        medical_notes: "Medical Notes (optional)"
-        parents: Parents
-        children: Children/Others
-        barcode: "Scan Card"
-        ignore_spelling_errors: "Ignore suspected spelling errors."
-        save: "Save Family"
-        cancel: cancel
+        heading: "Nieuwe familie"
+        first_name: Voornaam
+        last_name: Achternaam
+        birthday: Verjaardag
+        medical_notes: "Medische opmerkingen"
+        parents: Ouders
+        children: Kinderen/anderen
+        barcode: "Scan kaart"
+        ignore_spelling_errors: "Negeer spellingsfouten"
+        save: "Familie opslaan"
+        cancel: Annuleren
         success:
-          heading: "Family Saved"
-          return: Return
-          view: "View/Edit Family"
-          barcode: "Assigned number:"
+          heading: "Familie opgeslagen"
+          return: Terugkeren
+          view: "Bekijk/wijzig familie"
+          barcode: "Toegewezen nummer:"
           not_checked_in: |
-              This family is not yet checked in—instruct the cardholder
-              they must now check in at one of the touch-screen stations.
-      saved: "Family saved."
-      errors: "There were errors saving this family."
+              Deze familie is nog niet ingecheckt. Instrueer de kaarthouder.
+              De familie moet inchecken bij een van de check-in systemen.
+      saved: "Familie opgeslagen"
+      errors: "Sorry.. Er is een fout opgetreden bij het opslaan van deze familie."
       error:
-        no_birthdays: "You must enter a birthday for each child."
-        no_people: "You must enter at least one person."
-        no_parents: "You must enter at least one parent."
-        no_barcode: "Please scan the card into the field at the bottom of the form."
+        no_birthdays: "Geboortedatum is verplicht"
+        no_people: "Minimaal 1 persoon is vereist."
+        no_parents: "1 volwassene is verplicht"
+        no_barcode: "Scan de barcode"

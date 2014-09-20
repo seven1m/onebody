@@ -27,3 +27,4 @@ nl-NL:
       no_edit: "Je bent niet bevoegd om dit gebedsverzoek te wijzigen."
       no_delete: "Je bent niet bevoegd om dit gebedsverzoek te verwijderen."
       no_post: "Je kunt geen gebedsverzoek indienen bij deze groep omdat je geen groepslid bent."
+    send_email: "Verstuur als e-mail naar alle groepsleden."

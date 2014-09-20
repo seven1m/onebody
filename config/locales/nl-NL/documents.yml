@@ -1,0 +1,51 @@
+---
+nl-NL:
+  documents:
+    index:
+      heading: Documenten
+      intro: "This is a place for forms, publications, and other files available to users of this site."
+      table:
+        name: Naam
+        description: Omschrijving
+        updated_at: Geupdate.
+        size: Grootte
+        item_count: "%{count} documenten"
+      edit_folder:
+        button: "Wijzig deze map"
+      new_folder:
+        button: "Nieuwe map"
+      new_document:
+        button: "Nieuw document"
+    show:
+      table:
+        filename: Bestandsnaam
+        content_type: "Content type"
+        size: Grootte
+        updated_at: Geupdate.
+      download:
+        button: "Download bestand"
+      edit:
+        button: Wijzig
+      delete:
+        button: Verwijderen
+    new:
+      heading: "Nieuw document"
+    new_folder:
+      heading: "Nieuwe map"
+    create:
+      notice: "Het document is aangemaakt."
+    create_folder:
+      notice: "De map is aangemaakt."
+    edit:
+      heading: "Wijzig %{document}"
+    edit_folder:
+      heading: "Wijzig %{folder}"
+    update:
+      notice: "Het document is opgeslagen."
+    update_folder:
+      notice: "De map is opgeslagen."
+    delete:
+      notice: "Het document is verwijderd."
+    delete_folder:
+      confirmation: "Weet je zeker dat je deze map wilt verwijderen inclusief alle inhoud?"
+      notice: "De map en in de inhoud is verwijderd."

@@ -6,7 +6,7 @@ nl-NL:
       heading: "Wijzig nieuwbericht"
     edit_button: Wijzig
     delete_button: Verwijder
-    body_description: "Deel nieuws, informaties, weetjes of aankondigingen hier:"
+    body_description: "Nieuwsbericht:"
     deleted: "Nieuwsbericht verwijderd."
     if_you_have_something_to_share_html: "<a href='%{url}'>Klik hier</a> om een nieuwsbericht te plaatsten."
     news_feed: Nieuws
@@ -17,5 +17,5 @@ nl-NL:
     subscribe:
       button: Abonneren
       description: "Ontvang nieuws updates."
-    title_description: "Geef je bericht een beknopte titel:"
+    title_description: "Titel:"
     welcome_to_the_place: "Bekijk hier de nieuwsberichten."

@@ -2,7 +2,7 @@
 nl-NL:
   stream:
     title: Home
-    sub_title: "(dingen die met mij gedeeld zijn)"
+    sub_title: Tijdslijn
     none: "Er is nog niets om hier te tonen."
     header:
       noone: systeem
@@ -23,7 +23,7 @@ nl-NL:
       picture:
         alt: "klik om te vergroten"
       person:
-        button: "Stuur %{person} een groet!"
+        button: "Verwelkom %{person}!"
       site:
         description: "Community site voor %{site} aangemaakt!"
     footer:

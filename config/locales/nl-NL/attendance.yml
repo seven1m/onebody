@@ -2,10 +2,10 @@
 nl-NL:
   attendance:
     heading_html: "Bezoekers voor %{group} op %{when}"
-    heading_without_group: "Attendance for %{when}"
-    medical_notes: "Medical notes:"
-    can_pickup_people: "Can Pick Up"
-    cannot_pickup_people: "Cannot Pick Up"
+    heading_without_group: "Bezoekers op %{when}"
+    medical_notes: "Medische opmerkingen"
+    can_pickup_people: "Kan ophalen"
+    cannot_pickup_people: "Kan niet ophalen"
     add_somebody_not_in_group: "Voeg een persoon toe."
     add_visitor: "Voeg een gast toe"
     adult: Volwassene
@@ -25,8 +25,8 @@ nl-NL:
     prev_date: "vorige datum"
     recorded_time: "Opgenomen tijd"
     records:
-      one: "1 record"
-      other: "%{count} records"
+      one: "1 regel"
+      other: "%{count} regels"
     save: "Bezoekers opslaan"
     saved: "Bezoekersregistratie opgeslagen."
     Search: Zoeken

@@ -4,7 +4,7 @@ nl-NL:
   Delete: Verwijderen
   From: Van
   Help: Help
-  No_action_to_show: "No action responded to show"
+  No_action_to_show: "Geen acties"
   No_more_records: "Geen resultaten."
   Page_no_longer_valid: "Deze pagina is niet meer geldig."
   There_was_an_error: "Sorry.. Er is een fout opgetreden."
@@ -38,7 +38,7 @@ nl-NL:
   date_format:
     DD: DD
     MM: MM
-    YYYY: YYYY
+    YYYY: JJJJ
   errors:
     format: "%{message}"
   activemodel:
@@ -61,36 +61,37 @@ nl-NL:
               blank: "Verjaardag is verpicht"
               too_young: "Je bent te jong om een account aan te maken."
             mobile_phone:
-              blank: "Mobile phone cannot be blank."
+              blank: "Mobiele telefoon is verplicht"
   activerecord:
     attributes:
       album:
         name: Naam
         description: Omschrijving
       document:
-        name: Name
-        description: Description
-        file: File
-        folder_id: Folder
-      document_folder:
-        name: Name
-        description: Description
-        folder_id: "Parent Folder"
-      family:
         name: Naam
-        last_name: Achternaam
-        home_phone: Telefoon
+        description: Omschrijving
+        file: Bestand
+        folder_id: Map
+      document_folder:
+        name: Naam
+        description: Omschrijving
+        folder_id: "Bovenliggende map"
+      family:
         address1: Adres
         address2: "Adresregel 2 (optioneel)"
         city: Woonplaats
+        country: Land
+        home_phone: Telefoon
+        last_name: Achternaam
+        name: Naam
         state: Provincie
         zip: Postcode
       person:
-        email: Email
+        email: E-mail
         first_name: Voornaam
         last_name: Achternaam
         facebook_url: "Facebook URL"
-        twitter: "Twitter Username"
+        twitter: "Twitter gebruikersnaam"
       group:
         name: Naam
         category: Categorie
@@ -109,10 +110,11 @@ nl-NL:
         approval_required_to_join: "Om te kunnen deelnemen aan de groep is er goedkeuring vereist."
         private: "Prive groep"
         members_send: "Groepsleden kunnen berichten plaatsten"
-        membership_mode: "Select how group members should be added to this group"
+        membership_mode: "Selecteer hoe personen toegevoegd kunnen worden aan deze groep"
         link_code: "Externe link"
         parents_of: "Groep van"
         hidden: "Verborgen groepen"
+        has_tasks: Taken
       prayer_request:
         answer: Getuigenis
         answered_at: Datum
@@ -121,6 +123,13 @@ nl-NL:
       note:
         title: Titel
         body: Inhoud
+      task:
+        name: Taak
+        description: Omschrijving
+        person: "Toegewezen aan"
+        person_id: "Toegewezen aan"
+        duedate: Deadline
+        completed: Voltooid
     errors:
       models:
         admin:
@@ -130,7 +139,7 @@ nl-NL:
         album:
           attributes:
             name:
-              blank: "De naam van het album is vereist."
+              blank: "De naam van het album is verplicht."
               taken: "Er bestaat al een album met deze naam. Kies een andere naam."
             owner:
               blank: "Er moet een beheerder zijn voor dit album."
@@ -143,29 +152,29 @@ nl-NL:
         document:
           attributes:
             file:
-              blank: "You must upload a file."
+              blank: "Bestand is verplicht"
             name:
-              blank: "You must enter a name."
-              too_long: "Please enter a shorter name."
+              blank: "Naam is verplicht"
+              too_long: "De naam is te lang. Vul een kortere naam in."
             description:
-              too_long: "Please enter a shorter description."
+              too_long: "De omschrijving is te lang. Vul een kortere omschrijving in."
         document_folder:
           attributes:
             name:
-              blank: "You must enter a name."
-              too_long: "Please enter a shorter name."
+              blank: "De naam is verplicht"
+              too_long: "De naam is te lang. Vul een kortere naam in."
             description:
-              too_long: "Please enter a shorter description."
+              too_long: "De omschrijving is te lang. Vul een kortere omschrijving in."
             folder_id:
-              invalid: "You cannot specify this folder as the parent folder."
+              invalid: "Je kunt deze map niet als bovenliggende map aanmaken."
             parent_folder_ids:
-              too_long: "This folder is nested too deep. Please place it somewhere else."
+              too_long: "Je kunt deze map niet aanmaken op zo een laag niveau. Plaatst de map in een bovenliggende map."
         family:
           attributes:
             name:
-              blank: "De familienaam is vereist."
+              blank: "Familienaam is verplicht"
             last_name:
-              blank: "De achternaam is vereist."
+              blank: "Achternaam is verplicht"
             alternate_barcode_id:
               invalid: "This family card (alternate barcode id) contains letters or symbols (only numbers are allowed)."
               taken: "This family card (alternate barcode id) is already taken by another family."
@@ -191,7 +200,7 @@ nl-NL:
             from_id:
               blank: "Het vriendschapsverzoek gekoppeld zijn aan een persoon."
             person:
-              invalid_address: "Het e-mail adres is vereist."
+              invalid_address: "E-mail adres is verplicht"
               refused: "Deze persoon accepteert geen vriendschapsverzoeken."
             person_id:
               blank: "Het vriendschapsverzoek gekoppeld zijn aan een persoon."
@@ -204,9 +213,9 @@ nl-NL:
               too_long: "Het e-mail adres is te lang."
               too_short: "Het e-mail adres is te kort."
             category:
-              blank: "De categorie is vereist."
+              blank: "Categorie is verplicht"
             name:
-              blank: "De naam is vereist."
+              blank: "Naam is verplicht"
               taken: "Er bestaat al een andere groep met deze naam. Kies een andere naam."
             parents_of:
               points_to_self: "De groep kan niet zichzelf linken."
@@ -224,71 +233,71 @@ nl-NL:
         message:
           attributes:
             base:
-              taken: "This message has already been sent. Try changing the subject or body if you wish to send another email."
+              taken: "Dit bericht is al verstuurd. Pas het onderwerp of de tekst aan om de e-mail toch te versturen."
             body:
-              blank: "De inhoud is vereist."
+              blank: "Inhoud is verplicht"
               too_short: "De inhoud is te kort."
             person_id:
               blank: "Dit bericht moet gekoppeld zijn aan een persoon."
             subject:
-              blank: "Het onderwerp is vereist."
+              blank: "Onderwerp is verplicht"
               too_short: "Het onderwerp is te kort."
             to_person_id:
               invalid: "Het bericht kan niet worden verstuurd. De ontvangers van dit berichten hebben geen geldig e-mail adres."
         news_item:
           attributes:
             title:
-              blank: "You must enter a title for this news post."
+              blank: "Titel is verplicht"
             body:
-              blank: "You must enter text for this news post."
+              blank: "Omschrijving is verplicht"
         note:
           attributes:
             body:
-              blank: "De omschrijving is vereist."
+              blank: "Omschrijving is verplicht"
         page:
           attributes:
             body:
-              blank: "De inhoud is vereist."
+              blank: "Inhoud is verplicht"
             path:
               taken: "Er bestaat al een pagina op deze URL."
             slug:
-              blank: "Een pagina titel is vereist."
+              blank: "Titel is verplicht"
               exclusion: "De pagina titel mag niet de woorden \"beheer\", \"wijzig\" of \"nieuw\" bevatten."
               invalid: "The page slug can only contain lowercase letters and underscore."
             title:
-              blank: "Een pagina titel is vereist."
+              blank: "Titel is verplicht"
         person:
           attributes:
             alternate_email:
               invalid: "Het e-mail adres is onjuist. Voorbeeld: naam@voorbeeld.nl"
               taken: "Er bestaat al een persoon met dit e-mail adres."
             anniversary:
-              not_a_date: "Please enter a valid date for the anniversary."
+              not_a_date: "Vul een geldige datum in als jubileum."
             birthday:
-              not_a_date: "Please enter a valid date for the birthday."
+              not_a_date: "Vul een geldige datum is als verjaardag."
             business_email:
               invalid: "Het zakelijke e-mail adres is onjuist. Voorbeeld: naam@voorbeeld.nl"
             business_website:
               invalid: "Het zakelijke webadres is onjuist. Voorbeeld: http://www.zakelijkwebadres.nl"
             business_category:
-              exclusion: "Een categorie is vereist."
+              exclusion: "Categorie is verplicht"
             child:
               inclusion: "Specificeer of deze persoon een kind is of vul een een geboortedatum in."
             description:
-              too_long: "Description must be less than 25 characters.  A word or two. :)"
+              too_long: "De omschrijving is de lang. Gebruik max. 25 karakters."
             email:
               invalid: "Het e-mail adres is onjuist. Voorbeeld: naam@voorbeeld.nl"
               taken: "Er bestaat al een persoon met dit e-mail adres."
             facebook_url:
-              invalid: "Facebook URL is invalid."
+              invalid: "Facebook URL is onjuist."
             feed_code:
               taken: "De feed code bestaat al voor een ander persoon."
             first_name:
-              blank: "De voornaam is vereist."
+              blank: "Voornaam is verplicht"
             gender:
-              inclusion: "Geslacht is vereist. (Man of vrouw)"
+              inclusion: "Geslacht is verplicht (Man of vrouw)"
             last_name:
-              blank: "De achternaam is vereist."
+              blank: "Achternaam is verplicht"
             password:
               confirmation: "Het wachtwoord is onjuist."
               too_short: "Het wachtwoord is te kort."
@@ -296,8 +305,8 @@ nl-NL:
               too_large: "De afbeelding is te groot. De maximale grootte is %{size} mb."
               wrong_type: "De foto kan niet worden geupload. Je kunt JPG, GIF of PNG bestanden gebruiken."
             twitter:
-              invalid: "Twitter username is invalid."
-              too_long: "Twitter username is too long."
+              invalid: "Twitter gebruikersnaam is onjuist."
+              too_long: "Twitter gebruikersnaam is te lang."
             website:
               invalid: "Het webadres is onjuist. Voorbeeld: http://www.zakelijkwebadres.nl"
         picture:
@@ -318,7 +327,7 @@ nl-NL:
             person_id:
               blank: "Het gebedsverzoek moet gekoppeld zijn aan een persoon."
             request:
-              blank: "De inhoud is vereist."
+              blank: "Verzoek is verplicht"
         recipe:
           attributes:
             directions:
@@ -330,11 +339,11 @@ nl-NL:
         relationship:
           attributes:
             name:
-              blank: "Het relatietype is vereist."
+              blank: "Relatietype is verplicht"
               inclusion: "This relationship is not valid."
               taken: "De relatie bestaat al."
             other_name:
-              blank: "Het relatietype is vereist."
+              blank: "Relatietype is verplicht"
               taken: "De relatie bestaat al."
             person_id:
               blank: "De relatie moet gekoppeld zijn aan een persoon."
@@ -345,7 +354,7 @@ nl-NL:
             definition:
               invalid: "De rapportdefinitie is ongeldig."
             name:
-              blank: "De naam is vereist."
+              blank: "Naam is verplicht"
               taken: "Er bestaat al een rapport met deze naam. Kies een andere naam."
         site:
           attributes:
@@ -354,12 +363,12 @@ nl-NL:
               taken: "Er bestaat al een site met dezelfde host."
               invalid: "Plaatst de hostnaam zonder 'http://' of 'www'."
             name:
-              blank: "De naam is vereist."
+              blank: "Naam is verplicht"
               taken: "Er bestaat al een site met dezelfde naam."
         tag:
           attributes:
             name:
-              blank: "De naam van het label is vereist."
+              blank: "De naam van het label is verplicht"
               exclusion: "De naam van het label is ongeldig."
               taken: "Er bestaat al een label met deze naam."
         verification:
@@ -367,7 +376,7 @@ nl-NL:
             email:
               invalid: "Je e-mail adres is niet gevonden. Probeer een ander e-mail adres."
             carrier:
-              inclusion: "De mobiele provider is vereist."
+              inclusion: "Mobiele provider is veplicht"
             mobile_phone:
               invalid: "Je mobiele nummer is niet gevonden. Probeer een ander nummer."
             base:
@@ -375,15 +384,15 @@ nl-NL:
         verse:
           attributes:
             reference:
-              blank: "Een verwijzing is vereist."
+              blank: "Een verwijzing is verplicht"
             text:
               blank: "De bijbeltekst is niet gevonden. Heb je het goed ingevuld?"
               too_long: "Het bijbeltekst is te lang. Probeer specifieker te zijn en selecteer een korter gedeelte."
   application:
     api_access: "Je bent niet bevoegd om de API te gebruiken."
-    mailgun_route_found: "The route already exists."
-    mailgun_route_created: "The route has been created."
-    mailgun_route_error: "There was an error while trying to create the route."
+    mailgun_route_found: "De route bestaat al."
+    mailgun_route_created: "De route is aangemaakt."
+    mailgun_route_error: "Sorry.. Er is een fout opgetreden tijdens het aanmaken van de route."
     no_default_site: "Geen default site gevonden."
     no_site_configured: "Er is geen site geconfigureerd op dit adres: %{host}"
     settings_reloaded: "Instellingen ververst."
@@ -395,4 +404,4 @@ nl-NL:
   footer:
     help: "Geef tips door voor het gebruik van de site."
     privacy_policy: "Privacy Policy"
-    powered_by: "Powered by 1KERK"
+    powered_by: "Powered by CHURCH.IO."

@@ -16,7 +16,7 @@ nl-NL:
       heading: "Hide (Archive) This Group"
       intro: "If you wish for a group to disappear from all pages of the site, hide it by clicking the button below:"
       button: "Hide this group"
-      unhide_button: "Unhide this group"
+      unhide_button: "Activeer deze groep"
     your_groups: "Jouw groepen"
     groups_of:
       s: "%{name} Groepen"
@@ -34,9 +34,9 @@ nl-NL:
     email_off: "E-mail uitschakelen"
     email_on: "E-mail inschakelen"
     browse:
-      heading: "Zoek groepen"
-      select_category: "Show by Category"
-      all: "Show All"
+      heading: "Zoek op categorie"
+      select_category: "Selecteer een categorie"
+      all: "Toon alles"
     create:
       heading: "Maak een nieuwe groep aan"
       description: "Kun je niet de juiste groep vinden? Maak gemakkelijk en nieuwe groep aan."
@@ -56,10 +56,10 @@ nl-NL:
         birthdays_this_month_html:
           one: "<a href='%{url}'>1</a> groepslid is jarig deze maand!"
           other: "<a href='%{url}'>%{count}</a> groepsleden zijn jarig deze maand!"
-        attachments: files
+        attachments: bestanden
         attachment_count:
-          one: "1 file"
-          other: "%{count} files"
+          one: "1 bestand"
+          other: "%{count} bestanden"
         attendance:
           button: "Registreer bezoekers"
       controls:
@@ -69,13 +69,13 @@ nl-NL:
         message: "Stuur bericht"
         prayer_request: Gebedsverzoek
       linked:
-        tooltip: "This group is linked via code %{code}"
+        tooltip: "Deze groep is gekoppeld aan code %{code}"
       parents_of:
         tooltip: "This group is linked to parents of %{group}"
     stream:
       none:
-        heading: "No Activity"
-        message: "This is where group activity will appear."
+        heading: "Geen updates"
+        message: "Updates die in deze groep gedaan worden verschijnen hieronder."
     new:
       heading: "Nieuwe groep"
     edit:
@@ -90,8 +90,8 @@ nl-NL:
         description: "De onderstaande instellingen zijn voor geavanceerde gebruikers."
         membership_mode:
           options:
-            manual: "Add members manually (default)"
-            link_code: "Add members automatic by external link code."
+            manual: "Leden handmatig toevoegen (standaard)"
+            link_code: "Leden automatisch toevoegen via een externe link."
             parents_of: "Link to a child group to get parents of those children."
             adults: "Include all adults in this community."
       files:
@@ -106,7 +106,7 @@ nl-NL:
       address:
         help: "Je kunt hier een uniek e-mail adres opgeven zodat groepsberichten worden verstuurd vanaf dit adres."
       calendar:
-        help: "In your Google Calendar, in Calendar Settings, copy your \"Private\" XML Link and paste in this box to display your calendar on the group page."
+        help: "Plaatst hier Google Calendar link om je kalender te tonen op de groepspagina."
       category:
         new: "[Nieuwe categorie]"
         help: "Plaats de groep in een categorie zodat deze gemakkelijk te vinden is."
@@ -192,5 +192,10 @@ nl-NL:
           one: Afbeelding
           other: Afbeeldingen
         new_link: "Nieuwe afbeelding"
+      tasks:
+        text:
+          one: Taak
+          other: Taken
+        new_link: "Nieuwe taak"
     show_hidden:
-      button: "Show Hidden Groups (%{count})"
+      button: "Toon verborgen groepen (%{count})"

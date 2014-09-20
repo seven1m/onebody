@@ -1,9 +1,9 @@
 ---
 nl-NL:
   attachments:
-    heading: "Group Files"
+    heading: Bestanden
     new:
-      button: "New File"
+      button: "Nieuw bestand"
     deleted: "Bijlage verwijderd."
     file: Bestand
     file_deleted: "Het bestand is verwijderd."

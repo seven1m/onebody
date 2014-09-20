@@ -20,7 +20,7 @@ nl-NL:
     description: Omschrijving
     enter_code: "Vul de code in"
     enter_your_email: "Vul je e-mail adres in en klik op onderstaand knop. Indien we je e-mail adres in het bestand hebben ontvang je een e-mail. Via deze verificatie e-mail krijg je toegang tot de site."
-    fill_required_fields: "Vul alle verplichte velden in."
+    fill_required_fields: "Vul alle verplichte velden in"
     gender: Geslacht
     I_am_this_person: "Ik ben deze persoon."
     email_address: "E-mail adres"
