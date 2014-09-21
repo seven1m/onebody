@@ -93,6 +93,7 @@ en:
       messages: "messages"
       join:
         button: "Find and join a group."
+      see_all: "see all..."
 
     business:
       services_provided_by: "Services provided by %{person}"
