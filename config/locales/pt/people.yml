@@ -76,6 +76,7 @@ pt:
       messages: mensagens
       join:
         button: "Encontre e participe de um grupo"
+      see_all: "ver todos..."
     business:
       services_provided_by: "Serviços fornecidos por %{person}"
       address: Endereço
