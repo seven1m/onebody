@@ -158,4 +158,45 @@ describe Family do
       end
     end
   end
+
+  describe '#anniversary_sharable_with' do
+    let(:husband) { FactoryGirl.create(:person) }
+    let(:wife) { FactoryGirl.create(:person, family: husband.family) }
+
+    context 'two adults in family with same wedding anniversary' do
+      before do
+        husband.update_attribute(:anniversary, Date.new(2001, 11, 22))
+        wife.update_attribute(:anniversary, Date.new(2001, 11, 22))
+      end
+
+      it 'shows their shared anniversary' do
+        anniversary = husband.family.anniversary_sharable_with(husband)
+        expect(anniversary).to eq(Date.new(2001, 11, 22))
+      end
+    end
+
+    context 'two adults in family with different wedding anniversaries' do
+      before do
+        husband.update_attribute(:anniversary, Date.new(2001, 11, 22))
+        wife.update_attribute(:anniversary, Date.new(2001, 10, 20))
+      end
+
+      it 'does not show their anniversary' do
+        anniversary = husband.family.anniversary_sharable_with(husband)
+        expect(anniversary).to be_nil
+      end
+    end
+
+    context 'one adult in family with a wedding anniversary' do
+      before do
+        husband.update_attribute(:anniversary, Date.new(2001, 11, 22))
+        wife.destroy
+      end
+
+      it 'shows the anniversary' do
+        anniversary = husband.family.anniversary_sharable_with(husband)
+        expect(anniversary).to eq(Date.new(2001, 11, 22))
+      end
+    end
+  end
 end

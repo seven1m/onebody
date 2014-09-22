@@ -32,7 +32,7 @@ en:
       table:
         home_phone: "Home Phone"
         address: "Home Address"
-        anniversary: "Anniversary"
+        anniversary: "Wedding Anniversary"
 
     name:
       same_last_name: "%{adult1_fname} & %{adult2_fname} %{adult1_lname}"
