@@ -89,16 +89,19 @@ en:
         state: "State"
         zip: "Zip"
       person:
-        first_name: First Name
-        last_name: Last Name
-        suffix: Suffix
-        gender: Gender
-        mobile_phone: Mobile Phone
-        work_phone: Work Phone
-        fax: Fax
-        birthday: Birthday
-        anniversary: Anniversary
-        custom_type: Custom Role
+        anniversary: "Wedding Anniversary"
+        birthday: "Birthday"
+        custom_type: "Custom Role"
+        email: "Email"
+        facebook_url: "Facebook URL"
+        fax: "Fax"
+        first_name: "First Name"
+        gender: "Gender"
+        last_name: "Last Name"
+        mobile_phone: "Mobile Phone"
+        suffix: "Suffix"
+        twitter: "Twitter Username"
+        work_phone: "Work Phone"
       group:
         name: "Name"
         category: "Category"
@@ -122,12 +125,6 @@ en:
         parents_of: "Child Group"
         hidden: "Hidden (Archived) Group"
         has_tasks: "Tasks"
-      person:
-        email: "Email"
-        first_name: "First Name"
-        last_name: "Last Name"
-        facebook_url: "Facebook URL"
-        twitter: "Twitter Username"
       prayer_request:
         answer: "Answer"
         answered_at: "Date Answered"
