@@ -9,7 +9,7 @@ module PeopleHelper
   end
 
   def show_attribute?(attribute, &block)
-    if @person.send(attribute).to_s.any? && @person.show_attribute_to?(attribute, @logged_in)
+    if @person.send(attribute).present? && @person.show_attribute_to?(attribute, @logged_in)
       capture(&block)
     end
   end

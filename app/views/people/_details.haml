@@ -33,10 +33,11 @@
     %tr
       %td= t('people.show.details.birthday')
       %td= @person.birthday.to_s(:date_without_year)
-  = show_attribute?(:anniversary) do
-    %tr
-      %td= t('people.show.details.anniversary')
-      %td= @person.anniversary.to_s(:date_without_year)
+  - unless @person.child?
+    = show_attribute?(:anniversary) do
+      %tr
+        %td= t('people.show.details.anniversary')
+        %td= @person.anniversary.to_s(:date_without_year)
   - if has_social_networks?(@person)
     %tr
       %td= t('people.show.details.social')

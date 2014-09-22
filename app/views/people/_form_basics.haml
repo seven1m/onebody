@@ -56,13 +56,14 @@
     = form.label :child, t('people.child')
     %span.help-block= t('people.edit.child_hint')
     = select_tag "person[child]", options_for_select(['', [t('people.edit.child.enabled'), true], [t('people.edit.child.disabled'), false]], @person.child), id: "person_child", class: 'form-control'
-.form-group
-  = form.label :anniversary, t('privacies.anniversary')
-  .input-group
-    .input-group-btn
-      %button{ type: 'button', class: 'btn btn-info date-picker-btn' }
-        = icon 'fa fa-calendar'
-    = form.date_field :anniversary, class: 'form-control'
+- unless @person.child?
+  .form-group
+    = form.label :anniversary
+    .input-group
+      .input-group-btn
+        %button{ type: 'button', class: 'btn btn-info date-picker-btn' }
+          = icon 'fa fa-calendar'
+      = form.date_field :anniversary, class: 'form-control'
 - unless @person.new_record?
   = fields_for @family do |family|
     = render partial: 'families/form_fields', locals: {form: family}

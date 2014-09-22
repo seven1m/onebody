@@ -177,9 +177,10 @@ class Family < ActiveRecord::Base
   end
 
   def anniversary_sharable_with(who)
-    people.undeleted.detect { |person|
-      person.anniversary and person.show_attribute_to?(:anniversary, who)
-    }.try(:anniversary)
+    dates = people.undeleted.adults.limit(2).map do |person|
+      person.anniversary if person.show_attribute_to?(:anniversary, who)
+    end
+    dates.first if dates.all? { |d| d == dates.first }
   end
 
   def suggested_name
