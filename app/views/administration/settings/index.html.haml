@@ -122,8 +122,8 @@
           = button_tag t('save_changes'), class: 'btn btn-success'
     - if @logged_in.super_admin?
       .tab-pane#advanced
-        %p= t('admin.settings.advanced.mailgun')
-        %p= link_to t('admin.settings.mailgun'), setup_email_path, method: 'put', title: t('admin.settings.mailgun_message'), class: 'btn btn-warning'
+        -#%p= t('admin.settings.advanced.mailgun')
+        -#%p= link_to t('admin.settings.mailgun'), setup_email_path, method: 'put', title: t('admin.settings.mailgun_message'), class: 'btn btn-warning'
         %p= t('admin.settings.advanced.intro')
         %p= link_to t('admin.settings.reload'), reload_administration_settings_path, method: 'put', title: t('admin.settings.reload_message'), class: 'btn btn-warning'
 
