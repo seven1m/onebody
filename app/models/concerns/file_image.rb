@@ -13,8 +13,16 @@ module Concerns
       end
     end
 
+    def image_format
+      begin
+        %w(JPEG PNG GIF).include?(@img[:format])
+      rescue ArgumentError
+        nil
+      end
+    end
+
     def image?
-      image and %w(JPEG PNG GIF).include?(image[:format])
+      image and image_format
     end
 
     def width
