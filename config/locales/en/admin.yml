@@ -257,7 +257,7 @@ en:
           description: Set to properly display dates and times on the site.
         Default Country:
           name: Default Country
-          description: Select the default country for the site.
+          description: Select the default country for new family records.
       Appearance:
         Public Theme:
           name: Public Theme
