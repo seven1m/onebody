@@ -99,6 +99,7 @@ en:
         gender: "Gender"
         last_name: "Last Name"
         mobile_phone: "Mobile Phone"
+        primary_emailer: "Primary email account holder"
         suffix: "Suffix"
         twitter: "Twitter Username"
         work_phone: "Work Phone"

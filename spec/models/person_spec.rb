@@ -475,12 +475,12 @@ describe Person do
     end
   end
 
-  describe '.position' do
+  describe '#position' do
     context 'given a family with three people in it' do
       let!(:family) { FactoryGirl.create(:family) }
-      let!(:head)   { FactoryGirl.create(:person, family: family, child: false, first_name: "Tim",    last_name: "Morgan") }
-      let!(:spouse) { FactoryGirl.create(:person, family: family, child: false, first_name: "Jennie", last_name: "Morgan") }
-      let!(:child)  { FactoryGirl.create(:person, family: family, child: true,  first_name: "Mac",    last_name: "Morgan") }
+      let!(:head)   { FactoryGirl.create(:person, family: family, child: false, first_name: 'Tim',    last_name: 'Morgan') }
+      let!(:spouse) { FactoryGirl.create(:person, family: family, child: false, first_name: 'Jennie', last_name: 'Morgan') }
+      let!(:child)  { FactoryGirl.create(:person, family: family, child: true,  first_name: 'Mac',    last_name: 'Morgan') }
 
       it 'can be reordered' do
         head.insert_at(3)
@@ -488,6 +488,20 @@ describe Person do
         expect(spouse.reload.position).to eq(1)
         expect(child.reload.position).to eq(2)
         expect(head.reload.position).to eq(3)
+      end
+    end
+  end
+
+  describe '#primary_emailer=' do
+    context 'setting to true on one family member when other already has it set' do
+      let(:husband) { FactoryGirl.create(:person, first_name: 'John', email: 'shared@example.com', primary_emailer: true) }
+      let(:spouse)  { FactoryGirl.create(:person, first_name: 'Jane', email: 'shared@example.com', family: husband.family) }
+
+      it 'sets the value to false on others with the same email' do
+        spouse.primary_emailer = true
+        spouse.save
+        expect(spouse.reload).to be_primary_emailer
+        expect(husband.reload).to_not be_primary_emailer
       end
     end
   end

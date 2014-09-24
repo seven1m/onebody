@@ -49,6 +49,13 @@ en:
       person_type: "Roles"
       person_type_hint: "These do not control access — only designation."
       photo: "Profile Photo"
+      primary_emailer:
+        intro_html: |
+          You're sharing an email address with %{person}.
+          If your group emails are being rejected, consider checking the box below to ensure that
+          emails from your address are <strong>always</strong> connected with your account
+          &ndash; <strong>not %{person}</strong>. (Note: if both you and %{person} send group emails,
+          then it would be better to use different email addresses.)
       required_field: "required"
       twitter:
         placeholder: '@username'

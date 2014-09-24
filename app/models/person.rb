@@ -138,6 +138,18 @@ class Person < ActiveRecord::Base
     stream_item.save!
   end
 
+  def others_with_same_email
+    return [] unless family
+    family.people.undeleted.where(email: email).where.not(id: id)
+  end
+
+  after_save :clear_primary_emailer_on_others
+
+  def clear_primary_emailer_on_others
+    return unless family and primary_emailer?
+    family.people.undeleted.where(email: email).where.not(id: id).update_all(primary_emailer: false)
+  end
+
   def name
     @name ||= begin
       if deleted?

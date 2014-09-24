@@ -242,6 +242,8 @@ describe Notifier do
         assert_deliveries 1
         delivery = ActionMailer::Base.deliveries.first
         expect(delivery.subject).to eq('Message Not Sent: test from my shared address')
+        expect(delivery.body).to match(/more than one person in your family share the same email address/)
+        p delivery.to_s
       end
     end
 
@@ -277,6 +279,24 @@ describe Notifier do
         delivery = ActionMailer::Base.deliveries.first
         expect(delivery.subject).to eq('test from my shared address')
         expect(Message.last.person).to eq(@spouse)
+      end
+    end
+
+    context 'given one person has primary_emailer=true' do
+      before do
+        @user.update_attribute(:primary_emailer, true)
+        email = to_email(from: 'shared@gmail.com',
+                         to: @group.full_address,
+                         subject: 'test from my shared address',
+                         body: 'test!')
+        Notifier.receive(email.to_s)
+      end
+
+      it 'sends the message, assigning to user with primary_emailer=true' do
+        assert_deliveries 1
+        delivery = ActionMailer::Base.deliveries.first
+        expect(delivery.subject).to eq('test from my shared address')
+        expect(Message.last.person).to eq(@user)
       end
     end
   end

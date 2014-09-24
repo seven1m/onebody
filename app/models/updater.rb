@@ -40,6 +40,7 @@ class Updater
       photo:                :immediate,
       facebook_url:         :immediate,
       twitter:              :immediate,
+      primary_emailer:      :immediate,
       email:                :notify,
       classes:              :admin,
       shepherd:             :admin,
