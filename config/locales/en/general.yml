@@ -403,6 +403,7 @@ en:
     api_access: You must be a super administrator to use the API.
     mailgun_route_found: The route already exists.
     mailgun_route_created: The route has been created.
+    mailgun_apikey_notfound: Please check the mailgun api key.
     mailgun_route_error: There was an error while trying to create the route.
     no_default_site: No Default site found.
     no_site_configured: "There is no site configured at this address: %{host}"

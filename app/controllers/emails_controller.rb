@@ -10,10 +10,12 @@ class EmailsController < ApplicationController
 
   def create_route
     result = Email.create_catch_all
-    if result["message"] == "Route found."
+    if result['message'] == 'Route found.'
       flash[:notice] = t('application.mailgun_route_found')
-    elsif result["message"] == "Route has been created"
+    elsif result['message'] == 'Route has been created'
       flash[:notice] = t('application.mailgun_route_created')
+    elsif result['message'] == 'apikey'
+      flash[:notice] = t('application.mailgun_apikey_notfound')
     else
       flash[:error] = t('application.mailgun_route_error')
     end
