@@ -243,7 +243,6 @@ describe Notifier do
         delivery = ActionMailer::Base.deliveries.first
         expect(delivery.subject).to eq('Message Not Sent: test from my shared address')
         expect(delivery.body).to match(/more than one person in your family share the same email address/)
-        p delivery.to_s
       end
     end
 
