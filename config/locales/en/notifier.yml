@@ -136,7 +136,10 @@ en:
           We are sorry for the inconvenience. The system could not find any valid
           group addresses in the TO or CC fields.
 
-          Please sign in at the following URL to send your message:
+          Check that you typed the group email address correctly and that you have
+          permission to send email to this group.
+
+          You can also sign in at the following URL to send your message:
 
           %{url}
 

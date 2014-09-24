@@ -14,6 +14,44 @@ describe Notifier do
     @membership = @group.memberships.create!(person: @user)
   end
 
+  context 'given user not in group' do
+    before do
+      @non_member = FactoryGirl.create(:person, email: 'non-member@example.com')
+      @email = to_email(
+        from: @non_member.email,
+        to: @group.full_address,
+        subject: 'test to group from non-member',
+        body: 'Hello Group'
+      )
+      Notifier.receive(@email.to_s)
+    end
+
+    it 'does not allow sending to the group' do
+      expect(ActionMailer::Base.deliveries).to have(1).email
+      delivered = ActionMailer::Base.deliveries.last
+      expect(delivered.subject).to eq('Message Not Sent: test to group from non-member')
+    end
+  end
+
+  context 'given user in group where members cannot send' do
+    before do
+      @group.update_attribute(:members_send, false)
+      @email = to_email(
+        from: @user.email,
+        to: @group.full_address,
+        subject: 'test to group from non-admin',
+        body: 'Hello Group'
+      )
+      Notifier.receive(@email.to_s)
+    end
+
+    it 'does not allow sending to the group' do
+      expect(ActionMailer::Base.deliveries).to have(1).email
+      delivered = ActionMailer::Base.deliveries.last
+      expect(delivered.subject).to eq('Message Not Sent: test to group from non-admin')
+    end
+  end
+
   context 'given 2 people in a group' do
     before do
       @user2 = FactoryGirl.create(:person)

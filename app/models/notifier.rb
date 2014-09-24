@@ -198,6 +198,7 @@ class Notifier < ActionMailer::Base
     sent_to_count = 0
 
     destinations.each do |group|
+      next unless group.can_send?(@person)
       message = group_email(group, email, body)
       if @message_sent_to_group
         sent_to_count += 1
