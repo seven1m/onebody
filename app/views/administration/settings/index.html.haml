@@ -126,20 +126,3 @@
         %p= link_to t('admin.settings.mailgun'), setup_email_path, method: 'put', title: t('admin.settings.mailgun_message'), class: 'btn btn-warning'
         %p= t('admin.settings.advanced.intro')
         %p= link_to t('admin.settings.reload'), reload_administration_settings_path, method: 'put', title: t('admin.settings.reload_message'), class: 'btn btn-warning'
-
-:javascript
-  function toggleSetting(control_id, target_ids) {
-    for(var i=0; i<target_ids.length; i++) {
-      $('.setting'+target_ids[i]).css('display', $('#'+control_id).attr('checked') ? '' : 'none');
-    }
-  }
-  function setupToggler(control_id, target_ids) {
-    $('#'+control_id).click(function(){ toggleSetting(control_id, target_ids) });
-    toggleSetting(control_id, target_ids);
-  }
-  setupToggler(#{@settings['Features']['Sign Up'].id},      [#{@settings['Features']['Sign Up Approval Email'].id} ]);
-  setupToggler(#{@settings['Features']['News Page'].id},    [#{@settings['Features']['News by Users'].id}          ]);
-
-  function scrollTo(id) {
-    $('html, body').animate({'scrollTop':$('#'+id).offset().top}, 'slow');
-  }
