@@ -170,12 +170,12 @@ class Notifier < ActionMailer::Base
     if [nil, :multiple].include?(@person)
       if @person == :multiple
         reject_subject = I18n.t('notifier.rejection.multiple_people.subject', subject: email.subject)
-        reject_msg = I18n.t('notifier.rejection.multiple_people',
+        reject_msg = I18n.t('notifier.rejection.multiple_people.body',
                             subject: email.subject,
                             url: Setting.get(:url, :site))
       else
         reject_subject = I18n.t('notifier.rejection.unknown_person.subject', subject: email.subject)
-        reject_msg = I18n.t('notifier.rejection.unknown_person',
+        reject_msg = I18n.t('notifier.rejection.unknown_person.body',
                             subject: email.subject,
                             url: Setting.get(:url, :site))
       end
@@ -310,31 +310,35 @@ class Notifier < ActionMailer::Base
 
   def get_from_person(email, destinations)
     people = Person.where('lcase(email) = ?', email.from.first.downcase).to_a
-    if people.length == 0
+    if people.none?
       # user is not found in the system, try alternate email
       Person.where('lcase(alternate_email) = ?', email.from.first.downcase).first
-    elsif people.length == 1
+    elsif people.one?
       people.first
-    elsif people.length > 1
-      by_name = find_person_by_name(people, email)
-      if by_name.length == 1
-        by_name.first
-      else
-        by_group = find_person_by_group(people, destinations)
-        if by_group.length == 1
-          by_group.first
-        else
-          :multiple
-        end
-      end
+    else
+      get_from_person_by_primary(people) ||
+      get_from_person_by_name(people, email) ||
+      get_from_person_by_group(people, destinations) ||
+      :multiple
     end
   end
 
-  def find_person_by_name(people, email)
+  def get_from_person_by_primary(people)
+    by_primary = people.select(&:primary_emailer?)
+    people.first if by_primary.one?
+  end
+
+  def get_from_person_by_name(people, email)
     name = email.header['from'].value.to_s.downcase.split.first
-    people.select do |p|
+    by_name = people.select do |p|
       p.name.downcase.split.first == name
     end
+    by_name.first if by_name.one?
+  end
+
+  def get_from_person_by_group(people, destinations)
+    by_group = find_person_by_group(people, destinations)
+    by_group.first if by_group.one?
   end
 
   def find_person_by_group(people, groups)
