@@ -179,7 +179,7 @@ class Notifier < ActionMailer::Base
                             subject: email.subject,
                             url: Setting.get(:url, :site))
       end
-      if return_to = email['Return-Path'] ? email['Return-Path'].to_s : email.from
+      if destinations.any? and return_to = email['Return-Path'] ? email['Return-Path'].to_s : email.from
         Notifier.simple_message(return_to, reject_subject, reject_msg).deliver
       end
       return
