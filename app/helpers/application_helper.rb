@@ -216,6 +216,14 @@ module ApplicationHelper
     end
   end
 
+  def analytics_js
+    if params[:controller] == 'administration/settings'
+      # workaround for Safari bug (see https://github.com/churchio/onebody/issues/262)
+      return
+    end
+    setting(:services, :analytics).to_s.html_safe if Rails.env.production?
+  end
+
   # this is an ugly hack for Rails 4 because I18n.exception_handler isn't working with the t() helper
   def t(*args)
     if Rails.env.production?
