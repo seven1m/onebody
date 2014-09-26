@@ -10,7 +10,7 @@ pt:
     deleted: "Grupo excluído."
     delete:
       heading: "Excluir este Grupo"
-      intro: "Se você deseja que um grupo desapareça de todas as páginas do site, o melhor é Ocultá-lo (Arquivo) - veja a opção acima. Se você realmente deseja excluir o grupo e todo o seu conteúdo (mensagens, pedidos de oração, fotos, etc) permanentemente, então você pode fazê-lo abaixo:"
+      intro: "Se você realmente deseja excluir o grupo e todo o seu conteúdo (mensagens, pedidos de oração, fotos, etc) permanentemente, então você pode fazê-lo abaixo:"
       button: "Excluir este grupo permanentemente"
     hide:
       heading: "Ocultar (Arquivar) este Grupo"
@@ -34,7 +34,7 @@ pt:
     email_off: "email desligado"
     email_on: "email ligado"
     browse:
-      heading: "Procurar pela Categoria"
+      heading: "Procurar Grupos"
       select_category: "Exibir por Categoria"
       all: "Exibir Todos"
     create:
@@ -119,7 +119,8 @@ pt:
       members_send:
         help: "Se marcado, qualquer membro deste grupo poderá enviar um email para qualquer pessoa do grupo."
       class_link_code:
-        help_html: "Útil para sincronizar com sistemas externos. <a href='https://github.com/churchio/onebody/wiki/HowGroupMembershipWorks'>Veja aqui</a> maiores informações. Separe múltiplos códigos com um espaço."
+        help_html: "<p>Esta função é útil para sincronizar com sistemas externos. Separe múltiplos códigos com um espaço. <a href='https://github.com/churchio/onebody/wiki/HowGroupMembershipWorks'>Veja aqui</a> maiores informações.\n\
+            <p>Clique <strong>Salvar</strong> para atualizar os membros do grupo imediatamente. Os membros do grupo também serão atualizados automaticamente toda noite.</p> \n"
       parents_of:
         help_html: "<p>Associação será gerada automaticamente de acordo com os pais dos membros selecionados do grupo.</p>\n\
             <p>Clique <strong>Salvar</strong> para atualizar os membros do grupo imediatamente. Os membros do grupo serão também atualizados automaticamente toda noite.</p> \n"
@@ -190,5 +191,10 @@ pt:
           one: Foto
           other: Fotos
         new_link: "Nova Foto"
+      tasks:
+        text:
+          one: Tarefa
+          other: Tarefas
+        new_link: "Nova Tarefa"
     show_hidden:
       button: "Exibir Grupos Ocultos (%{count})"

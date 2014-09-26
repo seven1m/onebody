@@ -227,10 +227,10 @@ pt:
           description: "Se você utiliza o Google Analytics ou outro serviço de estatísticas baseado em JavaScript, insira o código aqui. Ele será inserido no final de cada página."
       Name:
         Community:
-          name: Comunidade
+          name: "Nome da Comunidade"
           description: "O nome da sua igreja ou comunidade. Ex. \"Primeira Igreja...\"."
         Site:
-          name: Site
+          name: "Nome do Site"
           description: "O nome deste site, exibido no topo da págna, exemplo, \"Igreja da Família\" ou \"Igreja Central\"."
       URL:
         ? "News Feed"
@@ -255,6 +255,10 @@ pt:
         :
           name: "Fuso Horário"
           description: "Ajuste para exibir datas e horários corretamente no site."
+        ? "Default Country"
+        :
+          name: "País Padrão"
+          description: "Selecione o país padrão para o site."
       Appearance:
         ? "Public Theme"
         :
@@ -336,7 +340,7 @@ pt:
         ? "News by Users"
         :
           name: "Notícias enviadas pelos Usuários"
-          description: "Permitir conteúdo de notícias enviado pelos usuários."
+          description: "Permitir conteúdo de notícias enviado pelos usuários. (Requer a opção 'Página de Notícias' acima habilitado)."
         ? "Custom Person Fields"
         :
           name: "Campos Pessoais Customizados"

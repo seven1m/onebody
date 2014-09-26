@@ -6,10 +6,12 @@ pt:
     new:
       heading: "Nova Pessoa na família %{family}"
       heading_without_family: "Nova Pessoa"
+      no_family_warning_html: "Você irá criar uma nova pessoa e um <strong>novo registro de família</strong>\n\
+          Se você deseja adicionar uma pessoa a uma família existente, primeiro acesse a página da família e adicione a pessoa nela. \n"
     title_html: "%{name}<span class='discreet'>, %{description}</span>"
     show:
       details:
-        family: "%{family} Família"
+        family: "Família %{family}"
         website: Website
         email: Email
         mobile_phone: "Telefone Celular"
@@ -17,28 +19,40 @@ pt:
         work_phone: "Telefone de Trabalho"
         address: "Endereço Residencial"
         birthday: "Data de Nascimento"
-        anniversary: Aniversário
+        anniversary: "Aniversário de Casamento"
         social: Social
     edit:
       about: Sobre
       basics: Básico
-      child:
-        enabled: Sim
-        disabled: Não
-      child_hint: "Se nenhuma data de nascimento for especificada, você necessita indicar se este é uma criança ou um adulto."
-      description_hint: "Algumas palavras sobre você — algumas pessoas colocam a profissão aqui."
-      family_photo: "Foto da Família"
-      person_type: Funções
-      person_type_hint: "Estes não controlam acesso - somente designação."
-      photo: "Foto do Perfil"
-      header: "Editar Perfil"
       business: Negócios
       business_category:
         new: "[criar uma nova categoria]"
         create_prompt: "Digite a categoria do seu negócio:"
+      child:
+        enabled: Sim
+        disabled: Não
+      child_hint: "Se nenhuma data de nascimento for especificada, você necessita indicar se este é uma criança ou um adulto."
       custom_type:
         new: "[criar função]"
         create_prompt: "Digite o nome da função:"
+      description_hint: "Algumas palavras sobre você — algumas pessoas colocam a profissão aqui."
+      facebook_url:
+        placeholder: "https://www.facebook.com/nomedousuario"
+      family_photo: "Foto da Família"
+      header: "Editar Perfil"
+      person_type: Funções
+      person_type_hint: "Estes não controlam acesso - somente designação."
+      photo: "Foto do Perfil"
+      primary_emailer:
+        intro_html: |
+            You're sharing an email address with %{person}.
+            If your group emails are being rejected, consider checking the box below to ensure that
+            emails from your address are <strong>always</strong> connected with your account
+            &ndash; <strong>not %{person}</strong>. (Note: if both you and %{person} send group emails,
+            then it would be better to use different email addresses.)
+      required_field: requerido
+      twitter:
+        placeholder: "@nomedousuario"
       visibility: Visibilidade
     move:
       heading: "Adicionar na família %{family}"
