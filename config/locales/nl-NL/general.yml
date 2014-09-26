@@ -87,11 +87,20 @@ nl-NL:
         state: Provincie
         zip: Postcode
       person:
+        anniversary: "Wedding Anniversary"
+        birthday: Birthday
+        custom_type: "Custom Role"
         email: E-mail
-        first_name: Voornaam
-        last_name: Achternaam
         facebook_url: "Facebook URL"
+        fax: Fax
+        first_name: Voornaam
+        gender: Gender
+        last_name: Achternaam
+        mobile_phone: "Mobile Phone"
+        primary_emailer: "Primary email account holder"
+        suffix: Suffix
         twitter: "Twitter gebruikersnaam"
+        work_phone: "Work Phone"
       group:
         name: Naam
         category: Categorie
@@ -263,7 +272,7 @@ nl-NL:
             slug:
               blank: "Titel is verplicht"
               exclusion: "De pagina titel mag niet de woorden \"beheer\", \"wijzig\" of \"nieuw\" bevatten."
-              invalid: "The page slug can only contain lowercase letters and underscore."
+              invalid: "De url kan alleen kleine letters en underscores bevatten."
             title:
               blank: "Titel is verplicht"
         person:
@@ -340,7 +349,7 @@ nl-NL:
           attributes:
             name:
               blank: "Relatietype is verplicht"
-              inclusion: "This relationship is not valid."
+              inclusion: "Deze relatie is niet geldig."
               taken: "De relatie bestaat al."
             other_name:
               blank: "Relatietype is verplicht"
@@ -392,6 +401,7 @@ nl-NL:
     api_access: "Je bent niet bevoegd om de API te gebruiken."
     mailgun_route_found: "De route bestaat al."
     mailgun_route_created: "De route is aangemaakt."
+    mailgun_apikey_notfound: "Please check the mailgun api key."
     mailgun_route_error: "Sorry.. Er is een fout opgetreden tijdens het aanmaken van de route."
     no_default_site: "Geen default site gevonden."
     no_site_configured: "Er is geen site geconfigureerd op dit adres: %{host}"

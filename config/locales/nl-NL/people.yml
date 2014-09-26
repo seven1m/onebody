@@ -44,6 +44,13 @@ nl-NL:
       person_type: Rollen
       person_type_hint: "Dit stelt geen toegang in — enkel de benaming."
       photo: "Profiel foto"
+      primary_emailer:
+        intro_html: |
+            You're sharing an email address with %{person}.
+            If your group emails are being rejected, consider checking the box below to ensure that
+            emails from your address are <strong>always</strong> connected with your account
+            &ndash; <strong>not %{person}</strong>. (Note: if both you and %{person} send group emails,
+            then it would be better to use different email addresses.)
       required_field: verplicht
       twitter:
         placeholder: "@gebruikersnaam"
@@ -84,6 +91,7 @@ nl-NL:
       messages: berichten
       join:
         button: "Zoek en wordt lid van een groep"
+      see_all: "see all..."
     business:
       services_provided_by: "Diensten geleverd door %{person}"
       address: Adres

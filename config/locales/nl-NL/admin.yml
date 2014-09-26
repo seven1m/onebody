@@ -187,7 +187,7 @@ nl-NL:
       manage_documents:
         title: "Beheer documenten"
         about: "Toevoegen, wijzigen en verwijderen van documenten."
-    rest_api_information: "To use the REST API with Ruby, you might do this"
+    rest_api_information: "Om de REST API met Ruby te gebruiken, kun je dit doen"
     settings:
       heading: Instellingen
       Contact:
@@ -257,7 +257,11 @@ nl-NL:
         ? "Time Zone"
         :
           name: Tijdszone
-          description: "Set to properly display dates and times on the site."
+          description: "Vul in om de juiste datum en tijd te tonen."
+        ? "Default Country"
+        :
+          name: "Default Country"
+          description: "Select the default country for new family records."
       Appearance:
         ? "Public Theme"
         :
@@ -272,7 +276,7 @@ nl-NL:
           description: "Toon het adres en de slogan van de organisatie onder het logo van de site."
         ? "Info Tab First"
         :
-          name: "Info Tab First"
+          name: "Info tab eerst"
           description: "If enabled, move the Info tab on profiles to the far left and have it open by default."
       Formats:
         ? "Full Date and Time"
