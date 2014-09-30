@@ -350,7 +350,7 @@ en:
           description: Enable "Pages" - Use OneBody to host your website.
         News Page:
           name: News Page
-          description: Enable community news page. News items can be submitted by admins and/or pulled from an RSS feed (see URL, News RSS setting).
+          description: Enable community news page. News items can be submitted by admins and/or pulled from an RSS feed (see External Services, News Feed setting).
         Verses:
           name: Verses
           description: Enable Verse sharing.

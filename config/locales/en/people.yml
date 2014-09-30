@@ -131,7 +131,7 @@ en:
     friendship_accepted: "Friendship accepted."
     friendship_manage: "You may not manage friendships for anyone but yourself."
     friendship_must_specify: "Must specify accept=true or reject=true"
-    friendship_rejected: "Friendship rejected."
+    friendship_rejected: "Friendship declined."
     full_access: "Full Access"
     if_you_wish_to_be_listed_business_dir_html: "If you wish to be listed in the <a href='%{url}'>Business Directory</a>, enter your business name, description, and other details below."
     if_you_wish_to_remove_something_html: "If you wish to remove something in order to keep others from seeing it, instead go to the <a href='%{url}'>Privacy</a> page and hide it."
