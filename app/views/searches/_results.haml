@@ -23,6 +23,9 @@
           %th= t('search.column.category')
         - else
           %th= t('search.column.name')
+          %th Home
+          %th Work
+          %th Mobile
           %th= t('search.column.family')
         - if show_birthdays?
           %th= t('search.column.birthday')
@@ -46,6 +49,15 @@
               = link_to person.name, person
               - unless person.visible?
                 %i.fa.fa-lock
+            %td
+              - if person.family.home_phone
+                = link_to person.family.home_phone, person.family
+            %td
+              - if person.work_phone
+                = link_to person.work_phone, person.family
+            %td
+              - if person.mobile_phone
+                = link_to person.mobile_phone, person.family
             %td
               - if person.family
                 = link_to person.family.name, person.family

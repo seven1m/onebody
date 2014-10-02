@@ -64,8 +64,11 @@ module PeopleHelper
       album_avatar_tag(person, options)
     else
       options.reverse_merge!(size: :tn, alt: person.try(:name))
+      # options.reverse_merge!(size: :medium, alt: person.try(:name))
       options.reverse_merge!(class: "avatar #{options[:size]} #{options[:class]}")
       options.reverse_merge!(data: { id: "person#{person.id}", size: options[:size] })
+      # options.reverse_merge!(style: "max-width: none !important")
+      # image_tag(avatar_path(person, options.delete(:size)), options)
       fallback_to_family = options.delete(:fallback_to_family)
       if not person.try(:photo).try(:exists?) and fallback_to_family and person.try(:family).try(:photo).try(:exists?)
         path = family_avatar_path(person.family)
