@@ -3,6 +3,7 @@ en:
   search:
     column:
       name: "Name"
+      chinese_name: "Chinese Name"
       family: "Family"
       business: "Business"
       category: "Category"
