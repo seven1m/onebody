@@ -88,6 +88,7 @@ class Family < ActiveRecord::Base
       a << "\n#{city}, #{state}"
       a << "  #{zip}" if zip.present?
     end
+    return a
   end
 
   def short_zip
