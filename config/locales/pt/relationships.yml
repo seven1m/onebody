@@ -34,10 +34,7 @@ pt:
       mother_in_law: Sogra
       nephew: Sobrinho
       niece: Sobrinha
-      ? ""
-      :
-        one: Outro
-        other: Outros
+      other_name: Outro
       sister: Irmã
       sister_in_law: Cunhada
       son: Filho

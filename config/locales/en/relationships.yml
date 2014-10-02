@@ -34,7 +34,7 @@ en:
       mother_in_law: "Mother-in-law"
       nephew: "Nephew"
       niece: "Niece"
-      other: "Other"
+      other_name: "Other"
       sister: "Sister"
       sister_in_law: "Sister-in-law"
       son: "Son"
@@ -47,6 +47,9 @@ en:
       stepson: "Stepson"
       uncle: "Uncle"
       wife: "Wife"
+
+    other_name:
+      placeholder: "Relationship Type"
 
     no_person_selected: "No person selected."
     relationship: "Relationship"
