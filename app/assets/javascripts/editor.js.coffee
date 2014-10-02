@@ -3,3 +3,4 @@
 
 $('.editor-control').wysihtml5
   stylesheets: []
+  html: true

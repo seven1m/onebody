@@ -10,14 +10,9 @@ pt:
         notice: "A família foi criada. Agora, adicione pessoas utilizando o botão 'Nova Pessoa' abaixo..."
     edit:
       heading: "Editar Família"
-      name: "Nome da Família"
       name_example_html: "<em>José dos Santos</em> ou <em>José &amp; Maria dos Santos</em>"
       name_suggestion_html: "Sugerido: <strong>%{name}</strong>"
       name_suggestion_button: Alterar
-      last_name: "Último Nome da Família"
-      home_phone: "Telefone Residencial"
-      address: Endereço
-      address2: "Endereço (linha 2 - opcional)"
       city_st_zip: "Cidade, Estado e CEP"
       photo: Foto
       save: "Salvar Família"
@@ -26,7 +21,7 @@ pt:
       button: "Excluir Família"
       cannot_delete_your_own: "Você não pode excluir a sua própria família."
     show:
-      heading: "%{family} Família"
+      heading: "Família %{family}"
       edit_link: "Editar Família"
       suggested_name_html:
         one: "%{first} é o(a) único(a) adulto(a) nesta família. Considere <a href='%{url}'>mudar o nome da família</a> para “<strong>%{name}</strong>.”"

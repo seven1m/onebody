@@ -1,0 +1,417 @@
+---
+nl-NL:
+  Changes_saved: "Wijzigingen opgeslagen."
+  Delete: Verwijderen
+  From: Van
+  Help: Help
+  No_action_to_show: "Geen acties"
+  No_more_records: "Geen resultaten."
+  Page_no_longer_valid: "Deze pagina is niet meer geldig."
+  There_was_an_error: "Sorry.. Er is een fout opgetreden."
+  There_were_errors: "Sorry.. Er is een fout opgetreden."
+  To: Voor
+  are_you_sure: "Weet je het zeker?"
+  by: door
+  changes_saved: "Wijzigingen opgeslagen."
+  click_here: "Klik hier"
+  Comments: Reactie
+  delete: Verwijderen
+  edit: Wijzig
+  feature_unavailable: "De functionaliteit is niet beschikbaar."
+  for: voor
+  multiple_files: "Misschien ondersteund je browser het batch uploaden van bestanden. Probeer het uit door meerdere bestanden te selecteren met de Ctrl toets."
+  name: Naam
+  none: Geen
+  not_authorized: "Je bent niet bevoegd."
+  ? "true"
+  : true
+  only_admins: "Je bent niet bevoegd om dit onderdeel te gebruiken."
+  person: Persoon
+  phone: Telefoon
+  req_notes: Notities
+  save: Opslaan
+  saving: Opgeslagen
+  save_changes: "Wijzigingen opslaan"
+  show_all: "Toon alles"
+  submit_changes: "Wijzigingen indienen"
+  you_made_a_change_page: "Er zijn wijzigingen gedaan op deze pagina. Sla je wijzigingen op voordat je deze pagina verlaat."
+  date_format:
+    DD: DD
+    MM: MM
+    YYYY: JJJJ
+  errors:
+    format: "%{message}"
+  activemodel:
+    errors:
+      models:
+        signup:
+          attributes:
+            base:
+              disabled: "Account aanvragen is uitgeschakeld."
+              spam: "Account aanvragen is voltooid."
+            first_name:
+              blank: "Voornaam is verplicht"
+            last_name:
+              blank: "Achternaam is verplicht"
+            email:
+              blank: "E-mail is verplicht"
+            gender:
+              blank: "Geslacht is verplicht"
+            birthday:
+              blank: "Verjaardag is verpicht"
+              too_young: "Je bent te jong om een account aan te maken."
+            mobile_phone:
+              blank: "Mobiele telefoon is verplicht"
+  activerecord:
+    attributes:
+      album:
+        name: Naam
+        description: Omschrijving
+      document:
+        name: Naam
+        description: Omschrijving
+        file: Bestand
+        folder_id: Map
+      document_folder:
+        name: Naam
+        description: Omschrijving
+        folder_id: "Bovenliggende map"
+      family:
+        address1: Adres
+        address2: "Adresregel 2 (optioneel)"
+        city: Woonplaats
+        country: Land
+        home_phone: Telefoon
+        last_name: Achternaam
+        name: Naam
+        state: Provincie
+        zip: Postcode
+      person:
+        anniversary: "Wedding Anniversary"
+        birthday: Birthday
+        custom_type: "Custom Role"
+        email: E-mail
+        facebook_url: "Facebook URL"
+        fax: Fax
+        first_name: Voornaam
+        gender: Gender
+        last_name: Achternaam
+        mobile_phone: "Mobile Phone"
+        primary_emailer: "Primary email account holder"
+        suffix: Suffix
+        twitter: "Twitter gebruikersnaam"
+        work_phone: "Work Phone"
+      group:
+        name: Naam
+        category: Categorie
+        description: Omschrijving
+        other_notes: Notities
+        leader_id: Groepsleider
+        creator: "Aangemaakt door"
+        meets: "Komt bijeen op"
+        location: "Locatie en adres"
+        direction: Routebeschrijving
+        email: E-mail
+        prayer: Gebedsverzoeken
+        pictures: "Afbeelding delen"
+        attendance: "Bezoekers registratie"
+        gcal_private_link: "Google kalender prive link"
+        approval_required_to_join: "Om te kunnen deelnemen aan de groep is er goedkeuring vereist."
+        private: "Prive groep"
+        members_send: "Groepsleden kunnen berichten plaatsten"
+        membership_mode: "Selecteer hoe personen toegevoegd kunnen worden aan deze groep"
+        link_code: "Externe link"
+        parents_of: "Groep van"
+        hidden: "Verborgen groepen"
+        has_tasks: Taken
+      prayer_request:
+        answer: Getuigenis
+        answered_at: Datum
+        person_id: "Persoon heeft een gebedsverzoek"
+        request: Verzoek
+      note:
+        title: Titel
+        body: Inhoud
+      task:
+        name: Taak
+        description: Omschrijving
+        person: "Toegewezen aan"
+        person_id: "Toegewezen aan"
+        duedate: Deadline
+        completed: Voltooid
+    errors:
+      models:
+        admin:
+          attributes:
+            template_name:
+              taken: "Er bestaat al een rechtengroep met deze naam. Kies een andere naam."
+        album:
+          attributes:
+            name:
+              blank: "De naam van het album is verplicht."
+              taken: "Er bestaat al een album met deze naam. Kies een andere naam."
+            owner:
+              blank: "Er moet een beheerder zijn voor dit album."
+        attendance_record:
+          attributes:
+            attended_at:
+              blank: "Geef en datum en tijd op voor het bezoek."
+            group_id:
+              blank: "De bezoekers moeten geregistreerd worden op de gewenste groep."
+        document:
+          attributes:
+            file:
+              blank: "Bestand is verplicht"
+            name:
+              blank: "Naam is verplicht"
+              too_long: "De naam is te lang. Vul een kortere naam in."
+            description:
+              too_long: "De omschrijving is te lang. Vul een kortere omschrijving in."
+        document_folder:
+          attributes:
+            name:
+              blank: "De naam is verplicht"
+              too_long: "De naam is te lang. Vul een kortere naam in."
+            description:
+              too_long: "De omschrijving is te lang. Vul een kortere omschrijving in."
+            folder_id:
+              invalid: "Je kunt deze map niet als bovenliggende map aanmaken."
+            parent_folder_ids:
+              too_long: "Je kunt deze map niet aanmaken op zo een laag niveau. Plaatst de map in een bovenliggende map."
+        family:
+          attributes:
+            name:
+              blank: "Familienaam is verplicht"
+            last_name:
+              blank: "Achternaam is verplicht"
+            alternate_barcode_id:
+              invalid: "This family card (alternate barcode id) contains letters or symbols (only numbers are allowed)."
+              taken: "This family card (alternate barcode id) is already taken by another family."
+              too_long: "This family card (alternate barcode id) is too long (cannot be more than 50 digits)."
+              too_short: "This family card (alternate barcode id) is too short (must be 10 digits)."
+            barcode_id:
+              invalid: "This family card (barcode id) contains letters or symbols (only numbers are allowed)."
+              taken: "This family card (barcode id) is already taken by another family."
+              too_long: "This family card (barcode id) is too long (cannot be more than 50 digits)."
+              too_short: "This family card (barcode id) is too short (must be 10 digits)."
+            photo:
+              too_large: "De afbeelding is te groot. De maximale grootte is %{size} mb."
+              wrong_type: "De foto kan niet worden geupload. Je kunt JPG, GIF of PNG bestanden gebruiken."
+        friendship:
+          attributes:
+            friend_id:
+              blank: "De vriendschap moet gekoppeld zijn aan een persoon."
+              taken: "De vriendschap bestaat al."
+            person_id:
+              blank: "De vriendschap moet gekoppeld zijn aan een persoon."
+        friendship_request:
+          attributes:
+            from_id:
+              blank: "Het vriendschapsverzoek gekoppeld zijn aan een persoon."
+            person:
+              invalid_address: "E-mail adres is verplicht"
+              refused: "Deze persoon accepteert geen vriendschapsverzoeken."
+            person_id:
+              blank: "Het vriendschapsverzoek gekoppeld zijn aan een persoon."
+              taken: "Dit vriendschapsverzoek is al eerder verstuurd."
+        group:
+          attributes:
+            address:
+              invalid: "Het e-mail adres van de groep is niet geldig."
+              taken: "Er bestaat al een andere groep met dit e-mail adres. Kies een ander e-mail adres."
+              too_long: "Het e-mail adres is te lang."
+              too_short: "Het e-mail adres is te kort."
+            category:
+              blank: "Categorie is verplicht"
+            name:
+              blank: "Naam is verplicht"
+              taken: "Er bestaat al een andere groep met deze naam. Kies een andere naam."
+            parents_of:
+              points_to_self: "De groep kan niet zichzelf linken."
+            photo:
+              too_large: "De afbeelding is te groot. De maximale grootte is %{size} mb."
+              wrong_type: "De foto kan niet worden geupload. Je kunt JPG, GIF of PNG bestanden gebruiken."
+        membership:
+          attributes:
+            group_id:
+              taken: "Deze persoon is al lid van de groep."
+        membership_request:
+          attributes:
+            group_id:
+              taken: "Deze persoon heeft al een verzoek ingediend."
+        message:
+          attributes:
+            base:
+              taken: "Dit bericht is al verstuurd. Pas het onderwerp of de tekst aan om de e-mail toch te versturen."
+            body:
+              blank: "Inhoud is verplicht"
+              too_short: "De inhoud is te kort."
+            person_id:
+              blank: "Dit bericht moet gekoppeld zijn aan een persoon."
+            subject:
+              blank: "Onderwerp is verplicht"
+              too_short: "Het onderwerp is te kort."
+            to_person_id:
+              invalid: "Het bericht kan niet worden verstuurd. De ontvangers van dit berichten hebben geen geldig e-mail adres."
+        news_item:
+          attributes:
+            title:
+              blank: "Titel is verplicht"
+            body:
+              blank: "Omschrijving is verplicht"
+        note:
+          attributes:
+            body:
+              blank: "Omschrijving is verplicht"
+        page:
+          attributes:
+            body:
+              blank: "Inhoud is verplicht"
+            path:
+              taken: "Er bestaat al een pagina op deze URL."
+            slug:
+              blank: "Titel is verplicht"
+              exclusion: "De pagina titel mag niet de woorden \"beheer\", \"wijzig\" of \"nieuw\" bevatten."
+              invalid: "De url kan alleen kleine letters en underscores bevatten."
+            title:
+              blank: "Titel is verplicht"
+        person:
+          attributes:
+            alternate_email:
+              invalid: "Het e-mail adres is onjuist. Voorbeeld: naam@voorbeeld.nl"
+              taken: "Er bestaat al een persoon met dit e-mail adres."
+            anniversary:
+              not_a_date: "Vul een geldige datum in als jubileum."
+            birthday:
+              not_a_date: "Vul een geldige datum is als verjaardag."
+            business_email:
+              invalid: "Het zakelijke e-mail adres is onjuist. Voorbeeld: naam@voorbeeld.nl"
+            business_website:
+              invalid: "Het zakelijke webadres is onjuist. Voorbeeld: http://www.zakelijkwebadres.nl"
+            business_category:
+              exclusion: "Categorie is verplicht"
+            child:
+              inclusion: "Specificeer of deze persoon een kind is of vul een een geboortedatum in."
+            description:
+              too_long: "De omschrijving is de lang. Gebruik max. 25 karakters."
+            email:
+              invalid: "Het e-mail adres is onjuist. Voorbeeld: naam@voorbeeld.nl"
+              taken: "Er bestaat al een persoon met dit e-mail adres."
+            facebook_url:
+              invalid: "Facebook URL is onjuist."
+            feed_code:
+              taken: "De feed code bestaat al voor een ander persoon."
+            first_name:
+              blank: "Voornaam is verplicht"
+            gender:
+              inclusion: "Geslacht is verplicht (Man of vrouw)"
+            last_name:
+              blank: "Achternaam is verplicht"
+            password:
+              confirmation: "Het wachtwoord is onjuist."
+              too_short: "Het wachtwoord is te kort."
+            photo:
+              too_large: "De afbeelding is te groot. De maximale grootte is %{size} mb."
+              wrong_type: "De foto kan niet worden geupload. Je kunt JPG, GIF of PNG bestanden gebruiken."
+            twitter:
+              invalid: "Twitter gebruikersnaam is onjuist."
+              too_long: "Twitter gebruikersnaam is te lang."
+            website:
+              invalid: "Het webadres is onjuist. Voorbeeld: http://www.zakelijkwebadres.nl"
+        picture:
+          attributes:
+            album_id:
+              blank: "De afbeelding moet gekoppeld zijn aan een album."
+            photo:
+              too_large: "De afbeelding is te groot. De maximale grootte is %{size} mb."
+              wrong_type: "De foto kan niet worden geupload. Je kunt JPG, GIF of PNG bestanden gebruiken."
+        picture_uploader:
+          attributes:
+            album:
+              blank: "Selecteer een album."
+        prayer_request:
+          attributes:
+            group_id:
+              blank: "Het gebedsverzoek moet gekoppeld zijn aan een groep."
+            person_id:
+              blank: "Het gebedsverzoek moet gekoppeld zijn aan een persoon."
+            request:
+              blank: "Verzoek is verplicht"
+        recipe:
+          attributes:
+            directions:
+              blank: "The recipe must have directions."
+            ingredients:
+              blank: "The recipe must have ingredients."
+            title:
+              blank: "The recipe must have a title."
+        relationship:
+          attributes:
+            name:
+              blank: "Relatietype is verplicht"
+              inclusion: "Deze relatie is niet geldig."
+              taken: "De relatie bestaat al."
+            other_name:
+              blank: "Relatietype is verplicht"
+              taken: "De relatie bestaat al."
+            person_id:
+              blank: "De relatie moet gekoppeld zijn aan een persoon."
+            related_id:
+              blank: "De relatie moet gekoppeld zijn aan een persoon."
+        report:
+          attributes:
+            definition:
+              invalid: "De rapportdefinitie is ongeldig."
+            name:
+              blank: "Naam is verplicht"
+              taken: "Er bestaat al een rapport met deze naam. Kies een andere naam."
+        site:
+          attributes:
+            host:
+              blank: "De specificatie van de host is vereist."
+              taken: "Er bestaat al een site met dezelfde host."
+              invalid: "Plaatst de hostnaam zonder 'http://' of 'www'."
+            name:
+              blank: "Naam is verplicht"
+              taken: "Er bestaat al een site met dezelfde naam."
+        tag:
+          attributes:
+            name:
+              blank: "De naam van het label is verplicht"
+              exclusion: "De naam van het label is ongeldig."
+              taken: "Er bestaat al een label met deze naam."
+        verification:
+          attributes:
+            email:
+              invalid: "Je e-mail adres is niet gevonden. Probeer een ander e-mail adres."
+            carrier:
+              inclusion: "Mobiele provider is veplicht"
+            mobile_phone:
+              invalid: "Je mobiele nummer is niet gevonden. Probeer een ander nummer."
+            base:
+              unauthorized: "Sorry.. Er is iets mis met je account. Neem contact op met de beheerder."
+        verse:
+          attributes:
+            reference:
+              blank: "Een verwijzing is verplicht"
+            text:
+              blank: "De bijbeltekst is niet gevonden. Heb je het goed ingevuld?"
+              too_long: "Het bijbeltekst is te lang. Probeer specifieker te zijn en selecteer een korter gedeelte."
+  application:
+    api_access: "Je bent niet bevoegd om de API te gebruiken."
+    mailgun_route_found: "De route bestaat al."
+    mailgun_route_created: "De route is aangemaakt."
+    mailgun_apikey_notfound: "Please check the mailgun api key."
+    mailgun_route_error: "Sorry.. Er is een fout opgetreden tijdens het aanmaken van de route."
+    no_default_site: "Geen default site gevonden."
+    no_site_configured: "Er is geen site geconfigureerd op dit adres: %{host}"
+    settings_reloaded: "Instellingen ververst."
+    settings_saved: "Instellingen opgeslagen."
+    template_created: "Rechtengroep aangemaakt."
+  people_count:
+    one: "1 persoon"
+    other: "%{count} personen"
+  footer:
+    help: "Geef tips door voor het gebruik van de site."
+    privacy_policy: "Privacy Policy"
+    powered_by: "Powered by CHURCH.IO."

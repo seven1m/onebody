@@ -1,0 +1,25 @@
+.box
+  .box-body
+    = form_for [@group, @task] do |form|
+      = error_messages_for(form)
+      = form.hidden_field :group_id
+      .form-group
+        = form.label :name
+        = form.text_field :name, class: 'form-control'
+      .form-group
+        .row
+          .col-md-6
+            = form.label :duedate
+            .input-group
+              .input-group-btn
+                %button{ type: 'button', class: 'btn btn-info date-picker-btn' }
+                  = icon 'fa fa-calendar'
+              = form.date_field :duedate, class: 'form-control'
+          .col-md-6
+            = form.label :person_id
+            = form.select :person_id, @group.people.map { |p| [p.name, p.id] }, {include_blank: true}, class: 'form-control'
+      .form-group
+        = form.label :description
+        = form.text_area :description, rows: 5, class: 'form-control'
+      .form-group
+        = form.button t('tasks.save'), class: 'btn btn-success'

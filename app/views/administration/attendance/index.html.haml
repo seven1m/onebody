@@ -23,7 +23,7 @@
     - if @records.any?
       = pagination @records
 
-      %table.table
+      %table.table.print-full-width
         %thead
           %tr
             %th= sortable_column_heading t('attendance.name'),          'attendance_records.last_name,attendance_records.first_name', %w(attended_at group_id)

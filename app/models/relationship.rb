@@ -12,7 +12,7 @@ class Relationship < ActiveRecord::Base
   validates_uniqueness_of :name, scope: [:site_id, :other_name, :person_id, :related_id]
   validates_uniqueness_of :other_name, scope: [:site_id, :name, :person_id, :related_id]
   validates_each :name do |record, attribute, value|
-    unless I18n.t('relationships.names').keys.map { |r| r.to_s }.include?(value)
+    unless I18n.t('relationships.names').keys.map(&:to_s).include?(value) or value == 'other'
       record.errors.add attribute, :inclusion
     end
   end

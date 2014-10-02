@@ -1,5 +1,5 @@
 
-<%=raw t('notifier.verification_code') %>: <%= @verification.code %>
+<%=raw t('notifier.mobile_verification.label') %> <%= @verification.code %>
 
 <%=raw Setting.get(:name, :community) %>
 <%=raw Setting.get(:contact, :community_office_phone) %>

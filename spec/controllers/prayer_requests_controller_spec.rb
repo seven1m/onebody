@@ -41,6 +41,20 @@ describe PrayerRequestsController do
     expect(new_req.request).to eq("test req")
     expect(new_req.answer).to eq("test answer")
     expect(new_req.answered_at.strftime("%m/%d/%Y")).to eq("01/01/2010")
+    expect(ActionMailer::Base.deliveries.last).to be_nil
+  end
+
+  it "should create a prayer request and send email to group members" do 
+    @group.memberships.create(person_id: @other_person.id)
+    get :new, {group_id: @group.id}, {logged_in_id: @person.id}
+    expect(response).to be_success
+    post :create, {group_id: @group.id, send_email: 1, prayer_request: {person_id: @person.id, request: 'test req', answer: 'test answer', answered_at: '1/1/2010'}}, {logged_in_id: @person.id}
+    expect(response).to be_redirect
+    new_req = PrayerRequest.last
+    expect(new_req.request).to eq("test req")
+    expect(new_req.answer).to eq("test answer")
+    expect(new_req.answered_at.strftime("%m/%d/%Y")).to eq("01/01/2010")
+    expect(ActionMailer::Base.deliveries.last.subject).to match(/Prayer Request in Small Group/)
   end
 
   it "should not create a prayer request if the user is not a member of the group" do

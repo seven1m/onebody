@@ -11,14 +11,7 @@ class Administration::DashboardsController < ApplicationController
     if @attendance_last_date = AttendanceRecord.maximum(:attended_at)
       @attendance_records_count = AttendanceRecord.on_date(@attendance_last_date).count
     end
-    
     @last_sync = Sync.order('created_at').last
-    @sync_counts = @last_sync.try(:count_items)
-    @daily_update_counts = Update.daily_counts(15, 0, '%b %d', ['%a', 'Sun'])
-    @daily_message_counts = Message.daily_counts(15, 0, '%b %d', ['%a', 'Sun'])
-    @group_type_counts = Group.count_by_type
-    @linked_group_counts = Group.count_by_linked
-    @daily_attendance_counts = AttendanceRecord.daily_counts(15, 0, '%b %d', ['%a', 'Sun'])
     @person_count = Person.undeleted.count
     @family_count = Family.undeleted.count
     @group_count  = Group.count

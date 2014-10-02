@@ -1,5 +1,4 @@
 en:
-
   Changes_saved: Changes saved.
   Delete: Delete
   From: From
@@ -80,25 +79,30 @@ en:
         description: "Description"
         folder_id: "Parent Folder"
       family:
-        name: Name
-        last_name: Last Name
-        home_phone: Home Phone
-        address1: Address Line 1
-        address2: Address Line 2
-        city: City
-        state: State
-        zip: Zipe
+        address1: "Address Line 1"
+        address2: "Address Line 2 (optional)"
+        city: "City"
+        country: "Country"
+        home_phone: "Home Phone"
+        last_name: "Last Name"
+        name: "Name"
+        state: "State"
+        zip: "Zip"
       person:
-        first_name: First Name
-        last_name: Last Name
-        suffix: Suffix
-        gender: Gender
-        mobile_phone: Mobile Phone
-        work_phone: Work Phone
-        fax: Fax
-        birthday: Birthday
-        anniversary: Anniversary
-        custom_type: Custom Role
+        anniversary: "Wedding Anniversary"
+        birthday: "Birthday"
+        custom_type: "Custom Role"
+        email: "Email"
+        facebook_url: "Facebook URL"
+        fax: "Fax"
+        first_name: "First Name"
+        gender: "Gender"
+        last_name: "Last Name"
+        mobile_phone: "Mobile Phone"
+        primary_emailer: "Primary email account holder"
+        suffix: "Suffix"
+        twitter: "Twitter Username"
+        work_phone: "Work Phone"
       group:
         name: "Name"
         category: "Category"
@@ -121,12 +125,7 @@ en:
         link_code: "External Link Code"
         parents_of: "Child Group"
         hidden: "Hidden (Archived) Group"
-      person:
-        email: "Email"
-        first_name: "First Name"
-        last_name: "Last Name"
-        facebook_url: "Facebook URL"
-        twitter: "Twitter Username"
+        has_tasks: "Tasks"
       prayer_request:
         answer: "Answer"
         answered_at: "Date Answered"
@@ -135,6 +134,13 @@ en:
       note:
         title: "Title"
         body: "Body"
+      task:
+        name: Task
+        description: Description
+        person: Assigned to
+        person_id: Assigned to
+        duedate: Due on
+        completed: Completed
     errors:
       models:
         admin:
@@ -398,6 +404,7 @@ en:
     api_access: You must be a super administrator to use the API.
     mailgun_route_found: The route already exists.
     mailgun_route_created: The route has been created.
+    mailgun_apikey_notfound: Please check the mailgun api key.
     mailgun_route_error: There was an error while trying to create the route.
     no_default_site: No Default site found.
     no_site_configured: "There is no site configured at this address: %{host}"

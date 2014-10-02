@@ -46,10 +46,15 @@ module GroupsHelper
   end
 
   def group_content_column(&block)
-    count = [@group.email?, @group.prayer?, @group.pictures?].count { |t| t }
+    count = [@group.email?, @group.prayer?, @group.pictures?, @group.has_tasks?].count { |t| t }
     return if count == 0
     width = [12 / count, 6].min
-    content_tag(:div, class: "col-md-#{width} print-inline-block", &block)
+    if width <= 3
+      cls = "col-md-6"
+    else
+      cls = "col-md-#{width}"
+    end
+    content_tag(:div, class: "#{cls} print-inline-block", &block)
   end
 
   def group_membership_modes

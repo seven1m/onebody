@@ -94,7 +94,7 @@
                 = t('people.groups.messages')
               %td{style: "width:50px;"}= group.messages.count
     - if @groups.any?
-      %p= link_to 'see all...', person_groups_path(@person)
+      %p= link_to t('people.groups.see_all'), person_groups_path(@person)
     - if @groups.empty? and me?
       .box
         .box-body

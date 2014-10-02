@@ -15,7 +15,7 @@ en:
       name: "Search by name"
       advanced: "Advanced Search"
       birthday: "Birthday"
-      anniversary: "Anniversary"
+      anniversary: "Wedding Anniversary"
       gender: "Gender"
       genders:
         Male: "Male"

@@ -1,5 +1,10 @@
-header nav, section.sidebar, section.content-header .breadcrumb, .footer, .hidden-print, .datepicker, form, #map, .btn {
+header nav, section.sidebar, section.content-header .breadcrumb, .footer, .hidden-print, .datepicker, #map, .btn,
+input[type="checkbox"] {
   display: none;
+}
+
+.print-full-width {
+  width: 100%;
 }
 
 // fix for _fix function in adminlte messing up our print size
@@ -80,6 +85,11 @@ table.table {
   }
   th.actions, td.actions {
     display: none;
+  }
+  th.avatar, td.avatar {
+    width: 35px + 16px;
+    &.small  { width: 75px  + 16px; }
+    &.medium { width: 250px + 16px; }
   }
 }
 

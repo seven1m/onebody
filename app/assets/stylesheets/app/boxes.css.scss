@@ -1,10 +1,12 @@
 .small-box {
   margin-bottom: 20px;
+  overflow: hidden;
   & > a {
     color: #f9f9f9;
     display: block;
   }
   .inner {
+    height: 7.8em;
     padding: 10px;
     position: relative;
     z-index: 10;

@@ -10,8 +10,11 @@ class Person < ActiveRecord::Base
   include Concerns::Person::Import
   include Concerns::Person::Export
   include Concerns::Person::PdfGen
+  include Concerns::DateWriter
 
   MAX_TO_BATCH_AT_A_TIME = 50
+
+  acts_as_list scope: :family
 
   cattr_accessor :logged_in # set in addition to @logged_in (for use by Notifier and other models)
 
@@ -40,6 +43,7 @@ class Person < ActiveRecord::Base
   has_many :attendance_records
   has_many :stream_items
   has_many :generated_files
+  has_many :tasks
   has_one :stream_item, as: :streamable
   belongs_to :site
   has_many :offerings
@@ -135,6 +139,18 @@ class Person < ActiveRecord::Base
     stream_item.save!
   end
 
+  def others_with_same_email
+    return [] unless family
+    family.people.undeleted.where(email: email).where.not(id: id)
+  end
+
+  after_save :clear_primary_emailer_on_others
+
+  def clear_primary_emailer_on_others
+    return unless family and primary_emailer?
+    family.people.undeleted.where(email: email).where.not(id: id).update_all(primary_emailer: false)
+  end
+
   def name
     @name ||= begin
       if deleted?
@@ -144,6 +160,13 @@ class Person < ActiveRecord::Base
       else
         "#{first_name} #{last_name}" rescue '???'
       end
+    end
+  end
+
+  def formatted_email
+    return unless email.present?
+    Mail::Address.new(email).tap do |address|
+      address.display_name = name
     end
   end
 
@@ -192,21 +215,7 @@ class Person < ActiveRecord::Base
     memberships.where(group_id: group.id).any?
   end
 
-  def birthday=(d)
-    if d.is_a?(String) and d.length > 0 and date = Date.parse_in_locale(d).try(:rfc3339)
-      self[:birthday] = date
-    else
-      self[:birthday] = d
-    end
-  end
-
-  def anniversary=(d)
-    if d.is_a?(String) and d.length > 0 and date = Date.parse_in_locale(d).try(:rfc3339)
-      self[:anniversary] = date
-    else
-      self[:anniversary] = d
-    end
-  end
+  date_writer :birthday, :anniversary
 
   def parental_consent?; parental_consent.present?; end
   def adult_or_consent?; adult? or parental_consent?; end
@@ -247,10 +256,10 @@ class Person < ActiveRecord::Base
     write_attribute(:gender, g)
   end
 
-  # get the parents/guardians by grabbing people in family sequence 1 and 2 and adult?
+  # get the parents/guardians by grabbing people in family position 1 and 2 and adult?
   def parents
     if family
-      family.people.select { |p| !p.deleted? and p.adult? and [1, 2].include?(p.sequence) }
+      family.people.select { |p| !p.deleted? and p.adult? and [1, 2].include?(p.position) }
     end
   end
 
@@ -279,18 +288,6 @@ class Person < ActiveRecord::Base
 
   def generate_api_key
     write_attribute :api_key, SecureRandom.hex(50)[0...50]
-  end
-
-  attr_writer :no_auto_sequence
-
-  before_save :update_sequence
-  def update_sequence
-    return if @no_auto_sequence
-    if family and sequence.nil?
-      scope = family.people.undeleted
-      scope = scope.where('id != ?', id) unless new_record?
-      self.sequence = scope.maximum(:sequence).to_i + 1
-    end
   end
 
   def can_edit_profile?

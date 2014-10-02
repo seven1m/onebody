@@ -122,7 +122,9 @@ class Signup
   end
 
   def validate_adult
-    unless Person.new(birthday: @birthday).adult?
+    person = Person.new(birthday: @birthday)
+    person.set_child
+    unless person.adult?
       errors.add(:birthday, :too_young)
     end
   end

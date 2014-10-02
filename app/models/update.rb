@@ -49,6 +49,7 @@ class Update < ActiveRecord::Base
   # returns true if applying the update requires that the admin
   # specify if the person is a child, e.g. *removing* a birthday
   def require_child_designation?
+    return false unless data[:person]
     person.attributes = data[:person] # temporarily set attrs
     person.valid?                     # force validation check
     person.errors[:child].any?.tap do # errors on :child?

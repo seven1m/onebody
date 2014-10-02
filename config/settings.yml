@@ -115,6 +115,9 @@ System:
   Language:
     format: string
     value: en
+  Default Country:
+    format: string
+    value: US
   Suffixes:
     format: list
     value: |

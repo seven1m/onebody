@@ -77,6 +77,20 @@
               = link_to new_group_album_path(@group), class: 'small-box-footer' do
                 = t('groups.box.pictures.new_link')
                 = icon 'fa fa-plus-circle'
+      - if @group.has_tasks?
+        = group_content_column do
+          .small-box.bg-teal
+            = link_to group_tasks_path(@group) do
+              .inner
+                %h3= @tasks.count
+                %p= t('groups.box.tasks.text', count: @tasks.count)
+            .icon
+              = icon 'fa fa-check-square-o'
+            - if @group.can_add_task?(@logged_in)
+              = link_to new_group_task_path(@group), class: 'small-box-footer' do
+                = t('groups.box.tasks.new_link')
+                = icon 'fa fa-plus-circle'
+
 
     .group-avatar
       = group_avatar_tag(@group, size: :large)

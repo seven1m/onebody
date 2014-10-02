@@ -7,7 +7,7 @@
         %table.table
           %tr
             %th
-              %input{:onclick => "$('.outward_relationship_checkbox').attr('checked', this.checked)", :type => "checkbox"}
+              %input{ onclick: "$('.outward_relationship_checkbox').attr('checked', this.checked)", type: "checkbox" }
             %th= t('name')
             %th
               = t('relationships.relationship')
@@ -32,18 +32,23 @@
       = hidden_field_tag :select_person, true
       %p= t('relationships.add_relationship.intro')
       .form-group
-        %label{:for => "name"}= t('search.search_by_name')
+        %label{ for: "name" }= t('search.search_by_name')
         = text_field_tag 'name', '', class: 'form-control'
       .form-group
         = button_tag t('relationships.add_relationship.button'), class: 'btn btn-info'
-    #add_member{:style => "display:none;"}
+    #add_member{ style: "display:none;" }
       = form_tag person_relationships_path(@person) do
         .form-group
-          %label{:for => "relationship_name"}= t('relationships.relationship_type')
-          = select_tag :name, options_for_select(['']+t('relationships.names').invert.sort), id: 'relationship_name', onchange: "if(this.value=='other') { $('#other_name').show()[0].focus() } else { $('#other_name').hide() }", class: 'form-control'
-        = text_field_tag :other_name, nil, style: 'display:none;'
-        :javascript
-          $('#relationship_name').trigger('change');
+          %label{for: 'relationship_name'}= t('relationships.relationship_type')
+          = select_tag :name, relationships_for_select, |
+            id: 'relationship_name', |
+            class: 'form-control', |
+            include_blank: true, |
+            data: { toggle: '#other_name', 'toggle-value' => 'other' }
+        = text_field_tag :other_name, nil, |
+          style: 'display:none;', |
+          class: 'form-control', |
+          placeholder: t('relationships.other_name.placeholder')
         #results
         .form-group
           = button_tag t('search.add_selected'), class: 'btn btn-success'
@@ -63,7 +68,7 @@
             %table.table
               %tr
                 %th
-                  %input{:onclick => "$('.inward_relationship_checkbox').attr('checked', this.checked)", :type => "checkbox"}
+                  %input{ onclick: "$('.inward_relationship_checkbox').attr('checked', this.checked)", type: "checkbox" }
                 %th= t('From')
                 %th= t('relationships.relationship')
               - @inward_relationships.each do |relationship|

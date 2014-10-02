@@ -113,11 +113,18 @@ class Message < ActiveRecord::Base
   def send_to_group(sent_to=[])
     return unless group
     group.people.each do |person|
-      if group.get_options_for(person).get_email and person.email.to_s.any? and person.email =~ VALID_EMAIL_ADDRESS and not sent_to.include?(person.email)
+      if should_send_group_email_to_person?(person, sent_to)
         send_to_person(person)
         sent_to << person.email
       end
     end
+  end
+
+  def should_send_group_email_to_person?(person, sent_to)
+    person.email.present? and
+    person.email =~ VALID_EMAIL_ADDRESS and
+    group.get_options_for(person).get_email? and
+    not sent_to.include?(person.email)
   end
 
   def id_and_code

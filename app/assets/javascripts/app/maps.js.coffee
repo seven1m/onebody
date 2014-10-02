@@ -5,11 +5,12 @@ map_voffset = 0.01 # shift center down just a bit to go under heading
 if (div = $('#map')).length > 0
   lat = div.data('latitude')
   lon = div.data('longitude')
+  protocol = div.data('protocol')
   map = L.map 'map',
     center: [lat + map_voffset, lon],
     zoom: 13
     zoomControl: false
-  tiles = L.tileLayer 'http://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  tiles = L.tileLayer "#{protocol}://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
     attribution: div.data('notice')
     maxZoom: 18
   tiles.addTo(map)
