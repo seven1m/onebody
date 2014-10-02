@@ -203,7 +203,7 @@ module ApplicationHelper
     if object.mapable?
       data = { latitude: object.latitude,
                longitude: object.longitude,
-               address: preserve_breaks(object.location),
+               address: preserve_breaks(object.pretty_address),
                notice: t('maps.notice'),
                protocol: Setting.get(:features, :ssl) ? 'https' : 'http' }
       content_for(:header) do
