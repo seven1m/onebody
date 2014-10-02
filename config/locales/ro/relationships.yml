@@ -34,11 +34,7 @@ ro:
       mother_in_law: Soacră
       nephew: Nepot
       niece: Nepoată
-      ? ""
-      :
-        one: Altceva
-        few: Altceva
-        other: Altceva
+      other_name: Altceva
       sister: Soră
       sister_in_law: Cumnată
       son: Fiu
