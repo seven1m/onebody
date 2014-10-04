@@ -169,6 +169,15 @@ GEM
       subexec (~> 0.2.1)
     mini_portile (0.6.0)
     minitest (5.4.0)
+    monetize (0.3.0)
+      money (~> 6.1.0.beta1)
+    money (6.1.1)
+      i18n (~> 0.6.4)
+    money-rails (0.12.0)
+      activesupport (>= 3.0)
+      monetize (~> 0.3.0)
+      money (~> 6.1.1)
+      railties (>= 3.0)
     multi_json (1.10.1)
     multi_xml (0.5.5)
     mysql2 (0.3.15)
@@ -315,6 +324,7 @@ DEPENDENCIES
   capistrano-bundler
   capistrano-newrelic
   capistrano-rails
+  chronic
   coffee-rails (~> 4.0.0)
   country_select!
   date_validator
@@ -331,6 +341,7 @@ DEPENDENCIES
   load_and_authorize_resource!
   loofah
   mini_magick
+  money-rails
   mysql2
   newrelic_rpm
   nokogiri

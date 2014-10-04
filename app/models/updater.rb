@@ -13,6 +13,7 @@ class Updater
     person: {
       first_name:           :approve,
       last_name:            :approve,
+      chinese_name:            :approve,
       suffix:               :approve,
       gender:               :approve,
       mobile_phone:         :approve,

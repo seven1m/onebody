@@ -41,6 +41,20 @@ en:
     dashboard:
       heading: "Admin Dashboard"
 
+    offering:
+      heading: "Offerings"
+      intro: "Record offerings and generate offering reports."
+      add: "Add Offerings"
+      report: "Offering Report"
+      report_date: "Offerings received on "
+      summary: "Offering Summary"
+      new:
+        heading: "New Offerings"
+      number: "No."
+      name: "Name"
+      type: "Type"
+      amount: "Amount"
+
     deleted_people:
       tabs:
         people: "Deleted People"

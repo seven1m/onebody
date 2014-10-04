@@ -11,6 +11,7 @@ module Concerns
       COLUMN_ALIASES = {
         'First Name'             => 'first_name',
         'Last Name'              => 'last_name',
+        'Chinese Name'           => 'chinese_name',
         'Household Name Format'  => 'family_name',
         'Gender'                 => 'gender',
         'DOB'                    => 'birthday',

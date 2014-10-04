@@ -1,0 +1,17 @@
+- @title = t('admin.offering.summary')
+
+.row
+  .col-lg-12
+    %p
+      = t("admin.offering.report_date") + @date.strftime("%A, %e %B %Y")
+
+.row
+  .col-lg-6
+    %table.table.search-results
+      %tr
+        %th= t('admin.offering.type')
+        %th= t('admin.offering.amount')
+      - OFFERING_TYPE.each do |type|
+        %tr
+          %td= type
+          %td= @summary[type]

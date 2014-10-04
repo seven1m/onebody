@@ -59,29 +59,20 @@
   .clearfix
 
 .floating-boxes.normalize-heights
-  - if @logged_in.admin?(:manage_attendance)
+  - if @logged_in.admin?
     .floating-box
       .box.box-info.normalize-height
         .box-header
-          %h3.box-title= t('admin.attendance.heading')
+          %h3.box-title= t('admin.offering.heading')
         .box-body
-          %p= t('admin.attendance.intro')
+          %p= t('admin.offering.intro')
           %p
-            = link_to administration_attendance_index_path, class: 'btn btn-info' do
-              = icon 'fa fa-bar-chart-o'
-              = t('admin.attendance.button')
-
-  - if setting(:features, :checkin) and (@logged_in.admin?(:manage_checkin) or @logged_in.admin?(:assigned_checkin_cards))
-    .floating-box
-      .box.box-info.normalize-height
-        .box-header
-          %h3.box-title= t('admin.checkin.heading')
-        .box-body
-          %p= t('admin.checkin.intro')
-          %p
-            = link_to administration_checkin_dashboard_path, class: 'btn btn-info' do
-              = icon 'fa fa-check-square-o'
-              = t('admin.checkin.button')
+            = link_to new_administration_offering_path, class: 'btn btn-info' do
+              = icon 'fa fa-money'
+              = t('admin.offering.add')
+            = link_to administration_offerings_path, class: 'btn btn-info' do
+              = icon 'fa fa-list-alt'
+              = t('admin.offering.report')
 
   - if @logged_in.admin?(:manage_access)
     .floating-box

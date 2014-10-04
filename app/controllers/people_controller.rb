@@ -34,6 +34,7 @@ class PeopleController < ApplicationController
       else
         @family_people = @person.family.try(:visible_people) || []
       end
+      @offerings = @person.offerings.take(3)
       @albums = @person.albums.order(created_at: :desc)
       @friends = @person.friends.minimal
       @verses = @person.verses.order(:book, :chapter, :verse)
