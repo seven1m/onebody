@@ -45,6 +45,24 @@
           = render partial: 'details'
 
   .col-lg-4.col-sm-6
+    - if @offerings.present?
+      .box.box-info.normalize-height
+        .box-header
+          %h3.box-title Offerings
+        .box-body
+          %table.table
+            %thead
+              %tr
+                %th Date
+                %th Type
+                %th Amount
+            - @offerings.each do |offering|
+              %tboday
+                %tr
+                  %td= offering.date
+                  %td= offering.offering_type
+                  %td= offering.amount_cents
+
     - if @person.testimony.present?
       .box.box-solid.box-success.testimony
         .box-header
