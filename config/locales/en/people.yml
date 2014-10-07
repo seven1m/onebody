@@ -42,6 +42,7 @@ en:
         new: "[create role]"
         create_prompt: "Enter the role name:"
       description_hint: "A word or two about yourself — some people put their job title here."
+      email_hint: " (this is your main email address used for login and receiving emails)"
       facebook_url:
         placeholder: 'https://www.facebook.com/username'
       family_photo: "Family Photo"
