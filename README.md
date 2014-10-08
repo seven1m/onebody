@@ -92,6 +92,7 @@ mysql -u root -e "create database onebody_test default character set utf8 defaul
 * IRC channel #church.io on Freenode (try the [web-based IRC client](https://webchat.freenode.net/?channels=#church.io))
 * [Wiki](http://wiki.github.com/churchio/onebody)
 * [Google Group](http://groups.google.com/group/churchio)
+* [Help Guides](http://church.io/onebody/help)
 
 ## Contributing
 
