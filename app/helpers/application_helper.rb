@@ -156,8 +156,16 @@ module ApplicationHelper
     controller.params_without_action
   end
 
+  def date_format
+    placeholder = Setting.get(:formats, :date)
+      .gsub(/%Y/, I18n.t('date_format.YYYY'))
+      .gsub(/%m/, I18n.t('date_format.MM'))
+      .gsub(/%d/, I18n.t('date_format.DD'))
+    placeholder unless placeholder.include?('%')
+  end
+
   def datepicker_format
-    Setting.get(:formats, :date) =~ %r{%d/%m} ? 'dd/mm/yyyy' : 'mm/dd/yyyy'
+    date_format.downcase
   end
 
   # TODO replace all inline JS links with unobtrusive JS
@@ -206,6 +214,14 @@ module ApplicationHelper
         )
       end
     end
+  end
+
+  def analytics_js
+    if params[:controller] == 'administration/settings'
+      # workaround for Safari bug (see https://github.com/churchio/onebody/issues/262)
+      return
+    end
+    setting(:services, :analytics).to_s.html_safe if Rails.env.production?
   end
 
   # this is an ugly hack for Rails 4 because I18n.exception_handler isn't working with the t() helper

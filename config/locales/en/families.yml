@@ -11,15 +11,10 @@ en:
 
     edit:
       heading: "Edit Family"
-      name: "Family Name"
       name_example_html: "<em>John Doe</em> or <em>John &amp; Jane Doe</em>"
       name_suggestion_html: "Suggested: <strong>%{name}</strong>"
       name_suggestion_button: "Change"
-      last_name: "Family Last Name"
-      home_phone: "Home Phone"
-      address: "Address"
-      address2: "Address Line 2 (optional)"
-      city_st_zip: "City, State and Zip"
+      city_st_zip: "City, State and Zip/Postal Code"
       photo: "Photo"
       save: "Save Family"
       saved: "Family changes saved."
@@ -29,6 +24,7 @@ en:
       cannot_delete_your_own: "You cannot delete your own family."
 
     show:
+      heading: "%{family} Family"
       edit_link: "Edit Family"
       suggested_name_html:
         one: "%{first} is the only adult in this family. Consider <a href='%{url}'>changing the family name</a> to “<strong>%{name}</strong>.”"
@@ -36,7 +32,7 @@ en:
       table:
         home_phone: "Home Phone"
         address: "Home Address"
-        anniversary: "Anniversary"
+        anniversary: "Wedding Anniversary"
 
     name:
       same_last_name: "%{adult1_fname} & %{adult2_fname} %{adult1_lname}"

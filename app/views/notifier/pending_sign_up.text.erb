@@ -1,11 +1,13 @@
-<%=raw t('notifier.person_has_signed_for_account', name: @person.name) %>
+<%=raw t('notifier.pending_sign_up.intro',
+         person: @person.name,
+         site: Setting.get(:url, :site)) %>
 
 <%=raw Person.human_attribute_name(:first_name) %>: <%=raw @person.first_name %>
 <%=raw Person.human_attribute_name(:last_name) %>: <%=raw @person.last_name %>
 <%=raw Person.human_attribute_name(:email) %>: <%=raw @person.email %>
 
-<%=raw t('notifier.if_you_approve_this_account_creation') %>: <%=raw Setting.get(:url, :site) %>people/<%= @person.id %>/edit#tab-visibility
+<%=raw t('notifier.pending_sign_up.instruction_first') %>
 
-<%=raw t('notifier.check_boxes_in_visibility_sidebar') %>
+<%=raw Setting.get(:url, :site) %>people/<%= @person.id %>/edit#tab-visibility
 
-<%=raw t('notifier.be_sure_to_send_verification_email') %>
+<%=raw t('notifier.pending_sign_up.instruction_last') %>

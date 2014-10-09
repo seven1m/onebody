@@ -4,7 +4,7 @@ en:
 
     by: "by %{person}"
 
-    name: "Prayer Request in %{group}"
+    name: &name "Prayer Request in %{group}"
 
     index:
       heading: "Prayer Requests"
@@ -39,3 +39,5 @@ en:
       no_edit: "You cannot edit this prayer request."
       no_delete: "You cannot delete this prayer request."
       no_post: "You cannot post a prayer request in this group because you are not a member."
+
+    send_email: "Send as email to group members."

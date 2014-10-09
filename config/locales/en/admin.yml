@@ -230,13 +230,10 @@ en:
           description: If you use Google Analytics or some other JavaScript-based stats service, put the code here. It will be inserted at the bottom of every page.
       Name:
         Community:
-          name: Community
+          name: Community Name
           description: The name of your church or community, e.g. "One Church" or "First Baptist of Fresno."
-        Slogan:
-          name: Slogan
-          description: Slogan/tagline displayed just under the site name. Leave blank for none.
         Site:
-          name: Site
+          name: Site Name
           description: The name of this site, displayed at the top, e.g. "My Church Family" or "One Church Central."
       URL:
         News Feed:
@@ -258,6 +255,9 @@ en:
         Time Zone:
           name: Time Zone
           description: Set to properly display dates and times on the site.
+        Default Country:
+          name: Default Country
+          description: Select the default country for new family records.
       Appearance:
         Public Theme:
           name: Public Theme
@@ -326,7 +326,7 @@ en:
           description: Enable Groups.
         News by Users:
           name: News by Users
-          description: Allow user submitted news content.
+          description: "Allow user submitted news content. (Requires 'News Page' to be enabled above.)"
         Custom Person Fields:
           name: Custom Person Fields
           description: Add custom field names, one per line. Including the word "date" (or "Date") makes a date field. Append an asterisk (*) to make the field visible and editable by users.
@@ -369,6 +369,9 @@ en:
         Documents:
           name: "Documents"
           description: "If enabled, admins can upload files in a general area where users can browse and download them."
+        Small Group Size:
+          name: 'Max size of a "small group"'
+          description: 'People in groups with this many members or fewer are considered in a "small group" together, and can easily share content with one another via the homepage.'
       Privacy:
         Hide Contact Details in Messages:
           name: Hide Contact Details in Messages
@@ -446,6 +449,9 @@ en:
       sharing_about: OneBody is best when members participate by adding their own content. Enable content sharing with these settings.
       sharing_communications_about: Share information with your members easily.
       sharing_heading: Sharing
+      small_group_sharing:
+        disable: "disable sharing among small groups"
+        all: "share with all groups, regardless of size"
     super_admin: Super Admin
     super_admin_about: Super Admins have full control over the site, with all available privileges. Be careful who you give this to — it could be dangerous!
     syncs:

@@ -1,0 +1,35 @@
+---
+nl-NL:
+  memberships:
+    index:
+      heading: "Groepsleden in de groep %{group}"
+      details:
+        name: Naam
+        birthday: Verjaardag
+        created_at: Toegevoegd.
+        manual:
+          tooltip: "Deze persoon is handmatig toegevoegd."
+      remove:
+        button: Verwijderen
+    add:
+      heading: "Persoon toevoegen"
+      description: "Voeg een persoon toe aan deze groep."
+      name_placeholder: "Type de naam of een deel van de naam"
+      parents_of_warning_html: |
+          This is a group automatically linked with parents of people in %{group}.
+          If you add someone manually, that person won't be managed automatically.
+      linked_group_warning_html: |
+          This group is linked with class code <strong>%{code}</strong>.
+          If you add someone manually, that person won't be managed automatically.
+    promote: "Upgrade de persoon naar beheerder."
+    demote: "Downgrade de beheerder"
+    group_pending_approval: "De groep is aangemaakt en wacht op goedkeuring. Je kunt nog geen personen toevoegen aan deze groep."
+    requests:
+      heading: "Deelnemen aan de groep"
+      select_some: "Selecteer een van de bovenstaande opties en kies een actie."
+      name: Naam
+      created_at: Aangevraagd
+      accept:
+        button: Accepteer
+      ignore:
+        button: Negeer

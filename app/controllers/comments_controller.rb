@@ -1,21 +1,16 @@
 class CommentsController < ApplicationController
-
   def create
-    if params[:verse_id]
-      object = Verse.find(params[:verse_id])
-    elsif params[:note_id]
-      object = Note.find(params[:note_id])
-    elsif params[:picture_id]
-      object = Picture.find(params[:picture_id])
-    else
-      raise 'Error.'
-    end
-    if @logged_in.can_see?(object)
-      object.comments.create(person: @logged_in, text: params[:text])
-      flash[:notice] = t('comments.saved')
+    comment = Comment.new(comment_params)
+
+    if @logged_in.can_see?(comment.commentable)
+      if comment.save
+        flash[:notice] = t('comments.saved')
+      else
+        flash[:error] = comment.errors.full_messages.join(". ")
+      end
       redirect_back
     else
-      render text: t('comments.object_not_found', name: object.class.name), layout: true, status: 404
+      render text: t('comments.object_not_found', name: comment.commentable.class.name), layout: true, status: 404
     end
   end
 
@@ -30,4 +25,8 @@ class CommentsController < ApplicationController
     end
   end
 
+  def comment_params
+    params[:comment].merge! person_id: @logged_in.id
+    params.require(:comment).permit(:text, :commentable_id, :commentable_type, :person_id)
+  end
 end

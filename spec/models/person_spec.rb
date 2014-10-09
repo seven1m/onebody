@@ -113,6 +113,7 @@ describe Person do
     end
 
     it 'should know about linked group memberships' do
+      @group.membership_mode = 'link_code'
       @group.link_code = 'B345'
       @group.save!
       @person.classes = 'A123,B345,C567'
@@ -125,7 +126,7 @@ describe Person do
     it 'should know about parent_of group memberships via basic group membership' do
       @child = FactoryGirl.create(:person, family: @person.family, child: true)
       @group.memberships.create! person: @child
-      @parent_group = FactoryGirl.create(:group, parents_of: @group.id)
+      @parent_group = FactoryGirl.create(:group, membership_mode: 'parents_of', parents_of: @group.id)
       @parent_group.update_memberships
       expect(@person.member_of?(@parent_group)).to be
       expect(@person2.member_of?(@parent_group)).not_to be
@@ -133,12 +134,13 @@ describe Person do
 
     it 'should know about parent_of group memberships via linked group membership' do
       @child = FactoryGirl.create(:person, family: @person.family, child: true)
+      @group.membership_mode = 'link_code'
       @group.link_code = 'B345'
       @group.save!
       @child.classes = 'A123,B345,C567'
       @child.save!
       @group.update_memberships
-      @parent_group = FactoryGirl.create(:group, parents_of: @group.id)
+      @parent_group = FactoryGirl.create(:group, membership_mode: 'parents_of', parents_of: @group.id)
       @parent_group.update_memberships
       expect(@person.member_of?(@parent_group)).to be
       expect(@person2.member_of?(@parent_group)).not_to be
@@ -169,12 +171,57 @@ describe Person do
     should allow_value("User_Name123").for(:twitter)
   end
 
-  it "should mark email_changed when email address changes" do
-    @person = FactoryGirl.create(:person)
-    @person.email = 'newaddress@example.com'
-    expect(@person).to_not be_email_changed
-    @person.save
-    expect(@person).to be_email_changed
+  describe '#email_changed' do
+    context 'email address is changed' do
+      let(:person) { FactoryGirl.create(:person) }
+
+      before do
+        person.email = 'newaddress@example.com'
+        expect(person.email_changed).to eq(false)
+        person.save
+      end
+
+      it 'sets email_changed to true' do
+        expect(person.email_changed).to eq(true)
+      end
+
+      it 'sends an email' do
+        email = ActionMailer::Base.deliveries.last
+        expect(email.subject).to eq('John Smith Changed Email')
+      end
+    end
+
+    context 'email address is changed, but the "Send Email Changes To" setting is blank' do
+      let(:person) { FactoryGirl.create(:person) }
+
+      before do
+        Setting.set(:contact, :send_email_changes_to, '')
+        person.email = 'newaddress@example.com'
+        person.save
+      end
+
+      it 'does not send an email' do
+        expect(ActionMailer::Base.deliveries).to be_empty
+      end
+
+      after do
+        Setting.set(:contact, :send_email_changes_to, 'admin@example.com')
+      end
+    end
+
+    context 'email address is changed, but dont_mark_email_changed=true' do
+      let(:person) { FactoryGirl.create(:person) }
+
+      before do
+        person.dont_mark_email_changed = true
+        person.email = 'newaddress@example.com'
+        person.save
+      end
+
+      it 'does not set email_changed' do
+        expect(person.email_changed).to eq(false)
+      end
+    end
   end
 
   it 'should lowercase email' do
@@ -269,12 +316,14 @@ describe Person do
     it "sets child=true when birthday is set and person is < 18 years old" do
       @person = FactoryGirl.build(:person, child: false)
       @person.birthday = 17.years.ago
+      @person.valid? # trigger callback
       expect(@person.child).to eq(true)
     end
 
     it "sets child=false when birthday is set and person is >= 18 years old" do
       @person = FactoryGirl.build(:person, child: true)
       @person.birthday = 18.years.ago
+      @person.valid? # trigger callback
       expect(@person.child).to eq(false)
     end
 
@@ -291,17 +340,6 @@ describe Person do
     @family = FactoryGirl.create(:family, last_name: 'Smith')
     @person = @family.people.new
     expect(@person.last_name).to eq("Smith")
-  end
-
-  it "should select a proper sequence within the family if none is specified" do
-    @person = FactoryGirl.create(:person)
-    @person2 = FactoryGirl.create(:person, family: @person.family)
-    expect(@person2.family_id).to eq(@person.family_id)
-    expect(@person.sequence).to eq(1)
-    expect(@person2.sequence).to eq(2)
-    @person2.sequence = nil
-    @person2.save
-    expect(@person2.sequence).to eq(2)
   end
 
   it "should know if it is a super admin" do
@@ -433,6 +471,37 @@ describe Person do
 
       it 'does not create a third stream item' do
         expect(StreamItem.count).to eq(2)
+      end
+    end
+  end
+
+  describe '#position' do
+    context 'given a family with three people in it' do
+      let!(:family) { FactoryGirl.create(:family) }
+      let!(:head)   { FactoryGirl.create(:person, family: family, child: false, first_name: 'Tim',    last_name: 'Morgan') }
+      let!(:spouse) { FactoryGirl.create(:person, family: family, child: false, first_name: 'Jennie', last_name: 'Morgan') }
+      let!(:child)  { FactoryGirl.create(:person, family: family, child: true,  first_name: 'Mac',    last_name: 'Morgan') }
+
+      it 'can be reordered' do
+        head.insert_at(3)
+
+        expect(spouse.reload.position).to eq(1)
+        expect(child.reload.position).to eq(2)
+        expect(head.reload.position).to eq(3)
+      end
+    end
+  end
+
+  describe '#primary_emailer=' do
+    context 'setting to true on one family member when other already has it set' do
+      let(:husband) { FactoryGirl.create(:person, first_name: 'John', email: 'shared@example.com', primary_emailer: true) }
+      let(:spouse)  { FactoryGirl.create(:person, first_name: 'Jane', email: 'shared@example.com', family: husband.family) }
+
+      it 'sets the value to false on others with the same email' do
+        spouse.primary_emailer = true
+        spouse.save
+        expect(spouse.reload).to be_primary_emailer
+        expect(husband.reload).to_not be_primary_emailer
       end
     end
   end

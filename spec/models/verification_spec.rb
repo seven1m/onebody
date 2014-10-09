@@ -75,7 +75,6 @@ describe Verification do
   context '#save' do
     context 'given a mobile phone number matching an existing person' do
       before do
-        ActionMailer::Base.deliveries.clear
         @verification = Verification.new(mobile_phone: '1234567890', carrier: 'AT&T')
         @return = @verification.save
       end
@@ -93,13 +92,14 @@ describe Verification do
       end
 
       it 'should send verification email' do
-        expect(ActionMailer::Base.deliveries.last.subject).to eq("Verify Mobile")
+        email = ActionMailer::Base.deliveries.last
+        expect(email.subject).to eq('Verify Mobile Phone')
+        expect(email.to_s).to match(/From: "CHURCH\.IO" <noreply@example\.com>/)
       end
     end
 
     context 'given an email matching an existing person' do
       before do
-        ActionMailer::Base.deliveries.clear
         @verification = Verification.new(email: 'test@example.com')
       end
 
@@ -141,7 +141,6 @@ describe Verification do
 
     context 'given an email matching an existing person alternate_email' do
       before do
-        ActionMailer::Base.deliveries.clear
         @person.alternate_email = 'test@other.com'
         @person.save!
         @verification = Verification.new(email: 'test@other.com')

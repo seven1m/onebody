@@ -1,5 +1,11 @@
 %div
   .form-group
+    = form.label :facebook_url
+    = form.text_field :facebook_url, class: 'form-control', placeholder: t('people.edit.facebook_url.placeholder')
+  .form-group
+    = form.label :twitter
+    = form.text_field :twitter, class: 'form-control', placeholder: t('people.edit.twitter.placeholder')
+  .form-group
     = form.label :website
     = form.text_field :website, class: 'form-control'
   .form-group

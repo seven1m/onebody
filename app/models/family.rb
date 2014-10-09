@@ -1,5 +1,4 @@
 class Family < ActiveRecord::Base
-
   include Authority::Abilities
   self.authorizer_name = 'FamilyAuthorizer'
 
@@ -7,7 +6,7 @@ class Family < ActiveRecord::Base
 
   MAX_TO_BATCH_AT_A_TIME = 50
 
-  has_many :people, -> { order(:sequence) }, dependent: :destroy
+  has_many :people, -> { order(:position) }, dependent: :destroy
   has_many :updates, -> { order(:created_at) }
   accepts_nested_attributes_for :people
   belongs_to :site
@@ -21,7 +20,9 @@ class Family < ActiveRecord::Base
   scope :has_printable_people, -> { where('(select count(*) from people where family_id = families.id and visible_on_printed_directory = ?) > 0', true) }
   scope :by_barcode, -> b { where('barcode_id = ? or alternate_barcode_id = ?', b, b) }
 
-  validates_presence_of :name, :last_name
+  validates :name, presence: true
+  validates :last_name, presence: true
+
   validates_uniqueness_of :barcode_id, allow_nil: true, scope: [:site_id, :deleted], unless: Proc.new { |f| f.deleted? }
   validates_uniqueness_of :alternate_barcode_id, allow_nil: true, scope: [:site_id, :deleted], unless: Proc.new { |f| f.deleted? }
   validates_length_of :barcode_id, :alternate_barcode_id, in: 5..50, allow_nil: true
@@ -43,6 +44,11 @@ class Family < ActiveRecord::Base
     end
   end
 
+  def initialize(*args)
+    super
+    self.country = Setting.get(:system, :default_country) unless country.present?
+  end
+
   geocoded_by :location
   after_validation :geocode
 
@@ -61,11 +67,19 @@ class Family < ActiveRecord::Base
   end
 
   def mapable?
-    latitude.to_i != 0.0 and longitude.to_i != 0.0
+    latitude.to_f != 0.0 and longitude.to_f != 0.0
   end
 
   def location
-    pretty_address if [address1, city, state].all?(&:present?)
+    if [address1, city, state].all?(&:present?)
+      {
+        street: address,
+        city: city,
+        state: state,
+        postalCode: zip,
+        adminArea1: country
+      }
+    end
   end
 
   # not HTML-escaped!
@@ -98,11 +112,8 @@ class Family < ActiveRecord::Base
     end
   end
 
-  def entries; people.undeleted; end
-  alias_method :reorder_person, :reorder_entry
-
   def suggested_relationships
-    all_people = people.undeleted.order(:sequence)
+    all_people = people.undeleted.order(:position)
     relations = {
       adult: {
         male: {
@@ -169,9 +180,10 @@ class Family < ActiveRecord::Base
   end
 
   def anniversary_sharable_with(who)
-    people.undeleted.detect { |person|
-      person.anniversary and person.show_attribute_to?(:anniversary, who)
-    }.try(:anniversary)
+    dates = people.undeleted.adults.limit(2).map do |person|
+      person.anniversary if person.show_attribute_to?(:anniversary, who)
+    end
+    dates.first if dates.all? { |d| d == dates.first }
   end
 
   def suggested_name

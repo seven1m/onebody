@@ -8,7 +8,6 @@ class Group < ActiveRecord::Base
   has_many :people, -> { order(:last_name, :first_name) }, through: :memberships
   has_many :admins, -> { where('memberships.admin IS true').order(:last_name, :first_name) }, through: :memberships, source: :person
   has_many :messages, -> { order(updated_at: :desc) }, dependent: :destroy
-  has_many :notes, -> { order(created_at: :desc) }
   has_many :prayer_requests, -> { order(created_at: :desc) }
   has_many :attendance_records
   has_many :albums, as: :owner
@@ -17,22 +16,23 @@ class Group < ActiveRecord::Base
   has_many :attachments, dependent: :delete_all
   has_many :group_times, dependent: :destroy
   has_many :checkin_times, through: :group_times
+  has_many :tasks, -> { order(:position) }
   belongs_to :creator, class_name: 'Person', foreign_key: 'creator_id'
   belongs_to :leader, class_name: 'Person', foreign_key: 'leader_id'
   belongs_to :parents_of_group, class_name: 'Group', foreign_key: 'parents_of'
   belongs_to :site
 
-  scope :active, -> { where(hidden: false) }
-  scope :hidden, -> { where(hidden: true) }
+  scope :active,     -> { where(hidden: false) }
+  scope :hidden,     -> { where(hidden: true) }
   scope :unapproved, -> { where(approved: false) }
-  scope :approved, -> { where(approved: true) }
-  scope :is_public, -> { where(private: false, hidden: false) } # cannot be 'public'
+  scope :approved,   -> { where(approved: true) }
+  scope :is_public,  -> { where(private: false, hidden: false) } # cannot be 'public'
   scope :is_private, -> { where(private: true, hidden: false) } # cannot be 'private'
-  scope :standard, -> { where("parents_of is null and (link_code is null or link_code = '')") }
-  scope :linked, -> { where("link_code is not null and link_code != ''") }
+  scope :standard,   -> { where("parents_of is null and (link_code is null or link_code = '')") }
+  scope :linked,     -> { where("link_code is not null and link_code != ''") }
   scope :parents_of, -> { where("parents_of is not null") }
-  scope :checkin_destinations, -> { includes(:group_times).where('group_times.checkin_time_id is not null').order('group_times.sequence') }
-  scope :recent, -> age { where("created_at >= ?", age.ago) }
+  scope :recent,     -> age { where("created_at >= ?", age.ago) }
+  scope :checkin_destinations, -> { includes(:group_times).where('group_times.checkin_time_id is not null').order('group_times.ordering') }
 
   scope_by_site_id
 
@@ -47,8 +47,6 @@ class Group < ActiveRecord::Base
   validates_uniqueness_of :cm_api_list_id, allow_nil: true, allow_blank: true, scope: :site_id
   validates_attachment_size :photo, less_than: PAPERCLIP_PHOTO_MAX_SIZE, message: I18n.t('photo.too_large', size: 10, :scope => 'activerecord.errors.models.group.attributes')
   validates_attachment_content_type :photo, content_type: PAPERCLIP_PHOTO_CONTENT_TYPES, message: I18n.t('photo.wrong_type', :scope => 'activerecord.errors.models.group.attributes')
-
-  serialize :cached_parents
 
   validate :validate_self_referencing_parents_of
 
@@ -84,11 +82,15 @@ class Group < ActiveRecord::Base
   end
 
   def linked?
-    link_code and link_code.any?
+    membership_mode == 'link_code' and link_code and link_code.any?
+  end
+
+  def parents_of?
+    membership_mode == 'parents_of' and parents_of
   end
 
   def mapable?
-    latitude and longitude
+    latitude.to_f != 0.0 and longitude.to_f != 0.0
   end
 
   def get_options_for(person)
@@ -99,10 +101,16 @@ class Group < ActiveRecord::Base
     memberships.where(person_id: person.id).first.update_attributes!(options)
   end
 
+  attr_accessor :dont_update_memberships
   after_save :update_memberships
 
+  EVERYONE_LIMIT = 1000
+
   def update_memberships
-    if parents_of
+    return if dont_update_memberships
+    if membership_mode == 'adults' and Person.undeleted.adults.count <= EVERYONE_LIMIT
+      update_membership_associations(Person.undeleted.adults.to_a)
+    elsif parents_of?
       parents = Group.find(parents_of).people.map { |p| p.parents }.flatten.uniq
       update_membership_associations(parents)
     elsif linked?
@@ -169,7 +177,8 @@ class Group < ActiveRecord::Base
         (email? and can_post?(person)) or \
         blog? or \
         pictures? or \
-        prayer?
+        prayer? or
+        has_tasks?
       )
   end
 
@@ -217,6 +226,10 @@ class Group < ActiveRecord::Base
     person.can_create?(prayer_requests.new)
   end
 
+  def can_add_task?(person)
+    person.can_create?(tasks.new)
+  end
+
   def can_add_album?(person)
     person.can_create?(albums.new)
   end
@@ -258,6 +271,7 @@ class Group < ActiveRecord::Base
       }.reject { |k, v| v == 0 }
     end
 
+# TODO: remove other_notes since notes is deleted
     EXPORT_COLS = {
       group: %w(
         name

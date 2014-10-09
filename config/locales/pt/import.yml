@@ -11,12 +11,12 @@ pt:
       first_name: "Primeiro Nome"
       last_name: Sobrenome
       status: Status
-    apply_settings_to_imports: "Apply the following settings to all imports:"
-    attempt_match_existing_people: "Attempt to match existing people by name if no IDs are included."
+    apply_settings_to_imports: "Aplicar as seguintes configurações para todos os registros importados:"
+    attempt_match_existing_people: "Tente encontrar pessoas existentes pelo nome se os IDs não forem incluídos."
     completed_records: "Registros Completados"
     error: Erro
     error_updating: "Erro ao atualizar registro."
-    error_updating_message_html: "There was at least one error while attempting to update records in the database. Please correct the errors, then return to the <a href=\"%{url}\">Pending Updates</a> interface to complete the process."
+    error_updating_message_html: "Houve pelo menos um erro ao tentar atualizar os registros no banco de dados. Por favor corrija os erros e retorne para a interface de <a href=\"%{url}\">Atualizações Pendentes</a> para completar o processo. "
     errored_records: "Registros com Erro"
     for_list_of_available_attributes: "para uma lista de atributos disponíveis (nem todos os atributos são requeridos)."
     hint_excel_docs: "Dica: Documentos do Excel podem ser exportados como um CSV, no menu Arquivo → Salvar como."
@@ -25,9 +25,10 @@ pt:
     import_results: "Importar Resultados"
     import_selected_people: "Importar Pessoas Selecionadas"
     no_records_were_found: "Não foram encontrados registros para importação."
-    only_first_records_will_be_imported_html: "Only the first %{count} records will be imported. For larger files, you must divide records into multiple files, or use the <a href=\"http://wiki.github.com/churchio/onebody/updateagent\">UpdateAgent</a> to import a large batch at once."
+    only_first_records_will_be_imported_html: "Somente os primeiros %{count} registros serão importados. Para arquivos grandes, você precisa dividir os registros em múltiplos arquivos ou utilizar o <a href=\"http://wiki.github.com/churchio/onebody/updateagent\">UpdateAgent</a> para importar grandes quantidades de registros de uma vez."
     people: "Importar Pessoas"
     record: registro
+    record_updated: "Record updated."
     records: Registros
     select_csv_file: "Selecione um arquivo separado por vírgulas (CSV) para importar com os nomes dos atributos na linha de cabeçalho."
     the_changes_will_be_made: "As seguintes alterações serão feitas. Somente os registros selecionados serão criados/atualizados."

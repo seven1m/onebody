@@ -45,7 +45,7 @@ module Concerns
           (
             Updater::PARAMS[:person].keys +
             Updater::PARAMS[:family].keys.map { |k| "family_#{k}" }
-          ).map(&:to_s).uniq
+          ).map(&:to_s).uniq + ['id', 'family_id']
         end
 
         def translate_column_name(col)

@@ -3,17 +3,17 @@ pt:
   pages:
     index:
       heading: Páginas
-      intro: "Below are pages and bits of content used on the site that you may wish to customize for your own community."
+      intro: "Abaixo estão as páginas e bits de conteúdo utilizados no site que você pode customizar para a sua própria comunidade."
       name: Nome
       description: Descrição
       edit_button: Editar
     descriptions:
-      help: "Page shown to users looking for help signing in."
-      bad_status: "Shown when user is in the database but they do not have permission to sign in."
-      privacy_policy: "Details about how this site collects and shares information."
-      safeguarding_children: "Details about how this site protects children and their information."
-      unauthorized: "Page shown to users explaining how to gain access to the site."
-      checkin: "A bit of help content that appears at the top of the checkin admin screen."
+      help: "Página exibida para usuários que procuram por ajuda para acessar o site."
+      bad_status: "Exibido quando um usuário está no banco de dados porém não possui permissão para entrar."
+      privacy_policy: "Detalhes de como este site coleta e compartilha informações."
+      safeguarding_children: "Detalhes de como este site protege crianças e as suas informações."
+      unauthorized: "Página exibida para usuários explicando como obter acesso ao site."
+      checkin: "Um pouco de conteúdo de ajuda que aparece no topo da tela de aministração de checkin."
     body: Corpo
     edit_page: "Editar Página"
     not_found: "Página não encontrada."

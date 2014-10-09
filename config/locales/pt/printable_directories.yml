@@ -1,12 +1,12 @@
 ---
 pt:
   printable_directories:
-    heading: "Printed Directory"
-    already_sent: "It seems a directory was already sent to you a little while ago. Please check your email (and your spam folder just in case)."
-    click_to_have_custom_pdf_via_email: "Click the button below to have a custom directory PDF file sent to your email."
-    created_for: "Created especially for %{name} on %{date}"
-    email_custom_directory: "Email my Custom Directory"
+    heading: "Diretório Impresso"
+    already_sent: "Parece que um diretório já foi enviado para você a pouco tempo. Por favor verifique o seu email (também o seu diretório de spam)."
+    click_to_have_custom_pdf_via_email: "Clique no botão abaixo para ter um diretório customizado em PDF enviado para o seu email."
+    created_for: "Criado especialmente para %{name} em %{date}"
+    email_custom_directory: "Envie o meu Diretório Customizado por Email"
     include_family_pictures: "incluir fotos das famílias"
     not_allowed: "Você não possui permissão para imprimir a lista. Desculpe."
-    were_are_building_custom_pdf: "We're building your custom PDF right now. It will take a little while, but probably not more than a few minutes. Once it is ready, we will email it to you. Feel free to continue your visit to this site (you can leave this page if you want)."
+    were_are_building_custom_pdf: "Nós estamos construindo o seu PDF customizado agora. Irá demorar um pouco, mas provavelmente não mais do que alguns minutos. Assim que estiver pronto, nós enviaremos um email para você. Fique à vontade para continuar a visita neste site (você pode sair desta página se quiser)."
     will_take_longer: "(irá demorar um pouco mais)"

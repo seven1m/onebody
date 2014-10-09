@@ -10,8 +10,13 @@ pt:
     deleted: "Grupo excluído."
     delete:
       heading: "Excluir este Grupo"
-      intro: "If you wish for a group to disappear from all pages of the site, it is best to Hide (archive) it (see option above). If you really want to delete the group and all its contents (messages, prayer requests, pictures, etc.) forever, then you may do so below:"
+      intro: "Se você realmente deseja excluir o grupo e todo o seu conteúdo (mensagens, pedidos de oração, fotos, etc) permanentemente, então você pode fazê-lo abaixo:"
       button: "Excluir este grupo permanentemente"
+    hide:
+      heading: "Ocultar (Arquivar) este Grupo"
+      intro: "Se você deseja que um grupo desapareça de todas as páginas deste site, oculte-o clicando no botão abaixo:"
+      button: "Ocultar este grupo"
+      unhide_button: "Re-exibir este grupo"
     your_groups: "Seus Grupos"
     groups_of:
       s: "Grupos de %{name}"
@@ -29,7 +34,9 @@ pt:
     email_off: "email desligado"
     email_on: "email ligado"
     browse:
-      heading: "Procurar pela Categoria"
+      heading: "Procurar Grupos"
+      select_category: "Exibir por Categoria"
+      all: "Exibir Todos"
     create:
       heading: "Criar um Grupo"
       description: "Se você não encontrar um grupo, é fácil criar um!"
@@ -47,12 +54,12 @@ pt:
           one: "1 pessoa"
           other: "%{count} pessoas"
         birthdays_this_month_html:
-          one: "(<a href='%{url}'>1</a> with a birthday this month)"
-          other: "(<a href='%{url}'>%{count}</a> with birthdays this month)"
-        attachments: files
+          one: "(<a href='%{url}'>1</a> pessoa faz aniversário neste mês)"
+          other: "(<a href='%{url}'>%{count}</a> pessoas fazem aniversário neste mês)"
+        attachments: arquivos
         attachment_count:
-          one: "1 file"
-          other: "%{count} files"
+          one: "1 arquivo"
+          other: "%{count} arquivos"
         attendance:
           button: "Registro de Presença"
       controls:
@@ -61,10 +68,14 @@ pt:
         leave: "Deixar o Grupo"
         message: "Enviar Mensagem"
         prayer_request: "Pedir Oraçao"
+      linked:
+        tooltip: "Este grupo possui um link via código %{code}"
+      parents_of:
+        tooltip: "Este grupo contém um link para os pais do %{group}"
     stream:
       none:
-        heading: "No Activity"
-        message: "This is where group activity will appear."
+        heading: "Nenhuma Atividade"
+        message: "Aqui é aonde a atividade do grupo irá aparecer."
     new:
       heading: "Novo Grupo"
     edit:
@@ -77,6 +88,12 @@ pt:
         advanced: Avançado
       advanced:
         description: "As configurações abaixo são para usuários avançados."
+        membership_mode:
+          options:
+            manual: "Adicionar membros manualmente (padrão)"
+            link_code: "Adicionar membros automaticamente utilizando um código de link externo."
+            parents_of: "Criar um link com um grupo de crianças para obter os pais das crianças."
+            adults: "Incluir todos os adultos desta comunidade."
       files:
         description: "Arquivos adicionados aqui serão visíveis para todos os membros deste grupo."
         delete_button: Excluir
@@ -85,26 +102,28 @@ pt:
       location:
         help: "Se você inserir o seu endereço, um mapa interativo será exibido na página do seu grupo."
       directions:
-        help: "You may want to include travel directions."
+        help: "Você pode desejar incluir instruções para chegar ao local."
       address:
-        help: "Give your group a unique email address so messages can be sent easily."
+        help: "Forneça para o seu grupo um endereço de email único, para que as mensagens possam ser facilmente enviadas."
       calendar:
-        help: "In your Google Calendar, in Calendar Settings, copy your \"Private\" XML Link and paste in this box to display your calendar on the group page."
+        help: "No Configurações do seu Calendário do Google, copie o seu Link XML \"Privado\" e cole nesta caixa para exibir o calendário na página do seu grupo."
       category:
         new: "[nova categoria]"
-        help: "Make your group easy to find by placing it an appropriate category."
+        help: "Torne o seu grupo fácil de ser encontrado escolhendo a categoria apropriada."
       description:
-        help: "Enter a sentence or two to give people an idea of why you meet and of your group's goals."
+        help: "Insira uma ou duas frases para dar uma ideia para as pessoas do porque vocês se encontram e quais são os objetivos do grupo."
       approval_required_to_join:
-        help: "If checked, an approval request will be sent to group admins before someone can join."
+        help: "Se marcado, um pedido de aprovação será enviado ao administrador do grupo antes de alguém poder participar."
       private_group:
-        help: "If checked, the group description, membership list, and other group information will be hidden from non-members (only the title will be displayed). We recommend you also check the above 'Approval required' box as well."
+        help: "Se marcado, a descrição do grupo, lista de membros e outras informações serão ocultadas para quem não for membro (somente o título será exibido). Nós recomendamos que você também verifique a opção 'Aprovação requerida' abaixo."
       members_send:
-        help: "If checked, any member of this group can send an email message to everyone else in the group."
+        help: "Se marcado, qualquer membro deste grupo poderá enviar um email para qualquer pessoa do grupo."
       class_link_code:
-        help_html: "Useful for syncing with external systems. <a href='https://github.com/churchio/onebody/wiki/HowGroupMembershipWorks'>See here</a> for more information. Separate multiple codes with a space."
+        help_html: "<p>Esta função é útil para sincronizar com sistemas externos. Separe múltiplos códigos com um espaço. <a href='https://github.com/churchio/onebody/wiki/HowGroupMembershipWorks'>Veja aqui</a> maiores informações.\n\
+            <p>Clique <strong>Salvar</strong> para atualizar os membros do grupo imediatamente. Os membros do grupo também serão atualizados automaticamente toda noite.</p> \n"
       parents_of:
-        help: "Membership will be auto-generated from parents of selected group's members."
+        help_html: "<p>Associação será gerada automaticamente de acordo com os pais dos membros selecionados do grupo.</p>\n\
+            <p>Clique <strong>Salvar</strong> para atualizar os membros do grupo imediatamente. Os membros do grupo serão também atualizados automaticamente toda noite.</p> \n"
       enable_calendar: "Habilitar Calendário"
     table:
       group_name: Grupo
@@ -117,14 +136,14 @@ pt:
       name_placeholder: "Buscar pelo nome"
       submit: Buscar
     batch:
-      heading: "Batch Edit Groups"
+      heading: "Editar Grupos em Lote"
       category: Categoria
       name: Nome
-      address: "Email Prefix"
+      address: "Prefixo de Email"
       members_send: "Membros Podem Enviar"
       private: Privado
       hidden: Oculto
-      class_link_code: "Link Code(s)"
+      class_link_code: "Fazer Link de Código(s)"
       approval_required_to_join: "Aprovação Requerida"
       errors: "Existem um ou mais erros ao salvar as mudanças. Os registros com erro estão destacados abaixo."
     files:
@@ -144,8 +163,8 @@ pt:
       button: "Aprovar Grupo"
     membership_requests:
       count:
-        one: "%{count} membership request"
-        other: "%{count} membership requests"
+        one: "%{count} pedido de amizade"
+        other: "%{count} pedidos de amizade"
     not_found: "Grupo não encontrado"
     no_groups_found: "Nenhum grupo encontrado"
     join:
@@ -172,3 +191,10 @@ pt:
           one: Foto
           other: Fotos
         new_link: "Nova Foto"
+      tasks:
+        text:
+          one: Tarefa
+          other: Tarefas
+        new_link: "Nova Tarefa"
+    show_hidden:
+      button: "Exibir Grupos Ocultos (%{count})"

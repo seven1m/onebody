@@ -26,4 +26,30 @@ describe Friendship do
     @user.friendships.first.destroy
     expect(Friendship.count).to eq(0)
   end
+
+  context 'when #person is nil' do
+    before do
+      @user.friendships.create friend: @other
+      @friendship = @user.friendships.first
+      @friendship.person = nil
+    end
+
+    it 'should be invalid' do
+      expect(@friendship).to be_invalid
+    end
+
+  end
+
+  context 'when #friend is nil' do
+    before do
+      @user.friendships.create friend: @other
+      @friendship = @user.friendships.first
+      @friendship.friend = nil
+    end
+
+    it 'should be invalid' do
+      expect(@friendship).to be_invalid
+    end
+
+  end
 end

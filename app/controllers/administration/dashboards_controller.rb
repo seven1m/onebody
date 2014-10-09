@@ -12,9 +12,6 @@ class Administration::DashboardsController < ApplicationController
       @attendance_records_count = AttendanceRecord.on_date(@attendance_last_date).count
     end
     @last_sync = Sync.order('created_at').last
-    @sync_counts = @last_sync.try(:count_items)
-    @group_type_counts = Group.count_by_type
-    @linked_group_counts = Group.count_by_linked
     @person_count = Person.undeleted.count
     @family_count = Family.undeleted.count
     @group_count  = Group.count

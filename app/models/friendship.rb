@@ -5,9 +5,8 @@ class Friendship < ActiveRecord::Base
 
   scope_by_site_id
 
-  validates_presence_of :person_id
-  validates_presence_of :friend_id
-  validates_uniqueness_of :friend_id, scope: [:site_id, :person_id]
+  validates :person, presence: true
+  validates :friend, presence: true, uniqueness: { scope: [:site_id, :person_id] }
 
   attr_accessor :skip_mirror
 

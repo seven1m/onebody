@@ -5,27 +5,21 @@ class Comment < ActiveRecord::Base
 
   belongs_to :person
   belongs_to :site
-
-  # TODO: use polymorphism
-  belongs_to :verse
-  belongs_to :note
-  belongs_to :picture
+  belongs_to :commentable, polymorphic: true
 
   scope_by_site_id
 
-  def on
-    verse || note || picture
-  end
+  validates :text, length: { minimum: 4 }
 
   def name
-    "Comment on #{on ? on.name : '?'}"
+    "Comment on #{commentable ? commentable.name : '?'}"
   end
 
   after_create :update_stream_items_on_create
 
   def update_stream_items_on_create
     find_all_associated_stream_items.each do |stream_item|
-      next if stream_item.streamable_type == 'Album' and not Array(stream_item.context['picture_ids']).detect { |pic| pic.first == on.id }
+      next if stream_item.streamable_type == 'Album' and not Array(stream_item.context['picture_ids']).detect { |pic| pic.first == commentable.id }
       stream_item.context['comments'] ||= []
       stream_item.context['comments'] << {
         'id'         => id,
@@ -48,12 +42,12 @@ class Comment < ActiveRecord::Base
   end
 
   def find_all_associated_stream_items
-    return [] unless on
-    streamable_type = on.class.name
-    streamable_id   = on.id
+    return [] unless commentable
+    streamable_type = commentable_type
+    streamable_id   = commentable.id
     if streamable_type == 'Picture'
       streamable_type = 'Album'
-      streamable_id   = on.album_id
+      streamable_id   = commentable.album_id
     end
     StreamItem.where(streamable_type: streamable_type, streamable_id: streamable_id).to_a
   end

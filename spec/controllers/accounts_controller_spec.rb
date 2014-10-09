@@ -159,7 +159,6 @@ describe AccountsController do
 
             context 'user is a child' do
               before do
-                ActionMailer::Base.deliveries.clear
                 @count_was = Person.count
                 post :create, {signup: {email: 'rick@example.com', first_name: 'Rick', last_name: 'Smith', birthday: Date.today.to_s}}
               end
@@ -301,7 +300,6 @@ describe AccountsController do
 
       context 'mobile phone for existing user' do
         before do
-          ActionMailer::Base.deliveries.clear
           @person = FactoryGirl.create(:person, mobile_phone: '1234567899')
         end
 
@@ -311,7 +309,7 @@ describe AccountsController do
           end
 
           it 'should send email verification email' do
-            expect(ActionMailer::Base.deliveries.last.subject).to eq("Verify Mobile")
+            expect(ActionMailer::Base.deliveries.last.subject).to eq('Verify Mobile Phone')
           end
 
           it 'should indicate that message was sent' do

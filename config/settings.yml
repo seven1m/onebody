@@ -93,6 +93,9 @@ Features:
   Documents:
     format: boolean
     value: false
+  Small Group Size:
+    format: string
+    value: 75
 Services:
   Analytics:
     format: string
@@ -112,6 +115,9 @@ System:
   Language:
     format: string
     value: en
+  Default Country:
+    format: string
+    value: US
   Suffixes:
     format: list
     value: |

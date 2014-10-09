@@ -1,9 +1,9 @@
 ---
 pt:
   attachments:
-    heading: "Group Files"
+    heading: "Arquivos do Grupo"
     new:
-      button: "New File"
+      button: "Novo Arquivo"
     deleted: "Anexo excluído."
     file: Arquivo
     file_deleted: "Este arquivo foi excluído."

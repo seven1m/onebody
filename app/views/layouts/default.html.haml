@@ -143,14 +143,20 @@
                       = t('nav.directory_sub.advanced')
                   - if @logged_in.can_create?(Family)
                     %li
-                      = link_to new_family_path do
+                      = link_to new_person_path do
                         = icon 'fa fa-plus'
-                        = t('nav.directory_sub.new_family')
+                        = t('nav.directory_sub.new_person')
             - if setting(:features, :documents)
               %li{ class: tab_selected?(:documents) ? 'active' : '' }
                 = link_to documents_path do
                   %i.fa.fa-file
                   %span= t('nav.documents')
+            - if @logged_in.incomplete_tasks_count > 0
+              %li{ class: tab_selected?(:tasks) ? 'active' : '' }
+                = link_to tasks_path do
+                  %i.fa.fa-check-square
+                  %span= t('nav.tasks')
+                  = assigned_tasks_badge
             - if @logged_in.admin?
               %li{ class: tab_selected?(:admin) ? 'active' : '' }
                 = link_to admin_path do
@@ -176,4 +182,4 @@
       = render partial: 'layouts/footer_links'
     = javascript_include_tag 'application'
     = yield(:js)
-    = setting(:services, :analytics).to_s.html_safe if Rails.env.production?
+    = analytics_js

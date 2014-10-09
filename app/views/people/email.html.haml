@@ -12,6 +12,12 @@
           .form-group
             = form.label :email
             = form.text_field :email, class: 'input-huge form-control'
+          - if (shared_email_people = @person.others_with_same_email).any?
+            .form-group
+              .callout.callout-warning
+                %span.help-block= t('people.edit.primary_emailer.intro_html', person: shared_email_people.first.try(:name))
+                = form.check_box :primary_emailer, class: 'form-control'
+                = form.label :primary_emailer, class: 'inline'
           .form-group
             = submit_tag t('save_changes'), class: 'btn btn-success'
 

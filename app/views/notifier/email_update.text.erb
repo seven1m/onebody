@@ -1,5 +1,3 @@
-<%=raw t('notifier.person_had_their_email_changed', name: @person.name) %>
+<%=raw t('notifier.email_update.intro', person: @person.name) %>
 
-<%=raw Person.human_attribute_name(:email) %>: <%=raw @person.email %>
-
-<%=raw t('notifier.please_make_updates') %>
+<%=raw t('notifier.email_update.email_label') %>: <%=raw @person.email %>

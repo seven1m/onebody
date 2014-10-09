@@ -9,3 +9,9 @@ $(document).on 'change, ifToggled', '#group_private', (e) ->
 $(document).on 'keyup', '#group_address', (e) ->
   val = $(this).val().replace(/[^a-z0-9\-]+/, '')
   $(this).val(val)
+
+mode = $('select#group_membership_mode')
+mode.change ->
+  $('.membership-mode-option').hide()
+  $('#' + mode.val()).show()
+mode.trigger('change')

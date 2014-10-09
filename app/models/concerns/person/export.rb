@@ -6,7 +6,7 @@ module Concerns
       EXPORT_COLS = {
         person: %w(
           family_id
-          sequence
+          position
           gender
           first_name
           last_name
@@ -116,7 +116,7 @@ module Concerns
                     fam.tag!(col, family.send(col))
                   end
                   fam.people do |people|
-                    family.people.sort_by(&:sequence).each do |person|
+                    family.people.sort_by(&:position).each do |person|
                       people.person do |p|
                         EXPORT_COLS[:person].each do |col|
                           p.tag!(col, person.attributes[col])
