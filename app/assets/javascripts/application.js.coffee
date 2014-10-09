@@ -15,14 +15,18 @@ $('[data-toggle^="#"], [data-toggle^="."]').each (i, elm) ->
   toggle = (show) -> $(elm.data('toggle')).toggle(show)
   if elm.is(':checkbox')
     enabled_selector = elm.data('toggle-selector') || ':checked'
-    elm.on 'change, ifToggled', (e) ->
+    elm.on 'change, ifToggled', ->
       toggle(elm.is(enabled_selector))
     toggle(elm.is(enabled_selector))
-  if elm.is('a')
+  else if elm.is('a')
     elm.on 'click', ->
       elm = $(this)
       elm.toggleClass('expanded')
       toggle(elm.is('.expanded'))
+  else if elm.is('select')
+    elm.on 'change', ->
+      toggle(elm.val() == elm.data('toggle-value'))
+    toggle(elm.val() == elm.data('toggle-value'))
 
 if csrf_token = $('meta[name="csrf-token"]').attr('content')
   $(document).ajaxSend (_, xhr) ->

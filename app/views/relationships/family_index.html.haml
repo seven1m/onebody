@@ -46,5 +46,5 @@
             %tr
               %td= link_to person.name, person
               %td= link_to related.name, related
-              %td= select_tag "people[#{person.id}][#{related.id}]", options_for_select([["(#{t('none')})", '']]+t('relationships.names').invert.sort, relationship.to_sym)
+              %td= select_tag "people[#{person.id}][#{related.id}]", options_for_select([["(#{t('none')})", '']]+relationship_labels, relationship.to_sym)
       = button_tag t('relationships.family.create.button'), class: 'btn btn-success'

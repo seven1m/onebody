@@ -201,9 +201,14 @@ module ApplicationHelper
 
   def map_header(object)
     if object.mapable?
+      data = { latitude: object.latitude,
+               longitude: object.longitude,
+               address: preserve_breaks(object.pretty_address),
+               notice: t('maps.notice'),
+               protocol: Setting.get(:features, :ssl) ? 'https' : 'http' }
       content_for(:header) do
         raw(
-          content_tag(:div, '', id: 'map', data: { latitude: object.latitude, longitude: object.longitude, address: preserve_breaks(object.location), notice: t('maps.notice') }) +
+          content_tag(:div, '', id: 'map', data: data) +
           content_tag(:section, class: 'content-header map-overlay') do
             breadcrumbs +
             content_tag(:h1) do

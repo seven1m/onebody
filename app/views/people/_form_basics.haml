@@ -27,6 +27,7 @@
   = form.select :gender, [['', nil], [t('search.male'), 'Male'], [t('search.female'), 'Female']], {}, class: 'form-control'
 .form-group
   = form.label :email, t('people.email')
+  = t('people.edit.email_hint')
   = form.text_field :email, class: 'form-control'
 .form-group
   = form.label :mobile_phone

@@ -63,6 +63,8 @@ class Group < ActiveRecord::Base
 
   blank_to_nil :address
 
+  alias_attribute :pretty_address, :location
+
   def inspect
     "<#{name}>"
   end
