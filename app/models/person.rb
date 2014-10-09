@@ -258,7 +258,9 @@ class Person < ActiveRecord::Base
   # get the parents/guardians by grabbing people in family position 1 and 2 and adult?
   def parents
     if family
-      family.people.select { |p| !p.deleted? and p.adult? and [1, 2].include?(p.position) }
+      family.people.reorder(:id).select do |person|
+        !person.deleted? and person.adult? and [1, 2].include?(person.position)
+      end
     end
   end
 
