@@ -6,6 +6,13 @@ class AddAutoAddToGroups < ActiveRecord::Migration
 
     Group.reset_column_information
 
+    Person.class_eval do
+      # 'position' was 'sequence' prior to RenamePersonSequenceToPosition
+      def position
+        sequence
+      end
+    end
+
     print 'Updating groups'
     Site.each do
       Group.all.each do |group|
@@ -22,6 +29,10 @@ class AddAutoAddToGroups < ActiveRecord::Migration
       end
     end
     puts
+
+    Person.class_eval do
+      remove_method :position
+    end
   end
 
   def down
