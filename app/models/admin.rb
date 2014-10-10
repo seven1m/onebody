@@ -78,7 +78,6 @@ class Admin < ActiveRecord::Base
     manage_comments
     manage_groups
     manage_news
-    manage_notes
     manage_pictures
     manage_prayer_signups
     manage_sync
@@ -89,6 +88,7 @@ class Admin < ActiveRecord::Base
     assign_checkin_cards
     manage_checkin
     manage_documents
+    run_reports
   )
 
   Dir["#{Rails.root}/plugins/**/config/privileges.rb"].each do |path|

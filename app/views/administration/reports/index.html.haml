@@ -1,0 +1,21 @@
+- @title = t('admin.report.title')
+- content_for :header do
+  %section.content-header
+    = breadcrumbs
+    %h1
+      = @title
+.row
+  .col-xs-12
+    .box.box-header
+      .box-title
+        %h4= t('admin.report.list')
+        .box-body.table-responsive.nopadding
+          .body
+            %table.table.table-hover
+              %tr
+                - @report_names.each do |report_name|
+                  %tr
+                    %td
+                      = report_name.titleize
+                    %td
+                      = link_to t('admin.report.launch'), dossier_report_path( report: report_name ), {class: 'label label-info'}
