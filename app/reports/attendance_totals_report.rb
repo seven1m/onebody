@@ -3,15 +3,15 @@ class AttendanceTotalsReport < Dossier::Report
   include ReportsHelper
 
   def sql
-    Group.
-    select(:name).
-    joins(:attendance_records).
-    select(:attended_at, 'count(*) as att_count').
-    references(:attendance_records).
-    where('attended_at >= :fromdate and attended_at <= :thrudate').
-    group(:name, :attended_at).
-    order(:name).
-    to_sql
+    Group
+      .select(:name)
+      .joins(:attendance_records)
+      .select(:attended_at, 'count(*) as att_count')
+      .references(:attendance_records)
+      .where('attended_at >= :fromdate and attended_at <= :thrudate')
+      .group(:name, :attended_at)
+      .order(:name)
+      .to_sql
   end
 
   def fromdate

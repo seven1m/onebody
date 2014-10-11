@@ -6,16 +6,15 @@
       = @title
 .row
   .col-xs-12
-    .box.box-header
-      .box-title
-        %h4= t('admin.report.list')
-        .box-body.table-responsive.nopadding
-          .body
-            %table.table.table-hover
+    .box
+      .box-header
+        %h4.box-title= t('admin.report.list')
+      .box-body.table-responsive.nopadding
+        %table.table.table-hover
+          %tr
+            - @reports.each do |id, report|
               %tr
-                - @report_names.each do |report_name|
-                  %tr
-                    %td
-                      = report_name.titleize
-                    %td
-                      = link_to t('admin.report.launch'), dossier_report_path( report: report_name ), {class: 'label label-info'}
+                %td
+                  = link_to report[:title], dossier_report_path(report: id)
+                %td.actions
+                  = link_to t('admin.report.launch'), dossier_report_path(report: id), class: 'label label-info'

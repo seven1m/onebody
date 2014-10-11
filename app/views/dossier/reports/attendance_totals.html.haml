@@ -5,9 +5,9 @@
     %table.table
       %thead
         %tr
-          %th= t('report.group_name')
-          %th= t('report.attended_at')
-          %th= t('report.count')
+          %th= t('reports.reports.attendance_totals.columns.group')
+          %th= t('reports.reports.attendance_totals.columns.attended_at')
+          %th= t('reports.reports.attendance_totals.columns.count')
           = render partial: 'body'
   .col-md-3
     .box.box-info.hidden-print
@@ -15,17 +15,13 @@
       .box-body
         = form_for report, as: :options, url: url_for, html: {method: :get} do |f|
           .form-group
-          = f.label t('report.fromdate')
-          .input-group
-            = render partial: 'date'
-            = f.date_field :fromdate, class: 'form-control', value: report.fromdate ? report.fromdate.to_s(:date) : nil
+            = f.label :fromdate, t('reports.from_date')
+            = report_date_field f, :fromdate, report.fromdate
           .form-group
-          = f.label t('report.thrudate')
-          .input-group
-            = render partial: 'date'
-            = f.date_field :thrudate, class: 'form-control', value: report.thrudate ? report.thrudate.to_s(:date) : nil
+            = f.label :thrudate, t('reports.thru_date')
+            = report_date_field f, :thrudate, report.thrudate
           .form-group
-          = f.submit t('report.submit'), class: 'btn btn-info'
-          =  render partial: 'submit'                   
+            = f.submit t('reports.submit'), class: 'btn btn-info'
+            = render partial: 'submit'
 
 = render partial: 'count'

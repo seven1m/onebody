@@ -1,60 +1,67 @@
 class WeeklyAttendanceReport < Dossier::Report
   include ReportsHelper
 
-  def sql
-    "SELECT `groups`.`name`, attended_at, first_name, last_name, 'Yes'
-    FROM `groups` INNER JOIN `attendance_records`
-    ON `attendance_records`.`group_id` = `groups`.`id`
-    AND `attendance_records`.`site_id` = 1.
-      WHERE (attended_at >= :fromdate and attended_at <= :thrudate)".tap do |sql|
-      sql << " AND `attendance_records`.`group_id` = :sel_group " if options[:sel_group].present?
-      sql << "UNION select
-              groups.name,
-              null,
-              people.first_name,
-              people.last_name,
-              'No'
-              from memberships,
-                   people,
-                   groups
-                   where memberships.person_id = people.id
-                         and memberships.group_id = groups.id
-                         and memberships.created_at <= :fromdate
-                         and exists (select 'x'
-                               from attendance_records
-                               where attendance_records.group_id = memberships.group_id
-                               and   attendance_records.attended_at >= :fromdate
-                               and   attendance_records.attended_at <= :thrudate)
-                               and (concat(memberships.group_id, memberships.person_id)
-                               not in (select concat(attendance_records.group_id, attendance_records.person_id)
-                                     from attendance_records,
-                                          people
-                                          where attendance_records.person_id = people.id " if options[:data_filter] == '2'
-                                                sql << "and attendance_records.group_id = :sel_group " if options[:sel_group].present? and options[:data_filter] == '2'
-                                                sql << "and   attendance_records.attended_at >= :fromdate
-                                                and   attendance_records.attended_at <= :thrudate ))" if options[:data_filter] == '2'
+  def initialize(*args)
+    super
+    @group = Group.find(options[:group_id]) if options[:group_id].present?
+  end
 
-    end # tap.do
+  def formatted_title
+    I18n.t(
+      @group ? 'title_for_group' : 'title',
+      scope: 'reports.reports.weekly_attendance',
+      group: @group.try(:name)
+    )
+  end
+
+  def sql
+    return none unless @group
+    @group.attendance_records
+      .select(:person_id, :first_name, :last_name)
+      .where("attended_at between :fromdate and :thrudate")
+      .order(:first_name, :last_name)
+      .to_sql
+  end
+
+  set_callback :execute, :after, :insert_non_attending
+
+  # this is sort of hacky, but an improvement on doing a large UNION in the sql
+  # I wish Dossier allowed easier munging of the results
+  def insert_non_attending
+    if @group
+      rows = @results.adapter_results.rows
+      rows.each { |p| p << I18n.t('reports.reports.weekly_attendance.attended.yes') }
+      @group.people.each do |person|
+        unless @results.rows.detect { |r| r[0] == person.id }
+          rows << [person.id,
+                   person.first_name,
+                   person.last_name,
+                   I18n.t('reports.reports.weekly_attendance.attended.no')]
+        end
+      end
+      rows.sort_by! { |p| [p[1], p[2]] }
+      @results.instance_variable_set(:@rows, nil) # clear the cached row set
+    end
   end
 
   def fromdate
-     format_dateparam(options[:fromdate], (Date.current - 1.week))
+    format_dateparam(options[:fromdate], (Date.current - 1.week))
   end
 
   def thrudate
-     format_dateparam(options[:thrudate])
+    format_dateparam(options[:thrudate])
   end
 
   def format_attended_at(value)
-      format_date(value)
+    format_date(value)
   end
 
-  def sel_group
-     options[:sel_group]
+  def group_id
+    options[:group_id]
   end
 
-  def data_filter
-    options[:data_filter]
+  def none
+    "select null from attendance_records where 1=0"
   end
 
 end

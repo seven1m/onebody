@@ -9,4 +9,15 @@ module ReportsHelper
     value.to_s(:date) if value.is_a?(Time)
   end
 
+  def report_date_field(form, name, value)
+    content_tag(:div, class: 'input-group') do
+      content_tag(:div, class: 'input-group-btn') do
+        content_tag(:button, type: 'button', class: 'btn btn-info date-picker-btn') do
+          icon('fa fa-calendar')
+        end
+      end +
+      form.date_field(name, class: 'form-control')
+    end
+  end
+
 end
