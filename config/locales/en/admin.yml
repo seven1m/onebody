@@ -66,6 +66,15 @@ en:
         one: "%{count} request"
         other: "%{count} requests"
 
+    report:
+      back: "Back to Report Dash"
+      button: "Reporting Dashboard"
+      heading: "Reporting"
+      intro:  "Access the Reporting Dashboard for pre-defined reports and ad-hoc reporting tools."
+      launch: "Launch"
+      list: "Reports"
+      title: "Reporting Dashboard"
+
     active: active
     admin_added: "%{name} added."
     admin_count:
@@ -158,10 +167,6 @@ en:
         title: Manage News
         about: "View, edit, delete all news."
         order: 9
-      manage_notes:
-        title: Manage Notes
-        about: "Edit and delete any notes."
-        order: 10
       manage_pictures:
         title: Manage Pictures
         about: "View, edit, delete any pictures and albums."
@@ -193,6 +198,10 @@ en:
       manage_documents:
         title: Manage Documents
         about: "Add, edit and delete documents."
+      run_reports:
+        title: Run Reports
+        about: "Access the Reporting Dashboard."
+        order: 18
     rest_api_information: To use the REST API with Ruby, you might do this
     settings:
       heading: "Site Settings"

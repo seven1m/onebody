@@ -1,0 +1,19 @@
+en:
+  report:
+
+    attended_at: Attended At
+    attended: Attended
+    count: Total Attendees
+    date: Date
+    first_name: "First Name"
+    last_name:  "Last Name"
+    fromdate: "From Date"
+    group_name: "Group Name"
+    group_select: "Select a Group..."
+    name: Name
+    records:
+      one: "1 record"
+      other: "%{count} records"
+    submit: Submit
+    thrudate: Through Date
+    type: Type
