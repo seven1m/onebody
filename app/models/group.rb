@@ -65,6 +65,8 @@ class Group < ActiveRecord::Base
 
   alias_attribute :pretty_address, :location
 
+  before_create :set_share_token
+
   def inspect
     "<#{name}>"
   end
@@ -192,10 +194,18 @@ class Group < ActiveRecord::Base
     records = {}
     people.each { |p| records[p.id] = [p, false] }
     date = Date.parse(date) if(date.is_a?(String))
-    attendance_records.where('attended_at >= ? and attended_at <= ?', date.strftime('%Y-%m-%d 0:00'), date.strftime('%Y-%m-%d 23:59:59')).each do |record|
+    attendance_records_for_date(date).each do |record|
       records[record.person.id] = [record.person, record]
     end
     records.values.sort_by { |r| [r[0].last_name, r[0].first_name] }
+  end
+
+  def attendance_records_for_date(date)
+    attendance_records.where(
+      'attended_at between ? and ?',
+      date.strftime('%Y-%m-%d 0:00'),
+      date.strftime('%Y-%m-%d 23:59:59')
+    )
   end
 
   def attendance_dates
@@ -236,6 +246,10 @@ class Group < ActiveRecord::Base
     person.can_create?(albums.new)
   end
 
+  def set_share_token
+    self.share_token = SecureRandom.hex(25)
+  end
+
   class << self
     def update_memberships
       order(:parents_of).each(&:update_memberships)
@@ -258,22 +272,7 @@ class Group < ActiveRecord::Base
       categories.keys.sort
     end
 
-    def count_by_type
-      {
-        public: is_public.count,
-        private: is_private.count
-      }.reject { |k, v| v == 0 }
-    end
-
-    def count_by_linked
-      {
-        standard: standard.count,
-        linked: linked.count,
-        parents_of: parents_of.count
-      }.reject { |k, v| v == 0 }
-    end
-
-# TODO: remove other_notes since notes is deleted
+    # TODO: remove other_notes since notes is deleted
     EXPORT_COLS = {
       group: %w(
         name

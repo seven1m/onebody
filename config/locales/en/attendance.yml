@@ -3,10 +3,17 @@ en:
 
     heading_html: "Attendance in %{group} for %{when}"
     heading_without_group: "Attendance for %{when}"
+    heading_without_date: "Attendance in %{group}"
 
     medical_notes: "Medical notes:"
     can_pickup_people: "Can Pick Up"
     cannot_pickup_people: "Cannot Pick Up"
+
+    share:
+      title: "Share this Form"
+      intro: |
+        Share a link to this form that will allow anyone to submit attendance for this group without signing in.
+      button: "Share this Form"
 
     add_somebody_not_in_group: Add somebody not in the group
     add_visitor: Add a visitor.
@@ -30,7 +37,7 @@ en:
       one: "1 record"
       other: "%{count} records"
     save: Save Attendance
-    saved: Attendance saved.
+    saved: "Attendance submitted."
     Search: Search
     search_person: Search by Person Name
-    wrong_date_format: Please enter the date as YYYY/MM/DD.
+    wrong_date_format: "Could not recognize date. Please try again."

@@ -1,8 +1,11 @@
 class AttendanceController < ApplicationController
 
+  skip_before_filter :authenticate_user,
+    if: -> c { %w(index batch).include?(c.action_name) and params[:public] }
+
   def index
     @group = Group.find(params[:group_id])
-    if @group.admin?(@logged_in)
+    if @group.admin?(@logged_in) or (params[:token].present? and @group.share_token == params[:token])
       if @group.attendance?
         begin
           @attended_at = params[:attended_at] ? Date.parse_in_locale(params[:attended_at]) : Date.today
@@ -11,6 +14,9 @@ class AttendanceController < ApplicationController
           @attended_at = Date.today
         end
         @records = @group.get_people_attendance_records_for_date(@attended_at)
+        if params[:public]
+          render action: 'public_index', layout: 'signed_out'
+        end
       else
         render text: t('attendance.not_enabled'), layout: true, status: 500
       end
@@ -70,9 +76,12 @@ class AttendanceController < ApplicationController
   # this method clears all existing attendance for the entire date and adds what is sent in params
   def batch
     @group = Group.find(params[:group_id])
-    @attended_at = Time.parse(params[:attended_at])
-    if @group.admin?(@logged_in)
-      @group.attendance_records.where(attended_at: @attended_at.strftime("%Y-%m-%d %H:%M:%S")).each { |r| r.destroy }
+    unless @attended_at = Time.parse_in_locale(params[:attended_at]) || Date.parse_in_locale(params[:attended_at])
+      render text: t('attendance.wrong_date_format'), layout: 'signed_out'
+      return
+    end
+    if @group.admin?(@logged_in) or (params[:token].present? and @group.share_token == params[:token])
+      @group.attendance_records_for_date(@attended_at).delete_all
       params[:ids].to_a.each do |id|
         if person = Person.where(id: id).first
           @group.attendance_records.create!(
@@ -88,8 +97,12 @@ class AttendanceController < ApplicationController
           )
         end
       end
-      flash[:notice] = t('changes_saved')
-      redirect_to group_attendance_index_path(@group, attended_at: @attended_at.to_s(:date))
+      if params[:public]
+        render text: t('attendance.saved'), layout: 'signed_out'
+      else
+        flash[:notice] = t('changes_saved')
+        redirect_to group_attendance_index_path(@group, attended_at: @attended_at.to_s(:date))
+      end
     else
       render text: t('not_authorized'), layout: true, status: 401
     end
