@@ -16,7 +16,7 @@ nl-NL:
       picture_in_group:
         one: "%{who} deelde een afbeelding in de groep %{group}"
         other: "%{who} deelde afbeeldingen in de groep %{group}"
-      prayer_request: "%{who} heeft een gebed aangevraagd in de groep %{group}"
+      prayer_request: "%{who} heeft een gebedsverzoek ingediend in de groep %{group}"
       site: "%{site}"
       verse: "%{who} deelde %{title}"
     body:
@@ -36,13 +36,13 @@ nl-NL:
     load_more: "meer laden..."
     share:
       heading:
-        friends: "Deel met vrienden"
-        everyone: "Deel met iedereen"
+        friends: "Delen met vrienden"
+        everyone: "Delen met alle leden"
       intro:
         friends_and_group_members: "Wat je hier deelt is zichtbaar voor vrienden en groepsleden."
         friends_only: "Wat je hier deelt is zichtbaar voor vrienden."
         group_members_only: "Wat je hier deelt is zichtbaar voor groepsleden."
-        everyone: "Deel met de hele gemeenschap..."
+        everyone: "Deel met alle leden"
       button:
         note: notitie
         picture: foto

@@ -32,7 +32,7 @@ nl-NL:
       child:
         enabled: Ja
         disabled: Nee
-      child_hint: "Als er geen geboortedatum is opgegeven, moet er aangegeven worden of het een kind of volwassene is."
+      child_hint: "Als er geen geboortedatum is opgegeven, moet er aangegeven worden of het hier gaat om een minderjarige of volwassene."
       custom_type:
         new: "[rol aanmaken]"
         create_prompt: "Vul de naam van de rol in:"
@@ -46,11 +46,11 @@ nl-NL:
       photo: "Profiel foto"
       primary_emailer:
         intro_html: |
-            You're sharing an email address with %{person}.
-            If your group emails are being rejected, consider checking the box below to ensure that
-            emails from your address are <strong>always</strong> connected with your account
-            &ndash; <strong>not %{person}</strong>. (Note: if both you and %{person} send group emails,
-            then it would be better to use different email addresses.)
+            Je deelt een e-mail adres met %{person}.
+            Controleer onderstaande instelling als groepsberichten worden geweigerd.
+            Zorg ervoor dat dit e-mail adres <strong>altijd</strong> gekoppeld is aan je account.
+            As jij en %{person} beiden groepsberichten versturen
+            is het beter om verschillende e-mail adressen te gebruiken.
       required_field: verplicht
       twitter:
         placeholder: "@gebruikersnaam"
@@ -70,28 +70,28 @@ nl-NL:
       primary:
         heading: "Primair e-mail adres"
         description_html: |
-            <p>Dit is je primaire e-mail adres gebruikt vor inloggen en mail ontvangen. Let op:</p>
+            <p>Dit is je primaire e-mail adres dat gebruikt wordt voor het inloggen en het ontvangen van e-mail. Let op:</p>
             <ul>
-            <li>Dit e-mail adres is nodig om in te loggen.</li>
-            <li>Alle groep en prive e-mails worden naar dit adres verzonden</li>
+            <li>Dit e-mail adres is nodig om in te loggen</li>
+            <li>Alle groep- en prive e-mails worden naar dit e- mail adres verzonden</li>
             </ul>
       alternate:
         heading: "Alternatief e-mail adres"
         description_html: |
-            <p>Als je een tweede e-mail adres wenst te gebruik om email naar groepen te sturen, kan je die hier invullen. Let op:</p>
+            <p>Geef hier een tweede e-mail adres op om vanuit dit e-mail adres e-mails te versturen naar groepen.  Let op:</p>
             <ul>
             <li>Dit e-mail adres is voor niemand zichtbaar behalve beheerders</li>
             <li>Je kunt met dit e-mail adres niet inloggen op de site.</li>
             </ul>
       groups:
-        heading: "Groep email"
+        heading: "E-mail communicatie groepen"
     groups:
       heading: Groepen
       members: leden
       messages: berichten
       join:
         button: "Zoek en wordt lid van een groep"
-      see_all: "see all..."
+      see_all: "Toon alle groepen"
     business:
       services_provided_by: "Diensten geleverd door %{person}"
       address: Adres
@@ -115,8 +115,8 @@ nl-NL:
     cant_delete_yourself: "Je bent niet bevoegd om je account te verwijderen."
     cant_delete: "Je bent niet bevoegd om deze persoon te verwijderen."
     changes_must_be_reviewed_html: "Wijziging in deze gegevens moeten worden <strong>goedgekeurd</strong>. Vul de wijzigingen in en klik op 'indienen'."
-    changes_submitted: "Wijzigingen ingediend."
-    child: Kind
+    changes_submitted: "Wijzigingen ingediend"
+    child: "Minderjarige ja/nee"
     deleted_html: "Deze persoon is verwijderd. Je kunt <a href='%{url}'>hier</a> het verwijderen ongedaan maken."
     family: Familie
     family_legacy_external_id: ID
@@ -149,5 +149,5 @@ nl-NL:
     this_profile_is_hidden: "Dit profiel is verborgen."
     update_to_profile_is: "Een update van het profiel"
     visible_on_printed_directory: "Zichtbaar in ledenlijst printen"
-    visible_to_everyone: "Zichtbaar voor iedereen"
+    visible_to_everyone: "Zichtbaar voor alle leden"
     you_arent_in_any_groups: "Je bent nog geen lid van groepen."

@@ -34,7 +34,10 @@ nl-NL:
       mother_in_law: Schoonmoeder
       nephew: Neef
       niece: Nicht
-      other_name: Ander
+      ? ""
+      :
+        one: Ander
+        other: Anderen
       sister: Zus
       sister_in_law: Schoonzus
       son: Zoon

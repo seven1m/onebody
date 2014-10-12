@@ -201,8 +201,8 @@ nl-NL:
           description: "Zichtbaar in de algemene voorwaarden."
         ? "Community Office Phone"
         :
-          name: Telefoonnummer
-          description: "Telefoonnummer kantoor"
+          name: "Telefoon kantoor"
+          description: "Telefoon kantoor"
         ? "Community Email"
         :
           name: "E-mail adres"
@@ -260,8 +260,8 @@ nl-NL:
           description: "Vul in om de juiste datum en tijd te tonen."
         ? "Default Country"
         :
-          name: "Default Country"
-          description: "Select the default country for new family records."
+          name: Land
+          description: "Selecteer het standaard land dat voorgevuld moet zijn bij het aanmaken van een nieuwe familie."
       Appearance:
         ? "Public Theme"
         :
@@ -277,7 +277,7 @@ nl-NL:
         ? "Info Tab First"
         :
           name: "Info tab eerst"
-          description: "If enabled, move the Info tab on profiles to the far left and have it open by default."
+          description: "Info tabblad van profielen tonen aan de linkerkant zodat deze standaard geopend is."
       Formats:
         ? "Full Date and Time"
         :
@@ -290,7 +290,7 @@ nl-NL:
           name: Datum
           description: "Vul de datumnotatie in."
         Phone:
-          name: "Telefoonnummer (landcode)"
+          name: Telefoon(landnummer)
           description: "Vul de juiste notatie in van het landnummer en telefoonnummer."
         ? "Date Without Year"
         :
@@ -298,29 +298,29 @@ nl-NL:
           description: "Vul de juiste notatie in. Deze notatie wordt gebruikt voor verjaardagen."
         ? "Mobile Phone"
         :
-          name: "Mobiele telefoonnummer"
+          name: "Mobiele telefoon"
           description: "Vul de juiste notatie in van het mobiele telefoonnummer."
       Features:
         ? "Custom Person Type"
         :
-          name: "Custom Person Type"
-          description: "If enabled, admins can specify a custom type along the lines of Elder, Deacon, etc."
+          name: "Vrije velden persoon"
+          description: "Beheerders kunnen voor Rollen vrije velden aanmaken. Bijvoorbeeld: voorganger, administratief medewerker."
         ? "Community Google Calendar"
         :
-          name: "Community Google Calendar"
-          description: "The URL for the community Google Calendar.  Can be either the public or private address, but the calendar itself will need to be shared publicly in order to be included in the indivdual (\"my calendar\") feature."
+          name: "Google kalender"
+          description: "Geef hier de URL op voor de Google kalender. De kalender moet publiek gedeeld zijn."
         ? "Updates Must Be Approved"
         :
-          name: "Wijzigingen moeten goedgekeurd worden."
-          description: "If enabled, all changes to a user's \"basic\" information (phone, address, etc.) will await approval from an admin before being applied."
+          name: "Profielwijziging goedkeuren"
+          description: "Alle profielwijzigingen (adres, telefoon) moeten eerst goedgekeurd worden door beheerders."
         ? "Notify on Photo Change"
         :
-          name: "Notify on Photo Change"
-          description: "If enabled, admins will be notified whenever a user changes their personal or family photos."
+          name: "Notificatie bij wijzigingen foto"
+          description: "Beheerder worden geïnformeerd bij profielfoto wijzigingen."
         ? "Sign Up"
         :
           name: Inloggen
-          description: "If enabled, potential members can create their own login account on the site. It is highly recommended that you also enter an approval email address in the next field so that you can review signups before allowing login."
+          description: "Personen (onbekend) kunnen zelf een account aanmaken op de site. Zorg ervoor dat je gebruik maakt van onderstaande instellingen. Hierdoor moet de aanvraag eerst worden goedgekeurd door een beheer voordat de persoon kan inloggen."
         SSL:
           name: SSL
           description: "If you have SSL setup, you may turn on this feature, which will make the login page encrypted. If not, some advanced JavaScript hashing is enabled to make sure the users' passwords aren't being sent in plaintext."
@@ -329,7 +329,7 @@ nl-NL:
           description: "Activeer het delen van notities"
         Pictures:
           name: Afbeeldingen
-          description: "Afbeelding delen."
+          description: "Het delen van afbeeldingen door alle leden."
         ? "Banner Message"
         :
           name: "Bericht in de banner"
@@ -351,7 +351,7 @@ nl-NL:
         ? "Edit Legacy Ids"
         :
           name: "Wijzig ID's"
-          description: "Beheerder hebbn de mogelijkheid om ID's van families en personen aan te passen."
+          description: "Beheerders hebben de mogelijkheid om ID's van families en personen aan te passen."
         ? "Sign Up Approval Email"
         :
           name: "Account aanvragen"
@@ -361,14 +361,14 @@ nl-NL:
           description: "Gebruikers kunnen vrienden worden op de site. (Accepteren van een vriendschapsverzoek is altijd vereist.)"
         ? "Sidebar Group Heading"
         :
-          name: "Sidebar Group Heading"
-          description: "Heading to show above people in mutual groups (see above setting)"
+          name: "Zijbalk groepen"
+          description: "Toon personen in groepen (zie instellingen 'zijbalk groepen')"
         Reporting:
           name: Rapporten
           description: "MongoDB is vereist voor installatie en gebruik."
         ? "Sidebar Group Category"
         :
-          name: "Sidebar Group Category"
+          name: "Zoeken op categorie in groepen"
           description: "People in mutual groups of this category will be displayed on the user's profile sidebar."
         ? "Content Management System"
         :
@@ -380,16 +380,16 @@ nl-NL:
           description: "Activeer de nieuwspagina voor deze organisatie. Nieuwsitems kunnen worden ingediend door beheerders of opgehaald worden via een RSS feed. Ga naar \"Koppelingen\" om de juist URL op te geven voor de RSS feed."
         Verses:
           name: Bijbelteksten
-          description: "Bijbeltekst delen."
+          description: "Het delen van bijbelteksten door alle leden."
         Recipes:
-          name: Recipes
+          name: Recepten
           description: "Enable Recipe sharing."
         Service:
           name: Service
           description: "If enabled, admin users can track indviduals' service in areas of the community."
         Checkin:
-          name: Check-in
-          description: "If enabled, users can check-in to designated classes."
+          name: "Check-in systeem"
+          description: "Personen kunnen inchecken bij toegewezen groepen."
         Documents:
           name: Documenten
           description: "Beheerders kunnen bestanden delen op de site zodat leden de bestanden kunnen bekijken en downloaden"
@@ -416,7 +416,7 @@ nl-NL:
           description: "Logins are secured with public/private RSA encryption using JavaScript. Check this box to allow fallback for mobile phones and other browsers that are having trouble signing in."
         ? "Share Home Phone by Default"
         :
-          name: Telefoonnummer
+          name: Telefoon
           description: "Het telefoonnummer is zichtbaar voor andere leden."
         ? "Allow Picture Comments"
         :
@@ -424,7 +424,7 @@ nl-NL:
           description: "Leden kunnen reacties geven op afbeeldingen en album."
         ? "Share Work Phone by Default"
         :
-          name: "Telefoonnummer werk"
+          name: "Telefoon werk"
           description: "Het telefoonnummer is zichtbaar voor andere leden."
         ? "Share Fax by Default"
         :
@@ -436,7 +436,7 @@ nl-NL:
           description: "Nummer van het aantal inlogpogingen die worden toegestaan. Daarna wordt het account voor 15 minuten geblokkeerd."
         ? "Share Mobile Phone by Default"
         :
-          name: "Mobiele telefoonnummer"
+          name: "Mobiele telefoon"
           description: "Het telefoonnummer is zichtbaar voor andere leden."
         ? "Share Address by Default"
         :
@@ -447,31 +447,31 @@ nl-NL:
           name: Verjaardag
           description: "De verjaardag is zichtbaar voor andere leden."
       host:
-        name: "Host/Domain Name"
-        description: "The domain name where this site is accessible on the web, e.g. example.com or members.mychurch.com (do not include http:// on the front)"
+        name: Domeinnaam
+        description: "De domeinnaam waarop de site bereikbaar is. Bijvoorbeeld www.leden.1kerk.nl (Voeg in dit veld geen http:// toe )"
       Email:
         Host:
           name: "E-mail adres host name"
           description: "A subdomain, e.g. mg.example.com, to use if your domain is already serving email. Defaults to the domain name."
         MailgunApiKey:
           name: "Mailgun API Key"
-          description: "API Key to use mailgun.com as the email receiver."
+          description: "API Key om mailgun.com te gebruiken voor het ontvangen van e-mail."
       advanced:
         heading: Geavanceerd
         intro: "Als de instellingen niet worden ververst kun je via de knop hieronder de pagina verversen."
-        mailgun: "Click the button below to create a catch all route on your mailgun account."
+        mailgun: "Klik op de onderstaande knop om een 'catch all route' in te stellen op je Mailgun account."
       contact_automated_email_about: "These email addresses are sent email when certain things happen on the site. You can set them all to the same address or to different ones, depending on separation of duties in your community."
       contact_community_info_about: "Vul hier contactinformatie in van je organisatie. "
       contact_heading: Contact
       disabled: Gedeactiveerd.
-      enabled: Geactiveerd.
+      enabled: Geactiveerd
       features_heading: Functionaliteiten
       formats_heading: Notaties
       formats_date_about_html: "Vul de datum- en tijdnotaties in voor je eigen land. <a href=\"/date_formatting_options.txt\" target=\"_new\">Klik hier </a> voor een instructie."
       formats_phone_about: "Specificeer de notatie van de tijd met de 'd'. Bijvoorbeeld: (ddd)-dddddd"
       locale_heading: Lokaal
-      mailgun: "Create Catch All Route on Mailgun"
-      mailgun_message: "Use this to create a catch all route on your host/domain with mailgun to receive email messages."
+      mailgun: "Instellen Catch all route"
+      mailgun_message: "Klik op de onderstaande knop om een 'catch all route' in te stellen op je Mailgun account."
       membership_management_heading: Leden
       name_heading: Naam
       one_per_line: "(1 per regel)"
@@ -488,11 +488,11 @@ nl-NL:
       sharing_heading: Delen
       small_group_sharing:
         disable: "disable sharing among small groups"
-        all: "share with all groups, regardless of size"
+        all: "Delen met alle groepen, ongeacht grootte."
     super_admin: Superuser
     super_admin_about: "Super users hebben alle mogelijke rechten op de site en kunnen alle gegevens bekijken. Ga hier zorgvuldig mee om."
     syncs:
-      complete: Voltooid.
+      complete: Voltooid
       duration: Duur
       error: "Sorry.. Er is een fout opgetreden."
       id: ID
@@ -513,7 +513,7 @@ nl-NL:
     updates:
       apply: Doorvoeren
       child: "Is dit een kind?"
-      child_alert: "De update kan niet worden voltooid. Specificeer of deze persoon een kind is (jonger dan %{years})."
+      child_alert: "De update kan niet worden voltooid. Specificeer of deze persoon een minderjarige is (jonger dan %{years})."
       child_select_options:
         ? "You must select one"
         : ""
@@ -527,13 +527,13 @@ nl-NL:
         before: Voor
         after: Na
         created_at: Ingediend.
-      mark_complete: "Markeer als voltooid."
-      mark_incomplete: "Markeer al onvoltooid."
+      mark_complete: "Markeer als voltooid"
+      mark_incomplete: "Markeer al onvoltooid"
       person_deleted: "Persoon is verwijderd."
       profile_updates: "Profiel wijzigingen"
       toggle:
         pending: "In afwachting"
-        complete: Voltooid.
+        complete: Voltooid
       updated: Geupdate.
     username: Gebruikersnaam
     your_key: key

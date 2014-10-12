@@ -2,8 +2,8 @@
 nl-NL:
   accounts:
     create:
-      heading: "Account aanmaken"
-      button: "Account aanmaken"
+      heading: "Account aanvragen"
+      button: "Account aanvragen"
       existing_account:
         by_email: "Er is een account gevonden met dit e-mail adres."
         by_mobile: "Er is een account gevonden met dit mobiele nummer."
@@ -44,11 +44,11 @@ nl-NL:
     verify: "Verifieer je account"
     verify_email: "Verifieer je e-mail"
     verify_code_intro: "Vul de code in die je hebt ontvangen."
-    verify_by_email: "Verifieer via e-mail."
-    verify_by_email_message: "Een e-mail is onderweg. Klik op de link in de e-mail om een nieuw wachtwoord op te geven."
-    verify_by_phone: "Verifieer via mobiel."
+    verify_by_email: "Verifieer via e-mail"
+    verify_by_email_message: "Er wordt een e-mail naar e verstuurd. Klik op de link in de e-mail om een nieuw wachtwoord op te geven."
+    verify_by_phone: "Verifieer via mobiel"
     verify_by_phone_description_html: "Vul je mobiele nummer en provider in en klik op de onderstaande knop. Indien we je mobiele nummer in het bestand hebben ontvang je een tekstbericht. Via dit tekstbericht krijg je toegang tot de site. <strong> Mobiele gebruikskosten worden berekend. </strong>"
-    verify_by_phone_message: "Er is een tekstbericht verstuurd. Vul de code in die je hebt ontvangen."
-    verify_mobile: "Verifieer via mobiel."
-    verify_who_you_are: "Kies uit een van de volgende opties om in te loggen met je bestaande account."
+    verify_by_phone_message: "Er wordt een tekstbericht verstuurd. Vul de code in die je hebt ontvangen."
+    verify_mobile: "Verifieer via mobiel"
+    verify_who_you_are: "Kies uit één van de volgende opties om in te loggen met je bestaande account."
     wrong_code_html: "Je hebt de verkeerder code ingevuld. <a href='/account/new?phone=true'>Probeer het opnieuw. </a>"

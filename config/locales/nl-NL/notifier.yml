@@ -26,7 +26,7 @@ nl-NL:
       intro: "%{person} wil graag deelnemen aan de groep %{group}.\n"
       instruction: "Log eerst in om het verzoek te accepteren/weigeren.\n"
     mobile_verification:
-      subject: "Verifieer via mobiel."
+      subject: "Verifieer via mobiel"
       label: "Verificatie code:"
     pending_sign_up:
       subject: "Accountaanvraag in afwachting"
@@ -78,16 +78,19 @@ nl-NL:
             Je kunt je bericht versturen vanaf de site. Klik op de link om in te loggen:
 
             %{url}
+
+            Of log in
+            en selecteer bij email instellingen de primaire email account gebruiker.
       unknown_person:
         subject: "Bericht niet verstuurd: %{subject}"
         body: |
-            Your message with subject "%{subject}" was not delivered.
+            Het bericht "%{subject}" is niet verstuurd.
 
-            We are sorry for the inconvenience. The system does not recognize your
-            email address as a user of this website.
+            Excuses voor het ongemak. Het systeem herkent je
+            e-mail adres niet.
 
-            Please send using the same email address you use to sign in at the following
-            URL, or sign in there and send your message from the website.
+            Verstuur het bericht vanaf het e-mailadres waarmee je ook inlogt op de site of
+            Log in op de site om alsnog je bericht te versturen.
 
             %{url}
       invalid:
@@ -104,12 +107,12 @@ nl-NL:
       no_recipients:
         subject: "Bericht niet verstuurd: %{subject}"
         body: |
-            Your message with subject "%{subject}" was not delivered to any groups.
+            Het bericht %{subject} is niet verstuurd.
 
-            We are sorry for the inconvenience. The system could not find any valid
-            group addresses in the TO or CC fields.
+            Excuses voor het ongemak. Het systeem vindt geen geldige
+            e-mailadressen.
 
-            Please sign in at the following URL to send your message:
+            Log in op de site om alsnog je bericht te vesturen.
 
             %{url}
     message_id: ID

@@ -19,8 +19,8 @@ nl-NL:
           This is a group automatically linked with parents of people in %{group}.
           If you add someone manually, that person won't be managed automatically.
       linked_group_warning_html: |
-          This group is linked with class code <strong>%{code}</strong>.
-          If you add someone manually, that person won't be managed automatically.
+          Deze groep is gekoppeld aan code <strong>%{code}</strong>
+          Indien je een persoon handmatig toevoegen wordt deze niet automatisch beheert.
     promote: "Upgrade de persoon naar beheerder."
     demote: "Downgrade de beheerder"
     group_pending_approval: "De groep is aangemaakt en wacht op goedkeuring. Je kunt nog geen personen toevoegen aan deze groep."

@@ -29,7 +29,7 @@ nl-NL:
     home_phone: Telefoon
     i_agree: Akkoord
     mobile_phone: "Mobiele telefoon"
-    please_read_our_privacy_policy_html: "Lees in ons <a href=\"%{url}\">Privacy beleid</a>  hoe we met persoonlijke informatie omgaan."
+    please_read_our_privacy_policy_html: "Lees in het <a href=\"%{url}\">Privacy beleid</a>  hoe er wordt omgegaan met je persoonlijke informatie."
     people_can_still_send_html: "Het is mogelijk email te ontvangen van deze site, zonder het email adres op internet te publiceren."
     privacy: Privacy
     read_privacy_policy_html: "Lees ons <a href=\"%{url}\">Privacy beleid</a>."
@@ -37,7 +37,7 @@ nl-NL:
     read_statement_below: "Lees de verklaring hieronder en ga ermee akkoord door het vinkje aan te zetten."
     saved: "Instellingen opgeslagen."
     sharing_with_html: "Delen met <a href=\"%{url}\">%{name}</a>"
-    the_items_are_visible_html: "Het volgende is zichtbaar voor iedereen <a href=\"%{url}\">verander hier</a>:"
+    the_items_are_visible_html: "Het volgende is zichtbaar voor alle leden <a href=\"%{url}\">verander hier</a>:"
     the_items_may_be_shared: "Het volgende mag gedeeld worden met andere leden van %{name}:"
     this: dit
     to_show_on_this_site: "Om %{name} te tonen op deze site:"

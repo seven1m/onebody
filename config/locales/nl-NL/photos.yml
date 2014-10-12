@@ -2,7 +2,7 @@
 nl-NL:
   photos:
     object_not_found: "Geen resultaten."
-    browse: "Selecteer foto"
+    browse: "Foto toevoegen"
     remove: "Verwijder foto"
     unavailable: "Foto niet beschikbaar."
     upload:
