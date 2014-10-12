@@ -16,7 +16,7 @@
     %ul.list-unstyled
       - @records.each do |person, record|
         %li
-          = check_box_tag 'ids[]', person.id, false, id: "ids_#{person.id}"
+          = check_box_tag 'ids[]', person.id, record ? true : false, id: "ids_#{person.id}"
           = label_tag "ids_#{person.id}", person.name, class: 'inline'
   .form-group
     = button_tag t('attendance.save'), class: 'btn btn-success'
