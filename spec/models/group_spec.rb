@@ -148,4 +148,10 @@ end.length).to eq(1)
     @group.update_attributes!(gcal_private_link: 'http://www.google.com/calendar/hosted/timmorgan.org/embed?src=4azsf34hrgq1t3lkjh4sdewzxc%40group.calendar.google.com&ctz=America/Chicago&pvttk=2a2453bc8ef65dddf11a4f43a133df12')
     expect(@group.gcal_account).to eq("4azsf34hrgq1t3lkjh4sdewzxc%40group.calendar.google.com")
   end
+
+  describe 'share_token' do
+    it 'gets set on creation' do
+      expect(@group.share_token).to match(/^[0-9a-f]{50}$/)
+    end
+  end
 end

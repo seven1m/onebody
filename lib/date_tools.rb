@@ -33,9 +33,13 @@ class Time
       strptime(string, Setting.get(:formats, :full_date_and_time))
     rescue ArgumentError
       begin
-        parse(string) # fallback
+        strptime(string, Setting.get(:formats, :date))
       rescue ArgumentError
-        nil
+        begin
+          parse(string) # fallback
+        rescue ArgumentError
+          nil
+        end
       end
     end
   end

@@ -54,4 +54,68 @@ describe AttendanceController do
     expect(ActiveSupport::JSON.decode(@response.body)["status"]).to eq("success")
   end
 
+  describe 'public interface using share token' do
+    describe 'GET index' do
+      context 'using valid token' do
+        before do
+          get :index, { group_id: @group.id, public: true, token: @group.share_token }
+        end
+
+        it 'renders the public index template with signed_out layout' do
+          expect(response).to render_template(:public_index)
+          expect(response).to render_template(:signed_out)
+        end
+      end
+
+      context 'using bad token' do
+        before do
+          get :index, { group_id: @group.id, public: true, token: 'abc' }
+        end
+
+        it 'returns unauthorized' do
+          expect(response).to be_unauthorized
+          expect(response).to render_template(:signed_out)
+        end
+      end
+    end
+
+    describe 'POST batch' do
+      context 'using valid token' do
+        before do
+          post :batch, {
+            group_id:    @group.id,
+            public:      true,
+            token:       @group.share_token,
+            ids:         [@person.id],
+            attended_at: '01/13/2020'
+          }
+        end
+
+        render_views
+
+        it 'returns success' do
+          expect(response.body).to match(/attendance submitted/i)
+          expect(response).to render_template(:signed_out)
+        end
+      end
+
+      context 'using bad token' do
+        before do
+          post :batch, {
+            group_id:    @group.id,
+            public:      true,
+            token:       'abc',
+            ids:         [@person.id],
+            attended_at: '01/13/2020'
+          }
+        end
+
+        it 'returns unauthorized' do
+          expect(response).to be_unauthorized
+          expect(response).to render_template(:signed_out)
+        end
+      end
+    end
+  end
+
 end

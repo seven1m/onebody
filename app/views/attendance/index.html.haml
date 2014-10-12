@@ -2,13 +2,17 @@
 
 .row
   .col-md-8
-    %p
-      = label_tag :attended_at, t('attendance.date'), class: 'inline'
-      = date_field_tag :attended_at, @attended_at.to_s(:date)
+    .form-group
+      = label_tag :attended_at, t('attendance.date')
+      .input-group
+        .input-group-btn
+          %button{ type: 'button', class: 'btn btn-info date-picker-btn' }
+            = icon 'fa fa-calendar'
+        = date_field_tag :attended_at, @attended_at.to_s(:date), class: 'form-control'
 
     = form_tag batch_group_attendance_index_path(@group), id: 'attendance_form' do
       = hidden_field_tag :attended_at, @attended_at
-      %ul{:style => "list-style:none;"}
+      %ul.list-unstyled
         - @records.each do |person, record|
           %li
             = check_box_tag 'ids[]', person.id, record ? true : false, id: "ids_#{person.id}"
@@ -33,3 +37,14 @@
             = hidden_field_tag :attended_at, @attended_at, id: nil
             #results
             %p= button_tag t('search.add_selected'), class: 'btn btn-success'
+
+    - if @group.admin?(@logged_in)
+      .box.box-success
+        .box-header
+          %h3.box-title= t('attendance.share.title')
+        .box-body
+          %p= t('attendance.share.intro')
+          %p
+            = link_to({ public: true, token: @group.share_token }, class: 'btn btn-success') do
+              = icon 'fa fa-share'
+              = t('attendance.share.button')
