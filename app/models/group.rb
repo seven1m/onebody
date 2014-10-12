@@ -272,22 +272,7 @@ class Group < ActiveRecord::Base
       categories.keys.sort
     end
 
-    def count_by_type
-      {
-        public: is_public.count,
-        private: is_private.count
-      }.reject { |k, v| v == 0 }
-    end
-
-    def count_by_linked
-      {
-        standard: standard.count,
-        linked: linked.count,
-        parents_of: parents_of.count
-      }.reject { |k, v| v == 0 }
-    end
-
-# TODO: remove other_notes since notes is deleted
+    # TODO: remove other_notes since notes is deleted
     EXPORT_COLS = {
       group: %w(
         name
