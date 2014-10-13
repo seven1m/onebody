@@ -13,3 +13,22 @@
     text-decoration :none;
   }
 }
+
+.list-checkin {
+  font-size: 22pt;
+  li {
+    margin-bottom: 15px;
+  }
+  label {
+    font-weight: normal;
+  }
+  i {
+    vertical-align: middle;
+    font-size: 30pt;
+  }
+}
+
+.list-checkin-status .status {
+  @extend .callout;
+  @extend .callout-info;
+}

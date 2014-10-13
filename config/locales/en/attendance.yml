@@ -10,12 +10,19 @@ en:
     cannot_pickup_people: "Cannot Pick Up"
 
     share:
-      title: "Share this Form"
-      intro: |
-        Share a link to this form that will allow anyone to submit attendance for this group without signing in.
+      heading: "Share Form"
+      intro_html: |
+        <p>Share a link to this form that will allow anyone to submit attendance for this group without signing in.</p>
+        <p>This feature can be used for class check-in.</p>
       button: "Share this Form"
 
-    add_somebody_not_in_group: Add somebody not in the group
+    add:
+      heading: "Add Someone"
+      intro: |
+        Add someone to the attendance history.
+      footer_html: |
+        If this is someone who attends often, it is better to add them as a group member <a href="%{url}">here</a>.
+
     add_visitor: Add a visitor.
     adult: Adult
     attendance: Attendance

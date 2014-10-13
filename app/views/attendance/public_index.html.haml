@@ -6,17 +6,23 @@
   = hidden_field_tag :public, true
   = hidden_field_tag :token, params[:token]
   .form-group
-    = label_tag :attended_at, t('attendance.date')
     .input-group
       .input-group-btn
         %button{ type: 'button', class: 'btn btn-info date-picker-btn' }
           = icon 'fa fa-calendar'
       = date_field_tag :attended_at, @attended_at.to_s(:date), class: 'form-control'
   .form-group
-    %ul.list-unstyled
+    %table.table.list-checkin
       - @records.each do |person, record|
-        %li
-          = check_box_tag 'ids[]', person.id, record ? true : false, id: "ids_#{person.id}"
-          = label_tag "ids_#{person.id}", person.name, class: 'inline'
-  .form-group
+        %tr
+          %td{ style: 'width: 5%' }
+            = check_box_tag 'ids[]', person.id, record ? true : false, id: "ids_#{person.id}", class: 'simple icon-check'
+          %td
+            %label{ for: "ids_#{person.id}", class: 'inline' }
+              = person.name
+          %td
+            %label{ for: "ids_#{person.id}", class: 'inline' }
+              = avatar_tag person, fallback_to_family: true
+  .form-group.list-checkin-status
+    .status{ style: 'display:none' }
     = button_tag t('attendance.save'), class: 'btn btn-success'

@@ -77,7 +77,7 @@ class AttendanceController < ApplicationController
   def batch
     @group = Group.find(params[:group_id])
     unless @attended_at = Time.parse_in_locale(params[:attended_at]) || Date.parse_in_locale(params[:attended_at])
-      render text: t('attendance.wrong_date_format'), layout: 'signed_out'
+      render_text t('attendance.wrong_date_format'), :bad_request
       return
     end
     if @group.admin?(@logged_in) or (params[:token].present? and @group.share_token == params[:token])
@@ -98,13 +98,22 @@ class AttendanceController < ApplicationController
         end
       end
       if params[:public]
-        render text: t('attendance.saved'), layout: 'signed_out'
+        render_text t('attendance.saved')
       else
         flash[:notice] = t('changes_saved')
         redirect_to group_attendance_index_path(@group, attended_at: @attended_at.to_s(:date))
       end
     else
-      render text: t('not_authorized'), layout: true, status: 401
+      render_text t('not_authorized'), :unauthorized
+    end
+  end
+
+  protected
+
+  def render_text(message, status=:ok)
+    respond_to do |format|
+      format.html { render text: message, layout: 'signed_out', status: status }
+      format.json { render json: { status: status, message: message } }
     end
   end
 
