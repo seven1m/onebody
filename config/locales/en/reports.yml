@@ -15,6 +15,17 @@ en:
           group: "Group"
           attended_at: "Attended At"
           count: "Total Attendees"
+      group_contact_details:
+        title: "Group Contact Details"
+        title_for_group: "Group Contact Details for %{group}"
+        columns:
+          first_name: "First Name"
+          last_name: "Last Name"
+          email_address: "Email Address"
+          mobile_phone: "Mobile Phone"
+          home_phone: "Home Phone"
+          address: "Address"
+        address: "address"
       weekly_attendance:
         title: "Weekly Attendance"
         title_for_group: "Weekly Attendance for %{group}"
