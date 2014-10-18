@@ -10,5 +10,5 @@ $('input.icon-check[type="checkbox"]').each ->
   elm.hide().change(change)
   icon.click ->
     elm.prop('checked', !elm.is(':checked'))
-    change()
+    elm.trigger('change')
   change()
