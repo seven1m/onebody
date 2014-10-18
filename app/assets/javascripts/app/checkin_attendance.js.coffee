@@ -24,3 +24,6 @@ $('.list-checkin').find('input[type="checkbox"]').change ->
     error: (_xhr, err) ->
       message = "<i class='fa fa-exclamation-triangle text-red'></i> " + err
       status.html(message)
+
+$('#attendance_form #notes').on 'input', ->
+  $('.list-checkin-status button').show()

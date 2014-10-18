@@ -82,24 +82,27 @@ class AttendanceController < ApplicationController
     end
     if @group.admin?(@logged_in) or (params[:token].present? and @group.share_token == params[:token])
       @group.attendance_records_for_date(@attended_at).delete_all
-      params[:ids].to_a.each do |id|
-        if person = Person.where(id: id).first
-          @group.attendance_records.create!(
-            person_id:      person.id,
-            attended_at:    @attended_at.strftime('%Y-%m-%d %H:%M:%S'),
-            first_name:     person.first_name,
-            last_name:      person.last_name,
-            family_name:    person.family.name,
-            age:            person.age_group,
-            can_pick_up:    person.can_pick_up,
-            cannot_pick_up: person.cannot_pick_up,
-            medical_notes:  person.medical_notes
-          )
-        end
-      end
+      attendance_records = Array(params[:ids]).map do |id|
+        next unless person = Person.where(id: id).first
+        @group.attendance_records.create!(
+          person_id:      person.id,
+          attended_at:    @attended_at.strftime('%Y-%m-%d %H:%M:%S'),
+          first_name:     person.first_name,
+          last_name:      person.last_name,
+          family_name:    person.family.name,
+          age:            person.age_group,
+          can_pick_up:    person.can_pick_up,
+          cannot_pick_up: person.cannot_pick_up,
+          medical_notes:  person.medical_notes
+        )
+      end.compact
       if params[:public]
+        if params[:notes].present?
+          Notifier.attendance_submission(@group, attendance_records, @logged_in, params[:notes]).deliver
+        end
         render_text t('attendance.saved')
       else
+        Notifier.attendance_submission(@group, attendance_records, @logged_in, params[:notes]).deliver
         flash[:notice] = t('changes_saved')
         redirect_to group_attendance_index_path(@group, attended_at: @attended_at.to_s(:date))
       end

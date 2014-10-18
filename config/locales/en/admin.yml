@@ -230,6 +230,9 @@ en:
         Send Updates To:
           name: Send Updates To
           description: Email sent when someone updates their profile (can be blank for no email)
+        Send Attendance Submissions To:
+          name: Send Attendance Submissions To
+          description: Email sent when someone submits attendance for a group
       Services:
         Yahoo:
           name: Yahoo

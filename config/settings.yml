@@ -16,6 +16,9 @@ Contact:
   Send Email Changes To:
     format: string
     value: admin@example.com
+  Send Attendance Submissions To:
+    format: string
+    value: admin@example.com
   Community Address:
     format: string
     value: 123 West Imaginary Street, Broken Arrow, OK 12345-6789

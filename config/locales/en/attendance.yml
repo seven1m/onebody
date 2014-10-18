@@ -30,6 +30,13 @@ en:
     clear_search: clear
     date: Date
     export: Export to File
+
+    email:
+      subject: "Attendance Submission for %{group}"
+      intro_with_submitter: "%{person} has submitted attendance for the group %{group}."
+      intro_anonymous: "Attendance has been submitted (anonymously) for the group %{group}."
+      notes: "Below are notes included with the submission:"
+
     group: Group
     group_missing: group missing
     id: ID
@@ -38,12 +45,17 @@ en:
     next_date: next date
     no_records: no records to display
     not_enabled: Attendance tracking is not enabled for this goup.
+
+    notes:
+      label: "Notes"
+      help: "Use this field to send notes to the administrator."
+
     prev_date: prev date
     recorded_time: Recorded Time
     records:
       one: "1 record"
       other: "%{count} records"
-    save: Save Attendance
+    save: Submit Attendance
     saved: "Attendance submitted."
     Search: Search
     search_person: Search by Person Name

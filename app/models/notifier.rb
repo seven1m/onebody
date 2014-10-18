@@ -104,6 +104,17 @@ class Notifier < ActionMailer::Base
     end
   end
 
+  def attendance_submission(group, attendance_records, submitter, notes)
+    @group = group
+    @attendance_records = attendance_records
+    @person = submitter
+    @notes = notes
+    mail(
+      to: Setting.get(:contact, :send_attendance_submissions_to),
+      subject: t('attendance.email.subject', group: group.name)
+    )
+  end
+
   def email_verification(verification)
     @verification = verification
     mail(

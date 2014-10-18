@@ -1,0 +1,15 @@
+<%- if @person -%>
+<%=raw t('attendance.email.intro_with_submitter', person: @person.name, group: @group.name) %>
+<%- else -%>
+<%=raw t('attendance.email.intro_anonymous', group: @group.name) %>
+<%- end -%>
+
+<%- for ar in @attendance_records -%>
+- <%=raw "#{ar.first_name} #{ar.last_name}".ljust(30) %> <%=raw ar.age %>
+<%- end -%>
+
+<%- if @notes.present? -%>
+<%=raw t('attendance.email.notes') %>
+
+<%=raw @notes %>
+<%- end -%>

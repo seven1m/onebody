@@ -23,6 +23,10 @@
           %td
             %label{ for: "ids_#{person.id}", class: 'inline' }
               = avatar_tag person, fallback_to_family: true
+  .form-group
+    = label_tag :notes, t('attendance.notes.label')
+    = text_area_tag :notes, '', class: 'form-control'
+    %span.help-block= t('attendance.notes.help')
   .form-group.list-checkin-status
     .status{ style: 'display:none' }
     = button_tag t('attendance.save'), class: 'btn btn-success'
