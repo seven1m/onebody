@@ -121,9 +121,9 @@ class Group < ActiveRecord::Base
       q = []
       p = []
       link_code.downcase.split.each do |code|
-        q << "lcase(classes) = ? or
-              lcase(classes) like ? or lcase(classes) like ? or lcase(classes) like ? or
-              lcase(classes) like ? or lcase(classes) like ?"
+        q << "lower(classes) = ? or
+              lower(classes) like ? or lower(classes) like ? or lower(classes) like ? or
+              lower(classes) like ? or lower(classes) like ?"
         p += [code,
               "#{code},%", "%,#{code}", "%,#{code},%",
               "#{code}[%", "%,#{code}[%"]

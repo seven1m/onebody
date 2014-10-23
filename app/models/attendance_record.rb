@@ -48,7 +48,7 @@ class AttendanceRecord < ActiveRecord::Base
 
   def self.daily_counts(limit, offset, date_strftime='%Y-%m-%d', only_show_date_for=nil)
     [].tap do |data|
-      counts = connection.select_all("select count(date(attended_at)) as count, date(attended_at) as date from attendance_records where site_id=#{Site.current.id} group by date(attended_at) order by attended_at desc limit #{limit.to_i} offset #{offset.to_i};").group_by { |p| Date.parse(p['date'].strftime('%Y-%m-%d')) }
+      counts = connection.select_all("select count(date(attended_at)) as count, date(attended_at) as date from attendance_records where site_id=#{Site.current.id} group by attended_at order by attended_at desc limit #{limit.to_i} offset #{offset.to_i};").group_by { |p| Date.parse(p['date'].strftime('%Y-%m-%d')) }
       ((Date.today-offset-limit+1)..(Date.today-offset)).each do |date|
         d = date.strftime(date_strftime)
         d = ' ' if only_show_date_for and date.strftime(only_show_date_for[0]) != only_show_date_for[1]

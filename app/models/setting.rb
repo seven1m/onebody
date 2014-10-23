@@ -109,8 +109,13 @@ class Setting < ActiveRecord::Base
     end
 
     def get_hash_of_settings_in_db(site_id=nil)
-      Setting.connection.execute("set group_concat_max_len = 2048")
-      Setting.connection.select_all("select md5(lower(group_concat(section, name order by lower(section), lower(name)))) as hash from settings where #{site_id ? ('site_id = ' + site_id.to_s) : 'global = 1'}").first['hash']
+      if Setting.connection.adapter_name == "PostgreSQL"
+        # TODO MTR need to do this... the right way...
+        #Setting.connection.select_all("select md5(lower(array_agg(section) )) as hash from settings where #{site_id ? ('site_id = ' + site_id.to_s) : 'global = 1'}").first['hash']
+      else
+        Setting.connection.execute("set group_concat_max_len = 2048")
+        Setting.connection.select_all("select md5(lower(group_concat(section, name order by lower(section), lower(name)))) as hash from settings where #{site_id ? ('site_id = ' + site_id.to_s) : 'global = 1'}").first['hash']
+      end
     end
 
     def get_hash_of_settings_in_yaml(settings, global=false)
@@ -139,13 +144,13 @@ class Setting < ActiveRecord::Base
       settings = load_settings_hash
       # per site settings
       Site.where(active: true).each do |site|
-        if get_hash_of_settings_in_db(site.id) != get_hash_of_settings_in_yaml(settings)
+        #if get_hash_of_settings_in_db(site.id) != get_hash_of_settings_in_yaml(settings)
           Rails.logger.info("Reloading settings for site #{site.id}...")
           update_site_from_hash(site, settings)
-        end
+        #end
       end
       # globals
-      if get_hash_of_settings_in_db != get_hash_of_settings_in_yaml(settings, true)
+      #if get_hash_of_settings_in_db != get_hash_of_settings_in_yaml(settings, true)
         Rails.logger.info("Reloading global settings...")
         global_settings_in_db = Setting.where(global: true).to_a
         each_setting_from_hash(settings, true) do |section_name, setting_name, setting|
@@ -158,7 +163,7 @@ class Setting < ActiveRecord::Base
             setting.destroy
           end
         end
-      end
+      #end
       Setting.precache_settings(true)
     end
 

@@ -26,6 +26,8 @@ class Search
     elsif source == :family
       @scope = Family.includes(:people)
     end
+
+    @ilike = (@scope.connection.adapter_name == "PostgreSQL" ? 'ilike' : 'like')
   end
 
   def results
@@ -97,7 +99,8 @@ class Search
   end
 
   def not_deleted!
-    where!('people.deleted = ? and families.deleted = ?', false, false)
+    where!(people: { deleted: false} )
+    where!(families: { deleted: false} )
   end
 
   def business!
@@ -122,43 +125,46 @@ class Search
 
   def visible!
     return if show_hidden_profiles?
-    where!('people.visible = ? and people.visible_to_everyone = ? and families.visible = ?', true, true, true)
+    where!(people: {visible: true})
+    where!(people: {visible_to_everyone: true})
+    where!(families: {visible: true})
+    #where!('people.visible = ? and people.visible_to_everyone = ? and families.visible = ?', true, true, true)
   end
 
   def name!
     return unless name
-    where!(
-      "(concat(people.first_name, ' ', people.last_name) like :full_name
-       or (families.name like :full_name)
-       or (people.first_name like :first_name and people.last_name like :last_name))
-      ",
-      full_name:  like(name),
-      first_name: like(name.split.first, :after),
-      last_name:  like(name.split.last, :after)
-    )
+    person = Person.arel_table
+    family = Family.arel_table
+    concat = Arel::Nodes::NamedFunction.new 'concat', [person[:first_name], ' ', person[:last_name]]
+
+    where!(concat.matches(like(name)).or(
+      family[:name].matches(like(name)).or(
+        person[:first_name].matches(like(name.split.first, :after)).and(
+          person[:last_name].matches(like(name.split.last, :after))))))
   end
 
+
   def gender!
-    where!('people.gender = ?', gender) if gender.present?
+    where!(people: { gender: gender }) if gender.present?
   end
 
   def birthday!
     self.birthday ||= {}
-    where!('month(people.birthday) = ?', birthday[:month]) if birthday[:month].present?
-    where!('day(people.birthday)   = ?', birthday[:day])   if birthday[:day].present?
+    where!('extract( month from people.birthday) = ?', birthday[:month]) if birthday[:month].present?
+    where!('extract( day from people.birthday)   = ?', birthday[:day])   if birthday[:day].present?
   end
 
   def anniversary!
     self.anniversary ||= {}
-    where!('month(people.anniversary) = ?', anniversary[:month]) if anniversary[:month].present?
-    where!('day(people.anniversary)   = ?', anniversary[:day])   if anniversary[:day].present?
+    where!('extract(month from people.anniversary) = ?', anniversary[:month]) if anniversary[:month].present?
+    where!('extract(day from people.anniversary)   = ?', anniversary[:day])   if anniversary[:day].present?
   end
 
   def address!
     self.address ||= {}
-    where!('families.city like ?',  like(address[:city],  :after)) if address[:city].present?
-    where!('families.state like ?', like(address[:state], :after)) if address[:state].present?
-    where!('families.zip like ?',   like(address[:zip],   :after)) if address[:zip].present?
+    where!("families.city #{@ilike} ?",  like(address[:city],  :after)) if address[:city].present?
+    where!("families.state #{@ilike} ?", like(address[:state], :after)) if address[:state].present?
+    where!("families.zip #{@ilike} ?",   like(address[:zip],   :after)) if address[:zip].present?
   end
 
   def phone!
