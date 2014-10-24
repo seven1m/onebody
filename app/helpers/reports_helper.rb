@@ -20,4 +20,20 @@ module ReportsHelper
     end
   end
 
+  def initialize_group
+     @group = Group.find(options[:group_id]) if options[:group_id].present?
+  end
+
+  def group_title(report_title)
+    I18n.t(
+      @group ? 'title_for_group' : 'title',
+      scope: report_title,
+      group: @group.try(:name)
+    )
+  end
+
+  def report_group_field(form, name)
+    form.collection_select name, Group.approved.order(:name), :id, :name, {prompt: t('reports.group_select') }, {class: 'form-control'}
+  end
+
 end
