@@ -35,8 +35,8 @@ en:
         new: "[create a new category]"
         create_prompt: "Enter the category for your business:"
       child:
-        enabled: "Yes"
-        disabled: "No"
+        enabled: "Child"
+        disabled: "Adult"
       child_hint: "If no birthday is specified, you must indicate whether this is a child or an adult."
       custom_type:
         new: "[create role]"
@@ -131,7 +131,7 @@ en:
     cant_delete: "You cannot delete this person."
     changes_must_be_reviewed_html: "Changes to the details below must be <strong>reviewed by staff</strong>. To request changes, enter the details below and click 'Submit Changes.'"
     changes_submitted: "Changes submitted."
-    child: "Child"
+    child: "Child/Adult"
     deleted_html: "This person has been deleted. You can restore the record <a href='%{url}'>here</a>."
     family: "Family"
     family_legacy_external_id: "Family Legacy/External ID"
