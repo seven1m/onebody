@@ -1,6 +1,6 @@
 en:
 
-  messages: 
+  messages:
 
     new:
       button: "New Message"
@@ -39,7 +39,7 @@ en:
     not_authorized_delete: You are not authorized to delete this message.
     not_found: Message not found.
     posted_by: posted by
-    send_message: Send Email
+    send_message: Send Message
     sent: Your message has been sent.
     show_quoted_content: show quoted content
     some_quoted_text_is_hidden: Some quoted text in this message is hidden;
