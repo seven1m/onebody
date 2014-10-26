@@ -29,7 +29,7 @@
             %p= t('admin.box.sync_errors.text', count: error_count)
         .icon
           = icon 'fa fa-refresh'
-  - if @logged_in.admin?(:manage_groups)
+  - if @logged_in.admin?(:manage_groups) && setting(:features, :groups)
     .floating-box
       .small-box{ class: metric_css_class(@groups_pending_approval_count, 1, 5) }
         = link_to groups_path(pending_approval: true) do
@@ -38,7 +38,7 @@
             %p= t('admin.box.groups_pending_approval.text', count: @groups_pending_approval_count)
         .icon
           = icon 'fa fa-users'
-  - if @logged_in.admin?(:manage_groups)
+  - if @logged_in.admin?(:manage_groups) && setting(:features, :groups)
     .floating-box
       .small-box{ class: metric_css_class(@membership_request_count, 1, 5) }
         = link_to administration_membership_requests_path do
@@ -166,4 +166,4 @@
           %p
             = link_to administration_reports_path(), class: 'btn btn-info' do
               = icon 'fa fa-table'
-              = t('admin.report.button')        
+              = t('admin.report.button')
