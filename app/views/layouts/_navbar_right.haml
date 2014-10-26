@@ -20,10 +20,11 @@
         = link_to edit_person_account_path(@logged_in) do
           = icon 'fa fa-key'
           = t('nav.profile_sub.password')
-      %li
-        = link_to edit_person_path(@logged_in, email: true) do
-          = icon 'fa fa-envelope'
-          = t('nav.profile_sub.email')
+      - if setting(:features, :groups)
+        %li
+          = link_to edit_person_path(@logged_in, email: true) do
+            = icon 'fa fa-envelope'
+            = t('nav.profile_sub.email')
       %li
         = link_to edit_person_privacy_path(@logged_in) do
           = icon 'fa fa-lock'
