@@ -33,6 +33,10 @@ sudo chown -R $USER /var/www/onebody
 
 cd /var/www/onebody
 git checkout stable
+
+# brightbox may have a slightly newer version than we're pinned to -- that's ok
+sed -i '/ruby-version/d' Gemfile
+
 bundle install --deployment
 
 mysql -uroot -e "create database if not exists onebody default character set utf8 default collate utf8_general_ci; grant all on onebody.* to onebody@localhost identified by 'onebody';"
