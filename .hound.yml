@@ -11,7 +11,7 @@ Not:
   Enabled: false
 
 DotPosition:
-  EnforcedStyle: trailing
+  EnforcedStyle: leading
 
 StringLiterals:
   EnforcedStyle: single_quotes
