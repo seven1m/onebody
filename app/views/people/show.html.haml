@@ -75,29 +75,30 @@
           .thumbnail
             = icon 'fa fa-camera-retro'
 
-    - @groups.each do |group|
-      .box{class: group_box_class(group)}
-        .box-header
-          %h3.box-title
-            %i.fa.fa-group
-            = link_to group.name, group
-        .box-body
-          %table.table
-            %tr
-              %td
-                %i.fa.fa-users
-                = t('people.groups.members')
-              %td{style: "width:50px;"}= group.memberships.count
-            %tr
-              %td
-                %i.fa.fa-comments
-                = t('people.groups.messages')
-              %td{style: "width:50px;"}= group.messages.count
-    - if @groups.any?
-      %p= link_to t('people.groups.see_all'), person_groups_path(@person)
-    - if @groups.empty? and me?
-      .box
-        .box-body
-          = link_to groups_path, class: 'btn btn-info' do
-            = icon 'fa fa-search'
-            = t('people.groups.join.button')
+    - if setting(:features, :groups)
+      - @groups.each do |group|
+        .box{class: group_box_class(group)}
+          .box-header
+            %h3.box-title
+              %i.fa.fa-group
+              = link_to group.name, group
+          .box-body
+            %table.table
+              %tr
+                %td
+                  %i.fa.fa-users
+                  = t('people.groups.members')
+                %td{style: "width:50px;"}= group.memberships.count
+              %tr
+                %td
+                  %i.fa.fa-comments
+                  = t('people.groups.messages')
+                %td{style: "width:50px;"}= group.messages.count
+      - if @groups.any?
+        %p= link_to t('people.groups.see_all'), person_groups_path(@person)
+      - if @groups.empty? and me?
+        .box
+          .box-body
+            = link_to groups_path, class: 'btn btn-info' do
+              = icon 'fa fa-search'
+              = t('people.groups.join.button')
