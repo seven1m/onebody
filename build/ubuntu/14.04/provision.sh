@@ -5,7 +5,7 @@ set -e
 sleep 10
 export DEBIAN_FRONTEND=noninteractive
 sudo apt-get update
-sudo -E apt-get install -y -q wget build-essential libcurl4-openssl-dev  libmysqlclient-dev nodejs git imagemagick mysql-server apache2
+sudo -E apt-get install -y -q wget build-essential libcurl4-openssl-dev libmysqlclient-dev nodejs git imagemagick mysql-server apache2
 
 sudo apt-get install -y software-properties-common
 sudo apt-add-repository -y ppa:brightbox/ruby-ng
