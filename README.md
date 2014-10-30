@@ -1,6 +1,6 @@
 # Church.IO OneBody
 
-[![Install on DigitalOcean](http://img.shields.io/badge/Install%20on-DigitalOcean-brightgreen.svg)](http://installer.71m.us/install?url=https://github.com/churchio/onebody)
+[![Install on DigitalOcean](http://installer.71m.us/button.svg)](http://installer.71m.us/install?url=https://github.com/churchio/onebody)
 
 [![Build Status](http://img.shields.io/travis/churchio/onebody.svg)](https://travis-ci.org/churchio/onebody)
 [![Code Climate](http://img.shields.io/codeclimate/github/churchio/onebody.svg)](https://codeclimate.com/github/churchio/onebody)
