@@ -60,7 +60,7 @@ if [[ ! -e /home/onebodymail ]]; then
   sudo adduser --gecos "" --disabled-password --home=/home/onebodymail onebodymail
   email_password=`bundle exec rake secret | head -c 16`
   echo -e "$email_password\n$email_password" | sudo passwd onebodymail
-  echo -e "production:\n  pop:\n    host: localhost\n    username: onebodymail\n    password: $email_password\n  smtp:\n    address: localhost\n    domain: example.com" > config/email.yml
+  echo -e "production:\n  pop:\n    host: localhost\n    username: onebodymail\n    password: $email_password\n  smtp:\n    address: localhost\n    domain: example.com\n    enable_starttls_auto: false" > config/email.yml
 fi
 
 bundle exec whenever -w
