@@ -17,7 +17,7 @@ OneBody is built with Ruby on Rails and MySQL, and has been in production use at
 
 You can see lots of [screenshots here](https://www.flickr.com/photos/timothymorgan/sets/72157644451251789).
 
-[![screnshots](https://farm4.staticflickr.com/3907/14330229528_250bd697d7.jpg)](https://www.flickr.com/photos/timothymorgan/sets/72157644451251789)
+![screnshots](https://farm8.staticflickr.com/7508/15498980049_3527e0817e_b.jpg)
 
 ## Production Installation
 
