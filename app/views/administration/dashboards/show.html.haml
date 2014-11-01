@@ -71,6 +71,19 @@
               = icon 'fa fa-bar-chart-o'
               = t('admin.attendance.button')
 
+  - if @logged_in.admin?(:run_reports)
+    .floating-box
+      .box.box-info.normalize-height
+        .box-header
+          %h3.box-title= t('admin.report.heading')
+        .box-body
+          %p
+            = t('admin.report.intro')
+          %p
+            = link_to administration_reports_path(), class: 'btn btn-info' do
+              = icon 'fa fa-table'
+              = t('admin.report.button')
+
   - if setting(:features, :checkin) and (@logged_in.admin?(:manage_checkin) or @logged_in.admin?(:assigned_checkin_cards))
     .floating-box
       .box.box-info.normalize-height
@@ -152,16 +165,3 @@
                       = icon 'fa fa-download'
                       CSV
                 %td
-
-  - if @logged_in.super_admin? or @logged_in.admin?(:run_reports)
-    .floating-box
-      .box.box-info.normalize-height
-        .box-header
-          %h3.box-title= t('admin.report.heading')
-        .box-body
-          %p
-            = t('admin.report.intro')
-          %p
-            = link_to administration_reports_path(), class: 'btn btn-info' do
-              = icon 'fa fa-table'
-              = t('admin.report.button')
