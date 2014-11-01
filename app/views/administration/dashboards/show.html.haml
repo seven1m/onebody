@@ -128,7 +128,6 @@
                   = link_to people_path(format: 'xml'), class: 'btn btn-xs btn-info' do
                     = icon 'fa fa-download'
                     XML
-              %td
                 - if @logged_in.admin?(:export_data)
                   = link_to people_path(format: 'csv'), class: 'btn btn-xs btn-info' do
                     = icon 'fa fa-download'
@@ -148,7 +147,6 @@
                     = link_to groups_path(format: 'xml'), class: 'btn btn-xs btn-info' do
                       = icon 'fa fa-download'
                       XML
-                %td
                   - if @logged_in.admin?(:export_data)
                     = link_to groups_path(format: 'csv'), class: 'btn btn-xs btn-info' do
                       = icon 'fa fa-download'
