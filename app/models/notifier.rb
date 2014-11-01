@@ -385,7 +385,7 @@ class Notifier < ActionMailer::Base
   def get_from_address
     Mail::Address.new.tap do |addr|
       addr.address = Site.current.noreply_email
-      addr.display_name = Setting.get(:name, :site)
+      addr.display_name = Setting.get(:name, :site).dup
     end
   end
 end
