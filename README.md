@@ -1,29 +1,36 @@
 # Church.IO OneBody
 
-[![Install on DigitalOcean](http://installer.71m.us/button.svg)](http://installer.71m.us/install?url=https://github.com/churchio/onebody)
-[Install Elsewhere](https://github.com/churchio/onebody/wiki/Installation)
+![screnshots](https://farm8.staticflickr.com/7508/15498980049_3527e0817e_b.jpg)
 
-[![Build Status](http://img.shields.io/travis/churchio/onebody.svg)](https://travis-ci.org/churchio/onebody)
-[![Code Climate](http://img.shields.io/codeclimate/github/churchio/onebody.svg)](https://codeclimate.com/github/churchio/onebody)
-[![Stories in Ready](https://badge.waffle.io/churchio/onebody.svg?label=ready&title=stories ready)](http://waffle.io/churchio/onebody)
-[![Stories in Progress](https://badge.waffle.io/churchio/onebody.svg?label=in+progress&title=stories in progress)](http://waffle.io/churchio/onebody)
-[![Site](http://img.shields.io/badge/site-church.io-blue.svg)](http://church.io/?utm_source=github&utm_medium=referral&utm_campaign=churchio)
+[![Install on DigitalOcean](http://installer.71m.us/button.svg)](http://installer.71m.us/install?url=https://github.com/churchio/onebody)
+
+[Install Elsewhere](https://github.com/churchio/onebody/wiki/Installation)
 
 OneBody is open-source, web-based social networking, email list, online directory, and lightweight document management software for churches.
 
-*It's like a cross between Facebook, Google Groups, and SharePoint, but it's completely free and open source and awesome.*
+This software has been in production use at churches for over seven years!
 
-OneBody is built with Ruby on Rails and MySQL, and has been in production use at churches for over seven years!
+Visit our website at [church.io](http://church.io) or browse through our [screenshots on Flickr](https://www.flickr.com/photos/timothymorgan/sets/72157644451251789) to see more.
 
-You can see lots of [screenshots here](https://www.flickr.com/photos/timothymorgan/sets/72157644451251789).
+## Contributing to the Project
 
-![screnshots](https://farm8.staticflickr.com/7508/15498980049_3527e0817e_b.jpg)
+[![Build Status](http://img.shields.io/travis/churchio/onebody.svg)](https://travis-ci.org/churchio/onebody)
+[![Code Climate](http://img.shields.io/codeclimate/github/churchio/onebody.svg)](https://codeclimate.com/github/churchio/onebody)
+[![Stories in Ready](https://badge.waffle.io/churchio/onebody.svg?label=ready&title=stories+ready)](http://waffle.io/churchio/onebody)
+[![Stories in Progress](https://badge.waffle.io/churchio/onebody.svg?label=in+progress&title=stories+in+progress)](http://waffle.io/churchio/onebody)
 
-## Production Installation
+We <3 contributors! Just check out [all these people](https://github.com/orgs/churchio/people) who have helped make OneBody awesome!
 
-Please see the [Installation Page](https://github.com/churchio/onebody/wiki/Installation) on the wiki.
+To help fix a bug, first make sure it has a logged [issue](https://github.com/churchio/onebody/issues) (if not, create one), then:
 
-## Development Setup Using Vagrant
+1. Fork this repo on GitHub.
+2. Set up the software on your computer by following the directions in one of the "Development" sections above.
+3. Fix the bug, run the tests (see the "Tests" section above) to make sure they all pass.
+4. Submit a Pull Request to get your bug fix merged!
+
+If you'd like to add an awesome new feature, please hop on IRC to talk about what you want to do. We might be able to save you some time building something that 1) we've already done, 2) won't work, or 3) we'll never use. Also, we'd like to give some guidance on approach, coding style, tests, etc.
+
+### Development Setup Using Vagrant
 
 If you're a developer and want to get everything running locally, this is the easiest way.
 
@@ -44,7 +51,7 @@ To restart the Rails server, type `touch tmp/restart.txt`. Or you can `vagrant r
 
 For more help with Vagrant, check out the [Vagrant docs](http://docs.vagrantup.com/v2/).
 
-## Development Setup the Manual Way
+### Manual Development Setup
 
 Operating System: Mac or Linux (See Vagrant above if you're on Windows)
 
@@ -53,11 +60,11 @@ Operating System: Mac or Linux (See Vagrant above if you're on Windows)
 3. Install Git.
 4. Install ImageMagick.
 5. `git clone git://github.com/churchio/onebody.git && cd onebody`
-6. `mysql -u root -e "create database onebody_dev default character set utf8 default collate utf8_general_ci; grant all on onebody_dev.* to onebody@localhost identified by 'onebody';"`
+6. `grant all on onebody_dev.* to onebody@localhost identified by 'onebody';"`
 7. `cp config/database.yml{.example,}`
 8. `bundle install`
 9. `cp config/secrets.yml{.example,} && vim config/secrets.yml` and add a random secret token to both the "development" and "test" sections (you can use `rake secret` to generate a new random secret).
-10. `rake db:migrate db:seed`
+10. `rake db:create db:migrate db:seed`
 11. `rails server`
 
 Now visit the site running in development mode at http://localhost:3000.
@@ -76,7 +83,7 @@ You can set this up to run via cron or, alternatively, run the above with the -c
 script/worker -e development -c
 ```
 
-## Tests
+### Tests
 
 To run tests:
 
@@ -96,17 +103,6 @@ mysql -u root -e "create database onebody_test default character set utf8 defaul
 * [Wiki](http://wiki.github.com/churchio/onebody)
 * [Google Group](http://groups.google.com/group/churchio)
 * [Help Guides](http://church.io/onebody/help)
-
-## Contributing
-
-To help fix a bug, first make sure it has a logged [issue](https://github.com/churchio/onebody/issues) (if not, create one), then:
-
-1. Fork this repo on GitHub.
-2. Set up the software on your computer by following the directions in one of the "Development" sections above.
-3. Fix the bug, run the tests (see the "Tests" section above) to make sure they all pass.
-4. Submit a Pull Request to get your bug fix merged!
-
-If you'd like to add an awesome new feature, please hop on IRC to talk about what you want to do. We might be able to save you some time building something that 1) we've already done, 2) won't work, or 3) we'll never use. Also, we'd like to give some guidance on approach, coding style, tests, etc.
 
 ## Copyright
 
