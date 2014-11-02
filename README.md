@@ -24,7 +24,7 @@ We <3 contributors! Just check out [all these people](https://github.com/orgs/ch
 To help fix a bug, first make sure it has a logged [issue](https://github.com/churchio/onebody/issues) (if not, create one), then:
 
 1. Fork this repo on GitHub.
-2. Set up the software on your computer by following the directions in one of the "Development" sections above.
+2. Set up the software on your computer by following the directions below.
 3. Fix the bug, run the tests (see the "Tests" section above) to make sure they all pass.
 4. Submit a Pull Request to get your bug fix merged!
 
