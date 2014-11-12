@@ -5,6 +5,26 @@ This is not meant to be a detailed account of everything changed in releases, bu
 For general upgrade instructions, see the wiki [here](https://github.com/churchio/onebody/wiki/Manual-Installation#how-to-upgrade). Any release-specific upgrade notes below should be applied *after* the general instructions in the wiki (unless otherwise noted).
 
 
+## 3.3.0 (not yet released)
+
+* Add Reports feature
+* Add new "sharable" attendance form for light-weight class check-in
+* Allow sending notes with attendance/check-in submission
+* New one-click installer for DigitalOcean
+* Improved installation instructions on wiki
+* Fix bug with international characters in site name
+* Upgrade to Rails 4.1.7
+* Fix bug installing with wrong Ruby version
+* Disable starttls in default email config
+* Fix display issues when Groups feature is disabled
+* Reduce ambiguity in "child/adult" selection in basic info
+* Add Better Errors for development
+* Fix bug showing raw data when clicking a map pin
+* Clarify use of "email" field on profile edit screen
+* Fix Relationships page in non-English translations
+* Use https for OpenStreetMap tiles when :ssl enabled
+
+
 ## 3.2.0
 
 ### Upgrade Notes
