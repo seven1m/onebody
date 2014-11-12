@@ -34,7 +34,7 @@ pt:
       mother_in_law: Sogra
       nephew: Sobrinho
       niece: Sobrinha
-      other_name: Outro
+      other_name: Outros
       sister: Irmã
       sister_in_law: Cunhada
       son: Filho
@@ -47,6 +47,8 @@ pt:
       stepson: Enteado
       uncle: Tio
       wife: Esposa
+    other_name:
+      placeholder: "Tipo de Relacionamento"
     no_person_selected: "Nenhuma pessoa selecionada."
     relationship: Relacionamento
     relationship_type: "Tipo:"

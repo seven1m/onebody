@@ -80,7 +80,7 @@ pt:
         address1: "Endereço - Linha 1"
         address2: "Endereço - Linha 2 (opcional)"
         city: Cidade
-        country: Country
+        country: País
         home_phone: "Telefone Residencial"
         last_name: "Último Nome"
         name: Nome
@@ -89,7 +89,7 @@ pt:
       person:
         anniversary: "Aniversário de Casamento"
         birthday: "Data de Nascimento"
-        custom_type: "Custom Role"
+        custom_type: "Atribuição Customizada"
         email: Email
         facebook_url: "URL do Facebook"
         fax: Fax
@@ -97,7 +97,7 @@ pt:
         gender: Sexo
         last_name: "Último Nome"
         mobile_phone: "Telefone Celular"
-        primary_emailer: "Primary email account holder"
+        primary_emailer: "Dono da conta de email principal"
         suffix: Sufixo
         twitter: "Usuário do Twitter"
         work_phone: "Telefone Comercial"
@@ -401,7 +401,7 @@ pt:
     api_access: "Você deve ser um super administrador para usar a API."
     mailgun_route_found: "A rota já existe."
     mailgun_route_created: "A rota foi criada."
-    mailgun_apikey_notfound: "Please check the mailgun api key."
+    mailgun_apikey_notfound: "Por favor verifique a chave de api do mailgun."
     mailgun_route_error: "Ocorreu um erro ao tentar criar a rota."
     no_default_site: "Nenhum site padrão encontrado."
     no_site_configured: "Não existe um site configurado no endereço %{host}"

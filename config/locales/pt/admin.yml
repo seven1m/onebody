@@ -60,6 +60,14 @@ pt:
       count:
         one: "%{count} pedido"
         other: "%{count} pedidos"
+    report:
+      back: "Voltar para o Painel de Relatórios"
+      button: "Painel de Relatórios"
+      heading: Relatórios
+      intro: "Acesse o Painel de Relatórios para acessar relatórios pré-definidos e ferramentas de relatórios ad-hoc."
+      launch: Iniciar
+      list: Relatórios
+      title: "Painel de Relatórios"
     active: ativo
     admin_added: "%{name} adicionado."
     admin_count:
@@ -122,59 +130,55 @@ pt:
       view_hidden_profiles:
         title: "Visualizar Perfis Ocultos"
         about: "Visualizar pessoas ocultas no banco de dados, por exemplo, crianças e outros marcados como invisíveis."
-        order: "1"
+        order: 1
       view_hidden_properties:
         title: "Visualizar Propriedades Ocultas"
         about: "Visualizar telefones, emails e outras informações privadas que estão ocultas."
-        order: "2"
+        order: 2
       edit_profiles:
         title: "Editar Perfis"
         about: "Edite nome, números de telefone, email, senha e qualquer outra informação associada ao perfil de um usuário."
-        order: "3"
+        order: 3
       manage_access:
         title: "Gerenciar Acesso"
         about: "Gerencie os administradores do site. ('Gerencia Grupos' deve ser selecionado para gerenciar administradores de grupo.)"
-        order: "4"
+        order: 4
       manage_attendance:
         title: "Gerenciar Presenças"
         about: "Visualizar, editar e exportar presenças."
-        order: "5"
+        order: 5
       manage_comments:
         title: "Gerenciar Comentários"
         about: "Habilidade de excluir qualquer comentário no site."
-        order: "6"
+        order: 6
       manage_groups:
         title: "Gerenciar Grupos"
         about: "Visualizar, editar e excluir qualquer grupo (mesmo se oculto ou privado)."
-        order: "8"
+        order: 8
       manage_news:
         title: "Gerenciar Notícias"
         about: "Visualizar, editar ou excluir todas as notícias."
-        order: "9"
-      manage_notes:
-        title: "Gerenciar Notas"
-        about: "Editar e excluir quaisquer notas."
-        order: "10"
+        order: 9
       manage_pictures:
         title: "Gerenciar Fotos"
         about: "Visualizar, editar e excluir qualisquer fotos e álbuns."
-        order: "11"
+        order: 11
       manage_updates:
         title: "Gerenciar Atualizações"
         about: "Visualizar, editar e excluir atualizações de perfil pendentes feitas pelos usuários."
-        order: "14"
+        order: 14
       manage_sync:
         title: "Gerenciar Sincronização"
         about: "Visualizar e rastrear sincronizações feitas com o UpdateAgent."
-        order: "15"
+        order: 15
       import_data:
         title: "Importar Dados"
         about: "Importar dados de um arquivo CSV ou utilizando o UpdateAgent."
-        order: "16"
+        order: 16
       export_data:
         title: "Exportar Dados"
         about: "Exportar todos os dados do site para um arquivo XML ou CSV."
-        order: "17"
+        order: 17
       assign_checkin_cards:
         title: "Atribuir Cartões de Check-in"
         about: "Atribuir números de cartão para famílias."
@@ -186,6 +190,10 @@ pt:
       manage_documents:
         title: "Gerenciar Documentos"
         about: "Adicionar, editar e excluir documentos."
+      run_reports:
+        title: "Executar Relatórios"
+        about: "Acessar o Painel de Relatórios."
+        order: 18
     rest_api_information: "Para utilizar uma API REST com Ruby, você precisa fazer isto"
     settings:
       heading: "Configurações do Site"
@@ -218,6 +226,10 @@ pt:
         :
           name: "Enviar Atualizações para"
           description: "Email enviado quando alguém atualiza o seu perfil (pode ficar em branco para não enviar emails)"
+        ? "Send Attendance Submissions To"
+        :
+          name: "Enviar Registros de Presença para"
+          description: "Email enviado quando alguém envia a presença de um grupo"
       Services:
         Yahoo:
           name: Yahoo
@@ -258,7 +270,7 @@ pt:
         ? "Default Country"
         :
           name: "País Padrão"
-          description: "Selecione o país padrão para o site."
+          description: "Selecione o país padrão para novos registros de família."
       Appearance:
         ? "Public Theme"
         :
@@ -374,7 +386,7 @@ pt:
         ? "News Page"
         :
           name: "Página de Notícias"
-          description: "Habilite a página de notícias da comunidade. Notícias podem ser submetidas pelos administradores e/ou obtidas de um feed RSS (verifique a opção URL nas conifiguração RSS de Notícias)."
+          description: "Habilite a página de notícias da comunidade. Notícias podem ser submetidas pelos administradores e/ou obtidas de um feed RSS (veja a configuração Serviços Externos, Feed de Notícias)."
         Verses:
           name: Versículos
           description: "Habilitar compartilhamento de Versículos."
