@@ -60,6 +60,14 @@ nl-NL:
       count:
         one: "%{count} verzoek"
         other: "%{count} verzoeken"
+    report:
+      back: "Back to Report Dash"
+      button: "Reporting Dashboard"
+      heading: Reporting
+      intro: "Access the Reporting Dashboard for pre-defined reports and ad-hoc reporting tools."
+      launch: Launch
+      list: Reports
+      title: "Reporting Dashboard"
     active: actief
     admin_added: "%{name} is toegevoegd."
     admin_count:
@@ -123,59 +131,55 @@ nl-NL:
       view_hidden_profiles:
         title: "Toon verborgen personen"
         about: "Bekijk verborgen personen in het bestand, zoals telefoonnummers, e-mail adressen en persoonlijke informatie."
-        order: "1"
+        order: 1
       view_hidden_properties:
         title: "Toon verborgen opties"
         about: "Toon verborgen telefoonnummers, e-mail adressen en andere prive informatie."
-        order: "2"
+        order: 2
       edit_profiles:
         title: "Wijzig profielen"
         about: "Wijzig namen, telefoonnummers, e-mailadressen, wachtwoorden en alle andere profiel gegevens."
-        order: "3"
+        order: 3
       manage_access:
         title: "Beheer toegang"
         about: "Het wijzigen van rechten voor groepen en personen (Het recht 'Beheer groepen' is hierbij een vereiste)"
-        order: "4"
+        order: 4
       manage_attendance:
         title: "Bekijk bezoekersregistratie"
         about: "Bekijk, wijzig en exporteer de bezoekersaantalen van de verschillende groepen."
-        order: "5"
+        order: 5
       manage_comments:
         title: "Beheer reacties"
         about: "Verwijder reacties op de site."
-        order: "6"
+        order: 6
       manage_groups:
         title: "Beheer groepen"
         about: "Bekijk, wijzigen en verwijder groepen (ook verborgen groepen)."
-        order: "8"
+        order: 8
       manage_news:
         title: "Beheer nieuwsberichten"
         about: "Bekijk, wijzig en verwijder nieuwsberichten."
-        order: "9"
-      manage_notes:
-        title: "Beheer notities"
-        about: "Wijzig en verwijder notities."
-        order: "10"
+        order: 9
       manage_pictures:
         title: "Beheer afbeeldingen"
         about: "Bekijk, wijzig en verwijderen afbeeldingen en albums."
-        order: "11"
+        order: 11
       manage_updates:
         title: "Beheer updates"
         about: "Bekijk, wijzig en verwijder profiel updates die zijn aangevraagd."
-        order: "14"
+        order: 14
       manage_sync:
         title: "Beheer synchronisaties"
         about: "Bekijk en controleer synchronisatie die uitgevoerd zijn door de UpdateAgent"
-        order: "15"
+        order: 15
       import_data:
         title: Importeren
         about: "Importeer data via een CSV bestand of via de UpdateAgent"
-        order: "16"
+        order: 16
       export_data:
         title: Exporteren
         about: "Exporteer alle mogelijke data naar XML of CSV."
-        order: "17"
+        order: 17
       assign_checkin_cards:
         title: "Check-in kaarten toewijzen"
         about: "Kaarten toewijzen aan personen en families."
@@ -187,6 +191,10 @@ nl-NL:
       manage_documents:
         title: "Beheer documenten"
         about: "Toevoegen, wijzigen en verwijderen van documenten."
+      run_reports:
+        title: "Run Reports"
+        about: "Access the Reporting Dashboard."
+        order: 18
     rest_api_information: "Om de REST API met Ruby te gebruiken, kun je dit doen"
     settings:
       heading: Instellingen
@@ -219,6 +227,10 @@ nl-NL:
         :
           name: "Profiel wijzigingen"
           description: "Profiel wijzigen worden verstuurd naar dit e-mail adres. (Dit veld mag leeg zijn.)"
+        ? "Send Attendance Submissions To"
+        :
+          name: "Send Attendance Submissions To"
+          description: "Email sent when someone submits attendance for a group"
       Services:
         Yahoo:
           name: Yahoo

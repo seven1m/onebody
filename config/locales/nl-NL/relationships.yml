@@ -34,10 +34,7 @@ nl-NL:
       mother_in_law: Schoonmoeder
       nephew: Neef
       niece: Nicht
-      ? ""
-      :
-        one: Ander
-        other: Anderen
+      other_name: Other
       sister: Zus
       sister_in_law: Schoonzus
       son: Zoon
@@ -50,6 +47,8 @@ nl-NL:
       stepson: Stiefzoon
       uncle: Oom
       wife: Vrouw
+    other_name:
+      placeholder: "Relationship Type"
     no_person_selected: "Geen persoon geselecteerd."
     relationship: Relatie
     relationship_type: "Type:"

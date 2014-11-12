@@ -6,19 +6,19 @@ nl-NL:
     none: "Er is nog niets om hier te tonen."
     header:
       noone: systeem
-      message: "%{who} stuurde een bericht naar %{group}"
+      message: "%{who} heeft een bericht gestuurd naar %{group}"
       news: "%{who} plaatste %{title}"
       note: "%{who} plaatste een notitie"
       person: "%{who} is lid geworden van de gemeenschap"
       picture:
-        one: "%{who} deelde een afbeelding in %{album}"
-        other: "%{who} deelde afbeeldingen in %{album}"
+        one: "%{who} heeft een afbeelding gedeeld uit%{album}"
+        other: "%{who} heeft afbeeldingen gedeeld uit %{album}"
       picture_in_group:
-        one: "%{who} deelde een afbeelding in de groep %{group}"
-        other: "%{who} deelde afbeeldingen in de groep %{group}"
+        one: "%{who} heeft een afbeelding gedeeld in de groep %{group}"
+        other: "%{who} heeft afbeeldingen gedeeld in de groep %{group}"
       prayer_request: "%{who} heeft een gebedsverzoek ingediend in de groep %{group}"
       site: "%{site}"
-      verse: "%{who} deelde %{title}"
+      verse: "%{who} heeft een bijbeltekst gedeeld %{title}"
     body:
       picture:
         alt: "klik om te vergroten"
@@ -39,10 +39,10 @@ nl-NL:
         friends: "Delen met vrienden"
         everyone: "Delen met alle leden"
       intro:
-        friends_and_group_members: "Wat je hier deelt is zichtbaar voor vrienden en groepsleden."
+        friends_and_group_members: "Deel foto's, bijbelteksten of stuur een groepbericht naar vrienden of groepsleden."
         friends_only: "Wat je hier deelt is zichtbaar voor vrienden."
         group_members_only: "Wat je hier deelt is zichtbaar voor groepsleden."
-        everyone: "Deel met alle leden"
+        everyone: "Deel een weetje, nieuws of een mededeling met de leden van jou kerk."
       button:
         note: notitie
         picture: foto

@@ -37,6 +37,7 @@ nl-NL:
         new: "[rol aanmaken]"
         create_prompt: "Vul de naam van de rol in:"
       description_hint: "Omschrijf jezelf in een woord of twee  — bijvoorbeeld je beroep."
+      email_hint: " (this is your main email address used for login and receiving emails)"
       facebook_url:
         placeholder: "http://www.facebook.com/username"
       family_photo: "Familie foto"
@@ -109,7 +110,7 @@ nl-NL:
     verification_email:
       heading: "Je aanmelding is bijna voltooid"
       intro: "Before this user can sign in, they must complete setup by clicking a link in their email. Click below to send them the email."
-      button: "Verstuur een wachtwoord reset e-mail naar deze persoon."
+      button: "Reset wachtwoord e-mail versturen"
     advanced: Geavanceerd
     can_sign_in: Inloggen
     cant_delete_yourself: "Je bent niet bevoegd om je account te verwijderen."
