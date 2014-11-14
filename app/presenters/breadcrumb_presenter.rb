@@ -179,9 +179,9 @@ class BreadcrumbPresenter
   end
 
   def reports_crumb
-    if @controller == 'dossier/reports'
+    if @controller == 'dossier/reports' or @controller == 'custom_reports'
       crumbs << ['fa fa-gear', t('nav.admin'), admin_path]
-      crumbs << ['fa fa-table', t('nav.report'), administration_reports_path]
+      crumbs << ['fa fa-table', t('nav.report'), admin_reports_path]
     end
   end
 
