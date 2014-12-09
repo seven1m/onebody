@@ -381,6 +381,9 @@ en:
         Documents:
           name: "Documents"
           description: "If enabled, admins can upload files in a general area where users can browse and download them."
+        Business Directory:
+          name: "Business Directory"
+          description: If enabled, users can add business information to be listed in a church business directory.
         Small Group Size:
           name: 'Max size of a "small group"'
           description: 'People in groups with this many members or fewer are considered in a "small group" together, and can easily share content with one another via the homepage.'

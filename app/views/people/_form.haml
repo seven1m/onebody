@@ -16,8 +16,9 @@
           = link_to t('people.edit.basics'), '#basics', data: { toggle: 'tab' }
         %li
           = link_to t('people.edit.about'), '#about', data: { toggle: 'tab' }
-        %li
-          = link_to t('people.edit.business'), '#business', data: { toggle: 'tab' }
+        - if setting(:features, :business_directory)
+          %li
+            = link_to t('people.edit.business'), '#business', data: { toggle: 'tab' }
         - if @logged_in.admin?(:edit_profiles)
           %li
             = link_to t('people.edit.person_type'), '#roles', data: { toggle: 'tab' }
@@ -31,9 +32,10 @@
         .tab-pane#about
           = render partial: 'form_about', object: form, as: :form
           .form-group= submit_or_save_button
-        .tab-pane#business
-          = render partial: 'form_business', object: form, as: :form
-          .form-group= submit_or_save_button
+        - if setting(:features, :business_directory)
+          .tab-pane#business
+            = render partial: 'form_business', object: form, as: :form
+            .form-group= submit_or_save_button
         - if @logged_in.admin?(:edit_profiles)
           .tab-pane#roles
             = render partial: 'form_roles', object: form, as: :form
