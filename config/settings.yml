@@ -96,6 +96,9 @@ Features:
   Documents:
     format: boolean
     value: false
+  Business Directory:
+    format: boolean
+    value: false
   Small Group Size:
     format: string
     value: 75
