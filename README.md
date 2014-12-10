@@ -61,11 +61,12 @@ Operating System: Mac or Linux (See Vagrant above if you're on Windows)
 4. Install ImageMagick.
 5. `git clone git://github.com/churchio/onebody.git && cd onebody`
 6. `grant all on onebody_dev.* to onebody@localhost identified by 'onebody';"`
-7. `cp config/database.yml{.example,}`
-8. `bundle install`
-9. `cp config/secrets.yml{.example,} && vim config/secrets.yml` and add a random secret token to both the "development" and "test" sections (you can use `rake secret` to generate a new random secret).
-10. `rake db:create db:migrate db:seed`
-11. `rails server`
+7. `grant all on onebody_test.* to onebody@localhost identified by 'onebody';"`
+8. `cp config/database.yml{.example,}`
+9. `bundle install`
+10. `cp config/secrets.yml{.example,} && vim config/secrets.yml` and add a random secret token to both the "development" and "test" sections (you can use `rake secret` to generate a new random secret).
+11. `rake db:create db:migrate db:seed`
+12. `rails server`
 
 Now visit the site running in development mode at http://localhost:3000.
 
