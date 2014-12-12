@@ -180,6 +180,15 @@ en:
               invalid: "You cannot specify this folder as the parent folder."
             parent_folder_ids:
               too_long: "This folder is nested too deep. Please place it somewhere else."
+        custom_report:
+          attributes:
+            title:
+              blank: "The title cannot be blank."
+              too_long: "The maximum description is 50 characters."
+            body:
+              blank: "The Report Body cannot be blank."
+            filters:
+              invalid: "Filters must contain a colon, in the form field:value."
         family:
           attributes:
             name:

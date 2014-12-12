@@ -37,6 +37,7 @@ gem 'geocoder'
 gem 'date_validator'
 gem 'country_select', github: 'stefanpenner/country_select'
 gem 'dossier'
+gem 'mustache'
 
 group :test do
   gem 'factory_girl_rails'

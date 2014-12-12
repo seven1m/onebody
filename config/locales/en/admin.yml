@@ -202,6 +202,10 @@ en:
         title: Run Reports
         about: "Access the Reporting Dashboard."
         order: 18
+      manage_reports:
+        title: Manage Reports
+        about: "Create, Edit and Delete Custom Reports."
+        order: 19
     rest_api_information: To use the REST API with Ruby, you might do this
     settings:
       heading: "Site Settings"

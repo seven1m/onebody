@@ -171,6 +171,7 @@ OneBody::Application.routes.draw do
   get 'pages/*path' => 'pages#show_for_public', via: :get, as: :page_for_public
 
   get '/admin' => 'administration/dashboards#show'
+  get '/admin/reports' => 'administration/reports#index'
 
   namespace :administration, path: :admin do
     resources :emails do
@@ -200,7 +201,7 @@ OneBody::Application.routes.draw do
         put :batch
       end
     end
-    resources :updates, :admins, :membership_requests, :reports
+    resources :updates, :admins, :membership_requests
     namespace :checkin do
       root to: 'dashboards#show'
       resource :dashboard
@@ -220,4 +221,5 @@ OneBody::Application.routes.draw do
     resource :interface
     resources :families, :people, :groups
   end
+  resources :custom_reports
 end
