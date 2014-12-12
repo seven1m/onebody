@@ -57,7 +57,7 @@ describe CustomReport do
       @custom_report.category = nil
       expect(@custom_report).to be_invalid
       expect(@custom_report.errors.messages[:category])
-        .to include(I18n.t('reports.custom_reports.validation.category'))
+        .to include(I18n.t('activerecord.errors.models.custom_report.attributes.category.inclusion'))
     end
 
     it 'should be valid' do

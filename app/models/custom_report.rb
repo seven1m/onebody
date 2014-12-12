@@ -11,16 +11,14 @@ class CustomReport < ActiveRecord::Base
   validates :body, presence: true
   validates :category,
             allow_nil: false,
-            inclusion: { in: %w(1 2 3),
-                         message:
-                         I18n.t('reports.custom_reports.validation.category') }
+            inclusion: { in: %w(1 2 3) }
   validates :filters, format: /:/, allow_blank: true
   validate :filter_content
 
   def filter_content
     unless filters.nil?
-      if (filters.count ':').to_i >= 2 &&
-         (filters.count ':').to_i != (filters.count ';').to_i + 1
+      if filters.count(':') >= 2 &&
+         filters.count(':') != filters.count(';') + 1
         errors.add(:filters,
                    I18n.t('reports.custom_reports.validation.filters'))
       end
