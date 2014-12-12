@@ -189,6 +189,8 @@ en:
               blank: "The Report Body cannot be blank."
             filters:
               invalid: "Filters must contain a colon, in the form field:value."
+            category:
+              inclusion: "Select a valid category value."
         family:
           attributes:
             name:
