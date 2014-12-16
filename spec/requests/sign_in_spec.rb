@@ -1,6 +1,6 @@
-require_relative '../spec_helper'
+require_relative '../rails_helper'
 
-describe 'SignIn' do
+describe 'SignIn', type: :request do
   before do
     @user = FactoryGirl.create(:person)
     Setting.set(nil, 'Features', 'SSL', true)

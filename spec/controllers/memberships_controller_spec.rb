@@ -1,6 +1,6 @@
-require_relative '../spec_helper'
+require_relative '../rails_helper'
 
-describe MembershipsController do
+describe MembershipsController, type: :controller do
 
   before do
     @admin = FactoryGirl.create(:person, admin: Admin.create!(edit_profiles: true, manage_groups: true))

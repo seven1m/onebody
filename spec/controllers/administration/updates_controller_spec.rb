@@ -1,6 +1,6 @@
-require_relative '../../spec_helper'
+require_relative '../../rails_helper'
 
-describe Administration::UpdatesController do
+describe Administration::UpdatesController, type: :controller do
   render_views
 
   before do

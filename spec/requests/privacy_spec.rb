@@ -1,6 +1,6 @@
-require_relative '../spec_helper'
+require_relative '../rails_helper'
 
-describe 'Privacy' do
+describe 'Privacy', type: :request do
   before do
     @user = FactoryGirl.create(:person)
     @head = FactoryGirl.create(:person)

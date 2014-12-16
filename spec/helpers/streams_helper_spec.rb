@@ -1,6 +1,6 @@
-require_relative '../spec_helper'
+require_relative '../rails_helper'
 
-describe StreamsHelper do
+describe StreamsHelper, type: :helper do
   include ApplicationHelper
 
   describe 'stream_item_content' do

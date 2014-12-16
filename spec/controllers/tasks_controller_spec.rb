@@ -1,6 +1,6 @@
-require_relative '../spec_helper'
+require_relative '../rails_helper'
 
-describe TasksController do
+describe TasksController, type: :controller do
 
   before do
     @person, @other_person = FactoryGirl.create_list(:person, 2)

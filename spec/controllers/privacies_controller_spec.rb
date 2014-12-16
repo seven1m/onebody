@@ -1,6 +1,6 @@
-require_relative '../spec_helper'
+require_relative '../rails_helper'
 
-describe PrivaciesController do
+describe PrivaciesController, type: :controller do
 
   before do
     @group = FactoryGirl.create(:group)

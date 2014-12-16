@@ -1,6 +1,6 @@
-require_relative '../spec_helper'
+require_relative '../rails_helper'
 
-describe DocumentsController do
+describe DocumentsController, type: :controller do
 
   let(:user) { FactoryGirl.create(:person, admin: Admin.create(manage_documents: true)) }
   let(:file) { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/attachment.pdf'), 'application/pdf', true) }

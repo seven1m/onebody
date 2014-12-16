@@ -60,7 +60,7 @@ group :development, :test do
   gem 'pry'
   gem 'pry-remote'
   gem 'pry-rails'
-  gem 'rspec-rails', '~> 3.0.0.beta'
+  gem 'rspec-rails'
   gem 'spring'
   gem 'spring-commands-rspec'
   gem 'guard-rspec', require: false

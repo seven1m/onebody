@@ -1,6 +1,6 @@
-require_relative '../spec_helper'
+require_relative '../rails_helper'
 
-describe 'MultiSite' do
+describe 'MultiSite', type: :request do
   before do
     Site.current = Site.create!(name: 'Site One', host: 'host1')
     @user1 = FactoryGirl.create(:person, email: 'site1user@example.com', first_name: 'Jim', last_name: 'Williams')

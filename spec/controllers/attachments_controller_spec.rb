@@ -1,6 +1,6 @@
-require_relative '../spec_helper'
+require_relative '../rails_helper'
 
-describe AttachmentsController do
+describe AttachmentsController, type: :controller do
 
   before do
     @person, @other_person = FactoryGirl.create_list(:person, 2)
