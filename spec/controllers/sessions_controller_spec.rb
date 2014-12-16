@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-describe SessionsController do
+describe SessionsController, type: :controller do
 
   before do
     Setting.set_global('Features', 'SSL', true)

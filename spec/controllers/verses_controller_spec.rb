@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-describe VersesController do
+describe VersesController, type: :controller do
   render_views
 
   before do

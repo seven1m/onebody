@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-describe MessagesController do
+describe MessagesController, type: :controller do
   render_views
 
   before do

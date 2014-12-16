@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-describe GroupsController do
+describe GroupsController, type: :controller do
   render_views
 
   before do

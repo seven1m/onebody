@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-describe NewsController do
+describe NewsController, type: :controller do
 
   before do
     @person = FactoryGirl.create(:person)

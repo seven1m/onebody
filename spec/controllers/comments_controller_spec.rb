@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-describe CommentsController do
+describe CommentsController, type: :controller do
 
   before do
     @person = FactoryGirl.create(:person)
