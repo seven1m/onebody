@@ -7,7 +7,7 @@ $ruby_version = File.read(File.expand_path("../.ruby-version", __FILE__)).strip
 
 $vhost = <<VHOST
 <VirtualHost *:80>
-  PassengerRuby /home/vagrant/.rvm/wrappers/ruby-2.1.2@onebody/ruby
+  PassengerRuby /home/vagrant/.rvm/wrappers/ruby-2.1.5@onebody/ruby
   DocumentRoot /vagrant/public
   RailsEnv development
   <Directory /vagrant/public>
