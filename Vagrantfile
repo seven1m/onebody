@@ -37,6 +37,7 @@ user=$(cat <<USER
 
   # install rvm
   if [[ ! -d \\$HOME/.rvm ]]; then
+	curl -sSL https://rvm.io/mpapis.asc | gpg --import
     curl -sSL --insecure https://get.rvm.io | bash -s stable
     \\$HOME/.rvm/bin/rvm requirements
   fi
