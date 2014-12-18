@@ -12,10 +12,10 @@ RUN apt-get update
 RUN apt-get install -y ruby2.1 ruby2.1-dev
 # manual compile way, leaving this just in case...
 #WORKDIR /tmp
-#RUN wget http://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.2.tar.gz && tar xzvf ruby-2.1.2.tar.gz
-#WORKDIR /tmp/ruby-2.1.2
+#RUN wget http://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.5.tar.gz && tar xzvf ruby-2.1.5.tar.gz
+#WORKDIR /tmp/ruby-2.1.5
 #RUN ./configure --disable-install-doc && make install
-#RUN rm -rf /tmp/ruby-2.1.2*
+#RUN rm -rf /tmp/ruby-2.1.5*
 RUN gem install bundler --no-rdoc --no-ri
 
 # set up user
