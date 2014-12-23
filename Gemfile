@@ -54,6 +54,7 @@ group :development do
   gem 'capistrano-newrelic'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
+  gem 'quiet_assets'
 end
 
 group :development, :test do
