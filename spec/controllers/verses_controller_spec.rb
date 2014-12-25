@@ -28,6 +28,12 @@ describe VersesController, type: :controller do
     assert_select 'h1', Regexp.new(@verse.reference)
   end
 
+  it "should show a not_found if verse is not found" do
+    random_invalid_id = 424242
+    get :show, {id: random_invalid_id}, {logged_in_id: @person.id}
+    expect(response.status).to be(404)
+  end
+
   it "should tag a verse" do
     expect(@verse.tag_list.length).to eq(2)
     # add just 1
