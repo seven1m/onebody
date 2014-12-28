@@ -8,6 +8,7 @@ en:
     about_this_verse: "about this verse. Share what it means to you or how it has helped you."
     add_this_verse_to_my_list: "Add this verse to my list."
     add_verse: "Add Verse"
+    search_verse: "Search Verse"
     add_your_favorite_verse: "Add your favorite verse:"
     comment_count:
       one: "<a href='%{url}'>1 comment</a> by %{by}"
@@ -23,3 +24,5 @@ en:
     saved_by_count:
       one: "saved by 1 person"
       other: "saved by %{count} people"
+    search:
+      error: "Verse not found. Did you type the reference correctly?"
