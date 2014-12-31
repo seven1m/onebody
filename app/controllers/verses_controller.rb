@@ -71,9 +71,11 @@ class VersesController < ApplicationController
       redirect_to verses_path
       false
     else
+      raise 'verse not found'
+    end
+  rescue
       render text: t('verses.not_found'), layout: true, status: 404
       false
-    end
   end
 
 end
