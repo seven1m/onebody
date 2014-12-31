@@ -21,10 +21,13 @@ class VersesController < ApplicationController
 
   def search
     @verse = Verse.find(params[:q])
-    raise 'verse not found' if @verse.nil? || @verse.invalid?
-    render partial: 'search_result' and return if @verse && @verse.valid?
-  rescue
-    render text: t('verses.not_found'), layout: true, status: 404
+    if @verse.nil? || @verse.invalid?
+      render(text: t('verses.not_found'), layout: true, status: 400) and return
+    else
+      render partial: 'search_result' and return
+    end
+  rescue ActiveRecord::RecordNotFound
+    render(text: t('verses.not_found'), layout: true, status: 404) and return
   end
 
   def create

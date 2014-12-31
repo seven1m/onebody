@@ -2,26 +2,26 @@ class SearchVerseForm
 
   constructor: (@el) ->
     @el.submit @search
-    @result = $('#search_result')
-    @error_message = $('#search_error')
+    @$result = $('#search_result')
+    @$errorMessage = $('#search_error')
 
   search: (e) =>
     e.preventDefault()
-    @error_message.hide()
     query = @el.find('#q').val()
     $.ajax
       url: '/verses/search'
       type: 'GET'
       data: {q: query}
-      complete: @showResult
+      success: @showResult
       error: @showError
 
-  showResult: (data, status) =>
-    @result.html(data.responseText) if status is 'success'
-    @showError() if status isnt 'success'
+  showResult: (data) =>
+    @$errorMessage.hide()
+    @$result.html(data)
 
   showError: =>
-    @result.empty()
-    @error_message.show()
+    @$result.empty()
+    @$errorMessage.show()
 
-window.verse_form = (new SearchVerseForm($(f)) for f in $('#search_verse_form'))
+selector = $('#search_verse_form')
+new SearchVerseForm(selector) if selector.length isnt 0
