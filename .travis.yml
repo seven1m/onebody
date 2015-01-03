@@ -2,6 +2,7 @@ language: ruby
 rvm:
   - 2.1.5
 bundler_args: --without development production
+sudo: false
 script:
   - RAILS_ENV=test bundle exec rake --trace db:migrate
   - rspec
