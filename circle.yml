@@ -1,0 +1,10 @@
+machine:
+  ruby:
+    version:
+      2.1.5
+dependencies:
+  bundler:
+    without: [development, production]
+test:
+  pre:
+    - "echo -e 'test:\\n  secret_token: abc123\\n  secret_key_base: 123abc' > config/secrets.yml"
