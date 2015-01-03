@@ -2,10 +2,11 @@ language: ruby
 rvm:
   - 2.1.5
 bundler_args: --without development production
+cache: bundler
 sudo: false
 script:
   - RAILS_ENV=test bundle exec rake --trace db:migrate
-  - rspec
+  - bundle exec rspec
 before_script:
   - "echo -e 'test:\\n  adapter: mysql2\\n  database: onebody_test\\n  username: travis\\n  encoding: utf8' > config/database.yml && echo -e 'test:\\n  secret_token: abc123\\n  secret_key_base: 123abc' > config/secrets.yml"
   - mysql -e 'create database onebody_test'
