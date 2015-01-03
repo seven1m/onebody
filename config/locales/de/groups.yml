@@ -1,0 +1,202 @@
+---
+de:
+  groups:
+    heading: Gruppen
+    new_list:
+      heading: "Neue Gruppe"
+    created: "Gruppe erstellt"
+    created_pending_approval: "Deine Gruppe wurde erstellt und wartet auf die Freigabe."
+    saved: "Gruppenänderungen wurden gespeichert"
+    deleted: "Gruppe gelöscht"
+    delete:
+      heading: "Diese Gruppe löschen."
+      intro: "Wollen sie wirklich diese Gruppe löschen und ihren ganzen Inhalt(Nachrichten, Gebetsanliegen, Bilder, usw) für immer, dann können sie es hier tun:"
+      button: "Die Gruppe für immer löschen."
+    hide:
+      heading: "Verstecke (Archiviere) diese Gruppe"
+      intro: "If you wish for a group to disappear from all pages of the site, hide it by clicking the button below:"
+      button: "Gruppe verstecken"
+      unhide_button: "Gruppe sichtbar machen"
+    your_groups: "Deine Gruppen:"
+    groups_of:
+      s: "Gruppen von %{name}"
+      no_s: "Gruppen von %{name}"
+    hidden:
+      callout: "Diese Gruppe ist versteckt (archiviert)."
+      label: Versteckt
+    hidden_groups:
+      heading: "Versteckte Gruppen"
+      description: "Nur Administratoren(so wie du) könne diese Liste sehen."
+    linked_group: "This group is maintained by office staff."
+    private:
+      callout: "Diese Gruppe ist privat. Nachrichten die hier geteilt werden, könne nur von Gruppenmitgliedern und Administratoren gesehen werden."
+      label: Privat
+    email_off: "EMails aus"
+    email_on: "EMails an"
+    browse:
+      heading: "Gruppen suchen"
+      select_category: "Show by Category"
+      all: "Alle anzeigen"
+    create:
+      heading: "Eine Gruppe erstellen"
+      description: "Wenn du eine Gruppe nicht finden kann, ist es einfach eine zu erstellen."
+      button: "Eine Gruppe erstellen"
+    show:
+      details:
+        created_at: erstellt
+        created_by: "Erstellt von"
+        leader: Leiter
+        admins: Admins
+        meets: "trift sich"
+        location: Ort
+        member_count_label: Mitglieder
+        member_count:
+          one: "1 Person"
+          other: "%{count} Personen"
+        birthdays_this_month_html:
+          one: "<a href='%{url}'>Einer</a> hat diesen Monat Geburtstag"
+          other: "<a href='%{url}'>%{count}</a> haben diesen Monat Geburtstag"
+        attachments: Dateien
+        attachment_count:
+          one: "Eine Datei"
+          other: "%{count} Dateien"
+        attendance:
+          button: "Anwesendheit aufschreiben"
+      controls:
+        join: "Der Gruppe beitreten"
+        join_pending: "Der Gruppe beitreten (austehend)"
+        leave: "Gruppe verlassen"
+        message: "Nachricht senden"
+        prayer_request: "Gebetsanliegen teilen"
+      linked:
+        tooltip: "This group is linked via code %{code}"
+      parents_of:
+        tooltip: "This group is linked to parents of %{group}"
+    stream:
+      none:
+        heading: "Bisher ist hier nichts"
+        message: "Hier werden die Aktivitäten der Gruppe sichtbar."
+    new:
+      heading: "Neue Gruppe"
+    edit:
+      heading: "Gruppe bearbeiten"
+      tabs:
+        details: Details
+        meets: "Trift sich"
+        features: Features
+        security: Sicherheit
+        advanced: Erweitert
+      advanced:
+        description: "The settings below are for advanced users."
+        membership_mode:
+          options:
+            manual: "Add members manually (default)"
+            link_code: "Add members automatic by external link code."
+            parents_of: "Link to a child group to get parents of those children."
+            adults: "Include all adults in this community."
+      files:
+        description: "Dateien die hier hinzugefügt werden sind für alle Gruppenmitglieder sichtbar."
+        delete_button: Löschen
+      meets:
+        help: "Something like \"Wednesdays at 7pm\" or \"As Announced\""
+      location:
+        help: "If you enter a physical address, an interactive map will be displayed on your group page."
+      directions:
+        help: "You may want to include travel directions."
+      address:
+        help: "Give your group a unique email address so messages can be sent easily."
+      calendar:
+        help: "In your Google Calendar, in Calendar Settings, copy your \"Private\" XML Link and paste in this box to display your calendar on the group page."
+      category:
+        new: "[new category]"
+        help: "Make your group easy to find by placing it an appropriate category."
+      description:
+        help: "Enter a sentence or two to give people an idea of why you meet and of your group's goals."
+      approval_required_to_join:
+        help: "If checked, an approval request will be sent to group admins before someone can join."
+      private_group:
+        help: "If checked, the group description, membership list, and other group information will be hidden from non-members (only the title will be displayed). We recommend you also check the above 'Approval required' box as well."
+      members_send:
+        help: "If checked, any member of this group can send an email message to everyone else in the group."
+      class_link_code:
+        help_html: |
+            <p>This is useful for syncing with external systems. Separate multiple codes with a space. <a href='https://github.com/churchio/onebody/wiki/HowGroupMembershipWorks'>See here</a> for more information.</p>
+            <p>Click <strong>Save</strong> to update group members immediately. Group members will also be updated automatically every night.</p>
+      parents_of:
+        help_html: |
+            <p>Membership will be auto-generated from parents of selected group's members.</p>
+            <p>Click <strong>Save</strong> to update group members immediately. Group members will also be updated automatically every night.</p>
+      enable_calendar: "Enable Calendar"
+    table:
+      group_name: Group
+      leader: Leader
+      member_count: Members
+      email_enabled: "Email enabled"
+    search:
+      heading: "Search for a Group"
+      results_heading: "Group Search Results"
+      name_placeholder: "Search by name"
+      submit: Search
+    batch:
+      heading: "Batch Edit Groups"
+      category: Category
+      name: Name
+      address: "Email Prefix"
+      members_send: "Members Can Send"
+      private: Private
+      hidden: Hidden
+      class_link_code: "Link Code(s)"
+      approval_required_to_join: "Approval Required"
+      errors: "There was one or more errors in saving the changes. Errored records are highlighted below."
+    files:
+      heading:
+        name: Name
+        size: Size
+        created_at: Uploaded
+    pending_approval:
+      this_group: "This group is pending approval."
+      description:
+        one: "The following group is pending approval:"
+        other: "The following groups are pending approval:"
+      count:
+        one: "%{count} group to approve"
+        other: "%{count} groups to approve"
+    approve:
+      button: "Approve Group"
+    membership_requests:
+      count:
+        one: "%{count} membership request"
+        other: "%{count} membership requests"
+    not_found: "Group not found"
+    no_groups_found: "No groups found"
+    join:
+      confirm: "Are you sure? A request will be sent to the group administrator(s)."
+      request_sent: "A request to join this group has been sent to the group administrator(s)."
+    last_admin_remove: "%{name} is the last admin and cannot be removed."
+    user_settings_saved: "User settings saved."
+    email_settings_changed: "Your email settings for the group have been changed."
+    limited:
+      intro: "You cannot see this group because it is private and you are not a member. Click below to request to join this group."
+    box:
+      messages:
+        text:
+          one: Message
+          other: Messages
+        new_link: "Neue Nachricht"
+      prayer_requests:
+        text:
+          one: Gebetsanliegen
+          other: Gebetsanliegen
+        new_link: "Neues Gebetsanliegen"
+      pictures:
+        text:
+          one: Bild
+          other: Bilder
+        new_link: "Neues Bild"
+      tasks:
+        text:
+          one: Aufgabe
+          other: Aufgaben
+        new_link: "New Task"
+    show_hidden:
+      button: "Zeige verstecke Gruppen(%{count})"
