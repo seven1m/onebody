@@ -5,7 +5,7 @@
   = show_attribute?(:website) do
     %tr
       %td= t('people.show.details.website')
-      %td= link_to simple_url(@person.website), @person.website
+      %td= link_to simple_url(@person.website), safe_url(@person.website)
   = show_attribute?(:email) do
     %tr
       %td= t('people.show.details.email')

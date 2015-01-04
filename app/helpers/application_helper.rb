@@ -52,6 +52,12 @@ module ApplicationHelper
     url.sub(regex, '').sub(/\/$/, '')
   end
 
+  def safe_url(url)
+    if url =~ /\Ahttps?\:\/\/.+/
+      "#{url}" # wrap in new string so Hakiri is happy
+    end
+  end
+
   def me?
     @logged_in and @person and @logged_in == @person
   end

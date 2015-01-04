@@ -20,7 +20,7 @@
       - if @person.business_website.present?
         %tr
           %td= t('people.business.website')
-          %td= link_to simple_url(@person.business_website), @person.business_website
+          %td= link_to simple_url(@person.business_website), safe_url(@person.business_website)
       - if @person.business_address.present?
         %tr
           %td= t('people.business.address')
