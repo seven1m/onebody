@@ -10,9 +10,8 @@ class Person < ActiveRecord::Base
   include Concerns::Person::Import
   include Concerns::Person::Export
   include Concerns::Person::PdfGen
+  include Concerns::Person::Batch
   include Concerns::DateWriter
-
-  MAX_TO_BATCH_AT_A_TIME = 50
 
   acts_as_list scope: :family
 
@@ -379,65 +378,6 @@ class Person < ActiveRecord::Base
         share_anniversary:  Setting.get(:privacy, :share_anniversary_by_default )
       )
       new(attrs)
-    end
-
-    # used to update a batch of records at one time, for UpdateAgent API
-    def update_batch(records, options={})
-      raise "Too many records to batch at once (#{records.length})" if records.length > MAX_TO_BATCH_AT_A_TIME
-      records.map do |record|
-        person = where(legacy_id: record["legacy_id"]).first
-        # find the family (by legacy_id, preferably)
-        family_id = Family.connection.select_value("select id from families where legacy_id = #{record['legacy_family_id'].to_i} and site_id = #{Site.current.id}")
-        if person.nil? and options['claim_families_by_barcode_if_no_legacy_id'] and family_id
-          # family should have already been claimed by barcode -- we're just going to try to match up people by name
-          if person = where(family_id: family_id, legacy_id: nil, first_name: record['first_name'], last_name: record['last_name']).first
-            person.deleted = false
-          end
-        end
-        # last resort, create a new record
-        person ||= new
-        person.family_id = family_id
-        record.each do |key, value|
-          value = nil if value == ''
-          # avoid overwriting a newer email address
-          if key == 'email' and person.email_changed?
-            if value == person.email # email now matches (presumably, the external db has been updated to match the OneBody db)
-              person.email_changed = false # clear the flag
-            else
-              next # don't overwrite the newer email address with an older one
-            end
-          elsif %w(family email_changed remote_hash relationships relationships_hash).include?(key) # skip these
-            next
-          end
-          person.send("#{key}=", value) # be sure to call the actual method (don't use write_attribute)
-        end
-        person.dont_mark_email_changed = true # set flag to indicate we're the api
-        if person.save
-          if record['relationships_hash'] != person.relationships_hash
-            person.relationships.to_a.select do |relationship|
-              !Setting.get(:system, :online_only_relationships).include?(relationship.name_or_other)
-            end.each { |r| r.delete }
-            record['relationships'].to_s.split(',').each do |relationship|
-              if relationship =~ /(\d+)\[([^\]]+)\]/ and related = Person.where(legacy_id: $1).first
-                person.relationships.create(
-                  related:    related,
-                  name:       'other',
-                  other_name: $2
-                )
-              end
-            end
-            person.update_relationships_hash!
-          end
-          s = {status: 'saved', legacy_id: person.legacy_id, id: person.id, name: person.name}
-          if person.email_changed? # email_changed flag still set
-            s[:status] = 'saved with error'
-            s[:error] = "Newer email not overwritten: #{person.email.inspect}"
-          end
-          s
-        else
-          {status: 'not saved', legacy_id: record['legacy_id'], id: person.id, name: person.name, error: person.errors.full_messages.join('; ')}
-        end
-      end
     end
 
     def business_categories
