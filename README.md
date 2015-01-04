@@ -15,6 +15,7 @@ Visit our website at [church.io](http://church.io) or browse through our [screen
 ## Contributing to the Project
 
 [![Build Status](http://img.shields.io/travis/churchio/onebody.svg)](https://travis-ci.org/churchio/onebody)
+[![Security Status](https://hakiri.io/github/churchio/onebody/master.svg)](https://hakiri.io/github/churchio/onebody/master)
 [![Code Climate](http://img.shields.io/codeclimate/github/churchio/onebody.svg)](https://codeclimate.com/github/churchio/onebody)
 [![Stories in Ready](https://badge.waffle.io/churchio/onebody.svg?label=ready&title=stories+ready)](http://waffle.io/churchio/onebody)
 [![Stories in Progress](https://badge.waffle.io/churchio/onebody.svg?label=in+progress&title=stories+in+progress)](http://waffle.io/churchio/onebody)
