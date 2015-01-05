@@ -1,5 +1,7 @@
 # Church.IO OneBody
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/churchio/onebody?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build Status](http://img.shields.io/travis/churchio/onebody.svg?style=flat)](https://travis-ci.org/churchio/onebody)
 [![Code Climate](http://img.shields.io/codeclimate/github/churchio/onebody.svg?style=flat)](https://codeclimate.com/github/churchio/onebody)
 [![Site](http://img.shields.io/badge/site-church.io-blue.svg?style=flat)](http://church.io)
