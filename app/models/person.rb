@@ -213,9 +213,8 @@ class Person < ActiveRecord::Base
   before_create :update_feed_code
   def update_feed_code
     begin # ensure unique
-      code = SecureRandom.hex(50)[0...50]
-      write_attribute :feed_code, code
-    end while Person.where(feed_code: code).count > 0
+      self.feed_code = SecureRandom.hex(50)[0...50]
+    end while Person.where(feed_code: feed_code).any?
   end
 
   def generate_api_key

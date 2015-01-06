@@ -644,4 +644,22 @@ describe Person do
       expect(person.gender).to eq('Male')
     end
   end
+
+  describe '#update_feed_code' do
+    let(:existing) { FactoryGirl.create(:person) }
+    let(:person)   { FactoryGirl.build(:person) }
+
+    context 'given an a collision in code generation' do
+      before do
+        existing.update_attribute(:feed_code, 'abc123')
+        allow(SecureRandom).to receive(:hex).and_return('abc123', 'xyz987')
+      end
+
+      it 'generates a new code until it is unique' do
+        person.save!
+        expect(SecureRandom).to have_received(:hex).with(50).twice
+        expect(person.feed_code).to eq('xyz987')
+      end
+    end
+  end
 end
