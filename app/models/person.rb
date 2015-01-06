@@ -48,16 +48,16 @@ class Person < ActiveRecord::Base
 
   scope_by_site_id
 
-  scope :undeleted, -> { where(deleted: false) }
-  scope :deleted, -> { where(deleted: true) }
-  scope :adults, -> { where(child: false) }
+  scope :undeleted,              -> { where(deleted: false) }
+  scope :deleted,                -> { where(deleted: true) }
+  scope :adults,                 -> { where(child: false) }
   scope :adults_or_have_consent, -> { where("child = 0 or coalesce(parental_consent, '') != ''") }
-  scope :children, -> { where(child: true) }
-  scope :can_sign_in, -> { undeleted.where(can_sign_in: true) }
-  scope :administrators, -> { undeleted.where('admin_id is not null') }
-  scope :email_changed, -> { undeleted.where(email_changed: true) }
-  scope :minimal, -> { select('people.id, people.first_name, people.last_name, people.suffix, people.child, people.gender, people.birthday, people.gender, people.photo_file_name, people.photo_content_type, people.photo_fingerprint, people.photo_updated_at, people.deleted') }
-  scope :with_birthday_month, -> m { where('birthday is not null and month(birthday) = ?', m) }
+  scope :children,               -> { where(child: true) }
+  scope :can_sign_in,            -> { undeleted.where(can_sign_in: true) }
+  scope :administrators,         -> { undeleted.where('admin_id is not null') }
+  scope :email_changed,          -> { undeleted.where(email_changed: true) }
+  scope :minimal,                -> { select('people.id, people.first_name, people.last_name, people.suffix, people.child, people.gender, people.birthday, people.gender, people.photo_file_name, people.photo_content_type, people.photo_fingerprint, people.photo_updated_at, people.deleted') }
+  scope :with_birthday_month,    -> m { where('birthday is not null and month(birthday) = ?', m) }
 
   has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
 
