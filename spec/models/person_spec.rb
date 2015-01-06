@@ -1,7 +1,5 @@
 require_relative '../rails_helper'
 
-GLOBAL_SUPER_ADMIN_EMAIL = 'support@example.com' unless defined?(GLOBAL_SUPER_ADMIN_EMAIL) and GLOBAL_SUPER_ADMIN_EMAIL == 'support@example.com'
-
 describe Person do
 
   describe 'Formats' do
@@ -344,9 +342,6 @@ describe Person do
     @person3 = FactoryGirl.create(:person, admin: Admin.create(super_admin: true))
     expect(@person3).to be_admin
     expect(@person3).to be_super_admin
-    @person4 = FactoryGirl.create(:person, email: 'support@example.com')
-    expect(@person4).to be_admin
-    expect(@person4).to be_super_admin
   end
 
   it "should properly translate validation errors" do

@@ -193,11 +193,7 @@ class Person < ActiveRecord::Base
   end
 
   def super_admin?
-    (admin and admin.super_admin?) or global_super_admin?
-  end
-
-  def global_super_admin?
-    defined?(GLOBAL_SUPER_ADMIN_EMAIL) and GLOBAL_SUPER_ADMIN_EMAIL.present? and email == GLOBAL_SUPER_ADMIN_EMAIL
+    admin.try(:super_admin?)
   end
 
   def valid_email?

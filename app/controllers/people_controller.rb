@@ -145,7 +145,7 @@ class PeopleController < ApplicationController
       @person = Person.find(params[:id])
       if me?
         render text: t('people.cant_delete_yourself'), layout: true, status: 401
-      elsif @person.global_super_admin?
+      elsif @person.super_admin?
         render text: t('people.cant_delete'), layout: true, status: 401
       else
         @person.destroy
