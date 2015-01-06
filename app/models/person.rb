@@ -134,9 +134,9 @@ class Person < ActiveRecord::Base
       if deleted?
         "(removed person)"
       elsif suffix
-        "#{first_name} #{last_name}, #{suffix}" rescue '???'
+        "#{first_name} #{last_name}, #{suffix}"
       else
-        "#{first_name} #{last_name}" rescue '???'
+        "#{first_name} #{last_name}"
       end
     end
   end
