@@ -1,6 +1,18 @@
+require 'active_support/concern'
+
 module Concerns
   module Person
     module Friend
+      extend ActiveSupport::Concern
+
+      included do
+        has_many :friendships
+        has_many :friends, -> { order('people.last_name', 'people.first_name') }, class_name: 'Person', through: :friendships
+        has_many :friendship_requests
+        has_many :pending_friendship_requests, -> { where(rejected: false) }, class_name: 'FriendshipRequest'
+        after_destroy :destroy_friendships
+      end
+
       def request_friendship_with(person)
         if person.friendship_waiting_on?(self)
           # already requested by other person
@@ -44,6 +56,11 @@ module Concerns
 
       def friend?(person)
         friends.where('friendships.friend_id' => person.id).count > 0
+      end
+
+      def destroy_friendships
+        friendships.destroy_all
+        friendship_requests.destroy_all
       end
     end
   end

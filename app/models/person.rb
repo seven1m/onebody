@@ -34,10 +34,6 @@ class Person < ActiveRecord::Base
   has_and_belongs_to_many :verses
   has_many :log_items
   has_many :stream_items
-  has_many :friendships
-  has_many :friends, -> { order('people.last_name', 'people.first_name') }, class_name: 'Person', through: :friendships
-  has_many :friendship_requests
-  has_many :pending_friendship_requests, -> { where(rejected: false) }, class_name: 'FriendshipRequest'
   has_many :prayer_requests, -> { order(created_at: :desc) }
   has_many :attendance_records
   has_many :generated_files
@@ -234,12 +230,10 @@ class Person < ActiveRecord::Base
   alias_method :destroy_for_real, :destroy
   def destroy
     run_callbacks :destroy do
-      self.update_attribute(:deleted, true)
-      self.updates.destroy_all
-      self.memberships.destroy_all
-      self.friendships.destroy_all
-      self.membership_requests.destroy_all
-      self.friendship_requests.destroy_all
+      update_attribute(:deleted, true)
+      updates.destroy_all
+      memberships.destroy_all
+      membership_requests.destroy_all
     end
   end
 
