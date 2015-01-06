@@ -15,6 +15,7 @@ class Person < ActiveRecord::Base
   include Concerns::Person::Streamable
   include Concerns::Person::EmailChanged
   include Concerns::Person::Relationships
+  include Concerns::Person::Memberships
   include Concerns::DateWriter
 
   acts_as_list scope: :family
@@ -23,9 +24,6 @@ class Person < ActiveRecord::Base
 
   belongs_to :family
   belongs_to :admin
-  has_many :memberships, dependent: :destroy
-  has_many :membership_requests, dependent: :destroy
-  has_many :groups, through: :memberships
   has_many :albums, as: :owner
   has_many :pictures, -> { order(created_at: :desc) }
   has_many :messages
@@ -166,10 +164,6 @@ class Person < ActiveRecord::Base
     read_attribute(:messages_enabled) and email.present?
   end
 
-  def member_of?(group)
-    memberships.where(group_id: group.id).any?
-  end
-
   def parental_consent?; parental_consent.present?; end
   def adult_or_consent?; adult? or parental_consent?; end
 
@@ -235,8 +229,6 @@ class Person < ActiveRecord::Base
     run_callbacks :destroy do
       update_attribute(:deleted, true)
       updates.destroy_all
-      memberships.destroy_all
-      membership_requests.destroy_all
     end
   end
 
