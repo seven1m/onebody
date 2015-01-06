@@ -196,10 +196,6 @@ class Person < ActiveRecord::Base
     admin.try(:super_admin?)
   end
 
-  def valid_email?
-    email.to_s.strip =~ VALID_EMAIL_ADDRESS
-  end
-
   def gender=(g)
     if g.to_s.strip.blank?
       g = nil

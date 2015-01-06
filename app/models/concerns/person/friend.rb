@@ -28,7 +28,7 @@ module Concerns
         !friend?(person) and
         full_access? and
         person.full_access? and
-        person.valid_email? and
+        person.email.present? and
         person.friends_enabled and
         !friendship_rejected_by?(person) and
         !friendship_waiting_on?(person)
