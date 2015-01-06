@@ -13,6 +13,7 @@ class Person < ActiveRecord::Base
   include Concerns::Person::Batch
   include Concerns::Person::TwitterUsername
   include Concerns::Person::Streamable
+  include Concerns::Person::EmailChanged
   include Concerns::DateWriter
 
   acts_as_list scope: :family
@@ -55,7 +56,6 @@ class Person < ActiveRecord::Base
   scope :children,               -> { where(child: true) }
   scope :can_sign_in,            -> { undeleted.where(can_sign_in: true) }
   scope :administrators,         -> { undeleted.where('admin_id is not null') }
-  scope :email_changed,          -> { undeleted.where(email_changed: true) }
   scope :minimal,                -> { select('people.id, people.first_name, people.last_name, people.suffix, people.child, people.gender, people.birthday, people.gender, people.photo_file_name, people.photo_content_type, people.photo_fingerprint, people.photo_updated_at, people.deleted') }
   scope :with_birthday_month,    -> m { where('birthday is not null and month(birthday) = ?', m) }
 
@@ -215,25 +215,6 @@ class Person < ActiveRecord::Base
     begin # ensure unique
       self.feed_code = SecureRandom.hex(50)[0...50]
     end while Person.where(feed_code: feed_code).any?
-  end
-
-  def generate_api_key
-    write_attribute :api_key, SecureRandom.hex(50)[0...50]
-  end
-
-  def email_changed?
-    self[:email_changed]
-  end
-
-  attr_accessor :dont_mark_email_changed
-
-  before_update :mark_email_changed
-  def mark_email_changed
-    return if dont_mark_email_changed
-    if changed.include?('email')
-      write_attribute(:email_changed, true)
-      Notifier.email_update(self).deliver
-    end
   end
 
   def show_attribute_to?(attribute, who)
