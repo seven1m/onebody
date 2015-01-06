@@ -152,11 +152,6 @@ class Person < ActiveRecord::Base
     "<#{name}>"
   end
 
-  # FIXME deprecated
-  def self.can_create?
-    true
-  end
-
   def birthday_soon?
     today = Date.today
     birthday and ((birthday.yday()+365 - today.yday()).modulo(365) < BIRTHDAY_SOON_DAYS)
