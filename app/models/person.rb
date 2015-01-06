@@ -12,6 +12,7 @@ class Person < ActiveRecord::Base
   include Concerns::Person::PdfGen
   include Concerns::Person::Batch
   include Concerns::Person::TwitterUsername
+  include Concerns::Person::Streamable
   include Concerns::DateWriter
 
   acts_as_list scope: :family
@@ -41,10 +42,8 @@ class Person < ActiveRecord::Base
   has_many :inward_related_people, class_name: 'Person', through: :inward_relationships, source: :person
   has_many :prayer_requests, -> { order(created_at: :desc) }
   has_many :attendance_records
-  has_many :stream_items
   has_many :generated_files
   has_many :tasks
-  has_one :stream_item, as: :streamable
   belongs_to :site
 
   scope_by_site_id
@@ -95,38 +94,6 @@ class Person < ActiveRecord::Base
   def guess_last_name
     return unless family
     self.last_name = family.last_name
-  end
-
-  after_create :create_as_stream_item
-
-  def create_as_stream_item
-    return unless can_create_stream_item?
-    StreamItem.create!(
-      title: name,
-      person_id: id,
-      streamable_type: 'Person',
-      streamable_id: id,
-      created_at: created_at,
-      shared: visible? && email.present?
-    )
-  end
-
-  LIMIT_CONSECUTIVE_STREAM_ITEMS = 2
-
-  def can_create_stream_item?
-    previous = StreamItem.limit(LIMIT_CONSECUTIVE_STREAM_ITEMS)
-                         .order(id: :desc)
-                         .pluck(:streamable_type)
-    previous != ['Person'] * LIMIT_CONSECUTIVE_STREAM_ITEMS
-  end
-
-  after_update :update_stream_item
-
-  def update_stream_item
-    return unless stream_item
-    stream_item.title = name
-    stream_item.shared = visible? && email.present?
-    stream_item.save!
   end
 
   def others_with_same_email
@@ -339,13 +306,14 @@ class Person < ActiveRecord::Base
 
   alias_method :destroy_for_real, :destroy
   def destroy
-    self.update_attribute(:deleted, true)
-    self.updates.destroy_all
-    self.memberships.destroy_all
-    self.friendships.destroy_all
-    self.membership_requests.destroy_all
-    self.friendship_requests.destroy_all
-    self.stream_item.try(:destroy)
+    run_callbacks :destroy do
+      self.update_attribute(:deleted, true)
+      self.updates.destroy_all
+      self.memberships.destroy_all
+      self.friendships.destroy_all
+      self.membership_requests.destroy_all
+      self.friendship_requests.destroy_all
+    end
   end
 
   def set_default_visibility

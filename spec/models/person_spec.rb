@@ -11,7 +11,7 @@ describe Person do
     BAD_WEB_ADDRESSES    = ['www.badaddress.com', 'ftp://badaddress.org', "javascript://void(alert('do evil stuff'))"]
     GOOD_WEB_ADDRESSES   = ['http://www.goodwebsite.org', 'http://goodwebsite.com/a/path?some=args']
 
-    setup { @person = FactoryGirl.create(:person) }
+    before { @person = FactoryGirl.create(:person) }
 
     it 'should not allow bad email' do
       BAD_EMAIL_ADDRESSES.each do |address|
@@ -619,6 +619,16 @@ describe Person do
           'first_name' => 'James'
         )
       end
+    end
+  end
+
+  describe '#destroy' do
+    let(:person) { FactoryGirl.create(:person) }
+
+    it 'destroys the associated stream_item' do
+      expect(person.stream_item).to be
+      person.destroy
+      expect { person.stream_item.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end
