@@ -14,14 +14,11 @@ module Concerns
       end
 
       def request_friendship_with(person)
-        if person.friendship_waiting_on?(self)
-          # already requested by other person
-          self.friendships.create! friend: person
-          self.friendship_requests.where(from_id: person.id).first.destroy
+        if pending = self.pending_friendship_requests.where(from_id: person.id).first
+          pending.accept
           I18n.t('friends.added_as_friend', name: person.name)
         elsif self.can_request_friendship_with?(person)
-          # clean up past rejections
-          FriendshipRequest.delete_all ['person_id = ? and from_id = ? and rejected = ?', self.id, person.id, true]
+          friendship_requests.where(from_id: person.id, rejected: true).delete_all
           person.friendship_requests.create!(from: self)
           I18n.t('friends.request_sent', name: person.name)
         elsif self.friendship_waiting_on?(person)
@@ -47,11 +44,11 @@ module Concerns
       end
 
       def friendship_rejected_by?(person)
-        person.friendship_requests.where(from_id: id, rejected: true).count > 0
+        person.friendship_requests.where(from_id: id, rejected: true).any?
       end
 
       def friendship_waiting_on?(person)
-        person.friendship_requests.where(from_id: id, rejected: false).count > 0
+        person.friendship_requests.where(from_id: id, rejected: false).any?
       end
 
       def friend?(person)
