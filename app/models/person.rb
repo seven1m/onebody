@@ -116,6 +116,8 @@ class Person < ActiveRecord::Base
   self.skip_time_zone_conversion_for_attributes = [:birthday, :anniversary]
   self.digits_only_for_attributes = [:mobile_phone, :work_phone, :fax, :business_phone]
 
+  blank_to_nil :suffix
+
   after_initialize :guess_last_name, if: -> p { p.last_name.nil? }
 
   def guess_last_name
@@ -249,11 +251,6 @@ class Person < ActiveRecord::Base
 
   def generate_api_key
     write_attribute :api_key, SecureRandom.hex(50)[0...50]
-  end
-
-  def suffix=(s)
-    s = nil if s.blank?
-    write_attribute(:suffix, s)
   end
 
   def email_changed?

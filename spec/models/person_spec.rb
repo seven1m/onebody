@@ -623,4 +623,14 @@ describe Person do
       expect { person.stream_item.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
+
+  describe '#suffix=' do
+    let(:person) { FactoryGirl.build(:person) }
+
+    it 'sets to nil if blank' do
+      person.suffix = ''
+      person.valid? # trigger callback
+      expect(person.suffix).to be_nil
+    end
+  end
 end
