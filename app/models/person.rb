@@ -251,10 +251,6 @@ class Person < ActiveRecord::Base
     write_attribute :api_key, SecureRandom.hex(50)[0...50]
   end
 
-  def can_edit_profile?
-    admin?(:edit_profiles) or not Setting.get(:features, :updates_must_be_approved)
-  end
-
   def suffix=(s)
     s = nil if s.blank?
     write_attribute(:suffix, s)
