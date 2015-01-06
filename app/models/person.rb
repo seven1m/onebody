@@ -61,20 +61,41 @@ class Person < ActiveRecord::Base
 
   has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
 
-  validates_presence_of :first_name, :last_name
-  validates_length_of :password, minimum: 5, allow_nil: true, if: Proc.new { Person.logged_in }
-  validates_length_of :description, maximum: 25
-  validates_confirmation_of :password, if: Proc.new { Person.logged_in }
-  validates_uniqueness_of :alternate_email, allow_nil: true, scope: [:site_id, :deleted], unless: Proc.new { |p| p.deleted? }
-  validates_uniqueness_of :feed_code, allow_nil: true, scope: :site_id
-  validates_format_of :website, allow_nil: true, allow_blank: true, with: /\Ahttps?\:\/\/.+/
-  validates_format_of :business_website, allow_nil: true, allow_blank: true, with: /\Ahttps?\:\/\/.+/
-  validates_format_of :business_email, allow_nil: true, allow_blank: true, with: VALID_EMAIL_ADDRESS
-  validates_format_of :email, allow_nil: true, allow_blank: true, with: VALID_EMAIL_ADDRESS
-  validates_format_of :alternate_email, allow_nil: true, allow_blank: true, with: VALID_EMAIL_ADDRESS
-  validates_format_of :facebook_url, allow_nil: true, allow_blank: true, with: /\Ahttps?\:\/\/www\.facebook\.com\/.+/
-  validates_exclusion_of :business_category, in: ['!']
-  validates_inclusion_of :gender, in: %w(Male Female), allow_nil: true
+  validates :first_name, :last_name,
+            presence: true
+  validates :password,
+            length: { minimum: 5 },
+            allow_nil: true,
+            if: -> { Person.logged_in }
+  validates :description,
+            length: { maximum: 25 }
+  validates :password,
+            confirmation: true,
+            if: -> { Person.logged_in }
+  validates :alternate_email,
+            uniqueness: { scope: [:site_id, :deleted] },
+            allow_nil: true,
+            unless: -> p { p.deleted? }
+  validates :feed_code,
+            uniqueness: { scope: :site_id },
+            allow_nil: true
+  validates :website, :business_website,
+            format: { with: /\Ahttps?\:\/\/.+/ },
+            allow_nil: true,
+            allow_blank: true
+  validates :email, :alternate_email, :business_email,
+            format: { with: VALID_EMAIL_ADDRESS },
+            allow_nil: true,
+            allow_blank: true
+  validates :facebook_url,
+            format: { with: /\Ahttps?\:\/\/www\.facebook\.com\/.+/ },
+            allow_nil: true,
+            allow_blank: true
+  validates :business_category,
+            exclusion: { in: ['!'] }
+  validates :gender,
+            inclusion: { in: %w(Male Female) },
+            allow_nil: true
   validates_date_of :birthday, :anniversary, allow_nil: true
   validates_attachment_size :photo, less_than: PAPERCLIP_PHOTO_MAX_SIZE
   validates_attachment_content_type :photo, content_type: PAPERCLIP_PHOTO_CONTENT_TYPES
