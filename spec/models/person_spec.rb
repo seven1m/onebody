@@ -241,14 +241,6 @@ describe Person do
     expect(@person.generate_directory_pdf.to_s[0..100]).to match(/PDF\-1\.3/)
   end
 
-  it "should know when a birthday is coming up" do
-    @person = FactoryGirl.create(:person)
-    @person.update_attributes!(birthday: Time.now + 5.days - 27.years)
-    expect(@person.reload).to be_birthday_soon
-    @person.update_attributes!(birthday: Time.now - 27.years + (BIRTHDAY_SOON_DAYS + 1).days)
-    expect(@person.reload).to_not be_birthday_soon
-  end
-
   it "should not tz convert a birthday" do
     @person = FactoryGirl.create(:person)
     Time.zone = 'Central Time (US & Canada)'
