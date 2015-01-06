@@ -197,12 +197,7 @@ class Person < ActiveRecord::Base
   end
 
   def gender=(g)
-    if g.to_s.strip.blank?
-      g = nil
-    else
-      g = g.capitalize
-    end
-    write_attribute(:gender, g)
+    self[:gender] = g.present? ? g.capitalize : nil
   end
 
   # get the parents/guardians by grabbing people in family position 1 and 2 and adult?

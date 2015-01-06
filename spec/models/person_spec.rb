@@ -628,4 +628,20 @@ describe Person do
       expect(person.suffix).to be_nil
     end
   end
+
+  describe '#gender=' do
+    let(:person) { FactoryGirl.build(:person) }
+
+    it 'sets to nil if blank' do
+      person.gender = ''
+      person.valid? # trigger callback
+      expect(person.gender).to be_nil
+    end
+
+    it 'sets with capital letter' do
+      person.gender = 'male'
+      person.valid? # trigger callback
+      expect(person.gender).to eq('Male')
+    end
+  end
 end
