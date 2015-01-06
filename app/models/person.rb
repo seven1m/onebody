@@ -162,10 +162,6 @@ class Person < ActiveRecord::Base
     "<#{name}>"
   end
 
-  def groups_sharing(attribute)
-    memberships.where(["share_#{attribute.to_s} = ?", true]).map(&:group)
-  end
-
   def can_sign_in?
     read_attribute(:can_sign_in) and adult_or_consent?
   end
