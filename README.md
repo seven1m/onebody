@@ -4,7 +4,7 @@
 
 [![Install on DigitalOcean](http://installer.71m.us/button.svg)](http://installer.71m.us/install?url=https://github.com/churchio/onebody)
 
-[Install Elsewhere](https://github.com/churchio/onebody/wiki/Installation) / [**Get Help**](https://webchat.freenode.net/?channels=#church.io)
+[Install Elsewhere](https://github.com/churchio/onebody/wiki/Installation)
 
 [![Gitter](https://badges.gitter.im/Chat%20with%20us.svg)](https://gitter.im/churchio/onebody)
 
@@ -103,6 +103,7 @@ mysql -u root -e "create database onebody_test default character set utf8 defaul
 
 ## Get Help
 
+* [Gitter Chat](https://gitter.im/churchio/onebody)
 * IRC channel #church.io on Freenode (try the [web-based IRC client](https://webchat.freenode.net/?channels=#church.io))
 * [Wiki](http://wiki.github.com/churchio/onebody)
 * [Google Group](http://groups.google.com/group/churchio)
