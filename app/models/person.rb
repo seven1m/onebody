@@ -118,6 +118,8 @@ class Person < ActiveRecord::Base
 
   blank_to_nil :suffix
 
+  date_writer :birthday, :anniversary
+
   after_initialize :guess_last_name, if: -> p { p.last_name.nil? }
 
   def guess_last_name
@@ -175,8 +177,6 @@ class Person < ActiveRecord::Base
   def member_of?(group)
     memberships.where(group_id: group.id).any?
   end
-
-  date_writer :birthday, :anniversary
 
   def parental_consent?; parental_consent.present?; end
   def adult_or_consent?; adult? or parental_consent?; end
