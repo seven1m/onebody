@@ -110,6 +110,12 @@ class Person < ActiveRecord::Base
 
   lowercase_attribute :email, :alternate_email
 
+  delegate             :home_phone, :address, :address1, :address2, :city, :state, :zip, :short_zip, :mapable?, to: :family, allow_nil: true
+  sharable_attributes  :home_phone, :mobile_phone, :work_phone, :fax, :email, :birthday, :address, :anniversary, :activity
+
+  self.skip_time_zone_conversion_for_attributes = [:birthday, :anniversary]
+  self.digits_only_for_attributes = [:mobile_phone, :work_phone, :fax, :business_phone]
+
   after_initialize :guess_last_name, if: -> p { p.last_name.nil? }
 
   def guess_last_name
@@ -151,12 +157,6 @@ class Person < ActiveRecord::Base
   def inspect
     "<#{name}>"
   end
-
-  delegate             :home_phone, :address, :address1, :address2, :city, :state, :zip, :short_zip, :mapable?, to: :family, allow_nil: true
-  sharable_attributes  :home_phone, :mobile_phone, :work_phone, :fax, :email, :birthday, :address, :anniversary, :activity
-
-  self.skip_time_zone_conversion_for_attributes = [:birthday, :anniversary]
-  self.digits_only_for_attributes = [:mobile_phone, :work_phone, :fax, :business_phone]
 
   def groups_sharing(attribute)
     memberships.where(["share_#{attribute.to_s} = ?", true]).map(&:group)
