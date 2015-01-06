@@ -6,6 +6,8 @@
 
 [Install Elsewhere](https://github.com/churchio/onebody/wiki/Installation) / [**Get Help**](https://webchat.freenode.net/?channels=#church.io)
 
+[![Gitter](https://badges.gitter.im/Chat%20with%20us.svg)](https://gitter.im/churchio/onebody)
+
 OneBody is open-source, web-based social networking, email list, online directory, and lightweight document management software for churches.
 
 This software has been in production use at churches for over seven years!
