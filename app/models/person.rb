@@ -209,10 +209,6 @@ class Person < ActiveRecord::Base
     end
   end
 
-  def active?
-    log_items.count(["created_at >= ?", 1.day.ago]) > 0
-  end
-
   def has_favs?
     %w(activities interests music tv_shows movies books quotes).detect do |fav|
       self.send(fav).present?
