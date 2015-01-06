@@ -95,8 +95,11 @@ class Person < ActiveRecord::Base
   validate :validate_email_unique
 
   def validate_email_unique
-    return unless email.present? and not deleted?
-    if Person.where("email = ? and family_id != ? and id != ? and deleted = ?", email, family_id || 0, id || 0, false).any?
+    return if email.blank? or deleted?
+    if Person.undeleted.where(email: email)
+                       .where.not(id: id || 0)
+                       .where.not(family_id: family_id || 0)
+                       .any?
       errors.add :email, :taken
     end
   end
