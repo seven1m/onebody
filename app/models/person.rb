@@ -170,10 +170,6 @@ class Person < ActiveRecord::Base
     read_attribute(:messages_enabled) and email.present?
   end
 
-  # deprecated
-  alias_method :can_see?, :can_read?
-  alias_method :can_edit?, :can_update?
-
   def member_of?(group)
     memberships.where(group_id: group.id).any?
   end

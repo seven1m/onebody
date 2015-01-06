@@ -22,7 +22,7 @@
     = icon 'fa fa-user'
     = t('people.no_family_for_this_person')
 
-- if @person.updates.pending.any? and @logged_in.can_edit?(@person)
+- if @person.updates.pending.any? and @logged_in.can_update?(@person)
   .callout.callout-info
     = icon 'fa fa-clock-o'
     = t('people.updates.pending_callout')

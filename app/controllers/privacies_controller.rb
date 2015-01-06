@@ -17,7 +17,7 @@ class PrivaciesController < ApplicationController
       @group ||= Group.find(params[:group_id])
       @membership ||= Membership.find(params[:membership_id])
       @person = @membership.person
-      if @person.member_of?(@group) and @logged_in.can_edit?(@person)
+      if @person.member_of?(@group) and @logged_in.can_update?(@person)
         all = %w(address home_phone mobile_phone work_phone fax email birthday anniversary)
         @visible_to_everyone = all.select { |a| @person.send("share_#{a}?") }
         @sharable_with_group = all - @visible_to_everyone
@@ -28,7 +28,7 @@ class PrivaciesController < ApplicationController
     elsif @person = Person.find(params[:person_id])
       @family = @person.family
       @children = @family.people.where(deleted: false).reject(&:adult?)
-      if @logged_in.can_edit?(@family)
+      if @logged_in.can_update?(@family)
         unless @family.visible?
           flash[:warning] = t('privacies.family_hidden', your: @family == @logged_in.family ? t('your') : t('privacies.this'))
         end
@@ -45,7 +45,7 @@ class PrivaciesController < ApplicationController
       @person = Person.find(params[:person_id])
       @family = @person.family
       people_ids = @family.people.map { |p| p.id }
-      if @logged_in.can_edit?(@family)
+      if @logged_in.can_update?(@family)
         @family.update_attributes!(family_params)
         Array(params[:memberships]).each do |membership_id, sharing|
           m = Membership.where(["id = ? and person_id in (?)", membership_id, people_ids]).first
@@ -81,7 +81,7 @@ class PrivaciesController < ApplicationController
   def update_consent
     @person = Person.find(params[:person_id])
     @family = @person.family
-    if @logged_in.can_edit?(@family) and @family == @logged_in.family
+    if @logged_in.can_update?(@family) and @family == @logged_in.family
       if params[:agree] == t('privacies.i_agree') + "."
         if @family.people.find(params[:person_id])
           @person.parental_consent = "#{@logged_in.name} (#{@logged_in.id}) #{Time.now.to_s}"

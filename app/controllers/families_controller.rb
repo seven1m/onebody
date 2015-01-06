@@ -29,8 +29,8 @@ class FamiliesController < ApplicationController
       @family = Family.where(id: params[:id], deleted: false).first
     end
     raise ActiveRecord::RecordNotFound unless @family
-    @people = @family.people.undeleted.to_a.select { |p| @logged_in.can_see?(p) }
-    if @logged_in.can_see?(@family)
+    @people = @family.people.undeleted.to_a.select { |p| @logged_in.can_read?(p) }
+    if @logged_in.can_read?(@family)
       respond_to do |format|
         format.html
         format.xml  { render xml: @family.to_xml } if can_export?
@@ -147,12 +147,5 @@ class FamiliesController < ApplicationController
 
   def family_params
     params.require(:family).permit(:legacy_id, :barcode_id, :alternate_barcode_id, :name, :last_name, :address1, :address2, :city, :state, :zip, :home_phone, :email, :share_address, :share_mobile_phone, :share_work_phone, :share_fax, :share_email, :share_birthday, :share_anniversary, :visible, :share_activity, :share_home_phone, :photo)
-  end
-
-  def can_edit?
-    unless @logged_in.admin?(:edit_profiles)
-      render text: t('not_authorized'), layout: true, status: 401
-      return false
-    end
   end
 end

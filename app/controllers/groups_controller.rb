@@ -14,7 +14,7 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
     if not (@group.approved? or @group.admin?(@logged_in))
       render text: t('groups.pending_approval.this_group'), layout: true
-    elsif @logged_in.can_see?(@group)
+    elsif @logged_in.can_read?(@group)
       @member_of = @logged_in.member_of?(@group)
       @stream_items = StreamItem.shared_with(@logged_in).where(group: @group).paginate(page: params[:timeline_page], per_page: 5)
       @pictures = @group.album_pictures.references(:album)
@@ -51,7 +51,7 @@ class GroupsController < ApplicationController
 
   def edit
     @group ||= Group.find(params[:id])
-    if @logged_in.can_edit?(@group)
+    if @logged_in.can_update?(@group)
       @categories = Group.categories.keys
       @members = @group.people.minimal.order('last_name, first_name')
     else
@@ -61,7 +61,7 @@ class GroupsController < ApplicationController
 
   def update
     @group = Group.find(params[:id])
-    if @logged_in.can_edit?(@group)
+    if @logged_in.can_update?(@group)
       params[:group][:photo] = nil if params[:group][:photo] == 'remove'
       params[:group].cleanse 'address'
       if @group.update_attributes(group_params)

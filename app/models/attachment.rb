@@ -19,7 +19,7 @@ class Attachment < ActiveRecord::Base
   validates_attachment_size :file, less_than: PAPERCLIP_FILE_MAX_SIZE
 
   def visible_to?(person)
-    (message and person.can_see?(message))
+    (message and person.can_read?(message))
   end
 
   def human_name

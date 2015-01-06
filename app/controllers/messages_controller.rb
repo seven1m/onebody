@@ -52,7 +52,7 @@ class MessagesController < ApplicationController
 
   def create_private_message
     @person = Person.find(params[:message][:to_person_id])
-    if @person.email and @logged_in.can_see?(@person)
+    if @person.email and @logged_in.can_read?(@person)
       if send_message
         unless @preview
           render text: t('messages.sent'), layout: true
@@ -79,7 +79,7 @@ class MessagesController < ApplicationController
 
   def send_message
     attributes = message_params.merge(person: @logged_in)
-    if attributes[:parent_id].present? and not @logged_in.can_see?(Message.find(attributes[:parent_id]))
+    if attributes[:parent_id].present? and not @logged_in.can_read?(Message.find(attributes[:parent_id]))
       render text: 'unauthorized', status: :unauthorized
       return
     end

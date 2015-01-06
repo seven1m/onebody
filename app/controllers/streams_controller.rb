@@ -9,7 +9,7 @@ class StreamsController < ApplicationController
     redirect_to(@logged_in) and return unless @logged_in.full_access?
     if params[:group_id]
       @group = Group.find(params[:group_id])
-      @stream_items = @logged_in.can_see?(@group) ? @group.stream_items : @group.stream_items.none
+      @stream_items = @logged_in.can_read?(@group) ? @group.stream_items : @group.stream_items.none
     else
       @stream_items = StreamItem.shared_with(@logged_in)
       @stream_items.where!(person_id: params[:person_id]) if params[:person_id]

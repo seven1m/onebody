@@ -16,8 +16,7 @@ class MembershipsController < ApplicationController
     @group = Group.find(params[:group_id])
     @memberships = @group.memberships.includes(:person).paginate(page: params[:page], per_page: 100)
     @memberships = @memberships.order(params[:birthdays] ? "ifnull(month(people.birthday),99)" : "people.first_name, people.last_name")
-    @can_edit = @logged_in.can_edit?(@group)
-    if @logged_in.can_see?(@group)
+    if @logged_in.can_read?(@group)
       @requests = @group.membership_requests
     else
       render text: t('not_authorized'), layout: true, status: 401
@@ -28,7 +27,7 @@ class MembershipsController < ApplicationController
   def create
     @group = Group.find(params[:group_id])
     @person = Person.find(params[:id])
-    if @logged_in.can_edit?(@group) or not @group.approval_required_to_join?
+    if @logged_in.can_update?(@group) or not @group.approval_required_to_join?
       @group.memberships.create(person: @person)
     elsif me?
       @group.membership_requests.create(person: @person)
@@ -42,7 +41,7 @@ class MembershipsController < ApplicationController
     # email on/off
     if params[:email]
       @person = Person.find(params[:id])
-      if @logged_in.can_edit?(@group) or @logged_in.can_edit?(@person)
+      if @logged_in.can_update?(@group) or @logged_in.can_update?(@person)
         @get_email = params[:email] == 'on'
         @group.set_options_for @person, {get_email: @get_email}
         respond_to do |format|
@@ -56,7 +55,7 @@ class MembershipsController < ApplicationController
         render text: t('There_was_an_error'), layout: true, status: 500
       end
     # promote/demote
-    elsif @logged_in.can_edit?(@group)
+    elsif @logged_in.can_update?(@group)
       @membership = @group.memberships.find(params[:id])
       @membership.update_attribute :admin, params[:promote] == 'true'
       flash[:notice] = t('groups.user_settings_saved')
@@ -70,7 +69,7 @@ class MembershipsController < ApplicationController
   def destroy
     @group = Group.find(params[:group_id])
     @membership = @group.memberships.where(person_id: params[:id]).first
-    if @logged_in.can_edit?(@group) or @membership.try(:person) == @logged_in
+    if @logged_in.can_update?(@group) or @membership.try(:person) == @logged_in
       if @membership.person and @group.last_admin?(@membership.person)
         flash[:warning] = t('groups.last_admin_remove', name: @membership.person.name)
       else
@@ -93,7 +92,7 @@ class MembershipsController < ApplicationController
 
   def batch_on_person
     @person = Person.find(params[:person_id])
-    if @logged_in.can_edit?(@person) and @logged_in.admin?(:manage_groups)
+    if @logged_in.can_update?(@person) and @logged_in.admin?(:manage_groups)
       groups = (params[:ids] || []).map { |id| Group.find(id) }
       # add groups
       (groups - @person.groups).each do |group|
@@ -115,8 +114,7 @@ class MembershipsController < ApplicationController
   def batch_on_group
     @group = Group.find(params[:group_id])
     group_people = @group.people
-    if @logged_in.can_edit?(@group)
-      @can_edit = true
+    if @logged_in.can_update?(@group)
       if params[:ids] and params[:ids].is_a?(Array)
         @added = []
         params[:ids].each do |id|

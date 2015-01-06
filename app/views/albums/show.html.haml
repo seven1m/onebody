@@ -31,7 +31,7 @@
     - else
       = image_tag 'picture.large.jpg', class: 'picture thumbnail'
 
-    - if @logged_in.can_edit?(@album)
+    - if @logged_in.can_update?(@album)
       .page-controls
         = link_to edit_album_path(@album), class: 'btn btn-info' do
           = icon 'fa fa-pencil'

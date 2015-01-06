@@ -15,7 +15,7 @@
       - elsif @message.group
         = t('messages.sent_to_html', who: link_to(@message.group.try(:name), @message.group))
 
-    - if @logged_in.can_edit?(@message)
+    - if @logged_in.can_update?(@message)
       %p
         = link_to @message, data: { method: 'delete', confirm: t('are_you_sure') }, class: 'btn btn-delete' do
           = icon 'fa fa-trash-o'

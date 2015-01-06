@@ -10,7 +10,7 @@ class PhotosController < ApplicationController
   before_filter :get_object
 
   def update
-    if @logged_in.can_edit?(@object)
+    if @logged_in.can_update?(@object)
       if params[:photo]
         @object.photo = params[:photo]
         # annoying to users if changing their photo fails due to some other unrelated validation failure
@@ -46,7 +46,7 @@ class PhotosController < ApplicationController
   end
 
   def destroy
-    if @logged_in.can_edit?(@object)
+    if @logged_in.can_update?(@object)
       @object.photo = nil
       @object.save(validate: false)
       respond_to do |format|
