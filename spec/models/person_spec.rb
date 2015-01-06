@@ -662,4 +662,29 @@ describe Person do
       end
     end
   end
+
+  describe '#update_relationships_hash' do
+    let(:person) { FactoryGirl.build(:person) }
+
+    context 'given no relationships' do
+      it 'generates a sha1 hash of an empty string' do
+        person.update_relationships_hash
+        expect(person.relationships_hash).to eq(Digest::SHA1.hexdigest(''))
+      end
+    end
+
+    context 'given a relationship' do
+      let(:mother) { FactoryGirl.create(:person, legacy_id: 111) }
+
+      before do
+        person.save!
+        person.relationships.create!(related: mother, name: 'mother')
+      end
+
+      it 'generates a sha1 hash of of the legacy_id and relationship name' do
+        person.update_relationships_hash
+        expect(person.relationships_hash).to eq(Digest::SHA1.hexdigest('111[Mother]'))
+      end
+    end
+  end
 end

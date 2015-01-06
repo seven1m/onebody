@@ -14,6 +14,7 @@ class Person < ActiveRecord::Base
   include Concerns::Person::TwitterUsername
   include Concerns::Person::Streamable
   include Concerns::Person::EmailChanged
+  include Concerns::Person::Relationships
   include Concerns::DateWriter
 
   acts_as_list scope: :family
@@ -37,10 +38,6 @@ class Person < ActiveRecord::Base
   has_many :friends, -> { order('people.last_name', 'people.first_name') }, class_name: 'Person', through: :friendships
   has_many :friendship_requests
   has_many :pending_friendship_requests, -> { where(rejected: false) }, class_name: 'FriendshipRequest'
-  has_many :relationships, dependent: :delete_all
-  has_many :related_people, class_name: 'Person', through: :relationships, source: :related
-  has_many :inward_relationships, class_name: 'Relationship', foreign_key: 'related_id', dependent: :delete_all
-  has_many :inward_related_people, class_name: 'Person', through: :inward_relationships, source: :person
   has_many :prayer_requests, -> { order(created_at: :desc) }
   has_many :attendance_records
   has_many :generated_files
@@ -232,20 +229,6 @@ class Person < ActiveRecord::Base
 
   def attendance_today
     attendance_records.on_date(Date.today).includes(:group).order(:attended_at)
-  end
-
-  def update_relationships_hash
-    rels = relationships.includes(:related).to_a.select do |relationship|
-      !Setting.get(:system, :online_only_relationships).include?(relationship.name_or_other)
-    end.map do |relationship|
-      "#{relationship.related.legacy_id}[#{relationship.name_or_other}]"
-    end.sort
-    self.relationships_hash = Digest::SHA1.hexdigest(rels.join(','))
-  end
-
-  def update_relationships_hash!
-    update_relationships_hash
-    save(validate: false)
   end
 
   alias_method :destroy_for_real, :destroy
