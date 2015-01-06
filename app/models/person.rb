@@ -148,11 +148,6 @@ class Person < ActiveRecord::Base
     end
   end
 
-  # FIXME this assumes English - how to fix?
-  def name_possessive
-    name =~ /s$/ ? "#{name}'" : "#{name}'s"
-  end
-
   def inspect
     "<#{name}>"
   end
