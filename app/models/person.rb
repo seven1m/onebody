@@ -104,7 +104,7 @@ class Person < ActiveRecord::Base
 
   lowercase_attribute :email, :alternate_email
 
-  delegate             :home_phone, :address, :address1, :address2, :city, :state, :zip, :short_zip, :mapable?, to: :family, allow_nil: true
+  delegate             :home_phone, :address, :address1, :address2, :city, :state, :zip, :short_zip, :mapable?, :parents, to: :family, allow_nil: true
   sharable_attributes  :home_phone, :mobile_phone, :work_phone, :fax, :email, :birthday, :address, :anniversary, :activity
 
   self.skip_time_zone_conversion_for_attributes = [:birthday, :anniversary]
@@ -188,15 +188,6 @@ class Person < ActiveRecord::Base
 
   def gender=(g)
     self[:gender] = g.present? ? g.capitalize : nil
-  end
-
-  # get the parents/guardians by grabbing people in family position 1 and 2 and adult?
-  def parents
-    if family
-      family.people.reorder(:id).select do |person|
-        !person.deleted? and person.adult? and [1, 2].include?(person.position)
-      end
-    end
   end
 
   # generates security code for grabbing feed(s) without logging in
