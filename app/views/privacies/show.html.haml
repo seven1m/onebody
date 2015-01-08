@@ -1,9 +1,0 @@
-%h1= t('privacies.group_privacy')
-- if @memberships.any?
-  %p= t('privacies.you_are_sharing_with_groups', sharing: params[:sharing].humanize)
-  %ul
-    - @memberships.each do |membership|
-      %li= link_to membership.group.name,                                   |
-          edit_group_membership_privacy_path(membership.group, membership) |
-- else
-  %p= t('privacies.you_are_not_sharing_with_groups', sharing: params[:sharing].humanize)
