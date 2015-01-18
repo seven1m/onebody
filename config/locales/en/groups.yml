@@ -95,6 +95,7 @@ en:
 
     edit:
       heading: "Edit Group"
+      required_field: "required"
 
       tabs:
         details: "Details"

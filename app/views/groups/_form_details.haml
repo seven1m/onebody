@@ -1,9 +1,15 @@
 .form-group
   = form.label :name
-  = form.text_field :name, onkeyup: 'update_address(this.value)', class: 'form-control'
+  .input-group
+    = form.text_field :name, onkeyup: 'update_address(this.value)', class: 'form-control'
+    %span.input-group-addon{ title: t('groups.edit.required_field') }
+      = icon 'fa fa-star text-red'
 .form-group
   = form.label :category
-  = form.select :category, group_categories, { include_blank: true }, class: 'can-create form-control'
+  .input-group
+    = form.select :category, group_categories, { include_blank: true }, class: 'can-create form-control'
+    %span.input-group-addon{ title: t('groups.edit.required_field') }
+      = icon 'fa fa-star text-red'
   %span.help-block
     = t('groups.edit.category.help')
 .form-group
