@@ -30,5 +30,5 @@
             = render partial: 'form_advanced', object: form, as: :form
 
     .col-lg-4
-      %p= avatar_tag @group, size: :large
-      %p= photo_upload_for @group
+      = photo_upload_for @group do
+        %p= avatar_tag @group, size: :large
