@@ -99,7 +99,7 @@ rspec
 If you don't have a test database yet, create it like you did the dev database:
 
 ```
-mysql -u root -e "create database onebody_test default character set utf8 default collate utf8_general_ci; grant all on onebody_test.* to onebody@localhost identified by 'onebody';"
+rake db:create db:schema:load
 ```
 
 ## Get Help
