@@ -55,8 +55,9 @@ en:
     records:
       one: "1 record"
       other: "%{count} records"
-    save: Submit Attendance
+    save: "Submit Attendance"
     saved: "Attendance submitted."
-    Search: Search
+    submit_notes: "Submit Notes"
+    Search: "Search"
     search_person: Search by Person Name
     wrong_date_format: "Could not recognize date. Please try again."
