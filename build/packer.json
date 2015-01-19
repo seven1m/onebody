@@ -14,7 +14,7 @@
     },
     {
       "type": "amazon-ebs",
-      "ami_name": "onebody-3.2.0-1",
+      "ami_name": "onebody-3.3.0-1",
       "instance_type": "t2.micro",
       "region": "us-west-1",
       "ami_regions": ["us-east-1"],
