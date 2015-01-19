@@ -201,12 +201,12 @@ en:
               invalid: This family card (alternate barcode id) contains letters or symbols (only numbers are allowed).
               taken: This family card (alternate barcode id) is already taken by another family.
               too_long: This family card (alternate barcode id) is too long (cannot be more than 50 digits).
-              too_short: This family card (alternate barcode id) is too short (must be 10 digits).
+              too_short: This family card (alternate barcode id) is too short (must be 5 digits).
             barcode_id:
               invalid: This family card (barcode id) contains letters or symbols (only numbers are allowed).
               taken: This family card (barcode id) is already taken by another family.
               too_long: This family card (barcode id) is too long (cannot be more than 50 digits).
-              too_short: This family card (barcode id) is too short (must be 10 digits).
+              too_short: This family card (barcode id) is too short (must be 5 digits).
             photo:
               too_large: "The photo must be less than %{size} megabytes."
               wrong_type: "The photo file type must be JPG, GIF, or PNG."

@@ -20,8 +20,15 @@ def notify(pass, heading, body='')
   system(cmd)
 end
 
+@last_test = nil
+
 def run_specs(test, force=false)
+  unless File.exist?(test) or force or not @last_test
+    test = @last_test
+  end
+
   if force || File.exist?(test)
+    @last_test = test
     puts "-" * 80
     rspec_cmd = "spring rspec --color --tty"
     puts "#{rspec_cmd} #{test}"

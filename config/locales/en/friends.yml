@@ -13,7 +13,7 @@ en:
     friends: "Friends"
     pending_requests: "Pending Friend Requests"
     people_requested: "The following people have requested to be your friend."
-    personal_friends: "%{name} Friends"
+    personal_friends: "Friends of %{name}"
     remove_from_friends: "Remove from Friends"
     request_sent: "A friend request has been sent to %{name}."
     search_in_the_directory: "Search for friends in the directory"

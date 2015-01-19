@@ -2,7 +2,7 @@ class CommentsController < ApplicationController
   def create
     comment = Comment.new(comment_params)
 
-    if @logged_in.can_see?(comment.commentable)
+    if @logged_in.can_read?(comment.commentable)
       if comment.save
         flash[:notice] = t('comments.saved')
       else
@@ -16,7 +16,7 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment = Comment.find(params[:id])
-    if @logged_in.can_edit?(@comment)
+    if @logged_in.can_update?(@comment)
       @comment.destroy
       flash[:notice] = t('comments.deleted')
       redirect_back

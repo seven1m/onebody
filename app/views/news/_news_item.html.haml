@@ -1,7 +1,7 @@
 .news-item.box.box-info
   .box-header
     %h3.box-title= link_to news_item.title, news_item, class: 'no-underline'
-    - if @logged_in.can_edit?(news_item)
+    - if @logged_in.can_update?(news_item)
       .box-tools.pull-right
         = link_to edit_news_item_path(news_item), class: 'btn bg-gray btn-xs' do
           = icon 'fa fa-pencil'

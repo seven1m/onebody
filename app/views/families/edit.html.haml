@@ -5,7 +5,7 @@
     = icon 'fa fa-check-square'
     = t('people.changes_must_be_reviewed_html')
 
-- if @family.updates.pending.any? and @logged_in.can_edit?(@family)
+- if @family.updates.pending.any? and @logged_in.can_update?(@family)
   .callout.callout-info
     = icon 'fa fa-clock-o'
     = t('people.updates.pending_callout')

@@ -30,14 +30,14 @@ class PagesController < ApplicationController
 
   def edit
     @page = Page.find(params[:id])
-    unless @logged_in.can_edit?(@page)
+    unless @logged_in.can_update?(@page)
       render text: t('not_authorized'), layout: true, status: 401
     end
   end
 
   def update
     @page = Page.find(params[:id])
-    if @logged_in.can_edit?(@page)
+    if @logged_in.can_update?(@page)
       if @page.update_attributes(page_params)
         flash[:notice] = t('pages.saved')
         redirect_to pages_path

@@ -1,7 +1,5 @@
 require_relative '../rails_helper'
 
-GLOBAL_SUPER_ADMIN_EMAIL = 'support@example.com' unless defined?(GLOBAL_SUPER_ADMIN_EMAIL) and GLOBAL_SUPER_ADMIN_EMAIL == 'support@example.com'
-
 describe PeopleController, type: :controller do
   render_views
 
@@ -131,10 +129,10 @@ describe PeopleController, type: :controller do
     expect(response).to be_success
   end
 
-  it "should not allow deletion of a global super admin" do
-     @super_admin = FactoryGirl.create(:person, admin: Admin.create(super_admin: true))
-     @global_super_admin = FactoryGirl.create(:person, email: 'support@example.com')
-     post :destroy, {id: @global_super_admin.id}, {logged_in_id: @super_admin.id}
+  it "should not allow deletion of a super admin" do
+     @super_admin1 = FactoryGirl.create(:person, admin: Admin.create(super_admin: true))
+     @super_admin2 = FactoryGirl.create(:person, admin: Admin.create(super_admin: true))
+     post :destroy, { id: @super_admin1.id }, { logged_in_id: @super_admin2.id }
      expect(response).to be_unauthorized
   end
 

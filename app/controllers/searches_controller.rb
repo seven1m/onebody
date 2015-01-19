@@ -51,7 +51,7 @@ class SearchesController < ApplicationController
 
   def get_family
     @family = Family.find(params[:family_id])
-    raise StandardError unless @logged_in.can_edit?(@family)
+    raise StandardError unless @logged_in.can_update?(@family)
   end
 
 end

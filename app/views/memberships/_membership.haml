@@ -1,6 +1,6 @@
 - person = membership.person
 %tr.row-with-avatar{ id: "membership_#{membership.id}", style: defined?(hide) ? 'display:none' : '' }
-  - if @logged_in.can_edit?(@group)
+  - if @logged_in.can_update?(@group)
     %td
       = check_box_tag 'ids[]', person.try(:id), false, class: 'checkbox simple'
   %td.avatar
@@ -13,7 +13,7 @@
   - else
     %td
       = membership.created_at.to_s(:date) if membership.created_at
-  - if @logged_in.can_edit?(@group)
+  - if @logged_in.can_update?(@group)
     %td.actions
       - if (@group.linked? or @group.parents_of?) and not membership.auto?
         = icon 'fa fa-exclamation-circle text-gray', title: t('memberships.index.details.manual.tooltip')

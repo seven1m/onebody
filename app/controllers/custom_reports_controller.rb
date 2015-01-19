@@ -37,13 +37,13 @@ class CustomReportsController < ApplicationController
   end
 
   def edit
-    unless @logged_in.can_edit?(@custom_report)
+    unless @logged_in.can_update?(@custom_report)
       render text: t('not_authorized'), layout: true, status: 401
     end
   end
 
   def update
-    if @logged_in.can_edit?(@custom_report)
+    if @logged_in.can_update?(@custom_report)
       if @custom_report.update(custom_report_params)
         redirect_to admin_reports_path,
                     notice: t('reports.custom_reports.update.notice')

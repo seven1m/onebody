@@ -27,17 +27,17 @@ describe Message do
     expect(@body.to_s).to match(/http:\/\/.+\/privacy/)
   end
 
-  describe '#can_see?' do
+  describe '#can_read?' do
     context 'group message' do
       before do
         @message = Message.create(group: @group, person: @person, subject: 'subject', body: 'body')
       end
 
       it 'knows who can see the message' do
-        expect(@person.can_see?(@message)).to eq(true)
-        expect(!!@second_person.can_see?(@message)).to eq(false)
-        expect(!!@admin_person.can_see?(@message)).to eq(false)
-        expect(@group_admin.can_see?(@message)).to eq(true)
+        expect(@person.can_read?(@message)).to eq(true)
+        expect(!!@second_person.can_read?(@message)).to eq(false)
+        expect(!!@admin_person.can_read?(@message)).to eq(false)
+        expect(@group_admin.can_read?(@message)).to eq(true)
       end
 
       context 'in a private group' do
@@ -46,10 +46,10 @@ describe Message do
         end
 
         it 'knows who can see the message' do
-          expect(@person.can_see?(@message)).to eq(true)
-          expect(!!@second_person.can_see?(@message)).to eq(false)
-          expect(!!@admin_person.can_see?(@message)).to eq(false)
-          expect(@group_admin.can_see?(@message)).to eq(true)
+          expect(@person.can_read?(@message)).to eq(true)
+          expect(!!@second_person.can_read?(@message)).to eq(false)
+          expect(!!@admin_person.can_read?(@message)).to eq(false)
+          expect(@group_admin.can_read?(@message)).to eq(true)
         end
 
         context 'admin cannot manage groups' do
@@ -58,7 +58,7 @@ describe Message do
           end
 
           it 'does not allow admin to see' do
-            expect(!!@admin_person.can_see?(@message)).to eq(false)
+            expect(!!@admin_person.can_read?(@message)).to eq(false)
           end
         end
       end
@@ -70,9 +70,9 @@ describe Message do
       end
 
       it 'knows who can see the message' do
-        expect(@person.can_see?(@message)).to be
-        expect(@second_person.can_see?(@message)).to be
-        expect(@third_person.can_see?(@message)).not_to be
+        expect(@person.can_read?(@message)).to be
+        expect(@second_person.can_read?(@message)).to be
+        expect(@third_person.can_read?(@message)).not_to be
       end
     end
   end

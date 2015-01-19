@@ -10,7 +10,7 @@
     %p= t('prayer_requests.answer.on_date', date: @prayer_request.answered_at.to_s(:date))
   %p= @prayer_request.answer
 
-- if @logged_in.can_edit?(@prayer_request)
+- if @logged_in.can_update?(@prayer_request)
   .page-controls
     = link_to edit_group_prayer_request_path(@prayer_request.group, @prayer_request), class: 'btn btn-info' do
       = icon 'fa fa-pencil'

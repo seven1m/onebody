@@ -3,7 +3,7 @@
 .row
 
   .col-md-8
-    - if @logged_in.can_edit?(@group) and @requests.any?
+    - if @logged_in.can_update?(@group) and @requests.any?
       = form_tag batch_group_memberships_path(@group) do |form|
         .box.box-warning
           .box-header
@@ -43,7 +43,7 @@
         %table.members.table.print-full-width
           %thead
             %tr
-              - if @logged_in.can_edit?(@group)
+              - if @logged_in.can_update?(@group)
                 %th{ style: 'width:75px' }
               %th
               %th= t('.details.name')
@@ -51,14 +51,14 @@
                 %th= t('.details.birthday')
               - else
                 %th= t('.details.created_at')
-              - if @logged_in.can_edit?(@group)
+              - if @logged_in.can_update?(@group)
                 %th
           %tbody#memberships
             - @memberships.includes(:person).order('people.last_name', 'people.first_name').each do |membership|
               - if person = membership.person
                 = render partial: 'membership', object: membership
 
-        - if @logged_in.can_edit?(@group)
+        - if @logged_in.can_update?(@group)
           .page-controls
             = button_tag class: 'btn btn-delete' do
               = icon 'fa fa-minus-circle'
@@ -70,7 +70,7 @@
     = pagination @memberships
 
   .col-md-4.hidden-print
-    - if @logged_in.can_edit?(@group)
+    - if @logged_in.can_update?(@group)
       .box.box-success
         .box-header
           %h3.box-title
