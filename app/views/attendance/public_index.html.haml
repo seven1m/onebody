@@ -1,8 +1,6 @@
 - @title = t('attendance.heading_without_date', group: @group.name)
 
-%p
-
-= form_tag batch_group_attendance_index_path(@group), id: 'attendance_form' do
+= form_tag group_attendance_index_path(@group), method: :get do
   = hidden_field_tag :public, true
   = hidden_field_tag :token, params[:token]
   .form-group
@@ -11,6 +9,11 @@
         %button{ type: 'button', class: 'btn btn-info date-picker-btn' }
           = icon 'fa fa-calendar'
       = date_field_tag :attended_at, @attended_at.to_s(:date), class: 'form-control'
+
+= form_tag batch_group_attendance_index_path(@group), id: 'attendance_form' do
+  = hidden_field_tag :public, true
+  = hidden_field_tag :token, params[:token]
+  = hidden_field_tag :attended_at, @attended_at.to_s(:date)
   .form-group
     %table.table.list-checkin
       - @records.each do |person, record|
@@ -29,4 +32,4 @@
     %span.help-block= t('attendance.notes.help')
   .form-group.list-checkin-status
     .status{ style: 'display:none' }
-    = button_tag t('attendance.save'), class: 'btn btn-success'
+    = button_tag t('attendance.submit_notes'), class: 'btn btn-success'

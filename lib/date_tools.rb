@@ -15,6 +15,7 @@ class Date
   end
 
   def self.parse_in_locale(string)
+    string = string.to_s
     begin
       strptime(string, Setting.get(:formats, :date))
     rescue ArgumentError
@@ -29,6 +30,7 @@ end
 
 class Time
   def self.parse_in_locale(string)
+    string = string.to_s
     begin
       strptime(string, Setting.get(:formats, :full_date_and_time))
     rescue ArgumentError

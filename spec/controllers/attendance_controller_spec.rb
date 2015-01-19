@@ -2,110 +2,328 @@ require_relative '../rails_helper'
 
 describe AttendanceController, type: :controller do
 
-  before do
-    @person = FactoryGirl.create(:person)
-    @group = FactoryGirl.create(:group, creator_id: @person.id, category: 'Small Groups')
-    @group.memberships.create(person: @person, admin: true)
-  end
+  render_views
 
-  it "should store and retrieve attendance records based on date" do
-    post :batch, {attended_at: '2009-12-01', group_id: @group.id, ids: [@person.id]}, {logged_in_id: @person.id}
-    get  :index, {attended_at: '2009-12-01', group_id: @group.id}, {logged_in_id: @person.id}
-    expect(assigns(:records).length).to eq(1)
-    person, attended = assigns(:records).first
-    expect(attended).to be
-  end
+  let(:group) { FactoryGirl.create(:group) }
 
-  it "should overwrite existing records on batch" do
-    post :batch, {attended_at: '2009-12-01', group_id: @group.id, ids: [@person.id]}, {logged_in_id: @person.id}
-    post :batch, {attended_at: '2009-12-01', group_id: @group.id, ids: []}, {logged_in_id: @person.id}
-    get  :index, {attended_at: '2009-12-01', group_id: @group.id}, {logged_in_id: @person.id}
-    expect(assigns(:records).length).to eq(1)
-    person, attended = assigns(:records).first
-    expect(attended).not_to be
-  end
+  describe '#index' do
+    context 'given user is a group admin' do
+      let!(:user)       { FactoryGirl.create(:person) }
+      let!(:membership) { group.memberships.create!(person: user, admin: true) }
 
-  it "should overwrite existing records for the same person and same time on create" do
-    post :create, {attended_at: '2009-12-01 09:00', group_id: @group.id, ids: [@person.id]}, {logged_in_id: @person.id}
-    expect(AttendanceRecord.where(person_id: @person.id, attended_at: "2009-12-01 09:00:00").count).to eq(1)
-    post :create, {attended_at: '2009-12-01 09:00', group_id: @group.id, ids: [@person.id]}, {logged_in_id: @person.id}
-    expect(AttendanceRecord.where(person_id: @person.id, attended_at: "2009-12-01 09:00:00").count).to eq(1)
-  end
-
-  it "should record attendance for people in the database" do
-    post :create, {attended_at: '2009-12-01 9:00', group_id: @group.id, ids: [@person.id]}, {logged_in_id: @person.id}
-    expect(response).to be_redirect
-    @records = AttendanceRecord.all
-    expect(@records.length).to eq(1)
-    expect(@records.first.first_name).to eq(@person.first_name)
-  end
-
-  it "should record attendance for people not in the database" do
-    post :create, {attended_at: '2009-12-01 9:00', group_id: @group.id, person: {'first_name' => 'Jimmy', 'last_name' => 'Smith', 'age' => '2 yr'}}, {logged_in_id: @person.id}
-    expect(response).to be_redirect
-    @records = AttendanceRecord.all
-    expect(@records.length).to eq(1)
-    expect(@records.first.first_name).to eq("Jimmy")
-  end
-
-  it "should respond to a json request with status='success'" do
-    post :create, {attended_at: '2009-12-01 9:00', group_id: @group.id, ids: [@person.id], person: {'first_name' => 'Jimmy', 'last_name' => 'Smith', 'age' => '2 yr'}, format: 'json'}, {logged_in_id: @person.id}
-    expect(response).to be_success
-    expect(ActiveSupport::JSON.decode(@response.body)["status"]).to eq("success")
-  end
-
-  describe 'public interface using share token' do
-    describe 'GET index' do
-      context 'using valid token' do
+      context do
         before do
-          get :index, { group_id: @group.id, public: true, token: @group.share_token }
+          get :index, {
+            attended_at: '2009-12-01',
+            group_id: group.id
+          }, { logged_in_id: user.id }
         end
 
-        it 'renders the public index template with signed_out layout' do
-          expect(response).to render_template(:public_index)
-          expect(response).to render_template(:signed_out)
+        it 'renders the index template' do
+          expect(response).to render_template(:index)
         end
       end
 
-      context 'using bad token' do
+      context 'given no date' do
         before do
-          get :index, { group_id: @group.id, public: true, token: 'abc' }
+          get :index, {
+            group_id: group.id
+          }, { logged_in_id: user.id }
         end
 
-        it 'returns unauthorized' do
-          expect(response).to be_unauthorized
-          expect(response).to render_template(:signed_out)
+        it 'uses the current date' do
+          expect(assigns[:attended_at].strftime('%Y-%m-%d')).to eq(
+            Date.current.strftime('%Y-%m-%d')
+          )
+          expect(flash[:warning]).to be_nil
+        end
+      end
+
+      context 'given an invalid date' do
+        before do
+          get :index, {
+            attended_at: '2009',
+            group_id: group.id
+          }, { logged_in_id: user.id }
+        end
+
+        it 'uses the current date and shows a warning' do
+          expect(assigns[:attended_at].strftime('%Y-%m-%d')).to eq(
+            Date.current.strftime('%Y-%m-%d')
+          )
+          expect(flash[:warning]).to be
         end
       end
     end
 
-    describe 'POST batch' do
-      context 'using valid token' do
+    context 'given public=true and token' do
+      before do
+        get :index, {
+          attended_at: '2009-12-01',
+          group_id: group.id,
+          public: 'true',
+          token: group.share_token
+        }
+      end
+
+      it 'renders the public_index template' do
+        expect(response).to render_template(:public_index)
+      end
+    end
+
+    context 'given user is not a group admin' do
+      let!(:user)       { FactoryGirl.create(:person) }
+      let!(:membership) { group.memberships.create!(person: user) }
+
+      before do
+        get :index, {
+          attended_at: '2009-12-01',
+          group_id: group.id
+        }, { logged_in_id: user.id }
+      end
+
+      it 'renders an error message' do
+        expect(response).to be_unauthorized
+      end
+    end
+
+    context 'given attendance is disabled on the group' do
+      let!(:group)      { FactoryGirl.create(:group, attendance: false) }
+      let!(:user)       { FactoryGirl.create(:person) }
+      let!(:membership) { group.memberships.create!(person: user, admin: true) }
+
+      before do
+        get :index, {
+          attended_at: '2009-12-01',
+          group_id: group.id
+        }, { logged_in_id: user.id }
+      end
+
+      it 'renders an error' do
+        expect(response).to be_bad_request
+      end
+    end
+  end
+
+  describe '#create' do
+    context 'user is administrator' do
+      let!(:user)       { FactoryGirl.create(:person) }
+      let!(:membership) { group.memberships.create!(person: user, admin: true) }
+      let(:attendee1)   { FactoryGirl.create(:person) }
+      let(:attendee2)   { FactoryGirl.create(:person) }
+
+      context do
+        before do
+          post :create, {
+            attended_at: '2009-12-01 09:00',
+            group_id: group.id,
+            ids: [attendee1.id]
+          }, { logged_in_id: user.id }
+        end
+
+        it 'creates attendance records' do
+          records = group.attendance_records
+          expect(records.count).to eq(1)
+          expect(records.first.person_id).to eq(attendee1.id)
+          expect(records.first.attended_at).to eq(Time.new(2009, 12, 1, 9, 0))
+        end
+      end
+
+      context 'given format is json' do
+        before do
+          post :create, {
+            attended_at: '2009-12-01 09:00',
+            group_id: group.id,
+            ids: [attendee1.id],
+            format: :json
+          }, { logged_in_id: user.id }
+        end
+
+        it 'renders json response' do
+          expect(JSON.parse(response.body)).to eq(
+            'status' => 'success'
+          )
+        end
+      end
+
+      context 'given existing records for this time' do
+        let!(:existing1) { group.attendance_records.create!(person: attendee1, attended_at: Time.new(2009, 12, 1, 9, 0)) }
+        let!(:existing2) { group.attendance_records.create!(person: attendee2, attended_at: Time.new(2009, 12, 1, 9, 0)) }
+
+        before do
+          post :create, {
+            attended_at: '2009-12-01 09:00',
+            group_id: group.id,
+            ids: [attendee1.id]
+          }, { logged_in_id: user.id }
+        end
+
+        it 'deletes old records for the same person' do
+          records = group.attendance_records.reload
+          expect(records.map(&:attributes)).to contain_exactly(
+            include('person_id' => attendee1.id),
+            include('person_id' => attendee2.id)
+          )
+        end
+      end
+
+      context 'given person not in database' do
+        before do
+          post :create, {
+            attended_at: '2009-12-01 09:00',
+            group_id: group.id,
+            person: {
+              first_name: 'John',
+              last_name:  'Smith'
+            }
+          }, { logged_in_id: user.id }
+        end
+
+        it 'creates a record not attached to a person record' do
+          records = group.attendance_records.reload
+          expect(records.map(&:attributes)).to contain_exactly(
+            include('person_id' => nil, 'first_name' => 'John', 'last_name' => 'Smith')
+          )
+        end
+      end
+    end
+
+    context 'user is not administrator' do
+      let!(:user)       { FactoryGirl.create(:person) }
+
+      context do
+        before do
+          post :create, {
+            attended_at: '2009-12-01 09:00',
+            group_id: group.id,
+            ids: [1]
+          }, { logged_in_id: user.id }
+        end
+
+        it 'renders an error message' do
+          expect(response).to be_unauthorized
+        end
+      end
+    end
+  end
+
+  describe '#batch' do
+    let(:attendee) { FactoryGirl.create(:person) }
+
+    context 'from logged in user' do
+      let!(:user)       { FactoryGirl.create(:person) }
+      let!(:membership) { group.memberships.create!(person: user, admin: true) }
+
+      context do
         before do
           post :batch, {
-            group_id:    @group.id,
-            public:      true,
-            token:       @group.share_token,
-            ids:         [@person.id],
-            attended_at: '01/13/2020'
-          }
+            attended_at: '2009-12-01',
+            group_id: group.id,
+            ids: [attendee.id]
+          }, { logged_in_id: user.id }
+        end
+
+        it 'creates attendance records' do
+          records = group.attendance_records
+          expect(records.count).to eq(1)
+          expect(records.first.person_id).to eq(attendee.id)
+          expect(records.first.attended_at).to eq(Time.new(2009, 12, 1, 0, 0))
+        end
+
+        it 'emails the report' do
+          deliveries = ActionMailer::Base.deliveries
+          expect(deliveries.count).to eq(1)
+          expect(deliveries.first.subject).to eq("Attendance Submission for #{group.name}")
+        end
+      end
+
+      context 'given an existing record' do
+        let!(:existing) { group.attendance_records.create!(person_id: 0, attended_at: Time.new(2009, 12, 1, 9, 0)) }
+
+        before do
+          post :batch, {
+            attended_at: '2009-12-01',
+            group_id: group.id,
+            ids: [attendee.id]
+          }, { logged_in_id: user.id }
+        end
+
+        it 'deletes the existing record' do
+          expect { existing.reload }.to raise_error(ActiveRecord::RecordNotFound)
+          records = group.attendance_records
+          expect(records.count).to eq(1)
+        end
+      end
+
+      context 'given invalid date format' do
+        before do
+          post :batch, {
+            attended_at: 'D 1, 2009',
+            group_id: group.id,
+            ids: [attendee.id]
+          }, { logged_in_id: user.id }
         end
 
         render_views
 
-        it 'returns success' do
-          expect(response.body).to match(/attendance submitted/i)
-          expect(response).to render_template(:signed_out)
+        it 'renders an error' do
+          expect(response.body).to match(/Could not recognize date/)
+          expect(response).to be_bad_request
+        end
+      end
+    end
+
+    context 'using public interface and share token' do
+      context 'using valid token' do
+        context do
+          before do
+            post :batch, {
+              group_id:    group.id,
+              public:      true,
+              token:       group.share_token,
+              ids:         [attendee.id],
+              attended_at: '01/13/2020'
+            }
+          end
+
+          render_views
+
+          it 'returns success' do
+            expect(response.body).to match(/attendance submitted/i)
+            expect(response).to render_template(:signed_out)
+          end
+        end
+
+        context 'with notes' do
+          before do
+            post :batch, {
+              group_id:    group.id,
+              public:      true,
+              token:       group.share_token,
+              ids:         [attendee.id],
+              attended_at: '01/13/2020',
+              notes:       'test note'
+            }
+          end
+
+          render_views
+
+          it 'emails the note' do
+            deliveries = ActionMailer::Base.deliveries
+            expect(deliveries.count).to eq(1)
+            expect(deliveries.first.subject).to eq("Attendance Submission for #{group.name}")
+            expect(deliveries.first.body).to match(/test note/)
+          end
         end
       end
 
       context 'using bad token' do
         before do
           post :batch, {
-            group_id:    @group.id,
+            group_id:    group.id,
             public:      true,
             token:       'abc',
-            ids:         [@person.id],
+            ids:         [attendee.id],
             attended_at: '01/13/2020'
           }
         end
