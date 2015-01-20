@@ -42,9 +42,6 @@
   = form.phone_field :fax, class: 'form-control'
 - if @logged_in.admin?(:edit_profiles) and @person.family.try(:persisted?)
   = form.hidden_field :family_id
-- else
-  = fields_for :family, @person.family do |family_fields|
-    = render partial: 'families/phone_and_address_fields', locals: { form: family_fields }
 .form-group
   = form.label :birthday
   .input-group
