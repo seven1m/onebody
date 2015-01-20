@@ -337,7 +337,7 @@ class Notifier < ActionMailer::Base
 
   def get_from_person_by_primary(people)
     by_primary = people.select(&:primary_emailer?)
-    people.first if by_primary.one?
+    by_primary.first if by_primary.one?
   end
 
   def get_from_person_by_name(people, email)
