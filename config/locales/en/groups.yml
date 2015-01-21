@@ -61,6 +61,7 @@ en:
         admins: "admins"
         meets: "meets"
         location: "location"
+        directions: "directions"
         member_count_label: "members"
         member_count:
           one: "1 person"

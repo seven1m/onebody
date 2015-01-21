@@ -36,6 +36,10 @@
     %tr
       %td= t('groups.show.details.location')
       %td= preserve_breaks(@group.location)
+  - if @group.directions.present?
+    %tr
+      %td= t('groups.show.details.directions')
+      %td= preserve_breaks(@group.directions)
   - if @group.attachments.any? or @group.admin?(@logged_in)
     %tr
       %td= t('groups.show.details.attachments')
