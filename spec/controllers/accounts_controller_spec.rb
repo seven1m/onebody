@@ -625,7 +625,7 @@ describe AccountsController, type: :controller do
           end
 
           it 'should set select people in session' do
-            expect(session[:select_from_people]).to eq([@person, @spouse])
+            expect(session[:select_from_people]).to contain_exactly(@person, @spouse )
           end
 
           it 'should redirect to select account path' do
