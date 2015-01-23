@@ -10,7 +10,7 @@ class MembershipRequest < ActiveRecord::Base
   after_create :deliver
 
   def deliver
-    Notifier.membership_request(group, person).deliver
+    Notifier.membership_request(group, person).try(:deliver)
   end
 
   validate :validate_duplicate_membership
