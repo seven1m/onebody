@@ -13,6 +13,8 @@ end
 require_relative '../lib/console'
 
 module OneBody
+  VERSION = File.read(File.expand_path('../../VERSION', __FILE__)).strip
+
   class Application < Rails::Application
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %w(#{config.root}/app/concerns #{config.root}/app/authorizers #{config.root}/app/presenters)
