@@ -46,7 +46,7 @@ class Family < ActiveRecord::Base
     self.country = Setting.get(:system, :default_country) unless country.present?
   end
 
-  geocoded_by :location
+  geocoded_by :geocoding_address
   after_validation :geocode
 
   def barcode_id=(b)
@@ -67,16 +67,8 @@ class Family < ActiveRecord::Base
     latitude.to_f != 0.0 and longitude.to_f != 0.0
   end
 
-  def location
-    if [address1, city, state].all?(&:present?)
-      {
-        street: address,
-        city: city,
-        state: state,
-        postalCode: zip,
-        adminArea1: country
-      }
-    end
+  def geocoding_address
+     [address, city, state, country, zip].compact.join(', ')
   end
 
   # not HTML-escaped!
