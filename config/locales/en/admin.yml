@@ -41,6 +41,9 @@ en:
     dashboard:
       heading: "Admin Dashboard"
       sub_title: "OneBody %{version}"
+      version_alert:
+        intro_html: "A newer version of OneBody is available: <a href='%{url}'>%{version}</a>"
+        download_button: "How to Upgrade"
 
     deleted_people:
       tabs:

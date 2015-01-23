@@ -38,10 +38,12 @@ gem 'date_validator'
 gem 'country_select', github: 'stefanpenner/country_select'
 gem 'dossier'
 gem 'mustache'
+gem 'github_api'
 
 group :test do
   gem 'factory_girl_rails'
   gem 'shoulda-matchers', require: false
+  gem 'webmock'
 end
 
 group :development do

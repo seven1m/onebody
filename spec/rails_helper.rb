@@ -12,6 +12,7 @@ RSpec.configure do |config|
 
   config.order = 'random'
   config.use_transactional_fixtures = true
+  config.fixture_path = Rails.root.join('spec/fixtures')
   ActiveRecord::Migration.maintain_test_schema!
 
   config.filter_run_including focus: true
