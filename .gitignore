@@ -27,3 +27,4 @@ script/package
 .idea
 .vagrant
 Vagrantfile.local
+coverage
