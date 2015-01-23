@@ -1,5 +1,8 @@
 - @title = t('admin.dashboard.heading')
 
+- content_for :sub_title do
+  = t('admin.dashboard.sub_title', version: OneBody::VERSION)
+
 .metrics.floating-boxes
   - if @logged_in.admin?(:manage_updates)
     .floating-box

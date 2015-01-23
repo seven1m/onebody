@@ -11,6 +11,9 @@ class Membership < ActiveRecord::Base
 
   scope_by_site_id
 
+  scope :order_by_birthday, -> { order('ifnull(month(people.birthday), 99)') }
+  scope :order_by_name,     -> { order('people.first_name, people.last_name') }
+
   def family; person.family; end
 
   serialize :roles, Array
@@ -33,5 +36,11 @@ class Membership < ActiveRecord::Base
 
   def self.sharing_columns
     columns.map { |c| c.name }.select { |c| c =~ /^share_/ }
+  end
+
+  def only_admin?
+    person and group and
+    group.admin?(person, :exclude_global_admins) and
+    group.admins.length == 1
   end
 end

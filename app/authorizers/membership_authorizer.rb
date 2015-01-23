@@ -4,6 +4,14 @@ class MembershipAuthorizer < ApplicationAuthorizer
     false # TODO
   end
 
+  def creatable_by?(user)
+    if user.can_update?(resource.group)
+      true
+    elsif resource.group and not resource.group.approval_required_to_join?
+      true
+    end
+  end
+
   def updatable_by?(user)
     # my membership
     if resource.person == user

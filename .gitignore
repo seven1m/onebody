@@ -28,3 +28,4 @@ script/package
 .vagrant
 Vagrantfile.local
 .gem
+coverage

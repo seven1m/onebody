@@ -30,9 +30,23 @@ describe MembershipAuthorizer do
     end
   end
 
+  context 'group does not require approval to join' do
+    before do
+      @group.update_attribute(:approval_required_to_join, false)
+    end
+
+    it 'should create membership' do
+      expect(@user).to be_able_to(:create, @group.memberships.new)
+    end
+  end
+
   context 'user is admin with manage_groups privilege' do
     before do
       @user.update_attributes!(admin: Admin.create!(manage_groups: true))
+    end
+
+    it 'should create membership' do
+      expect(@user).to be_able_to(:create, @group.memberships.new)
     end
 
     it 'should update membership' do
@@ -49,6 +63,10 @@ describe MembershipAuthorizer do
       @user.update_attributes!(admin: Admin.create!(edit_profiles: true))
     end
 
+    it 'should not create membership' do
+      expect(@user).not_to be_able_to(:create, @group.memberships.new)
+    end
+
     it 'should update membership' do
       expect(@user).to be_able_to(:update, @membership)
     end
@@ -61,6 +79,10 @@ describe MembershipAuthorizer do
   context 'user is group admin' do
     before do
       @group.memberships.create(person: @user, admin: true)
+    end
+
+    it 'should create membership' do
+      expect(@user).to be_able_to(:create, @group.memberships.new)
     end
 
     it 'should update membership' do
@@ -76,6 +98,10 @@ describe MembershipAuthorizer do
     before do
       @spouse = FactoryGirl.create(:person, family: @user.family)
       @membership.update_attributes!(person: @spouse)
+    end
+
+    it 'should not create membership' do
+      expect(@user).not_to be_able_to(:create, @group.memberships.new)
     end
 
     it 'should update membership' do
