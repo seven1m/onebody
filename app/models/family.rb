@@ -46,7 +46,21 @@ class Family < ActiveRecord::Base
     self.country = Setting.get(:system, :default_country) unless country.present?
   end
 
-  geocoded_by :geocoding_address
+  geocoded_by :geocoding_address do |family, results|
+    logger.debug results.first.precision
+    if geocoding_data = results.first
+      if geocoding_data.precision == "APPROXIMATE"
+        family.longitude = nil
+        family.latitude = nil
+      else
+        family.longitude = geocoding_data.longitude
+        family.latitude = geocoding_data.latitude
+      end
+    else
+      family.longitude = nil
+      family.latitude = nil
+    end
+  end
   after_validation :geocode
 
   def barcode_id=(b)

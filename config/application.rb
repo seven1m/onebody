@@ -51,7 +51,7 @@ module OneBody
           OpenStruct.new(YAML.load_file(path)[Rails.env])
         else
           envs = ENV.to_a \
-                    .select { |(k, _)| %w(SECRET_TOKEN MAPQUEST_API_KEY).include?(k) } \
+                    .select { |(k, _)| %w(SECRET_TOKEN).include?(k) } \
                     .map    { |(k, v)| [k.downcase, v] }
           OpenStruct.new(Hash[envs])
         end
