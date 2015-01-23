@@ -27,4 +27,5 @@ script/package
 .idea
 .vagrant
 Vagrantfile.local
+.gem
 coverage
