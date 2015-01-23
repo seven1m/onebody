@@ -81,10 +81,6 @@ class Group < ActiveRecord::Base
     end
   end
 
-  def last_admin?(person)
-    person and admin?(person, :exclude_global_admins) and admins.length == 1
-  end
-
   def linked?
     membership_mode == 'link_code' and link_code and link_code.any?
   end

@@ -39,6 +39,7 @@ class Notifier < ActionMailer::Base
         to = Admin.where(super_admin: true).map { |a| a.person.email }
       end
     end
+    return unless to.present?
     mail(
       to:      to,
       from:    person.formatted_email || Site.current.noreply_email,

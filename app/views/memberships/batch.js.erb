@@ -1,13 +1,8 @@
-<% if params[:person_id] %>
-  $('#groups_list').html('<%= escape_javascript render(partial: 'people/group_selection') %>');
-  $('#group_list_status').html('Groups saved.');
-<% else %>
-  if($('#memberships').length == 0) {
-    location.reload();
-  } else {
-    $('#memberships').prepend('<%= escape_javascript render(partial: 'membership', collection: @added, locals: { hide: true }) %>');
-    $('<%= @added.map { |m| '#'+dom_id(m) }.join(',') %>').fadeIn(800);
-    $('#add_person_name').val('')[0].focus();
-    $('#add_people_form input[type="checkbox"]').attr('checked', false);
-  }
-<% end %>
+if($('#memberships').length == 0) {
+  location.reload();
+} else {
+  $('#memberships').prepend('<%= escape_javascript render(partial: 'membership', collection: @added, locals: { hide: true }) %>');
+  $('<%= @added.map { |m| '#'+dom_id(m) }.join(',') %>').fadeIn(800);
+  $('#add_person_name').val('')[0].focus();
+  $('#add_people_form input[type="checkbox"]').attr('checked', false);
+}
