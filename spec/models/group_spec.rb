@@ -134,9 +134,7 @@ describe Group do
     @group.attendance_records.create!(person_id: @person.id, attended_at: '2008-07-22')
     records = @group.get_people_attendance_records_for_date('2008-07-22')
     expect(records.length).to eq(2)
-    expect(records.select do |r|
-  r.last
-end.length).to eq(1)
+    expect(records.select(&:last).length).to eq(1)
   end
 
   it "should be able to parse out the Google Calendar account info from an XML link" do
