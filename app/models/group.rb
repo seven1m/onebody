@@ -58,21 +58,8 @@ class Group < ActiveRecord::Base
     end
   end
 
-  geocoded_by :location_with_country do |group, results|
-    if geocoding_data = results.first
-      if geocoding_data.precision == "APPROXIMATE"
-        group.longitude = nil
-        group.latitude = nil
-      else
-        group.longitude = geocoding_data.longitude
-        group.latitude = geocoding_data.latitude
-      end
-    else
-      group.longitude = nil
-      group.latitude = nil
-    end
-  end
-  after_validation :geocode
+  include Concerns::Geocode
+  geocode_with :location_with_country
 
   blank_to_nil :address
 
