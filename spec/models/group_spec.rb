@@ -152,4 +152,65 @@ describe Group do
       expect(@group.share_token).to match(/^[0-9a-f]{50}$/)
     end
   end
+
+  describe '#location_with_country' do
+    let(:location) { "650 S. Peoria Ave.\nTulsa OK 74120" }
+    let(:group)    { FactoryGirl.create(:group, location: location) }
+
+    it 'appends the default country name on the end' do
+      expect(group.location_with_country).to eq(location + ', US')
+    end
+  end
+
+  describe 'geocoding' do
+    context 'group with address' do
+      let(:location) { "650 S. Peoria Ave.\nTulsa OK 74120" }
+      let(:group)    { FactoryGirl.create(:group, location: location) }
+
+      before do
+        Geocoder::Lookup::Test.add_stub(
+          "650 S. Peoria Ave.\nTulsa OK 74120, US", [
+            {
+              'latitude'     => 36.151305,
+              'longitude'    => -95.975393,
+              'address'      => 'Tulsa, OK, USA',
+              'state'        => 'Oklahoma',
+              'state_code'   => 'OK',
+              'country'      => 'United States',
+              'country_code' => 'US'
+            }
+          ]
+        )
+      end
+
+      it 'sets latitude and longitude' do
+        expect(group.latitude).to eq(36.151305)
+        expect(group.longitude).to eq(-95.975393)
+      end
+
+      context 'address is removed' do
+        before do
+          Geocoder::Lookup::Test.add_stub(
+            ", US", [
+              {
+                'precision' => 'APPROXIMATE',
+                'latitude'  => 35,
+                'longitude' => -95
+              }
+            ]
+          )
+        end
+
+        before do
+          group.location = ''
+          group.save!
+        end
+
+        it 'removes latitude and longitude' do
+          expect(group.latitude).to be_nil
+          expect(group.longitude).to be_nil
+        end
+      end
+    end
+  end
 end
