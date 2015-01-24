@@ -58,7 +58,20 @@ class Group < ActiveRecord::Base
     end
   end
 
-  geocoded_by :location
+  geocoded_by :location_with_country do |group, results|
+    if geocoding_data = results.first
+      if geocoding_data.precision == "APPROXIMATE"
+        group.longitude = nil
+        group.latitude = nil
+      else
+        group.longitude = geocoding_data.longitude
+        group.latitude = geocoding_data.latitude
+      end
+    else
+      group.longitude = nil
+      group.latitude = nil
+    end
+  end
   after_validation :geocode
 
   blank_to_nil :address
@@ -87,6 +100,10 @@ class Group < ActiveRecord::Base
 
   def parents_of?
     membership_mode == 'parents_of' and parents_of
+  end
+
+  def location_with_country
+    [location, Setting.get(:system, :default_country)].join(", ")
   end
 
   def mapable?
