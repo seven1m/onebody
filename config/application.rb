@@ -11,9 +11,10 @@ Dir[File.dirname(__FILE__) + '/../plugins/**/lib/*'].each do |plugin|
 end
 
 require_relative '../lib/console'
+require_relative '../lib/version_info'
 
 module OneBody
-  VERSION = File.read(File.expand_path('../../VERSION', __FILE__)).strip
+  extend VersionInfo
 
   class Application < Rails::Application
     # Custom directories with classes and modules you want to be autoloadable.

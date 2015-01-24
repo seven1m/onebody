@@ -67,7 +67,7 @@ watch('^app/concerns/(.*)\.rb'   ) { |m| run_specs("spec/models/concerns/#{m[1]}
 watch('^app/controllers/(.*)\.rb') { |m| run_specs("spec/controllers/#{m[1]}_spec.rb")        }
 watch('^app/helpers/(.*)\.rb'    ) { |m| run_specs("spec/helpers/#{m[1]}_spec.rb")            }
 watch('^config/locales/.*'       ) { |m| run_specs("spec/requests/i18n_spec.rb")              }
-watch('^lib/(.*)\.rb'            ) { |m| run_specs("test/lib/#{m[1]}_spec.rb")                }
+watch('^lib/(.*)\.rb'            ) { |m| run_specs("spec/lib/#{m[1]}_spec.rb")                }
 
 @interrupt_received = false
 

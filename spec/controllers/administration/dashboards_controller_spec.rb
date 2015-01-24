@@ -1,23 +1,29 @@
 require_relative '../../rails_helper'
 
-describe Administration::DashboardsController, "GET /show", type: :controller do
+describe Administration::DashboardsController, type: :controller do
   render_views
 
-  context "an unauthorized user" do
+  before do
+    stub_request(:get, 'https://api.github.com/repos/churchio/onebody/releases')
+      .to_return(body: File.read(fixture_path.join('releases.json')))
+  end
+
+  context 'an unauthorized user' do
     let!(:person) { FactoryGirl.create(:person) }
-    
+
     it 'should return unauthorized' do
-      get :show, nil, { logged_in_id: person.id }
+      get :show, nil, logged_in_id: person.id
       expect(response.status).to eq(401)
     end
   end
-  
-  context "an authorized user" do
+
+  context 'an authorized user' do
     let!(:admin) { FactoryGirl.create(:person, :admin_manage_updates) }
-    
-    it 'should return unauthorized' do
-      get :show, nil, { logged_in_id: admin.id }
+
+    it 'should render the dashboard' do
+      get :show, nil, logged_in_id: admin.id
       expect(response.status).to eq(200)
+      expect(response).to render_template(:show)
     end
   end
 end

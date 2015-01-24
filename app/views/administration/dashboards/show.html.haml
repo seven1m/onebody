@@ -1,7 +1,16 @@
 - @title = t('admin.dashboard.heading')
 
 - content_for :sub_title do
-  = t('admin.dashboard.sub_title', version: OneBody::VERSION)
+  = t('admin.dashboard.sub_title', version: OneBody.current_version)
+
+- unless OneBody.up_to_date?
+  .alert.alert-warning
+    = icon 'fa fa-warning'
+    %p= t('admin.dashboard.version_alert.intro_html',
+          version: OneBody.latest_version,
+          url: "https://github.com/churchio/onebody/releases/tag/#{OneBody.latest_version}")
+    %p= link_to t('admin.dashboard.version_alert.download_button'),
+                'https://github.com/churchio/onebody/wiki/Installation#how-to-upgrade'
 
 .metrics.floating-boxes
   - if @logged_in.admin?(:manage_updates)
