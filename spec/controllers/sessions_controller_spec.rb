@@ -1,45 +1,115 @@
 require_relative '../rails_helper'
 
 describe SessionsController, type: :controller do
-
   before do
     Setting.set_global('Features', 'SSL', true)
     @person = FactoryGirl.create(:person, password: 'secret')
   end
 
-  it "should redirect show action to new action" do
-    get :show
-    expect(response).to redirect_to(new_session_path)
+  describe '#show' do
+    it 'redirects to new action' do
+      get :show
+      expect(response).to redirect_to(new_session_path)
+    end
   end
 
-  it "should present a login form" do
-    get :new
-    expect(response).to be_success
-    expect(response).to render_template('new')
+  describe '#new' do
+    context do
+      it 'renders the new template' do
+        get :new
+        expect(response).to be_success
+        expect(response).to render_template('new')
+      end
+    end
+
+    context 'there are no users' do
+      before do
+        Person.delete_all
+      end
+
+      it 'redirects to the setup path' do
+        get :new
+        expect(response).to redirect_to(new_setup_path)
+      end
+    end
   end
 
-  it "should sign in a user" do
-    post :create, {email: @person.email, password: 'secret'}
-    expect(flash[:warning]).to be_nil
-    expect(response).to redirect_to(stream_path)
-    expect(session[:logged_in_id]).to eq(@person.id)
+  describe '#create' do
+    context 'correct password' do
+      it 'sets logged_in_id and redirects' do
+        post :create, email: @person.email.upcase, password: 'secret'
+        expect(flash[:warning]).to be_nil
+        expect(session[:logged_in_id]).to eq(@person.id)
+        expect(session[:logged_in_name]).to eq(@person.name)
+        expect(session[:ip_address]).to eq('0.0.0.0')
+        expect(response).to redirect_to(stream_path)
+      end
+    end
+
+    context 'given incorrect password' do
+      before do
+        post :create, email: @person.email.upcase, password: 'wrong'
+      end
+
+      render_views
+
+      it 'renders the new template with an error' do
+        expect(assigns[:focus_password]).to eq(true)
+        expect(response).to render_template(:new)
+        expect(response.body).to match(/password you entered does not match/)
+      end
+
+      it 'creates a signing failure record' do
+        expect(SigninFailure.count).to eq(1)
+        expect(SigninFailure.last.attributes).to include(
+          'email' => @person.email.upcase,
+          'ip'    => '0.0.0.0'
+        )
+      end
+    end
+
+    context 'given email not found' do
+      before do
+        post :create, email: 'bad@example.com', password: 'secret'
+      end
+
+      render_views
+
+      it 'renders the new template with an error' do
+        expect(assigns[:focus_password]).to be_nil
+        expect(response).to render_template(:new)
+        expect(response.body).to match(/email address cannot be found/)
+      end
+
+      it 'creates a signing failure record' do
+        expect(SigninFailure.count).to eq(1)
+        expect(SigninFailure.last.attributes).to include(
+          'email' => 'bad@example.com',
+          'ip'    => '0.0.0.0'
+        )
+      end
+    end
+
+    context 'given from param' do
+      it 'redirects to from param after sign in' do
+        post :create, email: @person.email, password: 'secret', from: '/groups'
+        expect(response).to redirect_to(groups_path)
+      end
+    end
+
+    context 'given from param with a domain name' do
+      it 'does not redirect off-site' do
+        post :create, email: @person.email, password: 'secret', from: 'http://google.com/foo'
+        expect(response).to redirect_to('/foo')
+      end
+    end
   end
 
-  it "should sign out a user" do
-    post :destroy
-    expect(response).to redirect_to(root_path)
-    expect(session[:logged_in_id]).to be_nil
+  describe '#destroy' do
+    it 'unsets logged_in_id and redirects to the root path' do
+      post :destroy
+      expect(session[:logged_in_id]).to be_nil
+      expect(response).to redirect_to(root_path)
+    end
   end
-
-  it "should redirect to original location after sign in" do
-    post :create, {email: @person.email, password: 'secret', from: "/groups"}
-    expect(flash[:warning]).to be_nil
-    expect(response).to redirect_to(groups_path)
-  end
-
-  it 'should not redirect off-site' do
-    post :create, {email: @person.email, password: 'secret', from: "http://google.com/groups"}
-    expect(response).to redirect_to(groups_path)
-  end
-
 end

@@ -55,7 +55,7 @@ describe Signup do
     context 'user already exists with email' do
       before do
         @person = FactoryGirl.create(:person, email: 'me@example.com')
-        @signup = FactoryGirl.build(:signup, email: 'me@example.com')
+        @signup = FactoryGirl.build(:signup, email: 'ME@EXAMPLE.com') # intentionally uppercase
       end
 
       it 'should be valid' do
@@ -83,7 +83,9 @@ describe Signup do
           end
 
           it 'should deliver email verification email to user' do
-            expect(Notifier.deliveries.map(&:subject)).to eq(["Verify Email"])
+            expect(Notifier.deliveries.size).to eq(1)
+            expect(Notifier.deliveries.last.subject).to eq('Verify Email')
+            expect(Notifier.deliveries.last.to).to eq(['me@example.com'])
           end
 
           context '#verification_sent?' do
