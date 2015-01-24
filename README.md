@@ -23,16 +23,17 @@ Visit our website at [church.io](http://church.io) or browse through our [screen
 [![Stories in Ready](https://badge.waffle.io/churchio/onebody.svg?label=ready&title=stories+ready)](http://waffle.io/churchio/onebody)
 [![Stories in Progress](https://badge.waffle.io/churchio/onebody.svg?label=in+progress&title=stories+in+progress)](http://waffle.io/churchio/onebody)
 
-We <3 contributors! Just check out [all these people](https://github.com/orgs/churchio/people) who have helped make OneBody awesome!
+We ❤️ contributors! Just check out [all these people](https://github.com/orgs/churchio/people) who have helped make OneBody awesome!
 
 To help fix a bug, first make sure it has a logged [issue](https://github.com/churchio/onebody/issues) (if not, create one), then:
 
-1. Fork this repo on GitHub.
-2. Set up the software on your computer by following the directions below.
-3. Fix the bug, run the tests (see the "Tests" section below) to make sure they all pass.
+1. Fork this repo on GitHub and clone your fork to your computer.
+2. Set up the software on your computer by following the directions in the next section.
+3. Fix the bug!
+4. Run the test suite (see the "Tests" section lower in this file) to make sure you didn't break something. (This is kind of optional, since Travis CI will run the test suite when you create your Pull Request anyway.)
 4. Submit a Pull Request to get your bug fix merged!
 
-If you'd like to add an awesome new feature, please hop on IRC to talk about what you want to do. We might be able to save you some time building something that 1) we've already done, 2) won't work, or 3) we'll never use. Also, we'd like to give some guidance on approach, coding style, tests, etc.
+If you'd like to add an awesome new feature, please hop on [chat](https://gitter.im/churchio/onebody) to talk about what you want to do. We'd like to give you some guidance on approach, coding style, tests, etc.
 
 ### Development Setup Using Vagrant
 
@@ -45,7 +46,7 @@ Operating System: Windows, Mac, or Linux
 3. `git clone git://github.com/churchio/onebody.git && cd onebody`
 4. `vagrant up`
 
-Now visit the site running in development mode at localhost:8080
+Now visit the site running in development mode at http://localhost:8080.
 
 Whenever gems are updated or new migrations are needed, you can just run `vagrant provision`.
 
