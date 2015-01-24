@@ -15,6 +15,8 @@ class ApplicationController < ActionController::Base
   before_filter :feature_enabled?
   before_filter :authenticate_user
 
+  helper_method :params_without_action
+
   def params_without_action
     params.except(:controller, :action)
   end
