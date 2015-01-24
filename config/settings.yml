@@ -138,6 +138,9 @@ System:
     format: list
     hidden: true
     value:
+  Map Zoom Level:
+    format: string
+    value: 13
   Adult Age:
     format: string
     value: 18
