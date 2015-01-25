@@ -278,6 +278,9 @@ en:
         Default Country:
           name: Default Country
           description: Select the default country for new family records.
+        Map Zoom Level:
+          name: Map Zoom Level
+          description: Select the zoom level to use on the maps displayed on the site.
       Appearance:
         Public Theme:
           name: Public Theme

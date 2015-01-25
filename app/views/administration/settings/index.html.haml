@@ -78,6 +78,7 @@
       = setting_row('System', 'Language', options: ONEBODY_LOCALES.invert)
       = setting_row('System', 'Time Zone', options: @timezones)
       = setting_row('System', 'Default Country', options: country_options)
+      = setting_row('System', 'Map Zoom Level', options: (12..16).to_a)
       .form-group
         .col-sm-offset-2.col-sm-10
           = button_tag t('save_changes'), class: 'btn btn-success'
