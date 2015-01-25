@@ -44,7 +44,9 @@ Operating System: Windows, Mac, or Linux
 1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads). It's free and it runs on Windows, Mac, and Linux.
 2. Install [Vagrant](http://www.vagrantup.com/downloads) on your host machine.
 3. Install [Git](http://git-scm.com/downloads).
-4. Clone the repository to your host machine: `git clone git://github.com/churchio/onebody.git` (If you're on Mac, you can use [GitHub for Mac](https://mac.github.com/). If you're on Windows, you can use [GitHub for Windows](https://windows.github.com/).)
+   * If you're on Mac, you can use [GitHub for Mac](https://mac.github.com/).
+   * If you're on Windows, you can use [GitHub for Windows](https://windows.github.com/).
+4. Clone the repository to your host machine: `git clone git://github.com/churchio/onebody.git`
 5. In your host terminal, change to the project directory: `cd onebody`
 6. Run vagrant: `vagrant up`
 
