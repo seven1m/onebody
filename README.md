@@ -44,19 +44,15 @@ Operating System: Windows, Mac, or Linux
 1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads). It's free and it runs on Windows, Mac, and Linux.
 2. Install [Vagrant](http://www.vagrantup.com/downloads) on your host machine.
 3. Install [Git](http://git-scm.com/downloads).
-4. Clone the repository to your host machine: `git clone git://github.com/churchio/onebody.git`
+4. Clone the repository to your host machine: `git clone git://github.com/churchio/onebody.git` (If you're on Mac, you can use [GitHub for Mac](https://mac.github.com/). If you're on Windows, you can use [GitHub for Windows](https://windows.github.com/).)
 5. In your host terminal, change to the project directory: `cd onebody`
 6. Run vagrant: `vagrant up`
 
 Now visit the site running in development mode at http://localhost:8080.
 
-Whenever gems are updated or new migrations are needed, you can just run `vagrant provision`.
+You can use your favorite text editor to make changes inside the `onebody` directory. Changes should show in your browser after refreshing.
 
-To gain access to the vagrant box, run `vagrant ssh` to get an active SSH session. The OneBody directory is mirrored at `/vagrant` inside the Vagrant box.
-
-To restart the Rails server, type `touch tmp/restart.txt`. Or you can `vagrant reload` to restart the dev box.
-
-For more help with Vagrant, check out the [Vagrant docs](http://docs.vagrantup.com/v2/).
+Check out [Using Vagrant](https://github.com/churchio/onebody/wiki/Using-Vagrant) on the wiki for further help and tips.
 
 ### Manual Development Setup
 
