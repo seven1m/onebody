@@ -82,7 +82,7 @@ loop do
         logger.error(e.message)
         backtrace = e.backtrace.is_a?(Array) ? e.backtrace.join("\n") : e.backtrace.to_s
         logger.error(backtrace)
-        Notifier.simple_message(Setting.get(:contact, :bug_notification_email), '[OneBody] Worker Error', e.message + "\n\n" + backtrace + "\n\n#{cmd}").deliver
+        Notifier.simple_message(Setting.get(:contact, :bug_notification_email), '[OneBody] Worker Error', e.message + "\n\n" + backtrace + "\n\n#{cmd}").deliver_now
         puts e.message if options[:debug]
       ensure
         db.query("delete from jobs where id = %d" % id)

@@ -64,6 +64,6 @@ class PrayerRequest < ActiveRecord::Base
   end
 
   def send_group_email
-    Notifier.prayer_request(self, group).deliver if group.people.count > 1
+    Notifier.prayer_request(self, group).deliver_now if group.people.count > 1
   end
 end
