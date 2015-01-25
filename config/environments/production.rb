@@ -81,6 +81,9 @@ OneBody::Application.configure do
   # Specifies the header that your server uses for sending files
   config.action_dispatch.x_sendfile_header = "X-Sendfile"
 
+  # Enable async queue processing
+  config.active_job.queue_adapter = :sucker_punch
+
   if ENV['SERVE_ASSETS']
     config.middleware.delete "Rack::Sendfile"
     config.middleware.use(Rack::Static, urls: ['/assets', '/images', '/system'], root: 'public')
