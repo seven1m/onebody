@@ -40,6 +40,11 @@ class Person < ActiveRecord::Base
 
   scope_by_site_id
 
+  MINIMAL_ATTRIBUTES = %w(
+    id first_name last_name suffix child gender birthday gender deleted
+    photo_file_name photo_content_type photo_fingerprint photo_updated_at
+  )
+
   scope :undeleted,              -> { where(deleted: false) }
   scope :deleted,                -> { where(deleted: true) }
   scope :adults,                 -> { where(child: false) }
@@ -47,7 +52,7 @@ class Person < ActiveRecord::Base
   scope :children,               -> { where(child: true) }
   scope :can_sign_in,            -> { undeleted.where(can_sign_in: true) }
   scope :administrators,         -> { undeleted.where('admin_id is not null') }
-  scope :minimal,                -> { select('people.id, people.first_name, people.last_name, people.suffix, people.child, people.gender, people.birthday, people.gender, people.photo_file_name, people.photo_content_type, people.photo_fingerprint, people.photo_updated_at, people.deleted') }
+  scope :minimal,                -> { select(MINIMAL_ATTRIBUTES.map { |a| "people.#{a}" }.join(',')) }
   scope :with_birthday_month,    -> m { where('birthday is not null and month(birthday) = ?', m) }
 
   has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
@@ -71,7 +76,7 @@ class Person < ActiveRecord::Base
             uniqueness: { scope: :site_id },
             allow_nil: true
   validates :website, :business_website,
-            format: { with: /\Ahttps?\:\/\/.+/ },
+            format: { with: %r{\Ahttps?\://.+} },
             allow_nil: true,
             allow_blank: true
   validates :email, :alternate_email, :business_email,
@@ -79,7 +84,7 @@ class Person < ActiveRecord::Base
             allow_nil: true,
             allow_blank: true
   validates :facebook_url,
-            format: { with: /\Ahttps?\:\/\/www\.facebook\.com\/.+/ },
+            format: { with: %r{\Ahttps?\://www\.facebook\.com/.+} },
             allow_nil: true,
             allow_blank: true
   validates :business_category,
@@ -93,19 +98,21 @@ class Person < ActiveRecord::Base
   validate :validate_email_unique
 
   def validate_email_unique
-    return if email.blank? or deleted?
-    if Person.undeleted.where(email: email)
-                       .where.not(id: id || 0)
-                       .where.not(family_id: family_id || 0)
-                       .any?
-      errors.add :email, :taken
-    end
+    return if email.blank? || deleted?
+    return unless Person.undeleted.where(email: email)
+                        .where.not(id: id || 0)
+                        .where.not(family_id: family_id || 0)
+                        .any?
+    errors.add :email, :taken
   end
 
   lowercase_attribute :email, :alternate_email
 
-  delegate             :home_phone, :address, :address1, :address2, :city, :state, :zip, :short_zip, :mapable?, :parents, to: :family, allow_nil: true
-  sharable_attributes  :home_phone, :mobile_phone, :work_phone, :fax, :email, :birthday, :address, :anniversary, :activity
+  delegate :home_phone, :address, :address1, :address2, :city, :state, :zip, :short_zip, :mapable?, :parents,
+           to: :family, allow_nil: true
+
+  sharable_attributes :home_phone, :mobile_phone, :work_phone, :fax,
+                      :email, :birthday, :address, :anniversary, :activity
 
   self.skip_time_zone_conversion_for_attributes = [:birthday, :anniversary]
   self.digits_only_for_attributes = [:mobile_phone, :work_phone, :fax, :business_phone]
@@ -129,14 +136,14 @@ class Person < ActiveRecord::Base
   after_save :clear_primary_emailer_on_others
 
   def clear_primary_emailer_on_others
-    return unless family and primary_emailer?
+    return unless family && primary_emailer?
     family.people.undeleted.where(email: email).where.not(id: id).update_all(primary_emailer: false)
   end
 
   def name
     @name ||= begin
       if deleted?
-        "(removed person)"
+        '(removed person)'
       elsif suffix
         "#{first_name} #{last_name}, #{suffix}"
       else
@@ -157,26 +164,31 @@ class Person < ActiveRecord::Base
   end
 
   def can_sign_in?
-    read_attribute(:can_sign_in) and adult_or_consent?
+    read_attribute(:can_sign_in) && adult_or_consent?
   end
 
   def messages_enabled?
-    read_attribute(:messages_enabled) and email.present?
+    read_attribute(:messages_enabled) && email.present?
   end
 
-  def parental_consent?; parental_consent.present?; end
-  def adult_or_consent?; adult? or parental_consent?; end
-
-  def visible?(fam=nil)
-    fam ||= self.family
-    fam and fam.visible? and read_attribute(:visible) and adult_or_consent? and visible_to_everyone?
+  def parental_consent?
+    parental_consent.present?
   end
 
-  def admin?(perm=nil)
+  def adult_or_consent?
+    adult? || parental_consent?
+  end
+
+  def visible?(fam = nil)
+    fam ||= family
+    fam && fam.visible? && read_attribute(:visible) && adult_or_consent? && visible_to_everyone?
+  end
+
+  def admin?(perm = nil)
     if super_admin?
       true
     elsif perm
-      admin and admin.flags[perm.to_s]
+      admin && admin.flags[perm.to_s]
     else
       admin ? true : false
     end
@@ -193,22 +205,24 @@ class Person < ActiveRecord::Base
   # generates security code for grabbing feed(s) without logging in
   before_create :update_feed_code
   def update_feed_code
-    begin # ensure unique
+    loop do
       self.feed_code = SecureRandom.hex(50)[0...50]
-    end while Person.where(feed_code: feed_code).any?
+      break unless Person.where(feed_code: feed_code).any?
+    end
   end
 
   def show_attribute_to?(attribute, who)
-    send(attribute).to_s.strip.any? and
-    (not respond_to?("share_#{attribute}_with?") or
-    send("share_#{attribute}_with?", who))
+    send(attribute).present? && share_attribute_with?(attribute, who)
+  end
+
+  def share_attribute_with?(attribute, who)
+    !respond_to?("share_#{attribute}_with?") || send("share_#{attribute}_with?", who)
   end
 
   def age_group
-    the_classes = self.classes.to_s.split(',')
-    if the_class = the_classes.detect { |c| c =~ /^AG:/ }
-      the_class.match(/^AG:(.+)$/)[1]
-    end
+    code = classes.to_s.split(',').grep(/\AAG:/).first
+    return unless code
+    code.match(/\AAG:(.+)$/)[1]
   end
 
   def attendance_today
@@ -230,30 +244,32 @@ class Person < ActiveRecord::Base
     self.full_access = true
   end
 
-  class << self
+  def self.new_with_default_sharing(attrs)
+    new(HashWithIndifferentAccess.new(attrs).merge(default_sharing_attributes))
+  end
 
-    def new_with_default_sharing(attrs)
-      attrs.symbolize_keys! if attrs.respond_to?(:symbolize_keys!)
-      attrs.merge!(
-        share_address:      Setting.get(:privacy, :share_address_by_default     ),
-        share_home_phone:   Setting.get(:privacy, :share_home_phone_by_default  ),
-        share_mobile_phone: Setting.get(:privacy, :share_mobile_phone_by_default),
-        share_work_phone:   Setting.get(:privacy, :share_work_phone_by_default  ),
-        share_fax:          Setting.get(:privacy, :share_fax_by_default         ),
-        share_email:        Setting.get(:privacy, :share_email_by_default       ),
-        share_birthday:     Setting.get(:privacy, :share_birthday_by_default    ),
-        share_anniversary:  Setting.get(:privacy, :share_anniversary_by_default )
-      )
-      new(attrs)
-    end
+  def self.default_sharing_attributes
+    {
+      share_address:      Setting.get(:privacy, :share_address_by_default),
+      share_home_phone:   Setting.get(:privacy, :share_home_phone_by_default),
+      share_mobile_phone: Setting.get(:privacy, :share_mobile_phone_by_default),
+      share_work_phone:   Setting.get(:privacy, :share_work_phone_by_default),
+      share_fax:          Setting.get(:privacy, :share_fax_by_default),
+      share_email:        Setting.get(:privacy, :share_email_by_default),
+      share_birthday:     Setting.get(:privacy, :share_birthday_by_default),
+      share_anniversary:  Setting.get(:privacy, :share_anniversary_by_default)
+    }
+  end
 
-    def business_categories
-      connection.select_all("select distinct business_category as name from people where business_category is not null and business_category != '' and site_id = #{Site.current.id} order by business_category").map { |c| c['name'] }
-    end
+  def self.business_categories
+    where("business_category is not null and business_category != ''")
+      .order(:business_category)
+      .pluck('distinct business_category')
+  end
 
-    def custom_types
-      connection.select_all("select distinct custom_type as name from people where custom_type is not null and custom_type != '' and site_id = #{Site.current.id} order by custom_type").map { |t| t['name'] }
-    end
-
+  def self.custom_types
+    where("custom_type is not null and custom_type != ''")
+      .order(:custom_type)
+      .pluck('distinct custom_type')
   end
 end
