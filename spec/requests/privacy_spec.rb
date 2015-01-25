@@ -21,7 +21,7 @@ describe 'Privacy', type: :request do
         get "/families/#{@head.family_id}"
         expect(response).to be_success
         expect(response).to render_template('families/show')
-        assert_select '.family .avatar', 2 # not 3 (should not see child)
+        assert_select '.family td.avatar', 2 # not 3 (should not see child)
         expect(response.body).to_not match(/Megan/)
       end
 
@@ -46,7 +46,7 @@ describe 'Privacy', type: :request do
         get "/families/#{@head.family_id}"
         expect(response).to be_success
         expect(response).to render_template('families/show')
-        assert_select '.family .avatar', 3
+        assert_select '.family td.avatar', 3
         expect(response.body).to match(/Megan/)
       end
 

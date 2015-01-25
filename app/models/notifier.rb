@@ -192,7 +192,7 @@ class Notifier < ActionMailer::Base
                             url: Setting.get(:url, :site))
       end
       if destinations.any? and return_to = email['Return-Path'] ? email['Return-Path'].to_s : email.from
-        Notifier.simple_message(return_to, reject_subject, reject_msg).deliver
+        Notifier.simple_message(return_to, reject_subject, reject_msg).deliver_now
       end
       return
     end
@@ -202,7 +202,7 @@ class Notifier < ActionMailer::Base
         email['Return-Path'] ? email['Return-Path'].to_s : email.from,
         I18n.t('notifier.rejection.cannot_read.subject', subject: email.subject),
         I18n.t('notifier.rejection.cannot_read.body', subject: email.subject, url: Setting.get(:url, :site))
-      ).deliver
+      ).deliver_now
       return
     end
 
@@ -222,7 +222,7 @@ class Notifier < ActionMailer::Base
                  subject: email.subject,
                  errors: message.errors.full_messages.join("\n"),
                  support: Setting.get(:contact, :tech_support_contact))
-        ).deliver
+        ).deliver_now
         sent_to_count += 1
         break
       end
@@ -236,7 +236,7 @@ class Notifier < ActionMailer::Base
         I18n.t('notifier.rejection.no_recipients.body',
                subject: email.subject,
                url: Setting.get(:url, :site))
-      ).deliver
+      ).deliver_now
     end
 
     # do not process this one ever again

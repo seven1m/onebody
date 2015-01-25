@@ -59,7 +59,7 @@ Net::POP3.start(host, nil, username, password) do |pop|
           '[OneBody] Email Error',
           e.message + "\n\n" + backtrace,
           'no-reply@localhost'
-        ).deliver
+        ).deliver_now
       ensure
         email.delete
       end

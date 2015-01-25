@@ -106,7 +106,7 @@ class Message < ActiveRecord::Base
       email = Notifier.full_message(person, self, id_and_code)
       email.add_message_id
       email.message_id = "<#{id_and_code}_#{email.message_id.gsub(/^</, '')}"
-      email.deliver
+      email.deliver_now
     end
   end
 
