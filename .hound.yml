@@ -1,15 +1,6 @@
 LineLength:
   Max: 120
 
-AndOr:
-  Enabled: false
-
-EmptyLinesAroundBody:
-  Enabled: false
-
-Not:
-  Enabled: false
-
 DotPosition:
   EnforcedStyle: leading
 
