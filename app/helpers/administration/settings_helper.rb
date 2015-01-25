@@ -47,9 +47,5 @@ module Administration::SettingsHelper
       I18n.t('description', scope: ['admin.settings', setting.section, setting.name])
     end
   end
-
-  def zoom_options
-    (12..16).map{|zoom_level| [I18n.t('name', scope: ['admin.settings', 'System', "Zoom Level #{zoom_level}"]), zoom_level]}
-  end
-
+  
 end
