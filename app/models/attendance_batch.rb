@@ -4,12 +4,17 @@ class AttendanceBatch
 
   def initialize(group, attended_at)
     @group = group
-    @attended_at = parse(attended_at)
+    @attended_at = time_without_zone(parse(attended_at))
   end
 
-  def parse(date)
-    Time.parse_in_locale(date) ||
-    Date.parse_in_locale(date)
+  def parse(time)
+    Time.parse_in_locale(time) ||
+    Date.parse_in_locale(time)
+  end
+
+  def time_without_zone(time)
+    return nil unless time.present?
+    ActiveSupport::TimeZone['UTC'].parse(time.strftime('%Y-%m-%dT%H:%M:%S'))
   end
 
   def update(ids)
