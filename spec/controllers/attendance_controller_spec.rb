@@ -125,7 +125,7 @@ describe AttendanceController, type: :controller do
           records = group.attendance_records
           expect(records.count).to eq(1)
           expect(records.first.person_id).to eq(attendee1.id)
-          expect(records.first.attended_at).to eq(Time.new(2009, 12, 1, 9, 0))
+          expect(records.first.attended_at).to eq(Time.utc(2009, 12, 1, 9, 0))
         end
       end
 
@@ -143,6 +143,24 @@ describe AttendanceController, type: :controller do
           expect(JSON.parse(response.body)).to eq(
             'status' => 'success'
           )
+        end
+      end
+
+      context 'given check-in time without date' do
+        before do
+          post :create, {
+            attended_at: '9:30 AM',
+            group_id: group.id,
+            ids: [attendee1.id]
+          }, { logged_in_id: user.id }
+        end
+
+        it 'creates attendance records' do
+          records = group.attendance_records
+          expect(records.count).to eq(1)
+          expect(records.first.person_id).to eq(attendee1.id)
+          time = records.first.attended_at.strftime('%Y-%m-%d %H:%M:%S %z')
+          expect(time).to eq(Date.current.strftime('%Y-%m-%d') + ' 09:30:00 +0000')
         end
       end
 
@@ -227,7 +245,7 @@ describe AttendanceController, type: :controller do
           records = group.attendance_records
           expect(records.count).to eq(1)
           expect(records.first.person_id).to eq(attendee.id)
-          expect(records.first.attended_at).to eq(Time.new(2009, 12, 1, 0, 0))
+          expect(records.first.attended_at).to eq(Time.utc(2009, 12, 1, 0, 0))
         end
 
         it 'emails the report' do
