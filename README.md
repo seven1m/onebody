@@ -42,9 +42,11 @@ If you're a developer and want to get everything running locally, this is the ea
 Operating System: Windows, Mac, or Linux
 
 1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads). It's free and it runs on Windows, Mac, and Linux.
-2. Install [Vagrant](http://www.vagrantup.com/downloads).
-3. `git clone git://github.com/churchio/onebody.git && cd onebody`
-4. `vagrant up`
+2. Install [Vagrant](http://www.vagrantup.com/downloads) on your host machine.
+3. Install [Git](http://git-scm.com/downloads).
+4. Clone the repository to your host machine: `git clone git://github.com/churchio/onebody.git`
+5. In your host terminal, change to the project directory: `cd onebody`
+6. Run vagrant: `vagrant up`
 
 Now visit the site running in development mode at http://localhost:8080.
 
