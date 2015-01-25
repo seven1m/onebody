@@ -47,5 +47,5 @@ module Administration::SettingsHelper
       I18n.t('description', scope: ['admin.settings', setting.section, setting.name])
     end
   end
-
+  
 end

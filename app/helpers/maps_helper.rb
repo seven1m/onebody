@@ -24,7 +24,8 @@ module MapsHelper
       longitude: object.longitude,
       address: preserve_breaks(object.pretty_address),
       notice: t('maps.notice'),
-      protocol: Setting.get(:features, :ssl) ? 'https' : 'http'
+      protocol: Setting.get(:features, :ssl) ? 'https' : 'http',
+      zoom: Setting.get(:system, :map_zoom_level)
     }
   end
 end
