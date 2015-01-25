@@ -324,6 +324,14 @@ describe Person do
       @person.save
       expect(@person.errors[:child]).to_not be_empty
     end
+
+     it 'should allow child=true while birthday year is 1900' do
+      @person = FactoryGirl.create(:person)
+      @person.birthday = Date.new(1900, 1, 1)
+      @person.child = false
+      @person.save
+      expect(@person.reload.child).to eq(false)
+     end
   end
 
   it "should guess last_name upon initialization" do

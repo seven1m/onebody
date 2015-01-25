@@ -20,7 +20,7 @@ module Concerns
       end
 
       def set_child
-        return unless birthday
+        return unless birthday and birthday.year != 1900
         self.child = !at_least?(Setting.get(:system, :adult_age).to_i)
         true # don't return false or validation will fail
       end
