@@ -23,7 +23,7 @@ class FriendshipRequest < ActiveRecord::Base
 
   after_create :send_request
   def send_request
-    Notifier.friend_request(from, person).deliver
+    Notifier.friend_request(from, person).deliver_now
   end
 
   def accept

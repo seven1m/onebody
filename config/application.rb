@@ -44,6 +44,8 @@ module OneBody
       g.test_framework :rspec
     end
 
+    config.active_record.raise_in_transactional_callbacks = true
+
     # TODO remove this when we get to Rails 4.1
     def secrets
       @secrets ||= begin
