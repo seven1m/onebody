@@ -40,6 +40,7 @@ gem 'responders'
 gem 'dossier'
 gem 'mustache'
 gem 'github_api'
+gem 'sucker_punch'
 
 group :test do
   gem 'factory_girl_rails'

@@ -90,10 +90,14 @@ class Message < ActiveRecord::Base
 
   attr_accessor :dont_send
 
-  after_create :send_message
+  after_create :enqueue_send
+
+  def enqueue_send
+    return if dont_send
+    MessageSendJob.perform_later(self)
+  end
 
   def send_message
-    return if dont_send
     if group
       send_to_group
     elsif to
@@ -284,7 +288,7 @@ class Message < ActiveRecord::Base
         end
       end
       message.dont_send = false
-      message.send_message
+      message.enqueue_send
     end
     message
   end
