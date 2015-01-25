@@ -20,7 +20,7 @@ module Concerns
         return if dont_mark_email_changed
         if changed.include?('email')
           self[:email_changed] = true
-          Notifier.email_update(self).deliver
+          Notifier.email_update(self).deliver_now
         end
       end
     end

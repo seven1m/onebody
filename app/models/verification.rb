@@ -71,9 +71,9 @@ class Verification < ActiveRecord::Base
   def send_verification_email
     if verified.nil?
       if mobile_phone
-        Notifier.mobile_verification(self).deliver
+        Notifier.mobile_verification(self).deliver_now
       else
-        Notifier.email_verification(self).deliver
+        Notifier.email_verification(self).deliver_now
       end
     end
   end

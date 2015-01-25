@@ -104,7 +104,7 @@ class Signup
   end
 
   def deliver_signup_approval
-    Notifier.pending_sign_up(@person).deliver
+    Notifier.pending_sign_up(@person).deliver_now
     @approval_sent = true
   end
 

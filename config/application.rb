@@ -44,19 +44,6 @@ module OneBody
       g.test_framework :rspec
     end
 
-    # TODO remove this when we get to Rails 4.1
-    def secrets
-      @secrets ||= begin
-        path = Rails.root.join('config/secrets.yml')
-        if File.exist?(path)
-          OpenStruct.new(YAML.load_file(path)[Rails.env])
-        else
-          envs = ENV.to_a \
-                    .select { |(k, _)| %w(SECRET_TOKEN).include?(k) } \
-                    .map    { |(k, v)| [k.downcase, v] }
-          OpenStruct.new(Hash[envs])
-        end
-      end
-    end
+    config.active_record.raise_in_transactional_callbacks = true
   end
 end

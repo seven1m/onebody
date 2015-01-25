@@ -687,4 +687,24 @@ describe Person do
       end
     end
   end
+
+  describe '#business_categories' do
+    before do
+      FactoryGirl.create_list(:person, 2, business_category: 'foo')
+    end
+
+    it 'returns an array of unique category names' do
+      expect(Person.business_categories).to eq(['foo'])
+    end
+  end
+
+  describe '#custom_types' do
+    before do
+      FactoryGirl.create_list(:person, 2, custom_type: 'foo')
+    end
+
+    it 'returns an array of unique type names' do
+      expect(Person.custom_types).to eq(['foo'])
+    end
+  end
 end

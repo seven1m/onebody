@@ -47,11 +47,11 @@ class AttendanceController < ApplicationController
     attendance_records = batch.update(params[:ids])
     if params[:public]
       if params[:notes].present?
-        Notifier.attendance_submission(@group, attendance_records, @logged_in, params[:notes]).deliver
+        Notifier.attendance_submission(@group, attendance_records, @logged_in, params[:notes]).deliver_now
       end
       render_text t('attendance.saved')
     else
-      Notifier.attendance_submission(@group, attendance_records, @logged_in, params[:notes]).deliver
+      Notifier.attendance_submission(@group, attendance_records, @logged_in, params[:notes]).deliver_now
       flash[:notice] = t('changes_saved')
       redirect_to group_attendance_index_path(@group, attended_at: batch.attended_at.to_s(:date))
     end
