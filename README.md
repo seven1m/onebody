@@ -35,6 +35,8 @@ To help fix a bug, first make sure it has a logged [issue](https://github.com/ch
 
 If you'd like to add an awesome new feature, please hop on [chat](https://gitter.im/churchio/onebody) to talk about what you want to do. We'd like to give you some guidance on approach, coding style, tests, etc.
 
+[FAQs for Contributors](https://github.com/churchio/onebody/wiki/FAQs-for-Contributors)
+
 ### Development Setup Using Vagrant
 
 If you're a developer and want to get everything running locally, this is the easiest way.
