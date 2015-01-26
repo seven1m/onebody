@@ -276,7 +276,7 @@ describe AttendanceController, type: :controller do
       context 'given invalid date format' do
         before do
           post :batch, {
-            attended_at: 'D 1, 2009',
+            attended_at: '99-99-99',
             group_id: group.id,
             ids: [attendee.id]
           }, { logged_in_id: user.id }

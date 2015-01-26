@@ -1,5 +1,4 @@
 class AttendanceBatch
-
   attr_reader :attended_at
 
   def initialize(group, attended_at)
@@ -8,12 +7,18 @@ class AttendanceBatch
   end
 
   def parse(time)
-    Time.parse_in_locale(time) ||
-    Date.parse_in_locale(time)
+    return if time.blank?
+    time = ensure_date(time)
+    Time.parse_in_locale(time) || Date.parse_in_locale(time)
+  end
+
+  def ensure_date(time)
+    return time if time =~ %r{\d\d?[-/]\d\d?[-/]\d\d?}
+    Date.current.strftime('%Y-%m-%d ') + time
   end
 
   def time_without_zone(time)
-    return nil unless time.present?
+    return if time.blank?
     ActiveSupport::TimeZone['UTC'].parse(time.strftime('%Y-%m-%dT%H:%M:%S'))
   end
 
