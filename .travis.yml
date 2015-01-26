@@ -12,3 +12,9 @@ before_script:
   - mysql -e 'create database onebody_test'
 notifications:
   irc: "chat.freenode.net#church.io"
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/9e05a861c78289ee0608
+    on_success: change
+    on_failure: always
+    on_start: false
