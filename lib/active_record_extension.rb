@@ -1,5 +1,4 @@
 module ActiveRecordExtension
-
   extend ActiveSupport::Concern
 
   # add your static(class) methods here

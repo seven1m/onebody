@@ -126,10 +126,10 @@ class Setting < ActiveRecord::Base
         update_site_from_hash(site, settings)
       end
       # globals
-      Rails.logger.info("Reloading global settings...")
+      Rails.logger.info('Reloading global settings...')
       global_settings_in_db = Setting.where(global: true).to_a
       each_setting_from_hash(settings, true) do |section_name, setting_name, setting|
-        unless global_settings_in_db.detect { |s| s.section == section_name and s.name == setting_name }
+        unless global_settings_in_db.detect { |s| s.section == section_name && s.name == setting_name }
           global_settings_in_db << Setting.create!(setting.merge(section: section_name, name: setting_name))
         end
       end
