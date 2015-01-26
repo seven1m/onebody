@@ -26,8 +26,6 @@ class Search
     elsif source == :family
       @scope = Family.includes(:people)
     end
-
-    @ilike = (@scope.connection.adapter_name == "PostgreSQL" ? 'ilike' : 'like')
   end
 
   def results
@@ -131,16 +129,16 @@ class Search
 
   def name!
     return unless name
-    person = Person.arel_table
-    family = Family.arel_table
-    concat = Arel::Nodes::NamedFunction.new 'concat', [person[:first_name], ' ', person[:last_name]]
-
-    where!(concat.matches(like(name)).or(
-      family[:name].matches(like(name)).or(
-        person[:first_name].matches(like(name.split.first, :after)).and(
-          person[:last_name].matches(like(name.split.last, :after))))))
+    where!(
+      "(concat(people.first_name, ' ', people.last_name) #{like} :full_name
+       or (families.name #{like} :full_name)
+       or (people.first_name #{like} :first_name and people.last_name #{like} :last_name))
+      ",
+      full_name:  like_match(name),
+      first_name: like_match(name.split.first, :after),
+      last_name:  like_match(name.split.last, :after)
+    )
   end
-
 
   def gender!
     where!(people: { gender: gender }) if gender.present?
@@ -160,9 +158,9 @@ class Search
 
   def address!
     self.address ||= {}
-    where!("families.city #{@ilike} ?",  like(address[:city],  :after)) if address[:city].present?
-    where!("families.state #{@ilike} ?", like(address[:state], :after)) if address[:state].present?
-    where!("families.zip #{@ilike} ?",   like(address[:zip],   :after)) if address[:zip].present?
+    where!("families.city  #{like} ?", like_match(address[:city],  :after)) if address[:city].present?
+    where!("families.state #{like} ?", like_match(address[:state], :after)) if address[:state].present?
+    where!("families.zip   #{like} ?", like_match(address[:zip],   :after)) if address[:zip].present?
   end
 
   def phone!
@@ -194,7 +192,15 @@ class Search
     ((show_hidden || select_person || select_family) && Person.logged_in.admin?(:view_hidden_profiles))
   end
 
-  def like(str, position=:both)
+  def like
+    if @scope.connection.adapter_name == 'PostgreSQL'
+      'ilike'
+    else
+      'like'
+    end
+  end
+
+  def like_match(str, position = :both)
     str.to_s.dup.gsub(/[%_]/) { |x| '\\' + x }.tap do |s|
       s.insert(0, '%') if [:before, :both].include?(position)
       s << '%'         if [:after,  :both].include?(position)
