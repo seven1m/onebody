@@ -99,8 +99,8 @@ class Search
   end
 
   def not_deleted!
-    where!(people: { deleted: false} )
-    where!(families: { deleted: false} )
+    where!(people: { deleted: false })
+    where!(families: { deleted: false })
   end
 
   def business!
@@ -125,10 +125,8 @@ class Search
 
   def visible!
     return if show_hidden_profiles?
-    where!(people: {visible: true})
-    where!(people: {visible_to_everyone: true})
-    where!(families: {visible: true})
-    #where!('people.visible = ? and people.visible_to_everyone = ? and families.visible = ?', true, true, true)
+    where!(people: { visible: true, visible_to_everyone: true })
+    where!(families: { visible: true })
   end
 
   def name!
