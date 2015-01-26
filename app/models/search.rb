@@ -1,7 +1,6 @@
 require 'ostruct'
 
 class Search
-
   attr_accessor :name, :family_name,
                 :gender,
                 :address,
@@ -16,10 +15,10 @@ class Search
                 :select_person,
                 :select_family
 
-  def initialize(params={})
+  def initialize(params = {})
     source = params.delete(:source) || :person
     params.each do |key, val|
-      self.send("#{key}=", val) if respond_to?("#{key}=")
+      send("#{key}=", val) if respond_to?("#{key}=")
     end
     if source == :person
       @scope = Person.joins(:family)
@@ -42,7 +41,7 @@ class Search
     self.name = name
   end
 
-  def birthday(key=nil)
+  def birthday(key = nil)
     if key
       @birthday.try(:[], key).to_i
     else
@@ -50,7 +49,7 @@ class Search
     end
   end
 
-  def anniversary(key=nil)
+  def anniversary(key = nil)
     if key
       @anniversary.try(:[], key).to_i
     else
@@ -58,7 +57,7 @@ class Search
     end
   end
 
-  def address(key=nil)
+  def address(key = nil)
     if key
       @address.try(:[], key)
     else
@@ -180,7 +179,7 @@ class Search
     if %w(member staff deacon elder).include?(type)
       where!("people.#{type} = ?", true)
     elsif type.present?
-      where!("people.custom_type = ?", type)
+      where!('people.custom_type = ?', type)
     end
   end
 
