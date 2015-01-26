@@ -11,7 +11,7 @@ class FriendshipRequest < ActiveRecord::Base
   validate :validate_email_on_target
 
   def validate_email_on_target
-    errors.add(:person, :invalid_address) unless person.email.present?
+    errors.add(:person, :invalid_address) unless person && person.email.present?
   end
 
   validate :validate_friends_enabled_on_target

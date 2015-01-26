@@ -40,7 +40,6 @@ describe FriendshipRequest do
     end
 
     it 'should work' do
-
       expect(@user.friendship_waiting_on?(@other)).to be true
       expect(@user.friendship_rejected_by?(@other)).not_to be true
       expect(@other.can_request_friendship_with?(@user)).to be true
