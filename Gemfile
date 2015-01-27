@@ -77,7 +77,6 @@ end
 group :development do
   gem 'better_errors', '~> 2.1.1'
   gem 'binding_of_caller', '~> 0.7.2'
-  gem 'zeus', '~> 0.15.4'
   gem 'watchr', '~> 0.7'
   gem 'terminal-notifier', '~> 1.6.2'
   gem 'capistrano', '~> 3.3.5'
