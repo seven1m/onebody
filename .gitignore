@@ -1,5 +1,4 @@
 .bundle
-db/schema.rb
 db/*.sql
 db/*.backup.*
 tmp

@@ -22,8 +22,13 @@ RSpec.configure do |config|
     begin
       Site.current ||= Site.find(1)
     rescue ActiveRecord::RecordNotFound
-      Site.connection.execute("DELETE FROM sites;")
-      Site.connection.execute("ALTER TABLE sites AUTO_INCREMENT = 1;")
+      Site.connection.execute('DELETE FROM sites;')
+      if Site.connection.adapter_name == 'PostgreSQL'
+        Site.connection.execute('ALTER SEQUENCE sites_id_seq RESTART WITH 1;')
+        Site.connection.execute('UPDATE sites SET id = DEFAULT;')
+      else
+        Site.connection.execute('ALTER TABLE sites AUTO_INCREMENT = 1;')
+      end
       Site.current = Site.create!(name: 'Default', host: 'example.com')
     end
     Setting.update_all

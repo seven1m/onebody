@@ -48,12 +48,12 @@ class Person < ActiveRecord::Base
   scope :undeleted,              -> { where(deleted: false) }
   scope :deleted,                -> { where(deleted: true) }
   scope :adults,                 -> { where(child: false) }
-  scope :adults_or_have_consent, -> { where("child = 0 or coalesce(parental_consent, '') != ''") }
+  scope :adults_or_have_consent, -> { where("child = ? or coalesce(parental_consent, '') != ''", false) }
   scope :children,               -> { where(child: true) }
   scope :can_sign_in,            -> { undeleted.where(can_sign_in: true) }
   scope :administrators,         -> { undeleted.where('admin_id is not null') }
   scope :minimal,                -> { select(MINIMAL_ATTRIBUTES.map { |a| "people.#{a}" }.join(',')) }
-  scope :with_birthday_month,    -> m { where('birthday is not null and month(birthday) = ?', m) }
+  scope :with_birthday_month,    -> m { where('birthday is not null and extract(month from birthday) = ?', m) }
 
   has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
 
@@ -160,7 +160,7 @@ class Person < ActiveRecord::Base
   end
 
   def inspect
-    "<#{name}>"
+    "<#{id}:#{name}>"
   end
 
   def can_sign_in?

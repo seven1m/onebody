@@ -1,8 +1,34 @@
+require 'erb'
+require 'yaml'
+
 source 'http://rubygems.org'
 
 gem 'rails', '~> 4.2.0'
+
+# borrowed heavily from https://github.com/redmine/redmine/blob/master/Gemfile
+database_file = File.expand_path('../config/database.yml', __FILE__)
+if File.exist?(database_file)
+  database_config = YAML::load(ERB.new(File.read(database_file)).result)
+  adapters = database_config.values.map {|c| c['adapter']}.compact.uniq
+  if adapters.any?
+    adapters.each do |adapter|
+      case adapter
+      when 'mysql2'
+        gem 'mysql2', '~> 0.3.17'
+      when 'postgresql'
+        gem 'pg', '~> 0.18.1'
+      else
+        warn("Unknown database adapter '#{adapter}' found in config/database.yml")
+      end
+    end
+  else
+    warn('No adapter found in config/database.yml, please configure it first')
+  end
+else
+  warn('Please configure your config/database.yml first')
+end
+
 gem 'rails_autolink', '~> 1.1.6'
-gem 'mysql2', '~> 0.3.17'
 gem 'jquery-rails', '~> 4.0.3'
 gem 'will_paginate', '~> 3.0.7'
 gem 'highline', '~> 1.6.21'

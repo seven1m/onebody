@@ -20,6 +20,10 @@ class Signup
     end
   end
 
+  def email=(e)
+    @email = e.downcase
+  end
+
   def save
     return false unless valid?
     return true if validate_existing
