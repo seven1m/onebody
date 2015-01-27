@@ -68,7 +68,7 @@ Operating System: Mac or Linux (See Vagrant above if you're on Windows)
 6. `git clone git://github.com/churchio/onebody.git && cd onebody`
 7. `mysql -uroot -e "grant all on onebody_dev.* to onebody@localhost identified by 'onebody';"`
 8. `mysql -uroot -e "grant all on onebody_test.* to onebody@localhost identified by 'onebody';"`
-9. `cp config/database.yml{.example,}`
+9. `cp config/database.yml{.mysql-example,}`
 10. `bundle install`
 11. `cp config/secrets.yml{.example,} && vim config/secrets.yml` and add a random secret token to both the "development" and "test" sections (you can use `rake secret` to generate a new random secret).
 12. `rake db:create db:schema:load db:seed`

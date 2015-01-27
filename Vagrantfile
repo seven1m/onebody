@@ -48,7 +48,7 @@ user=$(cat <<USER
   cd /vagrant
   gem install bundler --no-ri --no-rdoc
   if [[ ! -e config/database.yml ]]; then
-    cp config/database.yml{.example,}
+    cp config/database.yml{.mysql-example,}
   fi
   bundle install
 
