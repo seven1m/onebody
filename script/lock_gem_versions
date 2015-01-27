@@ -22,8 +22,9 @@ end
 
 Bundler.environment.specs.to_hash.each do |name, (spec)|
   puts name
-  if index = gemfile.find_index { |g| g =~ /\Agem '#{name}'/ }
+  if index = gemfile.find_index { |g| g =~ /\A\s*gem '#{name}'/ }
     line = gemfile[index]
+    indent = line.match(/\A\s*/).to_s
     puts line
     args = eval(line)
     if (ref = spec.git_version)
@@ -40,7 +41,7 @@ Bundler.environment.specs.to_hash.each do |name, (spec)|
         args.insert(1, version)
       end
     end
-    line = "gem #{args.map(&:inspect).join(', ')}"
+    line = "#{indent}gem #{args.map(&:inspect).join(', ')}"
     puts line
     gemfile[index] = line
   else
