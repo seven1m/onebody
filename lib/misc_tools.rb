@@ -36,14 +36,6 @@ class String
 end
 
 class Array
-  def with_indexes
-    [].tap do |with|
-      self.each_with_index do |item, index|
-        with << [item, index]
-      end
-    end
-  end
-
   def rand_count(count)
     selected = []
     cage = self.clone
