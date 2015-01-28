@@ -19,7 +19,7 @@ module MessagesHelper
       else
         render_message_html_body(message.body)
       end
-    elsif message.html_body.to_s.any?
+    elsif message.html_body.present?
       render_message_html_body(message.html_body)
     else
       render_message_text_body(message.body)

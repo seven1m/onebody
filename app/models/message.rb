@@ -106,7 +106,7 @@ class Message < ActiveRecord::Base
   end
 
   def send_to_person(person)
-    if person.email.to_s.any?
+    if person.email.present?
       email = Notifier.full_message(person, self, id_and_code)
       email.add_message_id
       email.message_id = "<#{id_and_code}_#{email.message_id.gsub(/^</, '')}"
@@ -157,7 +157,7 @@ class Message < ActiveRecord::Base
     elsif group
       msg << "Hit \"Reply\" to send a message to #{self.person.name rescue 'the sender'} only.\n"
       if group.can_post? to_person
-        if group.address.to_s.any?
+        if group.address.present?
           msg << "Hit \"Reply to All\" to send a message to the group, or send to: #{group.address + '@' + Site.current.email_host}\n"
           msg << "Group page: #{Setting.get(:url, :site)}groups/#{group.id}\n"
         else
@@ -234,8 +234,8 @@ class Message < ActiveRecord::Base
     return unless streamable?
     StreamItem.create!(
       title:           subject,
-      body:            html_body.to_s.any? ? html_body : body,
-      text:            !html_body.to_s.any?,
+      body:            html_body.present? ? html_body : body,
+      text:            !html_body.present?,
       person_id:       person_id,
       group_id:        group_id,
       streamable_type: 'Message',
@@ -251,7 +251,7 @@ class Message < ActiveRecord::Base
     return unless streamable?
     StreamItem.where(streamable_type: "Message", streamable_id: id).each do |stream_item|
       stream_item.title = subject
-      if html_body.to_s.any?
+      if html_body.present?
         stream_item.body = html_body
         stream_item.text = false
       else

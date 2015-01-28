@@ -30,8 +30,8 @@ class String
   end
 
   def digits_only
-    d = scan(/\d/).join('')
-    d.any? ? d : nil
+    d = scan(/\d/)
+    d.join if d.any?
   end
 end
 

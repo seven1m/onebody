@@ -34,7 +34,7 @@ class Notifier < ActionMailer::Base
   def membership_request(group, person)
     @group = group
     @person = person
-    unless (to = group.admins.select { |p| p.email.to_s.any? }.map { |p| "#{p.name} <#{p.email}>" }).any?
+    unless (to = group.admins.select { |p| p.email.present? }.map { |p| "#{p.name} <#{p.email}>" }).any?
       unless (to = Admin.all.select { |a| a.manage_updates? }.map { |a| "#{a.person.name} <#{a.person.email}>" }).any?
         to = Admin.where(super_admin: true).map { |a| a.person.email }
       end
@@ -71,7 +71,7 @@ class Notifier < ActionMailer::Base
         'List-Post' => (msg.group.can_post?(to) ? "<#{Setting.get(:url, :site)}groups/#{msg.group.id}>" : "NO (#{I18n.t('notifier.not_allowed_to_post')})"),
         'List-Archive' => "<#{Setting.get(:url, :site)}groups/#{msg.group.id}>"
       ) unless to.new_record? # allows preview to work
-      if msg.group.address.to_s.any? and msg.group.can_post?(msg.person)
+      if msg.group.address.present? and msg.group.can_post?(msg.person)
         h.update 'CC' => "\"#{msg.group.name}\" <#{msg.group.address + '@' + Site.current.email_host}>"
       end
     end
@@ -84,10 +84,10 @@ class Notifier < ActionMailer::Base
       from:    msg.email_from(to),
       subject: msg.subject
     ) do |format|
-      if msg.body.to_s.any?
+      if msg.body.present?
         format.text
       end
-      if msg.html_body.to_s.any?
+      if msg.html_body.present?
         format.html
       end
     end
@@ -160,7 +160,7 @@ class Notifier < ActionMailer::Base
   def receive(email)
     sent_to = Array(email.cc) + Array(email.to) # has to be reversed (cc first) so that group replies work right
 
-    return unless email.from.to_s.any?
+    return unless email.from.present?
     return if email['Auto-Submitted'] and not %w(false no).include?(email['Auto-Submitted'].to_s.downcase)
     return if email['Return-Path'] and ['<>', ''].include?(email['Return-Path'].to_s)
     return if sent_to.any? { |a| a =~ /no\-?reply|postmaster|mailer\-daemon/i }
