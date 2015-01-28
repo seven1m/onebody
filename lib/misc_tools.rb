@@ -20,15 +20,3 @@ class String
     d.join if d.any?
   end
 end
-
-class Array
-  def rand_count(count)
-    selected = []
-    cage = self.clone
-    count.times do
-      selected << (picked = cage.rand)
-      cage -= [picked]
-    end
-    return selected.compact
-  end
-end
