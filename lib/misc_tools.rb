@@ -6,9 +6,6 @@ class Hash
     end
   end
 
-  def reject_blanks ; reject  { |k, v| v.to_s.empty? }; end
-  def reject_blanks!; reject! { |k, v| v.to_s.empty? }; end
-
   def +(hash)
     self.merge hash
   end
