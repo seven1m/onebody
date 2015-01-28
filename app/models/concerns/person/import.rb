@@ -157,7 +157,8 @@ module Concerns
           params[:changes].to_a.each do |id, vals|
             ::Person.transaction do
               begin
-                vals.cleanse('birthday', 'anniversary')
+                vals['birthday'] = nil if vals['birthday'].blank?
+                vals['anniversary'] = nil if vals['anniversary'].blank?
                 person_vals, family_vals = split_change_hash(vals)
                 person = ::Person.undeleted.find(id)
                 person.update_attributes!(person_vals)
