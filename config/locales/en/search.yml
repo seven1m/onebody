@@ -26,6 +26,9 @@ en:
       phone: "Phone Number"
       email: "Email Address"
       type: "Membership Type"
+      group_category: "Group Category"
+      in_group: "in group"
+      not_in_group: "not in group"
       types:
         member: "Member"
         staff: "Staff"

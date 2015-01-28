@@ -13,7 +13,9 @@ class Search
                 :email,
                 :show_hidden,
                 :select_person,
-                :select_family
+                :select_family,
+                :group_category,
+                :group_select_option
 
   def initialize(params = {})
     source = params.delete(:source) || :person
@@ -21,7 +23,11 @@ class Search
       send("#{key}=", val) if respond_to?("#{key}=")
     end
     if source == :person
-      @scope = Person.joins(:family)
+      if params[:group_category]
+        @scope = Person.eager_load(:family, :groups) # for left outer join for groups
+      else
+         @scope = Person.joins(:family)
+      end
     elsif source == :family
       @scope = Family.includes(:people)
     end
@@ -76,6 +82,7 @@ class Search
     parental_consent!
     visible!
     name!
+    group_category!
     gender!
     birthday!
     anniversary!
@@ -137,6 +144,14 @@ class Search
       first_name: like_match(name.split.first, :after),
       last_name:  like_match(name.split.last, :after)
     )
+  end
+
+  def group_category!
+    if group_select_option == '0'
+      where!('groups.category != ? OR groups.category IS NULL', group_category) if group_category.present?
+    elsif group_select_option == '1'
+      where!('groups.category = ?', group_category) if group_category.present?
+    end
   end
 
   def gender!
