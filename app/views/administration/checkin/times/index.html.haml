@@ -8,7 +8,7 @@
 
 = form_for :checkin_time, url: administration_checkin_times_path, html: { class: 'form-inline', style: 'display:none;', id: 'new_recurring_time' }, method: 'post' do |form|
   .form-group
-    = form.select :weekday, Date::DAYNAMES.with_indexes, {}, class: 'form-control'
+    = form.select :weekday, Date::DAYNAMES.each_with_index.to_a, {}, class: 'form-control'
     = form.text_field :time, size: 8, class: 'form-control', placeholder: t('checkin.times.recurring.time')
     = form.select :campus, options_for_select([[t('checkin.times.edit.campus.new'), '!']] + CheckinTime.campuses), { include_blank: true }, class: 'form-control can-create'
     = form.button t('checkin.times.recurring.add.button'), class: 'btn btn-success'

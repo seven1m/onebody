@@ -323,11 +323,6 @@ describe CustomReport do
         expect(@where[1][:meets]).to be
         expect(@where[1][:meets]).to eq('As Announced')
       end
-
-      it 'should include a like statement' do
-        expect(@where[0]).to include('like')
-      end
-
     end
   end
 

@@ -28,7 +28,7 @@ class NewsItem < ActiveRecord::Base
       title:           title,
       body:            body,
       person_id:       person_id,
-      context:         link.to_s.any? ? {'original_url' => link} : {},
+      context:         link.present? ? {'original_url' => link} : {},
       streamable_type: 'NewsItem',
       streamable_id:   id,
       created_at:      published,

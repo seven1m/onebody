@@ -92,7 +92,7 @@ module Concerns
         end
 
         def tiered_find(attributes, match_by_name=true)
-          attrs = attributes.clone.reject_blanks
+          attrs = attributes.clone.reject { |_k, v| v.blank? }
           import_find_by_id(attrs) ||
           import_find_by_legacy_id(attrs) ||
           match_by_name && import_find_by_name_and_birthday(attrs) ||
@@ -157,7 +157,8 @@ module Concerns
           params[:changes].to_a.each do |id, vals|
             ::Person.transaction do
               begin
-                vals.cleanse('birthday', 'anniversary')
+                vals['birthday'] = nil if vals['birthday'].blank?
+                vals['anniversary'] = nil if vals['anniversary'].blank?
                 person_vals, family_vals = split_change_hash(vals)
                 person = ::Person.undeleted.find(id)
                 person.update_attributes!(person_vals)

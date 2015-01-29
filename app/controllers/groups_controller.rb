@@ -31,7 +31,6 @@ class GroupsController < ApplicationController
   end
 
   def create
-    params[:group].cleanse 'address'
     @group = Group.new(group_params)
     @group.creator = @logged_in
     if @group.save
@@ -63,7 +62,6 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
     if @logged_in.can_update?(@group)
       params[:group][:photo] = nil if params[:group][:photo] == 'remove'
-      params[:group].cleanse 'address'
       if @group.update_attributes(group_params)
         flash[:notice] = t('groups.saved')
         redirect_to @group

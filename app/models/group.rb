@@ -82,7 +82,7 @@ class Group < ActiveRecord::Base
   end
 
   def linked?
-    membership_mode == 'link_code' and link_code and link_code.any?
+    membership_mode == 'link_code' and link_code.present?
   end
 
   def parents_of?
@@ -187,7 +187,7 @@ class Group < ActiveRecord::Base
   end
 
   def full_address
-    address.to_s.any? ? (address + '@' + Site.current.email_host) : nil
+    address.present? ? (address + '@' + Site.current.email_host) : nil
   end
 
   def get_people_attendance_records_for_date(date)
@@ -213,7 +213,7 @@ class Group < ActiveRecord::Base
   end
 
   def gcal_url
-    if gcal_private_link.to_s.any?
+    if gcal_private_link.present?
       if token = gcal_token
         "https://www.google.com/calendar/embed?pvttk=#{token}&amp;showTitle=0&amp;showCalendars=0&amp;showTz=1&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=#{gcal_account}&amp;color=%23A32929&amp;ctz=#{Time.zone.tzinfo.name}"
       end

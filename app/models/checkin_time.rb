@@ -31,7 +31,7 @@ class CheckinTime < ActiveRecord::Base
   end
 
   def time=(t)
-    if t.to_s.strip.any? && t = Time.parse(t) rescue nil
+    if t.present? && t = Time.parse(t) rescue nil
       write_attribute(:time, t.strftime('%H%M').to_i)
     else
       write_attribute(:time, nil)

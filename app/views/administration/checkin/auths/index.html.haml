@@ -19,10 +19,10 @@
           - if auths.any?
             = h auths.join(', ')
             %br/
-          - if person.can_pick_up.to_s.any?
+          - if person.can_pick_up.present?
             = h person.can_pick_up
             %br/
-          - if person.cannot_pick_up.to_s.any?
+          - if person.cannot_pick_up.present?
             Can NOT pick up:
             %strike= h person.cannot_pick_up
 :css

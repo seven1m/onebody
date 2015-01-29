@@ -137,11 +137,10 @@ describe PeopleController, type: :controller do
   end
 
   it "should not error when viewing a person not in a family" do
-    @admin = FactoryGirl.create(:person, admin: Admin.create(view_hidden_profiles: true))
+    @admin = FactoryGirl.create(:person, admin: Admin.create(edit_profiles: true, view_hidden_profiles: true))
     @person = Person.create!(first_name: 'Deanna', last_name: 'Troi', child: false, visible_to_everyone: true)
     # normal person should not see
     expect { get :show, {id: @person.id}, {logged_in_id: @other_person.id} }.to_not raise_error
-
     expect(response).to be_missing
     # admin should see a message
     expect { get :show, {id: @person.id}, {logged_in_id: @admin.id} }.to_not raise_error
