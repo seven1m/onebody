@@ -202,6 +202,31 @@ describe Search do
     end
   end
 
+  context 'search by group membership' do
+    before do
+      @search = Search.new(group_category: 'Fellowship')
+      @group = FactoryGirl.create(:group, name: 'Housegroup', category: 'Fellowship')
+    end
+
+    it 'should return user belonging to group' do
+      @search.group_category = 'Fellowship'
+      @search.group_select_option = '1'
+      expect(@search.results).to eq([])
+      @user.groups << @group
+      @user.save!
+      expect(@search.results.reload).to eq([@user])
+    end
+
+    it 'should not return user who is not a group member' do
+      @search.group_category = 'Fellowship'
+      @search.group_select_option = '0'
+      expect(@search.results).to eq([@nobody, @user])
+      @user.groups << @group
+      @user.save!
+      expect(@search.results.reload).to eq([@nobody])
+    end
+  end
+
   context 'given a child' do
     before do
       @search = Search.new
