@@ -1,0 +1,13 @@
+.verse.box
+  .box-header
+    %h3.box-title.verse-heading
+      = @verse.reference
+  .verse-body.box-body
+    = @verse.text
+  .box-body
+    = form_for Verse.new do |form|
+      .form-group
+        = hidden_field_tag :id, @verse.id
+        = button_tag value: "submit", class: 'btn btn-success' do
+          = icon 'fa fa-plus'
+          = t('verses.add_verse')

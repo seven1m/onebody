@@ -19,6 +19,17 @@ class VersesController < ApplicationController
     get_verse
   end
 
+  def search
+    @verse = Verse.find(params[:q])
+    if @verse.nil? || @verse.invalid?
+      render(text: t('verses.not_found'), layout: true, status: 400) and return
+    else
+      render partial: 'search_result' and return
+    end
+  rescue ActiveRecord::RecordNotFound
+    render(text: t('verses.not_found'), layout: true, status: 404) and return
+  end
+
   def create
     if get_verse
       unless @verse.people.include?(@logged_in)

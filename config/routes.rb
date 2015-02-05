@@ -134,9 +134,12 @@ OneBody::Application.routes.draw do
 
   resources :tags, only: :show
 
-  resources :pictures, :prayer_signups, :authentications, :verses, :shares,
+  resources :pictures, :prayer_signups, :authentications, :shares,
             :comments, :prayer_requests, :generated_files
 
+  resources :verses do
+    get 'search', on: :collection
+  end
 
   resource  :setup, :session, :search, :printable_directory, :privacy
 
