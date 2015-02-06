@@ -715,4 +715,32 @@ describe Person do
       expect(Person.custom_types).to eq(['foo'])
     end
   end
+
+  describe 'admin records deleted after person is destroyed' do
+    context 'admin user is destroyed' do
+      let!(:person) { FactoryGirl.create(:person, :admin_edit_profiles) }
+      let!(:admin)  { person.admin }
+
+      before do
+        person.destroy
+      end
+
+      it 'deletes the admin record' do
+        expect { admin.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context 'admin user is destroyed for real' do
+      let!(:person) { FactoryGirl.create(:person, :admin_edit_profiles) }
+      let!(:admin)  { person.admin }
+
+      before do
+        person.destroy_for_real
+      end
+
+      it 'deletes the admin record' do
+        expect { admin.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+  end
 end

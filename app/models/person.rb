@@ -3,6 +3,7 @@ class Person < ActiveRecord::Base
   include Authority::Abilities
   self.authorizer_name = 'PersonAuthorizer'
 
+  include Concerns::Person::Administrator
   include Concerns::Person::Child
   include Concerns::Person::Password
   include Concerns::Person::Friend
@@ -182,20 +183,6 @@ class Person < ActiveRecord::Base
   def visible?(fam = nil)
     fam ||= family
     fam && fam.visible? && read_attribute(:visible) && adult_or_consent? && visible_to_everyone?
-  end
-
-  def admin?(perm = nil)
-    if super_admin?
-      true
-    elsif perm
-      admin && admin.flags[perm.to_s]
-    else
-      admin ? true : false
-    end
-  end
-
-  def super_admin?
-    admin.try(:super_admin?)
   end
 
   def gender=(g)
