@@ -62,10 +62,3 @@ unless containers.grep(/server/).any?
   puts '-> done'
   puts
 end
-
-unless containers.grep(/worker/).any?
-  puts '=> creating worker container'
-  run "docker run --name='worker' -d --link onebody-data:db -v /var/data/onebody/files:/data onebody /worker -c -e production"
-  puts '-> done'
-  puts
-end
