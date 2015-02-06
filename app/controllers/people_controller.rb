@@ -1,16 +1,15 @@
 class PeopleController < ApplicationController
-
   def index
     respond_to do |format|
       format.html { redirect_to person_path(@logged_in) }
       if can_export?
         format.xml do
-          job = Person.create_to_xml_job
-          redirect_to generated_file_path(job.id)
+          job = ExportJob.perform_later('people', 'xml', @logged_in.id)
+          redirect_to generated_file_path(job.job_id)
         end
         format.csv do
-          job = Person.create_to_csv_job
-          redirect_to generated_file_path(job.id)
+          job = ExportJob.perform_later('people', 'csv', @logged_in.id)
+          redirect_to generated_file_path(job.job_id)
         end
       end
     end
@@ -238,5 +237,4 @@ class PeopleController < ApplicationController
   def family_params
     Updater.new(params).params[:family] || {}
   end
-
 end

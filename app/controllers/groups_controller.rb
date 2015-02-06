@@ -114,9 +114,6 @@ class GroupsController < ApplicationController
     respond_to do |format|
       format.js   { render partial: 'person_groups' }
       format.html { render action: 'index_for_person' }
-      if can_export?
-        format.xml { render xml:  @person.groups.to_xml(except: %w(site_id)) }
-      end
     end
   end
 
@@ -133,9 +130,6 @@ class GroupsController < ApplicationController
     respond_to do |format|
       format.html { render action: 'search' }
       format.js
-      if can_export?
-        format.xml { render xml:  @groups.to_xml(except: %w(site_id)) }
-      end
     end
   end
 
@@ -148,12 +142,12 @@ class GroupsController < ApplicationController
       format.html
       if can_export?
         format.xml do
-          job = Group.create_to_xml_job
-          redirect_to generated_file_path(job.id)
+          job = ExportJob.perform_later('groups', 'xml', @logged_in.id)
+          redirect_to generated_file_path(job.job_id)
         end
         format.csv do
-          job = Group.create_to_csv_job
-          redirect_to generated_file_path(job.id)
+          job = ExportJob.perform_later('groups', 'csv', @logged_in.id)
+          redirect_to generated_file_path(job.job_id)
         end
       end
     end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140718012829) do
+ActiveRecord::Schema.define(version: 20150206035943) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -183,7 +183,6 @@ ActiveRecord::Schema.define(version: 20140718012829) do
 
   create_table "generated_files", force: true do |t|
     t.integer  "site_id"
-    t.integer  "job_id"
     t.integer  "person_id"
     t.string   "file_file_name"
     t.string   "file_content_type"
@@ -192,6 +191,7 @@ ActiveRecord::Schema.define(version: 20140718012829) do
     t.datetime "file_updated_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "job_id",            limit: 50
   end
 
   create_table "group_times", force: true do |t|

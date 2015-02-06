@@ -313,33 +313,25 @@ class Group < ActiveRecord::Base
     def to_csv
       CSV.generate do |csv|
         csv << EXPORT_COLS[:group]
-        (1..(Group.count/50)).each do |page|
-          Group.paginate(include: :people, per_page: 50, page: page).each do |group|
-            csv << EXPORT_COLS[:group].map { |c| group.send(c) }
-          end
+        Group.find_each do |group|
+          csv << EXPORT_COLS[:group].map { |c| group.send(c) }
         end
       end
-    end
-
-    def create_to_csv_job
-      Job.add("GeneratedFile.create!(:job_id => JOB_ID, :person_id => #{Person.logged_in.id}, :file => FakeFile.new(Group.to_csv, 'groups.csv'))")
     end
 
     def to_xml
       builder = Builder::XmlMarkup.new
       builder.groups do |groups|
-        (1..(Group.count/50)).each do |page|
-          Group.paginate(include: :people, per_page: 100, page: page).each do |group|
-            groups.group do |g|
-              EXPORT_COLS[:group].each do |col|
-                g.tag!(col, group.send(col))
-              end
-              g.people do |people|
-                group.people.each do |person|
-                  people.person do |p|
-                    EXPORT_COLS[:member].each do |col|
-                      p.tag!(col, person.send(col))
-                    end
+        Group.find_each do |group|
+          groups.group do |g|
+            EXPORT_COLS[:group].each do |col|
+              g.tag!(col, group.send(col))
+            end
+            g.people do |people|
+              group.people.each do |person|
+                people.person do |p|
+                  EXPORT_COLS[:member].each do |col|
+                    p.tag!(col, person.send(col))
                   end
                 end
               end
@@ -347,10 +339,6 @@ class Group < ActiveRecord::Base
           end
         end
       end
-    end
-
-    def create_to_xml_job
-      Job.add("GeneratedFile.create!(:job_id => JOB_ID, :person_id => #{Person.logged_in.id}, :file => FakeFile.new(Group.to_xml, 'groups.xml'))")
     end
   end
 end
