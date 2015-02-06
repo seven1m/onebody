@@ -235,7 +235,6 @@ GEM
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     mustache (1.0.0)
-    mysql2 (0.3.17)
     nenv (0.2.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
@@ -260,6 +259,7 @@ GEM
       activesupport (>= 3.0.0)
       cocaine (~> 0.5.3)
       mime-types
+    pg (0.18.1)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -435,11 +435,11 @@ DEPENDENCIES
   loofah (~> 2.0.1)
   mini_magick (~> 4.0.2)
   mustache (~> 1.0.0)
-  mysql2 (~> 0.3.17)
   newrelic_rpm (~> 3.9.9.275)
   nokogiri (~> 1.6.6.2)
   paperclip (~> 4.2.1)
   pdf-writer!
+  pg (~> 0.18.1)
   pry (~> 0.10.1)
   pry-rails (~> 0.3.2)
   pry-remote (~> 0.1.8)
