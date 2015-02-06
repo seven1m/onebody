@@ -101,10 +101,6 @@ module Concerns
           end
         end
 
-        def create_to_csv_job
-          Job.add("GeneratedFile.create!(:job_id => JOB_ID, :person_id => #{::Person.logged_in.id}, :file => FakeFile.new(::Person.to_csv, 'people.csv'))")
-        end
-
         def to_xml
           builder = Builder::XmlMarkup.new
           builder.families do |families|
@@ -128,10 +124,6 @@ module Concerns
               end
             end
           end
-        end
-
-        def create_to_xml_job
-          Job.add("GeneratedFile.create!(:job_id => JOB_ID, :person_id => #{::Person.logged_in.id}, :file => FakeFile.new(::Person.to_xml, 'people.xml'))")
         end
       end
 
