@@ -1,8 +1,12 @@
-LineLength:
-  Max: 120
+ruby:
+  enabled: true
+  config_file: ".rubocop.yml"
 
-DotPosition:
-  EnforcedStyle: leading
+coffee_script:
+  enabled: true
 
-StringLiterals:
-  EnforcedStyle: single_quotes
+java_script:
+  enabled: true
+
+scss:
+  enabled: true
