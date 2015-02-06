@@ -52,7 +52,6 @@ RUN echo "ALL ALL=NOPASSWD: /var/www/onebody/script/docker/chown_data" > /etc/su
 # copy scripts
 RUN echo "#!/bin/bash\n\n/var/www/onebody/script/docker/server \$@"  > /server  && chmod +x /server
 RUN echo "#!/bin/bash\n\n/var/www/onebody/script/docker/console \$@" > /console && chmod +x /console
-RUN echo "#!/bin/bash\n\n/var/www/onebody/script/docker/worker \$@"  > /worker  && chmod +x /worker
 
 # set up shared directories
 USER onebody

@@ -17,10 +17,6 @@ if File.exist?("#{Dir.pwd}/config/email.yml")
   end
 end
 
-every 1.minute do
-  command "#{Dir.pwd}/script/worker -e #{@environment}"
-end
-
 every 1.hour, :at => 19 do
   runner 'Site.each { NewsItem.update_from_feed }'
 end
