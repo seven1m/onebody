@@ -11,12 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150206035943) do
-
+ActiveRecord::Schema.define(version: 20150106032051) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "admins", force: true do |t|
+  create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "site_id"
@@ -27,12 +26,12 @@ ActiveRecord::Schema.define(version: 20150206035943) do
 
   add_index "admins", ["site_id"], name: "index_site_id_on_admins", using: :btree
 
-  create_table "admins_reports", id: false, force: true do |t|
+  create_table "admins_reports", id: false, force: :cascade do |t|
     t.integer "admin_id"
     t.integer "report_id"
   end
 
-  create_table "albums", force: true do |t|
+  create_table "albums", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
     t.integer  "site_id"
@@ -43,7 +42,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
     t.string   "owner_type"
   end
 
-  create_table "attachments", force: true do |t|
+  create_table "attachments", force: :cascade do |t|
     t.integer  "message_id"
     t.string   "name"
     t.string   "content_type"
@@ -58,7 +57,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
     t.datetime "file_updated_at"
   end
 
-  create_table "attendance_records", force: true do |t|
+  create_table "attendance_records", force: :cascade do |t|
     t.integer  "site_id"
     t.integer  "person_id"
     t.integer  "group_id"
@@ -79,7 +78,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
   add_index "attendance_records", ["person_id"], name: "index_person_id_on_attendance_records", using: :btree
   add_index "attendance_records", ["site_id"], name: "index_site_id_on_attendance_records", using: :btree
 
-  create_table "checkin_times", force: true do |t|
+  create_table "checkin_times", force: :cascade do |t|
     t.integer  "weekday"
     t.integer  "time"
     t.datetime "the_datetime"
@@ -89,7 +88,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
     t.string   "campus"
   end
 
-  create_table "comments", force: true do |t|
+  create_table "comments", force: :cascade do |t|
     t.integer  "verse_id"
     t.integer  "person_id"
     t.text     "text"
@@ -98,12 +97,23 @@ ActiveRecord::Schema.define(version: 20150206035943) do
     t.integer  "recipe_id"
     t.integer  "news_item_id"
     t.integer  "song_id"
-    t.integer  "note_id"
     t.integer  "site_id"
     t.integer  "picture_id"
+    t.integer  "commentable_id"
+    t.string   "commentable_type"
   end
 
-  create_table "document_folders", force: true do |t|
+  create_table "custom_reports", force: :cascade do |t|
+    t.integer "site_id"
+    t.string  "title"
+    t.string  "category"
+    t.text    "header"
+    t.text    "body"
+    t.text    "footer"
+    t.string  "filters"
+  end
+
+  create_table "document_folders", force: :cascade do |t|
     t.string   "name"
     t.string   "description",       limit: 1000
     t.boolean  "hidden",                         default: false
@@ -115,7 +125,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
     t.integer  "site_id"
   end
 
-  create_table "documents", force: true do |t|
+  create_table "documents", force: :cascade do |t|
     t.string   "name"
     t.string   "description",       limit: 1000
     t.integer  "folder_id"
@@ -129,7 +139,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
     t.integer  "site_id"
   end
 
-  create_table "families", force: true do |t|
+  create_table "families", force: :cascade do |t|
     t.integer  "legacy_id"
     t.string   "name"
     t.string   "last_name"
@@ -137,7 +147,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
     t.string   "address1"
     t.string   "address2"
     t.string   "city"
-    t.string   "state",                limit: 10
+    t.string   "state"
     t.string   "zip",                  limit: 10
     t.string   "home_phone",           limit: 25
     t.string   "email"
@@ -156,11 +166,12 @@ ActiveRecord::Schema.define(version: 20150206035943) do
     t.string   "photo_fingerprint",    limit: 50
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
+    t.string   "country",              limit: 2
   end
 
   add_index "families", ["last_name", "name"], name: "index_family_names", using: :btree
 
-  create_table "friendship_requests", force: true do |t|
+  create_table "friendship_requests", force: :cascade do |t|
     t.integer  "person_id"
     t.integer  "from_id"
     t.boolean  "rejected",   default: false
@@ -170,7 +181,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
 
   add_index "friendship_requests", ["person_id"], name: "index_friendship_requests_on_person_id", using: :btree
 
-  create_table "friendships", force: true do |t|
+  create_table "friendships", force: :cascade do |t|
     t.integer  "person_id"
     t.integer  "friend_id"
     t.datetime "created_at"
@@ -181,7 +192,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
   add_index "friendships", ["friend_id"], name: "index_friendships_on_friend_id", using: :btree
   add_index "friendships", ["person_id"], name: "index_friendships_on_person_id", using: :btree
 
-  create_table "generated_files", force: true do |t|
+  create_table "generated_files", force: :cascade do |t|
     t.integer  "site_id"
     t.integer  "person_id"
     t.string   "file_file_name"
@@ -194,7 +205,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
     t.string   "job_id",            limit: 50
   end
 
-  create_table "group_times", force: true do |t|
+  create_table "group_times", force: :cascade do |t|
     t.integer  "group_id"
     t.integer  "checkin_time_id"
     t.boolean  "print_nametag",                   default: false
@@ -206,7 +217,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
     t.boolean  "print_extra_nametag",             default: false
   end
 
-  create_table "groups", force: true do |t|
+  create_table "groups", force: :cascade do |t|
     t.string   "name",                      limit: 100
     t.text     "description"
     t.string   "meets",                     limit: 100
@@ -242,26 +253,29 @@ ActiveRecord::Schema.define(version: 20150206035943) do
     t.datetime "created_at"
     t.float    "latitude"
     t.float    "longitude"
+    t.string   "membership_mode",           limit: 10,  default: "manual"
+    t.boolean  "has_tasks",                             default: false
+    t.string   "share_token",               limit: 50
   end
 
   add_index "groups", ["category"], name: "index_groups_on_category", using: :btree
   add_index "groups", ["site_id"], name: "index_site_id_on_groups", using: :btree
 
-  create_table "jobs", force: true do |t|
+  create_table "jobs", force: :cascade do |t|
     t.integer  "site_id"
     t.string   "command"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "membership_requests", force: true do |t|
+  create_table "membership_requests", force: :cascade do |t|
     t.integer  "person_id"
     t.integer  "group_id"
     t.datetime "created_at"
     t.integer  "site_id"
   end
 
-  create_table "memberships", force: true do |t|
+  create_table "memberships", force: :cascade do |t|
     t.integer  "group_id"
     t.integer  "person_id"
     t.boolean  "admin",              default: false
@@ -286,7 +300,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
   add_index "memberships", ["group_id"], name: "index_memberships_on_group_id", using: :btree
   add_index "memberships", ["person_id"], name: "index_memberships_on_person_id", using: :btree
 
-  create_table "messages", force: true do |t|
+  create_table "messages", force: :cascade do |t|
     t.integer  "group_id"
     t.integer  "person_id"
     t.integer  "to_person_id"
@@ -303,7 +317,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
 
   add_index "messages", ["created_at"], name: "index_messages_on_created_at", using: :btree
 
-  create_table "news_items", force: true do |t|
+  create_table "news_items", force: :cascade do |t|
     t.string   "title"
     t.string   "link"
     t.text     "body"
@@ -318,18 +332,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
     t.datetime "updated_at"
   end
 
-  create_table "notes", force: true do |t|
-    t.integer  "person_id"
-    t.string   "title"
-    t.text     "body"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "original_url"
-    t.integer  "group_id"
-    t.integer  "site_id"
-  end
-
-  create_table "pages", force: true do |t|
+  create_table "pages", force: :cascade do |t|
     t.string   "slug"
     t.string   "title"
     t.text     "body"
@@ -347,10 +350,10 @@ ActiveRecord::Schema.define(version: 20150206035943) do
   add_index "pages", ["parent_id"], name: "index_pages_on_parent_id", using: :btree
   add_index "pages", ["path"], name: "index_pages_on_path", using: :btree
 
-  create_table "people", force: true do |t|
+  create_table "people", force: :cascade do |t|
     t.integer  "legacy_id"
     t.integer  "family_id"
-    t.integer  "sequence"
+    t.integer  "position"
     t.string   "gender",                       limit: 6
     t.string   "first_name"
     t.string   "last_name"
@@ -433,19 +436,24 @@ ActiveRecord::Schema.define(version: 20150206035943) do
     t.string   "password_hash"
     t.string   "password_salt"
     t.datetime "created_at"
+    t.string   "facebook_url"
+    t.string   "twitter",                      limit: 15
+    t.integer  "incomplete_tasks_count",                   default: 0
+    t.boolean  "primary_emailer"
   end
 
   add_index "people", ["admin_id"], name: "index_admin_id_on_people", using: :btree
   add_index "people", ["business_category"], name: "index_business_category_on_people", using: :btree
   add_index "people", ["family_id"], name: "index_people_on_family_id", using: :btree
+  add_index "people", ["site_id", "feed_code"], name: "index_people_on_site_id_and_feed_code", using: :btree
   add_index "people", ["site_id"], name: "index_site_id_on_people", using: :btree
 
-  create_table "people_verses", id: false, force: true do |t|
+  create_table "people_verses", id: false, force: :cascade do |t|
     t.integer "person_id"
     t.integer "verse_id"
   end
 
-  create_table "pictures", force: true do |t|
+  create_table "pictures", force: :cascade do |t|
     t.integer  "person_id"
     t.datetime "created_at"
     t.boolean  "cover",                           default: false
@@ -462,7 +470,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
 
   add_index "pictures", ["album_id"], name: "index_pictures_on_album_id", using: :btree
 
-  create_table "prayer_requests", force: true do |t|
+  create_table "prayer_requests", force: :cascade do |t|
     t.integer  "group_id"
     t.integer  "person_id"
     t.text     "request"
@@ -473,7 +481,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
     t.integer  "site_id"
   end
 
-  create_table "prayer_signups", force: true do |t|
+  create_table "prayer_signups", force: :cascade do |t|
     t.integer  "person_id"
     t.datetime "start"
     t.datetime "created_at"
@@ -482,13 +490,13 @@ ActiveRecord::Schema.define(version: 20150206035943) do
     t.integer  "site_id"
   end
 
-  create_table "processed_messages", force: true do |t|
+  create_table "processed_messages", force: :cascade do |t|
     t.string   "header_message_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "recipes", force: true do |t|
+  create_table "recipes", force: :cascade do |t|
     t.integer  "person_id"
     t.string   "title"
     t.text     "notes"
@@ -508,7 +516,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
     t.datetime "photo_updated_at"
   end
 
-  create_table "relationships", force: true do |t|
+  create_table "relationships", force: :cascade do |t|
     t.integer  "person_id"
     t.integer  "related_id"
     t.string   "name"
@@ -518,7 +526,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
     t.datetime "updated_at"
   end
 
-  create_table "reports", force: true do |t|
+  create_table "reports", force: :cascade do |t|
     t.integer  "site_id"
     t.string   "name"
     t.text     "definition"
@@ -531,13 +539,13 @@ ActiveRecord::Schema.define(version: 20150206035943) do
     t.datetime "updated_at"
   end
 
-  create_table "service_categories", force: true do |t|
+  create_table "service_categories", force: :cascade do |t|
     t.string  "name",        null: false
     t.text    "description"
     t.integer "site_id"
   end
 
-  create_table "services", force: true do |t|
+  create_table "services", force: :cascade do |t|
     t.integer  "person_id",                               null: false
     t.integer  "service_category_id",                     null: false
     t.string   "status",              default: "current", null: false
@@ -546,7 +554,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
     t.datetime "updated_at"
   end
 
-  create_table "sessions", force: true do |t|
+  create_table "sessions", force: :cascade do |t|
     t.string   "session_id"
     t.text     "data"
     t.datetime "updated_at"
@@ -555,7 +563,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
 
   add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", using: :btree
 
-  create_table "settings", force: true do |t|
+  create_table "settings", force: :cascade do |t|
     t.string   "section",     limit: 100
     t.string   "name",        limit: 100
     t.string   "format",      limit: 20
@@ -568,13 +576,13 @@ ActiveRecord::Schema.define(version: 20150206035943) do
     t.boolean  "global",                  default: false
   end
 
-  create_table "signin_failures", force: true do |t|
+  create_table "signin_failures", force: :cascade do |t|
     t.string   "email"
     t.string   "ip"
     t.datetime "created_at"
   end
 
-  create_table "sites", force: true do |t|
+  create_table "sites", force: :cascade do |t|
     t.string   "name"
     t.string   "host"
     t.datetime "created_at"
@@ -601,7 +609,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
 
   add_index "sites", ["host"], name: "index_sites_on_host", using: :btree
 
-  create_table "stream_items", force: true do |t|
+  create_table "stream_items", force: :cascade do |t|
     t.integer  "site_id"
     t.string   "title",           limit: 500
     t.text     "body"
@@ -623,7 +631,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
   add_index "stream_items", ["person_id"], name: "index_stream_items_on_person_id", using: :btree
   add_index "stream_items", ["streamable_type", "streamable_id"], name: "index_stream_items_on_streamable_type_and_streamable_id", using: :btree
 
-  create_table "sync_items", force: true do |t|
+  create_table "sync_items", force: :cascade do |t|
     t.integer "site_id"
     t.integer "sync_id"
     t.integer "syncable_id"
@@ -638,7 +646,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
   add_index "sync_items", ["sync_id"], name: "index_sync_id_on_sync_items", using: :btree
   add_index "sync_items", ["syncable_type", "syncable_id"], name: "index_syncable_on_sync_items", using: :btree
 
-  create_table "syncs", force: true do |t|
+  create_table "syncs", force: :cascade do |t|
     t.integer  "site_id"
     t.integer  "person_id"
     t.boolean  "complete",      default: false
@@ -650,7 +658,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
     t.datetime "finished_at"
   end
 
-  create_table "taggings", force: true do |t|
+  create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id"
     t.integer  "taggable_id"
     t.string   "taggable_type"
@@ -660,13 +668,26 @@ ActiveRecord::Schema.define(version: 20150206035943) do
   add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
   add_index "taggings", ["taggable_id", "taggable_type"], name: "index_taggings_on_taggable_id_and_taggable_type", using: :btree
 
-  create_table "tags", force: true do |t|
+  create_table "tags", force: :cascade do |t|
     t.string   "name",       limit: 50
     t.datetime "updated_at"
     t.integer  "site_id"
   end
 
-  create_table "twitter_messages", force: true do |t|
+  create_table "tasks", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.boolean  "completed",   default: false
+    t.date     "duedate"
+    t.integer  "group_id"
+    t.integer  "person_id"
+    t.integer  "site_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "position"
+  end
+
+  create_table "twitter_messages", force: :cascade do |t|
     t.integer  "twitter_screen_name"
     t.integer  "person_id"
     t.string   "message",             limit: 140
@@ -677,7 +698,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
     t.string   "twitter_message_id"
   end
 
-  create_table "updates", force: true do |t|
+  create_table "updates", force: :cascade do |t|
     t.integer  "person_id"
     t.datetime "created_at"
     t.boolean  "complete",   default: false
@@ -689,7 +710,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
 
   add_index "updates", ["person_id"], name: "index_updates_on_person_id", using: :btree
 
-  create_table "verifications", force: true do |t|
+  create_table "verifications", force: :cascade do |t|
     t.string   "email"
     t.string   "mobile_phone", limit: 25
     t.integer  "code"
@@ -700,7 +721,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
     t.string   "carrier",      limit: 100
   end
 
-  create_table "verses", force: true do |t|
+  create_table "verses", force: :cascade do |t|
     t.string   "reference",   limit: 50
     t.text     "text"
     t.string   "translation", limit: 10
