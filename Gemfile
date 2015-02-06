@@ -28,6 +28,7 @@ else
   warn('Please configure your config/database.yml first')
 end
 
+gem 'pg', '~> 0.18.1'
 gem 'rails_autolink', '~> 1.1.6'
 gem 'jquery-rails', '~> 4.0.3'
 gem 'will_paginate', '~> 3.0.7'
