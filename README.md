@@ -14,11 +14,12 @@ Visit our website at [church.io](http://church.io) or browse through our [screen
 
 ## Contributing to the Project
 
-[![Build Status](http://img.shields.io/travis/churchio/onebody.svg)](https://travis-ci.org/churchio/onebody)
-[![Test Coverage](https://coveralls.io/repos/churchio/onebody/badge.svg)](https://coveralls.io/r/churchio/onebody)
-[![Security Status](https://hakiri.io/github/churchio/onebody/master.svg)](https://hakiri.io/github/churchio/onebody/master)
+[![Build](http://img.shields.io/travis/churchio/onebody.svg)](https://travis-ci.org/churchio/onebody)
+[![Coverage](https://coveralls.io/repos/churchio/onebody/badge.svg)](https://coveralls.io/r/churchio/onebody)
 [![Code Climate](https://codeclimate.com/github/churchio/onebody/badges/gpa.svg)](https://codeclimate.com/github/churchio/onebody)
-[![Stories in Ready](https://badge.waffle.io/churchio/onebody.svg?label=ready&title=stories+ready)](http://waffle.io/churchio/onebody)
+
+[![Security Status](https://hakiri.io/github/churchio/onebody/master.svg)](https://hakiri.io/github/churchio/onebody/master)
+[![Stories Ready](https://badge.waffle.io/churchio/onebody.svg?label=ready&title=stories+ready)](http://waffle.io/churchio/onebody)
 [![Stories in Progress](https://badge.waffle.io/churchio/onebody.svg?label=in+progress&title=stories+in+progress)](http://waffle.io/churchio/onebody)
 
 We ❤️ contributors! Just check out [all these people](https://github.com/orgs/churchio/people) who have helped make OneBody awesome!
