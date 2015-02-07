@@ -76,6 +76,7 @@ module ApplicationHelper
       delimiter: format.reverse.match(/[^d]/).to_s
     )
   end
+  module_function :format_phone
 
   def link_to_phone(phone, options = {})
     label = options.delete(:label)
