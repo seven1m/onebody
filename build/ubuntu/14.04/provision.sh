@@ -40,7 +40,11 @@ sed -i '/ruby-version/d' Gemfile
 bundle install --deployment
 
 mysql -uroot -e "create database if not exists onebody default character set utf8 default collate utf8_general_ci; grant all on onebody.* to onebody@localhost identified by 'onebody';"
-cp config/database.yml{.mysql-example,}
+if [[ -e config/database.yml.mysql-example ]]; then
+  cp config/database.yml{.mysql-example,}
+else
+  cp config/database.yml{.example,}
+fi
 RAILS_ENV=production bundle exec rake db:migrate db:seed
 
 cp config/secrets.yml{.example,}
