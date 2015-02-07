@@ -8,6 +8,8 @@ set :linked_files, %w{config/database.yml config/email.yml config/secrets.yml co
 
 set :linked_dirs, %w{log tmp public/system}
 
+set :bundle_flags, '--quiet' # without --deployment, since we have no Gemfile.lock
+
 namespace :deploy do
 
   before :finished, 'newrelic:notice_deployment'
