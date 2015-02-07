@@ -234,11 +234,6 @@ describe Person do
     expect(@person.alternate_email).to eq("test@example.com")
   end
 
-  it "should generate a custom directory pdf" do
-    @person = FactoryGirl.create(:person)
-    expect(@person.generate_directory_pdf.to_s[0..100]).to match(/PDF\-1\.3/)
-  end
-
   it "should not tz convert a birthday" do
     @person = FactoryGirl.create(:person)
     Time.zone = 'Central Time (US & Canada)'
@@ -741,6 +736,21 @@ describe Person do
       it 'deletes the admin record' do
         expect { admin.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
+    end
+  end
+
+  context '#generate_directory_pdf' do
+    let(:person) do
+      FactoryGirl.create(
+        :person,
+        mobile_phone: '1234567890',
+        visible_on_printed_directory: true
+      )
+    end
+
+    it 'generates a pdf' do
+      data = person.generate_directory_pdf.to_s
+      expect(data).to match(/\A%PDF\-1\.3/)
     end
   end
 end
