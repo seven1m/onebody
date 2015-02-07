@@ -7,7 +7,7 @@
   = flash_messages
   .header= t('session.form.header')
 
-  = form_tag '/session' do
+  = form_tag session_path do
     = hidden_field_tag :from, params[:from]
     .body.bg-gray
       .form-group
