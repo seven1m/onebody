@@ -26,6 +26,16 @@ en:
     reply_all:
       button: "Reply to this message (send to entire group)"
 
+    email:
+      reply_to_sender: "Hit \"Reply\" to send a message to %{person}."
+      reply_to_group: "Hit \"Reply to All\" to send a message to the group %{group}, or send to %{address}."
+      group_link: "Group page: %{url}"
+      reply_link: "To reply, go to: %{url}"
+      disable_group_email: "To stop email from this group:\n%{url}"
+      disable_all_email: "To stop these emails, go to your privacy page:\n%{url}"
+
+    do_not_reply: "DO NOT REPLY"
+
     ago: ago
     attachment_optional: Attachment (optional)
     attachments: Attachments
