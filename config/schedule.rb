@@ -22,5 +22,5 @@ every 1.hour, at: 19 do
 end
 
 every 1.day, at: '3:49 am' do
-  runner "Site.each { Group.update_memberships; GeneratedFile.stale.delete_all }"
+  runner "Site.each { Group.update_memberships; GeneratedFile.stale.destroy_all }"
 end
