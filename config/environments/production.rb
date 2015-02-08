@@ -20,7 +20,7 @@ OneBody::Application.configure do
   # config.action_dispatch.rack_cache = true
 
   # Disable Rails's static file server (Apache or nginx will already do this).
-  config.serve_static_files = false
+  config.serve_static_files = ENV['SERVE_ASSETS'].to_s =~ /\A(true|t|1|yes)\z/
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
@@ -36,8 +36,10 @@ OneBody::Application.configure do
   config.assets.version = '1.0'
 
   # Specifies the header that your server uses for sending files.
-  # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for apache
-  # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
+  unless config.serve_static_files
+    # Default is for Apache. Set env var SENDFILE_HEADER="X-Accel-Redirect" for nginx.
+    config.action_dispatch.x_sendfile_header = ENV['SENDFILE_HEADER'] || 'X-Sendfile'
+  end
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
@@ -78,14 +80,6 @@ OneBody::Application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
-  # Specifies the header that your server uses for sending files
-  config.action_dispatch.x_sendfile_header = "X-Sendfile"
-
   # Enable async queue processing
   config.active_job.queue_adapter = :sucker_punch
-
-  if ENV['SERVE_ASSETS']
-    config.middleware.delete "Rack::Sendfile"
-    config.middleware.use(Rack::Static, urls: ['/assets', '/images', '/system'], root: 'public')
-  end
 end
