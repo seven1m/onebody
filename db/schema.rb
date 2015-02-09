@@ -254,6 +254,45 @@ ActiveRecord::Schema.define(version: 20150206035943) do
     t.datetime "updated_at"
   end
 
+  create_table "import_attributes", force: :cascade do |t|
+    t.integer "site_id",       limit: 4
+    t.integer "import_id",     limit: 4
+    t.integer "import_row_id", limit: 4
+    t.string  "column_name",   limit: 255
+    t.string  "model",         limit: 255
+    t.string  "name",          limit: 255
+    t.text    "value",         limit: 65535
+    t.integer "sequence",      limit: 4
+    t.string  "error_reasons", limit: 255
+  end
+
+  create_table "import_rows", force: :cascade do |t|
+    t.integer "site_id",       limit: 4
+    t.integer "import_id",     limit: 4
+    t.string  "status",        limit: 255
+    t.integer "sequence",      limit: 4
+    t.string  "error_reasons", limit: 1000
+  end
+
+  create_table "imports", force: :cascade do |t|
+    t.integer  "site_id",       limit: 4
+    t.integer  "person_id",     limit: 4
+    t.string   "filename",      limit: 255
+    t.string   "status",        limit: 255
+    t.integer  "success_count", limit: 4
+    t.integer  "fail_count",    limit: 4
+    t.text     "mappings",      limit: 65535
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
+  create_table "jobs", force: :cascade do |t|
+    t.integer  "site_id",    limit: 4
+    t.string   "command",    limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "membership_requests", force: true do |t|
     t.integer  "person_id"
     t.integer  "group_id"
