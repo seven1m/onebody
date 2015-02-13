@@ -28,7 +28,7 @@ module Concerns
             !Setting.get(:system, :online_only_relationships).include?(relationship.name_or_other)
           end.each { |r| r.delete }
           attributes['relationships'].to_s.split(',').each do |relationship|
-            if relationship =~ /(\d+)\[([^\]]+)\]/ and related = Person.where(legacy_id: $1).first
+            if relationship =~ /(\d+)\[([^\]]+)\]/ and related = ::Person.where(legacy_id: $1).first
               relationships.create(
                 related:    related,
                 name:       'other',
