@@ -119,7 +119,7 @@ class Search
   end
 
   def order_by_name!
-    order!('people.last_name, people.first_name')
+    order!('lower(people.last_name), lower(people.first_name)')
   end
 
   def parental_consent!
