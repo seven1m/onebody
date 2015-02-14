@@ -28,8 +28,9 @@ class ImportParser
       status:   'pending'
     )
     @strategy.parse(@data).each_with_index do |row, index|
-      @import.rows.create(
+      @import.rows.create!(
         sequence: index + 1,
+        status: 'pending',
         import_attributes_attributes: attrs_for_row(row)
       )
     end
@@ -40,10 +41,10 @@ class ImportParser
   def attrs_for_row(row)
     row.each_with_index.map do |(key, value), index|
       {
-        column_name: key,
-        value:       value,
-        import_id:   @import.id,
-        sequence:    index + 1
+        name:      key,
+        value:     value,
+        import_id: @import.id,
+        sequence:  index + 1
       }
     end
   end

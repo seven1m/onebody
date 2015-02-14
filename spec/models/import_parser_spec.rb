@@ -48,7 +48,7 @@ describe ImportParser do
         'site_id'   => 1,
         'person_id' => person.id,
         'filename'  => 'foo.csv',
-        'status'    => 'pending'
+        'status'    => 0
       )
     end
 
@@ -68,25 +68,25 @@ describe ImportParser do
       attributes = row.import_attributes.map(&:attributes)
       expect(attributes).to match_array([
         include(
-          'site_id'     => 1,
-          'import_id'   => import.id,
-          'column_name' => 'first_name',
-          'value'       => 'Tim',
-          'sequence'    => 1
+          'site_id'   => 1,
+          'import_id' => import.id,
+          'name'      => 'first_name',
+          'value'     => 'Tim',
+          'sequence'  => 1
         ),
         include(
-          'site_id'     => 1,
-          'import_id'   => import.id,
-          'column_name' => 'last_name',
-          'value'       => 'Morgan',
-          'sequence'    => 2
+          'site_id'   => 1,
+          'import_id' => import.id,
+          'name'      => 'last_name',
+          'value'     => 'Morgan',
+          'sequence'  => 2
         ),
         include(
-          'site_id'     => 1,
-          'import_id'   => import.id,
-          'column_name' => 'email',
-          'value'       => 'tim@timmorgan.org',
-          'sequence'    => 3
+          'site_id'   => 1,
+          'import_id' => import.id,
+          'name'      => 'email',
+          'value'     => 'tim@timmorgan.org',
+          'sequence'  => 3
         )
       ])
     end

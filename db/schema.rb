@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150206035943) do
+ActiveRecord::Schema.define(version: 20150208232136) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -258,6 +258,36 @@ ActiveRecord::Schema.define(version: 20150206035943) do
 
   add_index "groups", ["category"], name: "index_groups_on_category", using: :btree
   add_index "groups", ["site_id"], name: "index_site_id_on_groups", using: :btree
+
+  create_table "import_attributes", force: :cascade do |t|
+    t.integer "site_id",       limit: 4
+    t.integer "import_id",     limit: 4
+    t.integer "import_row_id", limit: 4
+    t.string  "name",          limit: 255
+    t.text    "value",         limit: 65535
+    t.integer "sequence",      limit: 4
+    t.string  "error_reasons", limit: 255
+  end
+
+  create_table "import_rows", force: :cascade do |t|
+    t.integer "site_id",       limit: 4
+    t.integer "import_id",     limit: 4
+    t.integer "status",        limit: 4
+    t.integer "sequence",      limit: 4
+    t.string  "error_reasons", limit: 1000
+  end
+
+  create_table "imports", force: :cascade do |t|
+    t.integer  "site_id",       limit: 4
+    t.integer  "person_id",     limit: 4
+    t.string   "filename",      limit: 255
+    t.integer  "status",        limit: 4
+    t.integer  "success_count", limit: 4,     default: 0
+    t.integer  "fail_count",    limit: 4,     default: 0
+    t.text     "mappings",      limit: 65535
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+  end
 
   create_table "jobs", force: :cascade do |t|
     t.integer  "site_id",    limit: 4
