@@ -84,7 +84,7 @@ class Message < ActiveRecord::Base
 
   def enqueue_send
     return if dont_send
-    MessageSendJob.perform_later(self)
+    MessageSendJob.perform_later(Site.current, id)
   end
 
   def send_message

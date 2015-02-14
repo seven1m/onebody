@@ -14,7 +14,20 @@ class Site < ActiveRecord::Base
 
   has_one :stream_item, as: :streamable
 
-  cattr_accessor :current
+  def self.current
+    Thread.current[:site]
+  end
+
+  def self.current=(site)
+    Thread.current[:site] = site
+  end
+
+  def self.with_current(site)
+    was = Thread.current[:site]
+    Thread.current[:site] = site
+    yield
+    Thread.current[:site] = was
+  end
 
   validates_presence_of :name, :host
   validates_uniqueness_of :name, :host

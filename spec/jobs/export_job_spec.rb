@@ -8,7 +8,7 @@ describe ExportJob do
       let!(:group) { FactoryGirl.create(:group, name: 'Foo') }
 
       before do
-        subject.perform('groups', 'xml', person.id)
+        subject.perform(Site.current, 'groups', 'xml', person.id)
       end
 
       it 'exports groups to an xml file' do
@@ -24,7 +24,7 @@ describe ExportJob do
       let!(:group) { FactoryGirl.create(:group, name: 'Foo') }
 
       before do
-        subject.perform('groups', 'csv', person.id)
+        subject.perform(Site.current, 'groups', 'csv', person.id)
       end
 
       it 'exports groups to a csv file' do
@@ -38,7 +38,7 @@ describe ExportJob do
 
     context 'when requesting people xml' do
       before do
-        subject.perform('people', 'xml', person.id)
+        subject.perform(Site.current, 'people', 'xml', person.id)
       end
 
       it 'exports people to an xml file' do
@@ -52,7 +52,7 @@ describe ExportJob do
 
     context 'when requesting people csv' do
       before do
-        subject.perform('people', 'csv', person.id)
+        subject.perform(Site.current, 'people', 'csv', person.id)
       end
 
       it 'exports people to a csv file' do

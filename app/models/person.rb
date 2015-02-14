@@ -21,7 +21,13 @@ class Person < ActiveRecord::Base
 
   acts_as_list scope: :family
 
-  cattr_accessor :logged_in # set in addition to @logged_in (for use by Notifier and other models)
+  def self.logged_in
+    Thread.current[:logged_in]
+  end
+
+  def self.logged_in=(person)
+    Thread.current[:logged_in] = person
+  end
 
   belongs_to :family
   belongs_to :admin

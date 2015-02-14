@@ -4,11 +4,11 @@ class PeopleController < ApplicationController
       format.html { redirect_to person_path(@logged_in) }
       if can_export?
         format.xml do
-          job = ExportJob.perform_later('people', 'xml', @logged_in.id)
+          job = ExportJob.perform_later(Site.current, 'people', 'xml', @logged_in.id)
           redirect_to generated_file_path(job.job_id)
         end
         format.csv do
-          job = ExportJob.perform_later('people', 'csv', @logged_in.id)
+          job = ExportJob.perform_later(Site.current, 'people', 'csv', @logged_in.id)
           redirect_to generated_file_path(job.job_id)
         end
       end
