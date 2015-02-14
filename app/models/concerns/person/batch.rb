@@ -59,7 +59,13 @@ module Concerns
                 end
               end
             else
-              { status: 'not saved', legacy_id: record['legacy_id'], id: person.id, name: person.name, error: person.errors.full_messages.join('; ') }
+              {
+                status: 'not saved',
+                legacy_id: record['legacy_id'],
+                id: person.id,
+                name: person.name,
+                error: person.errors.values.join('; ')
+              }
             end
           end
         end

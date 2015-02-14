@@ -26,7 +26,7 @@ class PrivaciesController < ApplicationController
     if consent.perform
       flash[:notice] = t('privacies.agreement_saved')
     else
-      flash[:warning] = consent.errors.full_messages.join('; ')
+      flash[:warning] = consent.errors.values.join('; ')
     end
     redirect_to edit_person_privacy_path(@person)
   end

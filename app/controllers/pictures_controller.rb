@@ -44,10 +44,10 @@ class PicturesController < ApplicationController
     else
       respond_to do |format|
         format.html do
-          flash[:error] = @uploader.errors.full_messages.join('; ')
+          flash[:error] = @uploader.errors.values.join('; ')
           render action: "new"
         end
-        format.json { render json: { status: 'error', errors: @uploader.errors.full_messages } }
+        format.json { render json: { status: 'error', errors: @uploader.errors.values } }
       end
     end
   end

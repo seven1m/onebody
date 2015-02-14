@@ -39,9 +39,6 @@ en:
     MM: "MM"
     YYYY: "YYYY"
 
-  errors:
-    format: "%{message}"
-
   activemodel:
     errors:
       models:
@@ -65,6 +62,9 @@ en:
               blank: Mobile phone cannot be blank.
 
   activerecord:
+    errors:
+      messages:
+        blank: "%{attribute} cannot be blank"
     attributes:
       album:
         name: "Name"

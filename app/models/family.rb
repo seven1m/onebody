@@ -268,7 +268,7 @@ class Family < ActiveRecord::Base
           end
           s
         else
-          {status: 'not saved', legacy_id: record['legacy_id'], id: family.id, name: family.name, error: family.errors.full_messages.join('; ')}
+          {status: 'not saved', legacy_id: record['legacy_id'], id: family.id, name: family.name, error: family.errors.values.join('; ')}
         end
       end
     end

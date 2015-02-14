@@ -37,7 +37,7 @@ class Signup
   end
 
   def save!
-    raise ArgumentError.new(errors.full_messages) unless valid?
+    raise ArgumentError.new(errors.values) unless valid?
     save
   end
 

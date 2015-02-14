@@ -82,7 +82,7 @@ class FamiliesController < ApplicationController
         format.xml  { render xml: @family.errors, status: :unprocessable_entity } if can_export?
         format.js do # only used by barcode entry right now
           render :update do |page|
-            page.replace_html :notice, t('There_were_errors') + ":<br/>#{@family.errors.full_messages.join('; ')}"
+            page.replace_html :notice, t('There_were_errors') + ":<br/>#{@family.errors.values.join('; ')}"
             page[:notice].show
           end
         end

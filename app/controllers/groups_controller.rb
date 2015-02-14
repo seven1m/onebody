@@ -94,7 +94,7 @@ class GroupsController < ApplicationController
             group.attributes = vals.permit(*group_attributes)
             if group.changed?
               unless group.save
-                @errors << [group.id, group.errors.full_messages]
+                @errors << [group.id, group.errors.values]
               end
             end
           end

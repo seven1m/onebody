@@ -6,7 +6,7 @@ class CommentsController < ApplicationController
       if comment.save
         flash[:notice] = t('comments.saved')
       else
-        flash[:error] = comment.errors.full_messages.join(". ")
+        flash[:error] = comment.errors.values.join(". ")
       end
       redirect_back
     else

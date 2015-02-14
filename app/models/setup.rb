@@ -10,7 +10,7 @@ class Setup
     Person.transaction do
       @person = Person.new
       unless update_host!
-        Site.current.errors.full_messages.each do |msg|
+        Site.current.errors.values.each do |msg|
           @person.errors.add :base, msg
         end
         return false

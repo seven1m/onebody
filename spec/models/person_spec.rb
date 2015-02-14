@@ -350,7 +350,7 @@ describe Person do
   it "should properly translate validation errors" do
     @person = FactoryGirl.create(:person)
     expect(@person.update_attributes(website: 'bad/address')).to eq(false)
-    expect(@person.errors.full_messages).to eq([I18n.t("activerecord.errors.models.person.attributes.website.invalid")])
+    expect(@person.errors[:website]).to eq([I18n.t("activerecord.errors.models.person.attributes.website.invalid")])
   end
 
   context '#authenticate' do

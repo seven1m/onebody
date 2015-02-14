@@ -29,7 +29,7 @@
         %td
           = check_box_tag  "groups[#{group.id}][approval_required_to_join]", true, group.approval_required_to_join?, class: 'simple'
           = hidden_field_tag "groups[#{group.id}][approval_required_to_join]", 0
-        %td.errors= group.errors.full_messages.join('; ')
+        %td.errors= group.errors.values.join('; ')
   %p
     = submit_tag t('save_changes'), class: 'btn btn-success'
     %span#loading{:style => "display:none;"}

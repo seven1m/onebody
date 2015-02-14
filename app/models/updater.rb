@@ -115,7 +115,7 @@ class Updater
     person.updates.create!(family_id: family.id, data: approval_params) if approval_params.any?
     success = person.update_attributes(person_params) && family.update_attributes(family_params)
     unless success
-      family.errors.full_messages.each { |m| person.errors.add(:base, m) }
+      family.errors.values.each { |m| person.errors.add(:base, m) }
     end
     success
   end
