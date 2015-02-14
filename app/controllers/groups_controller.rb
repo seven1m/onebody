@@ -142,11 +142,11 @@ class GroupsController < ApplicationController
       format.html
       if can_export?
         format.xml do
-          job = ExportJob.perform_later('groups', 'xml', @logged_in.id)
+          job = ExportJob.perform_later(Site.current, 'groups', 'xml', @logged_in.id)
           redirect_to generated_file_path(job.job_id)
         end
         format.csv do
-          job = ExportJob.perform_later('groups', 'csv', @logged_in.id)
+          job = ExportJob.perform_later(Site.current, 'groups', 'csv', @logged_in.id)
           redirect_to generated_file_path(job.job_id)
         end
       end
