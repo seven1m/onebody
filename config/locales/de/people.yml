@@ -5,22 +5,22 @@ de:
       callout: "This account is frozen. Changes cannot be made until it is unfrozen."
     new:
       heading: "Neue Person in der Familie %{family}."
-      heading_without_family: "New Person"
+      heading_without_family: "Neue Person"
       no_family_warning_html: |
           You are about to create a new person and a <strong>new family record</strong>.
           If instead you wish to add a person to an existing family, first go to that family's page and add a person there.
     title_html: "%{name}<span class='discreet'>, %{description}</span>"
     show:
       details:
-        family: "%{family} Family"
+        family: "Familie von %{family}"
         website: Website
         email: Email
-        mobile_phone: "Mobile Phone"
-        home_phone: "Home Phone"
-        work_phone: "Work Phone"
-        address: "Home Address"
-        birthday: Birthday
-        anniversary: "Wedding Anniversary"
+        mobile_phone: "Handy"
+        home_phone: "Telefon privat"
+        work_phone: "Telefon geschäftlich"
+        address: "Privatadresse"
+        birthday: "Geburtstag"
+        anniversary: "Hochzeitstag"
         social: Social
     edit:
       about: Über
@@ -32,15 +32,15 @@ de:
       child:
         enabled: Kind
         disabled: Erwachsener
-      child_hint: "If no birthday is specified, you must indicate whether this is a child or an adult."
+      child_hint: "Falls kein Geburtstag angegeben ist, muss hier festgelegt werden, ob es sich um ein Kind oder einen Erwachsenen handelt."
       custom_type:
         new: "[create role]"
         create_prompt: "Enter the role name:"
-      description_hint: "A word or two about yourself — some people put their job title here."
+      description_hint: "Eine kurze Selbstbeschreibung — Manche nennen hier ihren Beruf."
       email_hint: " (this is your main email address used for login and receiving emails)"
       facebook_url:
         placeholder: "https://www.facebook.com/username"
-      family_photo: "Familien Photo"
+      family_photo: "Familienfoto"
       header: "Profil bearbeiten"
       person_type: Rolen
       person_type_hint: "These do not control access — only designation."
@@ -57,7 +57,7 @@ de:
         placeholder: "@username"
       visibility: Sichtbarkeit
     move:
-      heading: "Zu Familie %{family} hinzufügen"
+      heading: "Zur Familie von %{family} hinzufügen"
       description_html: "Find someone to add to the <a href='%{url}'>%{family}</a> family, then click the Add button..."
       button: "Move to Family"
       success_message: "%{person} has been added to the %{family} family."
@@ -113,7 +113,7 @@ de:
       button: "Send a password setup email to this user."
     advanced: Advanced
     can_sign_in: "Can Sign In"
-    cant_delete_yourself: "Du kannst du nicht selber löschen."
+    cant_delete_yourself: "Du kannst du nicht selbst löschen."
     cant_delete: "Du kannst diese Person nicht löschen."
     changes_must_be_reviewed_html: "Changes to the details below must be <strong>reviewed by staff</strong>. To request changes, enter the details below and click 'Submit Changes.'"
     changes_submitted: "Changes submitted."
@@ -123,10 +123,10 @@ de:
     family_legacy_external_id: "Family Legacy/External ID"
     find_a_group_html: "Find a group <a href='%{url}'>here</a>."
     friend_not_found: "Freund nicht gefunden"
-    friendship_accepted: "Freundschaft akzeptiert"
-    friendship_manage: "You may not manage friendships for anyone but yourself."
+    friendship_accepted: "Freundschaftsanfrage akzeptiert"
+    friendship_manage: "Du kannst nur deine eigenen Freundschaftsbeziehungen verwalten."
     friendship_must_specify: "Must specify accept=true or reject=true"
-    friendship_rejected: "Friendship declined."
+    friendship_rejected: "Freundschaftsanfrage abgelehnt."
     full_access: "Full Access"
     if_you_wish_to_be_listed_business_dir_html: "If you wish to be listed in the <a href='%{url}'>Business Directory</a>, enter your business name, description, and other details below."
     if_you_wish_to_remove_something_html: "If you wish to remove something in order to keep others from seeing it, instead go to the <a href='%{url}'>Privacy</a> page and hide it."
@@ -142,7 +142,7 @@ de:
       one: "1 Person"
       other: "%{count} Personen"
     person_isnt_any_groups: "%{person} ist noch in keiner deiner Gruppen"
-    share_your_personal_testimony: "Share your personal testimony — how you came to know Jesus Christ and how he has changed your life."
+    share_your_personal_testimony: "Erzähle dein persönliches Zeugnis — wie hast du Jesus Christus kennengelernt und wie hat er dein Leben verändert?"
     show_hidden_groups: "Zeige versteckte Gruppen"
     tell_us_about_yourself: "Tell us about yourself. What's your personality like? What would your best friend say about you?"
     this_event_doesnt_have_pictures: "Das Ereignis hat noch keine Bilder."

@@ -31,16 +31,16 @@ de:
         elder: Ältester
     results:
       testimony_read_more: anzeigen
-    add_selected: "Füge Augewälhte hinzu"
+    add_selected: "Füge Ausgewählte hinzu"
     business_category: "Business Category:"
     deacon: Diakon
     elder: Ältester
-    female: Weibloch
+    female: Weiblich
     male: Männlich
     heading: "%{name} Verzeichnis"
     member: Mitglied
-    results_not_shown: "Eine Ergebnisse nicht angezeigt - sei spezifischer"
-    not_showing_hidden_people: "(verstecke Personen werden nicht angezeigt)"
+    results_not_shown: "Einige Ergebnisse nicht angezeigt - sei spezifischer"
+    not_showing_hidden_people: "(versteckte Personen werden nicht angezeigt)"
     people_found:
       one: "1 Person gefunden"
       other: "%{count} Personen gefunden"
