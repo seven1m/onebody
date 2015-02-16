@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150206035943) do
+ActiveRecord::Schema.define(version: 20150216160234) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -154,7 +154,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
     t.datetime "updated_at"
     t.boolean  "visible",              limit: 1,   default: true
     t.integer  "site_id",              limit: 4
-    t.boolean  "deleted",              limit: 1,   default: false
+    t.boolean  "deleted",              limit: 1,   default: false, null: false
     t.string   "barcode_id",           limit: 50
     t.datetime "barcode_assigned_at"
     t.boolean  "barcode_id_changed",   limit: 1,   default: false
@@ -414,7 +414,7 @@ ActiveRecord::Schema.define(version: 20150206035943) do
     t.string   "twitter_account",              limit: 100
     t.string   "api_key",                      limit: 50
     t.string   "salt",                         limit: 50
-    t.boolean  "deleted",                      limit: 1,     default: false
+    t.boolean  "deleted",                      limit: 1,     default: false, null: false
     t.boolean  "child",                        limit: 1
     t.string   "custom_type",                  limit: 100
     t.text     "custom_fields",                limit: 65535
