@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150208232136) do
+ActiveRecord::Schema.define(version: 20150223015348) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -402,13 +402,6 @@ ActiveRecord::Schema.define(version: 20150208232136) do
     t.string   "business_phone",               limit: 25
     t.string   "business_email",               limit: 255
     t.string   "business_website",             limit: 255
-    t.text     "activities",                   limit: 65535
-    t.text     "interests",                    limit: 65535
-    t.text     "music",                        limit: 65535
-    t.text     "tv_shows",                     limit: 65535
-    t.text     "movies",                       limit: 65535
-    t.text     "books",                        limit: 65535
-    t.text     "quotes",                       limit: 65535
     t.text     "about",                        limit: 65535
     t.text     "testimony",                    limit: 65535
     t.boolean  "share_mobile_phone",           limit: 1,     default: false
