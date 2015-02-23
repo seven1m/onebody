@@ -67,6 +67,7 @@ gem 'dossier', '~> 2.12.2'
 gem 'mustache', '~> 1.0.0'
 gem 'github_api', '~> 0.12.2'
 gem 'sucker_punch', '~> 1.3.2'
+gem 'autoprefixer-rails', '~> 5.1.7'
 
 group :test do
   gem 'factory_girl_rails', '~> 4.5.0'
