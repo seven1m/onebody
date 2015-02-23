@@ -1,5 +1,5 @@
 ---
-pt:
+pt-BR:
   setup:
     admin_account: "Conta de Administrador"
     complete_html: "Ótimo! Você configourou o básico. Siga para <a href='%{url}'>Área Administrativa</a> quando vocÊ estiver pronto para customizar o site da sua comunidade."

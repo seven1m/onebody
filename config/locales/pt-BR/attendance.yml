@@ -1,5 +1,5 @@
 ---
-pt:
+pt-BR:
   attendance:
     heading_html: "Presença do grupo %{group} em %{when}"
     heading_without_group: "Presença para %{when}"

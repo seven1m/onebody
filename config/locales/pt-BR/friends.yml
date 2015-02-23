@@ -1,9 +1,9 @@
 ---
-pt:
+pt-BR:
   friends:
     index:
       nobody_yet: "Ninguém ainda"
-    accept: "Aceitar Amigo"
+    accept-BR: "Aceitar Amigo"
     add_friend_are_you_sure: "Você tem certeza? Um email será enviado para esta pessoa solicitando a amizade."
     add_to_friends: "Adicionar aos Amigos"
     add_to_friends_pending: "Adicionar aos Amigos (pendente)"

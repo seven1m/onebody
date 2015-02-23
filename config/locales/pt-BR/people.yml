@@ -1,5 +1,5 @@
 ---
-pt:
+pt-BR:
   people:
     account_frozen:
       callout: "Esta conta está congelada. Mudanças não podem ser feitas até que ela seja normalizada."
@@ -27,14 +27,14 @@ pt:
       business: Negócios
       business_category:
         new: "[criar uma nova categoria]"
-        create_prompt: "Digite a categoria do seu negócio:"
+        create_prompt-BR: "Digite a categoria do seu negócio:"
       child:
         enabled: Criança
         disabled: Adulto
       child_hint: "Se nenhuma data de nascimento for especificada, você necessita indicar se este é uma criança ou um adulto."
       custom_type:
         new: "[criar função]"
-        create_prompt: "Digite o nome da função:"
+        create_prompt-BR: "Digite o nome da função:"
       description_hint: "Algumas palavras sobre você — algumas pessoas colocam a profissão aqui."
       email_hint: " (este é o seu endereço de email principal utilizado para o login e receber emails)"
       facebook_url:

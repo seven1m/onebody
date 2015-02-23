@@ -1,5 +1,5 @@
 ---
-pt:
+pt-BR:
   stream:
     title: Início
     sub_title: "(itens compartilhados comigo)"
@@ -39,7 +39,7 @@ pt:
         friends: "Compartilhar com meus Amigos"
         everyone: "Compartilhar com Todos"
       intro:
-        friends_and_group_members: "Itens que você compartilha aqui serão visualizados por seus amigos e membros dos grupos quando eles acessarem o sistema."
+        friends_and_group_members: "Os itens que você compartilhar aqui serão visualizados por seus amigos e membros dos grupos quando eles acessarem o sistema."
         friends_only: "Os itens que você compartilhar aqui serão vistos pelos seus amigos quando eles conectarem."
         group_members_only: "Os itens que você compartilhar aqui serão vistos pelos membros do grupo quando eles conectarem."
         everyone: "Compartilhe algo interessante com toda a comunidade..."

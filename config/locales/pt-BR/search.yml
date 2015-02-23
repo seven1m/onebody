@@ -1,5 +1,5 @@
 ---
-pt:
+pt-BR:
   search:
     column:
       name: Nome
@@ -24,6 +24,10 @@ pt:
       phone: "Número de Telefone"
       email: "Endereço de Email"
       type: "Tipo de Associação"
+      group_membership: "Membros do grupo"
+      in_group: "inclui"
+      not_in_group: "não inclui"
+      group_membership_text: "grupo com a categoria"
       types:
         member: Membro
         staff: Funcionário

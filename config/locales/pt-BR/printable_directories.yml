@@ -1,5 +1,5 @@
 ---
-pt:
+pt-BR:
   printable_directories:
     heading: "Diretório Impresso"
     already_sent: "Parece que um diretório já foi enviado para você a pouco tempo. Por favor verifique o seu email (também o seu diretório de spam)."

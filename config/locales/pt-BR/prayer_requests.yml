@@ -1,5 +1,5 @@
 ---
-pt:
+pt-BR:
   prayer_requests:
     by: "por %{person}"
     name: "Pedidos de Oração em %{group}"

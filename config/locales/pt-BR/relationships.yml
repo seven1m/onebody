@@ -1,5 +1,5 @@
 ---
-pt:
+pt-BR:
   relationships:
     heading: "Relacionamento para %{person}"
     reciprocate:

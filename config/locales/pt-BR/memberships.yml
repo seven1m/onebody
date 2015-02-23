@@ -1,5 +1,5 @@
 ---
-pt:
+pt-BR:
   memberships:
     index:
       heading: "Pessoas no grupo %{group}"
@@ -27,7 +27,7 @@ pt:
       select_some: "Selecione um ou mais abaixo e escolha uma ação."
       name: Name
       created_at: Solicitado
-      accept:
+      accept-BR:
         button: Aceitar
       ignore:
         button: Ignorar
