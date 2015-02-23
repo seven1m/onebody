@@ -1,5 +1,5 @@
 ---
-pt:
+pt-BR:
   nav:
     hello: "Olá, %{person}"
     admin: Admin

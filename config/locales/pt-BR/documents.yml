@@ -1,0 +1,51 @@
+---
+pt-BR:
+  documents:
+    index:
+      heading: Documentos
+      intro: "Este é um lugar para formulários, publicações, e outros arquivos disponíveis para os usuários deste site."
+      table:
+        name: Nome
+        description: Descrição
+        updated_at: Atualizado
+        size: Tamanho
+        item_count: "%{count} itens"
+      edit_folder:
+        button: "Editar esta pasta"
+      new_folder:
+        button: "Nova pasta"
+      new_document:
+        button: "Novo documento"
+    show:
+      table:
+        filename: "Nome de arquivo"
+        content_type: "Tipo de Conteúdo"
+        size: Tamanho
+        updated_at: Atualizado
+      download:
+        button: "Baixar Arquivo"
+      edit:
+        button: Editar
+      delete:
+        button: Excluir
+    new:
+      heading: "Novo Documento"
+    new_folder:
+      heading: "Nova Pasta"
+    create:
+      notice: "O seu documento foi criado."
+    create_folder:
+      notice: "A sua pasta foi criada."
+    edit:
+      heading: "Editar %{document}"
+    edit_folder:
+      heading: "Editar %{folder}"
+    update:
+      notice: "O Documento foi salvo."
+    update_folder:
+      notice: "A Pasta foi salva."
+    delete:
+      notice: "O documento foi excluído."
+    delete_folder:
+      confirmation: "Você tem certeza que deseja exluir esta pasta E TUDO DENTRO DELA? Não há como desfazer isto."
+      notice: "A pasta e todo o seu conteúdo foram excluídos."

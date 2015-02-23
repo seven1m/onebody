@@ -1,0 +1,22 @@
+---
+pt-BR:
+  pages:
+    index:
+      heading: Páginas
+      intro: "Abaixo estão as páginas e bits de conteúdo utilizados no site que você pode customizar para a sua própria comunidade."
+      name: Nome
+      description: Descrição
+      edit_button: Editar
+    descriptions:
+      help: "Página exibida para usuários que procuram por ajuda para acessar o site."
+      bad_status: "Exibido quando um usuário está no banco de dados porém não possui permissão para entrar."
+      privacy_policy: "Detalhes de como este site coleta e compartilha informações."
+      safeguarding_children: "Detalhes de como este site protege crianças e as suas informações."
+      unauthorized: "Página exibida para usuários explicando como obter acesso ao site."
+      checkin: "Um pouco de conteúdo de ajuda que aparece no topo da tela de aministração de checkin."
+    body: Corpo
+    edit_page: "Editar Página"
+    not_found: "Página não encontrada."
+    saved: "Página gravada."
+    title: Título
+    view_page: "Visualizar Página"

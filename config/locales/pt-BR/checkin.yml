@@ -1,0 +1,108 @@
+---
+pt-BR:
+  checkin:
+    heading: Check-in
+    search:
+      label: "Digite o nome parcial ou completo:"
+      button: Buscar
+      clear: limpar
+      none_found: "nenhuma família encontrada"
+    add_family:
+      button: "Adicionar Família"
+    attendance:
+      button: Presença
+    setup:
+      heading: Configuração
+    assigned_cards:
+      button: "Cartões Atribuídos"
+    cards:
+      heading: "Cartões de Check-in Atribuídos"
+      table:
+        id: ID
+        legacy_id: "ID Legado"
+        family: Família
+        barcode: "Código de Barras"
+        assigned_at: Atribuído
+      export:
+        button: "Exportar para um Arquivo"
+      none: "nenhum registro para exibir"
+    groups:
+      heading: "Check-in em Grupos"
+      table:
+        group: Grupo
+      index:
+        heading: "%{time} no %{campus}"
+        add_group:
+          heading: "Adicionar um destino (grupo)"
+          search: "Buscar pelo nome"
+          button: "Adicionar Grupo"
+        table:
+          group: "Destino (nome do grupo)"
+          print_nametag: "Imprimir Etiqueta de Nome"
+          print_extra_nametag: "Etiqueta de Nome Adicional"
+          section: Seção
+      section:
+        new: "[nova seção]"
+    times:
+      button: Configuração
+      heading: "Horários de Check-in"
+      intro: "Adicione, edite e exclua horários disponíveis de check-in aqui."
+      table:
+        time: Hora
+        campus: Campus
+        groups:
+          heading: Destinos
+          count:
+            one: "1 destino"
+            other: "%{count} destinos"
+      edit:
+        button: editar
+        heading: "Editar Horário de Check-in"
+        campus:
+          new: "[novo campus]"
+        save:
+          button: "Salvar Alterações"
+      recurring:
+        heading: "Horários Recorrentes"
+        new:
+          button: "Novo Horário Recorrente"
+        weekday: "Dia da Semana"
+        time: Horário
+        campus: Campus
+        add:
+          button: Adicionar
+      single:
+        heading: "Horários e Datas Individuais"
+        new:
+          button: "Novo Horário Individual"
+        datetime: "Data & Hora"
+        campus: Campus
+        add:
+          button: Adicionar
+    family:
+      new:
+        heading: "Nova Família"
+        first_name: Nome
+        last_name: Sobrenome
+        birthday: "Data de Nascimento"
+        medical_notes: "Anotações Médicas (opcional)"
+        parents: Pais
+        children: Crianças/Outros
+        barcode: "Ler Cartão"
+        ignore_spelling_errors: "Ignoras erros suspeitos de ortografia."
+        save: "Salvar Família"
+        cancel: cancelar
+        success:
+          heading: "Família Salva"
+          return: Voltar
+          view: "Visualizar/Editar Família"
+          barcode: "Número atribuído:"
+          not_checked_in: "Esta família ainda não fez o check-in — instrua o responsável\n\
+              eles precisam agora realizar o check-in em uma das estações. \n"
+      saved: "Família salva."
+      errors: "Houveram erros ao salvar esta família."
+      error:
+        no_birthdays: "Você precisa inserir a data de nascimento para cada criança."
+        no_people: "Você precisa inserir pelo menos uma pessoa."
+        no_parents: "Você precisa inserir pelo menos um pai ou mãe."
+        no_barcode: "Por favor, passe o campo no final do cartão no leitor."
