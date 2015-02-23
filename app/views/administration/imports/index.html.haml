@@ -1,0 +1,28 @@
+- @title = 'Imports'
+
+- if @imports.any?
+  %table.table
+    %thead
+      %tr
+        %th Created
+        %th Created By
+        %th Status
+        %th Rows
+        %th
+    %tbody
+      - @imports.each do |import|
+        %tr
+          %td= link_to import.created_at.to_s(:full), import
+          %td= link_to import.person.try(:name), import.person
+          %td= import.status
+          %td= import.rows.count
+          %td.actions
+            = link_to import, class: 'btn btn-info btn-xs' do
+              = icon 'fa fa-eye'
+              View
+
+- else
+  %p To import data, click below.
+
+.page-controls
+  = link_to 'Import Data from CSV', new_administration_import_path, class: 'btn btn-success'

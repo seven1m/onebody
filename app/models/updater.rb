@@ -54,6 +54,7 @@ class Updater
       family_id:            :admin,
       legacy_id:            :admin,
       legacy_family_id:     :admin,
+      sequence:             :admin,
     },
     family: {
       name:                 :approve,

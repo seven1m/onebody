@@ -1,3 +1,11 @@
-tr.row-with-actions {
+.spaced-table td, .spaced-table th {
+  padding-right: 10px;
+}
+
+td.strong {
+  font-weight: bold;
+}
+
+tr.row-with-actions, tr.row-with-controls {
   @extend tr.row-with-avatar;
 }

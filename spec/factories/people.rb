@@ -28,6 +28,10 @@ FactoryGirl.define do
       admin { Admin.create!(manage_groups: true) }
     end
 
+    trait :admin_import_data do
+      admin { Admin.create!(import_data: true) }
+    end
+
     trait :with_business do
       business_category 'Home Improvement'
       business_name 'ABC Home Improvement'

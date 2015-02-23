@@ -1,0 +1,35 @@
+- @title = 'Configure Import Mappings'
+
+= form_for @import do |form|
+  .page-controls
+    = button_tag class: 'btn btn-success' do
+      Save and Contiue
+      = icon 'fa fa-arrow-right'
+
+  .form-group
+    = form.label :match_strategy, t('.form.match_strategy')
+    = form.select :match_strategy, import_match_strategies, {}, class: 'form-control'
+
+  %table.table
+    %thead
+      %tr
+        %th Column from File
+        %th Attribute in Database
+        %th Example Data
+    %tbody
+      - @import.mappings.each do |from, to|
+        %tr.row-with-controls
+          %td
+            = from
+          %td
+            = select_tag "import[mappings][#{from}]", |
+              options_for_select(@import.mappable_attributes, to || from), |
+              include_blank: true, |
+              class: 'form-control'
+          %td
+            = @example[from]
+
+  .page-controls
+    = button_tag class: 'btn btn-success' do
+      Save and Contiue
+      = icon 'fa fa-arrow-right'

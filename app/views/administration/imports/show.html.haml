@@ -1,0 +1,72 @@
+- @title = t('.heading')
+
+.box.box-info
+  .box-body
+    %dl.dl-horizontal
+      %dt Filename
+      %dd= @import.filename
+      - if @import.person
+        %dt By:
+        %dd= link_to @import.person.name, @import.person
+      - if @import.created_at
+        %dt Created:
+        %dd= @import.created_at.to_s(:full)
+      - if @import.completed_at
+        %dt Import Completed:
+        %dd= @import.completed_at.to_s(:full)
+      - if @import.status_at_least?(:parsed)
+        %dt Rows
+        %dd= @import.rows.count
+
+    - if @import.parsed?
+      .callout.callout-warning
+        %h4 Configure Import
+        %p
+          This import needs to be configured before it can continue. Click below for the next step...
+        %p
+          = link_to 'Configure Import', edit_administration_import_path(@import), class: 'btn btn-info'
+
+%table.table
+  %thead
+    %tr
+      %th Step
+      %th Description
+      %th Status
+  %tbody
+    %tr
+      %td
+        1
+      %td
+        File Upload
+      %td
+        = import_status_icon @import, 'pending'
+    %tr
+      %td
+        2
+      %td
+        File Parse
+      %td
+        = import_status_icon @import, 'parsed'
+    %tr
+      %td
+        3
+      %td
+        Configure Import
+      %td
+        - if @import.parsed?
+          = icon 'fa fa-square text-yellow'
+          Waiting for you
+        - else
+          = import_status_icon @import, 'matched'
+    %tr
+      %td
+        4
+      %td
+        Data Update
+      %td
+        = import_status_icon @import, 'complete'
+
+.page-actions
+  = link_to @import, data: { method: :delete, confirm: t('are_you_sure') }, class: 'btn btn-delete' do
+    = icon 'fa fa-trash-o'
+    Delete Import

@@ -263,30 +263,33 @@ ActiveRecord::Schema.define(version: 20150223015348) do
     t.integer "site_id",       limit: 4
     t.integer "import_id",     limit: 4
     t.integer "import_row_id", limit: 4
-    t.string  "name",          limit: 255
+    t.string  "name",          limit: 255,   null: false
     t.text    "value",         limit: 65535
-    t.integer "sequence",      limit: 4
+    t.integer "sequence",      limit: 4,     null: false
     t.string  "error_reasons", limit: 255
   end
 
   create_table "import_rows", force: :cascade do |t|
     t.integer "site_id",       limit: 4
     t.integer "import_id",     limit: 4
-    t.integer "status",        limit: 4
-    t.integer "sequence",      limit: 4
+    t.integer "status",        limit: 4,    null: false
+    t.integer "sequence",      limit: 4,    null: false
     t.string  "error_reasons", limit: 1000
   end
 
   create_table "imports", force: :cascade do |t|
-    t.integer  "site_id",       limit: 4
-    t.integer  "person_id",     limit: 4
-    t.string   "filename",      limit: 255
-    t.integer  "status",        limit: 4
-    t.integer  "success_count", limit: 4,     default: 0
-    t.integer  "fail_count",    limit: 4,     default: 0
-    t.text     "mappings",      limit: 65535
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.integer  "site_id",         limit: 4
+    t.integer  "person_id",       limit: 4
+    t.string   "filename",        limit: 255,               null: false
+    t.integer  "status",          limit: 4,                 null: false
+    t.integer  "success_count",   limit: 4,     default: 0, null: false
+    t.integer  "fail_count",      limit: 4,     default: 0, null: false
+    t.string   "importable_type", limit: 50,                null: false
+    t.text     "mappings",        limit: 65535
+    t.integer  "match_strategy",  limit: 4
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
+    t.datetime "completed_at"
   end
 
   create_table "jobs", force: :cascade do |t|

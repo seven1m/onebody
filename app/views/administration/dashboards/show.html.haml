@@ -159,7 +159,7 @@
                     CSV
               - if @logged_in.admin?(:import_data)
                 %td
-                  = link_to import_people_path, class: 'btn btn-xs btn-danger' do
+                  = link_to new_administration_import_path, class: 'btn btn-xs btn-danger' do
                     = icon 'fa fa-upload'
                     CSV
             - if Setting.get(:features, :groups)

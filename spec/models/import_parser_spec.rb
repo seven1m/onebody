@@ -3,19 +3,26 @@ require_relative '../rails_helper'
 describe ImportParser do
   let(:person) { FactoryGirl.build(:person) }
 
+  let(:import) do
+    Import.create!(
+      person:          person,
+      filename:        'foo.csv',
+      importable_type: 'Person',
+      status:          'pending'
+    )
+  end
+
   describe '#initialize' do
     subject do
       ImportParser.new(
-        person: person,
-        filename: 'foo.csv',
-        data: 'data',
+        import:        import,
+        data:          'data',
         strategy_name: 'csv'
       )
     end
 
-    it 'exposes data and other initialized attributes' do
-      expect(subject.person).to eq(person)
-      expect(subject.filename).to eq('foo.csv')
+    it 'exposes initialized attributes' do
+      expect(subject.import).to eq(import)
       expect(subject.data).to eq('data')
     end
 
@@ -26,29 +33,29 @@ describe ImportParser do
 
   describe '#parse' do
     let(:data) do
-      "first_name,last_name,email\n" +
-      "Tim,Morgan,tim@timmorgan.org"
+      "first_name,last_name,email\n" \
+      'Tim,Morgan,tim@timmorgan.org'
     end
 
     subject do
       ImportParser.new(
-        person: person,
-        filename: 'foo.csv',
-        data: data,
+        import:        import,
+        data:          data,
         strategy_name: 'csv'
       )
     end
 
     before { subject.parse }
 
-    it 'creates a new import' do
-      expect(Import.count).to eq(1)
-      import = subject.import
-      expect(import.attributes).to include(
-        'site_id'   => 1,
-        'person_id' => person.id,
-        'filename'  => 'foo.csv',
-        'status'    => 0
+    it 'changes the status to parsed' do
+      expect(import.reload.status).to eq('parsed')
+    end
+
+    it 'stores the column headings' do
+      expect(import.reload.mappings).to eq(
+        'first_name' => nil,
+        'last_name'  => nil,
+        'email'      => nil
       )
     end
 

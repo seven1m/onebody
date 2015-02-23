@@ -1,0 +1,20 @@
+en:
+  administration:
+    imports:
+      new:
+        heading: "Import Data"
+        people:
+          heading: "Import People"
+        form:
+          file: "CSV File"
+          submit: "Upload File"
+      show:
+        heading: "Import Status"
+      edit:
+        form:
+          match_strategy: "How should we try to match existing people?"
+      match_strategies:
+        by_id_only: "by ID only"
+        by_name: "by name (use ID if present)"
+        by_contact_info: "by contact info such as email address or mobile phone number (use ID if present)"
+        by_name_or_contact_info: "by name, or by contact info such as email address or mobile phone number (use ID if present)"
