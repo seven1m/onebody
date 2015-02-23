@@ -14,7 +14,7 @@ pt:
     directory_sub:
       business: "Diretório de Negócios"
       printed: "Diretório para Impressão"
-      advanced: "Busa Avançada"
+      advanced: "Busca Avançada"
       new_person: "Nova Pessoa"
     documents: Documentos
     groups: Grupos

@@ -37,6 +37,10 @@ pt:
       button: "Painel de Check-in"
     dashboard:
       heading: "Painel do Administrador"
+      sub_title: "OneBody %{version}"
+      version_alert:
+        intro_html: "Uma nova versão de OneBody está disponível: <a href='%{url}'>%{version}</a>"
+        download_button: "Como atualizar"
     deleted_people:
       tabs:
         people: "Pessoas Excluídas"
@@ -271,6 +275,9 @@ pt:
         :
           name: "País Padrão"
           description: "Selecione o país padrão para novos registros de família."
+        Map Zoom Level:
+          name: Nível de Zoom do mapa
+          description: Selecione o nível do zoom usado nos mapas exibidos no interior do site.
       Appearance:
         ? "Public Theme"
         :
@@ -402,9 +409,11 @@ pt:
         Documents:
           name: Documentos
           description: "Se habilitado, administradores podem carregar arquivos em uma área geral na qual os usuários podem procurá-los e baixá-los."
-        ? "Small Group Size"
-        :
-          name: "Tamanho máximo de um \"grupo pequeno\""
+        Business Directory:
+          name: "Diretório de negócios"
+          description: Se habilitado, usuários podem adicionar informações sobre negócios para serem listadas no diretório de negócios da igreja.
+        Small Group Size:
+          name: 'Tamanho máximo de um "grupo pequeno"'
           description: "Pessoas em grupos com esta quantidade de membros ou menos são consideradas parte de um \"grupo pequeno\" e podem facilmente compartilhar conteúdo entre eles utilizando a página inicial."
       Privacy:
         ? "Hide Contact Details in Messages"

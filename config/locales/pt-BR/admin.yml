@@ -409,16 +409,12 @@ pt-BR:
         Documents:
           name: Documentos
           description: "Se habilitado, administradores podem carregar arquivos em uma área geral na qual os usuários podem procurá-los e baixá-los."
-        ? "Small Group Size"
-        :
-          name: "Tamanho máximo de um \"grupo pequeno\""
-          description: "Pessoas em grupos com esta quantidade de membros ou menos são consideradas parte de um \"grupo pequeno\" e podem facilmente compartilhar conteúdo entre eles utilizando a página inicial."
         Business Directory:
           name: "Diretório de negócios"
           description: Se habilitado, usuários podem adicionar informações sobre negócios para serem listadas no diretório de negócios da igreja.
         Small Group Size:
           name: 'Tamanho máximo de um "grupo pequeno"'
-          description: Pessoas em grupos com esta quantidade de membros são considerados em um "grupo pequeno", e podem compartilhar facilmente o conteúdo de uns com os outros através da homepage.
+          description: "Pessoas em grupos com esta quantidade de membros ou menos são consideradas parte de um \"grupo pequeno\" e podem facilmente compartilhar conteúdo entre eles utilizando a página inicial."
       Privacy:
         ? "Hide Contact Details in Messages"
         :
