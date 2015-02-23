@@ -5,6 +5,7 @@ source 'http://rubygems.org'
 
 gem 'rails', '~> 4.2.0'
 
+# BEGIN database selection
 # borrowed heavily from https://github.com/redmine/redmine/blob/master/Gemfile
 database_file = File.expand_path('../config/database.yml', __FILE__)
 if File.exist?(database_file)
@@ -27,6 +28,7 @@ if File.exist?(database_file)
 else
   warn('Please configure your config/database.yml first')
 end
+# END database selection
 
 gem 'rails_autolink', '~> 1.1.6'
 gem 'jquery-rails', '~> 4.0.3'

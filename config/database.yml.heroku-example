@@ -1,0 +1,16 @@
+development:
+  adapter: postgresql
+  database: onebody_dev
+  host: localhost
+  username: onebody
+  password: onebody
+  encoding: utf8
+test:
+  adapter: postgresql
+  database: onebody_test
+  host: localhost
+  username: onebody
+  password: onebody
+  encoding: utf8
+production:
+  url: <%= ENV['DATABASE_URL'] %>
