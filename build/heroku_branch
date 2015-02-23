@@ -7,8 +7,7 @@ ignores = File.read('.gitignore').split(/\n/)
 ignores -= [
   'config/database.yml',
   'config/secrets.yml',
-  'config/email.yml',
-  'Gemfile.lock'
+  'config/email.yml'
 ]
 File.open('.gitignore', 'w') do |file|
   file.write(ignores.join("\n") + "\n")
@@ -29,7 +28,7 @@ FileUtils.copy('config/email.yml.mailgun-example', 'config/email.yml')
 
 puts 'Building Gemfile.heroku'
 lines = File.read('Gemfile').split(/\n/)
-File.open('Gemfile', 'w') do |gemfile|
+File.open('Gemfile.heroku', 'w') do |gemfile|
   inside_db_block = false
   pg_gem = lines.grep(/gem 'pg'/).first
   lines.each do |line|
@@ -44,4 +43,10 @@ File.open('Gemfile', 'w') do |gemfile|
     end
   end
 end
-puts 'Now run: bundle install'
+puts 'Now run: bundle install --gemfile Gemfile.heroku'
+
+# for wiki:
+# heroku addons:add mailgun
+# heroku config MAILGUN_SMTP_DOMAIN=members.mychurch.org
+# heroku config SECRET_KEY_BASE=$(rake secret)
+# heroku config SERVE_ASSETS=true
