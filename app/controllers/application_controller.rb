@@ -127,6 +127,10 @@ class ApplicationController < ActionController::Base
       render text: I18n.t('not_authorized'), layout: true, status: :forbidden
     end
 
+    rescue_from 'EmailConnectionError' do |e|
+      render 'errors/email_connection_error'
+    end
+
     def me?
       @logged_in and @person and @logged_in == @person
     end
