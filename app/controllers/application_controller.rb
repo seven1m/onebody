@@ -59,6 +59,7 @@ class ApplicationController < ActionController::Base
     def current_user
       @logged_in
     end
+    helper_method :current_user
 
     def authenticate_user # default
       authenticate_user_with_session unless logged_in_from_api_key?

@@ -38,6 +38,8 @@ class Person < ActiveRecord::Base
   has_many :generated_files
   has_many :tasks
   belongs_to :site
+  belongs_to :last_seen_stream_item, class_name: 'StreamItem'
+  belongs_to :last_seen_group, class_name: 'Group'
 
   scope_by_site_id
 

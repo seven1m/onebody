@@ -61,6 +61,7 @@
               = group_avatar_tag(group)
             %td.name
               = link_to group.name, group
+              %small.badge.bg-green= t('new')
               - if group.private?
                 %span.label.label-warning
                   = icon 'fa fa-lock'

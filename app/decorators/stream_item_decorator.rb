@@ -18,7 +18,8 @@ class StreamItemDecorator < Draper::Decorator
       icon +
       h.content_tag(:div, class: 'timeline-item') do
         h.content_tag(:span, class: 'time') do
-          h.icon('fa fa-clock-o') + ' ' + created_at.to_s(:time)
+          h.icon('fa fa-clock-o') + ' ' + created_at.to_s(:time) +
+            (new? ? new_badge : '')
         end +
         header +
         body +
@@ -110,7 +111,7 @@ class StreamItemDecorator < Draper::Decorator
         pics.map do |picture_id, fingerprint, extension|
           url = Picture.photo_url_from_parts(picture_id, fingerprint, extension, :small)
           h.link_to(
-            h.image_tag(url, alt: I18n.t('stream.body.picture.alt'), class: "timeline-pic #{'small'}"),
+            h.image_tag(url, alt: I18n.t('stream.body.picture.alt'), class: 'timeline-pic small'),
             h.album_picture_path(streamable_id, picture_id),
             title: I18n.t('stream.body.picture.alt')
           )
@@ -134,8 +135,6 @@ class StreamItemDecorator < Draper::Decorator
       h.send(streamable_type.underscore + '_path', streamable_id)
     when 'Site'
       ''
-    # when 'PrayerRequest'
-      # FIXME
     else
       streamable
     end
@@ -145,4 +144,11 @@ class StreamItemDecorator < Draper::Decorator
     "streamable-#{streamable_type.underscore.dasherize}"
   end
 
+  def new?
+    id > h.current_user.last_seen_stream_item_id.to_i
+  end
+
+  def new_badge
+    h.content_tag(:small, h.t('new'), class: 'badge bg-green')
+  end
 end

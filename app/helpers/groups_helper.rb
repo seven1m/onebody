@@ -35,14 +35,10 @@ module GroupsHelper
     not group.admin?(@logged_in) and @group.approval_required_to_join?
   end
 
-  NEW_GROUP_AGE = 5.days
-
   def new_groups
-    if @logged_in.admin?(:manage_groups)
-      Group.recent(NEW_GROUP_AGE)
-    else
-      Group.is_public.recent(NEW_GROUP_AGE)
-    end
+    groups = Group.where('id > ?', @logged_in.last_seen_group_id.to_i)
+    groups = groups.is_public unless @logged_in.admin?(:manage_groups)
+    groups
   end
 
   def group_content_column(&block)

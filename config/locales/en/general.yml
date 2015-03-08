@@ -20,6 +20,7 @@ en:
   for: for
   multiple_files: Your web browser may support multiple file uploads — try selecting multiple files using the Ctrl key (Windows) or Command key (Mac) on your keyboard.
   name: Name
+  new: new
   none: none
   not_authorized: You are not authorized.
   on: on
