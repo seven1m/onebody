@@ -40,6 +40,7 @@ class SearchesController < ApplicationController
           @more = @people.length > MAX_SELECT_PEOPLE
           @people = @people[0...MAX_SELECT_PEOPLE]
         elsif params[:select_family]
+          @families ||= []
           @more = @families.length > MAX_SELECT_FAMILIES
           @families = @families.to_a[0..MAX_SELECT_FAMILIES]
         end
