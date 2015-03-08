@@ -45,8 +45,8 @@ OneBody::Application.routes.draw do
     end
     resource :stream
     resource :photo
-    resources :groups, :pictures, :groupies, :services, :albums, :verses
-    resource :privacy, :blog, :calendar
+    resources :groups, :pictures, :services, :albums, :verses
+    resource :privacy
   end
 
   resources :families do
@@ -141,7 +141,7 @@ OneBody::Application.routes.draw do
     get 'search', on: :collection
   end
 
-  resource  :setup, :session, :search, :printable_directory, :privacy
+  resource :setup, :session, :search, :printable_directory
 
   resource :stream do
     resources :people, controller: 'stream_people'
