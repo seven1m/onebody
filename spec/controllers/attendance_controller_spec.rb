@@ -207,20 +207,34 @@ describe AttendanceController, type: :controller do
     end
 
     context 'user is not administrator' do
-      let!(:user)       { FactoryGirl.create(:person) }
+      let!(:user) { FactoryGirl.create(:person) }
 
-      context do
-        before do
-          post :create, {
-            attended_at: '2009-12-01 09:00',
-            group_id: group.id,
-            ids: [1]
-          }, { logged_in_id: user.id }
-        end
+      before do
+        post :create, {
+          attended_at: '2009-12-01 09:00',
+          group_id: group.id,
+          ids: [1]
+        }, { logged_in_id: user.id }
+      end
 
-        it 'renders an error message' do
-          expect(response).to be_unauthorized
-        end
+      it 'renders an error message' do
+        expect(response).to be_unauthorized
+      end
+    end
+
+    context 'group_id is 0 (bogus submission from legacy check-in software)' do
+      let!(:user) { FactoryGirl.create(:person) }
+
+      before do
+        post :create, {
+          attended_at: '2009-12-01 09:00',
+          group_id: '0',
+          ids: [1]
+        }, { logged_in_id: user.id }
+      end
+
+      it 'renders 404' do
+        expect(response.status).to eq(404)
       end
     end
   end
