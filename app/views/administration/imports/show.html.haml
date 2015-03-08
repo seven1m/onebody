@@ -1,72 +1,87 @@
-- @title = t('.heading')
+= render 'heading'
 
-.box.box-info
-  .box-body
-    %dl.dl-horizontal
-      %dt Filename
-      %dd= @import.filename
-      - if @import.person
-        %dt By:
-        %dd= link_to @import.person.name, @import.person
-      - if @import.created_at
-        %dt Created:
-        %dd= @import.created_at.to_s(:full)
-      - if @import.completed_at
-        %dt Import Completed:
-        %dd= @import.completed_at.to_s(:full)
-      - if @import.status_at_least?(:parsed)
-        %dt Rows
-        %dd= @import.rows.count
+- if @import.working?
+  :javascript
+    var current_status = #{ json_escape @import.status.to_json };
+    setInterval(function() {
+      $.getJSON('#{administration_import_path(@import, format: :json)}', function(data) {
+        if (data.status != current_status) location.reload();
+      });
+    }, 1000);
 
-    - if @import.parsed?
-      .callout.callout-warning
-        %h4 Configure Import
-        %p
-          This import needs to be configured before it can continue. Click below for the next step...
-        %p
-          = link_to 'Configure Import', edit_administration_import_path(@import), class: 'btn btn-info'
+.row
+  .col-md-4
+    .box.box-info
+      .box-body
+        %table.table.table-no-top-border
+          %tr
+            %th Filename:
+            %td= @import.filename
+          - if @import.person
+            %tr
+              %th By:
+              %td= link_to @import.person.name, @import.person
+          %tr
+            %th Uploaded:
+            %td= @import.created_at.to_s(:full)
+          %tr
+            %th Completed:
+            - if @import.completed_at
+              %td= @import.completed_at.to_s(:full)
+            - else
+              %td <em>pending</em>
+          - if @import.status_at_least?(:parsed)
+            %tr
+              %th Rows:
+              %td= @import.rows.count
 
-%table.table
-  %thead
-    %tr
-      %th Step
-      %th Description
-      %th Status
-  %tbody
-    %tr
-      %td
-        1
-      %td
-        File Upload
-      %td
-        = import_status_icon @import, 'pending'
-    %tr
-      %td
-        2
-      %td
-        File Parse
-      %td
-        = import_status_icon @import, 'parsed'
-    %tr
-      %td
-        3
-      %td
-        Configure Import
-      %td
-        - if @import.parsed?
-          = icon 'fa fa-square text-yellow'
-          Waiting for you
-        - else
-          = import_status_icon @import, 'matched'
-    %tr
-      %td
-        4
-      %td
-        Data Update
-      %td
-        = import_status_icon @import, 'complete'
+  .col-md-8
+    - if @import.status_at_least?('previewed')
+      .box.box-info
+        .box-header
+          %h3.box-title
+            Update Stats
+            - unless @import.complete?
+              (Pending)
+        .box-body
+          %table.table
+            %thead
+              %tr
+                %th
+                %th People
+                %th Families
+            %tr
+              %td Creates
+              %td
+                = @import.rows.created.count
+                = icon 'fa fa-circle text-green'
+              %td
+                ?
+                = icon 'fa fa-circle text-green'
+            %tr
+              %td Updates
+              %td
+                = @import.rows.updated.count
+                = icon 'fa fa-circle text-yellow'
+              %td
+                ?
+                = icon 'fa fa-circle text-yellow'
+            %tr
+              %td No Change
+              %td
+                = @import.rows.unchanged.count
+                = icon 'fa fa-circle text-gray'
+              %td
+                ?
+                = icon 'fa fa-circle text-gray'
 
-.page-actions
-  = link_to @import, data: { method: :delete, confirm: t('are_you_sure') }, class: 'btn btn-delete' do
+.page-controls
+  - if @import.matched?
+    = link_to execute_administration_import_path(@import), class: 'btn btn-danger', |
+      data: { method: 'patch', confirm: t('are_you_sure') } do
+      = icon 'fa fa-bolt'
+      Import Data Now!
+  = link_to @import, data: { method: :delete, confirm: t('are_you_sure') }, class: 'btn btn-delete pull-right' do
     = icon 'fa fa-trash-o'
     Delete Import
+  .clearfix

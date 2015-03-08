@@ -53,6 +53,7 @@ describe Import do
 
     context 'given status is "parsed" and match strategy is chosen' do
       before do
+        allow(ImportPreviewJob).to receive(:perform_later) # noop
         subject.status = :parsed
         subject.match_strategy = :by_name
         subject.save!

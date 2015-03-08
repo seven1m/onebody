@@ -1,11 +1,7 @@
-- @title = 'Configure Import Mappings'
+= render 'heading'
 
 = form_for @import do |form|
-  .page-controls
-    = button_tag class: 'btn btn-success' do
-      Save and Contiue
-      = icon 'fa fa-arrow-right'
-
+  = hidden_field_tag :status, 'matched'
   .form-group
     = form.label :match_strategy, t('.form.match_strategy')
     = form.select :match_strategy, import_match_strategies, {}, class: 'form-control'

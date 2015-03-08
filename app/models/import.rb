@@ -7,11 +7,15 @@ class Import < ActiveRecord::Base
   validates :importable_type, inclusion: %w(Person)
 
   enum status: {
-    pending:   0,
-    parsed:   10,
-    matched:  20,
-    active:   30,
-    complete: 40
+    pending:     0,
+    parsing:     1,
+    parsed:     10,
+    matched:    20,
+    previewing: 21,
+    previewed:  30,
+    active:     40,
+    complete:   50,
+    errored:    60
   }
 
   enum match_strategy: %w(
@@ -24,6 +28,16 @@ class Import < ActiveRecord::Base
   serialize :mappings, JSON
 
   before_update :set_status_to_matched
+  after_update :preview_async
+
+  def progress
+    number = self.class.statuses[status]
+    (number / 50.0 * 100).ceil
+  end
+
+  def working?
+    !%w(parsed previewed complete errored).include?(status)
+  end
 
   def parse_async(file:, strategy_name:)
     return if new_record?
@@ -43,8 +57,12 @@ class Import < ActiveRecord::Base
   private
 
   def set_status_to_matched
-    return unless status == 'parsed'
-    return unless match_strategy_changed? && match_strategy
+    return unless status == 'parsed' && match_strategy
     self.status = 'matched'
+  end
+
+  def preview_async
+    return if new_record? || !matched?
+    ImportPreviewJob.perform_later(Site.current, id)
   end
 end

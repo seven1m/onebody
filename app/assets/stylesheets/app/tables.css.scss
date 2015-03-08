@@ -9,3 +9,9 @@ td.strong {
 tr.row-with-actions, tr.row-with-controls {
   @extend tr.row-with-avatar;
 }
+
+.table-no-top-border tr:first-child {
+  th, td {
+    border-top: none;
+  }
+}

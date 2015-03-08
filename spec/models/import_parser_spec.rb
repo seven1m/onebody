@@ -97,5 +97,17 @@ describe ImportParser do
         )
       ])
     end
+
+    context 'given malformed CSV' do
+      let(:data) do
+        "first_name,last_name,email\n" \
+        'Tim,Morgan,"tim@timmorgan.org'
+      end
+
+      it 'changes the status to errored and saves the error message' do
+        expect(import.reload.status).to eq('errored')
+        expect(import.error_message).to eq('Unclosed quoted field on line 2.')
+      end
+    end
   end
 end

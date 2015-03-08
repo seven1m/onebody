@@ -141,7 +141,7 @@ OneBody::Application.routes.draw do
     get 'search', on: :collection
   end
 
-  resource  :setup, :session, :search, :printable_directory, :privacy
+  resource :setup, :session, :search, :printable_directory, :privacy
 
   resource :stream do
     resources :people, controller: 'stream_people'
@@ -169,7 +169,6 @@ OneBody::Application.routes.draw do
       patch :complete
     end
   end
-
 
   get 'pages/*path' => 'pages#show_for_public', via: :get, as: :page_for_public
 
@@ -204,7 +203,10 @@ OneBody::Application.routes.draw do
         put :batch
       end
     end
-    resources :updates, :admins, :membership_requests, :imports
+    resources :imports do
+      patch :execute, on: :member
+    end
+    resources :updates, :admins, :membership_requests
     namespace :checkin do
       root to: 'dashboards#show'
       resource :dashboard

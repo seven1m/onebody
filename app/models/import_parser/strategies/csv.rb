@@ -7,6 +7,10 @@ class ImportParser
           headers: rows.headers,
           rows: rows.map(&:to_hash)
         }
+      rescue ::CSV::MalformedCSVError => e
+        {
+          error: e.message
+        }
       end
     end
   end

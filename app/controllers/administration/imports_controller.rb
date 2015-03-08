@@ -8,7 +8,9 @@ class Administration::ImportsController < ApplicationController
   def show
     @import = Import.find(params[:id])
     respond_to do |format|
-      format.html
+      format.html do
+        redirect_to(action: :edit) if @import.parsed?
+      end
       format.json do
         render json: @import
       end
@@ -19,6 +21,7 @@ class Administration::ImportsController < ApplicationController
   end
 
   def create
+    return redirect_to(action: 'new') unless params[:file]
     @import = Import.create(
       person:          @logged_in,
       filename:        params[:file].original_filename,
@@ -29,19 +32,20 @@ class Administration::ImportsController < ApplicationController
       file:          params[:file],
       strategy_name: 'csv'
     )
-    redirect_to edit_administration_import_path(@import)
+    redirect_to administration_import_path(@import)
   end
 
   def edit
     @import = Import.find(params[:id])
+    @import.update_attributes(status: 'parsed', match_strategy: nil)
     @example = build_example
-    render action: 'parsing' if @import.status == 'pending'
   end
 
   def update
     @import = Import.find(params[:id])
     @import.attributes = import_params
     @import.mappings = params[:import][:mappings]
+    @import.status = 'matched' if params[:status] == 'matched'
     if @import.save
       redirect_to administration_import_path(@import)
     else

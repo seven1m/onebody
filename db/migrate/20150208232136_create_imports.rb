@@ -5,6 +5,7 @@ class CreateImports < ActiveRecord::Migration
       t.references :person
       t.string :filename, null: false
       t.integer :status, null: false
+      t.string :error_message
       t.integer :success_count, :fail_count, null: false, default: 0
       t.string :importable_type, limit: 50, null: false
       t.text :mappings

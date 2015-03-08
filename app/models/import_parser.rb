@@ -22,15 +22,23 @@ class ImportParser
 
   def parse
     parsed = @strategy.parse(@data)
-    parsed[:rows].each_with_index do |row, index|
-      @import.rows.create!(
-        sequence: index + 1,
-        status: 'pending',
-        import_attributes_attributes: attrs_for_row(row)
-      )
+    @import.update_attribute(:status, 'parsing')
+    if parsed[:error]
+      @import.status = :errored
+      @import.error_message = parsed[:error]
+    else
+      parsed[:rows].each_with_index do |row, index|
+        attributes = attrs_for_row(row)
+        next if attributes.empty?
+        @import.rows.create!(
+          sequence: index + 1,
+          status: 'pending',
+          import_attributes_attributes: attributes
+        )
+      end
+      @import.mappings = Hash[parsed[:headers].zip]
+      @import.status = :parsed
     end
-    @import.mappings = Hash[parsed[:headers].zip]
-    @import.status = :parsed
     @import.save!
   end
 

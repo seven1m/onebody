@@ -8,8 +8,6 @@ en:
         form:
           file: "CSV File"
           submit: "Upload File"
-      show:
-        heading: "Import Status"
       edit:
         form:
           match_strategy: "How should we try to match existing people?"
@@ -18,3 +16,15 @@ en:
         by_name: "by name (use ID if present)"
         by_contact_info: "by contact info such as email address or mobile phone number (use ID if present)"
         by_name_or_contact_info: "by name, or by contact info such as email address or mobile phone number (use ID if present)"
+      status:
+        pending: "Pending"
+        parsing: "Parsing Data File"
+        parsed: "Parsed"
+        matching: "Matching Fields"
+        matched: "Matched"
+        previewing: "Building Preview"
+        previewed: "Preview Changes"
+        active: "Active"
+        complete: "Complete"
+        errored: "Errored"
+      status_heading: "Import Status: %{status}"

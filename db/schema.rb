@@ -154,7 +154,7 @@ ActiveRecord::Schema.define(version: 20150223015348) do
     t.datetime "updated_at"
     t.boolean  "visible",              limit: 1,   default: true
     t.integer  "site_id",              limit: 4
-    t.boolean  "deleted",              limit: 1,   default: false
+    t.boolean  "deleted",              limit: 1,   default: false, null: false
     t.string   "barcode_id",           limit: 50
     t.datetime "barcode_assigned_at"
     t.boolean  "barcode_id_changed",   limit: 1,   default: false
@@ -282,6 +282,7 @@ ActiveRecord::Schema.define(version: 20150223015348) do
     t.integer  "person_id",       limit: 4
     t.string   "filename",        limit: 255,               null: false
     t.integer  "status",          limit: 4,                 null: false
+    t.string   "error_message",   limit: 255
     t.integer  "success_count",   limit: 4,     default: 0, null: false
     t.integer  "fail_count",      limit: 4,     default: 0, null: false
     t.string   "importable_type", limit: 50,                null: false
@@ -440,7 +441,7 @@ ActiveRecord::Schema.define(version: 20150223015348) do
     t.string   "twitter_account",              limit: 100
     t.string   "api_key",                      limit: 50
     t.string   "salt",                         limit: 50
-    t.boolean  "deleted",                      limit: 1,     default: false
+    t.boolean  "deleted",                      limit: 1,     default: false, null: false
     t.boolean  "child",                        limit: 1
     t.string   "custom_type",                  limit: 100
     t.text     "custom_fields",                limit: 65535
