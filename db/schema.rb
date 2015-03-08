@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150216160234) do
+ActiveRecord::Schema.define(version: 20150308223312) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -259,6 +259,39 @@ ActiveRecord::Schema.define(version: 20150216160234) do
   add_index "groups", ["category"], name: "index_groups_on_category", using: :btree
   add_index "groups", ["site_id"], name: "index_site_id_on_groups", using: :btree
 
+  create_table "import_attributes", force: :cascade do |t|
+    t.integer "site_id",       limit: 4
+    t.integer "import_id",     limit: 4
+    t.integer "import_row_id", limit: 4
+    t.string  "name",          limit: 255,   null: false
+    t.text    "value",         limit: 65535
+    t.integer "sequence",      limit: 4,     null: false
+    t.string  "error_reasons", limit: 255
+  end
+
+  create_table "import_rows", force: :cascade do |t|
+    t.integer "site_id",       limit: 4
+    t.integer "import_id",     limit: 4
+    t.integer "status",        limit: 4,    null: false
+    t.integer "sequence",      limit: 4,    null: false
+    t.string  "error_reasons", limit: 1000
+  end
+
+  create_table "imports", force: :cascade do |t|
+    t.integer  "site_id",         limit: 4
+    t.integer  "person_id",       limit: 4
+    t.string   "filename",        limit: 255,               null: false
+    t.integer  "status",          limit: 4,                 null: false
+    t.integer  "success_count",   limit: 4,     default: 0, null: false
+    t.integer  "fail_count",      limit: 4,     default: 0, null: false
+    t.string   "importable_type", limit: 50,                null: false
+    t.text     "mappings",        limit: 65535
+    t.integer  "match_strategy",  limit: 4
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
+    t.datetime "completed_at"
+  end
+
   create_table "jobs", force: :cascade do |t|
     t.integer  "site_id",    limit: 4
     t.string   "command",    limit: 255
@@ -372,13 +405,6 @@ ActiveRecord::Schema.define(version: 20150216160234) do
     t.string   "business_phone",               limit: 25
     t.string   "business_email",               limit: 255
     t.string   "business_website",             limit: 255
-    t.text     "activities",                   limit: 65535
-    t.text     "interests",                    limit: 65535
-    t.text     "music",                        limit: 65535
-    t.text     "tv_shows",                     limit: 65535
-    t.text     "movies",                       limit: 65535
-    t.text     "books",                        limit: 65535
-    t.text     "quotes",                       limit: 65535
     t.text     "about",                        limit: 65535
     t.text     "testimony",                    limit: 65535
     t.boolean  "share_mobile_phone",           limit: 1,     default: false
@@ -438,6 +464,8 @@ ActiveRecord::Schema.define(version: 20150216160234) do
     t.string   "twitter",                      limit: 15
     t.integer  "incomplete_tasks_count",       limit: 4,     default: 0
     t.boolean  "primary_emailer",              limit: 1
+    t.integer  "last_seen_stream_item_id",     limit: 4
+    t.integer  "last_seen_group_id",           limit: 4
   end
 
   add_index "people", ["admin_id"], name: "index_admin_id_on_people", using: :btree

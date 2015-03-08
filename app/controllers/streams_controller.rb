@@ -1,5 +1,4 @@
 class StreamsController < ApplicationController
-
   skip_before_filter :authenticate_user, only: %w(show)
   before_filter :authenticate_user_with_code_or_session, only: %w(show)
 
@@ -16,6 +15,7 @@ class StreamsController < ApplicationController
     end
     @count = @stream_items.count
     @stream_items = @stream_items.paginate(page: params[:timeline_page], per_page: params[:per_page] || 5)
+    record_last_seen_stream_item
     respond_to do |format|
       format.html
       format.xml { render layout: false }
@@ -30,4 +30,11 @@ class StreamsController < ApplicationController
     end
   end
 
+  private
+
+  def record_last_seen_stream_item
+    was = @logged_in.last_seen_stream_item
+    @logged_in.update_attribute(:last_seen_stream_item, @stream_items.first)
+    @logged_in.last_seen_stream_item = was # so the "new" labels show in the view
+  end
 end
