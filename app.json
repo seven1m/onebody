@@ -1,0 +1,25 @@
+{
+  "name": "OneBody",
+  "description": "private member portal for churches, built with Ruby on Rails",
+  "repository": "https://github.com/churchio/onebody",
+  "keywords": ["church", "community", "directory"],
+  "env": {
+    "MAILGUN_SMTP_DOMAIN": {
+      "description": "Domain where your email comes from, e.g. members.mychurch.org. Should be the same domain as where this app is running.",
+      "required": true
+    },
+    "SECRET_KEY_BASE": {
+      "description": "A secret key for verifying the integrity of signed cookies.",
+      "generator": "secret"
+    },
+    "SERVE_ASSETS": {
+      "description": "Tell Rails to serve its own assets.",
+      "value": "true"
+    },
+    "BUNDLE_WITHOUT": {
+      "description": "Tell the buildpack to install using Gemfile.heroku.",
+      "value": "development:test --gemfile Gemfile.heroku"
+    }
+  },
+  "addons": ["mailgun"]
+}

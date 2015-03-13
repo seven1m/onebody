@@ -4,6 +4,8 @@
 
 [![Install on DigitalOcean](http://installer.71m.us/button.svg)](http://installer.71m.us/install?url=https://github.com/churchio/onebody) [![Gitter](https://badges.gitter.im/Chat%20with%20us.svg)](https://gitter.im/churchio/onebody)
 
+[![Deploy on Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/churchio/onebody/tree/heroku)
+
 [Install Somewhere Else](https://github.com/churchio/onebody/wiki/Installation)
 
 OneBody is open-source, web-based social networking, email list, online directory, and lightweight document management software for churches.
