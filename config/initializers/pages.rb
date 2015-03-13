@@ -4,6 +4,6 @@ begin
       site.add_pages
     end
   end
-rescue Mysql2::Error
+rescue
   # no connection probably
 end
