@@ -5,7 +5,7 @@ set -e
 sleep 10
 export DEBIAN_FRONTEND=noninteractive
 sudo apt-get update
-sudo -E apt-get install -y -q wget build-essential libcurl4-openssl-dev libmysqlclient-dev nodejs git imagemagick mysql-server apache2
+sudo -E apt-get install -y -q wget build-essential libcurl4-openssl-dev libmysqlclient-dev nodejs git imagemagick mysql-server apache2 libapache2-mod-xsendfile
 
 sudo apt-get install -y software-properties-common
 sudo apt-add-repository -y ppa:brightbox/ruby-ng
@@ -20,7 +20,8 @@ sudo chmod 600 /etc/apt/sources.list.d/passenger.list
 sudo apt-get update
 sudo apt-get install -y libapache2-mod-passenger
 sudo a2enmod passenger
-sudo sed -i "s/DocumentRoot.*/DocumentRoot \/var\/www\/onebody\/public/" /etc/apache2/sites-available/000-default.conf
+sudo a2enmod xsendfile
+sudo sed -i "s/DocumentRoot.*/DocumentRoot \/var\/www\/onebody\/public\n\nXSendFile On\nXSendFilePath \/var\/www\/onebody\/public\/system/" /etc/apache2/sites-available/000-default.conf
 sudo service apache2 restart
 
 if [[ `grep RAILS_ENV .bashrc` == "" ]]; then
