@@ -6,10 +6,7 @@ tmp
 Gemfile.lock
 setup-authorized-ip
 setup-secret
-config/database.yml
 config/database.yml.backup
-config/secrets.yml
-config/email.yml
 config/locale
 config/deploy/production.rb
 config/newrelic.yml
