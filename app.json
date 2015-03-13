@@ -15,10 +15,6 @@
     "SERVE_ASSETS": {
       "description": "Tell Rails to serve its own assets.",
       "value": "true"
-    },
-    "BUNDLE_WITHOUT": {
-      "description": "Tell the buildpack to install using Gemfile.heroku.",
-      "value": "development:test --gemfile Gemfile.heroku"
     }
   },
   "addons": ["mailgun"]
