@@ -456,7 +456,7 @@ en:
       enabled: Enabled
       features_heading: Features
       formats_heading: Formats
-      formats_date_about_html: "Enter your own date and time formats to match your part of the world. See <a href=\"/date_formatting_options.txt\" target=\"_new\">here</a> for formatting options."
+      formats_date_about_html: "Enter your own date and time formats to match your part of the world. See <a href=\"https://www.manystrands.com/wp-content/uploads/2013/01/strftime-cheat-sheet.pdf\" target=\"_new\">here</a> for formatting options."
       formats_phone_about: "Specify phone formatting with 'd', e.g. ddd-ddd-dddd or (dd) dddd-dddd, depending on your locale."
       locale_heading: Locale
       mailgun: Create Catch All Route on Mailgun
