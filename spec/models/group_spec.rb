@@ -213,4 +213,40 @@ describe Group do
       end
     end
   end
+
+  describe 'validations' do
+    context 'group does not belong to a Checkin GroupTime and does not have attendance enabled' do
+      before do
+        @group.update_attribute(:attendance, false)
+      end
+
+      it 'is valid' do
+        expect(@group).to be_valid
+      end
+    end
+
+    context 'group belongs to a Checkin GroupTime and does not have attendance enabled' do
+      before do
+        @group.update_attribute(:attendance, false)
+        @checkin_time = FactoryGirl.create(:checkin_time)
+        @checkin_time.group_times.create!(group: @group)
+      end
+
+      it 'is invalid' do
+        expect(@group).not_to be_valid
+      end
+    end
+
+    context 'group belongs to a Checkin GroupTime and has attendance enabled' do
+      before do
+        @group.update_attribute(:attendance, true)
+        @checkin_time = FactoryGirl.create(:checkin_time)
+        @checkin_time.group_times.create!(group: @group)
+      end
+
+      it 'is valid' do
+        expect(@group).to be_valid
+      end
+    end
+  end
 end

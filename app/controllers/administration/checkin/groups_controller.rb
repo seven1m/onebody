@@ -13,6 +13,7 @@ class Administration::Checkin::GroupsController < ApplicationController
     Array(params[:ids]).each do |id|
       group = Group.find(id)
       unless group.group_times.where(checkin_time_id: @time.id).any?
+        group.update_attribute(:attendance, true)
         group.group_times.create(checkin_time: @time)
       end
     end

@@ -235,6 +235,8 @@ en:
               taken: There is another group with this email address. Please choose another address.
               too_long: The group email address is too long.
               too_short: The group email address is too short.
+            attendance:
+              invalid: Attendance must be enabled for any group in use by Check-in.
             category:
               blank: The group must specify a category.
             name:

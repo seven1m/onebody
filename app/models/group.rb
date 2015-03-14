@@ -57,6 +57,16 @@ class Group < ActiveRecord::Base
     end
   end
 
+  validate :validate_attendance_enabled_for_checkin_destinations
+
+  def validate_attendance_enabled_for_checkin_destinations
+    errors.add('attendance', :invalid) if attendance_required? && !attendance?
+  end
+
+  def attendance_required?
+    group_times.any?
+  end
+
   include Concerns::Geocode
   geocode_with :location_with_country
 
