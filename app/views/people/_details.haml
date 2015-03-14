@@ -2,41 +2,55 @@
   %tr.row-with-avatar
     %td= link_to avatar_tag(@family), @family
     %td= link_to t('people.show.details.family', family: @family.try(:name)), @family
-  = show_attribute?(:website) do
+  = show_attribute(:website) do
     %tr
       %td= t('people.show.details.website')
       %td= link_to simple_url(@person.website), safe_url(@person.website)
-  = show_attribute?(:email) do
+  = show_attribute(:email) do
     %tr
-      %td= t('people.show.details.email')
+      %td
+        = t('people.show.details.email')
+        = showing_attribute_because_admin_icon(:email)
       %td= mail_to @person.email
-  = show_attribute?(:mobile_phone) do
+  = show_attribute(:mobile_phone) do
     %tr
-      %td= t('people.show.details.mobile_phone')
+      %td
+        = t('people.show.details.mobile_phone')
+        = showing_attribute_because_admin_icon(:mobile_phone)
       %td= link_to_phone @person.mobile_phone, mobile: true
-  = show_attribute?(:home_phone) do
+  = show_attribute(:home_phone) do
     %tr
-      %td= t('people.show.details.home_phone')
+      %td
+        = t('people.show.details.home_phone')
+        = showing_attribute_because_admin_icon(:home_phone)
       %td= link_to_phone @person.home_phone
-  = show_attribute?(:work_phone) do
+  = show_attribute(:work_phone) do
     %tr
-      %td= t('people.show.details.work_phone')
+      %td
+        = t('people.show.details.work_phone')
+        = showing_attribute_because_admin_icon(:work_phone)
       %td= link_to_phone @person.work_phone
-  = show_attribute?(:address) do
+  = show_attribute(:address) do
     %tr
-      %td= t('people.show.details.address')
+      %td
+        = t('people.show.details.address')
+        = showing_attribute_because_admin_icon(:address)
       %td
         = preserve_breaks @person.address
         %br
         == #{@person.city}, #{@person.state} #{@person.short_zip}
-  = show_attribute?(:birthday) do
+  = show_attribute(:birthday) do
     %tr
-      %td= t('people.show.details.birthday')
+      %td
+        = t('people.show.details.birthday')
+        = showing_attribute_because_admin_icon(:birthday)
       %td= @person.birthday.to_s(:date_without_year)
   - unless @person.child?
-    = show_attribute?(:anniversary) do
+    = show_attribute(:anniversary) do
       %tr
-        %td= t('people.show.details.anniversary')
+        %td
+          = t('people.show.details.anniversary')
+          = showing_attribute_because_admin_icon(:anniversary)
         %td= @person.anniversary.to_s(:date_without_year)
   - if has_social_networks?(@person)
     %tr
