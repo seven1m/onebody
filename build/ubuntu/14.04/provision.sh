@@ -55,7 +55,7 @@ sed -i "s/SOMETHING_RANDOM_HERE/$secret/" config/secrets.yml
 export DEBIAN_FRONTEND=noninteractive
 sudo -E apt-get install -y -q postfix courier-pop
 sudo sed -i "s/mydestination.*/mydestination = localhost, your-domain-goes-here.com/" /etc/postfix/main.cf
-if [[ `grep Mialdir /etc/postfix/main.cf` == "" ]]; then
+if [[ `grep Maildir /etc/postfix/main.cf` == "" ]]; then
   echo -e "home_mailbox = Maildir/\nsmtp_discard_ehlo_keywords=pipelining,discard\nmessage_size_limit = 25600000\nlocal_recipient_maps =\nluser_relay = onebodymail" | sudo tee -a /etc/postfix/main.cf
 fi
 sudo postfix reload
