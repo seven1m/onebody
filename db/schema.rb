@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150308223312) do
+ActiveRecord::Schema.define(version: 20150316002056) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -636,20 +636,20 @@ ActiveRecord::Schema.define(version: 20150308223312) do
   add_index "sites", ["host"], name: "index_sites_on_host", using: :btree
 
   create_table "stream_items", force: :cascade do |t|
-    t.integer  "site_id",         limit: 4
-    t.string   "title",           limit: 500
-    t.text     "body",            limit: 65535
-    t.text     "context",         limit: 65535
-    t.integer  "person_id",       limit: 4
-    t.integer  "group_id",        limit: 4
-    t.integer  "streamable_id",   limit: 4
-    t.string   "streamable_type", limit: 255
+    t.integer  "site_id",              limit: 4
+    t.string   "title",                limit: 500
+    t.text     "body",                 limit: 65535
+    t.text     "context",              limit: 65535
+    t.integer  "person_id",            limit: 4
+    t.integer  "group_id",             limit: 4
+    t.integer  "streamable_id",        limit: 4
+    t.string   "streamable_type",      limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "shared",          limit: 1
-    t.boolean  "text",            limit: 1,     default: false
-    t.boolean  "is_public",       limit: 1
-    t.boolean  "false",           limit: 1
+    t.boolean  "shared",               limit: 1
+    t.boolean  "text",                 limit: 1,     default: false
+    t.boolean  "is_public",            limit: 1
+    t.integer  "stream_item_group_id", limit: 4
   end
 
   add_index "stream_items", ["created_at"], name: "index_stream_items_on_created_at", using: :btree

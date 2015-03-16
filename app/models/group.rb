@@ -12,7 +12,7 @@ class Group < ActiveRecord::Base
   has_many :attendance_records
   has_many :albums, as: :owner
   has_many :album_pictures, through: :albums, source: :pictures
-  has_many :stream_items, -> { order('created_at desc') }, dependent: :destroy
+  has_many :stream_items, -> { where(stream_item_group_id: nil).order('created_at desc') }, dependent: :destroy
   has_many :attachments, dependent: :delete_all
   has_many :group_times, dependent: :destroy
   has_many :checkin_times, through: :group_times

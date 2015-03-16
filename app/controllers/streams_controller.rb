@@ -6,7 +6,10 @@ class StreamsController < ApplicationController
 
   def show
     redirect_to(@logged_in) and return unless @logged_in.full_access?
-    if params[:group_id]
+    if params[:stream_item_group_id]
+      @stream_group = StreamItem.where(streamable_type: 'StreamItemGroup').find(params[:stream_item_group_id])
+      @stream_items = @stream_group.items
+    elsif params[:group_id]
       @group = Group.find(params[:group_id])
       @stream_items = @logged_in.can_read?(@group) ? @group.stream_items : @group.stream_items.none
     else
@@ -21,7 +24,7 @@ class StreamsController < ApplicationController
       format.xml { render layout: false }
       format.json do
         render json: {
-          html: view_context.timeline(@stream_items),
+          html: html_for_json,
           items: @stream_items,
           count: @count,
           next: timeline_has_more?(@stream_items) ? next_timeline_url(@stream_items.current_page + 1) : nil
@@ -31,6 +34,14 @@ class StreamsController < ApplicationController
   end
 
   private
+
+  def html_for_json
+    if @stream_group
+      @stream_items.map { |si| si.decorate.to_html }.join
+    else
+      view_context.timeline(@stream_items)
+    end
+  end
 
   def record_last_seen_stream_item
     was = @logged_in.last_seen_stream_item
