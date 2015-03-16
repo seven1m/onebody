@@ -13,7 +13,7 @@ module Concerns
       end
 
       def create_as_stream_item
-        StreamItem.create!(
+        item = StreamItem.create!(
           title: name,
           person_id: id,
           streamable_type: 'Person',
@@ -21,6 +21,7 @@ module Concerns
           created_at: created_at,
           shared: visible? && email.present?
         )
+        StreamItemGroupJob.perform_later(Site.current, item.id)
       end
 
       def update_stream_item

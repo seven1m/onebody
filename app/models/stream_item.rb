@@ -4,7 +4,10 @@ class StreamItem < ActiveRecord::Base
   belongs_to :group
   belongs_to :streamable, polymorphic: true
 
-  has_many :items, class_name: 'StreamItem', foreign_key: 'stream_item_group_id'
+  has_many :items,
+    -> { order(created_at: :desc) },
+    class_name: 'StreamItem',
+    foreign_key: 'stream_item_group_id'
 
   serialize :context, Hash
 

@@ -32,7 +32,12 @@ class StreamItemDecorator < Draper::Decorator
     url = h.stream_url(format: :json, stream_item_group_id: id)
     h.content_tag(:div, class: 'timeline-item') do
       h.content_tag(:div, class: "timeline-body #{streamable_css_class}") do
-        I18n.t('stream.body.stream_item_group.description', count: items.count).html_safe +
+        I18n.t(
+          "#{object.context.fetch(:streamable_type, '').underscore}.description",
+          scope: 'stream.body.stream_item_group',
+          count: items.count,
+          default: ''
+        ).html_safe +
         footer(class: 'timeline-group-load-more', data: { 'group-url' => url })
       end
     end

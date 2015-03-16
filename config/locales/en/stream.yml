@@ -30,7 +30,10 @@ en:
       site:
         description: "Community site for %{site} was created!"
       stream_item_group:
-        description: "%{count} more..."
+        person:
+          description:
+            one: "1 more person was added..."
+            other: "%{count} more people were added..."
 
     footer:
       button_label:
