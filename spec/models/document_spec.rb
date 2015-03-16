@@ -33,4 +33,43 @@ describe Document do
     end
   end
 
+  describe '#parent_folders' do
+    let(:grandfather) { FactoryGirl.create(:document_folder) }
+    let(:father) { FactoryGirl.create(:document_folder, folder_id: grandfather.id) }
+    let(:son) { FactoryGirl.create(:document, folder_id: father.id) }
+
+    it 'returns an array of all ancestors' do
+      expect(son.parent_folders).to eq([father, grandfather])
+    end
+  end
+
+  describe '#hidden?' do
+    context 'given a parent folder is hidden' do
+      let(:grandfather) { FactoryGirl.create(:document_folder, hidden: true) }
+      let(:father) { FactoryGirl.create(:document_folder, folder_id: grandfather.id) }
+      let(:son) { FactoryGirl.create(:document, folder_id: father.id) }
+
+      it 'returns true' do
+        expect(son.hidden?).to eq(true)
+      end
+    end
+
+    context 'given no parent folders are hidden' do
+      let(:grandfather) { FactoryGirl.create(:document_folder) }
+      let(:father) { FactoryGirl.create(:document_folder, folder_id: grandfather.id) }
+      let(:son) { FactoryGirl.create(:document, folder_id: father.id) }
+
+      it 'returns false' do
+        expect(son.hidden?).to eq(false)
+      end
+    end
+
+    context 'given no parent folders' do
+      let(:son) { FactoryGirl.create(:document) }
+
+      it 'returns false' do
+        expect(son.hidden?).to eq(false)
+      end
+    end
+  end
 end

@@ -12,4 +12,7 @@
     = form.label :description
     = form.text_area :description, class: 'form-control'
   .form-group
+    = form.check_box :hidden, class: 'form-control'
+    = form.label :hidden
+  .form-group
     = form.button t('save'), class: 'btn btn-success'

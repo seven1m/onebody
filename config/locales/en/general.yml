@@ -79,6 +79,7 @@ en:
         name: "Name"
         description: "Description"
         folder_id: "Parent Folder"
+        hidden: "Hidden"
       family:
         address1: "Address Line 1"
         address2: "Address Line 2 (optional)"

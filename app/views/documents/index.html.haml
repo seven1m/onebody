@@ -12,13 +12,14 @@
       %th= t('.table.size')
       %th
     - @folders.each do |folder|
-      %tr
+      %tr{ class: folder.hidden? ? 'hidden-folder' : nil }
         %td
           = link_to documents_path(folder_id: folder.id) do
             = icon 'fa fa-folder'
         %td
           = link_to documents_path(folder_id: folder.id) do
             = folder.name
+            = t('documents.hidden_name') if folder.hidden?
         %td
           = folder.updated_at.to_s(:full)
         %td

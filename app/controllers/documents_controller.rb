@@ -1,15 +1,16 @@
 class DocumentsController < ApplicationController
-
-  before_action :get_parent_folder, only: %w(index show new)
+  before_action :find_parent_folder, only: %w(index show new)
   before_action :ensure_admin, except: %w(index show download)
 
   def index
-    @folders = (@parent_folder.try(:folders) || DocumentFolder.active.top).order(:name)
+    @folders = (@parent_folder.try(:folders) || DocumentFolder.top).order(:name)
+    @folders = @folders.active unless @logged_in.admin?(:manage_documents)
     @documents = (@parent_folder.try(:documents) || Document.top).order(:name)
   end
 
   def show
     @document = Document.find(params[:id])
+    fail ActiveRecord::RecordNotFound if !@logged_in.admin?(:manage_documents) && @document.hidden?
   end
 
   def new
@@ -80,16 +81,21 @@ class DocumentsController < ApplicationController
 
   def download
     @document = Document.find(params[:id])
-    send_file @document.file.path,
+    fail ActiveRecord::RecordNotFound if !@logged_in.admin?(:manage_documents) && @document.hidden?
+    send_file(
+      @document.file.path,
       disposition: params[:inline] ? 'inline' : 'attachment',
       filename: @document.file_file_name,
       type: @document.file.content_type
+    )
   end
 
   private
 
-  def get_parent_folder
+  def find_parent_folder
     @parent_folder = params[:folder_id] && DocumentFolder.find(params[:folder_id])
+    return if @logged_in.admin?(:manage_documents)
+    fail ActiveRecord::RecordNotFound if @parent_folder && @parent_folder.hidden_at_all?
   end
 
   def folder_params
@@ -101,17 +107,14 @@ class DocumentsController < ApplicationController
   end
 
   def feature_enabled?
-    unless Setting.get(:features, :documents)
-      redirect_to people_path
-      false
-    end
+    return if Setting.get(:features, :documents)
+    redirect_to people_path
+    false
   end
 
   def ensure_admin
-    unless @logged_in.admin?(:manage_documents)
-      render text: t('not_authorized'), layout: true
-      false
-    end
+    return if @logged_in.admin?(:manage_documents)
+    render text: t('not_authorized'), layout: true
+    false
   end
-
 end

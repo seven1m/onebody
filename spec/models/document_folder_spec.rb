@@ -101,4 +101,35 @@ describe DocumentFolder do
     end
   end
 
+  describe '#hidden_at_all?' do
+    context 'grandfather is hidden' do
+      let(:grandfather) { FactoryGirl.create(:document_folder, hidden: true) }
+      let(:father) { FactoryGirl.create(:document_folder, folder_id: grandfather.id) }
+      let(:son) { FactoryGirl.create(:document_folder, folder_id: father.id) }
+
+      it 'returns true' do
+        expect(son.hidden_at_all?).to eq(true)
+      end
+    end
+
+    context 'self is hidden' do
+      let(:grandfather) { FactoryGirl.create(:document_folder) }
+      let(:father) { FactoryGirl.create(:document_folder, folder_id: grandfather.id) }
+      let(:son) { FactoryGirl.create(:document_folder, folder_id: father.id, hidden: true) }
+
+      it 'returns true' do
+        expect(son.hidden_at_all?).to eq(true)
+      end
+    end
+
+    context 'self is not hidden and no parent folders are hidden' do
+      let(:grandfather) { FactoryGirl.create(:document_folder) }
+      let(:father) { FactoryGirl.create(:document_folder, folder_id: grandfather.id) }
+      let(:son) { FactoryGirl.create(:document_folder, folder_id: father.id) }
+
+      it 'returns false' do
+        expect(son.hidden_at_all?).to eq(false)
+      end
+    end
+  end
 end
