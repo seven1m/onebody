@@ -17,7 +17,7 @@ class StreamItemGroupJob < ActiveJob::Base
         ids = StreamItem
           .where(streamable_type: base_item.streamable_type)
           .where('created_at <= ?', base_item.created_at)
-          .where('created_at > ?', boundary_item ? boundary_item.created_at : 0)
+          .where('created_at > ?', boundary_item ? boundary_item.created_at : 1.month.ago)
           .where(stream_item_group_id: nil)
           .limit(SAFETY_QUERY_LIMIT)
           .order(created_at: :desc, id: :desc)
