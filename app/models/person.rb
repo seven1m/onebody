@@ -239,6 +239,12 @@ class Person < ActiveRecord::Base
     self.full_access = true
   end
 
+  def record_last_seen_stream_item(stream_item)
+    return unless stream_item
+    return if stream_item.id <= last_seen_stream_item_id.to_i
+    update_attribute(:last_seen_stream_item, stream_item)
+  end
+
   def self.new_with_default_sharing(attrs)
     new(HashWithIndifferentAccess.new(attrs).merge(default_sharing_attributes))
   end

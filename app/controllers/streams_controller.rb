@@ -45,7 +45,7 @@ class StreamsController < ApplicationController
 
   def record_last_seen_stream_item
     was = @logged_in.last_seen_stream_item
-    @logged_in.update_attribute(:last_seen_stream_item, @stream_items.first)
+    @logged_in.record_last_seen_stream_item(@stream_items.first)
     @logged_in.last_seen_stream_item = was # so the "new" labels show in the view
   end
 end
