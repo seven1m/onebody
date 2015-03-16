@@ -1,6 +1,10 @@
 require_relative '../rails_helper'
 
 describe StreamItemGroupJob do
+  before do
+    allow(StreamItemGroupJob).to receive(:perform_later).and_call_original
+  end
+
   describe '#perform' do
     context 'given 1 Person stream item' do
       let!(:person1) { FactoryGirl.create(:person, first_name: 'Aaron', created_at: 3.minutes.ago) }
