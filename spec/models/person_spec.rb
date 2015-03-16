@@ -443,25 +443,22 @@ describe Person do
   end
 
   describe '#create_as_stream_item' do
-    context 'given no people were created just prior' do
-      let!(:person) { FactoryGirl.create(:person) }
-
-      it 'creates a new stream item' do
-        expect(StreamItem.last.attributes).to include(
-          'title'     => person.name,
-          'person_id' => person.id
-        )
-      end
+    before do
+      allow(StreamItemGroupJob).to receive(:perform_later)
     end
 
-    context 'given two people were created just prior' do
-      let!(:person1) { FactoryGirl.create(:person) }
-      let!(:person2) { FactoryGirl.create(:person) }
-      let!(:person3) { FactoryGirl.create(:person) }
+    let!(:person) { FactoryGirl.create(:person) }
 
-      it 'does not create a third stream item' do
-        expect(StreamItem.count).to eq(2)
-      end
+    it 'creates a new stream item' do
+      expect(StreamItem.last.attributes).to include(
+        'title'     => person.name,
+        'person_id' => person.id
+      )
+    end
+
+    it 'calls StreamItemGroup.perform_later' do
+      expect(StreamItemGroupJob).to \
+        have_received(:perform_later).with(Site.current, StreamItem.last.id)
     end
   end
 

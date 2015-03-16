@@ -6,7 +6,8 @@ class PrintableDirectoriesController < ApplicationController
 
   def create
     PrintableDirectoryJob.perform_later(
-      @logged_in,
+      Site.current,
+      @logged_in.id,
       params[:with_pictures].present?
     )
   end

@@ -9,3 +9,6 @@ DotPosition:
 
 StringLiterals:
   EnforcedStyle: single_quotes
+
+Style/MultilineOperationIndentation:
+  EnforcedStyle: indented

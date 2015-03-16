@@ -4,6 +4,11 @@ class StreamItem < ActiveRecord::Base
   belongs_to :group
   belongs_to :streamable, polymorphic: true
 
+  has_many :items,
+    -> { order(created_at: :desc) },
+    class_name: 'StreamItem',
+    foreign_key: 'stream_item_group_id'
+
   serialize :context, Hash
 
   scope_by_site_id
@@ -14,18 +19,23 @@ class StreamItem < ActiveRecord::Base
 
   def self.shared_with(person)
     order(created_at: :desc)
-    .includes(:person, :group)
-    .where(streamable_type: shared_streamable_types)
-    .where(shared: true)
-    .where("(group_id is not null or streamable_type != 'Message')")
-    .where(
-      "(group_id in (:group_ids) or (group_id is null and person_id in (:friend_ids)) or person_id = :id or streamable_type in ('NewsItem', 'Site', 'Person') or is_public = :true)",
-      group_ids:  person.groups.active.pluck(:id),
-      friend_ids: person.sharing_with_people.pluck(:id),
-      id:         person.id,
-      true:       true
-    )
-    .where("streamable_type != 'Person' or person_id != :id", id: person.id)  
+      .includes(:person, :group)
+      .where(streamable_type: shared_streamable_types)
+      .where(shared: true)
+      .where("(group_id is not null or streamable_type != 'Message')")
+      .where(
+        '(group_id in (:group_ids) or ' \
+        '(group_id is null and person_id in (:friend_ids)) or ' \
+        'person_id = :id or ' \
+        "streamable_type in ('NewsItem', 'Site', 'Person') or " \
+        'is_public = :true)',
+        group_ids:  person.groups.active.pluck(:id),
+        friend_ids: person.sharing_with_people.pluck(:id),
+        id:         person.id,
+        true:       true
+      )
+      .where("streamable_type != 'Person' or person_id != :id", id: person.id)
+      .where(stream_item_group_id: nil)
   end
 
   def self.shared_streamable_types
@@ -38,6 +48,7 @@ class StreamItem < ActiveRecord::Base
       types << 'Person'
       types << 'PrayerRequest'
       types << 'Site'
+      types << 'StreamItemGroup'
     end
   end
 end

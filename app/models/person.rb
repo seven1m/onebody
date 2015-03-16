@@ -21,7 +21,13 @@ class Person < ActiveRecord::Base
 
   acts_as_list scope: :family
 
-  cattr_accessor :logged_in # set in addition to @logged_in (for use by Notifier and other models)
+  def self.logged_in
+    Thread.current[:logged_in]
+  end
+
+  def self.logged_in=(person)
+    Thread.current[:logged_in] = person
+  end
 
   belongs_to :family
   belongs_to :admin
@@ -231,6 +237,12 @@ class Person < ActiveRecord::Base
     self.visible_to_everyone = true
     self.visible_on_printed_directory = true
     self.full_access = true
+  end
+
+  def record_last_seen_stream_item(stream_item)
+    return unless stream_item
+    return if stream_item.id <= last_seen_stream_item_id.to_i
+    update_attribute(:last_seen_stream_item, stream_item)
   end
 
   def self.new_with_default_sharing(attrs)
