@@ -15,4 +15,13 @@ class Document < ActiveRecord::Base
   do_not_validate_attachment_file_type :file
 
   validates_attachment_size :file, less_than: PAPERCLIP_FILE_MAX_SIZE
+
+  def parent_folders
+    return [] if folder.nil?
+    [folder] + folder.parent_folders
+  end
+
+  def hidden?
+    parent_folders.any?(&:hidden?)
+  end
 end

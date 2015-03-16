@@ -61,3 +61,5 @@ en:
     delete_folder:
       confirmation: "Are you sure you want to delete this folder AND EVERYTHING INSIDE IT? There is no undo for this."
       notice: "The folder and all its contents were deleted."
+
+    hidden_name: "(hidden)"

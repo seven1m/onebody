@@ -20,7 +20,7 @@ class DocumentFolder < ActiveRecord::Base
         errors.add(:folder_id, :invalid)
       end
     end
-    if parent_folder_ids.length > 25 # temp until I can figure out how to check length of serialized text is < 1000
+    if YAML.dump(parent_folder_ids).size > 1000
       errors.add(:parent_folder_ids, :too_long)
     end
   end
@@ -28,7 +28,11 @@ class DocumentFolder < ActiveRecord::Base
   serialize :parent_folder_ids, Array
 
   def parent_folders
-    parent_folder_ids.map { |id| DocumentFolder.find(id) }
+    DocumentFolder.find(parent_folder_ids).sort_by { |f| parent_folder_ids.index(f.id) }
+  end
+
+  def hidden_at_all?
+    hidden? || parent_folders.any?(&:hidden?)
   end
 
   def item_count
@@ -49,5 +53,4 @@ class DocumentFolder < ActiveRecord::Base
       self.path = name
     end
   end
-
 end
