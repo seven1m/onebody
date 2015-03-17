@@ -308,7 +308,7 @@ class Notifier < ActionMailer::Base
   def get_site(email)
     # prefer the to address
     (Array(email.cc) + Array(email.to)).each do |address|
-      return Site.current if Site.current = Site.where(host: address.downcase.split('@').last).first
+      return Site.current if (Site.current = Site.where(host: address.downcase.split('@').last).first || Site.where(email_host: address.downcase.split('@').last).first)
     end
     # fallback if to address was rewritten
     # Calvin College in MI is known to rewrite our from/reply-to addresses
