@@ -168,7 +168,7 @@ class Notifier < ActionMailer::Base
     return if email.subject =~ /^undelivered mail returned to sender|^returned mail|^delivery failure/i
     return if email.message_id =~ Message::MESSAGE_ID_RE and m = Message.unscoped { Message.where(id: $1).first } and m.code_hash == $2 # just sent, looping back into the receiver
     return if ProcessedMessage.where(header_message_id: email.message_id).any?
-    return unless get_site(email)
+    return unless Site.current = get_site(email)
 
     destinations = sent_to.map do |address|
       address, domain = address.strip.downcase.split('@')
@@ -306,16 +306,20 @@ class Notifier < ActionMailer::Base
   end
 
   def get_site(email)
-    # prefer the to address
-    (Array(email.cc) + Array(email.to)).each do |address|
-      return Site.current if Site.current = Site.where(host: address.downcase.split('@').last).first
+    # prefer the cc address (for reply-all), then the to address
+    to_addresses = Array(email.cc) + Array(email.to)
+    site = nil
+    to_addresses.each do |address|
+      site = Site.where(host: address.downcase.split('@').last).first ||
+             Site.where(email_host: address.downcase.split('@').last).first
+      return site if site
     end
-    # fallback if to address was rewritten
+    # fallback if address was rewritten
     # Calvin College in MI is known to rewrite our from/reply-to addresses
     # to be the same as the host that made the connection
     if get_body(email).to_s =~ Message::MESSAGE_ID_RE_IN_BODY
-      Site.each do
-        return Site.current if get_in_reply_to_message_and_code(email)
+      Site.each do |site|
+        return site if get_in_reply_to_message_and_code(email)
       end
     end
     nil
