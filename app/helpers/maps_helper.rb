@@ -28,4 +28,26 @@ module MapsHelper
       zoom: Setting.get(:system, :map_zoom_level)
     }
   end
+
+  def directory_map_div
+    content_tag(:div, '', id: 'directory_map', data: directory_map_data)
+  end
+
+  def directory_map_data
+    {
+      notice: t('maps.notice'),
+      protocol: Setting.get(:features, :ssl) ? 'https' : 'http',
+    }
+  end
+
+  def directory_map_header
+    content_for(:header) do
+      content_tag(:section, class: 'content-header') do
+        breadcrumbs +
+          content_tag(:h1) do
+            'Directory Map'
+          end
+      end
+    end
+  end
 end

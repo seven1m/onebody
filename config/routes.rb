@@ -170,6 +170,11 @@ OneBody::Application.routes.draw do
     end
   end
 
+  resources :directory_maps do
+    collection do
+      get :family_locations
+    end
+  end
 
   get 'pages/*path' => 'pages#show_for_public', via: :get, as: :page_for_public
 
