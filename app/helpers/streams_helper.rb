@@ -48,6 +48,8 @@ module StreamsHelper
   end
 
   def new_stream_activity(person)
-    StreamItem.shared_with(person).where('stream_items.id > ?', person.last_seen_stream_item_id.to_i).count('distinct stream_items.id')
+    StreamItem.shared_with(person)
+      .where('stream_items.created_at > ?', person.last_seen_stream_item.try(:created_at) || Time.now)
+      .count('distinct stream_items.id')
   end
 end

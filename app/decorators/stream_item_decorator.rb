@@ -179,7 +179,7 @@ class StreamItemDecorator < Draper::Decorator
   end
 
   def new?
-    id > h.current_user.last_seen_stream_item_id.to_i
+    created_at > h.current_user.last_seen_stream_item.created_at
   end
 
   def new_badge
