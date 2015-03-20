@@ -56,20 +56,18 @@ describe PeopleController, type: :controller do
     expect(@person.updates.count).to eq(1)
   end
 
-  it "should edit favorites and other non-basic person information" do
+  it "should edit testimony and other non-basic person information" do
     post :update,
       {
         id: @person.id,
         person: {
           first_name: @person.first_name, # no change
           testimony: 'testimony',
-          interests: 'interests'
         }
       },
       {logged_in_id: @person.id}
     expect(response).to redirect_to(person_path(@person))
     expect(@person.reload.testimony).to eq("testimony")
-    expect(@person.interests).to eq("interests")
     expect(@person.updates.count).to eq(0)
   end
 

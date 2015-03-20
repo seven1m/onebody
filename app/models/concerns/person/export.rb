@@ -19,13 +19,6 @@ module Concerns
           classes
           shepherd
           mail_group
-          activities
-          interests
-          music
-          tv_shows
-          movies
-          books
-          quotes
           about
           testimony
           share_mobile_phone
