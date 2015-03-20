@@ -59,4 +59,7 @@ module GroupsHelper
     }.invert
   end
 
+  def can_see_group_documents?(group)
+    @logged_in.member_of?(group) || @logged_in.admin?(:manage_documents)
+  end
 end

@@ -1,11 +1,26 @@
 class DocumentFolder < ActiveRecord::Base
+  include Authority::Abilities
+  self.authorizer_name = 'DocumentFolderAuthorizer'
 
   belongs_to :folder, class_name: 'DocumentFolder', foreign_key: :folder_id, touch: true
   has_many :folders, class_name: 'DocumentFolder', foreign_key: :folder_id, dependent: :destroy
   has_many :documents, foreign_key: :folder_id, dependent: :destroy
+  has_many :document_folder_groups, dependent: :destroy
+  has_many :groups, through: :document_folder_groups
 
   scope :top,    -> { where(folder_id: nil) }
   scope :active, -> { where(hidden: false)  }
+  scope :hidden, -> { where(hidden: true)  }
+
+  scope :restricted, -> {
+    joins('left join document_folder_groups dfg on dfg.document_folder_id = document_folders.id')
+      .where('dfg.id is not null')
+  }
+
+  scope :open, -> {
+    joins('left join document_folder_groups dfg on dfg.document_folder_id = document_folders.id')
+      .where('dfg.id is null')
+  }
 
   scope_by_site_id
 
@@ -31,6 +46,18 @@ class DocumentFolder < ActiveRecord::Base
     DocumentFolder.find(parent_folder_ids).sort_by { |f| parent_folder_ids.index(f.id) }
   end
 
+  def all_group_ids
+    (group_ids + parent_folders.flat_map(&:group_ids)).uniq
+  end
+
+  def all_groups
+    Group.where(id: all_group_ids)
+  end
+
+  def restricted?
+    group_ids.any?
+  end
+
   def hidden_at_all?
     hidden? || parent_folders.any?(&:hidden?)
   end
@@ -42,7 +69,7 @@ class DocumentFolder < ActiveRecord::Base
   before_save do
     parents = []
     folder = self
-    while folder = folder.folder
+    while (folder = folder.folder)
       parents << folder
     end
     self.parent_folder_ids = parents.map(&:id)
