@@ -241,7 +241,7 @@ class Person < ActiveRecord::Base
 
   def record_last_seen_stream_item(stream_item)
     return unless stream_item
-    return if stream_item.id <= last_seen_stream_item_id.to_i
+    return if stream_item.created_at <= (last_seen_stream_item.try(:created_at) || Time.now)
     update_attribute(:last_seen_stream_item, stream_item)
   end
 

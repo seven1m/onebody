@@ -179,6 +179,7 @@ class StreamItemDecorator < Draper::Decorator
   end
 
   def new?
+    return false unless h.current_user.last_seen_stream_item
     created_at > h.current_user.last_seen_stream_item.created_at
   end
 
