@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [[ -z "$1" ]]; then
+  RAILS_ENV="development"
+else
+  RAILS_ENV="$1"
+fi
+export RAILS_ENV
+
+bundle exec rake db:create db:migrate db:seed
+[[ "$RAILS_ENV" == "production" ]] && bundle exec assets:precompile
+bundle exec whenever -w

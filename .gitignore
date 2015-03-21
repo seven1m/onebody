@@ -1,6 +1,7 @@
 .bundle
 db/*.sql
 db/*.backup.*
+db/data
 tmp
 .DS_Store
 Gemfile.lock
