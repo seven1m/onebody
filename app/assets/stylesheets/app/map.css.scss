@@ -13,3 +13,13 @@
   background-color: rgba(#fff, 0.8) !important;
   margin-bottom: -80px; // to account for lost vertical space in document flow
 }
+
+#directory_map {
+  .leaflet-control-attribution {
+    font-size: 9px;
+  }
+}
+
+.directory_map {
+  margin-top: 10px;
+}
