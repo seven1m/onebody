@@ -96,7 +96,7 @@ OneBody::Application.routes.draw do
     end
     resource :stream
     resource :photo
-    resources :prayer_requests, :albums, :attachments
+    resources :prayer_requests, :albums
     resource :calendar
   end
 

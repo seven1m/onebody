@@ -1,23 +1,21 @@
 require_relative '../rails_helper'
 
 describe DocumentsController, type: :controller do
-
-  let(:user) { FactoryGirl.create(:person) }
-  let(:file) { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/attachment.pdf'), 'application/pdf', true) }
+  let(:user)      { FactoryGirl.create(:person) }
+  let(:file_path) { Rails.root.join('spec/fixtures/files/attachment.pdf') }
+  let(:file)      { Rack::Test::UploadedFile.new(file_path, 'application/pdf', true) }
 
   before do
     Setting.set(:features, :documents, true)
   end
 
   describe '#index' do
-    before do
-      @top_folder          = FactoryGirl.create(:document_folder)
-      @top_folder_hidden   = FactoryGirl.create(:document_folder, hidden: true)
-      @top_document        = FactoryGirl.create(:document)
-      @child_folder        = FactoryGirl.create(:document_folder, folder_id: @top_folder.id)
-      @child_folder_hidden = FactoryGirl.create(:document_folder, folder_id: @top_folder.id, hidden: true)
-      @child_document      = FactoryGirl.create(:document, folder_id: @top_folder.id)
-    end
+    let!(:top_folder)          { FactoryGirl.create(:document_folder) }
+    let!(:top_folder_hidden)   { FactoryGirl.create(:document_folder, hidden: true) }
+    let!(:top_document)        { FactoryGirl.create(:document) }
+    let!(:child_folder)        { FactoryGirl.create(:document_folder, folder_id: top_folder.id) }
+    let!(:child_folder_hidden) { FactoryGirl.create(:document_folder, folder_id: top_folder.id, hidden: true) }
+    let!(:child_document)      { FactoryGirl.create(:document, folder_id: top_folder.id) }
 
     context 'user is not an admin' do
       context 'at top level' do
@@ -26,33 +24,83 @@ describe DocumentsController, type: :controller do
         end
 
         it 'lists active (not hidden) folders' do
-          expect(assigns[:folders]).to eq([@top_folder])
+          expect(assigns[:folders]).to eq([top_folder])
         end
 
         it 'lists documents' do
-          expect(assigns[:documents]).to eq([@top_document])
+          expect(assigns[:documents]).to eq([top_document])
+        end
+      end
+
+      context 'at top level with a group-only folder' do
+        let!(:group)            { FactoryGirl.create(:group) }
+        let!(:folder_for_group) { FactoryGirl.create(:document_folder, group_ids: [group.id]) }
+
+        context 'user is not a member of the group' do
+          before do
+            get :index, {}, { logged_in_id: user.id }
+          end
+
+          it 'does not list the folder' do
+            expect(assigns[:folders]).to eq([top_folder])
+          end
+        end
+
+        context 'user is a member of the group' do
+          let!(:membership) { group.memberships.create!(person: user) }
+
+          before do
+            get :index, { restricted_folders: 'true' }, { logged_in_id: user.id }
+          end
+
+          it 'lists the folder' do
+            expect(assigns[:folders]).to match_array([top_folder, folder_for_group])
+          end
         end
       end
 
       context 'viewing a folder' do
         before do
-          get :index, { folder_id: @top_folder.id }, { logged_in_id: user.id }
+          get :index, { folder_id: top_folder.id }, { logged_in_id: user.id }
         end
 
         it 'lists active (not hidden) folders' do
-          expect(assigns[:folders]).to eq([@child_folder])
+          expect(assigns[:folders]).to eq([child_folder])
         end
 
         it 'lists documents' do
-          expect(assigns[:documents]).to eq([@child_document])
+          expect(assigns[:documents]).to eq([child_document])
         end
       end
 
       context 'viewing a hidden folder' do
         it 'returns a 404' do
           expect {
-            get :index, { folder_id: @top_folder_hidden.id }, { logged_in_id: user.id }
+            get :index, { folder_id: top_folder_hidden.id }, { logged_in_id: user.id }
           }.to raise_error(ActiveRecord::RecordNotFound)
+        end
+      end
+
+      context 'viewing a folder for a group the user is not a member of' do
+        let!(:group)            { FactoryGirl.create(:group) }
+        let!(:folder_for_group) { FactoryGirl.create(:document_folder, group_ids: [group.id]) }
+
+        it 'returns a 404' do
+          expect {
+            get :index, { folder_id: folder_for_group.id }, { logged_in_id: user.id }
+          }.to raise_error(ActiveRecord::RecordNotFound)
+        end
+      end
+
+      context 'viewing a folder for a group the user is a member of' do
+        let!(:group)            { FactoryGirl.create(:group) }
+        let!(:folder_for_group) { FactoryGirl.create(:document_folder, group_ids: [group.id]) }
+        let!(:membership)       { group.memberships.create!(person: user) }
+
+        it 'returns 200 and shows the template' do
+          get :index, { folder_id: folder_for_group.id }, { logged_in_id: user.id }
+          expect(response.status).to eq(200)
+          expect(response).to render_template(:index)
         end
       end
     end
@@ -65,21 +113,21 @@ describe DocumentsController, type: :controller do
 
       context 'at top level' do
         before do
-          get :index, {}, { logged_in_id: user.id }
+          get :index, { hidden_folders: 'true' }, { logged_in_id: user.id }
         end
 
         it 'lists all folders' do
-          expect(assigns[:folders]).to match_array([@top_folder, @top_folder_hidden])
+          expect(assigns[:folders]).to match_array([top_folder, top_folder_hidden])
         end
       end
 
       context 'viewing a folder' do
         before do
-          get :index, { folder_id: @top_folder.id }, { logged_in_id: user.id }
+          get :index, { folder_id: top_folder.id, hidden_folders: 'true' }, { logged_in_id: user.id }
         end
 
         it 'lists all folders' do
-          expect(assigns[:folders]).to match_array([@child_folder, @child_folder_hidden])
+          expect(assigns[:folders]).to match_array([child_folder, child_folder_hidden])
         end
       end
     end
@@ -113,6 +161,34 @@ describe DocumentsController, type: :controller do
           expect {
             get :show, { id: document.id }, { logged_in_id: user.id }
           }.to raise_error(ActiveRecord::RecordNotFound)
+        end
+      end
+
+      context 'document is in a folder for a group' do
+        let!(:group)            { FactoryGirl.create(:group) }
+        let!(:folder_for_group) { FactoryGirl.create(:document_folder, group_ids: [group.id]) }
+
+        before do
+          document.folder = folder_for_group
+          document.save!
+        end
+
+        context 'user is not a member of the group' do
+          it 'returns a 404' do
+            expect {
+              get :show, { id: document.id }, { logged_in_id: user.id }
+            }.to raise_error(ActiveRecord::RecordNotFound)
+          end
+        end
+
+        context 'user is a member of the group' do
+          let!(:membership) { group.memberships.create!(person: user) }
+
+          it 'returns a 200 and renders the page' do
+            get :show, { id: document.id }, { logged_in_id: user.id }
+            expect(response.status).to eq(200)
+            expect(response).to render_template(:show)
+          end
         end
       end
     end
@@ -178,13 +254,14 @@ describe DocumentsController, type: :controller do
         end
 
         context 'inside a folder' do
+          let(:top_folder) { FactoryGirl.create(:document_folder) }
+
           before do
-            @top_folder = FactoryGirl.create(:document_folder)
-            get :new, { folder: true, folder_id: @top_folder.id }, { logged_in_id: user.id }
+            get :new, { folder: true, folder_id: top_folder.id }, { logged_in_id: user.id }
           end
 
           it 'associates the folder with the parent folder' do
-            expect(assigns[:folder].folder_id).to eq(@top_folder.id)
+            expect(assigns[:folder].folder_id).to eq(top_folder.id)
           end
         end
       end
@@ -205,13 +282,14 @@ describe DocumentsController, type: :controller do
         end
 
         context 'inside a folder' do
+          let(:top_folder) { FactoryGirl.create(:document_folder) }
+
           before do
-            @top_folder = FactoryGirl.create(:document_folder)
-            get :new, { folder_id: @top_folder.id }, { logged_in_id: user.id }
+            get :new, { folder_id: top_folder.id }, { logged_in_id: user.id }
           end
 
           it 'associates the document with the parent folder' do
-            expect(assigns[:document].folder_id).to eq(@top_folder.id)
+            expect(assigns[:document].folder_id).to eq(top_folder.id)
           end
         end
       end
@@ -229,7 +307,12 @@ describe DocumentsController, type: :controller do
         context 'at top level' do
           context 'given proper params' do
             before do
-              post :create, { folder: { name: 'Test Folder', description: 'description of folder' } }, { logged_in_id: user.id }
+              post :create, {
+                folder: {
+                  name: 'Test Folder',
+                  description: 'description of folder'
+                }
+              }, { logged_in_id: user.id }
             end
 
             it 'creates a new folder' do
@@ -262,18 +345,42 @@ describe DocumentsController, type: :controller do
         end
 
         context 'inside a folder' do
-          before do
-            @top_folder = FactoryGirl.create(:document_folder)
-          end
+          let(:top_folder) { FactoryGirl.create(:document_folder) }
 
           context 'given proper params' do
             before do
-              post :create, { folder: { folder_id: @top_folder.id, name: 'Child Folder', description: 'description of folder' } }, { logged_in_id: user.id }
+              post :create, {
+                folder: {
+                  folder_id: top_folder.id,
+                  name: 'Child Folder',
+                  description: 'description of folder'
+                }
+              }, { logged_in_id: user.id }
             end
 
             it 'associates parent folder' do
-              expect(assigns[:folder].folder_id).to eq(@top_folder.id)
+              expect(assigns[:folder].folder_id).to eq(top_folder.id)
             end
+          end
+        end
+
+        context 'given group_ids param' do
+          let(:group) { FactoryGirl.create(:group) }
+
+          before do
+            post :create, {
+              folder: {
+                name: 'Test Folder',
+                description: 'description of folder',
+                group_ids: [group.id]
+              }
+            }, { logged_in_id: user.id }
+            @folder = DocumentFolder.last
+          end
+
+          it 'creates associated DocumentFolderGroup records' do
+            expect(@folder.reload.document_folder_groups.count).to eq(1)
+            expect(@folder.groups.first).to eq(group)
           end
         end
       end
@@ -327,17 +434,21 @@ describe DocumentsController, type: :controller do
         end
 
         context 'inside a folder' do
-          before do
-            @top_folder = FactoryGirl.create(:document_folder)
-          end
+          let(:top_folder) { FactoryGirl.create(:document_folder) }
 
           context 'given proper params' do
             before do
-              post :create, { document: { folder_id: @top_folder.id, name: 'Child Document', description: 'description of document' } }, { logged_in_id: user.id }
+              post :create, {
+                document: {
+                  folder_id: top_folder.id,
+                  name: 'Child Document',
+                  description: 'description of document'
+                }
+              }, { logged_in_id: user.id }
             end
 
             it 'associates parent folder' do
-              expect(assigns[:document].folder_id).to eq(@top_folder.id)
+              expect(assigns[:document].folder_id).to eq(top_folder.id)
             end
           end
         end
@@ -455,6 +566,25 @@ describe DocumentsController, type: :controller do
             expect(response.body).to match(/there were errors/i)
           end
         end
+
+        context 'given group_ids param' do
+          let(:group) { FactoryGirl.create(:group) }
+
+          before do
+            put :update, {
+              id: @folder.id,
+              folder: {
+                name: 'Foo',
+                group_ids: [group.id]
+              }
+            }, { logged_in_id: user.id }
+          end
+
+          it 'creates associated DocumentFolderGroup records' do
+            expect(@folder.reload.document_folder_groups.count).to eq(1)
+            expect(@folder.groups.first).to eq(group)
+          end
+        end
       end
     end
   end
@@ -484,11 +614,11 @@ describe DocumentsController, type: :controller do
       end
 
       context 'folder' do
-        let(:folder) { FactoryGirl.create(:document_folder) }
+        let!(:folder)         { FactoryGirl.create(:document_folder) }
+        let!(:child_folder)   { FactoryGirl.create(:document_folder, folder_id: folder.id) }
+        let!(:child_document) { FactoryGirl.create(:document, folder_id: folder.id) }
 
         before do
-          @child_folder = FactoryGirl.create(:document_folder, folder_id: folder.id)
-          @child_document = FactoryGirl.create(:document, folder_id: folder.id)
           delete :destroy, { id: folder.id, folder: true }, { logged_in_id: user.id }
         end
 
@@ -497,8 +627,8 @@ describe DocumentsController, type: :controller do
         end
 
         it 'deletes all children' do
-          expect { @child_folder.reload   }.to raise_error(ActiveRecord::RecordNotFound)
-          expect { @child_document.reload }.to raise_error(ActiveRecord::RecordNotFound)
+          expect { child_folder.reload   }.to raise_error(ActiveRecord::RecordNotFound)
+          expect { child_document.reload }.to raise_error(ActiveRecord::RecordNotFound)
         end
 
         it 'redirects to the parent folder with a notice' do
@@ -513,7 +643,7 @@ describe DocumentsController, type: :controller do
     let(:document) { FactoryGirl.create(:document) }
 
     before do
-      document.file = Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/attachment.pdf'), 'application/pdf', true)
+      document.file = file
       document.save
     end
 
@@ -546,6 +676,33 @@ describe DocumentsController, type: :controller do
           expect {
             get :download, { id: document.id }, { logged_in_id: user.id }
           }.to raise_error(ActiveRecord::RecordNotFound)
+        end
+      end
+
+      context 'document is in a folder for a group' do
+        let!(:group)            { FactoryGirl.create(:group) }
+        let!(:folder_for_group) { FactoryGirl.create(:document_folder, group_ids: [group.id]) }
+
+        before do
+          document.folder = folder_for_group
+          document.save!
+        end
+
+        context 'user is not a member of the group' do
+          it 'returns a 404' do
+            expect {
+              get :download, { id: document.id }, { logged_in_id: user.id }
+            }.to raise_error(ActiveRecord::RecordNotFound)
+          end
+        end
+
+        context 'user is a member of the group' do
+          let!(:membership) { group.memberships.create!(person: user) }
+
+          it 'returns a 200' do
+            get :download, { id: document.id }, { logged_in_id: user.id }
+            expect(response.status).to eq(200)
+          end
         end
       end
     end

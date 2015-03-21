@@ -17,6 +17,8 @@ class Group < ActiveRecord::Base
   has_many :group_times, dependent: :destroy
   has_many :checkin_times, through: :group_times
   has_many :tasks, -> { order(:position) }
+  has_many :document_folder_groups, dependent: :destroy
+  has_many :document_folders, through: :document_folder_groups
   belongs_to :creator, class_name: 'Person', foreign_key: 'creator_id'
   belongs_to :leader, class_name: 'Person', foreign_key: 'leader_id'
   belongs_to :parents_of_group, class_name: 'Group', foreign_key: 'parents_of'

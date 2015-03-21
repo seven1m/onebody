@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150316002056) do
+ActiveRecord::Schema.define(version: 20150318034613) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -110,6 +110,15 @@ ActiveRecord::Schema.define(version: 20150316002056) do
     t.text    "footer",   limit: 65535
     t.string  "filters",  limit: 255
   end
+
+  create_table "document_folder_groups", force: :cascade do |t|
+    t.integer  "document_folder_id", limit: 4
+    t.integer  "group_id",           limit: 4
+    t.datetime "created_at"
+  end
+
+  add_index "document_folder_groups", ["document_folder_id"], name: "index_document_folder_groups_on_document_folder_id", using: :btree
+  add_index "document_folder_groups", ["group_id"], name: "index_document_folder_groups_on_group_id", using: :btree
 
   create_table "document_folders", force: :cascade do |t|
     t.string   "name",              limit: 255

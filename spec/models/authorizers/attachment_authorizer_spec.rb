@@ -64,42 +64,4 @@ describe AttachmentAuthorizer do
       end
     end
   end
-
-  context 'on a group' do
-    before do
-      @group = FactoryGirl.create(:group)
-      @attachment = @group.attachments.create!
-    end
-
-    context 'user is admin with manage_groups privilege' do
-      before do
-        @user.update_attributes!(admin: Admin.create!(manage_groups: true))
-      end
-
-      it 'should delete attachment' do
-        expect(@user).to be_able_to(:delete, @attachment)
-      end
-    end
-
-    context 'user is group member' do
-      before do
-        @group.memberships.create(person: @user)
-      end
-
-      it 'should not delete attachment' do
-        expect(@user).to_not be_able_to(:delete, @attachment)
-      end
-    end
-
-    context 'user is group admin' do
-      before do
-        @group.memberships.create(person: @user, admin: true)
-      end
-
-      it 'should delete attachment' do
-        expect(@user).to be_able_to(:delete, @attachment)
-      end
-    end
-  end
-
 end

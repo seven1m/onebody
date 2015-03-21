@@ -43,6 +43,18 @@ describe Document do
     end
   end
 
+  describe '#parent_folder_group_ids' do
+    let(:group1) { FactoryGirl.create(:group) }
+    let(:group2) { FactoryGirl.create(:group) }
+    let(:grandfather) { FactoryGirl.create(:document_folder, group_ids: [group1.id]) }
+    let(:father) { FactoryGirl.create(:document_folder, folder_id: grandfather.id, group_ids: [group1.id, group2.id]) }
+    let(:son) { FactoryGirl.create(:document, folder_id: father.id) }
+
+    it 'returns an array of all group ids' do
+      expect(son.parent_folder_group_ids).to match_array([group1.id, group2.id])
+    end
+  end
+
   describe '#hidden?' do
     context 'given a parent folder is hidden' do
       let(:grandfather) { FactoryGirl.create(:document_folder, hidden: true) }

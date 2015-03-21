@@ -1,3 +1,7 @@
 tr.row-with-actions {
   @extend tr.row-with-avatar;
 }
+
+td.icon, th.icon {
+  width: 32px;
+}
