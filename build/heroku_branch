@@ -1,0 +1,47 @@
+#!/usr/bin/env ruby
+
+require 'fileutils'
+
+puts 'Un-ignoring config files'
+ignores = File.read('.gitignore').split(/\n/)
+ignores -= [
+  'config/database.yml',
+  'config/secrets.yml',
+  'config/email.yml',
+  'Gemfile.lock'
+]
+File.open('.gitignore', 'w') do |file|
+  file.write(ignores.join("\n") + "\n")
+end
+
+puts 'Building config/database.yml'
+FileUtils.copy('config/database.yml.heroku-example', 'config/database.yml')
+
+puts 'Building config/secrets.yml'
+secrets = File.read('config/secrets.yml.example')
+secrets.gsub!(/SOMETHING_RANDOM_HERE/, "<%= ENV['SECRET_KEY_BASE'] %>")
+File.open('config/secrets.yml', 'w') do |file|
+  file.write(secrets)
+end
+
+puts 'Building config/email.yml'
+FileUtils.copy('config/email.yml.mailgun-example', 'config/email.yml')
+
+puts 'Building Gemfile.heroku'
+lines = File.read('Gemfile').split(/\n/)
+File.open('Gemfile', 'w') do |gemfile|
+  inside_db_block = false
+  pg_gem = lines.grep(/gem 'pg'/).first
+  lines.each do |line|
+    case line
+    when /BEGIN database selection/
+      inside_db_block = true
+      gemfile.puts(pg_gem.strip)
+    when /END database selection/
+      inside_db_block = false
+    else
+      gemfile.puts(line) unless inside_db_block
+    end
+  end
+end
+puts 'Now run: bundle install'
