@@ -39,6 +39,10 @@ RSpec.configure do |config|
     allow(StreamItemGroupJob).to receive(:perform_later)
   end
 
+  config.after(:each) do
+    Timecop.return
+  end
+
   config.after(:suite) do
     FileUtils.rm_rf(Rails.root.join('public/system/test'))
   end

@@ -1,10 +1,9 @@
-require_relative '../spec_helper'
+require_relative '../rails_helper'
 
 describe CheckinPresenter do
-
   let(:person) { FactoryGirl.create(:person) }
 
-  subject { CheckinPresenter.new('Broken Arrow', person) }
+  subject { CheckinPresenter.new('Main', person) }
 
   before do
     Time.zone = 'America/Chicago'
@@ -12,7 +11,7 @@ describe CheckinPresenter do
 
   describe '#times' do
     context 'given a recurring time in the morning' do
-      let!(:checkin_time) { FactoryGirl.create(:checkin_time, :recurring, time: '9:00 am') }
+      let!(:checkin_time) { FactoryGirl.create(:checkin_time, time: '9:00 am') }
 
       context 'queried in the morning' do
         before do
@@ -48,7 +47,7 @@ describe CheckinPresenter do
     end
 
     context 'given a recurring time at night' do
-      let!(:checkin_time) { FactoryGirl.create(:checkin_time, :recurring, time: '11:30 pm') }
+      let!(:checkin_time) { FactoryGirl.create(:checkin_time, time: '11:30 pm') }
 
       context 'queried in the morning' do
         before do
@@ -79,8 +78,11 @@ describe CheckinPresenter do
           expect(subject.times.to_a).to eq([])
         end
       end
-
     end
   end
 
+  describe '#people' do
+    it 'returns family members'
+    it 'returns other check-in people'
+  end
 end

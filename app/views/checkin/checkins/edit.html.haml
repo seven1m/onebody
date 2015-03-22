@@ -9,7 +9,7 @@
       male:   #{ image_path("man.dark.tn.png").inspect },
       female: #{ image_path("woman.dark.tn.png").inspect }
     };
-    window.checkin = React.renderComponent(
+    window.checkin = React.render(
       Checkin.Main(#{ json_escape(@checkin.to_json) }),
       document.getElementById('checkin-main')
     );

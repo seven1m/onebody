@@ -20,6 +20,17 @@ class CheckinTime < ActiveRecord::Base
     r
   end
 
+  def all_group_times
+    GroupTime
+      .includes(:checkin_folder)
+      .order('coalesce(checkin_folders.sequence, group_times.sequence)')
+      .where(
+        'group_times.checkin_folder_id in (?) or group_times.checkin_time_id = ?',
+        checkin_folder_ids,
+        id
+      )
+  end
+
   validate do
     if weekday
       if time.nil?

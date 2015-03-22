@@ -1,19 +1,107 @@
-{div, ul, li} = React.DOM
+{div, ul, li, h2, h3, a, i, span} = React.DOM
 
-Checkin.ClassSelectList = React.createClass
+Checkin.ClassSelectList = React.createFactory React.createClass
 
   displayName: 'ClassSelectList'
 
+  getInitialState: ->
+    openFolder: null
+
   render: ->
-    if @props.person
-      div(null,
-        @renderSameButton(),
-        ul(null, li(null, 'test')))
-    else
-      div()
+    div
+      className: 'checkin-person'
+      @renderSameButton()
+      for time in @props.times
+        selection = @props.selections[time.id]
+        div
+          className: React.addons.classSet
+            'box checkin-destinations checkin-time': true
+            'selection-made': selection
+          div
+            className: 'box-header'
+            h2
+              className: 'box-title'
+              time.time
+              ' '
+              if selection
+                div
+                  className: 'checkin-selection-header'
+                  i
+                    className: 'fa fa-check'
+                  ' '
+                  selection.group.name
+              else if selection == false
+                div
+                  className: 'checkin-not-attending-header'
+                  "<%= I18n.t('checkin.interface.not_attending') %>"
+            div
+              className: 'pull-right'
+              @renderTimeControls(time, selection)
+          div
+            className: 'box-body'
+            style:
+              display: if selection or selection == false then 'none'
+            for section, group_times of time.sections
+              div {},
+                if section != ''
+                  h3 {},
+                    div
+                      className: React.addons.classSet
+                        'checkin-open-section clickable': true
+                        'expanded': @state.openFolder == section
+                      onClick: _(@handleFolderClick).partial(section)
+                      i
+                        className: 'checkin-folder fa-fw'
+                      ' '
+                      section
+                ul
+                  className: React.addons.classSet
+                    'class-list': true
+                    'collapsed indented': section != '' and @state.openFolder != section
+                  for group_time in group_times
+                    li {},
+                      div
+                        className: 'checkin-select-class clickable'
+                        onClick: _(@props.onSelect).partial(time, group_time)
+                        i
+                          className: 'fa fa-users fa-fw'
+                        span
+                          className: 'name'
+                          group_time.group?.name
 
   renderSameButton: ->
     if @props.person.can_choose_same
-      div(className: 'btn',
-        "<%= I18n.t('checkin.interface.same_as_last_week.button') %>")
+      div
+        className: 'btn'
+        "<%= I18n.t('checkin.interface.same_as_last_week.button') %>"
 
+  renderTimeControls: (time, selection) ->
+    if selection
+      span
+        className: 'clickable checkin-change'
+        onClick: _(@handleChangeClick).partial(time, null)
+        div
+          className: 'icon'
+        ' change'
+    else if selection == false
+      span
+        className: 'clickable checkin-open'
+        onClick: _(@handleChangeClick).partial(time, null)
+        div
+          className: 'icon'
+    else
+      span
+        className: 'clickable checkin-close'
+        onClick: _(@handleChangeClick).partial(time, false)
+        div
+          className: 'icon'
+
+  handleChangeClick: (time, selection = null) ->
+    @setState(openFolder: null)
+    @props.onSelect(time, selection)
+
+  handleFolderClick: (section) ->
+    if @state.openFolder == section
+      @setState(openFolder: null)
+    else
+      @setState(openFolder: section)

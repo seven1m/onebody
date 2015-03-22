@@ -68,6 +68,7 @@ class Administration::Checkin::GroupsController < ApplicationController
   def create_group
     @added = Array(params[:ids]).map do |id|
       group = Group.find(id)
+      group.update_attribute(:attendance, true)
       opts = if params[:checkin_folder_id].present?
         { checkin_folder_id: params[:checkin_folder_id] }
       else
@@ -75,7 +76,6 @@ class Administration::Checkin::GroupsController < ApplicationController
       end
       # NOTE cannot use first_or_create here due to https://github.com/rails/rails/issues/16668
       group.group_times.create(opts) unless group.group_times.where(opts).any?
-      group.update_attribute(:attendance, true)
     end.compact
   end
 

@@ -1,3 +1,10 @@
+body.checkin {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 .checkin {
   .subsection th {
     text-align: left;
@@ -345,3 +352,5 @@ a:active, *:focus { outline: none; -moz-outline-style: none; }
   @extend .callout;
   @extend .callout-info;
 }
+
+

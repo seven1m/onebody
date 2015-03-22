@@ -23,6 +23,7 @@ module OneBody
       #{config.root}/app/concerns
       #{config.root}/app/authorizers
       #{config.root}/app/presenters
+      #{config.root}/app/decorators
     )
 
     # Cache store location

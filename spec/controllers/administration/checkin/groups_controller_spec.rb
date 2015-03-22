@@ -1,13 +1,13 @@
-require_relative '../../../spec_helper'
+require_relative '../../../rails_helper'
 
-describe Administration::Checkin::GroupsController do
+describe Administration::Checkin::GroupsController, type: :controller do
 
   before(:all) { Setting.set(:features, :checkin, true) }
   after(:all)  { Setting.set(:features, :checkin, false) }
 
   context '#create' do
     let(:user)   { FactoryGirl.create(:person, :admin_manage_checkin) }
-    let(:time)   { FactoryGirl.create(:checkin_time, :recurring) }
+    let(:time)   { FactoryGirl.create(:checkin_time) }
     let(:folder) { FactoryGirl.create(:checkin_folder) }
     let(:group)  { FactoryGirl.create(:group) }
 

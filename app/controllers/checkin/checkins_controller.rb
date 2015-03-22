@@ -2,12 +2,6 @@ class Checkin::CheckinsController < ApplicationController
 
   skip_before_filter :authenticate_user
   before_filter :ensure_campus_selection
-  before_filter -> {
-    Timecop.freeze(Time.local(2014, 6, 29, 9, 00)) # TEMP for testing the UI
-  }
-  after_filter -> {
-    Timecop.return
-  }
 
   layout 'checkin'
 
@@ -40,9 +34,8 @@ class Checkin::CheckinsController < ApplicationController
   def update
     labels = {}
     params[:people].each do |person_id, times|
-      person = Person.find(person_id)
-      records = AttendanceRecord.check_in(person, times, session[:barcode])
-      labels[person.id] = AttendanceRecord.labels_for(records)
+      records = AttendanceRecord.check_in(person_id, times, session[:barcode])
+      labels[person_id] = AttendanceRecord.labels_for(records)
     end
     render json: {
       labels: labels,

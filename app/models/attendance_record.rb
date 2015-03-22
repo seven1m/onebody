@@ -59,19 +59,27 @@ class AttendanceRecord < ActiveRecord::Base
     )
   end
 
-  def self.check_in(person, times, barcode_id)
-    times.map do |checkin_time_id, group_time_id|
+  def self.check_in(person_id, times, barcode_id)
+    if person_id.to_s =~ /\A\d+\z/
+      person = Person.find(person_id)
+    else
+      (first_name, last_name) = person_id.split(nil, 2)
+      person = OpenStruct.new(first_name: first_name, last_name: last_name)
+    end
+    times.map do |checkin_time_id, group_time_hash|
       checkin_time = CheckinTime.find(checkin_time_id)
       attended_at = checkin_time.to_time
-      where(person_id: person.id, attended_at: attended_at).delete_all
-      if group_time_id
-        group_time = GroupTime.find(group_time_id)
+      if person.id
+        where(person_id: person.id, attended_at: attended_at.strftime('%Y-%m-%d %H:%M:%S')).delete_all
+      end
+      if group_time_hash && group_time_hash['id']
+        group_time = GroupTime.find(group_time_hash['id'])
         group_time.group.attendance_records.create!(
           person_id:           person.id,
           attended_at:         attended_at,
           first_name:          person.first_name,
           last_name:           person.last_name,
-          family_name:         person.family.name,
+          family_name:         person.family.try(:name),
           age:                 person.age_group,
           can_pick_up:         person.can_pick_up,
           cannot_pick_up:      person.cannot_pick_up,
@@ -81,15 +89,6 @@ class AttendanceRecord < ActiveRecord::Base
           print_extra_nametag: group_time.print_extra_nametag?,
           barcode_id:          barcode_id
         )
-        ## record attendance for a person not in database (one at a time)
-        #if person = params[:person] and @group
-          #@group.attendance_records.create!(
-            #attended_at:    @attended_at.strftime('%Y-%m-%d %H:%M:%S'),
-            #first_name:     person['first_name'],
-            #last_name:      person['last_name'],
-            #age:            person['age']
-          #)
-        #end
       end
     end
   end

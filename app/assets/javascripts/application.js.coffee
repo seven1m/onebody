@@ -9,7 +9,7 @@
 #= require spin
 #= require leaflet
 #= require leaflet.markercluster
-#= require_tree ./app
+#= require_directory ./app
 
 $('[data-toggle^="#"], [data-toggle^="."]').each (i, elm) ->
   elm = $(elm)
