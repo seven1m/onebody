@@ -28,7 +28,7 @@ nl-NL:
     only_first_records_will_be_imported_html: "Alleen de eerste %{count} regels worden geïmporteerd. Indien het bestand groter is kun je het opsplitsen in meerdere bestanden. Voor grotere batch uploads kun je de <a href=\"http://wiki.github.com/churchio/onebody/updateagent\">UpdateAgent</a> gebruiken."
     people: "Personen importen"
     record: Regel
-    record_updated: "Record updated."
+    record_updated: "Regels geupdate."
     records: Regels
     select_csv_file: "Selecteer een CSV (Comma Separated Values) bestand om te impoteren. De namen van de kolommen dienen in de eerste regel te staan. "
     the_changes_will_be_made: "De volgende wijzigingen zijn gevonden. Alleen de regels die zijn geselecteerd worden geupdate."

@@ -1,34 +1,35 @@
 class MembershipsController < ApplicationController
+  skip_before_action :authenticate_user, only: %w(show update)
+  before_action :authenticate_user_with_code_or_session, only: %w(show update)
 
-  skip_before_filter :authenticate_user, only: %w(show update)
-  before_filter :authenticate_user_with_code_or_session, only: %w(show update)
+  load_parent :group
+
+  before_action :authorize_group_for_read,   only: :index
+  before_action :authorize_group_for_update, only: :batch
 
   def show
     # allow email links to work (since they will be GET requests)
     if params[:email]
       update
     else
-      raise ActionController::UnknownAction, t('No_action_to_show')
+      fail ActionController::UnknownAction, t('No_action_to_show')
     end
   end
 
   def index
-    @group = Group.find(params[:group_id])
     @memberships = @group.memberships.includes(:person).paginate(page: params[:page], per_page: 100)
-    @memberships = @memberships.order(params[:birthdays] ? "ifnull(month(people.birthday),99)" : "people.first_name, people.last_name")
-    @can_edit = @logged_in.can_edit?(@group)
-    if @logged_in.can_see?(@group)
-      @requests = @group.membership_requests
+    if params[:birthdays]
+      @memberships = @memberships.order_by_birthday
     else
-      render text: t('not_authorized'), layout: true, status: 401
+      @memberships = @memberships.order_by_name
     end
+    @requests = @group.membership_requests
   end
 
   # join group
   def create
-    @group = Group.find(params[:group_id])
     @person = Person.find(params[:id])
-    if @logged_in.can_edit?(@group) or not @group.approval_required_to_join?
+    if @logged_in.can_create?(@group.memberships.new)
       @group.memberships.create(person: @person)
     elsif me?
       @group.membership_requests.create(person: @person)
@@ -38,40 +39,44 @@ class MembershipsController < ApplicationController
   end
 
   def update
-    @group = Group.find(params[:group_id])
-    # email on/off
     if params[:email]
-      @person = Person.find(params[:id])
-      if @logged_in.can_edit?(@group) or @logged_in.can_edit?(@person)
-        @get_email = params[:email] == 'on'
-        @group.set_options_for @person, {get_email: @get_email}
-        respond_to do |format|
-          format.html do
-            flash[:notice] = t('groups.email_settings_changed')
-            redirect_to :back
-          end
-          format.js
-        end
-      else
-        render text: t('There_was_an_error'), layout: true, status: 500
-      end
-    # promote/demote
-    elsif @logged_in.can_edit?(@group)
-      @membership = @group.memberships.find(params[:id])
-      @membership.update_attribute :admin, params[:promote] == 'true'
-      flash[:notice] = t('groups.user_settings_saved')
-      redirect_to :back
+      update_email
+    elsif params[:promote] && @logged_in.can_update?(@group)
+      update_admin
     else
       render text: t('not_authorized'), layout: true, status: 401
     end
   end
 
+  def update_email
+    @person = Person.find(params[:id])
+    if can_update_email?
+      @get_email = params[:email] == 'on'
+      @group.set_options_for @person, get_email: @get_email
+      respond_to do |format|
+        format.html do
+          flash[:notice] = t('groups.email_settings_changed')
+          redirect_to :back
+        end
+        format.js
+      end
+    else
+      render text: t('not_authorized'), layout: true, status: 401
+    end
+  end
+
+  def update_admin
+    @membership = @group.memberships.find(params[:id])
+    @membership.update_attribute(:admin, params[:promote] == 'true')
+    flash[:notice] = t('groups.user_settings_saved')
+    redirect_to :back
+  end
+
   # leave group
   def destroy
-    @group = Group.find(params[:group_id])
-    @membership = @group.memberships.where(person_id: params[:id]).first
-    if @logged_in.can_edit?(@group) or @membership.try(:person) == @logged_in
-      if @membership.person and @group.last_admin?(@membership.person)
+    @membership = @group.memberships.where(person_id: params[:id]).first!
+    if @logged_in.can_delete?(@membership)
+      if @membership.only_admin?
         flash[:warning] = t('groups.last_admin_remove', name: @membership.person.name)
       else
         @membership.destroy
@@ -84,64 +89,35 @@ class MembershipsController < ApplicationController
   end
 
   def batch
-    if params[:person_id]
-      batch_on_person
-    else
-      batch_on_group
+    batch = MembershipBatch.new(@group, params[:ids])
+    if request.post?
+      batch.delete_requests
+      @added = batch.create unless params[:commit] == 'ignore'
+    elsif request.delete?
+      batch.delete
+    end
+    @added ||= []
+    respond_to do |format|
+      format.js
+      format.html { redirect_to :back }
     end
   end
 
-  def batch_on_person
-    @person = Person.find(params[:person_id])
-    if @logged_in.can_edit?(@person) and @logged_in.admin?(:manage_groups)
-      groups = (params[:ids] || []).map { |id| Group.find(id) }
-      # add groups
-      (groups - @person.groups).each do |group|
-        group.memberships.create(person: @person)
-      end
-      # remove groups
-      (@person.groups - groups).each do |group|
-        group.memberships.where(person_id: @person.id).first.destroy unless group.last_admin?(@person)
-      end
-      @person.groups.reload
-      respond_to do |format|
-        format.js
-      end
-    else
-      render text: t('not_authorized'), layout: true, status: 401
-    end
+  private
+
+  def can_update_email?
+    @logged_in.can_update?(@group) || @logged_in.can_update?(@person)
   end
 
-  def batch_on_group
-    @group = Group.find(params[:group_id])
-    group_people = @group.people
-    if @logged_in.can_edit?(@group)
-      @can_edit = true
-      if params[:ids] and params[:ids].is_a?(Array)
-        @added = []
-        params[:ids].each do |id|
-          if request.post?
-            person = Person.find(id)
-            unless params[:commit] == 'Ignore' or group_people.include?(person)
-              @added << @group.memberships.create(person: person)
-            end
-            @group.membership_requests.where(person_id: id).each(&:destroy)
-          elsif request.delete?
-            if @membership = @group.memberships.where(person_id: id).first
-              @membership.destroy unless @group.last_admin?(@membership.person)
-            end
-          end
-        end
-        respond_to do |format|
-          format.js
-          format.html { redirect_to :back }
-        end
-      else
-        redirect_to :back
-      end
-    else
-      render text: t('not_authorized'), layout: true, status: 401
-    end
+  def authorize_group_for_read
+    return if @logged_in.can_read?(@group)
+    render text: t('not_authorized'), layout: true, status: :unauthorized
+    false
   end
 
+  def authorize_group_for_update
+    return if @logged_in.can_update?(@group)
+    render text: t('not_authorized'), layout: true, status: :unauthorized
+    false
+  end
 end

@@ -5,25 +5,24 @@ class FriendshipRequest < ActiveRecord::Base
 
   scope_by_site_id
 
-  validates_presence_of :person_id
-  validates_presence_of :from_id
-  validates_uniqueness_of :person_id, scope: [:site_id, :from_id]
+  validates :person, presence: true, uniqueness: { scope: [:site_id, :from_id] }
+  validates :from, presence: true
 
   validate :validate_email_on_target
 
   def validate_email_on_target
-    errors.add(:person, :invalid_address) unless person.valid_email?
+    errors.add(:person, :invalid_address) unless person && person.email.present?
   end
 
   validate :validate_friends_enabled_on_target
 
   def validate_friends_enabled_on_target
-    errors.add(:person, :refused) unless person.friends_enabled
+    errors.add(:person, :refused) unless person && person.friends_enabled
   end
 
   after_create :send_request
   def send_request
-    Notifier.friend_request(from, person).deliver
+    Notifier.friend_request(from, person).deliver_now
   end
 
   def accept

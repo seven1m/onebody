@@ -1,6 +1,6 @@
-require_relative '../spec_helper'
+require_relative '../rails_helper'
 
-describe 'Routes' do
+describe 'Routes', type: :routing do
 
   it "should route to news" do
     assert_routing '/news', controller: 'news', action: 'index'

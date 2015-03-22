@@ -38,16 +38,6 @@ class Message < ActiveRecord::Base
     end
   end
 
-  def name
-    if self.to
-      "Private Message to #{to.name rescue '[deleted]'}"
-    elsif parent
-      "Reply to \"#{parent.subject}\" in Group #{top.group.name rescue '[deleted]'}"
-    else
-      "Message \"#{subject}\" in Group #{group.name rescue '[deleted]'}"
-    end
-  end
-
   def top
     top = self
     while top.parent
@@ -90,10 +80,14 @@ class Message < ActiveRecord::Base
 
   attr_accessor :dont_send
 
-  after_create :send_message
+  after_create :enqueue_send
+
+  def enqueue_send
+    return if dont_send
+    MessageSendJob.perform_later(Site.current, id)
+  end
 
   def send_message
-    return if dont_send
     if group
       send_to_group
     elsif to
@@ -102,11 +96,11 @@ class Message < ActiveRecord::Base
   end
 
   def send_to_person(person)
-    if person.email.to_s.any?
+    if person.email.present?
       email = Notifier.full_message(person, self, id_and_code)
       email.add_message_id
       email.message_id = "<#{id_and_code}_#{email.message_id.gsub(/^</, '')}"
-      email.deliver
+      email.deliver_now
     end
   end
 
@@ -128,58 +122,49 @@ class Message < ActiveRecord::Base
   end
 
   def id_and_code
-    "#{self.id.to_s}_#{Digest::MD5.hexdigest(code.to_s)[0..5]}"
-  end
-
-  # TODO remove
-  def introduction(to_person)
-    ''
+    "#{id}_#{Digest::MD5.hexdigest(code.to_s)[0..5]}"
   end
 
   def reply_url
     if group
-      "#{Setting.get(:url, :site)}messages/view/#{self.id.to_s}"
+      "#{Setting.get(:url, :site)}messages/#{id}"
     else
-      reply_subject = self.subject
+      reply_subject = subject
       reply_subject = "RE: #{subject}" unless reply_subject =~ /^re:/i
-      "#{Setting.get(:url, :site)}messages/send_email/#{self.person.id}?subject=#{URI.escape(reply_subject)}"
+      "#{Setting.get(:url, :site)}messages/new?to_person_id=#{person.id}?subject=#{URI.escape(reply_subject)}"
     end
   end
 
   def reply_instructions(to_person)
-    msg = ''
-    if to
-      msg << "Hit \"Reply\" to send a message to #{self.person.name rescue 'the sender'} only.\n"
-    elsif group
-      msg << "Hit \"Reply\" to send a message to #{self.person.name rescue 'the sender'} only.\n"
-      if group.can_post? to_person
-        if group.address.to_s.any?
-          msg << "Hit \"Reply to All\" to send a message to the group, or send to: #{group.address + '@' + Site.current.email_host}\n"
-          msg << "Group page: #{Setting.get(:url, :site)}groups/#{group.id}\n"
+    msg = []
+    if to || group
+      msg << I18n.t('messages.email.reply_to_sender', person: person.try(:name))
+    end
+    if group
+      if group.can_post?(to_person)
+        if group.address.present?
+          msg << I18n.t('messages.email.reply_to_group', group: group.try(:name), address: group.try(:full_address))
         else
-          msg << "To reply: #{reply_url}\n"
+          msg << I18n.t('messages.email.reply_link', url: reply_url)
         end
       end
+      msg << I18n.t('messages.email.group_link', url: "#{Setting.get(:url, :site)}groups/#{group.id}")
     end
-    msg
+    msg.join("\n") + "\n"
   end
 
   def disable_email_instructions(to_person)
-    msg = ''
+    msg = []
     if group
-      msg << "To stop email from this group: "
-      if new_record?
-        msg << '-link to turn off email-'
-      else
-        msg << disable_group_email_link(to_person)
-      end
+      msg << I18n.t('messages.email.disable_group_email', url: disable_group_email_link(to_person))
     else
-      msg << "To stop these emails, go to your privacy page:\n#{Setting.get(:url, :site)}privacy"
+      msg << I18n.t('messages.email.disable_all_email', url: "#{Setting.get(:url, :site)}privacy")
     end
-    msg + "\n"
+    msg.join("\n") + "\n"
   end
 
   def disable_group_email_link(to_person)
+    return if new_record?
     "#{Setting.get(:url, :site)}groups/#{group.id}/memberships/#{to_person.id}?code=#{to_person.feed_code}&email=off"
   end
 
@@ -193,7 +178,7 @@ class Message < ActiveRecord::Base
 
   def email_reply_to(to_person)
     if not to_person.messages_enabled?
-      "\"DO NOT REPLY\" <#{Site.current.noreply_email}>"
+      "\"#{I18n.t('messages.do_not_reply')}\" <#{Site.current.noreply_email}>"
     else
       from_address(person.name, :real)
     end
@@ -203,7 +188,7 @@ class Message < ActiveRecord::Base
     if person.email.present?
       %("#{name.gsub(/"/, '')}" <#{real ? person.email : Site.current.noreply_email}>)
     else
-      "\"DO NOT REPLY\" <#{Site.current.noreply_email}>"
+      "\"#{I18n.t('messages.do_not_reply')}\" <#{Site.current.noreply_email}>"
     end
   end
 
@@ -230,8 +215,8 @@ class Message < ActiveRecord::Base
     return unless streamable?
     StreamItem.create!(
       title:           subject,
-      body:            html_body.to_s.any? ? html_body : body,
-      text:            !html_body.to_s.any?,
+      body:            html_body.present? ? html_body : body,
+      text:            !html_body.present?,
       person_id:       person_id,
       group_id:        group_id,
       streamable_type: 'Message',
@@ -247,7 +232,7 @@ class Message < ActiveRecord::Base
     return unless streamable?
     StreamItem.where(streamable_type: "Message", streamable_id: id).each do |stream_item|
       stream_item.title = subject
-      if html_body.to_s.any?
+      if html_body.present?
         stream_item.body = html_body
         stream_item.text = false
       else
@@ -284,22 +269,8 @@ class Message < ActiveRecord::Base
         end
       end
       message.dont_send = false
-      message.send_message
+      message.enqueue_send
     end
     message
-  end
-
-  def self.daily_counts(limit, offset, date_strftime='%Y-%m-%d', only_show_date_for=nil)
-    [].tap do |data|
-      private_counts = connection.select_all("select count(date(created_at)) as count, date(created_at) as date from messages where to_person_id is not null and site_id=#{Site.current.id} group by date(created_at) order by created_at desc limit #{limit.to_i} offset #{offset.to_i};").group_by { |p| Date.parse(p['date'].strftime('%Y-%m-%d')) }
-      group_counts   = connection.select_all("select count(date(created_at)) as count, date(created_at) as date from messages where group_id     is not null and site_id=#{Site.current.id} group by date(created_at) order by created_at desc limit #{limit.to_i} offset #{offset.to_i};").group_by { |p| Date.parse(p['date'].strftime('%Y-%m-%d')) }
-      ((Date.today-offset-limit+1)..(Date.today-offset)).each do |date|
-        d = date.strftime(date_strftime)
-        d = ' ' if only_show_date_for and date.strftime(only_show_date_for[0]) != only_show_date_for[1]
-        private_count = private_counts[date] ? private_counts[date][0]['count'].to_i : 0
-        group_count   = group_counts[date]   ? group_counts[date][0]['count'].to_i   : 0
-        data << [d, private_count, group_count]
-      end
-    end
   end
 end

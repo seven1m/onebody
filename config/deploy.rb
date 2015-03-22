@@ -1,4 +1,4 @@
-lock '3.2.1'
+lock '3.3.5'
 
 set :application, 'onebody'
 set :repo_url, 'git://github.com/churchio/onebody.git'
@@ -7,6 +7,8 @@ set :deploy_to, '/var/www/apps/onebody'
 set :linked_files, %w{config/database.yml config/email.yml config/secrets.yml config/newrelic.yml}
 
 set :linked_dirs, %w{log tmp public/system}
+
+set :bundle_flags, '--quiet' # without --deployment, since we have no Gemfile.lock
 
 namespace :deploy do
 

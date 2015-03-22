@@ -26,6 +26,7 @@ class BreadcrumbPresenter
     admin_crumb
     document_crumb
     task_crumb
+    reports_crumb
   end
 
   private
@@ -176,6 +177,13 @@ class BreadcrumbPresenter
   def task_crumb
     if @controller == 'tasks' and group
       crumbs << ['fa fa-check-square', t('nav.tasks'), group_tasks_path(group)] unless @action == 'index'
+    end
+  end
+
+  def reports_crumb
+    if @controller == 'dossier/reports' or @controller == 'custom_reports'
+      crumbs << ['fa fa-gear', t('nav.admin'), admin_path]
+      crumbs << ['fa fa-table', t('nav.report'), admin_reports_path]
     end
   end
 

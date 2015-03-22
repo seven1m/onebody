@@ -1,10 +1,6 @@
 module StreamsHelper
   include MessagesHelper
 
-  def stream_item_path(stream_item)
-    send(stream_item.streamable_type.underscore + '_path', stream_item.streamable_id)
-  end
-
   def stream_item_url(stream_item)
     if stream_item.streamable_type == 'Site'
       root_url
@@ -13,6 +9,7 @@ module StreamsHelper
     end
   end
 
+  # TODO: remove this, but fix show.xml.builder first
   def stream_item_content(stream_item, use_code=false)
     if stream_item.body
       content = if stream_item.streamable_type == 'Message'
@@ -39,17 +36,9 @@ module StreamsHelper
     content.try(:html_safe)
   end
 
-  def recent_time_ago_in_words(time)
-    if time >= 1.day.ago
-      time_ago_in_words(time) + ' ' + t('stream.ago')
-    else
-      time.to_s
-    end
-  end
-
-  NEW_ACTIVITY_AGE = 1.day
-
   def new_stream_activity(person)
-    StreamItem.shared_with(person).where('stream_items.created_at >= ?', NEW_ACTIVITY_AGE.ago).count('distinct stream_items.id')
+    StreamItem.shared_with(person)
+      .where('stream_items.created_at > ?', person.last_seen_stream_item.try(:created_at) || Time.now)
+      .count('distinct stream_items.id')
   end
 end

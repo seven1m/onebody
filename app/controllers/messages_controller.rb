@@ -15,7 +15,7 @@ class MessagesController < ApplicationController
     if @group
       @message = @group.messages.new
     elsif params[:to_person_id] and @person = Person.find(params[:to_person_id])
-      @message = Message.new(to_person_id: @person.id)
+      @message = Message.new(to_person_id: @person.id, subject: params[:subject])
     elsif params[:parent_id] and @parent = Message.find(params[:parent_id])
       @message = Message.new(parent: @parent, group_id: @parent.group_id, subject: "Re: #{@parent.subject}")
     end
@@ -52,7 +52,7 @@ class MessagesController < ApplicationController
 
   def create_private_message
     @person = Person.find(params[:message][:to_person_id])
-    if @person.email and @logged_in.can_see?(@person)
+    if @person.email and @logged_in.can_read?(@person)
       if send_message
         unless @preview
           render text: t('messages.sent'), layout: true
@@ -79,7 +79,7 @@ class MessagesController < ApplicationController
 
   def send_message
     attributes = message_params.merge(person: @logged_in)
-    if attributes[:parent_id].present? and not @logged_in.can_see?(Message.find(attributes[:parent_id]))
+    if attributes[:parent_id].present? and not @logged_in.can_read?(Message.find(attributes[:parent_id]))
       render text: 'unauthorized', status: :unauthorized
       return
     end

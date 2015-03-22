@@ -40,6 +40,10 @@ en:
 
     dashboard:
       heading: "Admin Dashboard"
+      sub_title: "OneBody %{version}"
+      version_alert:
+        intro_html: "A newer version of OneBody is available: <a href='%{url}'>%{version}</a>"
+        download_button: "How to Upgrade"
 
     deleted_people:
       tabs:
@@ -65,6 +69,15 @@ en:
       count:
         one: "%{count} request"
         other: "%{count} requests"
+
+    report:
+      back: "Back to Report Dash"
+      button: "Reporting Dashboard"
+      heading: "Reporting"
+      intro:  "Access the Reporting Dashboard for pre-defined reports and ad-hoc reporting tools."
+      launch: "Launch"
+      list: "Reports"
+      title: "Reporting Dashboard"
 
     active: active
     admin_added: "%{name} added."
@@ -158,10 +171,6 @@ en:
         title: Manage News
         about: "View, edit, delete all news."
         order: 9
-      manage_notes:
-        title: Manage Notes
-        about: "Edit and delete any notes."
-        order: 10
       manage_pictures:
         title: Manage Pictures
         about: "View, edit, delete any pictures and albums."
@@ -193,6 +202,14 @@ en:
       manage_documents:
         title: Manage Documents
         about: "Add, edit and delete documents."
+      run_reports:
+        title: Run Reports
+        about: "Access the Reporting Dashboard."
+        order: 18
+      manage_reports:
+        title: Manage Reports
+        about: "Create, Edit and Delete Custom Reports."
+        order: 19
     rest_api_information: To use the REST API with Ruby, you might do this
     settings:
       heading: "Site Settings"
@@ -221,6 +238,9 @@ en:
         Send Updates To:
           name: Send Updates To
           description: Email sent when someone updates their profile (can be blank for no email)
+        Send Attendance Submissions To:
+          name: Send Attendance Submissions To
+          description: Email sent when someone submits attendance for a group
       Services:
         Yahoo:
           name: Yahoo
@@ -258,6 +278,9 @@ en:
         Default Country:
           name: Default Country
           description: Select the default country for new family records.
+        Map Zoom Level:
+          name: Map Zoom Level
+          description: Select the zoom level to use on the maps displayed on the site.
       Appearance:
         Public Theme:
           name: Public Theme
@@ -369,6 +392,9 @@ en:
         Documents:
           name: "Documents"
           description: "If enabled, admins can upload files in a general area where users can browse and download them."
+        Business Directory:
+          name: "Business Directory"
+          description: If enabled, users can add business information to be listed in a church business directory.
         Small Group Size:
           name: 'Max size of a "small group"'
           description: 'People in groups with this many members or fewer are considered in a "small group" together, and can easily share content with one another via the homepage.'
@@ -430,7 +456,7 @@ en:
       enabled: Enabled
       features_heading: Features
       formats_heading: Formats
-      formats_date_about_html: "Enter your own date and time formats to match your part of the world. See <a href=\"/date_formatting_options.txt\" target=\"_new\">here</a> for formatting options."
+      formats_date_about_html: "Enter your own date and time formats to match your part of the world. See <a href=\"https://www.manystrands.com/wp-content/uploads/2013/01/strftime-cheat-sheet.pdf\" target=\"_new\">here</a> for formatting options."
       formats_phone_about: "Specify phone formatting with 'd', e.g. ddd-ddd-dddd or (dd) dddd-dddd, depending on your locale."
       locale_heading: Locale
       mailgun: Create Catch All Route on Mailgun

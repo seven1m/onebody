@@ -1,8 +1,6 @@
-require_relative '../spec_helper'
+require_relative '../rails_helper'
 
-GLOBAL_SUPER_ADMIN_EMAIL = 'support@example.com' unless defined?(GLOBAL_SUPER_ADMIN_EMAIL) and GLOBAL_SUPER_ADMIN_EMAIL == 'support@example.com'
-
-describe PeopleController do
+describe PeopleController, type: :controller do
   render_views
 
   before do
@@ -58,20 +56,18 @@ describe PeopleController do
     expect(@person.updates.count).to eq(1)
   end
 
-  it "should edit favorites and other non-basic person information" do
+  it "should edit testimony and other non-basic person information" do
     post :update,
       {
         id: @person.id,
         person: {
           first_name: @person.first_name, # no change
           testimony: 'testimony',
-          interests: 'interests'
         }
       },
       {logged_in_id: @person.id}
     expect(response).to redirect_to(person_path(@person))
     expect(@person.reload.testimony).to eq("testimony")
-    expect(@person.interests).to eq("interests")
     expect(@person.updates.count).to eq(0)
   end
 
@@ -131,19 +127,18 @@ describe PeopleController do
     expect(response).to be_success
   end
 
-  it "should not allow deletion of a global super admin" do
-     @super_admin = FactoryGirl.create(:person, admin: Admin.create(super_admin: true))
-     @global_super_admin = FactoryGirl.create(:person, email: 'support@example.com')
-     post :destroy, {id: @global_super_admin.id}, {logged_in_id: @super_admin.id}
+  it "should not allow deletion of a super admin" do
+     @super_admin1 = FactoryGirl.create(:person, admin: Admin.create(super_admin: true))
+     @super_admin2 = FactoryGirl.create(:person, admin: Admin.create(super_admin: true))
+     post :destroy, { id: @super_admin1.id }, { logged_in_id: @super_admin2.id }
      expect(response).to be_unauthorized
   end
 
   it "should not error when viewing a person not in a family" do
-    @admin = FactoryGirl.create(:person, admin: Admin.create(view_hidden_profiles: true))
+    @admin = FactoryGirl.create(:person, admin: Admin.create(edit_profiles: true, view_hidden_profiles: true))
     @person = Person.create!(first_name: 'Deanna', last_name: 'Troi', child: false, visible_to_everyone: true)
     # normal person should not see
     expect { get :show, {id: @person.id}, {logged_in_id: @other_person.id} }.to_not raise_error
-
     expect(response).to be_missing
     # admin should see a message
     expect { get :show, {id: @person.id}, {logged_in_id: @admin.id} }.to_not raise_error

@@ -1,6 +1,4 @@
-require_relative '../spec_helper'
-
-GLOBAL_SUPER_ADMIN_EMAIL = 'support@example.com' unless defined?(GLOBAL_SUPER_ADMIN_EMAIL) and GLOBAL_SUPER_ADMIN_EMAIL == 'support@example.com'
+require_relative '../rails_helper'
 
 describe Person do
 
@@ -11,7 +9,7 @@ describe Person do
     BAD_WEB_ADDRESSES    = ['www.badaddress.com', 'ftp://badaddress.org', "javascript://void(alert('do evil stuff'))"]
     GOOD_WEB_ADDRESSES   = ['http://www.goodwebsite.org', 'http://goodwebsite.com/a/path?some=args']
 
-    setup { @person = FactoryGirl.create(:person) }
+    before { @person = FactoryGirl.create(:person) }
 
     it 'should not allow bad email' do
       BAD_EMAIL_ADDRESSES.each do |address|
@@ -236,19 +234,6 @@ describe Person do
     expect(@person.alternate_email).to eq("test@example.com")
   end
 
-  it "should generate a custom directory pdf" do
-    @person = FactoryGirl.create(:person)
-    expect(@person.generate_directory_pdf.to_s[0..100]).to match(/PDF\-1\.3/)
-  end
-
-  it "should know when a birthday is coming up" do
-    @person = FactoryGirl.create(:person)
-    @person.update_attributes!(birthday: Time.now + 5.days - 27.years)
-    expect(@person.reload).to be_birthday_soon
-    @person.update_attributes!(birthday: Time.now - 27.years + (BIRTHDAY_SOON_DAYS + 1).days)
-    expect(@person.reload).to_not be_birthday_soon
-  end
-
   it "should not tz convert a birthday" do
     @person = FactoryGirl.create(:person)
     Time.zone = 'Central Time (US & Canada)'
@@ -334,6 +319,14 @@ describe Person do
       @person.save
       expect(@person.errors[:child]).to_not be_empty
     end
+
+     it 'should allow child=true while birthday year is 1900' do
+      @person = FactoryGirl.create(:person)
+      @person.birthday = Date.new(1900, 1, 1)
+      @person.child = false
+      @person.save
+      expect(@person.reload.child).to eq(false)
+     end
   end
 
   it "should guess last_name upon initialization" do
@@ -352,9 +345,6 @@ describe Person do
     @person3 = FactoryGirl.create(:person, admin: Admin.create(super_admin: true))
     expect(@person3).to be_admin
     expect(@person3).to be_super_admin
-    @person4 = FactoryGirl.create(:person, email: 'support@example.com')
-    expect(@person4).to be_admin
-    expect(@person4).to be_super_admin
   end
 
   it "should properly translate validation errors" do
@@ -453,25 +443,22 @@ describe Person do
   end
 
   describe '#create_as_stream_item' do
-    context 'given no people were created just prior' do
-      let!(:person) { FactoryGirl.create(:person) }
-
-      it 'creates a new stream item' do
-        expect(StreamItem.last.attributes).to include(
-          'title'     => person.name,
-          'person_id' => person.id
-        )
-      end
+    before do
+      allow(StreamItemGroupJob).to receive(:perform_later)
     end
 
-    context 'given two people were created just prior' do
-      let!(:person1) { FactoryGirl.create(:person) }
-      let!(:person2) { FactoryGirl.create(:person) }
-      let!(:person3) { FactoryGirl.create(:person) }
+    let!(:person) { FactoryGirl.create(:person) }
 
-      it 'does not create a third stream item' do
-        expect(StreamItem.count).to eq(2)
-      end
+    it 'creates a new stream item' do
+      expect(StreamItem.last.attributes).to include(
+        'title'     => person.name,
+        'person_id' => person.id
+      )
+    end
+
+    it 'calls StreamItemGroup.perform_later' do
+      expect(StreamItemGroupJob).to \
+        have_received(:perform_later).with(Site.current, StreamItem.last.id)
     end
   end
 
@@ -503,6 +490,264 @@ describe Person do
         expect(spouse.reload).to be_primary_emailer
         expect(husband.reload).to_not be_primary_emailer
       end
+    end
+  end
+
+  describe '.update_batch' do
+    context 'given an existing record matching by legacy_id' do
+      let!(:person) { FactoryGirl.create(:person, legacy_id: 123) }
+
+      context do
+        before do
+          @result = Person.update_batch([
+            { 'legacy_id' => 123, 'first_name' => 'James' }
+          ])
+        end
+
+        it 'updates the record' do
+          expect(person.reload.first_name).to eq('James')
+        end
+
+        it 'returns status="saved"' do
+          expect(@result).to match_array(
+            include(
+              status:    'saved',
+              legacy_id: 123,
+              name:      'James Smith'
+            )
+          )
+        end
+      end
+
+      context 'given invalid data' do
+        before do
+          @result = Person.update_batch([
+            { 'legacy_id' => 123, 'first_name' => '' }
+          ])
+        end
+
+        it 'does not update the record' do
+          expect(person.reload.first_name).to eq('John')
+        end
+
+        it 'returns status="not saved"' do
+          expect(@result).to match_array(
+            include(
+              status:    'not saved',
+              legacy_id: 123,
+              name:      ' Smith',
+              error:     'The person must have a first name.'
+            )
+          )
+        end
+      end
+
+      context 'email was marked changed' do
+        before do
+          person.update_attributes(email_changed: true, email: 'old@example.com')
+          @result = Person.update_batch([
+            { 'legacy_id' => 123, 'first_name' => 'James', 'email' => 'new@example.com' }
+          ])
+        end
+
+        it 'does not overwrite the email address' do
+          expect(person.reload.email).to eq('old@example.com')
+        end
+
+        it 'returns status="saved with error"' do
+          expect(@result).to match_array(
+            include(
+              status:    'saved with error',
+              error:     'Newer email not overwritten: "old@example.com"',
+              legacy_id: 123,
+              name:      'James Smith'
+            )
+          )
+        end
+      end
+
+      context 'email was marked changed and now matches' do
+        before do
+          person.update_attributes(email_changed: true, email: 'new@example.com')
+          @result = Person.update_batch([
+            { 'legacy_id' => 123, 'first_name' => 'James', 'email' => 'new@example.com' }
+          ])
+        end
+
+        it 'does not overwrite the email address' do
+          expect(person.reload.attributes).to include(
+            'email_changed' => false,
+            'email'         => 'new@example.com'
+          )
+        end
+
+        it 'returns status="saved"' do
+          expect(@result).to match_array(
+            include(
+              status:    'saved',
+              legacy_id: 123,
+              name:      'James Smith'
+            )
+          )
+        end
+      end
+    end
+
+    context 'given no existing record' do
+      before do
+        Person.update_batch([
+          { 'legacy_id' => 123, 'first_name' => 'James', 'last_name' => 'Jones' }
+        ])
+      end
+
+      it 'creates the record' do
+        expect(Person.last.attributes).to include(
+          'legacy_id'  => 123,
+          'first_name' => 'James'
+        )
+      end
+    end
+  end
+
+  describe '#destroy' do
+    let(:person) { FactoryGirl.create(:person) }
+
+    it 'destroys the associated stream_item' do
+      expect(person.stream_item).to be
+      person.destroy
+      expect { person.stream_item.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
+
+  describe '#suffix=' do
+    let(:person) { FactoryGirl.build(:person) }
+
+    it 'sets to nil if blank' do
+      person.suffix = ''
+      person.valid? # trigger callback
+      expect(person.suffix).to be_nil
+    end
+  end
+
+  describe '#gender=' do
+    let(:person) { FactoryGirl.build(:person) }
+
+    it 'sets to nil if blank' do
+      person.gender = ''
+      person.valid? # trigger callback
+      expect(person.gender).to be_nil
+    end
+
+    it 'sets with capital letter' do
+      person.gender = 'male'
+      person.valid? # trigger callback
+      expect(person.gender).to eq('Male')
+    end
+  end
+
+  describe '#update_feed_code' do
+    let(:existing) { FactoryGirl.create(:person) }
+    let(:person)   { FactoryGirl.build(:person) }
+
+    context 'given an a collision in code generation' do
+      before do
+        existing.update_attribute(:feed_code, 'abc123')
+        allow(SecureRandom).to receive(:hex).and_return('abc123', 'xyz987')
+      end
+
+      it 'generates a new code until it is unique' do
+        person.save!
+        expect(SecureRandom).to have_received(:hex).with(50).twice
+        expect(person.feed_code).to eq('xyz987')
+      end
+    end
+  end
+
+  describe '#update_relationships_hash' do
+    let(:person) { FactoryGirl.build(:person) }
+
+    context 'given no relationships' do
+      it 'generates a sha1 hash of an empty string' do
+        person.update_relationships_hash
+        expect(person.relationships_hash).to eq(Digest::SHA1.hexdigest(''))
+      end
+    end
+
+    context 'given a relationship' do
+      let(:mother) { FactoryGirl.create(:person, legacy_id: 111) }
+
+      before do
+        person.save!
+        person.relationships.create!(related: mother, name: 'mother')
+      end
+
+      it 'generates a sha1 hash of of the legacy_id and relationship name' do
+        person.update_relationships_hash
+        expect(person.relationships_hash).to eq(Digest::SHA1.hexdigest('111[Mother]'))
+      end
+    end
+  end
+
+  describe '#business_categories' do
+    before do
+      FactoryGirl.create_list(:person, 2, business_category: 'foo')
+    end
+
+    it 'returns an array of unique category names' do
+      expect(Person.business_categories).to eq(['foo'])
+    end
+  end
+
+  describe '#custom_types' do
+    before do
+      FactoryGirl.create_list(:person, 2, custom_type: 'foo')
+    end
+
+    it 'returns an array of unique type names' do
+      expect(Person.custom_types).to eq(['foo'])
+    end
+  end
+
+  describe 'admin records deleted after person is destroyed' do
+    context 'admin user is destroyed' do
+      let!(:person) { FactoryGirl.create(:person, :admin_edit_profiles) }
+      let!(:admin)  { person.admin }
+
+      before do
+        person.destroy
+      end
+
+      it 'deletes the admin record' do
+        expect { admin.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context 'admin user is destroyed for real' do
+      let!(:person) { FactoryGirl.create(:person, :admin_edit_profiles) }
+      let!(:admin)  { person.admin }
+
+      before do
+        person.destroy_for_real
+      end
+
+      it 'deletes the admin record' do
+        expect { admin.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+  end
+
+  context '#generate_directory_pdf' do
+    let(:person) do
+      FactoryGirl.create(
+        :person,
+        mobile_phone: '1234567890',
+        visible_on_printed_directory: true
+      )
+    end
+
+    it 'generates a pdf' do
+      data = person.generate_directory_pdf.to_s
+      expect(data).to match(/\A%PDF\-1\.3/)
     end
   end
 end

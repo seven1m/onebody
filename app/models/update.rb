@@ -94,19 +94,4 @@ class Update < ActiveRecord::Base
       hash[key] = [:unknown, val]
     end
   end
-
-  class << self
-    def daily_counts(limit, offset, date_strftime='%Y-%m-%d', only_show_date_for=nil)
-      [].tap do |data|
-        counts = connection.select_all("select count(date(created_at)) as count, date(created_at) as date from updates where site_id=#{Site.current.id} group by date(created_at) order by created_at desc limit #{limit.to_i} offset #{offset.to_i};").group_by { |p| Date.parse(p['date'].strftime('%Y-%m-%d')) }
-        ((Date.today-offset-limit+1)..(Date.today-offset)).each do |date|
-          d = date.strftime(date_strftime)
-          d = ' ' if only_show_date_for and date.strftime(only_show_date_for[0]) != only_show_date_for[1]
-          count = counts[date] ? counts[date][0]['count'].to_i : 0
-          data << [d, count]
-        end
-      end
-    end
-  end
-
 end

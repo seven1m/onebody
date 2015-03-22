@@ -7,7 +7,7 @@ $ruby_version = File.read(File.expand_path("../.ruby-version", __FILE__)).strip
 
 $vhost = <<VHOST
 <VirtualHost *:80>
-  PassengerRuby /home/vagrant/.rvm/wrappers/ruby-2.1.2@onebody/ruby
+  PassengerRuby /home/vagrant/.rvm/wrappers/ruby-2.1.5@onebody/ruby
   DocumentRoot /vagrant/public
   RailsEnv development
   <Directory /vagrant/public>
@@ -37,6 +37,7 @@ user=$(cat <<USER
 
   # install rvm
   if [[ ! -d \\$HOME/.rvm ]]; then
+    curl -sSL https://rvm.io/mpapis.asc | gpg --import
     curl -sSL --insecure https://get.rvm.io | bash -s stable
     \\$HOME/.rvm/bin/rvm requirements
   fi
@@ -47,7 +48,7 @@ user=$(cat <<USER
   cd /vagrant
   gem install bundler --no-ri --no-rdoc
   if [[ ! -e config/database.yml ]]; then
-    cp config/database.yml{.example,}
+    cp config/database.yml{.mysql-example,}
   fi
   bundle install
 

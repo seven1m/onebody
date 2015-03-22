@@ -1,4 +1,4 @@
-- if @logged_in.can_edit?(@person) and @person.updates.pending.count > 0
+- if @logged_in.can_update?(@person) and @person.updates.pending.count > 0
   %p
     = t('people.update_to_profile_is')
     - if @logged_in.admin?(:edit_profiles)

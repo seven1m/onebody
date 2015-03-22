@@ -2,5 +2,5 @@
   posted #{news_item.published.to_s(:date) rescue '?'}
   - if news_item.person
     by #{link_to news_item.person.name, news_item.person}
-  - elsif news_item.link.to_s.any?
+  - elsif news_item.link.present?
     from #{link_to news_item.link.sub(/^http:\/\//, ''), news_item.link}

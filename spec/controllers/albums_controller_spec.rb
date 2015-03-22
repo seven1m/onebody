@@ -1,6 +1,6 @@
-require_relative '../spec_helper'
+require_relative '../rails_helper'
 
-describe AlbumsController do
+describe AlbumsController, type: :controller do
 
   before do
     @user = FactoryGirl.create(:person)

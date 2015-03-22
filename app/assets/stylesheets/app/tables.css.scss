@@ -15,3 +15,7 @@ tr.expanding {
     @extend .fa-folder-open-o;
   }
 }
+
+td.icon, th.icon {
+  width: 32px;
+}

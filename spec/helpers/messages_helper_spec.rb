@@ -1,6 +1,6 @@
-require_relative '../spec_helper'
+require_relative '../rails_helper'
 
-describe MessagesHelper do
+describe MessagesHelper, type: :helper do
   include ApplicationHelper
 
   describe 'render_message_html_body' do

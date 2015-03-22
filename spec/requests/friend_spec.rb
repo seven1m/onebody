@@ -1,6 +1,6 @@
-require_relative '../spec_helper'
+require_relative '../rails_helper'
 
-describe 'Friend' do
+describe 'Friend', type: :request do
   before do
     Setting.set(1, 'Features', 'Friends', true)
     @user = FactoryGirl.create(:person)

@@ -43,7 +43,7 @@ nl-NL:
     not_showing_hidden_people: "(verborgen personen worden niet getoond)"
     people_found:
       one: "1 persoon gevonden"
-      other: "%{count} people found"
+      other: "%{count} personen gevonden"
     search: Zoeken
     search_by_name: "Zoek op naam"
     show_hidden: "Toon verborgen personen"

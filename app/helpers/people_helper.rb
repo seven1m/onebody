@@ -8,13 +8,28 @@ module PeopleHelper
     end
   end
 
-  def show_attribute?(attribute, &block)
-    if @person.send(attribute).present? && @person.show_attribute_to?(attribute, @logged_in)
-      capture(&block)
-    end
+  def show_attribute?(attribute)
+    @person.send(attribute).present? &&
+      @person.show_attribute_to?(attribute, @logged_in)
   end
 
-  alias_method :attribute, :show_attribute? # TODO remove this
+  def show_attribute(attribute, &block)
+    capture(&block) if show_attribute?(attribute)
+  end
+
+  alias_method :attribute, :show_attribute # TODO remove this
+
+  def showing_attribute_because_admin?(attribute)
+    show_attribute?(attribute) &&
+      @person.respond_to?("share_#{attribute}?") &&
+      @person.send("share_#{attribute}?") == false &&
+      @logged_in.admin?(:view_hidden_properties)
+  end
+
+  def showing_attribute_because_admin_icon(attribute)
+    return unless showing_attribute_because_admin?(attribute)
+    icon('fa fa-lock text-gray with-title', title: t('people.show.showing_hidden_attribute.tooltip'))
+  end
 
   def person_title(person)
     if person.description.present?

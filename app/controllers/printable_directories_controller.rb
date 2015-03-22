@@ -1,18 +1,15 @@
 class PrintableDirectoriesController < ApplicationController
-
   before_filter :check_access
 
   def new
   end
 
   def create
-    if session[:directory_pdf_job].nil? or session[:directory_pdf_job] < 10.minutes.ago
-      Job.add("Person.find(#{@logged_in.id}).generate_and_email_directory_pdf(#{params[:with_pictures] ? 'true' : 'false'})")
-      session[:directory_pdf_job] = Time.now
-    else
-      @title = t('There_was_an_error')
-      render text: t('printable_directories.already_sent'), layout: true, status: 401
-    end
+    PrintableDirectoryJob.perform_later(
+      Site.current,
+      @logged_in.id,
+      params[:with_pictures].present?
+    )
   end
 
   def show
@@ -21,11 +18,9 @@ class PrintableDirectoriesController < ApplicationController
 
   private
 
-    def check_access
-      unless @logged_in.full_access?
-        render text: t('printable_directories.not_allowed'), layout: true, status: 401
-        return false
-      end
-    end
-
+  def check_access
+    return if @logged_in.full_access?
+    render text: t('printable_directories.not_allowed'), layout: true, status: 401
+    false
+  end
 end

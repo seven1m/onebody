@@ -7,7 +7,7 @@
     = form.label :body, t('news.body_description')
     = form.text_area :body, rows: 20, cols: 100, class: 'form-control editor-control'
   .form-group
-    - if @logged_in.can_edit?(@news_item) and @news_item.persisted?
+    - if @logged_in.can_update?(@news_item) and @news_item.persisted?
       .pull-right
         = link_to @news_item, method: 'delete', data: { confirm: t('are_you_sure') }, class: 'btn btn-danger' do
           = icon 'fa fa-trash-o'

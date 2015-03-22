@@ -34,11 +34,12 @@ class Notifier < ActionMailer::Base
   def membership_request(group, person)
     @group = group
     @person = person
-    unless (to = group.admins.select { |p| p.email.to_s.any? }.map { |p| "#{p.name} <#{p.email}>" }).any?
+    unless (to = group.admins.select { |p| p.email.present? }.map { |p| "#{p.name} <#{p.email}>" }).any?
       unless (to = Admin.all.select { |a| a.manage_updates? }.map { |a| "#{a.person.name} <#{a.person.email}>" }).any?
         to = Admin.where(super_admin: true).map { |a| a.person.email }
       end
     end
+    return unless to.present?
     mail(
       to:      to,
       from:    person.formatted_email || Site.current.noreply_email,
@@ -70,7 +71,7 @@ class Notifier < ActionMailer::Base
         'List-Post' => (msg.group.can_post?(to) ? "<#{Setting.get(:url, :site)}groups/#{msg.group.id}>" : "NO (#{I18n.t('notifier.not_allowed_to_post')})"),
         'List-Archive' => "<#{Setting.get(:url, :site)}groups/#{msg.group.id}>"
       ) unless to.new_record? # allows preview to work
-      if msg.group.address.to_s.any? and msg.group.can_post?(msg.person)
+      if msg.group.address.present? and msg.group.can_post?(msg.person)
         h.update 'CC' => "\"#{msg.group.name}\" <#{msg.group.address + '@' + Site.current.email_host}>"
       end
     end
@@ -83,10 +84,10 @@ class Notifier < ActionMailer::Base
       from:    msg.email_from(to),
       subject: msg.subject
     ) do |format|
-      if msg.body.to_s.any?
+      if msg.body.present?
         format.text
       end
-      if msg.html_body.to_s.any?
+      if msg.html_body.present?
         format.html
       end
     end
@@ -102,6 +103,17 @@ class Notifier < ActionMailer::Base
     ) do |format|
       format.text { render text: b }
     end
+  end
+
+  def attendance_submission(group, attendance_records, submitter, notes)
+    @group = group
+    @attendance_records = attendance_records
+    @person = submitter
+    @notes = notes
+    mail(
+      to: Setting.get(:contact, :send_attendance_submissions_to),
+      subject: t('attendance.email.subject', group: group.name)
+    )
   end
 
   def email_verification(verification)
@@ -148,7 +160,7 @@ class Notifier < ActionMailer::Base
   def receive(email)
     sent_to = Array(email.cc) + Array(email.to) # has to be reversed (cc first) so that group replies work right
 
-    return unless email.from.to_s.any?
+    return unless email.from.present?
     return if email['Auto-Submitted'] and not %w(false no).include?(email['Auto-Submitted'].to_s.downcase)
     return if email['Return-Path'] and ['<>', ''].include?(email['Return-Path'].to_s)
     return if sent_to.any? { |a| a =~ /no\-?reply|postmaster|mailer\-daemon/i }
@@ -156,7 +168,7 @@ class Notifier < ActionMailer::Base
     return if email.subject =~ /^undelivered mail returned to sender|^returned mail|^delivery failure/i
     return if email.message_id =~ Message::MESSAGE_ID_RE and m = Message.unscoped { Message.where(id: $1).first } and m.code_hash == $2 # just sent, looping back into the receiver
     return if ProcessedMessage.where(header_message_id: email.message_id).any?
-    return unless get_site(email)
+    return unless Site.current = get_site(email)
 
     destinations = sent_to.map do |address|
       address, domain = address.strip.downcase.split('@')
@@ -180,7 +192,7 @@ class Notifier < ActionMailer::Base
                             url: Setting.get(:url, :site))
       end
       if destinations.any? and return_to = email['Return-Path'] ? email['Return-Path'].to_s : email.from
-        Notifier.simple_message(return_to, reject_subject, reject_msg).deliver
+        Notifier.simple_message(return_to, reject_subject, reject_msg).deliver_now
       end
       return
     end
@@ -190,7 +202,7 @@ class Notifier < ActionMailer::Base
         email['Return-Path'] ? email['Return-Path'].to_s : email.from,
         I18n.t('notifier.rejection.cannot_read.subject', subject: email.subject),
         I18n.t('notifier.rejection.cannot_read.body', subject: email.subject, url: Setting.get(:url, :site))
-      ).deliver
+      ).deliver_now
       return
     end
 
@@ -210,7 +222,7 @@ class Notifier < ActionMailer::Base
                  subject: email.subject,
                  errors: message.errors.full_messages.join("\n"),
                  support: Setting.get(:contact, :tech_support_contact))
-        ).deliver
+        ).deliver_now
         sent_to_count += 1
         break
       end
@@ -224,7 +236,7 @@ class Notifier < ActionMailer::Base
         I18n.t('notifier.rejection.no_recipients.body',
                subject: email.subject,
                url: Setting.get(:url, :site))
-      ).deliver
+      ).deliver_now
     end
 
     # do not process this one ever again
@@ -294,26 +306,30 @@ class Notifier < ActionMailer::Base
   end
 
   def get_site(email)
-    # prefer the to address
-    (Array(email.cc) + Array(email.to)).each do |address|
-      return Site.current if Site.current = Site.where(host: address.downcase.split('@').last).first
+    # prefer the cc address (for reply-all), then the to address
+    to_addresses = Array(email.cc) + Array(email.to)
+    site = nil
+    to_addresses.each do |address|
+      site = Site.where(host: address.downcase.split('@').last).first ||
+             Site.where(email_host: address.downcase.split('@').last).first
+      return site if site
     end
-    # fallback if to address was rewritten
+    # fallback if address was rewritten
     # Calvin College in MI is known to rewrite our from/reply-to addresses
     # to be the same as the host that made the connection
     if get_body(email).to_s =~ Message::MESSAGE_ID_RE_IN_BODY
-      Site.each do
-        return Site.current if get_in_reply_to_message_and_code(email)
+      Site.each do |site|
+        return site if get_in_reply_to_message_and_code(email)
       end
     end
     nil
   end
 
   def get_from_person(email, destinations)
-    people = Person.where('lcase(email) = ?', email.from.first.downcase).to_a
+    people = Person.where('lower(email) = ?', email.from.first.downcase).to_a
     if people.none?
       # user is not found in the system, try alternate email
-      Person.where('lcase(alternate_email) = ?', email.from.first.downcase).first
+      Person.where('lower(alternate_email) = ?', email.from.first.downcase).first
     elsif people.one?
       people.first
     else
@@ -326,7 +342,7 @@ class Notifier < ActionMailer::Base
 
   def get_from_person_by_primary(people)
     by_primary = people.select(&:primary_emailer?)
-    people.first if by_primary.one?
+    by_primary.first if by_primary.one?
   end
 
   def get_from_person_by_name(people, email)
@@ -374,7 +390,7 @@ class Notifier < ActionMailer::Base
   def get_from_address
     Mail::Address.new.tap do |addr|
       addr.address = Site.current.noreply_email
-      addr.display_name = Setting.get(:name, :site)
+      addr.display_name = Setting.get(:name, :site).dup
     end
   end
 end

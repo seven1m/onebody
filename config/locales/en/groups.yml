@@ -61,6 +61,7 @@ en:
         admins: "admins"
         meets: "meets"
         location: "location"
+        directions: "directions"
         member_count_label: "members"
         member_count:
           one: "1 person"
@@ -95,6 +96,7 @@ en:
 
     edit:
       heading: "Edit Group"
+      required_field: "required"
 
       tabs:
         details: "Details"
@@ -137,6 +139,8 @@ en:
         help: "If checked, the group description, membership list, and other group information will be hidden from non-members (only the title will be displayed). We recommend you also check the above 'Approval required' box as well."
       members_send:
         help: "If checked, any member of this group can send an email message to everyone else in the group."
+      attendance_disabled:
+        help: "Attendance must be enabled for any group used by Check-in."
       class_link_code:
         help_html: |
           <p>This is useful for syncing with external systems. Separate multiple codes with a space. <a href='https://github.com/churchio/onebody/wiki/HowGroupMembershipWorks'>See here</a> for more information.</p>

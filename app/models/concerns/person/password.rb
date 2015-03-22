@@ -18,6 +18,10 @@ module Concerns
         end
       end
 
+      def has_password?
+        password_hash.present? || encrypted_password.present?
+      end
+
       module ClassMethods
         def authenticate(email, password)
           people = undeleted.where(email: email.downcase)

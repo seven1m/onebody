@@ -4,7 +4,7 @@
   .callout.callout-danger
     = t('people.account_frozen.callout')
 
-- if @person.updates.pending.any? and @logged_in.can_edit?(@person)
+- if @person.updates.pending.any? and @logged_in.can_update?(@person)
   .callout.callout-info
     = icon 'fa fa-clock-o'
     = t('people.updates.pending_callout')

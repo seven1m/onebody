@@ -14,6 +14,15 @@ class AttendanceRecord < ActiveRecord::Base
 
   self.skip_time_zone_conversion_for_attributes = [:attended_at]
 
+  def attended_at=(date)
+    if date.respond_to?(:strftime)
+      # strip time zone
+      self[:attended_at] = date.strftime('%Y-%m-%dT%H:%M:%S')
+    else
+      self[:attended_at] = date
+    end
+  end
+
   def checkin_people
     Relationship.where('person_id = ? and other_name like ?', person_id, '%Check-in Person%').map(&:related).uniq
   end

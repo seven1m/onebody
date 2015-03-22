@@ -1,4 +1,4 @@
-require_relative '../spec_helper'
+require_relative '../rails_helper'
 
 describe Group do
   before do
@@ -134,9 +134,7 @@ describe Group do
     @group.attendance_records.create!(person_id: @person.id, attended_at: '2008-07-22')
     records = @group.get_people_attendance_records_for_date('2008-07-22')
     expect(records.length).to eq(2)
-    expect(records.select do |r|
-  r.last
-end.length).to eq(1)
+    expect(records.select(&:last).length).to eq(1)
   end
 
   it "should be able to parse out the Google Calendar account info from an XML link" do
@@ -147,5 +145,108 @@ end.length).to eq(1)
   it "should be able to parse out the Google Calendar account info from an HTML link" do
     @group.update_attributes!(gcal_private_link: 'http://www.google.com/calendar/hosted/timmorgan.org/embed?src=4azsf34hrgq1t3lkjh4sdewzxc%40group.calendar.google.com&ctz=America/Chicago&pvttk=2a2453bc8ef65dddf11a4f43a133df12')
     expect(@group.gcal_account).to eq("4azsf34hrgq1t3lkjh4sdewzxc%40group.calendar.google.com")
+  end
+
+  describe 'share_token' do
+    it 'gets set on creation' do
+      expect(@group.share_token).to match(/^[0-9a-f]{50}$/)
+    end
+  end
+
+  describe '#location_with_country' do
+    let(:location) { "650 S. Peoria Ave.\nTulsa OK 74120" }
+    let(:group)    { FactoryGirl.create(:group, location: location) }
+
+    it 'appends the default country name on the end' do
+      expect(group.location_with_country).to eq(location + ', US')
+    end
+  end
+
+  describe 'geocoding' do
+    context 'group with address' do
+      let(:location) { "650 S. Peoria Ave.\nTulsa OK 74120" }
+      let(:group)    { FactoryGirl.create(:group, location: location) }
+
+      before do
+        Geocoder::Lookup::Test.add_stub(
+          "650 S. Peoria Ave.\nTulsa OK 74120, US", [
+            {
+              'latitude'     => 36.151305,
+              'longitude'    => -95.975393,
+              'address'      => 'Tulsa, OK, USA',
+              'state'        => 'Oklahoma',
+              'state_code'   => 'OK',
+              'country'      => 'United States',
+              'country_code' => 'US'
+            }
+          ]
+        )
+      end
+
+      it 'sets latitude and longitude' do
+        expect(group.latitude).to eq(36.151305)
+        expect(group.longitude).to eq(-95.975393)
+      end
+
+      context 'address is removed' do
+        before do
+          Geocoder::Lookup::Test.add_stub(
+            ", US", [
+              {
+                'precision' => 'APPROXIMATE',
+                'latitude'  => 35,
+                'longitude' => -95
+              }
+            ]
+          )
+        end
+
+        before do
+          group.location = ''
+          group.save!
+        end
+
+        it 'removes latitude and longitude' do
+          expect(group.latitude).to be_nil
+          expect(group.longitude).to be_nil
+        end
+      end
+    end
+  end
+
+  describe 'validations' do
+    context 'group does not belong to a Checkin GroupTime and does not have attendance enabled' do
+      before do
+        @group.update_attribute(:attendance, false)
+      end
+
+      it 'is valid' do
+        expect(@group).to be_valid
+      end
+    end
+
+    context 'group belongs to a Checkin GroupTime and does not have attendance enabled' do
+      before do
+        @group.update_attribute(:attendance, false)
+        @checkin_time = FactoryGirl.create(:checkin_time)
+        @checkin_time.group_times.create!(group: @group)
+      end
+
+      it 'is invalid' do
+        expect(@group).not_to be_valid
+      end
+    end
+
+    context 'group belongs to a Checkin GroupTime and has attendance enabled' do
+      before do
+        @group.update_attribute(:attendance, true)
+        @checkin_time = FactoryGirl.create(:checkin_time)
+        @checkin_time.group_times.create!(group: @group)
+      end
+
+      it 'is valid' do
+        expect(@group).to be_valid
+      end
+    end
   end
 end

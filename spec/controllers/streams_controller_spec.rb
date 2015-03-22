@@ -1,6 +1,6 @@
-require_relative '../spec_helper'
+require_relative '../rails_helper'
 
-describe StreamsController do
+describe StreamsController, type: :controller do
   before do
     @person = FactoryGirl.create(:person)
     @friend = FactoryGirl.create(:person)

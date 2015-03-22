@@ -1,6 +1,6 @@
-require_relative '../spec_helper'
+require_relative '../rails_helper'
 
-describe GroupsController do
+describe GroupsController, type: :request do
 
   before do
     @user = FactoryGirl.create(:person)
@@ -30,7 +30,7 @@ describe GroupsController do
     end
 
     it 'should show allow user to Approve group' do
-      get "groups/#{@group.id}"
+      get "/groups/#{@group.id}"
       assert_select 'body', html: /Approve Group/
       put "/groups/#{@group.id}?group[approved]=true"
       expect(response).to redirect_to(@group)

@@ -6,9 +6,6 @@ require 'rake'
 #require 'rake/testtask'
 #require 'rake/rdoctask'
 
-require Rails.root.join('lib/rake_abandon')
-
 OneBody::Application.load_tasks
 
 Dir["#{Rails.root}/plugins/*/**/tasks/**/*.rake"].sort.each { |ext| load ext }
-

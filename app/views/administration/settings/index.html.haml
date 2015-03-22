@@ -33,6 +33,7 @@
       = setting_row('Contact', 'Send Email Changes To')
       = setting_row('Contact', 'Send Updates To')
       = setting_row('Contact', 'Bug Notification Email')
+      = setting_row('Contact', 'Send Attendance Submissions To')
       .callout.callout-info= t('admin.settings.contact_community_info_about')
       = setting_row('Contact', 'Community Office Phone')
       = setting_row('Contact', 'Community Address')
@@ -46,6 +47,7 @@
       = setting_row('Features', 'Groups')
       = setting_row('Features', 'Checkin')
       = setting_row('Features', 'Documents')
+      = setting_row('Features', 'Business Directory')
       .form-group
         .col-sm-offset-2.col-sm-10
           = button_tag t('save_changes'), class: 'btn btn-success'
@@ -76,6 +78,7 @@
       = setting_row('System', 'Language', options: ONEBODY_LOCALES.invert)
       = setting_row('System', 'Time Zone', options: @timezones)
       = setting_row('System', 'Default Country', options: country_options)
+      = setting_row('System', 'Map Zoom Level', options: (12..16).to_a)
       .form-group
         .col-sm-offset-2.col-sm-10
           = button_tag t('save_changes'), class: 'btn btn-success'

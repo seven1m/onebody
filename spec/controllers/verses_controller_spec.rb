@@ -1,6 +1,6 @@
-require_relative '../spec_helper'
+require_relative '../rails_helper'
 
-describe VersesController do
+describe VersesController, type: :controller do
   render_views
 
   before do
@@ -26,6 +26,12 @@ describe VersesController do
     get :show, {id: @verse.id}, {logged_in_id: @person.id}
     expect(response).to be_success
     assert_select 'h1', Regexp.new(@verse.reference)
+  end
+
+  it "should show a not_found if verse is not found" do
+    random_invalid_id = 424242
+    get :show, {id: random_invalid_id}, {logged_in_id: @person.id}
+    expect(response.status).to be(404)
   end
 
   it "should tag a verse" do

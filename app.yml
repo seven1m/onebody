@@ -1,0 +1,16 @@
+# this config file is for installer.71m.us
+
+name: OneBody
+image: ubuntu-14-04-x64
+min_size: 1gb
+config:
+  #cloud-config
+  users:
+    - name: onebody
+      groups: sudo
+      shell: /bin/bash
+      sudo: ['ALL=(ALL) NOPASSWD:ALL']
+  packages:
+    - git
+  runcmd:
+    - su -l onebody -c "cd /home/onebody && git clone git://github.com/churchio/onebody.git && cd onebody && bash build/ubuntu/14.04/provision.sh"

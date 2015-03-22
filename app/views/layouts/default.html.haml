@@ -91,10 +91,11 @@
                     = link_to edit_person_account_path(@person) do
                       = icon 'fa fa-key'
                       = t('nav.profile_sub.password')
-                  %li
-                    = link_to edit_person_path(@person, email: true) do
-                      = icon 'fa fa-envelope'
-                      = t('nav.profile_sub.email')
+                  - if setting(:features, :groups)
+                    %li
+                      = link_to edit_person_path(@person, email: true) do
+                        = icon 'fa fa-envelope'
+                        = t('nav.profile_sub.email')
                   %li
                     = link_to edit_person_privacy_path(@person) do
                       = icon 'fa fa-lock'
@@ -129,10 +130,11 @@
                 %i.fa.pull-right{ class: tab_expanded?(:directory) ? 'fa-angle-down' : 'fa-angle-left' }
               - if tab_expanded?(:directory)
                 %ul.treeview-menu.visible
-                  %li
-                    = link_to search_path(business: true) do
-                      = icon 'fa fa-briefcase'
-                      = t('nav.directory_sub.business')
+                  - if setting(:features, :business_directory)
+                    %li
+                      = link_to search_path(business: true) do
+                        = icon 'fa fa-briefcase'
+                        = t('nav.directory_sub.business')
                   %li
                     = link_to new_printable_directory_path do
                       = icon 'fa fa-print'

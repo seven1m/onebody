@@ -1,0 +1,14 @@
+Metrics/AbcSize:
+  Max: 18
+
+Metrics/LineLength:
+  Max: 120
+
+DotPosition:
+  EnforcedStyle: leading
+
+StringLiterals:
+  EnforcedStyle: single_quotes
+
+Style/MultilineOperationIndentation:
+  EnforcedStyle: indented

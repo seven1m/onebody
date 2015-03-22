@@ -1,6 +1,6 @@
-require_relative '../spec_helper'
+require_relative '../rails_helper'
 
-describe PeopleHelper do
+describe PeopleHelper, type: :helper do
 
   describe 'render_message_html_body' do
     it "should have social networks" do

@@ -45,8 +45,8 @@ OneBody::Application.routes.draw do
     end
     resource :stream
     resource :photo
-    resources :groups, :pictures, :groupies, :services, :albums, :verses
-    resource :privacy, :blog, :calendar
+    resources :groups, :pictures, :services, :albums, :verses
+    resource :privacy
   end
 
   resources :families do
@@ -96,7 +96,7 @@ OneBody::Application.routes.draw do
     end
     resource :stream
     resource :photo
-    resources :prayer_requests, :albums, :attachments
+    resources :prayer_requests, :albums
     resource :calendar
   end
 
@@ -134,11 +134,14 @@ OneBody::Application.routes.draw do
 
   resources :tags, only: :show
 
-  resources :pictures, :prayer_signups, :authentications, :verses, :shares,
+  resources :pictures, :prayer_signups, :authentications, :shares,
             :comments, :prayer_requests, :generated_files
 
+  resources :verses do
+    get 'search', on: :collection
+  end
 
-  resource  :setup, :session, :search, :printable_directory, :privacy
+  resource :setup, :session, :search, :printable_directory
 
   resource :stream do
     resources :people, controller: 'stream_people'
@@ -167,10 +170,16 @@ OneBody::Application.routes.draw do
     end
   end
 
+  resources :directory_maps do
+    collection do
+      get :family_locations
+    end
+  end
 
   get 'pages/*path' => 'pages#show_for_public', via: :get, as: :page_for_public
 
   get '/admin' => 'administration/dashboards#show'
+  get '/admin/reports' => 'administration/reports#index'
 
   namespace :administration, path: :admin do
     resources :emails do
@@ -220,4 +229,5 @@ OneBody::Application.routes.draw do
     resource :interface
     resources :families, :people, :groups
   end
+  resources :custom_reports
 end

@@ -1,16 +1,15 @@
 class PeopleController < ApplicationController
-
   def index
     respond_to do |format|
       format.html { redirect_to person_path(@logged_in) }
       if can_export?
         format.xml do
-          job = Person.create_to_xml_job
-          redirect_to generated_file_path(job.id)
+          job = ExportJob.perform_later(Site.current, 'people', 'xml', @logged_in.id)
+          redirect_to generated_file_path(job.job_id)
         end
         format.csv do
-          job = Person.create_to_csv_job
-          redirect_to generated_file_path(job.id)
+          job = ExportJob.perform_later(Site.current, 'people', 'csv', @logged_in.id)
+          redirect_to generated_file_path(job.job_id)
         end
       end
     end
@@ -26,7 +25,7 @@ class PeopleController < ApplicationController
     end
     if params[:limited] or !@logged_in.full_access?
       render action: 'show_limited'
-    elsif @person and @logged_in.can_see?(@person)
+    elsif @person and @logged_in.can_read?(@person)
       @family = @person.family
       if @person == @logged_in
         # TODO eager load family here
@@ -99,7 +98,7 @@ class PeopleController < ApplicationController
 
   def edit
     @person ||= Person.find(params[:id])
-    if @logged_in.can_edit?(@person)
+    if @logged_in.can_update?(@person)
       @family = @person.family
       @business_categories = Person.business_categories
       @custom_types = Person.custom_types
@@ -120,7 +119,7 @@ class PeopleController < ApplicationController
       @family.people << @person
       flash[:info] = t('people.move.success_message', person: @person.name, family: @family.name)
       redirect_to @family
-    elsif @logged_in.can_edit?(@person)
+    elsif @logged_in.can_update?(@person)
       @updater = Updater.new(params)
       if @updater.save!
         respond_to do |format|
@@ -145,7 +144,7 @@ class PeopleController < ApplicationController
       @person = Person.find(params[:id])
       if me?
         render text: t('people.cant_delete_yourself'), layout: true, status: 401
-      elsif @person.global_super_admin?
+      elsif @person.super_admin?
         render text: t('people.cant_delete'), layout: true, status: 401
       else
         @person.destroy
@@ -210,7 +209,7 @@ class PeopleController < ApplicationController
 
   def testimony
     @person = Person.find(params[:id])
-    unless @logged_in.can_see?(@person)
+    unless @logged_in.can_read?(@person)
       render text: t('people.not_found'), status: 404, layout: true
     end
   end
@@ -238,5 +237,4 @@ class PeopleController < ApplicationController
   def family_params
     Updater.new(params).params[:family] || {}
   end
-
 end

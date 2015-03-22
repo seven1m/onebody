@@ -1,4 +1,4 @@
-require_relative '../spec_helper'
+require_relative '../rails_helper'
 
 describe Family do
 
@@ -196,6 +196,86 @@ describe Family do
       it 'shows the anniversary' do
         anniversary = husband.family.anniversary_sharable_with(husband)
         expect(anniversary).to eq(Date.new(2001, 11, 22))
+      end
+    end
+  end
+
+  describe '#geocoding_address' do
+    let(:family) do
+      FactoryGirl.create(
+        :family,
+        address1: '650 S. Peoria',
+        city: 'Tulsa',
+        state: 'OK',
+        zip: '74120',
+        country: 'US'
+      )
+    end
+
+    it 'appends the default country name on the end' do
+      expect(family.geocoding_address).to eq('650 S. Peoria, Tulsa, OK, 74120, US')
+    end
+  end
+
+  describe 'geocoding' do
+    context 'family with address' do
+      let(:family) do
+        FactoryGirl.create(
+          :family,
+          address1: '650 S. Peoria',
+          city: 'Tulsa',
+          state: 'OK',
+          zip: '74120',
+          country: 'US'
+        )
+      end
+
+      before do
+        Geocoder::Lookup::Test.add_stub(
+          '650 S. Peoria, Tulsa, OK, 74120, US', [
+            {
+              'latitude'     => 36.151305,
+              'longitude'    => -95.975393,
+              'address'      => 'Tulsa, OK, USA',
+              'state'        => 'Oklahoma',
+              'state_code'   => 'OK',
+              'country'      => 'United States',
+              'country_code' => 'US'
+            }
+          ]
+        )
+      end
+
+      it 'sets latitude and longitude' do
+        expect(family.latitude).to eq(36.151305)
+        expect(family.longitude).to eq(-95.975393)
+      end
+
+      context 'address is removed' do
+        before do
+          Geocoder::Lookup::Test.add_stub(
+            "US", [
+              {
+                'precision' => 'APPROXIMATE',
+                'latitude'  => 35,
+                'longitude' => -95
+              }
+            ]
+          )
+        end
+
+        before do
+          family.address1 = ''
+          family.city = ''
+          family.state = ''
+          family.zip = ''
+          family.save!
+        end
+
+        it 'removes latitude and longitude' do
+          expect(family.latitude).to be_nil
+          expect(family.longitude).to be_nil
+        end
       end
     end
   end

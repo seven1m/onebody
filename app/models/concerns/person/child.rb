@@ -20,30 +20,27 @@ module Concerns
       end
 
       def set_child
-        return unless birthday
+        return unless birthday and birthday.year != 1900
         self.child = !at_least?(Setting.get(:system, :adult_age).to_i)
         true # don't return false or validation will fail
       end
 
       def at_least?(age)
-        (y = years_of_age and y >= age)
+        return false unless y = years_of_age
+        y >= age
       end
 
-      def age
-        birthday && birthday.distance_to(Date.today)
-      end
-
-      def years_of_age(on = Date.today)
+      def years_of_age(on = Date.current)
         return nil unless birthday
         return nil if birthday.year == 1900
         years = on.year - birthday.year
         years -= 1 if on.month < birthday.month
-        years -= 1 if on.month == birthday.month and on.day < birthday.day
+        years -= 1 if on.month == birthday.month && on.day < birthday.day
         years
       end
 
       def adult?
-        not child?
+        !child?
       end
 
     end

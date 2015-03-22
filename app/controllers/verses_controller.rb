@@ -3,7 +3,7 @@ class VersesController < ApplicationController
   def index
     if params[:person_id]
       @person = Person.find(params[:person_id])
-      if @logged_in.can_see?(@person)
+      if @logged_in.can_read?(@person)
         @verses = @person.verses.paginate(order: 'created_at desc', page: params[:page])
       else
         render text: t('not_authorized'), layout: true, status: 401
@@ -17,6 +17,17 @@ class VersesController < ApplicationController
 
   def show
     get_verse
+  end
+
+  def search
+    @verse = Verse.find(params[:q])
+    if @verse.invalid?
+      render text: t('verses.not_found'), layout: true, status: 400
+    else
+      render partial: 'search_result'
+    end
+  rescue ActiveRecord::RecordNotFound
+    render text: t('verses.not_found'), layout: true, status: 404
   end
 
   def create
@@ -71,9 +82,11 @@ class VersesController < ApplicationController
       redirect_to verses_path
       false
     else
+      raise 'verse not found'
+    end
+  rescue
       render text: t('verses.not_found'), layout: true, status: 404
       false
-    end
   end
 
 end

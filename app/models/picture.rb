@@ -66,7 +66,7 @@ class Picture < ActiveRecord::Base
 
   def create_as_stream_item
     return unless person and (photo? or Rails.env.test?)
-    if last_stream_item = StreamItem.where("person_id = ? and created_at <= ?", person_id, created_at).order('created_at').last \
+    if last_stream_item = StreamItem.where(person_id: person_id).order('id').last \
       and last_stream_item.streamable == album
       last_stream_item.context['picture_ids'] << [id, photo.fingerprint, photo_extension]
       last_stream_item.created_at = created_at

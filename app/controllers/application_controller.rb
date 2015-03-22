@@ -15,6 +15,8 @@ class ApplicationController < ActionController::Base
   before_filter :feature_enabled?
   before_filter :authenticate_user
 
+  helper_method :params_without_action
+
   def params_without_action
     params.except(:controller, :action)
   end
@@ -57,6 +59,7 @@ class ApplicationController < ActionController::Base
     def current_user
       @logged_in
     end
+    helper_method :current_user
 
     def authenticate_user # default
       authenticate_user_with_session unless logged_in_from_api_key?
@@ -123,6 +126,10 @@ class ApplicationController < ActionController::Base
 
     rescue_from 'LoadAndAuthorizeResource::AccessDenied', 'LoadAndAuthorizeResource::ParameterMissing' do |e|
       render text: I18n.t('not_authorized'), layout: true, status: :forbidden
+    end
+
+    rescue_from 'EmailConnectionError' do |e|
+      render 'errors/email_connection_error'
     end
 
     def me?

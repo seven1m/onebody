@@ -1,9 +1,0 @@
-- if person.groups.count > 0
-  .group-privacy
-    %p.shown
-      = link_to_function raw(t('privacies.group_privacy') + '&raquo;'), "var p=$(this).closest('.group-privacy'); p.children('.hidden').show(); p.children('.shown').hide();"
-    .hidden{:style => "display:none;"}
-      %p= t('privacies.you_may_share_items')
-      %ul.list
-        - person.groups.where(hidden: false).each do |group|
-          %li= link_to group.name, edit_group_membership_privacy_path(group, group.get_options_for(person))

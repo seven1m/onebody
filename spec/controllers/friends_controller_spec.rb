@@ -1,6 +1,6 @@
-require_relative '../spec_helper'
+require_relative '../rails_helper'
 
-describe FriendsController do
+describe FriendsController, type: :controller do
 
   before do
     @person, @friend, @other_person = FactoryGirl.create_list(:person, 3)

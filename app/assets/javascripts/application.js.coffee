@@ -8,7 +8,8 @@
 #= require admin_lte
 #= require spin
 #= require leaflet
-#= require_directory ./app
+#= require leaflet.markercluster
+#= require_tree ./app
 
 $('[data-toggle^="#"], [data-toggle^="."]').each (i, elm) ->
   elm = $(elm)

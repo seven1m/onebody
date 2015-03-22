@@ -20,6 +20,10 @@ class Signup
     end
   end
 
+  def email=(e)
+    @email = e.downcase
+  end
+
   def save
     return false unless valid?
     return true if validate_existing
@@ -104,7 +108,7 @@ class Signup
   end
 
   def deliver_signup_approval
-    Notifier.pending_sign_up(@person).deliver
+    Notifier.pending_sign_up(@person).deliver_now
     @approval_sent = true
   end
 

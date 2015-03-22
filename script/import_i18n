@@ -3,7 +3,7 @@
 SOURCE = ARGV[0] || "#{ENV['HOME']}/Downloads/OneBody.zip"
 
 if File.exist?(SOURCE)
-  puts `unzip #{SOURCE} -d /tmp/i18n`
+  puts `unzip "#{SOURCE}" -d /tmp/i18n`
   Dir['/tmp/i18n/*'].each do |dir|
     next unless File.directory?(dir)
     dest = File.split(dir).last

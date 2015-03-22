@@ -16,7 +16,7 @@
   .col-lg-8
     = image_tag @picture.photo.url(:large)
   .col-lg-4
-    - if @logged_in.can_edit?(@picture)
+    - if @logged_in.can_update?(@picture)
       .page-controls
         = link_to @picture.photo.url, class: 'btn bg-gray' do
           = icon 'fa fa-arrows-alt'

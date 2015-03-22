@@ -29,13 +29,14 @@ pt:
         new: "[criar uma nova categoria]"
         create_prompt: "Digite a categoria do seu negócio:"
       child:
-        enabled: Sim
-        disabled: Não
+        enabled: Criança
+        disabled: Adulto
       child_hint: "Se nenhuma data de nascimento for especificada, você necessita indicar se este é uma criança ou um adulto."
       custom_type:
         new: "[criar função]"
         create_prompt: "Digite o nome da função:"
       description_hint: "Algumas palavras sobre você — algumas pessoas colocam a profissão aqui."
+      email_hint: " (este é o seu endereço de email principal utilizado para o login e receber emails)"
       facebook_url:
         placeholder: "https://www.facebook.com/nomedousuario"
       family_photo: "Foto da Família"
@@ -44,12 +45,11 @@ pt:
       person_type_hint: "Estes não controlam acesso - somente designação."
       photo: "Foto do Perfil"
       primary_emailer:
-        intro_html: |
-            You're sharing an email address with %{person}.
-            If your group emails are being rejected, consider checking the box below to ensure that
-            emails from your address are <strong>always</strong> connected with your account
-            &ndash; <strong>not %{person}</strong>. (Note: if both you and %{person} send group emails,
-            then it would be better to use different email addresses.)
+        intro_html: "Você está compartilhando um endereço de email com %{person}.\n\
+            Se os emails do seu grupo estão sendo rejeitados, considere marcar a opção abaixo para ter certeza que\n\
+            os seus email estão <strong>sempre</strong> conectados com a sua conta\n\
+            &ndash; <strong>not %{person}</strong>. (Nota: Se você e %{person} enviam emails para o grupo,\n\
+            então será melhor utilizar endereços de email diferentes.) \n"
       required_field: requerido
       twitter:
         placeholder: "@nomedousuario"
@@ -115,7 +115,7 @@ pt:
     cant_delete: "Você não pode excluir esta pessoa."
     changes_must_be_reviewed_html: "Alterações devem ser <strong>revisadas pela equipe</strong> . Para solicitar alterações informe abaixo e click em 'Enviar Alterações'."
     changes_submitted: "Alterações submetidas."
-    child: Criança
+    child: Criança/Adulto
     deleted_html: "Esta pessoa foi excluída. Você pode restaurar um registro <a href='%{url}'>aqui</a>."
     family: Família
     family_legacy_external_id: "Legado da Família / ID Externo"
@@ -124,7 +124,7 @@ pt:
     friendship_accepted: "Amizade aceita"
     friendship_manage: "Você somente pode gerenciar as suas amizades."
     friendship_must_specify: "Precisa especificar accept=true ou reject=true"
-    friendship_rejected: "Amizade rejeitada."
+    friendship_rejected: "Amizade declinada."
     full_access: "Acesso total"
     if_you_wish_to_be_listed_business_dir_html: "Se você quiser ser listado no <a href='%{url}'>Diretório de Negócios</a>, insira o nome do seu negócio, descrição e outros detalhes abaixo."
     if_you_wish_to_remove_something_html: "Se você deseja remover algo, a fim de evitar que outras pessoas vejam, entre na página de <a href='%{url}'>Privacidade</a> e oculte-a."

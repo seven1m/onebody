@@ -17,6 +17,14 @@ en:
         button: "New folder"
       new_document:
         button: "New document"
+      hidden_folders:
+        label:
+          one: "1 hidden folder"
+          other: "%{count} hidden folders"
+      restricted_folders:
+        label:
+          one: "1 restricted (group) folder"
+          other: "%{count} restricted (group) folders"
 
     show:
       table:
@@ -61,3 +69,32 @@ en:
     delete_folder:
       confirmation: "Are you sure you want to delete this folder AND EVERYTHING INSIDE IT? There is no undo for this."
       notice: "The folder and all its contents were deleted."
+
+    hidden_folder:
+      alert: "This folder is hidden from regular users."
+      tooltip: "hidden"
+
+    hidden_folder_due_to_parent:
+      alert: "This folder is hidden from regular users because it is inside a hidden folder."
+
+    hidden_document:
+      alert: "This document is hidden from regular users."
+      tooltip: "hidden"
+
+    hidden_document_due_to_parent:
+      alert: "This document is hidden from regular users because it is inside a hidden folder."
+
+    groups:
+      add:
+        heading: "Share with groups (optional)"
+        search_button: "Search by name"
+        add_button: "Add Group"
+      link: "link"
+
+    restricted_folder:
+      alert_html: "This folder is only visible to the following groups: %{groups}"
+      tooltip: "restricted"
+
+    restricted_document:
+      alert_html: "This document is only visible to the following groups: %{groups}"
+      tooltip: "restricted"

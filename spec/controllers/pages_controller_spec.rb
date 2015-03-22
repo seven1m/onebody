@@ -1,6 +1,6 @@
-require_relative '../spec_helper'
+require_relative '../rails_helper'
 
-describe PagesController do
+describe PagesController, type: :controller do
 
   before do
     @admin = FactoryGirl.create(:person, admin: Admin.create(edit_pages: true))

@@ -1,15 +1,47 @@
-= form_for @folder, as: :folder, url: @folder.new_record? ? documents_path : document_path(@folder) do |form|
-  = error_messages_for(form)
-  = form.hidden_field :folder_id
-  - if parent_document_folder_options(@folder).any?
-    .form-group
-      = form.label :folder_id
-      = form.select :folder_id, parent_document_folder_options(@folder), { include_blank: true }, class: 'form-control'
-  .form-group
-    = form.label :name
-    = form.text_field :name, class: 'form-control'
-  .form-group
-    = form.label :description
-    = form.text_area :description, class: 'form-control'
-  .form-group
-    = form.button t('save'), class: 'btn btn-success'
+.row
+  .col-md-8
+    = form_for @folder, as: :folder, url: @folder.new_record? ? documents_path : document_path(@folder) do |form|
+      = error_messages_for(form)
+      = form.hidden_field :folder_id
+      - if parent_document_folder_options(@folder).any?
+        .form-group
+          = form.label :folder_id
+          = form.select :folder_id, parent_document_folder_options(@folder), { include_blank: true }, class: 'form-control'
+      .form-group
+        = form.label :name
+        = form.text_field :name, class: 'form-control'
+      .form-group
+        = form.label :description
+        = form.text_area :description, class: 'form-control'
+      .form-group#share-with-these-groups{ style: @folder.groups.any? ? '' : 'display:none' }
+        = hidden_field_tag 'folder[group_ids][]', ''
+        = form.label :groups
+        %ul.list-unstyled
+          - @folder.groups.order(:name).each do |group|
+            %li
+              = check_box_tag 'folder[group_ids][]', group.id, true, id: "group#{group.id}", checked: true, class: 'form-control'
+              = label_tag "group#{group.id}", group.name
+              == (#{link_to t('documents.groups.link'), group})
+        %br
+      .form-group
+        = form.check_box :hidden, class: 'form-control'
+        = form.label :hidden
+      .form-group
+        = form.button t('save'), class: 'btn btn-success'
+
+  .col-md-4
+    .box.box-info
+      .box-header
+        %h3.box-title= t('documents.groups.add.heading')
+      .box-body
+        = form_tag groups_path, remote: true, method: 'get' do
+          = hidden_field_tag :select_group, true
+          .form-group
+            = label_tag :name, t('name')
+            = text_field_tag :name, '', class: 'form-control'
+          .form-group
+            = button_tag t('documents.groups.add.search_button'), class: 'btn btn-info'
+        #add_group{ style: "display:none" }
+          #group_results
+          .form-group.push-down
+            = button_tag t('documents.groups.add.add_button'), class: 'btn btn-success add-group-to-folder-button'

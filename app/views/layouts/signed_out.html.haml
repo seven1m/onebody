@@ -17,6 +17,15 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     = yield(:head)
+    :javascript
+      // prevent js links from firing before the rest of the js is loaded
+      window.event_queue = [];
+      document.addEventListener('click', function(e) {
+        if (e.target.getAttribute('href') == '#' || e.target.getAttribute('data-toggle') == 'tab') {
+          e.preventDefault();
+          event_queue.push(e);
+        }
+      }, false);
   %body{ class: @body_class || 'skin-blue' }
     %header.header
       = link_to setting(:name, :site), root_path, class: 'logo'

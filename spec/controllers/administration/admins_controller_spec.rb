@@ -1,6 +1,6 @@
-require_relative '../../spec_helper'
+require_relative '../../rails_helper'
 
-describe Administration::AdminsController do
+describe Administration::AdminsController, type: :controller do
 
   before do
     @admin = FactoryGirl.create(:person, :super_admin)

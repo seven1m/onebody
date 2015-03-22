@@ -15,13 +15,16 @@
   = form.check_box :pictures, class: 'checkbox'
   = form.label :pictures, class: 'inline'
 .form-group
-  = form.check_box :attendance, class: 'checkbox'
-  = form.label :attendance, class: 'inline'
+  = form.check_box :attendance, class: 'checkbox', disabled: @group.attendance_required?
+  = form.label :attendance, class: "inline #{'disabled' if @group.attendance_required?}"
+  - if @group.attendance_required?
+    %span.help-block
+      = t('groups.edit.attendance_disabled.help')
 .form-group
   = form.check_box :has_tasks, class: 'checkbox'
   = form.label :has_tasks, class: 'inline'
 -#.form-group
--#  = check_box_tag :calendar, nil, @group.gcal_private_link.to_s.any?, class: 'checkbox', data: { toggle: '#group_calendar_field' }
+-#  = check_box_tag :calendar, nil, @group.gcal_private_link.present?, class: 'checkbox', data: { toggle: '#group_calendar_field' }
 -#  = label_tag :calendar, t('groups.edit.enable_calendar'), class: 'inline'
 -#.form-group#group_calendar_field
 -#  = form.label :gcal_private_link

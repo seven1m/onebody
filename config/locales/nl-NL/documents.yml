@@ -3,7 +3,7 @@ nl-NL:
   documents:
     index:
       heading: Documenten
-      intro: "This is a place for forms, publications, and other files available to users of this site."
+      intro: "Hier vindt je documenten die de kerk beschikbaar stelt. De documenten zijn onderverdeeld in mappen zodat je gemakkelijk een document kunt zoeken en downloaden. Je kunt zelf ook documenten toevoegen."
       table:
         name: Naam
         description: Omschrijving

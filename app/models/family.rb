@@ -49,16 +49,13 @@ class Family < ActiveRecord::Base
     self.country = Setting.get(:system, :default_country) unless country.present?
   end
 
-  geocoded_by :location
-  after_validation :geocode
-
   def barcode_id=(b)
-    write_attribute(:barcode_id, b.to_s.strip.any? ? b : nil)
+    write_attribute(:barcode_id, b.present? ? b : nil)
     write_attribute(:barcode_assigned_at, Time.now.utc)
   end
 
   def alternate_barcode_id=(b)
-    write_attribute(:alternate_barcode_id, b.to_s.strip.any? ? b : nil)
+    write_attribute(:alternate_barcode_id, b.present? ? b : nil)
     write_attribute(:barcode_assigned_at, Time.now.utc)
   end
 
@@ -70,16 +67,11 @@ class Family < ActiveRecord::Base
     latitude.to_f != 0.0 and longitude.to_f != 0.0
   end
 
-  def location
-    if [address1, city, state].all?(&:present?)
-      {
-        street: address,
-        city: city,
-        state: state,
-        postalCode: zip,
-        adminArea1: country
-      }
-    end
+  include Concerns::Geocode
+  geocode_with :geocoding_address
+
+  def geocoding_address
+    [address, city, state, zip, country].map(&:presence).compact.join(', ')
   end
 
   # not HTML-escaped!
@@ -99,6 +91,12 @@ class Family < ActiveRecord::Base
   end
 
   self.digits_only_for_attributes = [:home_phone]
+
+  def parents
+    people.undeleted.reorder(:id).select do |person|
+      person.adult? and [1, 2].include?(person.position)
+    end
+  end
 
   def children_without_consent
     people.undeleted.reject(&:adult_or_consent?)
@@ -187,11 +185,19 @@ class Family < ActiveRecord::Base
     dates.first if dates.all? { |d| d == dates.first }
   end
 
+  def adults
+    @adults ||= if new_record?
+      people.select(&:adult?)
+    else
+      people.undeleted.adults
+    end
+  end
+
   def suggested_name
-    if people.undeleted.adults.count == 1
-      people.undeleted.adults.first.name
-    elsif people.undeleted.adults.count >= 2
-      (first, second) = people.undeleted.adults.take(2)
+    if adults.count == 1
+      adults.first.name
+    elsif adults.count >= 2
+      (first, second) = adults.take(2)
       if first.last_name == second.last_name
         key = 'families.name.same_last_name'
       else
@@ -206,6 +212,10 @@ class Family < ActiveRecord::Base
         adult2_name:  second.name
        )
     end
+  end
+
+  def suggested_last_name
+    adults.first.try(:last_name)
   end
 
   alias_method :destroy_for_real, :destroy

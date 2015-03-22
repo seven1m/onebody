@@ -36,7 +36,18 @@
     %tr
       %td= t('groups.show.details.location')
       %td= preserve_breaks(@group.location)
-  - if @group.attachments.any? or @group.admin?(@logged_in)
+  - if @group.directions.present?
+    %tr
+      %td= t('groups.show.details.directions')
+      %td= preserve_breaks(@group.directions)
+  - if @group.document_folders.any? && can_see_group_documents?(@group)
     %tr
       %td= t('groups.show.details.attachments')
-      %td= link_to t('groups.show.details.attachment_count', count: @group.attachments.count), group_attachments_path(@group)
+      %td
+        %ul.list-unstyled
+          - @group.document_folders.each do |folder|
+            %li
+              = link_to documents_path(folder_id: folder.id) do
+                = icon 'fa fa-folder'
+                = folder.name
+

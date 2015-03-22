@@ -1,7 +1,15 @@
-#add_verse
-  = form_for Verse.new do |form|
+#search_verse
+  = form_tag(search_verses_path, {method: "get", id: 'search_verse_form'}) do |form|
     .form-group
-      = label_tag :id, t('verses.add_your_favorite_verse')
-      = text_field_tag :id, nil, placeholder: t('verses.example_verse'), class: 'form-control'
+      = label_tag :q, t('verses.add_your_favorite_verse')
+      = text_field_tag :q, nil, placeholder: t('verses.example_verse'), class: 'form-control'
     .form-group
-      = submit_tag t('verses.add_verse'), class: 'btn btn-success'
+      = button_tag value: "submit", class: 'btn btn-info' do
+        = icon 'fa fa-search'
+        = t('verses.search_verse')
+
+#search_result
+
+#search_error{ style: 'display:none' }
+  .verse-error.callout.callout-danger
+    %h3= t('verses.search.error')

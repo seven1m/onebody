@@ -1,9 +1,9 @@
 .bundle
-db/schema.rb
 db/*.sql
 db/*.backup.*
 tmp
 .DS_Store
+Gemfile.lock
 setup-authorized-ip
 setup-secret
 config/database.yml
@@ -27,3 +27,5 @@ script/package
 .idea
 .vagrant
 Vagrantfile.local
+.gem
+coverage

@@ -11,12 +11,12 @@ nl-NL:
     delete:
       heading: "Groep verwijderen"
       intro: "Weet je zeker dat je deze groep wilt verwijderen met alle bijbehorende content (berichten, gebedsverzoeken foto's etc.)?"
-      button: "Ja, ik wil de groep definitief verwijderen."
+      button: "Groep verwijderen"
     hide:
-      heading: "Hide (Archive) This Group"
-      intro: "If you wish for a group to disappear from all pages of the site, hide it by clicking the button below:"
-      button: "Hide this group"
-      unhide_button: "Activeer deze groep"
+      heading: "Archiveer deze groep"
+      intro: "Archiveer deze groep zodat deze niet meer zichtbaar is voor leden. "
+      button: "Groep archiveren"
+      unhide_button: "Archiveren ongedaan maken"
     your_groups: "Jouw groepen"
     groups_of:
       s: "%{name} Groepen"
@@ -40,7 +40,7 @@ nl-NL:
     create:
       heading: "Maak een nieuwe groep aan"
       description: "Kun je niet de juiste groep vinden? Maak gemakkelijk en nieuwe groep aan."
-      button: Aanmaken
+      button: "Groep aanmaken"
     show:
       details:
         created_at: "Groep aangemaakt."
@@ -71,7 +71,7 @@ nl-NL:
       linked:
         tooltip: "Deze groep is gekoppeld aan code %{code}"
       parents_of:
-        tooltip: "This group is linked to parents of %{group}"
+        tooltip: "Deze groep is een groep/subgroep van %{group}"
     stream:
       none:
         heading: "Geen updates"
@@ -91,9 +91,9 @@ nl-NL:
         membership_mode:
           options:
             manual: "Leden handmatig toevoegen (standaard)"
-            link_code: "Leden automatisch toevoegen via een externe link."
-            parents_of: "Link to a child group to get parents of those children."
-            adults: "Include all adults in this community."
+            link_code: "Leden automatisch toevoegen via een externe link"
+            parents_of: "Subgroep koppelen aan hoofdgroep"
+            adults: "Alle leden (volwassene) toevoegen aan deze groep"
       files:
         description: "De bestanden zijn zichtbaar voor alle groepsleden."
         delete_button: Verwijderen
@@ -120,17 +120,17 @@ nl-NL:
         help: "Alle groepsleden kunnen elkaar berichten sturen."
       class_link_code:
         help_html: "<p>Geef een link op om te koppelen met externe pakketten. <a href='https://github.com/churchio/onebody/wiki/HowGroupMembershipWorks'>Klik hier</a> voor meer informatie.</p>\n\
-            Klik op <strong>opslaan</strong> om de groepsleden elke nacht te updaten. \n"
+            Klik op <strong>wijzigingen opslaan</strong> om de groepsleden elke nacht te updaten. \n"
       parents_of:
         help_html: |
-            <p>Membership will be auto-generated from parents of selected group's members.</p>
-            <p>Click <strong>Save</strong> to update group members immediately. Group members will also be updated automatically every night.</p>
+            <p>Leden van deze groep worden automatisch lid van de andere hoofd- en subgroepen. </p>
+            <p>Klik op <strong>Opslaan</strong> om de groepleden direct te updaten. </p>
       enable_calendar: "Activeer kalender"
     table:
       group_name: Groep
       leader: Groepsleider
       member_count: Groepsleden
-      email_enabled: "E-mail geactiveerd."
+      email_enabled: "E-mail geactiveerd"
     search:
       heading: "Zoek op naam"
       results_heading: Zoekresultaat

@@ -1,0 +1,27 @@
+- @report = report
+= render partial: 'title'
+.row
+  .col-md-9
+    %table.table
+      %thead
+        %tr
+          %th= t('reports.reports.attendance_totals.columns.group')
+          %th= t('reports.reports.attendance_totals.columns.attended_at')
+          %th= t('reports.reports.attendance_totals.columns.count')
+          = render partial: 'body'
+  .col-md-3
+    .box.box-info.hidden-print
+      .box-heading
+      .box-body
+        = form_for report, as: :options, url: url_for, html: {method: :get} do |f|
+          .form-group
+            = f.label :fromdate, t('reports.from_date')
+            = report_date_field f, :fromdate, report.fromdate
+          .form-group
+            = f.label :thrudate, t('reports.thru_date')
+            = report_date_field f, :thrudate, report.thrudate
+          .form-group
+            = f.submit t('reports.submit'), class: 'btn btn-info'
+            = render partial: 'submit'
+
+= render partial: 'count'

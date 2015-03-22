@@ -13,6 +13,6 @@
         = submit_or_save_button
     .col-lg-4
       %h3= t('families.edit.photo')
-      %p= family_avatar_tag @family, size: :large
-      %p= photo_upload_for @family
+      = photo_upload_for @family do
+        %p= family_avatar_tag @family, size: :large
 

@@ -1,24 +1,55 @@
 - @title = @parent_folder.try(:name) || t('.heading')
 
+- if @parent_folder && @parent_folder.all_groups.any?
+  .alert.alert-warning
+    = icon('fa fa-lock')
+    = t('documents.restricted_folder.alert_html', |
+      groups: @parent_folder.all_groups.map { |g| link_to(g.name, g) }.join(', ').html_safe)
+
+- if @parent_folder
+  - if @parent_folder.hidden?
+    .alert.alert-warning
+      = icon('fa fa-eye-slash')
+      = t('documents.hidden_folder.alert')
+  - elsif @parent_folder.hidden_at_all?
+    .alert.alert-warning
+      = icon('fa fa-eye-slash')
+      = t('documents.hidden_folder_due_to_parent.alert')
+
 %p
   = @parent_folder.try(:description) || t('.intro')
+
+- if @logged_in.admin?(:manage_documents)
+  = form_tag nil, method: 'get', id: 'document-visibility' do
+    = hidden_field_tag 'folder_id', params[:folder_id]
+    %ul.list-unstyled
+      - if @hidden_folder_count > 0
+        %li
+          = check_box_tag :hidden_folders, true, @show_hidden_folders, class: 'simple'
+          = label_tag :hidden_folders, t('documents.index.hidden_folders.label', count: @hidden_folder_count)
+      - if @restricted_folder_count > 0
+        %li
+          = check_box_tag :restricted_folders, true, @show_restricted_folders, class: 'simple'
+          = label_tag :restricted_folders, t('documents.index.restricted_folders.label', count: @restricted_folder_count)
 
 - if @folders.any? or @documents.any?
   %table.table
     %tr
-      %th
+      %th.icon
       %th= t('.table.name')
       %th= t('.table.updated_at')
       %th= t('.table.size')
       %th
     - @folders.each do |folder|
-      %tr
-        %td
+      %tr{ class: folder.hidden? ? 'hidden-folder' : nil }
+        %td.icon
           = link_to documents_path(folder_id: folder.id) do
             = icon 'fa fa-folder'
         %td
           = link_to documents_path(folder_id: folder.id) do
             = folder.name
+            = icon('fa fa-eye-slash', title: t('documents.hidden_folder.tooltip')) if folder.hidden?
+            = icon('fa fa-lock', title: t('documents.restricted_folder.tooltip')) if folder.restricted?
         %td
           = folder.updated_at.to_s(:full)
         %td

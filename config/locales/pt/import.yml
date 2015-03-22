@@ -28,7 +28,7 @@ pt:
     only_first_records_will_be_imported_html: "Somente os primeiros %{count} registros serão importados. Para arquivos grandes, você precisa dividir os registros em múltiplos arquivos ou utilizar o <a href=\"http://wiki.github.com/churchio/onebody/updateagent\">UpdateAgent</a> para importar grandes quantidades de registros de uma vez."
     people: "Importar Pessoas"
     record: registro
-    record_updated: "Record updated."
+    record_updated: "Registro atualizado."
     records: Registros
     select_csv_file: "Selecione um arquivo separado por vírgulas (CSV) para importar com os nomes dos atributos na linha de cabeçalho."
     the_changes_will_be_made: "As seguintes alterações serão feitas. Somente os registros selecionados serão criados/atualizados."

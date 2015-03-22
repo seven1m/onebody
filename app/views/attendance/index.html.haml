@@ -2,34 +2,61 @@
 
 .row
   .col-md-8
-    %p
-      = label_tag :attended_at, t('attendance.date'), class: 'inline'
-      = date_field_tag :attended_at, @attended_at.to_s(:date)
+    .form-group
+      = label_tag :attended_at, t('attendance.date')
+      .input-group
+        .input-group-btn
+          %button{ type: 'button', class: 'btn btn-info date-picker-btn' }
+            = icon 'fa fa-calendar'
+        = date_field_tag :attended_at, @attended_at.to_s(:date), class: 'form-control'
 
     = form_tag batch_group_attendance_index_path(@group), id: 'attendance_form' do
       = hidden_field_tag :attended_at, @attended_at
-      %ul{:style => "list-style:none;"}
+      %ul.list-unstyled
         - @records.each do |person, record|
           %li
             = check_box_tag 'ids[]', person.id, record ? true : false, id: "ids_#{person.id}"
             = label_tag "ids_#{person.id}", person.name, class: 'inline'
-      %p= button_tag t('attendance.save'), class: 'btn btn-success'
+      .form-group
+        = label_tag :notes, t('attendance.notes.label')
+        = text_area_tag :notes, '', class: 'form-control'
+        %span.help-block= t('attendance.notes.help')
+      .form-group
+        = button_tag t('attendance.save'), class: 'btn btn-success'
 
   .col-md-4
     .box.box-info
       .box-header
+        %h3.box-title
+          = icon 'fa fa-plus-circle'
+          = t('attendance.add.heading')
       .box-body
         = form_tag search_path, remote: true, style: 'border:none;' do
           = hidden_field_tag :select_person, true
           = hidden_field_tag :no_auto_submit, true
           .form-group
-            %label{:for => "add_person_name"}
-              = t('attendance.add_somebody_not_in_group')
+            %label{ for: 'add_person_name' }
+              = t('attendance.add.intro')
             = text_field_tag 'name', nil, id: 'add_person_name', class: 'form-control'
           .form-group
             = button_tag t('search.search_by_name'), class: 'btn btn-info'
-        #add_member{:style => "display:none;"}
+        #add_member{ style: 'display:none' }
           = form_tag group_attendance_index_path(@group), method: 'post', id: 'add_people_form' do
             = hidden_field_tag :attended_at, @attended_at, id: nil
             #results
             %p= button_tag t('search.add_selected'), class: 'btn btn-success'
+      .box-footer
+        = t('attendance.add.footer_html', url: group_memberships_path(@group))
+
+    - if @group.admin?(@logged_in)
+      .box.box-success
+        .box-header
+          %h3.box-title
+            = icon 'fa fa-check-square'
+            = t('attendance.share.heading')
+        .box-body
+          %p= t('attendance.share.intro_html')
+          %p
+            = link_to({ public: true, token: @group.share_token }, class: 'btn btn-success') do
+              = icon 'fa fa-share'
+              = t('attendance.share.button')

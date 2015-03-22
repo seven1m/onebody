@@ -1,5 +1,17 @@
 - @title = t('admin.dashboard.heading')
 
+- content_for :sub_title do
+  = t('admin.dashboard.sub_title', version: OneBody.current_version)
+
+- unless OneBody.up_to_date?
+  .alert.alert-warning
+    = icon 'fa fa-warning'
+    %p= t('admin.dashboard.version_alert.intro_html',
+          version: OneBody.latest_version,
+          url: "https://github.com/churchio/onebody/releases/tag/#{OneBody.latest_version}")
+    %p= link_to t('admin.dashboard.version_alert.download_button'),
+                'https://github.com/churchio/onebody/wiki/Installation#how-to-upgrade'
+
 .metrics.floating-boxes
   - if @logged_in.admin?(:manage_updates)
     .floating-box
@@ -29,7 +41,7 @@
             %p= t('admin.box.sync_errors.text', count: error_count)
         .icon
           = icon 'fa fa-refresh'
-  - if @logged_in.admin?(:manage_groups)
+  - if @logged_in.admin?(:manage_groups) && setting(:features, :groups)
     .floating-box
       .small-box{ class: metric_css_class(@groups_pending_approval_count, 1, 5) }
         = link_to groups_path(pending_approval: true) do
@@ -38,7 +50,7 @@
             %p= t('admin.box.groups_pending_approval.text', count: @groups_pending_approval_count)
         .icon
           = icon 'fa fa-users'
-  - if @logged_in.admin?(:manage_groups)
+  - if @logged_in.admin?(:manage_groups) && setting(:features, :groups)
     .floating-box
       .small-box{ class: metric_css_class(@membership_request_count, 1, 5) }
         = link_to administration_membership_requests_path do
@@ -70,6 +82,19 @@
             = link_to administration_attendance_index_path, class: 'btn btn-info' do
               = icon 'fa fa-bar-chart-o'
               = t('admin.attendance.button')
+
+  - if @logged_in.admin?(:run_reports)
+    .floating-box
+      .box.box-info.normalize-height
+        .box-header
+          %h3.box-title= t('admin.report.heading')
+        .box-body
+          %p
+            = t('admin.report.intro')
+          %p
+            = link_to admin_reports_path(), class: 'btn btn-info' do
+              = icon 'fa fa-table'
+              = t('admin.report.button')
 
   - if setting(:features, :checkin) and (@logged_in.admin?(:manage_checkin) or @logged_in.admin?(:assigned_checkin_cards))
     .floating-box
@@ -128,7 +153,6 @@
                   = link_to people_path(format: 'xml'), class: 'btn btn-xs btn-info' do
                     = icon 'fa fa-download'
                     XML
-              %td
                 - if @logged_in.admin?(:export_data)
                   = link_to people_path(format: 'csv'), class: 'btn btn-xs btn-info' do
                     = icon 'fa fa-download'
@@ -148,9 +172,9 @@
                     = link_to groups_path(format: 'xml'), class: 'btn btn-xs btn-info' do
                       = icon 'fa fa-download'
                       XML
-                %td
                   - if @logged_in.admin?(:export_data)
                     = link_to groups_path(format: 'csv'), class: 'btn btn-xs btn-info' do
                       = icon 'fa fa-download'
                       CSV
                 %td
+

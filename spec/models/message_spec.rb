@@ -1,4 +1,4 @@
-require_relative '../spec_helper'
+require_relative '../rails_helper'
 
 describe Message do
   include MessagesHelper
@@ -27,17 +27,17 @@ describe Message do
     expect(@body.to_s).to match(/http:\/\/.+\/privacy/)
   end
 
-  describe '#can_see?' do
+  describe '#can_read?' do
     context 'group message' do
       before do
         @message = Message.create(group: @group, person: @person, subject: 'subject', body: 'body')
       end
 
       it 'knows who can see the message' do
-        expect(@person.can_see?(@message)).to eq(true)
-        expect(!!@second_person.can_see?(@message)).to eq(false)
-        expect(!!@admin_person.can_see?(@message)).to eq(false)
-        expect(@group_admin.can_see?(@message)).to eq(true)
+        expect(@person.can_read?(@message)).to eq(true)
+        expect(!!@second_person.can_read?(@message)).to eq(false)
+        expect(!!@admin_person.can_read?(@message)).to eq(false)
+        expect(@group_admin.can_read?(@message)).to eq(true)
       end
 
       context 'in a private group' do
@@ -46,10 +46,10 @@ describe Message do
         end
 
         it 'knows who can see the message' do
-          expect(@person.can_see?(@message)).to eq(true)
-          expect(!!@second_person.can_see?(@message)).to eq(false)
-          expect(!!@admin_person.can_see?(@message)).to eq(false)
-          expect(@group_admin.can_see?(@message)).to eq(true)
+          expect(@person.can_read?(@message)).to eq(true)
+          expect(!!@second_person.can_read?(@message)).to eq(false)
+          expect(!!@admin_person.can_read?(@message)).to eq(false)
+          expect(@group_admin.can_read?(@message)).to eq(true)
         end
 
         context 'admin cannot manage groups' do
@@ -58,7 +58,7 @@ describe Message do
           end
 
           it 'does not allow admin to see' do
-            expect(!!@admin_person.can_see?(@message)).to eq(false)
+            expect(!!@admin_person.can_read?(@message)).to eq(false)
           end
         end
       end
@@ -70,9 +70,9 @@ describe Message do
       end
 
       it 'knows who can see the message' do
-        expect(@person.can_see?(@message)).to be
-        expect(@second_person.can_see?(@message)).to be
-        expect(@third_person.can_see?(@message)).not_to be
+        expect(@person.can_read?(@message)).to be
+        expect(@second_person.can_read?(@message)).to be
+        expect(@third_person.can_read?(@message)).not_to be
       end
     end
   end
@@ -93,5 +93,120 @@ describe Message do
     @message = Message.create!(details)
     @message2 = Message.new(details)
     expect(@message2).to_not be_valid
+  end
+
+  describe '#reply_instructions' do
+    context 'message to a person' do
+      let(:sender)    { FactoryGirl.create(:person, first_name: 'John', last_name: 'Doe') }
+      let(:recipient) { FactoryGirl.create(:person) }
+      let(:message)   { FactoryGirl.create(:message, to: recipient, person: sender, dont_send: true) }
+
+      let(:instructions) { message.reply_instructions(recipient) }
+
+      it 'tells the user to hit reply' do
+        expect(instructions).to include(
+          'Hit "Reply" to send a message to John Doe'
+        )
+      end
+    end
+
+    context 'message to a group' do
+      let(:sender)    { FactoryGirl.create(:person, first_name: 'John', last_name: 'Doe') }
+      let(:group)     { FactoryGirl.create(:group, name: 'Foo') }
+      let(:recipient) { FactoryGirl.create(:person) }
+      let(:message)   { FactoryGirl.create(:message, group: group, person: sender, dont_send: true) }
+
+      context 'recipient cannot post to the group' do
+        let!(:membership)  { group.memberships.create!(person: recipient) }
+        let(:instructions) { message.reply_instructions(recipient) }
+
+        it 'tells the user to hit reply' do
+          expect(instructions).to include(
+            'Hit "Reply" to send a message to John Doe'
+          )
+        end
+
+        it 'does not tell the user to reply all' do
+          expect(instructions).not_to include('Hit "Reply to All"')
+        end
+
+        it 'includes the group url' do
+          expect(instructions).to match(
+            %r{Group page: http://example.com/groups/\d+}i
+          )
+        end
+      end
+
+      context 'recipient can post to the group' do
+        let(:group)        { FactoryGirl.create(:group, name: 'Foo', members_send: true, address: 'foo') }
+        let!(:membership)  { group.memberships.create!(person: recipient) }
+        let(:instructions) { message.reply_instructions(recipient) }
+
+        it 'tells the user to hit reply' do
+          expect(instructions).to include(
+            'Hit "Reply" to send a message to John Doe'
+          )
+        end
+
+        it 'tells the user to reply all' do
+          expect(instructions).to include(
+            'Hit "Reply to All" to send a message to the group Foo, or send to foo@example.com.'
+          )
+        end
+
+        it 'includes the group url' do
+          expect(instructions).to match(
+            %r{Group page: http://example.com/groups/\d+}i
+          )
+        end
+
+        context 'the group has no address' do
+          before { group.update_attribute(:address, nil) }
+
+          let(:instructions) { message.reply_instructions(recipient) }
+
+          it 'does not tell the user to reply all' do
+            expect(instructions).not_to include('Hit "Reply to All"')
+          end
+
+          it 'includes the url to the message' do
+            expect(instructions).to include(
+              "To reply, go to: http://example.com/messages/#{message.id}"
+            )
+          end
+        end
+      end
+    end
+  end
+
+  describe '#disable_email_instructions' do
+    context 'for a group' do
+      let(:sender)    { FactoryGirl.create(:person, first_name: 'John', last_name: 'Doe') }
+      let(:group)     { FactoryGirl.create(:group, name: 'Foo') }
+      let(:recipient) { FactoryGirl.create(:person) }
+      let(:message)   { FactoryGirl.create(:message, group: group, person: sender, dont_send: true) }
+
+      let(:instructions) { message.disable_email_instructions(recipient) }
+
+      it 'includes the link to disable group email' do
+        expect(instructions).to match(
+          %r{\ATo stop email from this group:\n.*email=off\n\z}
+        )
+      end
+    end
+
+    context 'for a person' do
+      let(:sender)    { FactoryGirl.create(:person, first_name: 'John', last_name: 'Doe') }
+      let(:recipient) { FactoryGirl.create(:person) }
+      let(:message)   { FactoryGirl.create(:message, to: recipient, person: sender, dont_send: true) }
+
+      let(:instructions) { message.disable_email_instructions(recipient) }
+
+      it 'includes the link to the privacy page' do
+        expect(instructions).to match(
+          %r{\ATo stop these emails, go to your privacy page:\n.*privacy\n\z}
+        )
+      end
+    end
   end
 end

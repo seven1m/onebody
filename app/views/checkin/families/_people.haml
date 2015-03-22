@@ -6,7 +6,7 @@
           = avatar_tag(person)
         %td
           = link_to person.name, person
-          - if person.mobile_phone.to_s.any?
+          - if person.mobile_phone.present?
             = format_phone(person.mobile_phone, :mobile)
         %td.actions
           = link_to person_relationships_path(person), class: 'btn bg-gray btn-xs' do
@@ -14,15 +14,15 @@
       %tr.details
         %td
         %td{ colspan: 2 }
-          - if person.can_pick_up.to_s.any?
+          - if person.can_pick_up.present?
             %strong.very-strong Can pick up:
             = h person.can_pick_up
             %br/
-          - if person.cannot_pick_up.to_s.any?
+          - if person.cannot_pick_up.present?
             %strong.very-strong Cannot pick up:
             = h person.cannot_pick_up
             %br/
-          - if person.medical_notes.to_s.any?
+          - if person.medical_notes.present?
             %strong.very-strong Medical notes:
             = h person.medical_notes
             %br/

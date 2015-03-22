@@ -1,6 +1,6 @@
-require_relative '../spec_helper'
+require_relative '../rails_helper'
 
-describe AccountsController do
+describe AccountsController, type: :controller do
   render_views
 
   before do
@@ -625,7 +625,7 @@ describe AccountsController do
           end
 
           it 'should set select people in session' do
-            expect(session[:select_from_people]).to eq([@person, @spouse])
+            expect(session[:select_from_people]).to contain_exactly(@person, @spouse )
           end
 
           it 'should redirect to select account path' do

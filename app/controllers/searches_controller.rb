@@ -40,6 +40,7 @@ class SearchesController < ApplicationController
           @more = @people.length > MAX_SELECT_PEOPLE
           @people = @people[0...MAX_SELECT_PEOPLE]
         elsif params[:select_family]
+          @families ||= []
           @more = @families.length > MAX_SELECT_FAMILIES
           @families = @families.to_a[0..MAX_SELECT_FAMILIES]
         end
@@ -51,7 +52,7 @@ class SearchesController < ApplicationController
 
   def get_family
     @family = Family.find(params[:family_id])
-    raise StandardError unless @logged_in.can_edit?(@family)
+    raise StandardError unless @logged_in.can_update?(@family)
   end
 
 end

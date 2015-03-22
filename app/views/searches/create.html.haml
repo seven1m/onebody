@@ -41,6 +41,11 @@
             = label_tag 'address_zip', t('search.form.zip')
             = text_field_tag 'address[zip]', @search.address(:zip), class: 'form-control'
           .form-group
+            = label_tag 'group_category', t('search.form.group_membership')
+            = select_tag 'group_select_option', options_for_select([[t('search.form.in_group'), '1'], [t('search.form.not_in_group'), '0']], @search.group_select_option.blank? ? "1" : @search.group_select_option), class: 'form-control'
+            = t('search.form.group_membership_text')
+            = select_tag 'group_category', options_for_select(Group.category_names, @search.group_category), include_blank: true, class: 'form-control'
+          .form-group
             = label_tag 'type', t('search.form.type')
             = select_tag 'type', options_for_select(types_for_select, params[:type]), include_blank: true, class: 'form-control'
           - if @logged_in.admin?(:view_hidden_properties)
@@ -59,6 +64,7 @@
         = button_tag class: 'btn btn-info' do
           = icon('fa fa-search')
           = t('search.search')
+    = link_to t('search.directory_map'), directory_maps_path, class: "btn btn-success directory_map"
 
   .col-md-10
     = render partial: 'results'

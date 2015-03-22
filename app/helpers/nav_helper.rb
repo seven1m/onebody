@@ -67,7 +67,7 @@ module NavHelper
     when 'streams'
       :home
     when *%w(people accounts privacies relationships)
-      :profile if @person.try(:persisted?) and (me? or @logged_in.can_edit?(@person))
+      :profile if @person.try(:persisted?) and (me? or @logged_in.can_update?(@person))
     when *%w(groups tasks)
       :groups
     when *%w(searches printable_directories)
@@ -83,7 +83,7 @@ module NavHelper
 
   def tab_expanded
     if tab_selected?(:groups)
-      :groups if @group and @logged_in.can_edit?(@group)
+      :groups if @group and @logged_in.can_update?(@group)
     else
       tab_selected
     end

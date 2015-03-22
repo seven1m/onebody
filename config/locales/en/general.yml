@@ -20,6 +20,7 @@ en:
   for: for
   multiple_files: Your web browser may support multiple file uploads — try selecting multiple files using the Ctrl key (Windows) or Command key (Mac) on your keyboard.
   name: Name
+  new: new
   none: none
   not_authorized: You are not authorized.
   on: on
@@ -83,6 +84,8 @@ en:
         name: "Name"
         description: "Description"
         folder_id: "Parent Folder"
+        hidden: "Hide/Archive this folder"
+        groups: "Only share with these groups"
       family:
         address1: "Address Line 1"
         address2: "Address Line 2 (optional)"
@@ -196,6 +199,17 @@ en:
               invalid: "You cannot specify this folder as the parent folder."
             parent_folder_ids:
               too_long: "This folder is nested too deep. Please place it somewhere else."
+        custom_report:
+          attributes:
+            title:
+              blank: "The title cannot be blank."
+              too_long: "The maximum description is 50 characters."
+            body:
+              blank: "The Report Body cannot be blank."
+            filters:
+              invalid: "Filters must contain a colon, in the form field:value."
+            category:
+              inclusion: "Select a valid category value."
         family:
           attributes:
             name:
@@ -206,12 +220,12 @@ en:
               invalid: This family card (alternate barcode id) contains letters or symbols (only numbers are allowed).
               taken: This family card (alternate barcode id) is already taken by another family.
               too_long: This family card (alternate barcode id) is too long (cannot be more than 50 digits).
-              too_short: This family card (alternate barcode id) is too short (must be 10 digits).
+              too_short: This family card (alternate barcode id) is too short (must be 5 digits).
             barcode_id:
               invalid: This family card (barcode id) contains letters or symbols (only numbers are allowed).
               taken: This family card (barcode id) is already taken by another family.
               too_long: This family card (barcode id) is too long (cannot be more than 50 digits).
-              too_short: This family card (barcode id) is too short (must be 10 digits).
+              too_short: This family card (barcode id) is too short (must be 5 digits).
             photo:
               too_large: "The photo must be less than %{size} megabytes."
               wrong_type: "The photo file type must be JPG, GIF, or PNG."
@@ -239,6 +253,8 @@ en:
               taken: There is another group with this email address. Please choose another address.
               too_long: The group email address is too long.
               too_short: The group email address is too short.
+            attendance:
+              invalid: Attendance must be enabled for any group in use by Check-in.
             category:
               blank: The group must specify a category.
             name:
@@ -435,4 +451,4 @@ en:
   footer:
     help: "Help using this site"
     privacy_policy: "Privacy Policy"
-    powered_by: "Powered by CHURCH.IO"
+    powered_by: "Powered by CHURCH.IO OneBody"

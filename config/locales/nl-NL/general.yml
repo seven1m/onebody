@@ -87,20 +87,20 @@ nl-NL:
         state: Provincie
         zip: Postcode
       person:
-        anniversary: "Wedding Anniversary"
-        birthday: Birthday
-        custom_type: "Custom Role"
+        anniversary: Jubileum
+        birthday: Verjaardag
+        custom_type: Rollen
         email: E-mail
         facebook_url: "Facebook URL"
         fax: Fax
         first_name: Voornaam
-        gender: Gender
+        gender: Geslacht
         last_name: Achternaam
-        mobile_phone: "Mobile Phone"
-        primary_emailer: "Primary email account holder"
-        suffix: Suffix
+        mobile_phone: "Mobiele telefoon"
+        primary_emailer: "Primair e-mail adres"
+        suffix: Achtervoegsel
         twitter: "Twitter gebruikersnaam"
-        work_phone: "Work Phone"
+        work_phone: "Telefoon werk"
       group:
         name: Naam
         category: Categorie
@@ -116,7 +116,7 @@ nl-NL:
         pictures: "Afbeelding delen"
         attendance: "Bezoekers registratie"
         gcal_private_link: "Google kalender prive link"
-        approval_required_to_join: "Om te kunnen deelnemen aan de groep is er goedkeuring vereist."
+        approval_required_to_join: "Goedkeuring vereist om deel te nemen"
         private: "Prive groep"
         members_send: "Groepsleden kunnen berichten plaatsten"
         membership_mode: "Selecteer hoe personen toegevoegd kunnen worden aan deze groep"
@@ -185,15 +185,15 @@ nl-NL:
             last_name:
               blank: "Achternaam is verplicht"
             alternate_barcode_id:
-              invalid: "This family card (alternate barcode id) contains letters or symbols (only numbers are allowed)."
-              taken: "This family card (alternate barcode id) is already taken by another family."
-              too_long: "This family card (alternate barcode id) is too long (cannot be more than 50 digits)."
-              too_short: "This family card (alternate barcode id) is too short (must be 10 digits)."
+              invalid: "De barcode van deze familie kaart bevat letters of symbolen. Alleen nummers zijn toegestaan."
+              taken: "De barcode is al in gebruik door een andere familie."
+              too_long: "De barcode heeft een maximum van 50 karakters."
+              too_short: "De barcode heeft een minimum van 10 karakters."
             barcode_id:
-              invalid: "This family card (barcode id) contains letters or symbols (only numbers are allowed)."
-              taken: "This family card (barcode id) is already taken by another family."
-              too_long: "This family card (barcode id) is too long (cannot be more than 50 digits)."
-              too_short: "This family card (barcode id) is too short (must be 10 digits)."
+              invalid: "De barcode bevat letters of speciale tekens. Alleen nummers zijn toegestaan."
+              taken: "De barcode is al in gebruik door en andere familie."
+              too_long: "De barcode heeft een maximum van 50 karakters."
+              too_short: "De barcode heeft een minimum van 10 karakters."
             photo:
               too_large: "De afbeelding is te groot. De maximale grootte is %{size} mb."
               wrong_type: "De foto kan niet worden geupload. Je kunt JPG, GIF of PNG bestanden gebruiken."
@@ -291,7 +291,7 @@ nl-NL:
             business_category:
               exclusion: "Categorie is verplicht"
             child:
-              inclusion: "Specificeer of deze persoon een kind is of vul een een geboortedatum in."
+              inclusion: "Specificeer of deze persoon een minderjarige is of vul een een geboortedatum in."
             description:
               too_long: "De omschrijving is de lang. Gebruik max. 25 karakters."
             email:
@@ -401,7 +401,7 @@ nl-NL:
     api_access: "Je bent niet bevoegd om de API te gebruiken."
     mailgun_route_found: "De route bestaat al."
     mailgun_route_created: "De route is aangemaakt."
-    mailgun_apikey_notfound: "Please check the mailgun api key."
+    mailgun_apikey_notfound: "Controleer de mailgun API key"
     mailgun_route_error: "Sorry.. Er is een fout opgetreden tijdens het aanmaken van de route."
     no_default_site: "Geen default site gevonden."
     no_site_configured: "Er is geen site geconfigureerd op dit adres: %{host}"

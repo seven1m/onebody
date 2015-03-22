@@ -1,6 +1,6 @@
-require_relative '../spec_helper'
+require_relative '../rails_helper'
 
-describe PhotosController do
+describe PhotosController, type: :controller do
 
   before do
     @family = FactoryGirl.create(:family)

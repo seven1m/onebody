@@ -82,14 +82,14 @@ class NewsController < ApplicationController
 
   def edit
     @news_item = NewsItem.find(params[:id])
-    unless @logged_in.can_edit?(@news_item)
+    unless @logged_in.can_update?(@news_item)
       render text: t('not_authorized'), layout: true, status: 401
     end
   end
 
   def update
     @news_item = NewsItem.find(params[:id])
-    if @logged_in.can_edit?(@news_item)
+    if @logged_in.can_update?(@news_item)
       if @news_item.update_attributes(news_item_params)
         respond_to do |format|
           format.html { flash[:notice] = t('news.saved'); redirect_to @news_item }
@@ -106,7 +106,7 @@ class NewsController < ApplicationController
 
   def destroy
     @news_item = NewsItem.find(params[:id])
-    if @logged_in.can_edit?(@news_item)
+    if @logged_in.can_update?(@news_item)
       @news_item.destroy
       respond_to do |format|
         format.html { flash[:notice] = t('news.deleted'); redirect_to news_path }

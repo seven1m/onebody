@@ -14,7 +14,7 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
     if not (@group.approved? or @group.admin?(@logged_in))
       render text: t('groups.pending_approval.this_group'), layout: true
-    elsif @logged_in.can_see?(@group)
+    elsif @logged_in.can_read?(@group)
       @member_of = @logged_in.member_of?(@group)
       @stream_items = StreamItem.shared_with(@logged_in).where(group: @group).paginate(page: params[:timeline_page], per_page: 5)
       @pictures = @group.album_pictures.references(:album)
@@ -31,7 +31,6 @@ class GroupsController < ApplicationController
   end
 
   def create
-    params[:group].cleanse 'address'
     @group = Group.new(group_params)
     @group.creator = @logged_in
     if @group.save
@@ -51,7 +50,7 @@ class GroupsController < ApplicationController
 
   def edit
     @group ||= Group.find(params[:id])
-    if @logged_in.can_edit?(@group)
+    if @logged_in.can_update?(@group)
       @categories = Group.categories.keys
       @members = @group.people.minimal.order('last_name, first_name')
     else
@@ -61,9 +60,8 @@ class GroupsController < ApplicationController
 
   def update
     @group = Group.find(params[:id])
-    if @logged_in.can_edit?(@group)
+    if @logged_in.can_update?(@group)
       params[:group][:photo] = nil if params[:group][:photo] == 'remove'
-      params[:group].cleanse 'address'
       if @group.update_attributes(group_params)
         flash[:notice] = t('groups.saved')
         redirect_to @group
@@ -116,9 +114,6 @@ class GroupsController < ApplicationController
     respond_to do |format|
       format.js   { render partial: 'person_groups' }
       format.html { render action: 'index_for_person' }
-      if can_export?
-        format.xml { render xml:  @person.groups.to_xml(except: %w(site_id)) }
-      end
     end
   end
 
@@ -135,9 +130,6 @@ class GroupsController < ApplicationController
     respond_to do |format|
       format.html { render action: 'search' }
       format.js
-      if can_export?
-        format.xml { render xml:  @groups.to_xml(except: %w(site_id)) }
-      end
     end
   end
 
@@ -146,16 +138,17 @@ class GroupsController < ApplicationController
     @unapproved_groups = Group.unapproved
     @unapproved_groups.where!(creator_id: @logged_in.id) unless @logged_in.admin?(:manage_groups)
     @person = @logged_in
+    record_last_seen_group
     respond_to do |format|
       format.html
       if can_export?
         format.xml do
-          job = Group.create_to_xml_job
-          redirect_to generated_file_path(job.id)
+          job = ExportJob.perform_later(Site.current, 'groups', 'xml', @logged_in.id)
+          redirect_to generated_file_path(job.job_id)
         end
         format.csv do
-          job = Group.create_to_csv_job
-          redirect_to generated_file_path(job.id)
+          job = ExportJob.perform_later(Site.current, 'groups', 'csv', @logged_in.id)
+          redirect_to generated_file_path(job.job_id)
         end
       end
     end
@@ -178,4 +171,9 @@ class GroupsController < ApplicationController
     end
   end
 
+  def record_last_seen_group
+    was = @logged_in.last_seen_group
+    @logged_in.update_attribute(:last_seen_group_id, Group.maximum(:id))
+    @logged_in.last_seen_group = was # so the "new" labels show in the view
+  end
 end

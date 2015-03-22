@@ -12,11 +12,13 @@ class Group < ActiveRecord::Base
   has_many :attendance_records
   has_many :albums, as: :owner
   has_many :album_pictures, through: :albums, source: :pictures
-  has_many :stream_items, -> { order('created_at desc') }, dependent: :destroy
+  has_many :stream_items, -> { where(stream_item_group_id: nil).order('created_at desc') }, dependent: :destroy
   has_many :attachments, dependent: :delete_all
   has_many :group_times, dependent: :destroy
   has_many :checkin_times, through: :group_times
   has_many :tasks, -> { order(:position) }
+  has_many :document_folder_groups, dependent: :destroy
+  has_many :document_folders, through: :document_folder_groups
   belongs_to :creator, class_name: 'Person', foreign_key: 'creator_id'
   belongs_to :leader, class_name: 'Person', foreign_key: 'leader_id'
   belongs_to :parents_of_group, class_name: 'Group', foreign_key: 'parents_of'
@@ -31,7 +33,6 @@ class Group < ActiveRecord::Base
   scope :standard,   -> { where("parents_of is null and (link_code is null or link_code = '')") }
   scope :linked,     -> { where("link_code is not null and link_code != ''") }
   scope :parents_of, -> { where("parents_of is not null") }
-  scope :recent,     -> age { where("created_at >= ?", age.ago) }
   scope :checkin_destinations, -> { includes(:group_times).where('group_times.checkin_time_id is not null').order('group_times.ordering') }
 
   scope_by_site_id
@@ -58,12 +59,24 @@ class Group < ActiveRecord::Base
     end
   end
 
-  geocoded_by :location
-  after_validation :geocode
+  validate :validate_attendance_enabled_for_checkin_destinations
+
+  def validate_attendance_enabled_for_checkin_destinations
+    errors.add('attendance', :invalid) if attendance_required? && !attendance?
+  end
+
+  def attendance_required?
+    group_times.any?
+  end
+
+  include Concerns::Geocode
+  geocode_with :location_with_country
 
   blank_to_nil :address
 
   alias_attribute :pretty_address, :location
+
+  before_create :set_share_token
 
   def inspect
     "<#{name}>"
@@ -79,16 +92,16 @@ class Group < ActiveRecord::Base
     end
   end
 
-  def last_admin?(person)
-    person and admin?(person, :exclude_global_admins) and admins.length == 1
-  end
-
   def linked?
-    membership_mode == 'link_code' and link_code and link_code.any?
+    membership_mode == 'link_code' and link_code.present?
   end
 
   def parents_of?
     membership_mode == 'parents_of' and parents_of
+  end
+
+  def location_with_country
+    [location, Setting.get(:system, :default_country)].join(", ")
   end
 
   def mapable?
@@ -119,9 +132,9 @@ class Group < ActiveRecord::Base
       q = []
       p = []
       link_code.downcase.split.each do |code|
-        q << "lcase(classes) = ? or
-              lcase(classes) like ? or lcase(classes) like ? or lcase(classes) like ? or
-              lcase(classes) like ? or lcase(classes) like ?"
+        q << "lower(classes) = ? or
+              lower(classes) like ? or lower(classes) like ? or lower(classes) like ? or
+              lower(classes) like ? or lower(classes) like ?"
         p += [code,
               "#{code},%", "%,#{code}", "%,#{code},%",
               "#{code}[%", "%,#{code}[%"]
@@ -185,17 +198,25 @@ class Group < ActiveRecord::Base
   end
 
   def full_address
-    address.to_s.any? ? (address + '@' + Site.current.email_host) : nil
+    address.present? ? (address + '@' + Site.current.email_host) : nil
   end
 
   def get_people_attendance_records_for_date(date)
     records = {}
     people.each { |p| records[p.id] = [p, false] }
     date = Date.parse(date) if(date.is_a?(String))
-    attendance_records.where('attended_at >= ? and attended_at <= ?', date.strftime('%Y-%m-%d 0:00'), date.strftime('%Y-%m-%d 23:59:59')).each do |record|
+    attendance_records_for_date(date).each do |record|
       records[record.person.id] = [record.person, record]
     end
     records.values.sort_by { |r| [r[0].last_name, r[0].first_name] }
+  end
+
+  def attendance_records_for_date(date)
+    attendance_records.where(
+      'attended_at between ? and ?',
+      date.strftime('%Y-%m-%d 0:00'),
+      date.strftime('%Y-%m-%d 23:59:59')
+    )
   end
 
   def attendance_dates
@@ -203,7 +224,7 @@ class Group < ActiveRecord::Base
   end
 
   def gcal_url
-    if gcal_private_link.to_s.any?
+    if gcal_private_link.present?
       if token = gcal_token
         "https://www.google.com/calendar/embed?pvttk=#{token}&amp;showTitle=0&amp;showCalendars=0&amp;showTz=1&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=#{gcal_account}&amp;color=%23A32929&amp;ctz=#{Time.zone.tzinfo.name}"
       end
@@ -236,6 +257,10 @@ class Group < ActiveRecord::Base
     person.can_create?(albums.new)
   end
 
+  def set_share_token
+    self.share_token = SecureRandom.hex(25)
+  end
+
   class << self
     def update_memberships
       order(:parents_of).each(&:update_memberships)
@@ -258,22 +283,7 @@ class Group < ActiveRecord::Base
       categories.keys.sort
     end
 
-    def count_by_type
-      {
-        public: is_public.count,
-        private: is_private.count
-      }.reject { |k, v| v == 0 }
-    end
-
-    def count_by_linked
-      {
-        standard: standard.count,
-        linked: linked.count,
-        parents_of: parents_of.count
-      }.reject { |k, v| v == 0 }
-    end
-
-# TODO: remove other_notes since notes is deleted
+    # TODO: remove other_notes since notes is deleted
     EXPORT_COLS = {
       group: %w(
         name
@@ -314,33 +324,25 @@ class Group < ActiveRecord::Base
     def to_csv
       CSV.generate do |csv|
         csv << EXPORT_COLS[:group]
-        (1..(Group.count/50)).each do |page|
-          Group.paginate(include: :people, per_page: 50, page: page).each do |group|
-            csv << EXPORT_COLS[:group].map { |c| group.send(c) }
-          end
+        Group.find_each do |group|
+          csv << EXPORT_COLS[:group].map { |c| group.send(c) }
         end
       end
-    end
-
-    def create_to_csv_job
-      Job.add("GeneratedFile.create!(:job_id => JOB_ID, :person_id => #{Person.logged_in.id}, :file => FakeFile.new(Group.to_csv, 'groups.csv'))")
     end
 
     def to_xml
       builder = Builder::XmlMarkup.new
       builder.groups do |groups|
-        (1..(Group.count/50)).each do |page|
-          Group.paginate(include: :people, per_page: 100, page: page).each do |group|
-            groups.group do |g|
-              EXPORT_COLS[:group].each do |col|
-                g.tag!(col, group.send(col))
-              end
-              g.people do |people|
-                group.people.each do |person|
-                  people.person do |p|
-                    EXPORT_COLS[:member].each do |col|
-                      p.tag!(col, person.send(col))
-                    end
+        Group.find_each do |group|
+          groups.group do |g|
+            EXPORT_COLS[:group].each do |col|
+              g.tag!(col, group.send(col))
+            end
+            g.people do |people|
+              group.people.each do |person|
+                people.person do |p|
+                  EXPORT_COLS[:member].each do |col|
+                    p.tag!(col, person.send(col))
                   end
                 end
               end
@@ -348,10 +350,6 @@ class Group < ActiveRecord::Base
           end
         end
       end
-    end
-
-    def create_to_xml_job
-      Job.add("GeneratedFile.create!(:job_id => JOB_ID, :person_id => #{Person.logged_in.id}, :file => FakeFile.new(Group.to_xml, 'groups.xml'))")
     end
   end
 end

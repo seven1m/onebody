@@ -1,6 +1,6 @@
-require_relative '../spec_helper'
+require_relative '../rails_helper'
 
-describe TagsController do
+describe TagsController, type: :controller do
 
   before do
     @person = FactoryGirl.create(:person)

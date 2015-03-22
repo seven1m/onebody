@@ -6,7 +6,7 @@
     = icon 'fa fa-info-circle'
     = t('families.show.suggested_name_html', count: @family.people.undeleted.adults.count, first: @family.people.undeleted.adults.first.try(:name), second: @family.people.undeleted.adults.second.try(:name), url: edit_family_path(@family), name: @family.suggested_name)
 
-- if @family.updates.pending.any? and @logged_in.can_edit?(@family)
+- if @family.updates.pending.any? and @logged_in.can_update?(@family)
   .callout.callout-info
     = icon 'fa fa-clock-o'
     = t('families.updates.pending_callout')
@@ -46,14 +46,14 @@
               - unless person.visible?
                 %i.fa.fa-lock
             %td.actions
-              - if @logged_in.can_edit?(person)
+              - if @logged_in.can_update?(person)
                 = link_to edit_person_path(person), class: 'btn bg-gray btn-xs text-yellow' do
                   = icon 'fa fa-pencil'
               - if @logged_in.can_delete?(person)
                 = link_to person, data: { method: 'delete', confirm: t('are_you_sure') },  class: 'btn bg-gray btn-xs text-red' do
                   = icon 'fa fa-minus-circle'
 
-    - if @logged_in.can_edit?(@family)
+    - if @logged_in.can_update?(@family)
       .page-controls
         = link_to edit_family_path(@family), class: 'btn btn-info' do
           = icon 'fa fa-pencil'

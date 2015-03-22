@@ -2,6 +2,8 @@
 @import "font-awesome";
 @import "admin_lte";
 @import "leaflet";
+@import "MarkerCluster.Default";
+@import "MarkerCluster";
 @import "datepicker";
 
 @import "app/*";
@@ -119,4 +121,8 @@ body.bg-black > .footer {
 
 .icon-huge {
   font-size: 175pt;
+}
+
+.with-title {
+  cursor: pointer;
 }

@@ -26,6 +26,10 @@ en:
       phone: "Phone Number"
       email: "Email Address"
       type: "Membership Type"
+      group_membership: "Group Membership"
+      in_group: "includes"
+      not_in_group: "does not include"
+      group_membership_text: "group with category"
       types:
         member: "Member"
         staff: "Staff"
@@ -53,3 +57,4 @@ en:
     search_by_name: "Search by name"
     show_hidden: "Show Hidden"
     staff: "Staff"
+    directory_map: "Directory Map"

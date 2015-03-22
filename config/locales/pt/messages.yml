@@ -32,7 +32,7 @@ pt:
     not_authorized_delete: "Você não está autorizado a excluir esta mensagem."
     not_found: "Mensagem não encontrada"
     posted_by: "postado por"
-    send_message: "Enviar Email"
+    send_message: "Enviar Mensagem"
     sent: "A sua mensagem foi enviada."
     show_quoted_content: "exibir conteúdo citado"
     some_quoted_text_is_hidden: "Algum conteúdo citado está oculto nesta mensagem;"

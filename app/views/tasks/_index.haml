@@ -21,7 +21,7 @@
             = icon 'fa fa-comment'
             = t("tasks.index.comment_count", count: task.comments.count)
         .tools.show
-          - if @logged_in.can_edit?(task)
+          - if @logged_in.can_update?(task)
             = link_to edit_group_task_path(task.group, task), class: 'btn bg-gray btn-xs text-yellow' do
               = icon 'fa fa-pencil'
           - if @logged_in.can_delete?(task)

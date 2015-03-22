@@ -11,11 +11,19 @@ Dir[File.dirname(__FILE__) + '/../plugins/**/lib/*'].each do |plugin|
 end
 
 require_relative '../lib/console'
+require_relative '../lib/version_info'
 
 module OneBody
+  extend VersionInfo
+
   class Application < Rails::Application
     # Custom directories with classes and modules you want to be autoloadable.
-    config.autoload_paths += %w(#{config.root}/app/concerns #{config.root}/app/authorizers #{config.root}/app/presenters)
+    config.autoload_paths += %w(
+      #{config.root}/app/jobs
+      #{config.root}/app/concerns
+      #{config.root}/app/authorizers
+      #{config.root}/app/presenters
+    )
 
     # Cache store location
     config.action_controller.cache_store = [:file_store, "#{config.root}/cache"]
@@ -41,19 +49,6 @@ module OneBody
       g.test_framework :rspec
     end
 
-    # TODO remove this when we get to Rails 4.1
-    def secrets
-      @secrets ||= begin
-        path = Rails.root.join('config/secrets.yml')
-        if File.exist?(path)
-          OpenStruct.new(YAML.load_file(path)[Rails.env])
-        else
-          envs = ENV.to_a \
-                    .select { |(k, _)| %w(SECRET_TOKEN MAPQUEST_API_KEY).include?(k) } \
-                    .map    { |(k, v)| [k.downcase, v] }
-          OpenStruct.new(Hash[envs])
-        end
-      end
-    end
+    config.active_record.raise_in_transactional_callbacks = true
   end
 end
