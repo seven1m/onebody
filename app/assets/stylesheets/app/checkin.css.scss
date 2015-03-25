@@ -56,11 +56,10 @@ $checkin-font-family: "Roboto";
 a:active, *:focus { outline: none; -moz-outline-style: none; }
 
 .lockscreen {
-  background-image: url(/assets/blur-background10.jpg);
+  background-image: url(image-path('blur-background10.jpg'));
   font-family: $checkin-font-family;
   font-weight: 300;
 }
-
 
 .checkin-inner {
   box-model: border-box;
