@@ -226,8 +226,10 @@ OneBody::Application.routes.draw do
 
   resource :checkin, controller: 'checkin/checkins'
   namespace :checkin do
-    resource :interface
+    resource :printer
     resources :families, :people, :groups
   end
   resources :custom_reports
+
+  post '/pusher/auth_printer' => 'pusher#auth_printer'
 end

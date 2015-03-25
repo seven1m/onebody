@@ -3,7 +3,10 @@ require_relative '../../rails_helper'
 describe Checkin::CheckinsController, type: :controller do
   before do
     Setting.set(:features, :checkin, true)
+    Timecop.freeze(Time.local(2014, 6, 29, 8, 00))
   end
+
+  after { Timecop.return }
 
   describe '#update' do
     let!(:time)       { FactoryGirl.create(:checkin_time) }

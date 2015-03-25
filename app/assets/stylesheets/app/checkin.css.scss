@@ -170,10 +170,12 @@ a:active, *:focus { outline: none; -moz-outline-style: none; }
   }
 }
 
-.checkin-destinations {
+.checkin-destinations,
+.checkin-alert {
   border-top: none;
   background-color: rgba(#fff, 0.6);
   color: #555;
+  font-size: 20pt;
   &.selection-made {
     .checkin-selection-header, .fa-check {
       color: darken(#00a65a, 0.5) !important;
@@ -193,6 +195,9 @@ a:active, *:focus { outline: none; -moz-outline-style: none; }
   }
   .box-body {
     padding: 0 30px 30px 30px;
+  }
+  .box-body.padded {
+    padding-top: 30px;
   }
   .box-header h2.box-title {
     font-size: 20pt;
@@ -353,4 +358,10 @@ a:active, *:focus { outline: none; -moz-outline-style: none; }
   @extend .callout-info;
 }
 
-
+.checkin-printer-status {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  width: 200px;
+  color: #aaa;
+}

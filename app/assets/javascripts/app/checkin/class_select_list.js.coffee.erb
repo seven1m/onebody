@@ -1,3 +1,5 @@
+this.Checkin ?= {}
+
 {div, ul, li, h2, h3, a, i, span} = React.DOM
 
 Checkin.ClassSelectList = React.createFactory React.createClass
@@ -14,6 +16,7 @@ Checkin.ClassSelectList = React.createFactory React.createClass
       for time in @props.times
         selection = @props.selections[time.id]
         div
+          key: time.id
           className: React.addons.classSet
             'box checkin-destinations checkin-time': true
             'selection-made': selection
@@ -42,7 +45,8 @@ Checkin.ClassSelectList = React.createFactory React.createClass
             style:
               display: if selection or selection == false then 'none'
             for section, group_times of time.sections
-              div {},
+              div
+                key: section
                 if section != ''
                   h3 {},
                     div
@@ -59,10 +63,11 @@ Checkin.ClassSelectList = React.createFactory React.createClass
                     'class-list': true
                     'collapsed indented': section != '' and @state.openFolder != section
                   for group_time in group_times
-                    li {},
+                    li
+                      key: group_time.id
                       div
                         className: 'checkin-select-class clickable'
-                        onClick: _(@props.onSelect).partial(time, group_time)
+                        onClick: _(@props.onSelect).partial([[time, group_time]])
                         i
                           className: 'fa fa-users fa-fw'
                         span
@@ -72,8 +77,13 @@ Checkin.ClassSelectList = React.createFactory React.createClass
   renderSameButton: ->
     if @props.person.can_choose_same
       div
-        className: 'btn'
-        "<%= I18n.t('checkin.interface.same_as_last_week.button') %>"
+        className: 'checkin-same'
+        div
+          className: 'btn same-as-last-week'
+          onClick: @handleSameButtonClick
+          i
+            className: 'icon'
+          " <%= I18n.t('checkin.interface.same_as_last_week.button') %>"
 
   renderTimeControls: (time, selection) ->
     if selection
@@ -98,10 +108,15 @@ Checkin.ClassSelectList = React.createFactory React.createClass
 
   handleChangeClick: (time, selection = null) ->
     @setState(openFolder: null)
-    @props.onSelect(time, selection)
+    @props.onSelect([[time, selection]])
 
   handleFolderClick: (section) ->
     if @state.openFolder == section
       @setState(openFolder: null)
     else
       @setState(openFolder: section)
+
+  handleSameButtonClick: ->
+    return unless (person = @props.last_week[@props.person.id])
+    selections = ([{ id: time_id }, group_time] for time_id, group_time of person)
+    @props.onSelect(selections)

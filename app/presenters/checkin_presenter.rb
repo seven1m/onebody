@@ -3,7 +3,7 @@ class CheckinPresenter
 
   attr_reader :campus, :family
 
-  def initialize(campus, family)
+  def initialize(campus, family = nil)
     @campus = campus
     @family = family
   end
@@ -32,7 +32,7 @@ class CheckinPresenter
   def attendance_records(person, times=nil)
     times ||= checkin_times.map(&:to_time)
     all_attendance_records(person).where(
-      attended_at: times
+      attended_at: times.map { |t| t.strftime('%Y-%m-%dT%H:%M:%S') }
     )
   end
 
@@ -42,7 +42,7 @@ class CheckinPresenter
 
   def last_week_records(person)
     times = checkin_times.where(the_datetime: nil).map { |ct| ct.to_time - 1.week }
-    attendance_records(person, times)
+    attendance_records(person, times.map(&:to_time))
   end
 
   def as_json(*args)
@@ -50,14 +50,8 @@ class CheckinPresenter
       people:     people_as_json,
       times:      checkin_times.decorate.as_json,
       selections: selections.as_json,
-      labels:     checkin_labels_as_json
+      last_week:  last_week_as_json
     }
-  end
-
-  def checkin_labels_as_json
-    CheckinLabel.all.each_with_object({}) do |label, hash|
-      hash[label.id] = label.xml
-    end
   end
 
   def people_as_json
@@ -70,9 +64,17 @@ class CheckinPresenter
     end
   end
 
+  def last_week_as_json
+    people.each_with_object({}) do |person, person_hash|
+      person_hash[person.id] = last_week_records(person).each_with_object({}) do |record, time_hash|
+        time_hash[record.checkin_time_id] = group_time_for_attendance_record(record)
+      end
+    end
+  end
+
   def selections
     people.each_with_object({}) do |person, people_hash|
-      records = all_attendance_records(person).to_a
+      records = attendance_records(person).to_a
       h = people_hash[person.id] = {}
       checkin_times.each do |time|
         record = records.detect { |a| a.checkin_time_id == time.id }
@@ -97,6 +99,7 @@ class CheckinPresenter
   end
 
   def people
+    return [] unless family
     family.people.undeleted.minimal
   end
 

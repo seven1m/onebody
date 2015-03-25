@@ -1,3 +1,5 @@
+this.Checkin ?= {}
+
 class Checkin.LabelSet
   constructor: (@data, @label_templates) ->
     by_label_id = {}

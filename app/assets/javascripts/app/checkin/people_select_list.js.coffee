@@ -1,3 +1,5 @@
+this.Checkin ?= {}
+
 {ul} = React.DOM
 
 Checkin.PeopleSelectList = React.createFactory React.createClass

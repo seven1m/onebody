@@ -1,34 +1,22 @@
 class Checkin::CheckinsController < ApplicationController
-
-  skip_before_filter :authenticate_user
-  before_filter :ensure_campus_selection
+  skip_before_action :authenticate_user
+  before_action :ensure_campus_selection
 
   layout 'checkin'
 
   def show
-    render action: 'new'
-  end
-
-  def new
-    session.delete(:checkin_family_id)
-    session.delete(:barcode)
+    session[:checkin_printer_id] = params[:printer].presence if params[:printer]
+    @checkin = CheckinPresenter.new(session[:checkin_campus])
   end
 
   def create
     if @family = Family.undeleted.by_barcode(params[:barcode]).first
-      session[:checkin_family_id] = @family.id
       session[:barcode] = params[:barcode]
-      redirect_to edit_checkin_path
+      @checkin = CheckinPresenter.new(session[:checkin_campus], @family)
+      render json: @checkin
     else
-      flash.now[:error] = t('checkin.scan.unknown_card')
-      render action: 'new'
+      render json: { error: t('checkin.scan.unknown_card') }
     end
-  end
-
-  def edit
-    return redirect_to(action: 'show') unless session[:checkin_family_id]
-    @family = Family.find(session[:checkin_family_id])
-    @checkin = CheckinPresenter.new(session[:checkin_campus], @family)
   end
 
   def update
@@ -68,5 +56,4 @@ class Checkin::CheckinsController < ApplicationController
       false
     end
   end
-
 end

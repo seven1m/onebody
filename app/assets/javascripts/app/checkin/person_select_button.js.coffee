@@ -1,3 +1,5 @@
+this.Checkin ?= {}
+
 {a, div, i, img, li, span} = React.DOM
 
 Checkin.PersonSelectButton = React.createFactory React.createClass
