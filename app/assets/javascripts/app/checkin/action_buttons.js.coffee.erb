@@ -9,10 +9,10 @@ Checkin.ActionButtons = React.createFactory React.createClass
   render: ->
     div
       className: 'checkin-actions'
-      style: { display: if @getSelectionCount() == 0 then 'none' }
       button
         type: 'button'
         className: 'btn checkin-btn print-btn'
+        style: { display: if @getSelectionCount() == 0 then 'none' }
         onClick: @props.onSubmit
         i
           className: 'fa fa-print'

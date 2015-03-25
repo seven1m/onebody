@@ -1,6 +1,6 @@
 this.Checkin ?= {}
 
-{div, span} = React.DOM
+{div, span, i} = React.DOM
 
 Checkin.Main = React.createFactory React.createClass
 
@@ -82,6 +82,15 @@ Checkin.Main = React.createFactory React.createClass
             selections: @state.selections
             onSubmit: @handleSubmit
             onCancel: @handleCancel
+
+  renderNoTimesAlert: ->
+    div
+      className: 'center'
+      div
+        className: 'callout callout-danger'
+        i
+          className: 'fa fa-exclamation-triangle text-yellow'
+        ' There are no check-in times. Please notify the administrator.'
 
   handlePersonSelect: (id) ->
     @setState
