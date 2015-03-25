@@ -1,6 +1,4 @@
 class Checkin::PrintersController < ApplicationController
-  before_action :only_admins
-
   layout 'checkin_printer'
 
   def show
@@ -17,17 +15,15 @@ class Checkin::PrintersController < ApplicationController
   def update
     cookies[:checkin_printer_name] = {
       value: params[:printer_name],
-      expires: 1.year.from_now
+      expires: 100.years.from_now
     }
     redirect_to action: :show
   end
 
   private
 
-  def only_admins
-    return if @logged_in.admin?(:manage_checkin)
-    render text: I18n.t('only_admins'), layout: true, status: 401
-    false
+  def authenticate_user
+    authenticate_user_for_checkin
   end
 
   def feature_enabled?

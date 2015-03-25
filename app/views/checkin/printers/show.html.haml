@@ -46,11 +46,10 @@
 
 :javascript
   checkin_labels = #{ json_escape checkin_labels_as_json.to_json };
-  // TODO get this from settings
   pusher_config = {
-    app: '#{Pusher.key}',
-    wsHost: '0.0.0.0',
-    wsPort: '8080',
-    wssPort: '8080'
+    app: '#{ Setting.get(:pusher, :app_key) }',
+    wsHost: '#{ Setting.get(:pusher, :ws_host) }',
+    wsPort: '#{ Setting.get(:pusher, :ws_port) }',
+    wssPort: '#{ Setting.get(:pusher, :wss_port) }'
   };
   printer_id = '#{@printer[:id]}';

@@ -365,3 +365,12 @@ a:active, *:focus { outline: none; -moz-outline-style: none; }
   width: 200px;
   color: #aaa;
 }
+
+.checkin-login-status {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 200px;
+  text-align: right;
+  color: #aaa;
+}

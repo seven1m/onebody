@@ -11,7 +11,6 @@
 if pusher_config?
   if checkin_printer_id
     window.presence_channel = pusher.subscribe('presence-prints')
-    window.prints_channel = pusher.subscribe("private-prints-#{checkin_printer_id}")
 
     updatePrinterStatus = ->
       if presence_channel.members.members[checkin_printer_id]
@@ -30,8 +29,17 @@ if pusher_config?
 
   window.print_label = (data, cb) ->
     if checkin_printer_id
-      prints_channel.trigger('client-print', data)
-      cb()
+      $.ajax '/checkin/print.json',
+        data: JSON.stringify(print: data)
+        contentType: 'application/json; charset=utf-8'
+        dataType: 'json'
+        method: 'post'
+        complete: (resp) =>
+          data = resp.responseJSON
+          if data.error
+            cb(data.error)
+          else
+            cb()
     else
       if new Checkin.LabelSet(data, checkin_labels).print()
         cb()

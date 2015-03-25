@@ -6,14 +6,17 @@
   = stylesheet_link_tag 'checkin-print', media: 'print'
 
 :javascript
-  // TODO get this from settings
   pusher_config = {
-    app: '#{Pusher.key}',
-    wsHost: '0.0.0.0',
-    wsPort: '8080',
-    wssPort: '8080'
+    app: '#{ Setting.get(:pusher, :app_key) }',
+    wsHost: '#{ Setting.get(:pusher, :ws_host) }',
+    wsPort: '#{ Setting.get(:pusher, :ws_port) }',
+    wssPort: '#{ Setting.get(:pusher, :wss_port) }'
   };
   checkin_printer_id = #{ json_escape(session[:checkin_printer_id].to_json) };
+  checkin_user = {
+    id: #{ @checkin_logged_in.id },
+    initials: #{ json_escape((@checkin_logged_in.first_name[0] + @checkin_logged_in.last_name[0]).to_json) }
+  };
 
 - content_for :js do
   :javascript

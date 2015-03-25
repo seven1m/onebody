@@ -23,7 +23,7 @@ else
 
   window.print_count = 0
 
-  prints_channel.bind 'client-print', (data) ->
+  prints_channel.bind 'print', (data) ->
     $('#print-log').html('') if print_count == 0
     if new Checkin.LabelSet(data, checkin_labels).print()
       names = []

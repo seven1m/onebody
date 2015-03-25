@@ -46,6 +46,7 @@ module OneBody
     # Additional precompiled assets
     config.assets.precompile += %w(
       checkin.js
+      checkin-print.css
       checkin-printer.js
       checkin-printer.css
       editor.js

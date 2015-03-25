@@ -37,12 +37,8 @@ Checkin.Main = React.createFactory React.createClass
             error: @state.barcodeError
         else
           @renderNoTimesAlert()
-      div
-        className: 'checkin-printer-status'
-        if checkin_printer_id
-          span {},
-            'printer status: '
-            @getPrinterStatus()
+      @renderPrinterStatus()
+      @renderLoginStatus()
 
   renderSelections: ->
     div
@@ -92,6 +88,23 @@ Checkin.Main = React.createFactory React.createClass
           className: 'fa fa-exclamation-triangle text-yellow'
         ' There are no check-in times. Please notify the administrator.'
 
+  renderPrinterStatus: ->
+    div
+      className: 'checkin-printer-status'
+      if checkin_printer_id
+        span {},
+          'printer status: '
+          @getPrinterStatus()
+
+  renderLoginStatus: ->
+    div
+      className: 'checkin-login-status clickable'
+      onClick: @handleSignOut
+      checkin_user.initials
+      ' '
+      i
+        className: 'fa fa-sign-out'
+
   handlePersonSelect: (id) ->
     @setState
       selectedPersonId: id
@@ -126,8 +139,8 @@ Checkin.Main = React.createFactory React.createClass
       complete: (resp) =>
         data = resp.responseJSON
         if data.error
-          @setState
-            barcodeError: data.error
+          @setState(barcodeError: data.error)
+          setTimeout (=> @setState(barcodeError: null)), 5000
         else
           @setProps(data)
           @setState
@@ -150,6 +163,12 @@ Checkin.Main = React.createFactory React.createClass
     @setState
       people: []
       checkingIn: false
+
+  handleSignOut: ->
+    $.ajax '/session',
+      method: 'delete'
+      complete: ->
+        location.href = '/checkin'
 
   getPersonById: (id) ->
     return unless id

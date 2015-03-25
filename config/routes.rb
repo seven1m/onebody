@@ -226,6 +226,7 @@ OneBody::Application.routes.draw do
 
   resource :checkin, controller: 'checkin/checkins'
   namespace :checkin do
+    resource :print
     resource :printer
     resources :families, :people, :groups
   end

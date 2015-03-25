@@ -20,7 +20,11 @@ class SessionsController < ApplicationController
     if @person && !@person.can_sign_in?
       redirect_to page_for_public_path('system/unauthorized')
     elsif @person
-      login_success
+      if params[:for] == 'checkin'
+        login_success_for_checkin
+      else
+        login_success
+      end
     elsif @person == false
       login_auth_fail
     else
@@ -36,13 +40,31 @@ class SessionsController < ApplicationController
 
   private
 
+  STICKY_SESSION_LENGTH = 60.days
+
   def login_success
     setup_session!
-    sticky_session! if params[:remember_me]
+    sticky_session!(STICKY_SESSION_LENGTH) if params[:remember_me]
     if @person.full_access?
       full_access_redirect
     else
       redirect_to @person
+    end
+  end
+
+  STICKY_SESSION_LENGTH_FOR_CHECKIN = 365.days
+
+  def login_success_for_checkin
+    if @person.admin?(:manage_checkin)
+      session[:checkin_logged_in_id] = @person.id
+      sticky_session!(STICKY_SESSION_LENGTH_FOR_CHECKIN)
+      if params[:from].present?
+        redirect_to safe_redirect_path(params[:from])
+      else
+        redirect_to checkin_path
+      end
+    else
+      redirect_to action: 'new'
     end
   end
 
@@ -96,18 +118,16 @@ class SessionsController < ApplicationController
     false
   end
 
-  STICKY_SESSION_LENGTH = 60.days
-
   def setup_session!
     session[:logged_in_id] = @person.id
     session[:logged_in_name] = @person.name
     session[:ip_address] = request.remote_ip
   end
 
-  def sticky_session!
+  def sticky_session!(length = 30.days)
     request.cookie_jar['_session_id'] = {
       value: request.cookie_jar['_session_id'],
-      expires: STICKY_SESSION_LENGTH.from_now
+      expires: length.from_now
     }
   end
 end

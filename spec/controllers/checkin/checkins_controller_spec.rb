@@ -1,6 +1,8 @@
 require_relative '../../rails_helper'
 
 describe Checkin::CheckinsController, type: :controller do
+  let(:user) { FactoryGirl.create(:person, :admin_manage_checkin) }
+
   before do
     Setting.set(:features, :checkin, true)
     Timecop.freeze(Time.local(2014, 6, 29, 8, 00))
@@ -36,7 +38,8 @@ describe Checkin::CheckinsController, type: :controller do
           }
         }
       },
-      barcode: '1111111111'
+      barcode: '1111111111',
+      checkin_logged_in_id: user.id
     end
 
     it 'creates a new attendance record for members and for guests' do

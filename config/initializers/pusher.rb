@@ -1,6 +1,6 @@
-# TODO
-Pusher.app_id = 'OneBody'
-Pusher.key = '56574839ghfjdktyru785473939282nvhacnev7vse7'
-Pusher.secret = '098765432198765432876543276543654354asdfghjkliuytrewscvbnmkuyt'
-Pusher.host = 'localhost'
-Pusher.port = 4567
+Pusher.app_id = Setting.get(:pusher, :app_id)
+Pusher.key = Setting.get(:pusher, :app_key)
+Pusher.secret = Setting.get(:pusher, :secret)
+Pusher.scheme = Setting.get(:pusher, :api_scheme)
+Pusher.host = Setting.get(:pusher, :api_host)
+Pusher.port = Setting.get(:pusher, :api_port).to_i

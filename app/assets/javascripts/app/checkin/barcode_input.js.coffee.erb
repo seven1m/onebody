@@ -62,7 +62,10 @@ Checkin.BarcodeInput = React.createFactory React.createClass
 
   handleSubmit: (e) ->
     e.preventDefault()
-    @props.onSubmit(@refs.barcode.getDOMNode().value)
+    elm = @refs.barcode.getDOMNode()
+    if elm.value != ''
+      @props.onSubmit(elm.value)
+      elm.value = ''
 
   setFocus: ->
     @refs.barcode.getDOMNode().focus()

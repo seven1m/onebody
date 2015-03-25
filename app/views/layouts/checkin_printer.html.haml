@@ -13,4 +13,4 @@
     = yield
     = javascript_include_tag 'checkin-printer'
     = yield(:js)
-    = setting(:services, :analytics) if Rails.env.production?
+    = analytics_js

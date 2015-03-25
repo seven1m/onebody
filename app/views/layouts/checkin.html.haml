@@ -29,4 +29,4 @@
         });
     = javascript_include_tag 'checkin'
     = yield(:js)
-    = setting(:services, :analytics) if Rails.env.production?
+    = analytics_js

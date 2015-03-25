@@ -1,14 +1,15 @@
 class Checkin::CheckinsController < ApplicationController
-  skip_before_action :authenticate_user
   before_action :ensure_campus_selection
 
   layout 'checkin'
 
+  # show UI
   def show
     session[:checkin_printer_id] = params[:printer].presence if params[:printer]
     @checkin = CheckinPresenter.new(session[:checkin_campus])
   end
 
+  # scan barcode
   def create
     if @family = Family.undeleted.by_barcode(params[:barcode]).first
       session[:barcode] = params[:barcode]
@@ -19,6 +20,7 @@ class Checkin::CheckinsController < ApplicationController
     end
   end
 
+  # complete check-in
   def update
     labels = {}
     params[:people].each do |person_id, times|
@@ -33,6 +35,10 @@ class Checkin::CheckinsController < ApplicationController
   end
 
   private
+
+  def authenticate_user
+    authenticate_user_for_checkin
+  end
 
   def ensure_campus_selection
     if params[:campus]
