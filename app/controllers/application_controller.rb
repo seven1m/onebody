@@ -12,8 +12,9 @@ class ApplicationController < ActionController::Base
 
   layout :layout
 
-  before_filter :feature_enabled?
-  before_filter :authenticate_user
+  before_action :feature_enabled?
+  before_action :authenticate_user
+  before_action :setup_pusher
 
   helper_method :params_without_action
 
@@ -193,5 +194,14 @@ class ApplicationController < ActionController::Base
     else
       'signed_out'
     end
+  end
+
+  def setup_pusher
+    Pusher.app_id = Setting.get(:pusher, :app_id)
+    Pusher.key    = Setting.get(:pusher, :app_key)
+    Pusher.secret = Setting.get(:pusher, :secret)
+    Pusher.scheme = Setting.get(:pusher, :api_scheme)
+    Pusher.host   = Setting.get(:pusher, :api_host)
+    Pusher.port   = Setting.get(:pusher, :api_port).to_i
   end
 end
