@@ -220,14 +220,17 @@ OneBody::Application.routes.draw do
       resources :times do
         resources :groups
       end
-      resources :cards, :auths
+      resources :cards, :auths, :labels
     end
   end
 
+  resource :checkin, controller: 'checkin/checkins'
   namespace :checkin do
-    root to: 'interfaces#show'
-    resource :interface
+    resource :print
+    resource :printer
     resources :families, :people, :groups
   end
   resources :custom_reports
+
+  post '/pusher/auth_printer' => 'pusher#auth_printer'
 end

@@ -1,3 +1,10 @@
+body.checkin {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 .checkin {
   .subsection th {
     text-align: left;
@@ -11,6 +18,323 @@
     font-size: 10pt;
     font-weight: normal;
     text-decoration :none;
+  }
+
+  .callout-danger {
+    background: transparent;
+    text-shadow: 1px 3px 5px rgba(#000, 0.5);
+    font-size: 20pt;
+    border-radius: 5px;
+    border: none;
+    text-align: center;
+    color: #fff;
+  }
+}
+
+.checkin-group-folder-help {
+  margin-top: 50px;
+  .up {
+    @extend .fa;
+    @extend .fa-arrow-circle-up;
+    @extend .text-blue;
+  }
+  .down {
+    @extend .fa;
+    @extend .fa-arrow-circle-down;
+    @extend .text-blue;
+  }
+  .highlight {
+    background-color: #ffc;
+    font-variant: small-caps;
+    padding: 0 5px;
+    border-radius: 3px;
+  }
+}
+
+$checkin-font-family: "Roboto";
+
+a:active, *:focus { outline: none; -moz-outline-style: none; }
+
+.lockscreen {
+  background-image: url(image-path('blur-background10.jpg'));
+  font-family: $checkin-font-family;
+  font-weight: 300;
+}
+
+.checkin-inner {
+  box-model: border-box;
+  -moz-box-model: border-box;
+  height: 100%;
+  padding: 25px;
+}
+
+.checkin-help {
+  font-size: 20pt;
+}
+
+.checkin-same {
+  margin-bottom: 15px;
+  .btn {
+    @extend .btn-success;
+    font-size: 15pt;
+  }
+  .icon {
+    @extend .fa;
+    @extend .fa-bolt;
+    color: yellow;
+  }
+}
+
+.checkin-btn {
+  font-family: $checkin-font-family;
+  font-weight: 300;
+  background-color: rgba(#fff, 0.35);
+  box-shadow: none;
+  border: none;
+  color: #444;
+  box-model: border-box;
+  -moz-box-model: border-box;
+  font-size: 25pt;
+  width: 100%;
+  padding-right: 45px;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+  margin-bottom: 20px;
+  &.active {
+    background-color: rgba(#fff, 0.9);
+    box-shadow: none;
+  }
+  .pull-right {
+    margin-right: -40px;
+    display: inline-block;
+  }
+  .fa-chevron-right {
+    color: rgba(#000, 0.2);
+  }
+  .badge {
+    background-color: #00a65a;
+    font-size: 22pt;
+    line-height: 1em;
+    display: inline-block;
+    margin-top: 7px;
+  }
+}
+
+.checkin-people {
+  font-size: 30pt;
+  .avatar {
+    margin-top: -8px;
+  }
+}
+
+.checkin-actions {
+  margin-top: 25px;
+  h2 {
+    color: #fff;
+    text-shadow: 1px 3px 5px rgba(#000, 0.8);
+    font-family: $checkin-font-family;
+    font-weight: 300;
+  }
+  .print-btn {
+    background-color: #00a65a;
+    color: #eee;
+    .small {
+      font-size: 55%;
+    }
+    .pull-right {
+      margin-right: -35px;
+    }
+    .badge {
+      background-color: #fff;
+      color: #00a65a;
+    }
+  }
+  .cancel-btn {
+    margin-top: 50px;
+  }
+}
+
+.checkin-selection {
+  font-size: 30pt;
+  border-top: none;
+  background-color: rgba(#fff, 0.6);
+  color: #555;
+  .box-body {
+    padding: 10px 30px;
+  }
+  .clock > span {
+    line-height: 0.65em; // hack to fix minutes
+  }
+}
+
+.checkin-destinations,
+.checkin-alert {
+  border-top: none;
+  background-color: rgba(#fff, 0.6);
+  color: #555;
+  font-size: 20pt;
+  &.selection-made {
+    .checkin-selection-header, .fa-check {
+      color: darken(#00a65a, 0.5) !important;
+    }
+    // nothing for now
+  }
+  .box-header {
+    background-color: rgba(#fff, 0.6);
+    padding: 5px 15px 5px 30px;
+    margin-bottom: 10px;
+    font-family: $checkin-font-family;
+    font-weight: 300;
+    font-size: 20pt;
+    .pull-right {
+      padding-top: 5px;
+    }
+  }
+  .box-body {
+    padding: 0 30px 30px 30px;
+  }
+  .box-body.padded {
+    padding-top: 30px;
+  }
+  .box-header h2.box-title {
+    font-size: 20pt;
+    font-family: $checkin-font-family;
+    padding-left: 0;
+    .light {
+      font-weight: 100;
+      color: #777;
+    }
+  }
+  h3 {
+    font-size: 30pt;
+    font-family: $checkin-font-family;
+    font-weight: 100;
+    margin: 15px 0 0 0;
+    padding-left: 1.1em;
+    .fa {
+      float: left;
+      width: 1em;
+      margin-left: -1.1em;
+      margin-top: 5px;
+    }
+  }
+  a {
+    color: #555;
+  }
+  .fa {
+    color: #777;
+    display: inline-block;
+    width: 1em;
+  }
+  .class-list {
+    @extend .list-unstyled;
+    font-family: $checkin-font-family;
+    font-weight: 300;
+    color: #333;
+    font-size: 30pt;
+    margin: 15px 0 0 0;
+    -moz-column-width: 12em;
+    -webkit-column-width: 12em;
+    column-width: 12em;
+    li {
+      padding-left: 1.4em;
+    }
+    &:first-child {
+      margin-top: 0;
+    }
+    &.indented {
+      margin-left: 50px;
+    }
+    &.collapsed {
+      display: none;
+    }
+    .fa {
+      float: left;
+      width: 1.3em;
+      margin-left: -1.4em;
+      margin-top: 5px;
+    }
+    small {
+      font-size: 0.5em;
+      font-weight: 100;
+    }
+  }
+}
+
+.checkin-selection-header {
+  display: inline-block;
+}
+
+.checkin-not-attending-header {
+  display: inline-block;
+  font-weight: 100;
+  color: #777;
+}
+
+.checkin-close {
+  .icon {
+    @extend .fa;
+    @extend .fa-times;
+    @extend .text-red;
+  }
+}
+
+.checkin-open {
+  .icon {
+    @extend .fa;
+    @extend .fa-plus;
+    @extend .text-green;
+  }
+}
+
+.checkin-change {
+  @extend .btn;
+  @extend .btn-danger;
+  color: #fff !important;
+  margin-top: -6px;
+  .icon {
+    color: #fff !important;
+    @extend .fa;
+    @extend .fa-times-circle;
+  }
+}
+
+.checkin-folder {
+  @extend .fa;
+  @extend .fa-folder-o;
+}
+.expanded .checkin-folder {
+  @extend .fa-folder-open-o;
+}
+
+.add-a-guest-entry {
+  border-top: none;
+  background-color: rgba(#fff, 0.6);
+  p {
+    font-size: 15pt;
+  }
+  input {
+    font-size: 25pt;
+    height: 55px;
+  }
+  .checkin-close {
+    font-size: 20pt;
+  }
+  .box-header {
+    padding: 5px 15px 5px 30px;
+    .box-title {
+      padding-left: 0;
+    }
+  }
+  .box-body {
+    padding: 0px 30px 30px;
+  }
+  .save-btn {
+    font-size: 25pt;
+    height: 55px;
+    margin-top: -10px;
   }
 }
 
@@ -31,4 +355,21 @@
 .list-checkin-status .status {
   @extend .callout;
   @extend .callout-info;
+}
+
+.checkin-printer-status {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  width: 200px;
+  color: #aaa;
+}
+
+.checkin-login-status {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 200px;
+  text-align: right;
+  color: #aaa;
 }

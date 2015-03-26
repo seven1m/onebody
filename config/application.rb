@@ -23,6 +23,7 @@ module OneBody
       #{config.root}/app/concerns
       #{config.root}/app/authorizers
       #{config.root}/app/presenters
+      #{config.root}/app/decorators
     )
 
     # Cache store location
@@ -43,7 +44,15 @@ module OneBody
     config.filter_parameters += [:password, :password_confirmation]
 
     # Additional precompiled assets
-    config.assets.precompile += %w(editor.js editor.css print.css)
+    config.assets.precompile += %w(
+      checkin.js
+      checkin-print.css
+      checkin-printer.js
+      checkin-printer.css
+      editor.js
+      editor.css
+      print.css
+    )
 
     config.generators do |g|
       g.test_framework :rspec

@@ -51,7 +51,7 @@ module PeopleHelper
     person.elder? or person.deacon? or person.staff? or person.member? or person.custom_type.present?
   end
 
-  def avatar_path(person, size=:tn)
+  def avatar_path(person, size=:tn, variation=nil)
     if person.is_a?(Family)
       family_avatar_path(person, size)
     elsif person.is_a?(Group)
@@ -64,7 +64,11 @@ module PeopleHelper
       else
         size = :large unless size == :tn # we only have only two sizes
         img = person.try(:gender) == 'Female' ? 'woman' : 'man'
-        image_path("#{img}.#{size}.jpg")
+        if variation == :dark
+          image_path("#{img}.dark.#{size}.png")
+        else
+          image_path("#{img}.#{size}.jpg")
+        end
       end
     end
   end
@@ -85,7 +89,7 @@ module PeopleHelper
       if not person.try(:photo).try(:exists?) and fallback_to_family and person.try(:family).try(:photo).try(:exists?)
         path = family_avatar_path(person.family)
       else
-        path = avatar_path(person, options.delete(:size))
+        path = avatar_path(person, options.delete(:size), options.delete(:variation))
       end
       image_tag(path, options)
     end

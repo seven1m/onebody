@@ -12,6 +12,7 @@ en:
     checkin: "Check-in"
     checkin_sub:
       times: "Times"
+      labels: "Labels"
     directory: "Directory"
     directory_sub:
       business: "Business Directory"

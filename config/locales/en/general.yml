@@ -70,6 +70,11 @@ en:
       album:
         name: "Name"
         description: "Description"
+      checkin_label:
+        name: "Name"
+        description: "Description"
+        xml: "Label XML"
+        xml_file: "Label XML File"
       document:
         name: "Name"
         description: "Description"
@@ -163,6 +168,17 @@ en:
               blank: The attendance record must specify a date and time.
             group_id:
               blank: The attendance record must be associated with a group.
+        checkin_label:
+          attributes:
+            name:
+              blank: "You must enter a name."
+            xml:
+              blank: "You must paste the label XML."
+        checkin_time:
+          attributes:
+            campus:
+              blank: "You must select a campus."
+              exclusion: "You must select a campus."
         document:
           attributes:
             file:

@@ -1,0 +1,59 @@
+this.Checkin ?= {}
+
+{form, div, h2, i, input, button, p} = React.DOM
+
+Checkin.AddGuestBox = React.createFactory React.createClass
+
+  displayName: 'AddGuestBox'
+
+  getInitialState: ->
+    error: null
+
+  componentDidMount: ->
+    @refs.input.getDOMNode().focus()
+
+  render: ->
+    form
+      onSubmit: @handleSubmit
+      div
+        className: 'add-a-guest-entry box'
+        div
+          className: 'box-header'
+          h2
+            className: 'box-title'
+            "<%= I18n.t('checkin.interface.add_guest.heading') %>"
+          div
+            className: 'pull-right'
+            div
+              className: 'clickable checkin-close'
+              div
+                className: 'icon'
+        div
+          className: 'box-body'
+          p {},
+            "<%= I18n.t('checkin.interface.add_guest.intro') %>"
+          if @state.error
+            div
+              className: 'alert alert-danger'
+              @state.error
+          input
+            type: 'text'
+            ref: 'input'
+          button
+            className: 'btn btn-success save-btn'
+            "<%= I18n.t('checkin.interface.add_guest.save') %>"
+
+  handleSubmit: (e) ->
+    e.preventDefault()
+    id = new Date().getTime()
+    name = @refs.input.getDOMNode().value
+    [first, last] = name.split(/\s+/)
+    person =
+      id: name
+      first_name: first
+      last_name: last
+    if first and first.trim() != '' and last and last.trim() != ''
+      @setState(error: null)
+      @props.onSubmit(person)
+    else
+      @setState(error: "You must enter a first and last name. Please try again.")

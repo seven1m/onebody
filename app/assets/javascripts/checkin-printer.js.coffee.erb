@@ -1,0 +1,45 @@
+#= require jquery
+#= require DYMO.Label.Framework
+#= require ./pusher_setup
+#= require ./app/checkin/label_set
+#= require_self
+
+if $('input[name="printer_name"]').val().trim() == ''
+  $('#status')
+    .removeClass()
+    .addClass('not-configured')
+    .data('frozen', true)
+    .text('Enter the name of this printer to connect it.')
+else
+  window.presence_channel = pusher.subscribe('presence-prints')
+  window.prints_channel = pusher.subscribe("private-prints-#{printer_id}")
+
+  presence_channel.bind 'pusher:subscription_error', (data) ->
+    $('#status')
+      .removeClass()
+      .addClass('auth-failed')
+      .data('frozen', true)
+      .text('Failure: Could not authenticate.')
+
+  window.print_count = 0
+
+  prints_channel.bind 'print', (data) ->
+    $('#print-log').html('') if print_count == 0
+    if new Checkin.LabelSet(data, checkin_labels).print()
+      names = []
+      for id, labels of data.labels
+        for label in labels
+          names.push("#{label.first_name} #{label.last_name}")
+      msg = names.join(', ')
+      print_count += names.length
+    else
+      msg = 'Error printing'
+    $('#print-log').prepend($('<div>').text(msg))
+    $('#print-count').text(print_count)
+
+status = $('#status')
+
+pusher.connection.bind 'state_change', ({current}) ->
+  return if status.data('frozen')
+  status.html(current)
+  status.removeClass().addClass(current)

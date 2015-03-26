@@ -9,7 +9,7 @@
 #= require spin
 #= require leaflet
 #= require leaflet.markercluster
-#= require_tree ./app
+#= require_directory ./app
 
 $('[data-toggle^="#"], [data-toggle^="."]').each (i, elm) ->
   elm = $(elm)
@@ -20,8 +20,15 @@ $('[data-toggle^="#"], [data-toggle^="."]').each (i, elm) ->
       toggle(elm.is(enabled_selector))
     toggle(elm.is(enabled_selector))
   else if elm.is('a')
-    elm.on('click', toggle)
+    elm.on 'click', ->
+      elm = $(this)
+      elm.toggleClass('expanded')
+      toggle(elm.is('.expanded'))
   else if elm.is('select')
     elm.on 'change', ->
       toggle(elm.val() == elm.data('toggle-value'))
     toggle(elm.val() == elm.data('toggle-value'))
+
+if csrf_token = $('meta[name="csrf-token"]').attr('content')
+  $(document).ajaxSend (_, xhr) ->
+    xhr.setRequestHeader('X-CSRF-Token', csrf_token)

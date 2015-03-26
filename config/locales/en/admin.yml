@@ -241,6 +241,28 @@ en:
         Send Attendance Submissions To:
           name: Send Attendance Submissions To
           description: Email sent when someone submits attendance for a group
+      Pusher:
+        App ID:
+          name: App ID
+          description: The application ID provided by Pusher.
+        App Key:
+          name: App Key
+          description: The application key provided by Pusher.
+        Secret:
+          name: Secret
+          description: The secret provided by Pusher.
+        API Scheme:
+          name: API Scheme
+        API Host:
+          name: API Host
+        API Port:
+          name: API Port
+        WS Host:
+          name: WS Host
+        WS Port:
+          name: WS Port
+        WSS Port:
+          name: WSS Port
       Services:
         Yahoo:
           name: Yahoo

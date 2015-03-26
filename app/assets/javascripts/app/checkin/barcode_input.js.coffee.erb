@@ -1,0 +1,82 @@
+this.Checkin ?= {}
+
+{div, i, img, form, input, button} = React.DOM
+
+Checkin.BarcodeInput = React.createFactory React.createClass
+
+  displayName: 'BarcodeInput'
+
+  getInitialState: ->
+    time: null
+
+  componentDidMount: ->
+    @setFocus()
+    $(document).on 'click', @setFocus
+    @setTime()
+    @interval = setInterval(@setTime, 1000)
+    setTimeout (-> $('.center').center()), 50
+
+  componentWillUnmount: ->
+    $(document).off 'click', @setFocus
+    clearInterval(@interval)
+
+  render: ->
+    div
+      className: 'center'
+      div
+        className: 'headline text-center'
+        @state.time
+      if @props.error
+        div
+          className: 'callout callout-danger'
+          i
+            className: 'fa fa-exclamation-triangle text-yellow'
+          ' '
+          @props.error
+      div
+        className: 'lockscreen-name'
+        '<%= I18n.t('checkin.interface.heading') %>'
+      div
+        className: 'lockscreen-item'
+        div
+          className: 'lockscreen-image'
+          img
+            src: '<%= asset_path('barcode.png') %>'
+        div
+          className: 'lockscreen-credentials'
+          form
+            onSubmit: @handleSubmit
+            div
+              className: 'input-group'
+              input
+                className: 'form-control'
+                ref: 'barcode'
+                placeholder: '<%= I18n.t('checkin.interface.barcode.placeholder') %>'
+                type: 'password'
+              div
+                className: 'input-group-btn'
+                button
+                  className: 'btn btn-flat'
+                  i
+                    className: 'fa fa-arrow-right text-muted'
+
+  handleSubmit: (e) ->
+    e.preventDefault()
+    elm = @refs.barcode.getDOMNode()
+    if elm.value != ''
+      @props.onSubmit(elm.value)
+      elm.value = ''
+
+  setFocus: ->
+    @refs.barcode.getDOMNode().focus()
+
+  setTime: ->
+    today = new Date()
+    h = today.getHours()
+    m = today.getMinutes()
+    s = today.getSeconds()
+    m = '0' + m if m < 10
+    s = '0' + s if s < 10
+    am_pm = if h > 11 then 'PM' else 'AM'
+    h -= 12 if h > 12
+    @setState(time: "#{h}:#{m}:#{s} #{am_pm}")

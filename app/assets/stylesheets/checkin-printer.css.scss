@@ -1,0 +1,18 @@
+#status.unavailable,
+#status.auth-failed {
+  color: red;
+}
+
+#status.connecting,
+#status.not-configured {
+  color: orange;
+}
+
+#status.connected {
+  color: green;
+}
+
+.checkin-print-log {
+  max-height: 200px;
+  overflow-y: auto;
+}

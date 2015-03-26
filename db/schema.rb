@@ -56,25 +56,46 @@ ActiveRecord::Schema.define(version: 20150318034613) do
   end
 
   create_table "attendance_records", force: :cascade do |t|
-    t.integer  "site_id",        limit: 4
-    t.integer  "person_id",      limit: 4
-    t.integer  "group_id",       limit: 4
+    t.integer  "site_id",             limit: 4
+    t.integer  "person_id",           limit: 4
+    t.integer  "group_id",            limit: 4
     t.datetime "attended_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "first_name",     limit: 255
-    t.string   "last_name",      limit: 255
-    t.string   "family_name",    limit: 255
-    t.string   "age",            limit: 255
-    t.string   "can_pick_up",    limit: 100
-    t.string   "cannot_pick_up", limit: 100
-    t.string   "medical_notes",  limit: 200
+    t.string   "first_name",          limit: 255
+    t.string   "last_name",           limit: 255
+    t.string   "family_name",         limit: 255
+    t.string   "age",                 limit: 255
+    t.string   "can_pick_up",         limit: 100
+    t.string   "cannot_pick_up",      limit: 100
+    t.string   "medical_notes",       limit: 200
+    t.integer  "checkin_time_id",     limit: 4
+    t.boolean  "print_extra_nametag", limit: 1
+    t.string   "barcode_id",          limit: 50
+    t.integer  "label_id",            limit: 4
   end
 
   add_index "attendance_records", ["attended_at"], name: "index_attended_at_on_attendance_records", using: :btree
   add_index "attendance_records", ["group_id"], name: "index_group_id_on_attendance_records", using: :btree
   add_index "attendance_records", ["person_id"], name: "index_person_id_on_attendance_records", using: :btree
   add_index "attendance_records", ["site_id"], name: "index_site_id_on_attendance_records", using: :btree
+
+  create_table "checkin_folders", force: :cascade do |t|
+    t.integer "site_id",         limit: 4
+    t.integer "checkin_time_id", limit: 4
+    t.string  "name",            limit: 255
+    t.integer "sequence",        limit: 4
+    t.boolean "active",          limit: 1,   default: true
+  end
+
+  create_table "checkin_labels", force: :cascade do |t|
+    t.string   "name",        limit: 255
+    t.string   "description", limit: 1000
+    t.text     "xml",         limit: 65535
+    t.integer  "site_id",     limit: 4
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "checkin_times", force: :cascade do |t|
     t.integer  "weekday",      limit: 4
@@ -215,13 +236,14 @@ ActiveRecord::Schema.define(version: 20150318034613) do
   create_table "group_times", force: :cascade do |t|
     t.integer  "group_id",            limit: 4
     t.integer  "checkin_time_id",     limit: 4
-    t.boolean  "print_nametag",       limit: 1,   default: false
-    t.integer  "ordering",            limit: 4
+    t.integer  "sequence",            limit: 4
     t.integer  "site_id",             limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "section",             limit: 100
     t.boolean  "print_extra_nametag", limit: 1,   default: false
+    t.integer  "checkin_folder_id",   limit: 4
+    t.integer  "label_id",            limit: 4
   end
 
   create_table "groups", force: :cascade do |t|

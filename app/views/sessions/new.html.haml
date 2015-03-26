@@ -9,6 +9,7 @@
 
   = form_tag session_path do
     = hidden_field_tag :from, params[:from]
+    = hidden_field_tag :for, params[:for]
     .body.bg-gray
       .form-group
         = text_field_tag :email, params[:email], placeholder: t('session.form.placeholder.email'), class: 'form-control', autofocus: !@focus_password

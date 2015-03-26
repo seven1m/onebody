@@ -1,0 +1,23 @@
+- @title = t('checkin.labels.heading')
+
+%table.table
+  %tr
+    %th= t('checkin.labels.table.name')
+    %th= t('checkin.labels.table.description')
+    %th= t('checkin.labels.table.updated_at')
+    %th
+  - @labels.each do |label|
+    %tr.row-with-actions
+      %td= link_to label.name, edit_administration_checkin_label_path(label)
+      %td= label.description
+      %td= label.updated_at.to_s(:full)
+      %td
+        = link_to edit_administration_checkin_label_path(label), class: 'btn btn-info' do
+          = icon 'fa fa-pencil'
+        = link_to administration_checkin_label_path(label), data: { method: 'delete', confirm: t('are_you_sure') }, class: 'btn btn-delete' do
+          = icon 'fa fa-trash-o'
+
+%p
+  = link_to new_administration_checkin_label_path, class: 'btn btn-success' do
+    = icon 'fa fa-plus'
+    = t('checkin.labels.new.button')

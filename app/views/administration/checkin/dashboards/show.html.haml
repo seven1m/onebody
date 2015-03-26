@@ -32,6 +32,7 @@
         - if @logged_in.admin?(:manage_checkin)
           = link_to t('checkin.assigned_cards.button'), administration_checkin_cards_path, class: 'btn btn-info'
           = link_to t('checkin.times.button'), administration_checkin_times_path, class: 'btn btn-warning'
+          = link_to t('checkin.labels.button'), administration_checkin_labels_path, class: 'btn btn-warning'
     #notice.callout.callout-info{ style: 'display:none' }
     #barcode
     #family

@@ -1,0 +1,6 @@
+= link_to reorder_administration_checkin_group_path(dom_id(entry), direction: 'up'), data: { method: 'put' }, class: "btn bg-gray text-blue up #{first ? 'disabled' : ''}" do
+  = icon 'fa fa-arrow-circle-up'
+= link_to reorder_administration_checkin_group_path(dom_id(entry), direction: 'down'), data: { method: 'put' }, class: "btn bg-gray text-blue down #{last ? 'disabled' : ''}" do
+  = icon 'fa fa-arrow-circle-down'
+= link_to administration_checkin_time_group_path(@time, dom_id(entry)), data: { method: 'delete', confirm: t('are_you_sure'), remote: true }, class: 'btn btn-delete' do
+  = icon 'fa fa-trash-o'

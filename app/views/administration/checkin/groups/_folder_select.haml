@@ -1,0 +1,5 @@
+= label_tag :folder_id, t('checkin.groups.index.add_group.select_folder.label')
+%select.form-control#folder_id{ name: 'checkin_folder_id' }
+  %option{ value: '' }
+    = label_tag t('checkin.groups.index.add_group.select_folder.none')
+  = options_from_collection_for_select(@time.checkin_folders, :id, :name)

@@ -1,0 +1,17 @@
+= form_for @label, url: @label.persisted? ? administration_checkin_label_path(@label) : administration_checkin_labels_path, multipart: true do |form|
+  = error_messages_for(form)
+
+  .form-group
+    = form.label :name
+    = form.text_field :name, class: 'form-control'
+  .form-group
+    = form.label :description
+    = form.text_area :description, class: 'form-control'
+  .form-group
+    = form.label :xml
+    = form.text_area :xml, class: 'form-control', rows: 15
+  .form-group
+    = form.label :xml_file
+    = form.file_field :xml_file
+  .form-group
+    = form.button t('save'), class: 'btn btn-success'

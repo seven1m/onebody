@@ -4,19 +4,35 @@
 = content_tag :div, style: @person.adult_or_consent? ? nil : 'text-decoration:line-through;' do
   .form-group
     = form.check_box :can_sign_in
-    = form.label :can_sign_in,                  t('people.can_sign_in'),                  class: 'inline'
+    = form.label :can_sign_in, class: 'inline'
   .form-group
     = form.check_box :visible_to_everyone
-    = form.label :visible_to_everyone,          t('people.visible_to_everyone'),          class: 'inline'
+    = form.label :visible_to_everyone, class: 'inline'
   .form-group
     = form.check_box :visible_on_printed_directory
-    = form.label :visible_on_printed_directory, t('people.visible_on_printed_directory'), class: 'inline'
+    = form.label :visible_on_printed_directory, class: 'inline'
   .form-group
     = form.check_box :full_access
-    = form.label :full_access,                  t('people.full_access'),                  class: 'inline'
+    = form.label :full_access, class: 'inline'
   - if @person.can_sign_in? and !@person.new_record?
     .form-group
       = render partial: 'admin_send_verification_button'
+- if Setting.get(:features, :checkin)
+  .box.box-info
+    .box-header
+      %h3.box-title= t('people.checkin.heading')
+    .box-body
+      %p= t('people.checkin.intro')
+      .form-group
+        = form.label :can_pick_up
+        = form.text_field :can_pick_up, class: 'form-control'
+      .form-group
+        = form.label :cannot_pick_up
+        = form.text_field :cannot_pick_up, class: 'form-control'
+      .form-group
+        = form.label :medical_notes
+        = form.text_field :medical_notes, class: 'form-control'
+
 - if Setting.get(:features, :edit_legacy_ids)
   .box.box-info
     .box-header

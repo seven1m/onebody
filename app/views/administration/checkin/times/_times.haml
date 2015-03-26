@@ -4,11 +4,14 @@
     %th= t('checkin.times.table.campus')
     %th= t('checkin.times.table.groups.heading')
     %th
-  - @recurring_times.each do |time|
-    %tr
+  - times.each do |time|
+    %tr.row-with-actions
       %td= time
       %td= time.campus
       %td= t('checkin.times.table.groups.count', count: time.groups.count)
       %td.actions
-        = link_to administration_checkin_time_path(time), data: { method: 'delete', confirm: t('are_you_sure') }, class: 'btn btn-delete btn-xs' do
+        = link_to edit_administration_checkin_time_path(time), class: 'btn btn-info' do
+          = icon 'fa fa-pencil'
+          = t('checkin.times.edit.button')
+        = link_to administration_checkin_time_path(time), data: { method: 'delete', confirm: t('are_you_sure') }, class: 'btn btn-delete' do
           = icon 'fa fa-trash-o'

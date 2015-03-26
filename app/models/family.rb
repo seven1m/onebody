@@ -2,6 +2,8 @@ class Family < ActiveRecord::Base
   include Authority::Abilities
   self.authorizer_name = 'FamilyAuthorizer'
 
+  include Concerns::Reorder
+
   MAX_TO_BATCH_AT_A_TIME = 50
 
   has_many :people, -> { order(:position) }, dependent: :destroy
@@ -16,6 +18,7 @@ class Family < ActiveRecord::Base
   scope :undeleted, -> { where(deleted: false) }
   scope :deleted, -> { where(deleted: true) }
   scope :has_printable_people, -> { where('(select count(*) from people where family_id = families.id and visible_on_printed_directory = ?) > 0', true) }
+  scope :by_barcode, -> b { where('barcode_id = ? or alternate_barcode_id = ?', b, b) }
 
   validates :name, presence: true
   validates :last_name, presence: true

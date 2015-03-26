@@ -1,0 +1,10 @@
+%tr.row-with-actions{ id: dom_id(entry), class: entry.checkin_folder_id ? "sub-item for-folder-#{entry.checkin_folder_id}" : '', style: entry.checkin_folder_id ? 'display:none;' : '' }
+  %td{ class: indent ? 'icon-inset' : '' }
+    = entry.group.name
+  %td
+    = select_tag "label_id_for_#{entry.id}", options_from_collection_for_select(@labels, :id, :name, entry.label_id), |
+      include_blank: true, onchange: "$.ajax('#{administration_checkin_time_group_path(@time, entry.id)}', {data: {label_id: this.value}, method: 'put'})"
+  %td
+    %input{ type: 'checkbox', name: "print_extra_nametag_for#{entry.id}", checked: entry.print_extra_nametag?, onchange: "$.ajax('#{administration_checkin_time_group_path(@time, entry.id)}', {data: {print_extra_nametag: this.checked}, method: 'put'})", class: 'simple' }
+  %td.actions
+    = render partial: 'actions', locals: { entry: entry, first: first, last: last }
