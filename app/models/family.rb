@@ -273,4 +273,20 @@ class Family < ActiveRecord::Base
       end
     end
   end
+
+  # Go straight to the database to fetch family details for the Directory Map
+  def self.mappable_details
+    connection.select_all(
+      'select families.id, families.name, families.latitude, families.longitude ' \
+      'from families ' \
+      'left outer join people on people.family_id = families.id ' \
+      "where people.visible = #{Family.connection.quoted_true} " \
+      "and families.visible = #{Family.connection.quoted_true} " \
+      "and people.visible_to_everyone = #{Family.connection.quoted_true} " \
+      "and families.site_id = #{Site.current.id} " \
+      'and coalesce(families.latitude, 0.0) != 0.0 ' \
+      'and coalesce(families.longitude, 0.0) != 0.0 ' \
+      'group by families.id, families.name, families.latitude, families.longitude'
+    ).to_a
+  end
 end
