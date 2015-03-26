@@ -8,7 +8,7 @@
     %tr.row-with-actions
       %td= time
       %td= time.campus
-      %td= t('checkin.times.table.groups.count', count: time.groups.count)
+      %td= t('checkin.times.table.groups.count', count: time.all_group_times.count)
       %td.actions
         = link_to administration_checkin_time_groups_path(time), class: 'btn btn-info' do
           = icon 'fa fa-bars'
