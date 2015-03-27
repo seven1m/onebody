@@ -23,6 +23,7 @@ class CheckinTime < ActiveRecord::Base
   def all_group_times
     GroupTime
       .includes(:checkin_folder)
+      .references(:checkin_folders)
       .order('coalesce(checkin_folders.sequence, group_times.sequence)')
       .where(
         'group_times.checkin_folder_id in (?) or group_times.checkin_time_id = ?',
