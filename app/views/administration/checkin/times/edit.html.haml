@@ -5,7 +5,7 @@
     = form_for @time, url: administration_checkin_time_path(@time) do |form|
       - if @time.weekday
         .form-group
-          = form.select :weekday, Date::DAYNAMES.with_indexes, {}, class: 'form-control'
+          = form.select :weekday, Date::DAYNAMES.with_index, {}, class: 'form-control'
         .form-group
           = form.text_field :time, value: @time.time_to_s, size: 8, class: 'form-control', placeholder: t('checkin.times.recurring.time')
       - else
