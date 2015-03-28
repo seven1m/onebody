@@ -29,7 +29,7 @@ class CheckinPresenter
       )
   end
 
-  def attendance_records(person, times=nil)
+  def attendance_records(person, times = nil)
     times ||= checkin_times.map(&:to_time)
     all_attendance_records(person).where(
       attended_at: times.map { |t| t.strftime('%Y-%m-%dT%H:%M:%S') }
@@ -115,8 +115,8 @@ class CheckinPresenter
         "(the_datetime is null and weekday = :today) or
          (the_datetime between :from and :to)",
         today: Time.current.wday,
-        from:  Time.current - 1.hour,
-        to:    Time.current + 4.hours
+        from:  1.hour.ago.strftime('%Y-%m-%dT%H:%M:%S'),
+        to:    4.hours.from_now.strftime('%Y-%m-%dT%H:%M:%S')
       )
   end
 end

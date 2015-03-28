@@ -15,6 +15,7 @@
       .box-body
         = form_tag groups_path, remote: true, method: 'get', id: 'group-search' do
           = hidden_field_tag :select_group, true
+          = hidden_field_tag :include_hidden, true
           .form-group
             = label_tag :name, t('name')
             = text_field_tag :name, '', class: 'form-control'

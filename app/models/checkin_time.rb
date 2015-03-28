@@ -9,16 +9,28 @@ class CheckinTime < ActiveRecord::Base
   validates :campus, presence: true, exclusion: ['!']
 
   scope :recurring, -> { where(the_datetime: nil) }
-  scope :upcoming_singles, -> { where('the_datetime is not null and the_datetime >= now()') }
   scope :today, -> campus { for_date(Time.now, campus) }
+  scope :upcoming_singles, lambda {
+    where(
+      'the_datetime is not null and the_datetime >= ?',
+      1.hour.from_now.strftime('%Y-%m-%dT%H:%M:%S')
+    )
+  }
 
   scope_by_site_id
 
   def self.for_date(date, campus=nil)
-    r = where("((the_datetime >= ? and the_datetime <= ?) or weekday = ?)", date.beginning_of_day, date.end_of_day, date.wday)
+    r = where(
+      "((the_datetime >= ? and the_datetime <= ?) or weekday = ?)",
+      date.beginning_of_day.strftime('%Y-%m-%dT%H:%M:%S'),
+      date.end_of_day.strftime('%Y-%m-%dT%H:%M:%S'),
+      date.wday
+    )
     r.where!(campus: campus) if campus
     r
   end
+
+  self.skip_time_zone_conversion_for_attributes = [:the_datetime]
 
   def all_group_times
     GroupTime

@@ -146,6 +146,7 @@ Checkin.Main = React.createFactory React.createClass
           @setState
             barcodeError: null
             people: data.people
+            selections: data.selections
             checkingIn: true
 
   handleSubmit: ->
