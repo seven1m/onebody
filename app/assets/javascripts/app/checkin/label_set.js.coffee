@@ -3,7 +3,7 @@ this.Checkin ?= {}
 class Checkin.LabelSet
   constructor: (@data, @label_templates) ->
     by_label_id = {}
-    for _, labels of @data.labels
+    for _, labels of @data.labels when labels
       for l in labels
         data = $.extend {}, l, @data
         code = data.barcode_id.substring(data.barcode_id.length-4)
