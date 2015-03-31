@@ -84,7 +84,7 @@ class AttendanceRecord < ActiveRecord::Base
           can_pick_up:         person.can_pick_up,
           cannot_pick_up:      person.cannot_pick_up,
           medical_notes:       person.medical_notes,
-          checkin_time_id:     group_time.checkin_time_id,
+          checkin_time_id:     group_time.checkin_time_id || group_time.checkin_folder.try(:checkin_time_id),
           label_id:            group_time.label_id,
           print_extra_nametag: group_time.print_extra_nametag?,
           barcode_id:          barcode_id

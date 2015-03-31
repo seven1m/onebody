@@ -3,7 +3,7 @@ require_relative '../rails_helper'
 describe CheckinPresenter do
   let(:person) { FactoryGirl.create(:person) }
 
-  subject { CheckinPresenter.new('Main', person) }
+  subject { CheckinPresenter.new('Main', person.family) }
 
   before do
     Time.zone = 'America/Chicago'
@@ -81,8 +81,64 @@ describe CheckinPresenter do
     end
   end
 
-  describe '#people' do
-    it 'returns family members'
-    it 'returns other check-in people'
+  describe '#selections' do
+    let!(:group1)        { FactoryGirl.create(:group) }
+    let!(:group2)        { FactoryGirl.create(:group) }
+    let!(:checkin_time1) { FactoryGirl.create(:checkin_time, weekday: Time.current.wday, time: '9:00 am') }
+    let!(:checkin_time2) { FactoryGirl.create(:checkin_time, weekday: Time.current.wday, time: '10:30 am') }
+    let!(:group_time1)   { checkin_time1.group_times.create!(group: group1) }
+    let!(:folder)        { FactoryGirl.create(:checkin_folder, checkin_time: checkin_time2) }
+    let!(:group_time2)   { folder.group_times.create!(group: group2) }
+
+    let!(:attendance1) do
+      FactoryGirl.create(
+        :attendance_record,
+        person:       person,
+        checkin_time: checkin_time1,
+        group:        group1,
+        attended_at:  checkin_time1.to_time
+      )
+    end
+
+    let!(:attendance2) do
+      FactoryGirl.create(
+        :attendance_record,
+        person:       person,
+        checkin_time: checkin_time2,
+        group:        group2,
+        attended_at:  checkin_time2.to_time
+      )
+    end
+
+    fit 'returns current selections' do
+      expect(subject.selections).to match(
+        {
+          person.id => {
+            checkin_time1.id => include(
+              'id'                  => group_time1.id,
+              'group_id'            => group1.id,
+              'checkin_time_id'     => checkin_time1.id,
+              'print_extra_nametag' => false,
+              'checkin_folder_id'   => nil,
+              'label_id'            => nil,
+              group: {
+                name: group1.name
+              }
+            ),
+            checkin_time2.id => include(
+              'id'                  => group_time2.id,
+              'group_id'            => group2.id,
+              'checkin_time_id'     => nil,
+              'print_extra_nametag' => false,
+              'checkin_folder_id'   => folder.id,
+              'label_id'            => nil,
+              group: {
+                name: group2.name
+              }
+            )
+          }
+        }
+      )
+    end
   end
 end

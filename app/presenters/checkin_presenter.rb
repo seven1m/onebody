@@ -17,7 +17,7 @@ class CheckinPresenter
   end
 
   def group_ids
-    @group_ids ||= checkin_times.flat_map { |t| t.group_times.pluck(:group_id) }.uniq
+    @group_ids ||= checkin_times.flat_map { |t| t.all_group_times.pluck(:group_id) }.uniq
   end
 
   def all_attendance_records(person)
@@ -86,11 +86,11 @@ class CheckinPresenter
 
   def group_time_for_attendance_record(record)
     group_time = GroupTime
-      .where(
-        checkin_time_id: record.checkin_time_id,
-        group_id: record.group_id
-      )
+      .joins('left join checkin_folders on group_times.checkin_folder_id = checkin_folders.id')
+      .where(group_id: record.group_id)
+      .where('coalesce(group_times.checkin_time_id, checkin_folders.checkin_time_id) = ?', record.checkin_time_id)
       .first
+    return unless group_time
     group_time.as_json.merge(
       group: {
         name: group_time.group.name
