@@ -48,8 +48,8 @@ Operating System: Windows, Mac, or Linux
 3. Install [Git](http://git-scm.com/downloads).
    * If you're on Mac, you can use [GitHub for Mac](https://mac.github.com/).
    * If you're on Windows, you can use [GitHub for Windows](https://windows.github.com/).
-4. Clone the repository to your host machine: `git clone git://github.com/churchio/onebody.git`
-5. In your host terminal, change to the project directory: `cd onebody`
+4. Clone the repository to your host machine: `git clone git://github.com/churchio/onebody.git` (If you forked the project, clone from your own fork.)
+5. In your terminal, change to the project directory: `cd onebody`
 6. Run vagrant: `vagrant up`
 
 Now visit the site running in development mode at http://localhost:8080.
