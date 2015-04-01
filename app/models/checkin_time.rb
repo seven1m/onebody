@@ -12,8 +12,9 @@ class CheckinTime < ActiveRecord::Base
   scope :today, -> campus { for_date(Time.now, campus) }
   scope :upcoming_singles, lambda {
     where(
-      'the_datetime is not null and the_datetime >= ?',
-      1.hour.from_now.strftime('%Y-%m-%dT%H:%M:%S')
+      'the_datetime is not null and the_datetime between :from and :to',
+      from: 1.hour.ago.strftime('%Y-%m-%dT%H:%M:%S'),
+      to:   4.hours.from_now.strftime('%Y-%m-%dT%H:%M:%S')
     )
   }
 
@@ -67,7 +68,7 @@ class CheckinTime < ActiveRecord::Base
   end
 
   def the_datetime=(t)
-    self[:the_datetime] = t.present? ? Time.parse_in_locale(t) : nil
+    self[:the_datetime] = t.present? ? Time.parse_in_locale(t).strftime('%Y-%m-%d %H:%M:%S') : nil
   end
 
   def to_s
