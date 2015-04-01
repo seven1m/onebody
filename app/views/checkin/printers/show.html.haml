@@ -52,4 +52,4 @@
     wsPort: '#{ Setting.get(:pusher, :ws_port) }',
     wssPort: '#{ Setting.get(:pusher, :wss_port) }'
   };
-  printer_id = '#{@printer[:id]}';
+  printer_id = #{ json_escape @printer[:id].to_json };

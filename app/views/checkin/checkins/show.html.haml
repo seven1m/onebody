@@ -14,8 +14,8 @@
   };
   checkin_printer_id = #{ json_escape(session[:checkin_printer_id].to_json) };
   checkin_user = {
-    id: #{ @checkin_logged_in.id },
-    initials: #{ json_escape((@checkin_logged_in.first_name[0] + @checkin_logged_in.last_name[0]).to_json) }
+    id: #{ json_escape @checkin_logged_in.id.to_json },
+    initials: #{ json_escape (@checkin_logged_in.first_name[0] + @checkin_logged_in.last_name[0]).to_json }
   };
 
 - content_for :js do
