@@ -7,10 +7,10 @@
 
 :javascript
   pusher_config = {
-    app: '#{ Setting.get(:pusher, :app_key) }',
-    wsHost: '#{ Setting.get(:pusher, :ws_host) }',
-    wsPort: '#{ Setting.get(:pusher, :ws_port) }',
-    wssPort: '#{ Setting.get(:pusher, :wss_port) }'
+    app:     #{ json_escape Setting.get(:pusher, :app_key).to_json },
+    wsHost:  #{ json_escape Setting.get(:pusher, :ws_host).to_json },
+    wsPort:  #{ json_escape Setting.get(:pusher, :ws_port).to_json },
+    wssPort: #{ json_escape Setting.get(:pusher, :wss_port).to_json }
   };
   checkin_printer_id = #{ json_escape(session[:checkin_printer_id].to_json) };
   checkin_user = {
