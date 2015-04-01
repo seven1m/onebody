@@ -1,0 +1,20 @@
+drawCharts = ->
+  for elm in $('.inlinebar')
+    drawChart $(elm)
+
+drawChart = (elm) ->
+    { data, times } = elm.data('data')
+    if data.length > 0
+      elm.sparkline data,
+        type: 'bar'
+        barColor: elm.data('color') || 'orange'
+        barWidth: (elm.width() / data.length) - 1
+        height: elm.data('height') || '85px'
+        tooltipFormatter: (sparkline, options, [field]) ->
+          time = times[field.offset]
+          "#{time}: #{field.value}"
+    else
+      elm.html('<%= I18n.t('admin.charts.no_data') %>')
+
+drawCharts()
+$(window).resize(drawCharts)

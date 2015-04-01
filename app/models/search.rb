@@ -23,10 +23,10 @@ class Search
       send("#{key}=", val) if respond_to?("#{key}=")
     end
     if source == :person
-      if params[:group_category]
+      if group_category.present?
         @scope = Person.eager_load(:family, :groups) # for left outer join for groups
       else
-         @scope = Person.joins(:family)
+        @scope = Person.joins(:family)
       end
     elsif source == :family
       @scope = Family.includes(:people)

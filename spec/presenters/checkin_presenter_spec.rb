@@ -110,7 +110,7 @@ describe CheckinPresenter do
       )
     end
 
-    fit 'returns current selections' do
+    it 'returns current selections' do
       expect(subject.selections).to match(
         {
           person.id => {
