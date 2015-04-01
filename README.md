@@ -1,10 +1,11 @@
-# OneBody
-
 ![screnshots](https://farm8.staticflickr.com/7508/15498980049_3527e0817e_b.jpg)
 
-[![Install on DigitalOcean](http://installer.71m.us/button.svg)](http://installer.71m.us/install?url=https://github.com/churchio/onebody) [![Gitter](https://badges.gitter.im/Chat%20with%20us.svg)](https://gitter.im/churchio/onebody)
+# OneBody
 
-[Install Somewhere Else](https://github.com/churchio/onebody/wiki/Installation)
+[![Install on DigitalOcean](https://img.shields.io/badge/install-digital_ocean-479de4.svg)](http://installer.71m.us/install?url=https://github.com/churchio/onebody)
+[![Install on Amazon EC2](https://img.shields.io/badge/install-amazon_ec2-3b82bd.svg)](https://github.com/churchio/onebody/wiki/Amazon-AMI)
+[![Install elsewhere](https://img.shields.io/badge/install-other-316b9c.svg)](https://github.com/churchio/onebody/wiki/Installation)
+[![Chat with us](https://img.shields.io/badge/chat-slack-e01563.svg)](https://slackin-churchio.herokuapp.com/)
 
 OneBody is open-source, web-based social networking, email list, online directory, and lightweight document management software for churches.
 
