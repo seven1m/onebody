@@ -1,5 +1,5 @@
 .floating-boxes {
-  margin: -15px; // offset padding on each floating-box
+  margin-left: -15px; // offset padding on each floating-box
   .box {
     margin: 0;
   }
@@ -27,6 +27,10 @@
   .small-box {
     margin-bottom: 0;
   }
+}
+
+.floating-box.wide {
+  width: 33.33%;
 }
 
 @media (max-width: 1500px) {

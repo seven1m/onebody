@@ -1,10 +1,15 @@
 en:
   admin:
 
+    actionables:
+      heading: "Actionables"
+
+    administration:
+      heading: "Administration & Settings"
+
     attendance:
-      heading: "Attendance"
-      intro: "View and export attendance records."
-      button: "Attendance Records"
+      heading: "Attendance (30 days)"
+      button: "Attendance"
 
     box:
       updates:
@@ -32,11 +37,14 @@ en:
           one: "Deleted Person"
           other: "Deleted People"
 
+    charts:
+      no_data: no data yet
+
     checkin:
-      heading: "Check-in"
-      intro: "Manage check-in and assign cards."
+      heading: "Check-in (48 hours)"
       cards_assigned: "Check-In Cards Assigned"
-      button: "Check-in Dashboard"
+      dashboard_button: "Check-in Admin"
+      button: "Check-in Kiosk"
 
     dashboard:
       heading: "Admin Dashboard"
@@ -64,6 +72,9 @@ en:
         intro: "The results of your search are displayed below."
       undelete:
         button: "Undelete Selected People"
+
+    gatherings:
+      heading: "Gatherings"
 
     membership_requests:
       count:
