@@ -34,7 +34,9 @@ class Stats::AttendanceGraphPresenter
 
   def grouped
     @grouped ||= records.each_with_object({}) do |record, hash|
-      group = record['attended_at'].strftime(format)
+      attended_at = record['attended_at']
+      attended_at = Time.parse(attended_at) if attended_at.is_a?(String) # postgres
+      group = attended_at.strftime(format)
       hash[group] ||= 0
       hash[group] += 1
     end
@@ -55,13 +57,5 @@ class Stats::AttendanceGraphPresenter
          #{@checked_in ? 'and checkin_time_id is not null' : ''}
          order by attended_at desc")
       .to_a
-  end
-
-  def extract_date_sql(column)
-    if AttendanceRecord.connection.adapter_name == 'PostgreSQL'
-      "#{column}::date"
-    else
-      "date(#{column})"
-    end
   end
 end
