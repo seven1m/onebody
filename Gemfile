@@ -91,7 +91,7 @@ group :development, :test do
   gem 'pry-remote', '~> 0.1.8'
   gem 'pry-rails', '~> 0.3.2'
   gem 'rspec-rails', '~> 3.1.0'
-  gem 'spring', '~> 1.2.0'
+  gem 'spring', '~> 1.3.0'
   gem 'spring-commands-rspec', '~> 1.0.4'
   gem 'guard-rspec', '~> 4.5.0', require: false
   gem 'coveralls', '~> 0.7.3', require: false
