@@ -1,9 +1,9 @@
 require 'erb'
 require 'yaml'
 
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
-gem 'rails', '~> 4.2.0'
+gem 'rails', '4.2.1'
 
 # BEGIN database selection
 # borrowed heavily from https://github.com/redmine/redmine/blob/master/Gemfile
