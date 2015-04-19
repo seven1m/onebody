@@ -9,7 +9,7 @@ else
 end
 
 unless defined? VALID_EMAIL_ADDRESS
-  VALID_EMAIL_ADDRESS = /\A[a-z\-_0-9\.%]+\@[a-z\-0-9\.]+\.[a-z\-]{2,5}\z/i
+  VALID_EMAIL_ADDRESS = /\A[a-z\-_0-9\.%]+\@[a-z\-0-9\.]+\.[a-z\-]{2,}\z/i
 
   MAX_DAYS_FOR_REPLIES = 100
   MAX_DAILY_VERIFICATION_ATTEMPTS = 10
