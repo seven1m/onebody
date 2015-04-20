@@ -47,27 +47,19 @@ de:
       subject: "%{site} Verzeichnis"
       intro: "Hello, %{person}. Attached is your custom printed directory from %{site}.\n"
     profile_update:
-      subject: "Profile Update from %{person}"
+      subject: "Profiländerung von %{person}"
       intro: "%{person} (%{family}) has submitted a profile update.\n"
       label:
         new: Neu
         old: Alt
     rejection:
       cannot_read:
-        subject: "Message Not Sent: %{subject}"
-        body: |
-            Your message with subject "%{subject}" was not delivered.
-
-            We are sorry for the inconvenience. The system cannot read your message
-            because it is not formatted as either plain text or HTML.
-
-            Please set your email client to plain text (turn off Rich Text) and try
-            again, or you may send your message from the website after signing
-            into the URL below:
-
-            %{url}
+        subject: "Nachtricht nicht gesendet : %{subject}"
+        body: "Deine Nachricht mit dem Betreff %{subject} konnte nicht zugestellt werden.\n\
+            Es tut uns leid, aber das System kann die Nachricht nicht lesen, weil es nicht als Text oder HTML formatiert ist.\n\
+            Bitte stellen sie ihr EMail-Programm auf Einfachen Text um und versuchen sie es erneut, oder sie können ihre Nachricht senden, nachdem sie sich bei der folgenden Seite eingeloggt haben %{url} \n"
       multiple_people:
-        subject: "Message Not Sent: %{subject}"
+        subject: "Nachtricht nicht gesendet : %{subject}"
         body: |
             Your message with subject "%{subject}" was not delivered.
 
@@ -80,7 +72,7 @@ de:
             Alternatively, you can sign in at the URL above, go to your email settings
             and check the box labeled "Primary email account holder."
       unknown_person:
-        subject: "Message Not Sent: %{subject}"
+        subject: "Nachricht nicht gesendet : %{subject}"
         body: |
             Your message with subject "%{subject}" was not delivered.
 
@@ -92,7 +84,7 @@ de:
 
             %{url}
       invalid:
-        subject: "Message Error: %{subject}"
+        subject: "Nachricht Fehler: %{subject}"
         body: |
             Your message with subject "%{subject}" was not delivered.
 
@@ -103,18 +95,13 @@ de:
 
             Please forward this message to support at: %{support}
       no_recipients:
-        subject: "Message Not Sent: %{subject}"
-        body: |
-            Your message with subject "%{subject}" was not delivered to any groups.
-
-            We are sorry for the inconvenience. The system could not find any valid
-            group addresses in the TO or CC fields.
-
-            Check that you typed the group email address correctly and that you have
-            permission to send email to this group.
-
-            You can also sign in at the following URL to send your message:
-
-            %{url}
+        subject: "Nachricht nicht gesendet : %{subject}"
+        body: "Deine Nachricht mit dem Betreff \"%{subject}\" konnte an keine der Gruppen versandt werden. \n\n\
+            Wir entschuldigen uns für Unannehmlichkeiten. Das System konnte keine gültigen \n\
+            Gruppenadressen im AN oder KOPIE Feld finden.\n\n\
+            Überprüfe, dass du die Emailadresse der Gruppe korrekt geschrieben hast und, ob es dir \n\
+            erlaubt ist an diese Gruppe eine Email zu schicken.\n\n\
+            Die kannst dich auch unter folgender URL anmelden, um deine Nachricht zu verschicken: \n\n\
+            %{url} \n"
     message_id: "Nachricht ID"
     not_allowed_to_post: "Es ist dir nicht erlaubt hier Nachrichten zu senden"

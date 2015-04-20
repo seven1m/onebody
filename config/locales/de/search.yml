@@ -10,7 +10,7 @@ de:
       testimony: Zeugnis
     no_family: "(keine Familie)"
     form:
-      name: "Nach Namen suchen."
+      name: "Nach Namen suchen"
       advanced: "Erweiterte Suche"
       birthday: Geburtstag
       anniversary: Hochzeitstag
@@ -24,6 +24,10 @@ de:
       phone: Telefon
       email: EMail
       type: "Art der Mitgliedschaft"
+      group_membership: Gruppenmitgliedschaft
+      in_group: behinhaltet
+      not_in_group: "beinhaltet nicht"
+      group_membership_text: "group with category"
       types:
         member: Mitglied
         staff: Mitarbeiter
@@ -32,10 +36,10 @@ de:
     results:
       testimony_read_more: anzeigen
     add_selected: "Füge Augewälhte hinzu"
-    business_category: "Business Category:"
+    business_category: Geschäftskategorie
     deacon: Diakon
     elder: Ältester
-    female: Weibloch
+    female: Weiblich
     male: Männlich
     heading: "%{name} Verzeichnis"
     member: Mitglied
@@ -45,6 +49,7 @@ de:
       one: "1 Person gefunden"
       other: "%{count} Personen gefunden"
     search: "Verzeichnis Suche"
-    search_by_name: "Suche nach Namen"
+    search_by_name: "Nach Namen suchen"
     show_hidden: "Zeige Versteckte"
     staff: Mitarbeiter
+    directory_map: "Directory Map"

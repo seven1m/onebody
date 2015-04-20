@@ -26,13 +26,20 @@ de:
         button: "Schicke %{person} einen Gruß!"
       site:
         description: "Gmeinschaftseite für %{site} wurde erstellt"
+      stream_item_group:
+        person:
+          description:
+            one: "1 more person was added..."
+            other: "%{count} more people were added..."
     footer:
       button_label:
+        default: "Read more"
         album: "Alles anzeigen"
         note: Weiterlesen
         verse: Weiterlesen
         person: ""
         site: ""
+        stream_item_group: "Alle anzeigen"
     load_more: "Mehr laden…"
     share:
       heading:
