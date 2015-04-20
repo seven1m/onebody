@@ -21,6 +21,8 @@ pt:
         birthday: "Data de Nascimento"
         anniversary: "Aniversário de Casamento"
         social: Social
+      showing_hidden_attribute:
+        tooltip: "This detail is visible to you because you are an admin with 'View Hidden Properties' enabled."
     edit:
       about: Sobre
       basics: Básico
@@ -97,6 +99,9 @@ pt:
       email: Email
       phone: Telefone
       website: Website
+    checkin:
+      heading: "Check-in Notes"
+      intro: "These are notes that are displayed on check-in screens and (optionally) on printed check-in labels in order to alert workers."
     testimony:
       box_heading: Testemunho
       heading: "Testemunho de %{person}"

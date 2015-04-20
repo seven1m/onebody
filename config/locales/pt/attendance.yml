@@ -46,6 +46,7 @@ pt:
       other: "%{count} registros"
     save: "Enviar Presença"
     saved: "Presença enviada."
+    submit_notes: "Enviar Notas"
     Search: Buscar
     search_person: "Buscar pelo Nome da Pessoa"
     wrong_date_format: "Não foi possível reconhecer a data. Por favor tente novamente."

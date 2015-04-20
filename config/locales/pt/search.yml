@@ -24,6 +24,10 @@ pt:
       phone: "Número de Telefone"
       email: "Endereço de Email"
       type: "Tipo de Associação"
+      group_membership: "Group Membership"
+      in_group: includes
+      not_in_group: "does not include"
+      group_membership_text: "group with category"
       types:
         member: Membro
         staff: Funcionário
@@ -48,3 +52,4 @@ pt:
     search_by_name: "Buscar pelo nome"
     show_hidden: "Exibir Ocultados"
     staff: Funcionários
+    directory_map: "Directory Map"

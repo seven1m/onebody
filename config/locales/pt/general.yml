@@ -21,6 +21,7 @@ pt:
   for: para
   multiple_files: "O seu navegador pode suportar o carregamento de múltiplos arquivos — tente selecionar múltiplos arquivos utilizando a tecla Ctrl (Windows) ou Command (Mac) no seu teclado."
   name: Nome
+  new: new
   none: nenhum
   not_authorized: "Você não está autorizado."
   ? "true"
@@ -67,6 +68,11 @@ pt:
       album:
         name: Nome
         description: Descrição
+      checkin_label:
+        name: Name
+        description: Description
+        xml: "Label XML"
+        xml_file: "Label XML File"
       document:
         name: Nome
         description: Descrição
@@ -76,6 +82,8 @@ pt:
         name: Nome
         description: Descrição
         folder_id: "Pasta de Origem"
+        hidden: "Hide/Archive this folder"
+        groups: "Only share with these groups"
       family:
         address1: "Endereço - Linha 1"
         address2: "Endereço - Linha 2 (opcional)"
@@ -158,6 +166,17 @@ pt:
               blank: "O registro de presença precisa conter uma data e hora."
             group_id:
               blank: "O registro de presença precisa estar associado a um grupo."
+        checkin_label:
+          attributes:
+            name:
+              blank: "You must enter a name."
+            xml:
+              blank: "You must paste the label XML."
+        checkin_time:
+          attributes:
+            campus:
+              blank: "You must select a campus."
+              exclusion: "You must select a campus."
         document:
           attributes:
             file:
@@ -178,6 +197,17 @@ pt:
               invalid: "Você não pode especificar esta pasta como a pasta principal."
             parent_folder_ids:
               too_long: "Esta pasta está numa estrutura muito complexa. Por favor coloque em outro lugar."
+        custom_report:
+          attributes:
+            title:
+              blank: "O título não pode ficar em branco."
+              too_long: "O tamanho máximo da descrição é 50 caracteres."
+            body:
+              blank: "O corpo do relatório não pode ficar em branco."
+            filters:
+              invalid: "Os campos precisam ter dois pontos, no formato campo:valor."
+            category:
+              inclusion: "Selecione um valor de categoria válido."
         family:
           attributes:
             name:
@@ -221,6 +251,8 @@ pt:
               taken: "Já existe um outro grupo com este mesmo endereço de email. Por favor escolha outro."
               too_long: "O endereço de email do grupo é muito grande."
               too_short: "O endereço de email do grupo é pequeno demais."
+            attendance:
+              invalid: "Attendance must be enabled for any group in use by Check-in."
             category:
               blank: "O grupo necessita ter uma categoria."
             name:
@@ -414,4 +446,4 @@ pt:
   footer:
     help: "Ajuda para utilizar este site"
     privacy_policy: "Política de Privacidade"
-    powered_by: "Fornecido por CHURCH.IO"
+    powered_by: "Fornecido por CHURCH.IO Onebody"

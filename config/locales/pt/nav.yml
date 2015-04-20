@@ -10,6 +10,7 @@ pt:
     checkin: Check-in
     checkin_sub:
       times: Horários
+      labels: Labels
     directory: Diretório
     directory_sub:
       business: "Diretório de Negócios"

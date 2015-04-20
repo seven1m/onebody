@@ -1,6 +1,39 @@
 ---
 pt:
   reports:
+    custom_reports:
+      button:
+        add: "Adicionar Novo"
+        edit: Editar
+        delete: Remover
+        show: Visualizar
+      index:
+        title: "Relatórios Customizados"
+        box_title: "Relatórios Customizados"
+      new:
+        title: "Novo Relatório"
+      edit:
+        title: "Editar Relatório"
+      show:
+        title: "Relatório Customizado"
+      fields:
+        title: Título
+        header: "Cabeçalho do Relatório"
+        body: "Corpo do Relatório"
+        footer: "Rodapé do Relatório"
+        filters: Filtros
+        category:
+          people: Pessoas
+          groups: "Grupos e Pessoas"
+          family: "Família e Pessoas"
+      validation:
+        filters: "Para múltiplos filtros tenha certeza de utilizar os separadores corretamente."
+      create:
+        notice: "Relatório Customizado foi criado com sucesso."
+      destroy:
+        notice: "Relatório personalizado foi destruído com sucesso."
+      update:
+        notice: "Relatório Customizado foi atualizado com sucesso"
     from_date: "Data de Início"
     group: Grupo
     group_select: "Selecione um Grupo..."

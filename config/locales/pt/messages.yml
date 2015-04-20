@@ -19,6 +19,18 @@ pt:
       heading: Respostas
     reply_all:
       button: "Responder esta mensagem (enviar para todo o grupo)"
+    email:
+      reply_to_sender: "Hit \"Reply\" to send a message to %{person}."
+      reply_to_group: "Hit \"Reply to All\" to send a message to the group %{group}, or send to %{address}."
+      group_link: "Página do grupo: %{url}"
+      reply_link: "Para responder, acesse: %{url}"
+      disable_group_email: |-
+          Se não quiser receber emails deste grupo:
+          %{url}
+      disable_all_email: |-
+          Se não quiser receber este emails,acesse sua página de privacidade:
+          %{url}
+    do_not_reply: "NÃO RESPONDA"
     ago: atrás
     attachment_optional: "Anexo (opcional)"
     attachments: Anexos
