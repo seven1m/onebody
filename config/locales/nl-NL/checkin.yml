@@ -15,6 +15,8 @@ nl-NL:
       heading: Installatie
     assigned_cards:
       button: "Toegewezen kaarten"
+    scan:
+      unknown_card: "card not found"
     cards:
       heading: "Toegewezen kaarten"
       table:
@@ -27,22 +29,53 @@ nl-NL:
         button: Exporteren
       none: "Geen resultaten"
     groups:
+      movement_help_html: |
+          <p>
+            To move a check-in group into or out of a folder, first expand the folder, then click the
+            <i class="up"></i> or <i class="down"></i> button.
+          </p>
+          <p>
+            To jump a group all the way to the top or bottom,
+            hold <span class="highlight">shift</span> while clicking
+            <i class="up"></i> or <i class="down"></i>.
+          </p>
       heading: "Check-in groepen"
-      table:
-        group: Groep
       index:
         heading: "%{time} op %{campus}"
+        add_folder:
+          button: "Add Folder"
+          heading: "Add a folder"
+          name: "Folder Name"
         add_group:
           heading: "Bestemming toevoegen (groep)"
           search: "Zoeken op naam"
+          select_folder:
+            label: "Select folder"
+            none: (none)
           button: "Groep toevoegen"
         table:
-          group: "Bestemming (groepsnaam)"
-          print_nametag: "Print naamkaart"
+          name: Name
+          label_id: "Label (Nametag)"
           print_extra_nametag: "Extra naamkaart"
           section: Afdeling
       section:
         new: "[nieuwe afdeling]"
+      table:
+        group: Groep
+    labels:
+      button: "Labels Setup"
+      edit:
+        heading: "Edit Check-in Label"
+      delete:
+        notice: "Label deleted."
+      heading: "Check-in Labels"
+      new:
+        button: "New Label"
+        heading: "Edit Check-in Label"
+      table:
+        name: Name
+        description: Description
+        updated_at: Updated
     times:
       button: Installatie
       heading: "Check-in tijden"
@@ -57,11 +90,15 @@ nl-NL:
             other: "%{count} bestemmingen"
       edit:
         button: Wijzig
-        heading: "Wijzig check-in tijd"
         campus:
           new: "[nieuw campus]"
+        delete:
+          button: delete
+        heading: "Wijzig check-in tijd"
         save:
           button: "Wijzigingen opslaan"
+      groups:
+        button: groups
       recurring:
         heading: "Tijden herhalen"
         new:
@@ -107,3 +144,23 @@ nl-NL:
         no_people: "Minimaal 1 persoon is vereist."
         no_parents: "1 volwassene is verplicht"
         no_barcode: "Scan de barcode"
+    interface:
+      add_guest:
+        heading: "Add a Guest"
+        intro: "Type the full name of your guest in the field below."
+        button: "Add a guest"
+        save: Save
+      barcode:
+        placeholder: "Scan Your Card"
+      cancel:
+        button: cancel
+      heading: "Check In"
+      not_attending: "not attending"
+      print:
+        heading: "After making your selections..."
+        button: "Print Tags"
+      run_setup:
+        intro: "You must first set up your check-in times and destinations."
+        button: Setup
+      same_as_last_week:
+        button: "Choose same as last week"

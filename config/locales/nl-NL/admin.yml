@@ -1,42 +1,51 @@
 ---
 nl-NL:
   admin:
+    actionables:
+      heading: Actionables
+    administration:
+      heading: "Administration & Settings"
     attendance:
       heading: Bezoekersregistratie
-      intro: "Bekijk en exporteer de bezoekersaantallen."
       button: Bezoekersregistratie
     box:
       updates:
         text:
-          one: "profiel wijziging"
-          other: "profiel wijzigingen"
+          one: "Profiel wijziging"
+          other: "Profiel wijzigingen"
       changed_emails:
         text:
-          one: "e-mail wijziging"
-          other: "e-mail wijzigingen"
+          one: "E-mail wijziging"
+          other: "E-mail wijzigingen"
       sync_errors:
         text:
-          one: foutmelding
-          other: foutmeldingen
+          one: "Sync fout"
+          other: "Sync fouten"
       groups_pending_approval:
         text:
-          one: "groep wacht op goedkeuring"
-          other: "groepen wachten op goedkeuring"
+          one: "Groep wacht op goedkeuring"
+          other: "Groepen wachten op goedkeuring"
       membership_requests:
         text:
-          one: "persoon wacht op goedkeuring"
-          other: "personen wachten op goedkeuring"
+          one: "Persoon wacht op goedkeuring"
+          other: "Personen wachten op goedkeuring"
       deleted_people:
         text:
-          one: "persoon verwijderd"
-          other: "personen verwijderd"
+          one: "Persoon verwijderd"
+          other: "Personen verwijderd"
+    charts:
+      no_data: "no data yet"
     checkin:
       heading: "Check-in systeem"
-      intro: "Beheer check-in's en kaarten."
       cards_assigned: "Check-in kaarten toegewezen."
+      dashboard_button: "Check-in Admin"
       button: "Check-in dashboard"
     dashboard:
       heading: Dashboard
+      sub_title: "OneBody %{version}"
+      version_alert:
+        intro_html: "A newer version of OneBody is available: <a href='%{url}'>%{version}</a>"
+        download_button: "How to Upgrade"
     deleted_people:
       tabs:
         people: "personen verwijderd"
@@ -56,6 +65,8 @@ nl-NL:
         intro: "Je zoekresultaat wordt hieronder weergegeven."
       undelete:
         button: "Verwijderen ongedaan maken"
+    gatherings:
+      heading: Gatherings
     membership_requests:
       count:
         one: "%{count} verzoek"
@@ -195,6 +206,10 @@ nl-NL:
         title: "Run Reports"
         about: "Access the Reporting Dashboard."
         order: 18
+      manage_reports:
+        title: "Manage Reports"
+        about: "Create, Edit and Delete Custom Reports."
+        order: 19
     rest_api_information: "Om de REST API met Ruby te gebruiken, kun je dit doen"
     settings:
       heading: Instellingen
@@ -231,6 +246,36 @@ nl-NL:
         :
           name: "Send Attendance Submissions To"
           description: "Email sent when someone submits attendance for a group"
+      Pusher:
+        ? "App ID"
+        :
+          name: "App ID"
+          description: "The application ID provided by Pusher."
+        ? "App Key"
+        :
+          name: "App Key"
+          description: "The application key provided by Pusher."
+        Secret:
+          name: Secret
+          description: "The secret provided by Pusher."
+        ? "API Scheme"
+        :
+          name: "API Scheme"
+        ? "API Host"
+        :
+          name: "API Host"
+        ? "API Port"
+        :
+          name: "API Port"
+        ? "WS Host"
+        :
+          name: "WS Host"
+        ? "WS Port"
+        :
+          name: "WS Port"
+        ? "WSS Port"
+        :
+          name: "WSS Port"
       Services:
         Yahoo:
           name: Yahoo
@@ -274,6 +319,10 @@ nl-NL:
         :
           name: Land
           description: "Selecteer het standaard land dat voorgevuld moet zijn bij het aanmaken van een nieuwe familie."
+        ? "Map Zoom Level"
+        :
+          name: "Map Zoom Level"
+          description: "Select the zoom level to use on the maps displayed on the site."
       Appearance:
         ? "Public Theme"
         :
@@ -389,7 +438,7 @@ nl-NL:
         ? "News Page"
         :
           name: Nieuwspagina
-          description: "Activeer de nieuwspagina voor deze organisatie. Nieuwsitems kunnen worden ingediend door beheerders of opgehaald worden via een RSS feed. Ga naar \"Koppelingen\" om de juist URL op te geven voor de RSS feed."
+          description: "Activeer de nieuwspagina voor deze organisatie. Nieuwsitems kunnen worden ingediend door beheerders of opgehaald worden via een RSS feed."
         Verses:
           name: Bijbelteksten
           description: "Het delen van bijbelteksten door alle leden."
@@ -405,6 +454,10 @@ nl-NL:
         Documents:
           name: Documenten
           description: "Beheerders kunnen bestanden delen op de site zodat leden de bestanden kunnen bekijken en downloaden"
+        ? "Business Directory"
+        :
+          name: "Business Directory"
+          description: "If enabled, users can add business information to be listed in a church business directory."
         ? "Small Group Size"
         :
           name: "Maximale grootte van een 'kleine groep'"

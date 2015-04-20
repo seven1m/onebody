@@ -21,6 +21,7 @@ nl-NL:
   for: voor
   multiple_files: "Misschien ondersteund je browser het batch uploaden van bestanden. Probeer het uit door meerdere bestanden te selecteren met de Ctrl toets."
   name: Naam
+  new: new
   none: Geen
   not_authorized: "Je bent niet bevoegd."
   ? "true"
@@ -67,6 +68,11 @@ nl-NL:
       album:
         name: Naam
         description: Omschrijving
+      checkin_label:
+        name: Name
+        description: Description
+        xml: "Label XML"
+        xml_file: "Label XML File"
       document:
         name: Naam
         description: Omschrijving
@@ -76,6 +82,8 @@ nl-NL:
         name: Naam
         description: Omschrijving
         folder_id: "Bovenliggende map"
+        hidden: "Hide/Archive this folder"
+        groups: "Only share with these groups"
       family:
         address1: Adres
         address2: "Adresregel 2 (optioneel)"
@@ -158,6 +166,17 @@ nl-NL:
               blank: "Geef en datum en tijd op voor het bezoek."
             group_id:
               blank: "De bezoekers moeten geregistreerd worden op de gewenste groep."
+        checkin_label:
+          attributes:
+            name:
+              blank: "You must enter a name."
+            xml:
+              blank: "You must paste the label XML."
+        checkin_time:
+          attributes:
+            campus:
+              blank: "You must select a campus."
+              exclusion: "You must select a campus."
         document:
           attributes:
             file:
@@ -178,6 +197,17 @@ nl-NL:
               invalid: "Je kunt deze map niet als bovenliggende map aanmaken."
             parent_folder_ids:
               too_long: "Je kunt deze map niet aanmaken op zo een laag niveau. Plaatst de map in een bovenliggende map."
+        custom_report:
+          attributes:
+            title:
+              blank: "The title cannot be blank."
+              too_long: "The maximum description is 50 characters."
+            body:
+              blank: "The Report Body cannot be blank."
+            filters:
+              invalid: "Filters must contain a colon, in the form field:value."
+            category:
+              inclusion: "Select a valid category value."
         family:
           attributes:
             name:
@@ -188,12 +218,12 @@ nl-NL:
               invalid: "De barcode van deze familie kaart bevat letters of symbolen. Alleen nummers zijn toegestaan."
               taken: "De barcode is al in gebruik door een andere familie."
               too_long: "De barcode heeft een maximum van 50 karakters."
-              too_short: "De barcode heeft een minimum van 10 karakters."
+              too_short: "Deze familie kaart (barcode) is te kort (moet 5 karakters zijn)."
             barcode_id:
               invalid: "De barcode bevat letters of speciale tekens. Alleen nummers zijn toegestaan."
               taken: "De barcode is al in gebruik door en andere familie."
               too_long: "De barcode heeft een maximum van 50 karakters."
-              too_short: "De barcode heeft een minimum van 10 karakters."
+              too_short: "Deze familie kaart (barcode) is te kort (moet 5 karakters zijn)."
             photo:
               too_large: "De afbeelding is te groot. De maximale grootte is %{size} mb."
               wrong_type: "De foto kan niet worden geupload. Je kunt JPG, GIF of PNG bestanden gebruiken."
@@ -221,6 +251,8 @@ nl-NL:
               taken: "Er bestaat al een andere groep met dit e-mail adres. Kies een ander e-mail adres."
               too_long: "Het e-mail adres is te lang."
               too_short: "Het e-mail adres is te kort."
+            attendance:
+              invalid: "Attendance must be enabled for any group in use by Check-in."
             category:
               blank: "Categorie is verplicht"
             name:
@@ -414,4 +446,4 @@ nl-NL:
   footer:
     help: "Geef tips door voor het gebruik van de site."
     privacy_policy: "Privacy Policy"
-    powered_by: "Powered by CHURCH.IO."
+    powered_by: "Aangedreven door CHURCH.IO OneBody"

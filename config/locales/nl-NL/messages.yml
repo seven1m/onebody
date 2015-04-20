@@ -19,6 +19,18 @@ nl-NL:
       heading: Reacties
     reply_all:
       button: "Reageer op deze e-mail (wordt verstuurd naar gehele groep)"
+    email:
+      reply_to_sender: "Hit \"Reply\" to send a message to %{person}."
+      reply_to_group: "Hit \"Reply to All\" to send a message to the group %{group}, or send to %{address}."
+      group_link: "Group page: %{url}"
+      reply_link: "To reply, go to: %{url}"
+      disable_group_email: |-
+          To stop email from this group:
+          %{url}
+      disable_all_email: |-
+          To stop these emails, go to your privacy page:
+          %{url}
+    do_not_reply: "DO NOT REPLY"
     ago: geleden
     attachment_optional: Bijlage
     attachments: Bijlages
@@ -34,7 +46,7 @@ nl-NL:
     not_authorized_delete: "Je bent niet bevoegd om dit bericht te verwijderen."
     not_found: "Geen resultaat."
     posted_by: "geplaatst door"
-    send_message: "Verstuur e-mail"
+    send_message: "Verstuur bericht"
     sent: "Het bericht is verstuurd."
     show_quoted_content: "toon bericht"
     some_quoted_text_is_hidden: "Sommige tekst is niet zichtbaar in dit bericht;"

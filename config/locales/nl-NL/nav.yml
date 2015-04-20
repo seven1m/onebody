@@ -10,6 +10,7 @@ nl-NL:
     checkin: "Check-in systeem"
     checkin_sub:
       times: Tijden
+      labels: Labels
     directory: Ledenlijst
     directory_sub:
       business: Bedrijven
@@ -27,8 +28,8 @@ nl-NL:
     home: Home
     home_sub:
       new_count:
-        one: "1 update"
-        other: "%{count} nieuwe updates"
+        one: "1 nieuw"
+        other: "%{count} nieuw"
     messages: Berichten
     news: Nieuws
     notes: Notities

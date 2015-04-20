@@ -20,8 +20,10 @@ nl-NL:
         work_phone: "Telefoon werk"
         address: Adres
         birthday: Verjaardag
-        anniversary: Jubileum
+        anniversary: Trouwdatum
         social: Social
+      showing_hidden_attribute:
+        tooltip: "This detail is visible to you because you are an admin with 'View Hidden Properties' enabled."
     edit:
       about: Over
       basics: Basis
@@ -30,8 +32,8 @@ nl-NL:
         new: "[maak een nieuwe categorie aan]"
         create_prompt: "Vul de categorie van je bedrijf in:"
       child:
-        enabled: Ja
-        disabled: Nee
+        enabled: Kind
+        disabled: Volwassene
       child_hint: "Als er geen geboortedatum is opgegeven, moet er aangegeven worden of het hier gaat om een minderjarige of volwassene."
       custom_type:
         new: "[rol aanmaken]"
@@ -99,6 +101,9 @@ nl-NL:
       email: E-mail
       phone: Telefoon
       website: Website
+    checkin:
+      heading: "Check-in Notes"
+      intro: "These are notes that are displayed on check-in screens and (optionally) on printed check-in labels in order to alert workers."
     testimony:
       box_heading: Getuigenis
       heading: "Getuigenis van %{person}"
@@ -117,7 +122,7 @@ nl-NL:
     cant_delete: "Je bent niet bevoegd om deze persoon te verwijderen."
     changes_must_be_reviewed_html: "Wijziging in deze gegevens moeten worden <strong>goedgekeurd</strong>. Vul de wijzigingen in en klik op 'indienen'."
     changes_submitted: "Wijzigingen ingediend"
-    child: "Minderjarige ja/nee"
+    child: Kind/Volwassene
     deleted_html: "Deze persoon is verwijderd. Je kunt <a href='%{url}'>hier</a> het verwijderen ongedaan maken."
     family: Familie
     family_legacy_external_id: ID

@@ -112,7 +112,10 @@ nl-NL:
             Excuses voor het ongemak. Het systeem vindt geen geldige
             e-mailadressen.
 
-            Log in op de site om alsnog je bericht te vesturen.
+            Controleer of het e-mailadres van de groep juist is en dat je
+            toestemming hebt om deze groep te mailen.
+
+            Je kunt ook inloggen op de volgende URL om je bericht te verzenden:
 
             %{url}
     message_id: ID

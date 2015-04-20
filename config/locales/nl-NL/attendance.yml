@@ -45,8 +45,9 @@ nl-NL:
     records:
       one: "1 regel"
       other: "%{count} regels"
-    save: "Bezoekers opslaan"
+    save: "Bezoekersregistratie opslaan."
     saved: "Bezoekersregistratie opgeslagen."
+    submit_notes: "Submit Notes"
     Search: Zoeken
     search_person: "Zoeken op naam"
-    wrong_date_format: "Vul de datum als volgt in: JJJJ/MM/DD"
+    wrong_date_format: "Datum niet herkend. Probeer het nog eens."

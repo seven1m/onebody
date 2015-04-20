@@ -18,13 +18,11 @@ nl-NL:
     child_profile_has_parental_consent: "Dit kind heeft toestemming van %{name} om het profiel te gebruiken."
     child_under_age_you_have_not_consent: "Deze persoon is jonger dan %{years} jaar dient toestemming te krijgen van 2 ouders/verzorgers om het profiel te gebruiken. Geef de persoon toestemming om de site te kunnen gebruiken."
     click_the_agree: "Klik op de 'ik ga akkoord' knop."
-    detail: Detail
     email: E-mail
-    family_hidden: "%{your} familie heeft momenteel geen rechten om de site te bekijken."
+    family_hidden: "Deze familie is verborgen voor alle pagina's op de site!"
     family_privacy: Familie
     fax: Fax
     group_privacy: "Groep privacy"
-    hidden: Verborgen
     hide_your_activity: "Verberg je activiteiten als niet je wilt dat dat leden en/of groepsleden jou publieke berichten, notities of versen, ect. kunnen bekijken. Opmerking: Prive berichten worden nooit weergeven tenzij anders aangegeven."
     home_phone: Telefoon
     i_agree: Akkoord
@@ -37,14 +35,9 @@ nl-NL:
     read_statement_below: "Lees de verklaring hieronder en ga ermee akkoord door het vinkje aan te zetten."
     saved: "Instellingen opgeslagen."
     sharing_with_html: "Delen met <a href=\"%{url}\">%{name}</a>"
-    the_items_are_visible_html: "Het volgende is zichtbaar voor alle leden <a href=\"%{url}\">verander hier</a>:"
-    the_items_may_be_shared: "Het volgende mag gedeeld worden met andere leden van %{name}:"
-    this: dit
     to_show_on_this_site: "Om %{name} te tonen op deze site:"
     visible: Zichtbaar
     visible_note: "Als een profiel onzichtbaar is zal het niet in ledenlijst zoekopdrachten voorkomen. Het is nog steeds mogelijk lid van groepen te worden en email van groepen en beheerders te ontvangen."
     work_phone: "Telefoon werk"
-    you_are_not_sharing_with_groups: "Je deelt %{sharing} niet met specifieke groepen."
-    you_are_sharing_with_groups: "Je deelt %{sharing} met de volgende groepen:"
     you_may_share_items: "Je kunt delen met de volgende leden/groepen:"
     you_must_check_agreement_statement: "Selecteer het vinkje om aan te geven dat je akkoord gaat."
