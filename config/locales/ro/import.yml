@@ -29,6 +29,7 @@ ro:
     only_first_records_will_be_imported_html: "Only the first %{count} records will be imported. For larger files, you must divide records into multiple files, or use the <a href=\"http://wiki.github.com/churchio/onebody/updateagent\">UpdateAgent</a> to import a large batch at once."
     people: "Import People"
     record: record
+    record_updated: "Record updated."
     records: Records
     select_csv_file: "Select a Comma Separated Values (CSV) file to import with attribute names as the header row."
     the_changes_will_be_made: "The following changes will be made. Only selected records will be created/updated."

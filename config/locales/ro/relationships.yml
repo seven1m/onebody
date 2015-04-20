@@ -3,8 +3,8 @@ ro:
   relationships:
     heading: "Relații pentru %{person}"
     reciprocate:
-      button: Reciprocate
-      failure: "A reciprocal relationship to %{name} cannot be automatically created."
+      button: Reciprocitate
+      failure: "O relaţie reciprocă cu  %{name} nu poate fii creată automat."
     add_relationship:
       intro: "Adaugă o relație:"
       button: "Adaugă relație"
@@ -15,7 +15,7 @@ ro:
       heading: "Relații în familie pentru %{family}"
       button: "Relație în familie"
     inward:
-      heading: "Inward Relationships"
+      heading: "Relaţii active"
     names:
       aunt: Matușă
       brother: Frate
@@ -34,7 +34,7 @@ ro:
       mother_in_law: Soacră
       nephew: Nepot
       niece: Nepoată
-      other_name: Altceva
+      other_name: Other
       sister: Soră
       sister_in_law: Cumnată
       son: Fiu
@@ -47,6 +47,8 @@ ro:
       stepson: "Fiu vitreg"
       uncle: Unchi
       wife: Nevastă
+    other_name:
+      placeholder: "Relationship Type"
     no_person_selected: "Nicio persoană selectată."
     relationship: Relație
     relationship_type: "Tip:"

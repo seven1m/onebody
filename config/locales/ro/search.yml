@@ -24,6 +24,10 @@ ro:
       phone: "Phone Number"
       email: "Email Address"
       type: "Tip de membru"
+      group_membership: "Group Membership"
+      in_group: includes
+      not_in_group: "does not include"
+      group_membership_text: "group with category"
       types:
         member: Membru
         staff: Staf
@@ -49,3 +53,4 @@ ro:
     search_by_name: "Caută după nume"
     show_hidden: "Arată ascunse"
     staff: Staf
+    directory_map: "Directory Map"

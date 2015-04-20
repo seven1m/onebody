@@ -10,14 +10,9 @@ ro:
         notice: "The family was created. Now, add people to this family using the 'New Person' button below..."
     edit:
       heading: "Editează familie"
-      name: "Numele familiei"
       name_example_html: "<em>John Doe</em> or <em>John &amp; Jane Doe</em>"
       name_suggestion_html: "Suggested: <strong>%{name}</strong>"
       name_suggestion_button: Schimbă
-      last_name: "Family Last Name"
-      home_phone: "Telefon (acasă)"
-      address: Adresă
-      address2: "Adresă 2 (opţional)"
       city_st_zip: "Oraş, Judeţ şi Cod Poştal"
       photo: Fotografie
       save: "Salvează familie"
@@ -26,6 +21,7 @@ ro:
       button: "Şterge familie"
       cannot_delete_your_own: "Nu poţi şterge propria familie."
     show:
+      heading: "%{family} Family"
       edit_link: "Editează familie"
       suggested_name_html:
         one: "%{first} is the only adult in this family. Consider <a href='%{url}'>changing the family name</a> to “<strong>%{name}</strong>.”"

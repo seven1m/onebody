@@ -10,8 +10,13 @@ ro:
     deleted: "Grupul a fost şters."
     delete:
       heading: "Şterge acest grup"
-      intro: "If you wish for a group to disappear from all pages of the site, it is best to Hide (archive) it (see option above). If you really want to delete the group and all its contents (messages, prayer requests, pictures, etc.) forever, then you may do so below:"
+      intro: "If you really want to delete the group and all its contents (messages, prayer requests, pictures, etc.) forever, then you may do so below:"
       button: "Şterge acest grup pentru totdeauna"
+    hide:
+      heading: "Hide (Archive) This Group"
+      intro: "If you wish for a group to disappear from all pages of the site, hide it by clicking the button below:"
+      button: "Hide this group"
+      unhide_button: "Unhide this group"
     your_groups: "Grupurile tale"
     groups_of:
       s: "Grupurile lui %{name}"
@@ -30,6 +35,8 @@ ro:
     email_on: "email activat"
     browse:
       heading: "Caută după categorie"
+      select_category: "Show by Category"
+      all: "Show All"
     create:
       heading: "Crează un grup"
       description: "Dacă nu găseşti un grup, este uşor sa creezi unul!"
@@ -42,6 +49,7 @@ ro:
         admins: admini
         meets: întâlniri
         location: locaţie
+        directions: directions
         member_count_label: membrii
         member_count:
           one: "1 persoană"
@@ -64,6 +72,10 @@ ro:
         leave: "Părăseşte grupul"
         message: "Trimite mesaj"
         prayer_request: "Cere ajutor în rugăciune"
+      linked:
+        tooltip: "This group is linked via code %{code}"
+      parents_of:
+        tooltip: "This group is linked to parents of %{group}"
     stream:
       none:
         heading: "No Activity"
@@ -72,6 +84,7 @@ ro:
       heading: "Grup nou"
     edit:
       heading: "Editează grup"
+      required_field: required
       tabs:
         details: Detalii
         meets: Întâlniri
@@ -80,6 +93,12 @@ ro:
         advanced: Avansat
       advanced:
         description: "Setările următoare sunt pentru userii avansaţi."
+        membership_mode:
+          options:
+            manual: "Add members manually (default)"
+            link_code: "Add members automatic by external link code."
+            parents_of: "Link to a child group to get parents of those children."
+            adults: "Include all adults in this community."
       files:
         description: "Fişierele adăugate aici vor fi disponibile la toţi membrii acestui grup."
         delete_button: Şterge
@@ -104,10 +123,16 @@ ro:
         help: "If checked, the group description, membership list, and other group information will be hidden from non-members (only the title will be displayed). We recommend you also check the above 'Approval required' box as well."
       members_send:
         help: "If checked, any member of this group can send an email message to everyone else in the group."
+      attendance_disabled:
+        help: "Attendance must be enabled for any group used by Check-in."
       class_link_code:
-        help_html: "Useful for syncing with external systems. <a href='https://github.com/churchio/onebody/wiki/HowGroupMembershipWorks'>See here</a> for more information. Separate multiple codes with a space."
+        help_html: |
+            <p>This is useful for syncing with external systems. Separate multiple codes with a space. <a href='https://github.com/churchio/onebody/wiki/HowGroupMembershipWorks'>See here</a> for more information.</p>
+            <p>Click <strong>Save</strong> to update group members immediately. Group members will also be updated automatically every night.</p>
       parents_of:
-        help: "Membership will be auto-generated from parents of selected group's members."
+        help_html: |
+            <p>Membership will be auto-generated from parents of selected group's members.</p>
+            <p>Click <strong>Save</strong> to update group members immediately. Group members will also be updated automatically every night.</p>
       enable_calendar: "Activează calendarul"
     table:
       group_name: Grup
@@ -181,3 +206,11 @@ ro:
           few: Fotografii
           other: Fotografii
         new_link: "Fotografie nouă"
+      tasks:
+        text:
+          one: Task
+          few: Tasks
+          other: Tasks
+        new_link: "New Task"
+    show_hidden:
+      button: "Show Hidden Groups (%{count})"
