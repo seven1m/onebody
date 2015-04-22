@@ -264,7 +264,7 @@ class Message < ActiveRecord::Base
           file:         file
         )
         if attachment.errors.any?
-          attachment.errors.each_full { |e| message.errors.add(:base, e) }
+          attachment.errors.full_messages.each { |e| message.errors.add(:base, e) }
           return message
         end
       end
