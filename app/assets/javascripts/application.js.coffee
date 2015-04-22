@@ -10,6 +10,7 @@
 #= require spin
 #= require leaflet
 #= require leaflet.markercluster
+#= require bootstrap-filestyle
 #= require_directory ./app
 
 $('[data-toggle^="#"], [data-toggle^="."]').each (i, elm) ->
