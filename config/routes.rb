@@ -232,5 +232,7 @@ OneBody::Application.routes.draw do
   end
   resources :custom_reports
 
-  post '/pusher/auth_printer' => 'pusher#auth_printer'
+  post '/pusher/auth_printer'    => 'pusher#auth_printer'
+  get '/auth/facebook/callback'  => 'sessions#create_from_external_provider'
+  post '/auth/facebook/callback' => 'sessions#create_from_external_provider'
 end
