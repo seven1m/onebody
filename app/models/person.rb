@@ -273,4 +273,20 @@ class Person < ActiveRecord::Base
       .order(:custom_type)
       .pluck('distinct custom_type')
   end
+
+  def self.create_with_omniauth(auth)
+    create! do |person|
+      person.provider = auth['provider']
+      person.uid = auth['uid']
+      person.first_name = auth['info']['first_name']
+      person.last_name = auth['info']['last_name']
+      person.email = auth['info']['email']
+      person.can_sign_in = true
+      person.family = Family.create({'name' => "#{person.first_name} #{person.last_name}", 'last_name' => person.last_name})
+      case auth['provider']
+      when "facebook"
+        person.facebook_url = auth['info']['urls'][:Facebook]
+      end
+    end
+  end
 end
