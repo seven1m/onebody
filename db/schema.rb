@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150318034613) do
+ActiveRecord::Schema.define(version: 20150423143835) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -464,6 +464,8 @@ ActiveRecord::Schema.define(version: 20150318034613) do
     t.boolean  "primary_emailer",              limit: 1
     t.integer  "last_seen_stream_item_id",     limit: 4
     t.integer  "last_seen_group_id",           limit: 4
+    t.string   "provider",                     limit: 255
+    t.string   "uid",                          limit: 255
   end
 
   add_index "people", ["admin_id"], name: "index_admin_id_on_people", using: :btree
