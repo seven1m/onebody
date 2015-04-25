@@ -3,6 +3,8 @@ class SessionsController < ApplicationController
   before_filter :check_ssl, except: %w(destroy)
   before_filter :check_too_many_signin_failures, only: %w(create)
 
+  helper_method :has_social_logins
+
   layout 'signed_out'
 
   def show
@@ -32,6 +34,10 @@ class SessionsController < ApplicationController
   def destroy
     reset_session
     redirect_to root_path
+  end
+
+  def has_social_logins
+    Rails.application.secrets['facebook_auth']
   end
 
   private
