@@ -105,6 +105,49 @@ describe SessionsController, type: :controller do
     end
   end
 
+  describe '#create_from_external_provider' do
+    context 'no existing user given the provider' do
+      before do
+        omni_auth = {
+          'provider' => 'facebook',
+          'uid' => 10001,
+          'info' => {
+            'email' => 'ME_FACEBOOK@EXAMPLE.COM',
+            'first_name' => 'Martin',
+            'last_name' => 'Luther',
+            'urls' => {
+              'Facebook' => 'facebook_profile_url'
+            }
+          }
+        }
+        request.env['omniauth.auth'] = omni_auth
+      end
+
+      it 'sets logged_in_id and redirects (new user)' do
+        post :create_from_external_provider
+        @person = Person.where(
+          :provider => 'facebook',
+          :uid => 10001
+        ).first
+        expect(flash[:warning]).to be_nil
+        expect(session[:logged_in_id]).to eq(@person.id)
+        expect(session[:logged_in_name]).to eq(@person.name)
+        expect(session[:ip_address]).to eq('0.0.0.0')
+        expect(response).to redirect_to("http://test.host/people/#{@person.id}")
+      end
+
+      it 'sets logged_in_id and redirects (existing user)' do
+        @person = FactoryGirl.create(:person, uid: 10001, provider: "facebook", full_access: false)
+        post :create_from_external_provider
+        expect(flash[:warning]).to be_nil
+        expect(session[:logged_in_id]).to eq(@person.id)
+        expect(session[:logged_in_name]).to eq(@person.name)
+        expect(session[:ip_address]).to eq('0.0.0.0')
+        expect(response).to redirect_to("http://test.host/people/#{@person.id}")
+      end
+    end
+  end
+
   describe '#destroy' do
     it 'unsets logged_in_id and redirects to the root path' do
       post :destroy
