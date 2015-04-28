@@ -30,7 +30,7 @@ ENV RAILS_ENV production
 # add Gemfile first, then bundle install; this will make our builds cleaner
 ADD .ruby-version /var/www/onebody/.ruby-version
 ADD Gemfile /var/www/onebody/Gemfile
-ADD Gemfile.lock /var/www/onebody/Gemfile.lock
+ADD config/database.yml /var/www/onebody/config/database.yml
 USER root
 RUN chown -R onebody /var/www/onebody
 
