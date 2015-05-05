@@ -5,4 +5,4 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 sudo $DIR/chown_data
 $DIR/link_dirs
 
-bundle exec rails server $@
+bundle exec rails server -b 0.0.0.0 $@
