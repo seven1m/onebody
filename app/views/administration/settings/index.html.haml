@@ -134,6 +134,11 @@
       = setting_row('Pusher', 'WSS Port')
       .form-group
         .col-sm-offset-2.col-sm-10
+          %h3 Facebook
+      = setting_row('Facebook', 'App ID')
+      = setting_row('Facebook', 'App Secret')
+      .form-group
+        .col-sm-offset-2.col-sm-10
           = button_tag t('save_changes'), class: 'btn btn-success'
     - if @logged_in.super_admin?
       .tab-pane#advanced
