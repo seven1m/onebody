@@ -20,7 +20,7 @@ class SessionsController < ApplicationController
     auth = request.env["omniauth.auth"]
     @person = Person.where(
       :provider => auth['provider'],
-      :uid => auth['uid'].to_s).first || Person.create_with_omniauth(auth)
+      :uid => auth['uid'].to_s).first || Signup.save_with_omniauth(auth)
     redirect_after_authentication
   end
 
