@@ -23,7 +23,7 @@
         %legend.text-muted.text-center
           or
 
-        - if Rails.application.secrets['facebook_auth']
+        - if support_facebook_login
           .text-center
             %a.btn.btn-social-icon.btn-facebook{href: "/auth/facebook"}
               %i.fa.fa-facebook

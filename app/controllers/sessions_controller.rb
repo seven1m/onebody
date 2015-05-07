@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
   before_filter :check_ssl, except: %w(destroy)
   before_filter :check_too_many_signin_failures, only: %w(create)
 
-  helper_method :has_social_logins
+  helper_method :has_social_logins, :support_facebook_login
 
   layout 'signed_out'
 
@@ -37,7 +37,11 @@ class SessionsController < ApplicationController
   end
 
   def has_social_logins
-    Rails.application.secrets['facebook_auth']
+    support_facebook_login
+  end
+
+  def support_facebook_login
+    !!Setting.get(:facebook, :app_id) and !!Setting.get(:facebook, :app_secret)
   end
 
   private
