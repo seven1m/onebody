@@ -71,7 +71,6 @@ gem 'github_api', '~> 0.12.2'
 gem 'sucker_punch', '~> 1.3.2'
 gem 'pusher', '~> 0.14.4'
 gem 'omniauth-facebook', '~> 2.0.1'
-gem 'byebug'
 
 group :test do
   gem 'factory_girl_rails', '~> 4.5.0'
