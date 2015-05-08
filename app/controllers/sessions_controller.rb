@@ -44,6 +44,16 @@ class SessionsController < ApplicationController
     !!Setting.get(:facebook, :app_id) and !!Setting.get(:facebook, :app_secret)
   end
 
+  def setup_omniauth
+    provider = params['provider']
+    if provider == "facebook" and support_facebook_login
+      env['omniauth.strategy'].options[:client_id] = Setting.get(:facebook, :app_id)
+      env['omniauth.strategy'].options[:client_secret] = Setting.get(:facebook, :app_secret)
+      env['omniauth.strategy'].options[:scope] = 'email,read_stream'
+    end
+    render :text => "Setup complete.", :status => 404
+  end
+
   private
 
   STICKY_SESSION_LENGTH = 60.days

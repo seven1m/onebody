@@ -235,4 +235,5 @@ OneBody::Application.routes.draw do
   post '/pusher/auth_printer'    => 'pusher#auth_printer'
   get '/auth/facebook/callback'  => 'sessions#create_from_external_provider'
   post '/auth/facebook/callback' => 'sessions#create_from_external_provider'
+  get '/auth/:provider/setup'    => 'sessions#setup_omniauth'
 end
