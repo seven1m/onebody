@@ -100,7 +100,6 @@ group :development, :test do
   gem 'guard-rspec', '~> 4.5.0', require: false
   gem 'coveralls', '~> 0.7.3', require: false
   gem 'timecop'
-  gem 'byebug'
 end
 
 group :production do
