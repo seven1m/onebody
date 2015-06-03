@@ -29,8 +29,8 @@ debconf-set-selections <<< 'mysql-server mysql-server/root_password_again passwo
 apt-get install -q -y build-essential curl libcurl4-openssl-dev nodejs git mysql-server libmysqlclient-dev libaprutil1-dev libapr1-dev apache2 apache2-threaded-dev imagemagick
 
 # setup db
-mysql -u root -pvagrant -e "create database onebody_dev  default character set utf8 default collate utf8_general_ci; grant all on onebody_dev.*  to onebody@localhost identified by 'onebody';"
-mysql -u root -pvagrant -e "create database onebody_test default character set utf8 default collate utf8_general_ci; grant all on onebody_test.* to onebody@localhost identified by 'onebody';"
+mysql -u root -pvagrant -e "grant all on onebody_dev.*  to onebody@localhost identified by 'onebody';"
+mysql -u root -pvagrant -e "grant all on onebody_test.* to onebody@localhost identified by 'onebody';"
 
 user=$(cat <<USER
   set -ex
@@ -57,6 +57,7 @@ user=$(cat <<USER
     secret=\\$(/home/vagrant/.rvm/gems/#{$ruby_version}@onebody/bin/rake -s secret)
     sed -e"s/SOMETHING_RANDOM_HERE/\\$secret/g" config/secrets.yml.example > config/secrets.yml
   fi
+  \\$HOME/.rvm/gems/#{$ruby_version}@onebody/bin/rake db:create
   \\$HOME/.rvm/gems/#{$ruby_version}@onebody/bin/rake db:migrate db:seed
 
   # install apache and passenger
