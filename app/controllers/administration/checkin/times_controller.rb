@@ -4,7 +4,7 @@ class Administration::Checkin::TimesController < ApplicationController
 
   def index
     @recurring_times = CheckinTime.recurring.order(:weekday, :time)
-    @single_times = CheckinTime.upcoming_singles.order(:the_datetime)
+    @single_times = CheckinTime.future_singles.order(:the_datetime)
   end
 
   def show

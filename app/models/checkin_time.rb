@@ -10,11 +10,17 @@ class CheckinTime < ActiveRecord::Base
 
   scope :recurring, -> { where(the_datetime: nil) }
   scope :today, -> campus { for_date(Time.now, campus) }
-  scope :upcoming_singles, lambda {
+  scope :upcoming_singles, -> {
     where(
       'the_datetime is not null and the_datetime between :from and :to',
       from: 1.hour.ago.strftime('%Y-%m-%dT%H:%M:%S'),
       to:   4.hours.from_now.strftime('%Y-%m-%dT%H:%M:%S')
+    )
+  }
+  scope :future_singles, -> {
+    where(
+      'the_datetime is not null and the_datetime >= ?',
+      1.hour.ago.strftime('%Y-%m-%dT%H:%M:%S')
     )
   }
 
