@@ -3,7 +3,7 @@ require 'yaml'
 
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.1'
+gem 'rails', '4.2.3'
 
 # BEGIN database selection
 # borrowed heavily from https://github.com/redmine/redmine/blob/master/Gemfile
