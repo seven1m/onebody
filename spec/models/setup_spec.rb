@@ -13,6 +13,8 @@ describe Setup do
     })}
   let(:setup) { Setup.new(params) }
 
+  after { Site.current.update!(name: 'Default', host: 'example.com') }
+
   shared_examples 'a person initializier' do
       it 'Initializes a new Person with params attributes' do
         expect(setup.person).to be_a(Person)
