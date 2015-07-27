@@ -1,16 +1,20 @@
 class Setup
 
   attr_reader :person
+  attr_reader :site
 
   def initialize(params)
     @params = params
+    @site = Site.current
   end
 
   def execute!
     Person.transaction do
       @person = Person.new
+      assign_params_to_person
       unless update_host!
-        Site.current.errors.full_messages.each do |msg|
+        @site.errors
+        @site.errors.full_messages.each do |msg|
           @person.errors.add :base, msg
         end
         return false
@@ -20,16 +24,20 @@ class Setup
         update_stream_item!
         true
       else
+        puts 'update_person error'
         raise ActiveRecord::Rollback
         false
       end
     end
   end
 
-  def update_person!
+  def assign_params_to_person
     @person.first_name = @params[:person][:first_name]
-    @person.last_name = @params[:person][:last_name]
-    @person.email = @params[:person][:email]
+    @person.last_name  = @params[:person][:last_name]
+    @person.email      = @params[:person][:email]
+  end
+
+  def update_person!
     @person.password = @params[:person][:password].presence
     @person.password_confirmation = @params[:person][:password_confirmation].presence
     unless @person.password and @person.password == @person.password_confirmation
@@ -55,9 +63,11 @@ class Setup
 
   def update_host!
     if @params[:domain_name].present?
-      Site.current.host = @params[:domain_name]
-      Site.current.save
+
+      @site.host = @params[:domain_name]
+      @site.save
     else
+      @person.errors.add :base, I18n.t('setup.domain_name_note')
       false
     end
   end
@@ -68,7 +78,7 @@ class Setup
   end
 
   def update_stream_item!
-    Site.current.update_stream_item(@person)
+    @site.update_stream_item(@person)
   end
 
 end
