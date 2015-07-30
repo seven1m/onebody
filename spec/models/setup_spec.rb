@@ -37,13 +37,6 @@ describe Setup do
       it 'updates the current site`s hosts' do
         expect(setup.site.host).to eq('church.io')
       end
-
-      # Pending
-      # it 'Updates Settings' do
-        # Setting.set_global('Contact', 'Bug Notification Email', @person.email)
-        # expect(Setting.get('Contact', 'Bug Notification Email')).to eq(params[:person][:email])
-        # expect(Setting.get('Contact', 'Tech Support Email')).to     eq(params[:person][:email])
-      # end
     end
 
     context 'with missing domain_name' do
