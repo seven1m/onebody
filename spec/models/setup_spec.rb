@@ -1,13 +1,14 @@
 require_relative '../rails_helper'
 
 describe Setup do
+  let(:person) { FactoryGirl.build(:person) }
   let(:params) { ActionController::Parameters.new({
       person: {
-        first_name: 'Torey',
-        last_name: 'Heinz',
-        email: 'nobody@none.com',
-        password: 'secret',
-        password_confirmation: 'secret',
+        first_name: person.first_name,
+        last_name:  person.last_name,
+        email:      person.email,
+        password:   person.password,
+        password_confirmation: person.password
         },
       domain_name: 'church.io'
     })}
@@ -18,9 +19,9 @@ describe Setup do
   shared_examples 'a person initializier' do
       it 'Initializes a new Person with params attributes' do
         expect(setup.person).to be_a(Person)
-        expect(setup.person.first_name).to eq params[:person][:first_name]
-        expect(setup.person.last_name).to  eq params[:person][:last_name]
-        expect(setup.person.email).to      eq params[:person][:email]
+        expect(setup.person.first_name).to eq person.first_name
+        expect(setup.person.last_name).to  eq person.last_name
+        expect(setup.person.email).to      eq person.email
       end
   end
 
@@ -34,7 +35,7 @@ describe Setup do
         expect(setup.person).to be_persisted
       end
 
-      it 'updates the current site`s hosts' do
+      it 'updates the current site`s host' do
         expect(setup.site.host).to eq('church.io')
       end
     end
