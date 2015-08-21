@@ -80,7 +80,7 @@ end
 group :development do
   gem 'better_errors', '~> 2.1.1'
   gem 'binding_of_caller', '~> 0.7.2'
-  gem 'watchr', '~> 0.7'
+  gem 'observr', '~> 1.0.5'
   gem 'terminal-notifier', '~> 1.6.3'
   gem 'capistrano', '~> 3.4.0'
   gem 'capistrano-newrelic', '~> 0.0.9'
