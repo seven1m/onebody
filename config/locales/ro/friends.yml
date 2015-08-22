@@ -4,10 +4,10 @@ ro:
     index:
       nobody_yet: "Nimeni deocamdată"
     accept: "Acceptă prieten"
-    add_friend_are_you_sure: "Are you sure? An email will be sent to this person requesting friendship."
+    add_friend_are_you_sure: "Eşti sigur? Un email cu cererea de prietenie va fi trimis acestei persoane."
     add_to_friends: "Adaugă la prieteni"
     add_to_friends_pending: "Adaugă la prieteni (în aşteptare)"
-    decline: "Decline Friend"
+    decline: "Respinge cererea de prietenie"
     friends: Prieteni
     pending_requests: "Cereri de prietenie în aşteptare"
     people_requested: "Următorele persoane au ţi-au trimis o cerere de prietenie."

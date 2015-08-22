@@ -1,10 +1,13 @@
-# OneBody
-
 ![screnshots](https://farm8.staticflickr.com/7508/15498980049_3527e0817e_b.jpg)
 
-[![Install on DigitalOcean](http://installer.71m.us/button.svg)](http://installer.71m.us/install?url=https://github.com/churchio/onebody) [![Gitter](https://badges.gitter.im/Chat%20with%20us.svg)](https://gitter.im/churchio/onebody)
+# OneBody
 
-[Install Somewhere Else](https://github.com/churchio/onebody/wiki/Installation)
+[![Install on DigitalOcean](https://img.shields.io/badge/install-digital_ocean-479de4.svg)](http://installer.71m.us/install?url=https://github.com/churchio/onebody)
+[![Install on Amazon EC2](https://img.shields.io/badge/install-amazon_ec2-f78527.svg)](https://github.com/churchio/onebody/wiki/Amazon-AMI)
+[![Install on Docker](https://img.shields.io/badge/install-docker-008bb8.svg)](https://github.com/churchio/onebody/wiki/Installation-with-Docker)
+[![Install on a hypervisor](https://img.shields.io/badge/install-vm-002f6b.svg)](https://github.com/churchio/onebody/wiki/Virtual-Appliance)
+[![Install elsewhere](https://img.shields.io/badge/install-other-999999.svg)](https://github.com/churchio/onebody/wiki/Installation)
+[![Chat with us](https://img.shields.io/badge/chat-slack-e01563.svg)](https://slackin-churchio.herokuapp.com/)
 
 OneBody is open-source, web-based social networking, email list, online directory, and lightweight document management software for churches.
 
@@ -47,8 +50,8 @@ Operating System: Windows, Mac, or Linux
 3. Install [Git](http://git-scm.com/downloads).
    * If you're on Mac, you can use [GitHub for Mac](https://mac.github.com/).
    * If you're on Windows, you can use [GitHub for Windows](https://windows.github.com/).
-4. Clone the repository to your host machine: `git clone git://github.com/churchio/onebody.git`
-5. In your host terminal, change to the project directory: `cd onebody`
+4. Clone the repository to your host machine: `git clone git://github.com/churchio/onebody.git` (If you forked the project, clone from your own fork.)
+5. In your terminal, change to the project directory: `cd onebody`
 6. Run vagrant: `vagrant up`
 
 Now visit the site running in development mode at http://localhost:8080.
@@ -61,7 +64,7 @@ Check out [Using Vagrant](https://github.com/churchio/onebody/wiki/Using-Vagrant
 
 Operating System: Mac or Linux (See Vagrant above if you're on Windows)
 
-1. Install Ruby 2.1.5 or higher (we recommend you use [RVM](https://rvm.io/)).
+1. Install Ruby 2.2.2 or higher (we recommend you use [RVM](https://rvm.io/)).
 2. Install MySQL.
 3. Install Git.
 4. Install ImageMagick.
@@ -93,7 +96,7 @@ rake db:create db:schema:load
 
 ## Get Help
 
-* [Gitter Chat](https://gitter.im/churchio/onebody)
+* [Slack Chat](https://slackin-churchio.herokuapp.com/)
 * IRC channel #church.io on Freenode (try the [web-based IRC client](https://webchat.freenode.net/?channels=#church.io))
 * [Wiki](http://wiki.github.com/churchio/onebody)
 * [Google Group](http://groups.google.com/group/churchio)

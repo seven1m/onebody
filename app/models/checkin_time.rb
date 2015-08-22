@@ -1,19 +1,54 @@
 class CheckinTime < ActiveRecord::Base
-  has_many :group_times, -> { order('group_times.ordering, group_times.id') }, dependent: :destroy
+
+  include Concerns::Reorder
+
+  has_many :group_times, -> { order('group_times.sequence, group_times.id') }, dependent: :destroy
   has_many :groups, through: :group_times
+  has_many :checkin_folders
 
   validates :campus, presence: true, exclusion: ['!']
 
   scope :recurring, -> { where(the_datetime: nil) }
-  scope :upcoming_singles, -> { where('the_datetime is not null and the_datetime >= now()') }
   scope :today, -> campus { for_date(Time.now, campus) }
+  scope :upcoming_singles, -> {
+    where(
+      'the_datetime is not null and the_datetime between :from and :to',
+      from: 1.hour.ago.strftime('%Y-%m-%dT%H:%M:%S'),
+      to:   4.hours.from_now.strftime('%Y-%m-%dT%H:%M:%S')
+    )
+  }
+  scope :future_singles, -> {
+    where(
+      'the_datetime is not null and the_datetime >= ?',
+      1.hour.ago.strftime('%Y-%m-%dT%H:%M:%S')
+    )
+  }
 
   scope_by_site_id
 
   def self.for_date(date, campus=nil)
-    r = where("((the_datetime >= ? and the_datetime <= ?) or weekday = ?)", date.beginning_of_day, date.end_of_day, date.wday)
+    r = where(
+      "((the_datetime >= ? and the_datetime <= ?) or weekday = ?)",
+      date.beginning_of_day.strftime('%Y-%m-%dT%H:%M:%S'),
+      date.end_of_day.strftime('%Y-%m-%dT%H:%M:%S'),
+      date.wday
+    )
     r.where!(campus: campus) if campus
     r
+  end
+
+  self.skip_time_zone_conversion_for_attributes = [:the_datetime]
+
+  def all_group_times
+    GroupTime
+      .includes(:checkin_folder)
+      .references(:checkin_folders)
+      .order('coalesce(checkin_folders.sequence, group_times.sequence)')
+      .where(
+        'group_times.checkin_folder_id in (?) or group_times.checkin_time_id = ?',
+        checkin_folder_ids,
+        id
+      )
   end
 
   validate do
@@ -39,7 +74,7 @@ class CheckinTime < ActiveRecord::Base
   end
 
   def the_datetime=(t)
-    self[:the_datetime] = t.present? ? Time.parse_in_locale(t) : nil
+    self[:the_datetime] = t.present? ? Time.parse_in_locale(t).strftime('%Y-%m-%d %H:%M:%S') : nil
   end
 
   def to_s
@@ -64,20 +99,8 @@ class CheckinTime < ActiveRecord::Base
     the_datetime || Time.parse(time_to_s)
   end
 
-  def reorder_group(group, direction, full_stop=false)
-    all = group_times.to_a
-    index = all.index(group)
-    case direction
-    when 'up'
-      index = 1 if full_stop
-      all.delete(group)
-      all.insert([index - 1, 0].max, group)
-    when 'down'
-      index = all.length - 1 if full_stop
-      all.delete(group)
-      all.insert([index + 1, all.length].min, group)
-    end
-    all.each_with_index { |g, i| g.update_attribute(:ordering, i + 1) }
+  def entries
+    (checkin_folders.to_a + group_times.to_a).sort_by { |e| e.sequence.to_i }
   end
 
   def self.campuses

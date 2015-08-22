@@ -101,4 +101,48 @@ describe DocumentFolder do
     end
   end
 
+  describe '#all_group_ids' do
+    let(:group1) { FactoryGirl.create(:group) }
+    let(:group2) { FactoryGirl.create(:group) }
+    let(:group3) { FactoryGirl.create(:group) }
+    let(:grandfather) { FactoryGirl.create(:document_folder, group_ids: [group1.id]) }
+    let(:father) { FactoryGirl.create(:document_folder, folder_id: grandfather.id, group_ids: [group1.id, group2.id]) }
+    let(:son) { FactoryGirl.create(:document_folder, folder_id: father.id, group_ids: [group3.id]) }
+
+    it 'returns an array of all group ids' do
+      expect(son.all_group_ids).to match_array([group1.id, group2.id, group3.id])
+    end
+  end
+
+  describe '#hidden_at_all?' do
+    context 'grandfather is hidden' do
+      let(:grandfather) { FactoryGirl.create(:document_folder, hidden: true) }
+      let(:father) { FactoryGirl.create(:document_folder, folder_id: grandfather.id) }
+      let(:son) { FactoryGirl.create(:document_folder, folder_id: father.id) }
+
+      it 'returns true' do
+        expect(son.hidden_at_all?).to eq(true)
+      end
+    end
+
+    context 'self is hidden' do
+      let(:grandfather) { FactoryGirl.create(:document_folder) }
+      let(:father) { FactoryGirl.create(:document_folder, folder_id: grandfather.id) }
+      let(:son) { FactoryGirl.create(:document_folder, folder_id: father.id, hidden: true) }
+
+      it 'returns true' do
+        expect(son.hidden_at_all?).to eq(true)
+      end
+    end
+
+    context 'self is not hidden and no parent folders are hidden' do
+      let(:grandfather) { FactoryGirl.create(:document_folder) }
+      let(:father) { FactoryGirl.create(:document_folder, folder_id: grandfather.id) }
+      let(:son) { FactoryGirl.create(:document_folder, folder_id: father.id) }
+
+      it 'returns false' do
+        expect(son.hidden_at_all?).to eq(false)
+      end
+    end
+  end
 end

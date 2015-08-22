@@ -28,10 +28,19 @@
           = icon 'fa fa-plus'
           = t('checkin.add_family.button')
         - if @logged_in.admin?(:manage_attendance)
-          = link_to t('checkin.attendance.button'), administration_attendance_index_path, class: 'btn btn-info'
+          = link_to administration_attendance_index_path, class: 'btn btn-info' do
+            = icon 'fa fa-bar-chart-o'
+            = t('checkin.attendance.button')
         - if @logged_in.admin?(:manage_checkin)
-          = link_to t('checkin.assigned_cards.button'), administration_checkin_cards_path, class: 'btn btn-info'
-          = link_to t('checkin.times.button'), administration_checkin_times_path, class: 'btn btn-warning'
+          = link_to administration_checkin_cards_path, class: 'btn btn-info' do
+            = icon 'fa fa-barcode'
+            = t('checkin.assigned_cards.button')
+          = link_to administration_checkin_times_path, class: 'btn btn-warning' do
+            = icon 'fa fa-clock-o'
+            = t('checkin.times.button')
+          = link_to administration_checkin_labels_path, class: 'btn btn-warning' do
+            = icon 'fa fa-square-o'
+            = t('checkin.labels.button')
     #notice.callout.callout-info{ style: 'display:none' }
     #barcode
     #family

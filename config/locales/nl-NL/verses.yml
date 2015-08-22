@@ -1,14 +1,6 @@
 ---
 nl-NL:
   verses:
-    heading: Bijbelteksten
-    new:
-      heading: "Zoek een bijbeltekst"
-    about_tags: "Tags kunnen bijbelteksten groeperen op onderwerp, auteur etc."
-    about_this_verse: "Over deze bijbeltekst. Wat betekent deze tekst voor jou of wat heeft het voor je betekend?"
-    add_this_verse_to_my_list: "Voeg deze bijbeltekst toe aan mijn lijst"
-    add_verse: "Bijbeltekst toevoegen"
-    add_your_favorite_verse: "Favoriete bijbeltekst toevoegen:"
     comment_count:
       one: "<a href='%{url}'>1 reactie</a> by %{by}"
       other: "<a href='%{url}'>1 reactie</a> by %{by}"
@@ -22,3 +14,12 @@ nl-NL:
     saved_by_count:
       one: "opgeslagen door 1 lid"
       other: "opgeslagen door %{count} leden"
+    heading: Bijbelteksten
+    new:
+      heading: "Zoek een bijbeltekst"
+    about_tags: "Tags kunnen bijbelteksten groeperen op onderwerp, auteur etc."
+    about_this_verse: "Over deze bijbeltekst. Wat betekent deze tekst voor jou of wat heeft het voor je betekend?"
+    add_this_verse_to_my_list: "Voeg deze bijbeltekst toe aan mijn lijst"
+    add_verse: "Bijbeltekst toevoegen"
+    search_verse: "Search Verse"
+    add_your_favorite_verse: "Favoriete bijbeltekst toevoegen:"

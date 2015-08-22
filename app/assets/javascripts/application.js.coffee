@@ -2,13 +2,16 @@
 #= require jquery_ujs
 #= require jquery.scrollTo
 #= require jquery.color-2.1.2
+#= require jquery.sparkline
 #= require sortable
 #= require bootstrap
 #= require bootstrap-datepicker
 #= require admin_lte
 #= require spin
 #= require leaflet
-#= require_tree ./app
+#= require leaflet.markercluster
+#= require bootstrap-filestyle
+#= require_directory ./app
 
 $('[data-toggle^="#"], [data-toggle^="."]').each (i, elm) ->
   elm = $(elm)
@@ -19,8 +22,15 @@ $('[data-toggle^="#"], [data-toggle^="."]').each (i, elm) ->
       toggle(elm.is(enabled_selector))
     toggle(elm.is(enabled_selector))
   else if elm.is('a')
-    elm.on('click', toggle)
+    elm.on 'click', ->
+      elm = $(this)
+      elm.toggleClass('expanded')
+      toggle(elm.is('.expanded'))
   else if elm.is('select')
     elm.on 'change', ->
       toggle(elm.val() == elm.data('toggle-value'))
     toggle(elm.val() == elm.data('toggle-value'))
+
+if csrf_token = $('meta[name="csrf-token"]').attr('content')
+  $(document).ajaxSend (_, xhr) ->
+    xhr.setRequestHeader('X-CSRF-Token', csrf_token)

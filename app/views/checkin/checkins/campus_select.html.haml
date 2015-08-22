@@ -1,0 +1,5 @@
+.center
+  %ul.list-unstyled
+    - @campuses.each do |campus|
+      %li
+        = link_to campus, { campus: campus }, class: 'btn checkin-btn'

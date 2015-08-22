@@ -1,10 +1,16 @@
-<% ids = @time.group_times.pluck(:id); index = ids.index(@group_time.id) %>
 var table = $('.group-times');
-var row = table.find('tr#group_time_<%= @group_time.id %>').remove();
-var sibling = table.find('tbody tr:eq(<%= index %>)');
-if(sibling[0]) row.insertBefore(sibling);
-else row.appendTo(table.find('tbody'));
-row.find('td').css('background-color', '#ff9').animate({'background-color': 'transparent'}, 1000);
-table.find('.up, .down').show();
-table.find('tbody tr:eq(0) .up').hide();
-table.find('tbody tr:eq(<%= ids.length - 1 %>) .down').hide();
+var expanded = $.map(table.find('tr.expanding.expanded'), function(elm) {
+  return $(elm).attr('id');
+});
+
+// replace table content
+$('.checkin-groups-table-wrapper').html('<%= escape_javascript render(partial: 'entries') %>')
+
+// reopen folders
+$.each(expanded, function(i, id) {
+  $('tr.expanding#' + id).addClass('expanded');
+  $('.for-folder-' + id.replace(/checkin_folder_/, '')).show();
+});
+
+// highlight row that moved
+$('#<%= dom_id(@entry) %>').highlight();

@@ -478,12 +478,27 @@ describe Notifier, type: :mailer do
         @sent = ActionMailer::Base.deliveries.first
       end
 
-      it 'delivers in proper site' do
+      it 'replies to the user with a rejection' do
         assert_deliveries 1
         expect(@sent.to).to eq(@email.from)
         expect(@sent.subject).to eq('Message Not Sent: test')
         expect(@sent.from).to eq([Site.current.noreply_email])
         expect(@sent.body.to_s).to match(/the system does not recognize/i)
+      end
+    end
+
+    context 'given message to group in second site using email_host domain' do
+      before do
+        @site2.update_attribute(:email_host, 'two.alt')
+        @email = to_email(from: @site2user.email, to: 'group@two.alt', subject: 'test', body: 'hello')
+        Notifier.receive(@email.to_s)
+        @sent = ActionMailer::Base.deliveries.first
+      end
+
+      it 'delivers in proper site' do
+        assert_deliveries 1
+        assert_emails_delivered(@email, @site2group.people)
+        expect(Site.current).to eq(@site2)
       end
     end
 

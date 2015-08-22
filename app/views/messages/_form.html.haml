@@ -15,7 +15,7 @@
     = form.text_area :body, rows: 15, cols: 80, class: 'form-control'
   .form-group
     %label{:for => "file"}= t('messages.attachment_optional')
-    %input#file{:multiple => "multiple", :name => "files[]", :type => "file"}
+    %input#file{:multiple => "multiple", :name => "files[]", :type => "file", :class => "filestyle", :data => {:input => "false", :buttonName => "btn-success"}}
     %span.help-block= t('multiple_files')
   .form-group
     = form.button t('messages.send_message'), class: 'btn btn-success'

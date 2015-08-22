@@ -2,6 +2,8 @@ class AttendanceRecord < ActiveRecord::Base
   belongs_to :person
   belongs_to :group
   belongs_to :site
+  belongs_to :checkin_time
+  belongs_to :checkin_label, foreign_key: :label_id
 
   scope_by_site_id
 
@@ -29,6 +31,17 @@ class AttendanceRecord < ActiveRecord::Base
     checkin_people.map(&:name) + [can_pick_up]
   end
 
+  def as_json(*args)
+    super.merge(symbol: symbol)
+  end
+
+  def symbol
+    ''.tap do |syms|
+      syms << '+' if medical_notes.present?
+      syms << '!' if cannot_pick_up.present?
+    end
+  end
+
   def self.groups_for_date(attended_at)
     Group.where(
       "id in (select group_id from attendance_records where attended_at >= ? and attended_at <= ?)",
@@ -44,5 +57,51 @@ class AttendanceRecord < ActiveRecord::Base
       date.strftime('%Y-%m-%d 0:00'),
       date.strftime('%Y-%m-%d 23:59:59')
     )
+  end
+
+  def self.check_in(person_id, times, barcode_id)
+    if person_id.to_s =~ /\A\d+\z/
+      person = Person.find(person_id)
+    else
+      (first_name, last_name) = person_id.split(nil, 2)
+      person = OpenStruct.new(first_name: first_name, last_name: last_name)
+    end
+    times.map do |checkin_time_id, group_time_hash|
+      checkin_time = CheckinTime.find(checkin_time_id)
+      attended_at = checkin_time.to_time
+      if person.id
+        where(person_id: person.id, attended_at: attended_at.strftime('%Y-%m-%d %H:%M:%S')).delete_all
+      end
+      if group_time_hash && group_time_hash['id']
+        group_time = GroupTime.find(group_time_hash['id'])
+        group_time.group.attendance_records.create!(
+          person_id:           person.id,
+          attended_at:         attended_at,
+          first_name:          person.first_name,
+          last_name:           person.last_name,
+          family_name:         person.family.try(:name),
+          age:                 person.age_group,
+          can_pick_up:         person.can_pick_up,
+          cannot_pick_up:      person.cannot_pick_up,
+          medical_notes:       person.medical_notes,
+          checkin_time_id:     group_time.checkin_time_id || group_time.checkin_folder.try(:checkin_time_id),
+          label_id:            group_time.label_id,
+          print_extra_nametag: group_time.print_extra_nametag?,
+          barcode_id:          barcode_id
+        )
+      end
+    end
+  end
+
+  def self.labels_for(records)
+    [].tap do |labels|
+      records.compact.each do |record|
+        if record.checkin_label and labels.empty?
+          json = record.as_json.merge(label_id: record.label_id)
+          labels << json
+          labels << json if record.print_extra_nametag? and labels.length < 2
+        end
+      end
+    end
   end
 end

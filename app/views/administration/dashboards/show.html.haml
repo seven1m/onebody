@@ -12,169 +12,187 @@
     %p= link_to t('admin.dashboard.version_alert.download_button'),
                 'https://github.com/churchio/onebody/wiki/Installation#how-to-upgrade'
 
-.metrics.floating-boxes
-  - if @logged_in.admin?(:manage_updates)
-    .floating-box
-      .small-box{ class: metric_css_class(@update_count, 1, 5) }
-        = link_to administration_updates_path do
-          .inner
-            %h3= @update_count
-            %p= t('admin.box.updates.text', count: @update_count)
-        .icon
-          = icon 'fa fa-pencil'
-  - if @logged_in.admin?(:manage_updates)
-    .floating-box
-      .small-box{ class: metric_css_class(@email_changed_count, 1, 5) }
-        = link_to administration_emails_path do
-          .inner
-            %h3= @email_changed_count
-            %p= t('admin.box.changed_emails.text', count: @email_changed_count)
-        .icon
-          = icon 'fa fa-envelope'
-  - if @logged_in.admin?(:manage_sync)
-    .floating-box
-      - error_count = (@last_sync ? @last_sync.error_count : 0) || 0
-      .small-box{ class: metric_css_class(error_count, 1, 5) }
-        = link_to administration_syncs_path do
-          .inner
-            %h3= error_count
-            %p= t('admin.box.sync_errors.text', count: error_count)
-        .icon
-          = icon 'fa fa-refresh'
-  - if @logged_in.admin?(:manage_groups) && setting(:features, :groups)
-    .floating-box
-      .small-box{ class: metric_css_class(@groups_pending_approval_count, 1, 5) }
-        = link_to groups_path(pending_approval: true) do
-          .inner
-            %h3= @groups_pending_approval_count
-            %p= t('admin.box.groups_pending_approval.text', count: @groups_pending_approval_count)
-        .icon
-          = icon 'fa fa-users'
-  - if @logged_in.admin?(:manage_groups) && setting(:features, :groups)
-    .floating-box
-      .small-box{ class: metric_css_class(@membership_request_count, 1, 5) }
-        = link_to administration_membership_requests_path do
-          .inner
-            %h3= @membership_request_count
-            %p= t('admin.box.membership_requests.text', count: @membership_request_count)
-        .icon
-          = icon 'fa fa-user'
-  - if @logged_in.admin?(:edit_profiles)
-    .floating-box
-      .small-box{ class: metric_css_class(@deleted_people_count, 100, 500) }
-        = link_to administration_deleted_people_path do
-          .inner
-            %h3= @deleted_people_count
-            %p= t('admin.box.deleted_people.text', count: @deleted_people_count)
-        .icon
-          = icon 'fa fa-trash-o'
-  .clearfix
+.collapsable-heading
+  %h2= t('admin.actionables.heading')
 
-.floating-boxes.normalize-heights
-  - if @logged_in.admin?(:manage_attendance)
-    .floating-box
-      .box.box-info.normalize-height
-        .box-header
-          %h3.box-title= t('admin.attendance.heading')
-        .box-body
-          %p= t('admin.attendance.intro')
-          %p
-            = link_to administration_attendance_index_path, class: 'btn btn-info' do
-              = icon 'fa fa-bar-chart-o'
-              = t('admin.attendance.button')
+  .metrics.floating-boxes
+    - if @logged_in.admin?(:manage_updates)
+      .floating-box
+        .small-box{ class: metric_css_class(@update_count, 1, 5) }
+          = link_to administration_updates_path do
+            .inner
+              %h3= @update_count
+              %p= t('admin.box.updates.text', count: @update_count)
+          .icon
+            = icon 'fa fa-pencil'
+    - if @logged_in.admin?(:manage_updates)
+      .floating-box
+        .small-box{ class: metric_css_class(@email_changed_count, 1, 5) }
+          = link_to administration_emails_path do
+            .inner
+              %h3= @email_changed_count
+              %p= t('admin.box.changed_emails.text', count: @email_changed_count)
+          .icon
+            = icon 'fa fa-envelope'
+    - if @logged_in.admin?(:manage_sync)
+      .floating-box
+        - error_count = (@last_sync ? @last_sync.error_count : 0) || 0
+        .small-box{ class: metric_css_class(error_count, 1, 5) }
+          = link_to administration_syncs_path do
+            .inner
+              %h3= error_count
+              %p= t('admin.box.sync_errors.text', count: error_count)
+          .icon
+            = icon 'fa fa-refresh'
+    - if @logged_in.admin?(:manage_groups) && setting(:features, :groups)
+      .floating-box
+        .small-box{ class: metric_css_class(@groups_pending_approval_count, 1, 5) }
+          = link_to groups_path(pending_approval: true) do
+            .inner
+              %h3= @groups_pending_approval_count
+              %p= t('admin.box.groups_pending_approval.text', count: @groups_pending_approval_count)
+          .icon
+            = icon 'fa fa-users'
+    - if @logged_in.admin?(:manage_groups) && setting(:features, :groups)
+      .floating-box
+        .small-box{ class: metric_css_class(@membership_request_count, 1, 5) }
+          = link_to administration_membership_requests_path do
+            .inner
+              %h3= @membership_request_count
+              %p= t('admin.box.membership_requests.text', count: @membership_request_count)
+          .icon
+            = icon 'fa fa-user'
+    - if @logged_in.admin?(:edit_profiles)
+      .floating-box
+        .small-box{ class: metric_css_class(@deleted_people_count, 100, 500) }
+          = link_to administration_deleted_people_path do
+            .inner
+              %h3= @deleted_people_count
+              %p= t('admin.box.deleted_people.text', count: @deleted_people_count)
+          .icon
+            = icon 'fa fa-trash-o'
+    .clearfix
 
-  - if @logged_in.admin?(:run_reports)
-    .floating-box
-      .box.box-info.normalize-height
-        .box-header
-          %h3.box-title= t('admin.report.heading')
-        .box-body
-          %p
-            = t('admin.report.intro')
-          %p
-            = link_to admin_reports_path(), class: 'btn btn-info' do
-              = icon 'fa fa-table'
-              = t('admin.report.button')
+.collapsable-heading
+  %h2= t('admin.gatherings.heading')
 
-  - if setting(:features, :checkin) and (@logged_in.admin?(:manage_checkin) or @logged_in.admin?(:assigned_checkin_cards))
-    .floating-box
-      .box.box-info.normalize-height
-        .box-header
-          %h3.box-title= t('admin.checkin.heading')
-        .box-body
-          %p= t('admin.checkin.intro')
-          %p
-            = link_to administration_checkin_dashboard_path, class: 'btn btn-info' do
-              = icon 'fa fa-check-square-o'
-              = t('admin.checkin.button')
+  .floating-boxes.normalize-heights
+    - if @logged_in.admin?(:manage_attendance)
+      .col-md-6
+        .box.box-info.normalize-height
+          .box-header
+            %h3.box-title= t('admin.attendance.heading')
+          .box-body
+            .inlinebar{ style: 'height:85px', 'data-data' => Stats::AttendanceGraphPresenter.new.to_json }
+            %p
+              = link_to administration_attendance_index_path, class: 'btn btn-info' do
+                = icon 'fa fa-bar-chart-o'
+                = t('admin.attendance.button')
 
-  - if @logged_in.admin?(:manage_access)
-    .floating-box
-      .box.box-warning.normalize-height
-        .box-header
-          %h3.box-title= t('admin.admins.heading')
-        .box-body
-          %p
-            = t('admin.admins.intro')
-          %p
-            = link_to administration_admins_path, class: 'btn btn-warning' do
-              = icon 'fa fa-gavel'
-              = t('admin.admins.button')
+    - if setting(:features, :checkin) and (@logged_in.admin?(:manage_checkin) or @logged_in.admin?(:assigned_checkin_cards))
+      .col-md-6
+        .box.box-info.normalize-height
+          .box-header
+            %h3.box-title= t('admin.checkin.heading')
+          .box-body
+            .inlinebar{ style: 'height:85px', |
+              'data-data' => Stats::AttendanceGraphPresenter.new(2.days, checked_in: true, by_hour: true).to_json }
+            %p
+              .btn-group
+                = link_to checkin_path, class: 'btn btn-info' do
+                  = icon 'fa fa-check-square-o'
+                  = t('admin.checkin.button')
+                = link_to checkin_printer_path, class: 'btn btn-info' do
+                  = icon 'fa fa-print'
+              = link_to administration_checkin_dashboard_path, class: 'btn btn-warning pull-right' do
+                = icon 'fa fa-dashboard'
+                = t('admin.checkin.dashboard_button')
 
-  - if @logged_in.super_admin?
-    .floating-box
-      .box.box-warning.normalize-height
-        .box-header
-          %h3.box-title= t('admin.customization.heading')
-        .box-body
-          %p
-            = t('admin.customization.intro')
-          %p
-            = link_to administration_settings_path, class: 'btn btn-warning' do
-              = icon 'fa fa-gear'
-              = t('admin.settings.settings')
-            = link_to pages_path, class: 'btn btn-warning' do
-              = icon 'fa fa-file'
-              = t('admin.pages')
+    .clearfix
 
-  - if Site.current.import_export_enabled? and (@logged_in.admin?(:import_data) or @logged_in.admin?(:export_data))
-    .floating-box
-      .box.box-danger.normalize-height
-        .box-header
-          %h3.box-title= t('admin.import_export')
-        .box-body
-          %table.table
-            %tr
-              %th
-                = t('people.people')
-                (#{@person_count})
-              %td
-                - if @logged_in.admin?(:export_data)
-                  = link_to people_path(format: 'xml'), class: 'btn btn-xs btn-info' do
-                    = icon 'fa fa-download'
-                    XML
-                - if @logged_in.admin?(:export_data)
-                  = link_to people_path(format: 'csv'), class: 'btn btn-xs btn-info' do
-                    = icon 'fa fa-download'
-                    CSV
-              - if @logged_in.admin?(:import_data)
-                %td
-                  = link_to new_administration_import_path, class: 'btn btn-xs btn-danger' do
-                    = icon 'fa fa-upload'
-                    CSV
-            - if Setting.get(:features, :groups)
+.collapsable-heading
+  %h2= t('admin.administration.heading')
+
+  .floating-boxes.normalize-heights
+    - if @logged_in.admin?(:run_reports)
+      .col-md-3
+        .box.box-info.normalize-height
+          .box-header
+            %h3.box-title= t('admin.report.heading')
+          .box-body
+            %p
+              = t('admin.report.intro')
+            %p
+              = link_to admin_reports_path(), class: 'btn btn-info' do
+                = icon 'fa fa-table'
+                = t('admin.report.button')
+
+    - if @logged_in.admin?(:manage_access)
+      .col-md-3
+        .box.box-warning.normalize-height
+          .box-header
+            %h3.box-title= t('admin.admins.heading')
+          .box-body
+            %p
+              = t('admin.admins.intro')
+            %p
+              = link_to administration_admins_path, class: 'btn btn-warning' do
+                = icon 'fa fa-gavel'
+                = t('admin.admins.button')
+
+    - if @logged_in.super_admin?
+      .col-md-3
+        .box.box-warning.normalize-height
+          .box-header
+            %h3.box-title= t('admin.customization.heading')
+          .box-body
+            %p
+              = t('admin.customization.intro')
+            %p
+              = link_to administration_settings_path, class: 'btn btn-warning' do
+                = icon 'fa fa-gear'
+                = t('admin.settings.settings')
+              = link_to pages_path, class: 'btn btn-warning' do
+                = icon 'fa fa-file'
+                = t('admin.pages')
+
+    - if Site.current.import_export_enabled? and (@logged_in.admin?(:import_data) or @logged_in.admin?(:export_data))
+      .col-md-3
+        .box.box-danger.normalize-height
+          .box-header
+            %h3.box-title= t('admin.import_export')
+          .box-body
+            %table.table
               %tr
                 %th
-                  = t('nav.groups')
-                  (#{@group_count})
+                  = t('people.people')
+                  (#{@person_count})
                 %td
                   - if @logged_in.admin?(:export_data)
-                    = link_to groups_path(format: 'xml'), class: 'btn btn-xs btn-info' do
+                    = link_to people_path(format: 'xml'), class: 'btn btn-xs btn-info' do
                       = icon 'fa fa-download'
                       XML
                   - if @logged_in.admin?(:export_data)
-                    = link_to groups_path(format: 'csv'), class: 'btn btn-xs btn-info' do
+                    = link_to people_path(format: 'csv'), class: 'btn btn-xs btn-info' do
                       = icon 'fa fa-download'
                       CSV
-                %td
-
+                - if @logged_in.admin?(:import_data)
+                  %td
+                    = link_to new_administration_import_path, class: 'btn btn-xs btn-danger' do
+                      = icon 'fa fa-upload'
+                      CSV
+              - if Setting.get(:features, :groups)
+                %tr
+                  %th
+                    = t('nav.groups')
+                    (#{@group_count})
+                  %td
+                    - if @logged_in.admin?(:export_data)
+                      = link_to groups_path(format: 'xml'), class: 'btn btn-xs btn-info' do
+                        = icon 'fa fa-download'
+                        XML
+                    - if @logged_in.admin?(:export_data)
+                      = link_to groups_path(format: 'csv'), class: 'btn btn-xs btn-info' do
+                        = icon 'fa fa-download'
+                        CSV
+                  %td

@@ -1,0 +1,31 @@
+- @title = t('checkin.interface.heading')
+
+#checkin-main.checkin-inner
+
+- content_for :css do
+  = stylesheet_link_tag 'checkin-print', media: 'print'
+
+:javascript
+  pusher_config = {
+    app:     #{ json_escape Setting.get(:pusher, :app_key).to_json },
+    wsHost:  #{ json_escape Setting.get(:pusher, :ws_host).to_json },
+    wsPort:  #{ json_escape Setting.get(:pusher, :ws_port).to_json },
+    wssPort: #{ json_escape Setting.get(:pusher, :wss_port).to_json }
+  };
+  checkin_printer_id = #{ json_escape(session[:checkin_printer_id].to_json) };
+  checkin_user = {
+    id: #{ json_escape @checkin_logged_in.id.to_json },
+    initials: #{ json_escape (@checkin_logged_in.first_name[0] + @checkin_logged_in.last_name[0]).to_json }
+  };
+
+- content_for :js do
+  :javascript
+    avatars = {
+      male:   #{ image_path("man.dark.tn.png").inspect },
+      female: #{ image_path("woman.dark.tn.png").inspect }
+    };
+    checkin_labels = #{ json_escape checkin_labels_as_json.to_json };
+    checkin = React.render(
+      Checkin.Main(#{ json_escape(@checkin.to_json) }),
+      document.getElementById('checkin-main')
+    );

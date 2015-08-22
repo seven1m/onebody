@@ -11,7 +11,7 @@ nl-NL:
     friends: Vrienden
     pending_requests: "Te accepteren vriendschapsverzoeken"
     people_requested: "Je hebt van de volgende personen een vriendschapsverzoek ontvangen."
-    personal_friends: "%{name} vrienden"
+    personal_friends: "Vrienden van %{name}"
     remove_from_friends: "Verwijder uit vrienden"
     request_sent: "Een vriendschapsverzoek is verstuurd naar %{name}."
     search_in_the_directory: "Zoek naar vrienden in de ledenlijst"

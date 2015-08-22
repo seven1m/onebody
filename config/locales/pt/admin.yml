@@ -1,9 +1,12 @@
 ---
 pt:
   admin:
+    actionables:
+      heading: Actionables
+    administration:
+      heading: "Administration & Settings"
     attendance:
       heading: Frequência
-      intro: "Visualizar e exportar registros de frequência."
       button: "Registros de Presença"
     box:
       updates:
@@ -30,13 +33,19 @@ pt:
         text:
           one: "Excluir Pessoa"
           other: "Excluir Pessoas"
+    charts:
+      no_data: "no data yet"
     checkin:
       heading: Check-in
-      intro: "Gerenciar check-in e atribuir cartões."
       cards_assigned: "Cartões de Check-in Atribuídos"
+      dashboard_button: "Check-in Admin"
       button: "Painel de Check-in"
     dashboard:
       heading: "Painel do Administrador"
+      sub_title: "OneBody %{version}"
+      version_alert:
+        intro_html: "Uma nova versão do OneBody está disponível: <a href='%{url}'>%{version}</a>"
+        download_button: "Como Atualizar"
     deleted_people:
       tabs:
         people: "Pessoas Excluídas"
@@ -56,6 +65,8 @@ pt:
         intro: "Os resultados da sua busca são exibidos abaixo."
       undelete:
         button: "Cancelar Exclusão das Pessoas Selecionadas"
+    gatherings:
+      heading: Gatherings
     membership_requests:
       count:
         one: "%{count} pedido"
@@ -194,6 +205,10 @@ pt:
         title: "Executar Relatórios"
         about: "Acessar o Painel de Relatórios."
         order: 18
+      manage_reports:
+        title: "Gerenciar Relatórios"
+        about: "Crie, Edite e Remova Relatórios Customizados."
+        order: 19
     rest_api_information: "Para utilizar uma API REST com Ruby, você precisa fazer isto"
     settings:
       heading: "Configurações do Site"
@@ -230,6 +245,36 @@ pt:
         :
           name: "Enviar Registros de Presença para"
           description: "Email enviado quando alguém envia a presença de um grupo"
+      Pusher:
+        ? "App ID"
+        :
+          name: "App ID"
+          description: "The application ID provided by Pusher."
+        ? "App Key"
+        :
+          name: "App Key"
+          description: "The application key provided by Pusher."
+        Secret:
+          name: Secret
+          description: "The secret provided by Pusher."
+        ? "API Scheme"
+        :
+          name: "API Scheme"
+        ? "API Host"
+        :
+          name: "API Host"
+        ? "API Port"
+        :
+          name: "API Port"
+        ? "WS Host"
+        :
+          name: "WS Host"
+        ? "WS Port"
+        :
+          name: "WS Port"
+        ? "WSS Port"
+        :
+          name: "WSS Port"
       Services:
         Yahoo:
           name: Yahoo
@@ -271,6 +316,10 @@ pt:
         :
           name: "País Padrão"
           description: "Selecione o país padrão para novos registros de família."
+        ? "Map Zoom Level"
+        :
+          name: "Nível de Zoom do Mapa"
+          description: "Selecione o nível de zoom que será usado nos mapas exibidos no site."
       Appearance:
         ? "Public Theme"
         :
@@ -402,6 +451,10 @@ pt:
         Documents:
           name: Documentos
           description: "Se habilitado, administradores podem carregar arquivos em uma área geral na qual os usuários podem procurá-los e baixá-los."
+        ? "Business Directory"
+        :
+          name: "Business Directory"
+          description: "Se habilitado, usuários podem adicionar informações profissionais para ser listado no diretório de negócios da igreja."
         ? "Small Group Size"
         :
           name: "Tamanho máximo de um \"grupo pequeno\""

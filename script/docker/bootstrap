@@ -51,7 +51,7 @@ puts
 
 if migrate
   puts '=> creating database'
-  run "docker run --rm --link onebody-data:db onebody bundle exec rake db:create db:migrate"
+  run "docker run --rm --link onebody-data:db onebody bundle exec rake db:create db:migrate db:seed"
   puts '-> done'
   puts
 end

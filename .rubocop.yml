@@ -12,3 +12,6 @@ StringLiterals:
 
 Style/Documentation:
   Enabled: false
+
+Style/MultilineOperationIndentation:
+  EnforcedStyle: indented

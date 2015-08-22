@@ -1,0 +1,16 @@
+!!!
+%html
+  %head
+    %meta{charset: "UTF-8"}
+    %title
+      OneBody Check-in Printer
+    = stylesheet_link_tag 'application'
+    = stylesheet_link_tag 'checkin-printer'
+    = csrf_meta_tags
+    = render partial: 'layouts/favicons'
+    = yield(:head)
+  %body
+    = yield
+    = javascript_include_tag 'checkin-printer'
+    = yield(:js)
+    = analytics_js

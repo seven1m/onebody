@@ -20,6 +20,7 @@ en:
   for: for
   multiple_files: Your web browser may support multiple file uploads — try selecting multiple files using the Ctrl key (Windows) or Command key (Mac) on your keyboard.
   name: Name
+  new: new
   none: none
   not_authorized: You are not authorized.
   on: on
@@ -69,6 +70,11 @@ en:
       album:
         name: "Name"
         description: "Description"
+      checkin_label:
+        name: "Name"
+        description: "Description"
+        xml: "Label XML"
+        xml_file: "Label XML File"
       document:
         name: "Name"
         description: "Description"
@@ -78,6 +84,8 @@ en:
         name: "Name"
         description: "Description"
         folder_id: "Parent Folder"
+        hidden: "Hide/Archive this folder"
+        groups: "Only share with these groups"
       family:
         address1: "Address Line 1"
         address2: "Address Line 2 (optional)"
@@ -160,6 +168,17 @@ en:
               blank: The attendance record must specify a date and time.
             group_id:
               blank: The attendance record must be associated with a group.
+        checkin_label:
+          attributes:
+            name:
+              blank: "You must enter a name."
+            xml:
+              blank: "You must paste the label XML."
+        checkin_time:
+          attributes:
+            campus:
+              blank: "You must select a campus."
+              exclusion: "You must select a campus."
         document:
           attributes:
             file:
@@ -234,6 +253,8 @@ en:
               taken: There is another group with this email address. Please choose another address.
               too_long: The group email address is too long.
               too_short: The group email address is too short.
+            attendance:
+              invalid: Attendance must be enabled for any group in use by Check-in.
             category:
               blank: The group must specify a category.
             name:

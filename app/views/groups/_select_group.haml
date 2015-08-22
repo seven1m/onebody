@@ -1,6 +1,6 @@
 - @groups.each do |group|
   %label.select-a-group
-    = check_box_tag 'ids[]', group.id, false, style: 'float:left'
+    = check_box_tag 'ids[]', group.id, false, style: 'float:left', data: { name: group.name }
     .category
       = group.category
     .name

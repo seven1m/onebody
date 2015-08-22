@@ -1,9 +1,9 @@
 ---
 ro:
   photos:
-    object_not_found: "Object not found."
-    browse: "Select Photo"
-    remove: "Remove Photo"
+    object_not_found: "Obiectul nu a fost găsit."
+    browse: "Selectează fotografie"
+    remove: "Şterge fotografie."
     unavailable: "Photo unavailable."
     upload:
       button: Upload

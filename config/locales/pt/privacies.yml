@@ -18,13 +18,11 @@ pt:
     child_profile_has_parental_consent: "Este perfil de criança tem o consentimento paterno de %{name}."
     child_under_age_you_have_not_consent: "Esta criança tem menos de %{years} de idade, e você não deu seu consentimento para 1) permitir que suas informações sejam exibidas, e 2) permitir que entrem e utilizem este website."
     click_the_agree: "Clique no botão 'Eu Concordo'."
-    detail: Detalhe
     email: Email
-    family_hidden: "%{your} família está atualmente oculta de todas as páginas deste site!"
+    family_hidden: "Esta família está escondida de todas as páginas deste site!"
     family_privacy: Família
     fax: Fax
     group_privacy: "Privacidade do Grupo"
-    hidden: Oculto
     hide_your_activity: "Esconder suas atividades, se você não quer que amigos e/ou membros do grupo de colegas vejam as suas mensagens públicas, anotações, versículos, etc em sua página inicial. Nota: As mensagens privadas nunca serão exibidas, independentemente desta definição."
     home_phone: "Telefone Residencial"
     i_agree: "Eu Concordo"
@@ -37,14 +35,9 @@ pt:
     read_statement_below: "Leia a declaração abaixo e concordando com ele, marque a caixa de seleção correspondente."
     saved: "Configurações gravadas."
     sharing_with_html: "Compartilhando com <a href=\"%{url}\">%{name}</a>"
-    the_items_are_visible_html: "Os seguintes itens estão visíveis para todos <a href=\"%{url}\">altere aqui</a>:"
-    the_items_may_be_shared: "Os seguintes itens podem ser compartilhados com outros membros de %{name}:"
-    this: este
     to_show_on_this_site: "Para mostrar %{name} neste site, por favor:"
     visible: Visível
     visible_note: "A definição de um perfil para ser invisível fará com que você não apareça em nenhuma pesquisas de diretório. Embora você ainda possa participar de grupos, receber e-mail de grupo e e-mails de administradores do site."
     work_phone: "Telefone Comercial"
-    you_are_not_sharing_with_groups: "Você não está compartilhando seu %{sharing} com nenhum grupo especificamente."
-    you_are_sharing_with_groups: "Você está compartilhando seu %{sharing} com os seguintes grupos:"
     you_may_share_items: "Você pode compartilhar itens com membros dos seguintes grupos:"
     you_must_check_agreement_statement: "Você deve marcar a caixa indicando que você concorda com a declaração abaixo."

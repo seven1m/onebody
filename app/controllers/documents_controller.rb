@@ -1,15 +1,23 @@
 class DocumentsController < ApplicationController
-
-  before_action :get_parent_folder, only: %w(index show new)
+  before_action :find_parent_folder, only: %w(index show new)
   before_action :ensure_admin, except: %w(index show download)
+  before_action :persist_prefs, only: %(index)
 
   def index
-    @folders = (@parent_folder.try(:folders) || DocumentFolder.active.top).order(:name)
+    @folders = (@parent_folder.try(:folders) || DocumentFolder.top).order(:name).includes(:groups)
+    @folders = DocumentFolderAuthorizer.readable_by(@logged_in, @folders)
+    if @logged_in.admin?(:manage_documents)
+      @hidden_folder_count = @folders.hidden.count
+      @restricted_folder_count = @folders.restricted.count('distinct document_folders.id')
+    end
+    @folders = @folders.open unless @show_restricted_folders
+    @folders = @folders.active unless @show_hidden_folders
     @documents = (@parent_folder.try(:documents) || Document.top).order(:name)
   end
 
   def show
     @document = Document.find(params[:id])
+    fail ActiveRecord::RecordNotFound unless @logged_in.can_read?(@document)
   end
 
   def new
@@ -80,20 +88,26 @@ class DocumentsController < ApplicationController
 
   def download
     @document = Document.find(params[:id])
-    send_file @document.file.path,
+    fail ActiveRecord::RecordNotFound unless @logged_in.can_read?(@document)
+    send_file(
+      @document.file.path,
       disposition: params[:inline] ? 'inline' : 'attachment',
       filename: @document.file_file_name,
       type: @document.file.content_type
+    )
   end
 
   private
 
-  def get_parent_folder
-    @parent_folder = params[:folder_id] && DocumentFolder.find(params[:folder_id])
+  def find_parent_folder
+    return if params[:folder_id].blank?
+    @parent_folder = DocumentFolder.find(params[:folder_id])
+    return if @logged_in.admin?(:manage_documents)
+    fail ActiveRecord::RecordNotFound if @parent_folder && !@logged_in.can_read?(@parent_folder)
   end
 
   def folder_params
-    params.require(:folder).permit(:name, :description, :hidden, :folder_id)
+    params.require(:folder).permit(:name, :description, :hidden, :folder_id, group_ids: [])
   end
 
   def document_params
@@ -101,17 +115,21 @@ class DocumentsController < ApplicationController
   end
 
   def feature_enabled?
-    unless Setting.get(:features, :documents)
-      redirect_to people_path
-      false
-    end
+    return if Setting.get(:features, :documents)
+    redirect_to people_path
+    false
   end
 
   def ensure_admin
-    unless @logged_in.admin?(:manage_documents)
-      render text: t('not_authorized'), layout: true
-      false
-    end
+    return if @logged_in.admin?(:manage_documents)
+    render text: t('not_authorized'), layout: true
+    false
   end
 
+  def persist_prefs
+    cookies[:restricted_folders] = params[:restricted_folders] if params[:restricted_folders].present?
+    @show_restricted_folders = !@logged_in.admin?(:manage_documents) || cookies[:restricted_folders] == 'true'
+    cookies[:hidden_folders] = params[:hidden_folders] if params[:hidden_folders].present?
+    @show_hidden_folders = cookies[:hidden_folders] == 'true'
+  end
 end

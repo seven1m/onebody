@@ -138,6 +138,7 @@ class GroupsController < ApplicationController
     @unapproved_groups = Group.unapproved
     @unapproved_groups.where!(creator_id: @logged_in.id) unless @logged_in.admin?(:manage_groups)
     @person = @logged_in
+    record_last_seen_group
     respond_to do |format|
       format.html
       if can_export?
@@ -170,4 +171,9 @@ class GroupsController < ApplicationController
     end
   end
 
+  def record_last_seen_group
+    was = @logged_in.last_seen_group
+    @logged_in.update_attribute(:last_seen_group_id, Group.maximum(:id))
+    @logged_in.last_seen_group = was # so the "new" labels show in the view
+  end
 end

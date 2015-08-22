@@ -51,6 +51,5 @@ class Administration::SettingsController < ApplicationController
 
   def reload_settings
     Site.current.update_attribute(:settings_changed_at, Time.now)
-    expire_fragment(%r{views/})
   end
 end

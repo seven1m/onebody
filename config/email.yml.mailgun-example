@@ -1,0 +1,15 @@
+# Include settings for your email server/mailbox below (you probably only need to edit the "production" settings).
+# Settings here are used to generate your crontab configuration when running the "whenever" command.
+---
+development:
+
+test:
+
+production:
+  smtp:
+    address:   "<%= ENV['MAILGUN_SMTP_SERVER'] %>"
+    port:      "<%= ENV['MAILGUN_SMTP_PORT'] %>"
+    user_name: "<%= ENV['MAILGUN_SMTP_LOGIN'] %>"
+    password:  "<%= ENV['MAILGUN_SMTP_PASSWORD'] %>"
+    domain:    "<%= ENV['MAILGUN_SMTP_DOMAIN'] %>"
+    authentication: plain

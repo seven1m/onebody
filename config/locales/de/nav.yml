@@ -1,7 +1,7 @@
 ---
 de:
   nav:
-    hello: "Hello, %{person}"
+    hello: "Hallo, %{person}"
     admin: Admin
     admin_sub:
       admins: Administratoren
@@ -10,6 +10,7 @@ de:
     checkin: Einchecken
     checkin_sub:
       times: Zeiten
+      labels: Labels
     directory: Verzeichnis
     directory_sub:
       business: Geschäftsverzeichnis

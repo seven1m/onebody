@@ -1,0 +1,19 @@
+---
+de:
+  friends:
+    index:
+      nobody_yet: "Bisher niemand"
+    accept: "Freund akzeptieren"
+    add_friend_are_you_sure: "Bis du sicher? Eine Freudschaftsanfrage wird an diese Person gesendet."
+    add_to_friends: "Add to Friends"
+    add_to_friends_pending: "Add to Friends (pending)"
+    decline: "Decline Friend"
+    friends: Freunde
+    pending_requests: "Ausstehende Freudnschaftsanfragen"
+    people_requested: "The following people have requested to be your friend."
+    personal_friends: "Freunde von %{name}"
+    remove_from_friends: "Aus den Freunden löschen"
+    request_sent: "A friend request has been sent to %{name}."
+    search_in_the_directory: "Search for friends in the directory"
+    you_have_pending_requests: "You have pending friend requests."
+    friends_list_button: "View Friends"

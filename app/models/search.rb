@@ -23,10 +23,10 @@ class Search
       send("#{key}=", val) if respond_to?("#{key}=")
     end
     if source == :person
-      if params[:group_category]
+      if group_category.present?
         @scope = Person.eager_load(:family, :groups) # for left outer join for groups
       else
-         @scope = Person.joins(:family)
+        @scope = Person.joins(:family)
       end
     elsif source == :family
       @scope = Family.includes(:people)
@@ -119,7 +119,7 @@ class Search
   end
 
   def order_by_name!
-    order!('lower(people.last_name), lower(people.first_name)')
+    order!('LOWER(people.last_name), LOWER(people.first_name)')
   end
 
   def parental_consent!

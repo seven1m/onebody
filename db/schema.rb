@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150223015348) do
+ActiveRecord::Schema.define(version: 20150318034613) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20150223015348) do
     t.integer  "site_id",       limit: 4
     t.string   "template_name", limit: 100
     t.text     "flags",         limit: 65535
-    t.boolean  "super_admin",   limit: 1,     default: false
+    t.boolean  "super_admin",                 default: false
   end
 
   add_index "admins", ["site_id"], name: "index_site_id_on_admins", using: :btree
@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 20150223015348) do
     t.integer  "site_id",     limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "is_public",   limit: 1,     default: false
+    t.boolean  "is_public",                 default: false
     t.integer  "owner_id",    limit: 4
     t.string   "owner_type",  limit: 255
   end
@@ -56,25 +56,46 @@ ActiveRecord::Schema.define(version: 20150223015348) do
   end
 
   create_table "attendance_records", force: :cascade do |t|
-    t.integer  "site_id",        limit: 4
-    t.integer  "person_id",      limit: 4
-    t.integer  "group_id",       limit: 4
+    t.integer  "site_id",             limit: 4
+    t.integer  "person_id",           limit: 4
+    t.integer  "group_id",            limit: 4
     t.datetime "attended_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "first_name",     limit: 255
-    t.string   "last_name",      limit: 255
-    t.string   "family_name",    limit: 255
-    t.string   "age",            limit: 255
-    t.string   "can_pick_up",    limit: 100
-    t.string   "cannot_pick_up", limit: 100
-    t.string   "medical_notes",  limit: 200
+    t.string   "first_name",          limit: 255
+    t.string   "last_name",           limit: 255
+    t.string   "family_name",         limit: 255
+    t.string   "age",                 limit: 255
+    t.string   "can_pick_up",         limit: 100
+    t.string   "cannot_pick_up",      limit: 100
+    t.string   "medical_notes",       limit: 200
+    t.integer  "checkin_time_id",     limit: 4
+    t.boolean  "print_extra_nametag"
+    t.string   "barcode_id",          limit: 50
+    t.integer  "label_id",            limit: 4
   end
 
   add_index "attendance_records", ["attended_at"], name: "index_attended_at_on_attendance_records", using: :btree
   add_index "attendance_records", ["group_id"], name: "index_group_id_on_attendance_records", using: :btree
   add_index "attendance_records", ["person_id"], name: "index_person_id_on_attendance_records", using: :btree
   add_index "attendance_records", ["site_id"], name: "index_site_id_on_attendance_records", using: :btree
+
+  create_table "checkin_folders", force: :cascade do |t|
+    t.integer "site_id",         limit: 4
+    t.integer "checkin_time_id", limit: 4
+    t.string  "name",            limit: 255
+    t.integer "sequence",        limit: 4
+    t.boolean "active",                      default: true
+  end
+
+  create_table "checkin_labels", force: :cascade do |t|
+    t.string   "name",        limit: 255
+    t.string   "description", limit: 1000
+    t.text     "xml",         limit: 65535
+    t.integer  "site_id",     limit: 4
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "checkin_times", force: :cascade do |t|
     t.integer  "weekday",      limit: 4
@@ -111,10 +132,19 @@ ActiveRecord::Schema.define(version: 20150223015348) do
     t.string  "filters",  limit: 255
   end
 
+  create_table "document_folder_groups", force: :cascade do |t|
+    t.integer  "document_folder_id", limit: 4
+    t.integer  "group_id",           limit: 4
+    t.datetime "created_at"
+  end
+
+  add_index "document_folder_groups", ["document_folder_id"], name: "index_document_folder_groups_on_document_folder_id", using: :btree
+  add_index "document_folder_groups", ["group_id"], name: "index_document_folder_groups_on_group_id", using: :btree
+
   create_table "document_folders", force: :cascade do |t|
     t.string   "name",              limit: 255
     t.string   "description",       limit: 1000
-    t.boolean  "hidden",            limit: 1,    default: false
+    t.boolean  "hidden",                         default: false
     t.integer  "folder_id",         limit: 4
     t.string   "parent_folder_ids", limit: 1000
     t.string   "path",              limit: 1000
@@ -152,12 +182,12 @@ ActiveRecord::Schema.define(version: 20150223015348) do
     t.float    "latitude",             limit: 24
     t.float    "longitude",            limit: 24
     t.datetime "updated_at"
-    t.boolean  "visible",              limit: 1,   default: true
+    t.boolean  "visible",                          default: true
     t.integer  "site_id",              limit: 4
-    t.boolean  "deleted",              limit: 1,   default: false, null: false
+    t.boolean  "deleted",                          default: false, null: false
     t.string   "barcode_id",           limit: 50
     t.datetime "barcode_assigned_at"
-    t.boolean  "barcode_id_changed",   limit: 1,   default: false
+    t.boolean  "barcode_id_changed",               default: false
     t.string   "alternate_barcode_id", limit: 50
     t.string   "photo_file_name",      limit: 255
     t.string   "photo_content_type",   limit: 255
@@ -172,7 +202,7 @@ ActiveRecord::Schema.define(version: 20150223015348) do
   create_table "friendship_requests", force: :cascade do |t|
     t.integer  "person_id",  limit: 4
     t.integer  "from_id",    limit: 4
-    t.boolean  "rejected",   limit: 1, default: false
+    t.boolean  "rejected",             default: false
     t.datetime "created_at"
     t.integer  "site_id",    limit: 4
   end
@@ -206,13 +236,14 @@ ActiveRecord::Schema.define(version: 20150223015348) do
   create_table "group_times", force: :cascade do |t|
     t.integer  "group_id",            limit: 4
     t.integer  "checkin_time_id",     limit: 4
-    t.boolean  "print_nametag",       limit: 1,   default: false
-    t.integer  "ordering",            limit: 4
+    t.integer  "sequence",            limit: 4
     t.integer  "site_id",             limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "section",             limit: 100
-    t.boolean  "print_extra_nametag", limit: 1,   default: false
+    t.boolean  "print_extra_nametag",             default: false
+    t.integer  "checkin_folder_id",   limit: 4
+    t.integer  "label_id",            limit: 4
   end
 
   create_table "groups", force: :cascade do |t|
@@ -224,24 +255,24 @@ ActiveRecord::Schema.define(version: 20150223015348) do
     t.text     "other_notes",               limit: 65535
     t.string   "category",                  limit: 50
     t.integer  "creator_id",                limit: 4
-    t.boolean  "private",                   limit: 1,     default: false
+    t.boolean  "private",                                 default: false
     t.string   "address",                   limit: 255
-    t.boolean  "members_send",              limit: 1,     default: true
+    t.boolean  "members_send",                            default: true
     t.integer  "leader_id",                 limit: 4
     t.datetime "updated_at"
-    t.boolean  "hidden",                    limit: 1,     default: false
-    t.boolean  "approved",                  limit: 1,     default: false
+    t.boolean  "hidden",                                  default: false
+    t.boolean  "approved",                                default: false
     t.string   "link_code",                 limit: 255
     t.integer  "parents_of",                limit: 4
     t.integer  "site_id",                   limit: 4
-    t.boolean  "blog",                      limit: 1,     default: true
-    t.boolean  "email",                     limit: 1,     default: true
-    t.boolean  "prayer",                    limit: 1,     default: true
-    t.boolean  "attendance",                limit: 1,     default: true
+    t.boolean  "blog",                                    default: true
+    t.boolean  "email",                                   default: true
+    t.boolean  "prayer",                                  default: true
+    t.boolean  "attendance",                              default: true
     t.integer  "legacy_id",                 limit: 4
     t.string   "gcal_private_link",         limit: 255
-    t.boolean  "approval_required_to_join", limit: 1,     default: true
-    t.boolean  "pictures",                  limit: 1,     default: true
+    t.boolean  "approval_required_to_join",               default: true
+    t.boolean  "pictures",                                default: true
     t.string   "cm_api_list_id",            limit: 50
     t.string   "photo_file_name",           limit: 255
     t.string   "photo_content_type",        limit: 255
@@ -252,7 +283,7 @@ ActiveRecord::Schema.define(version: 20150223015348) do
     t.float    "latitude",                  limit: 24
     t.float    "longitude",                 limit: 24
     t.string   "membership_mode",           limit: 10,    default: "manual"
-    t.boolean  "has_tasks",                 limit: 1,     default: false
+    t.boolean  "has_tasks",                               default: false
     t.string   "share_token",               limit: 50
   end
 
@@ -310,21 +341,21 @@ ActiveRecord::Schema.define(version: 20150223015348) do
   create_table "memberships", force: :cascade do |t|
     t.integer  "group_id",           limit: 4
     t.integer  "person_id",          limit: 4
-    t.boolean  "admin",              limit: 1,     default: false
-    t.boolean  "get_email",          limit: 1,     default: true
-    t.boolean  "share_address",      limit: 1,     default: false
-    t.boolean  "share_mobile_phone", limit: 1,     default: false
-    t.boolean  "share_work_phone",   limit: 1,     default: false
-    t.boolean  "share_fax",          limit: 1,     default: false
-    t.boolean  "share_email",        limit: 1,     default: false
-    t.boolean  "share_birthday",     limit: 1,     default: false
-    t.boolean  "share_anniversary",  limit: 1,     default: false
+    t.boolean  "admin",                            default: false
+    t.boolean  "get_email",                        default: true
+    t.boolean  "share_address",                    default: false
+    t.boolean  "share_mobile_phone",               default: false
+    t.boolean  "share_work_phone",                 default: false
+    t.boolean  "share_fax",                        default: false
+    t.boolean  "share_email",                      default: false
+    t.boolean  "share_birthday",                   default: false
+    t.boolean  "share_anniversary",                default: false
     t.datetime "updated_at"
     t.integer  "code",               limit: 4
     t.integer  "site_id",            limit: 4
     t.integer  "legacy_id",          limit: 4
-    t.boolean  "share_home_phone",   limit: 1,     default: false
-    t.boolean  "auto",               limit: 1,     default: false
+    t.boolean  "share_home_phone",                 default: false
+    t.boolean  "auto",                             default: false
     t.datetime "created_at"
     t.text     "roles",              limit: 65535
   end
@@ -341,7 +372,7 @@ ActiveRecord::Schema.define(version: 20150223015348) do
     t.integer  "parent_id",    limit: 4
     t.string   "subject",      limit: 255
     t.text     "body",         limit: 65535
-    t.boolean  "share_email",  limit: 1,     default: false
+    t.boolean  "share_email",                default: false
     t.integer  "code",         limit: 4
     t.integer  "site_id",      limit: 4
     t.text     "html_body",    limit: 65535
@@ -354,7 +385,7 @@ ActiveRecord::Schema.define(version: 20150223015348) do
     t.string   "link",       limit: 255
     t.text     "body",       limit: 65535
     t.datetime "published"
-    t.boolean  "active",     limit: 1,     default: true
+    t.boolean  "active",                   default: true
     t.integer  "site_id",    limit: 4
     t.string   "source",     limit: 255
     t.integer  "person_id",  limit: 4
@@ -370,13 +401,13 @@ ActiveRecord::Schema.define(version: 20150223015348) do
     t.text     "body",       limit: 65535
     t.integer  "parent_id",  limit: 4
     t.string   "path",       limit: 255
-    t.boolean  "published",  limit: 1,     default: true
+    t.boolean  "published",                default: true
     t.integer  "site_id",    limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "navigation", limit: 1,     default: true
-    t.boolean  "system",     limit: 1,     default: false
-    t.boolean  "raw",        limit: 1,     default: false
+    t.boolean  "navigation",               default: true
+    t.boolean  "system",                   default: false
+    t.boolean  "raw",                      default: false
   end
 
   add_index "pages", ["parent_id"], name: "index_pages_on_parent_id", using: :btree
@@ -395,7 +426,7 @@ ActiveRecord::Schema.define(version: 20150223015348) do
     t.string   "fax",                          limit: 25
     t.datetime "birthday"
     t.string   "email",                        limit: 255
-    t.boolean  "email_changed",                limit: 1,     default: false
+    t.boolean  "email_changed",                              default: false
     t.string   "website",                      limit: 255
     t.text     "classes",                      limit: 65535
     t.string   "shepherd",                     limit: 255
@@ -408,41 +439,41 @@ ActiveRecord::Schema.define(version: 20150223015348) do
     t.string   "business_website",             limit: 255
     t.text     "about",                        limit: 65535
     t.text     "testimony",                    limit: 65535
-    t.boolean  "share_mobile_phone",           limit: 1,     default: false
-    t.boolean  "share_work_phone",             limit: 1,     default: false
-    t.boolean  "share_fax",                    limit: 1,     default: false
-    t.boolean  "share_email",                  limit: 1,     default: false
-    t.boolean  "share_birthday",               limit: 1,     default: true
+    t.boolean  "share_mobile_phone",                         default: false
+    t.boolean  "share_work_phone",                           default: false
+    t.boolean  "share_fax",                                  default: false
+    t.boolean  "share_email",                                default: false
+    t.boolean  "share_birthday",                             default: true
     t.datetime "anniversary"
     t.datetime "updated_at"
     t.string   "alternate_email",              limit: 255
     t.integer  "email_bounces",                limit: 4,     default: 0
     t.string   "business_category",            limit: 100
-    t.boolean  "account_frozen",               limit: 1,     default: false
-    t.boolean  "messages_enabled",             limit: 1,     default: true
+    t.boolean  "account_frozen",                             default: false
+    t.boolean  "messages_enabled",                           default: true
     t.string   "business_address",             limit: 255
     t.string   "flags",                        limit: 255
-    t.boolean  "visible",                      limit: 1,     default: true
+    t.boolean  "visible",                                    default: true
     t.string   "parental_consent",             limit: 255
     t.integer  "admin_id",                     limit: 4
-    t.boolean  "friends_enabled",              limit: 1,     default: true
-    t.boolean  "member",                       limit: 1,     default: false
-    t.boolean  "staff",                        limit: 1,     default: false
-    t.boolean  "elder",                        limit: 1,     default: false
-    t.boolean  "deacon",                       limit: 1,     default: false
-    t.boolean  "can_sign_in",                  limit: 1,     default: false
-    t.boolean  "visible_to_everyone",          limit: 1,     default: false
-    t.boolean  "visible_on_printed_directory", limit: 1,     default: false
-    t.boolean  "full_access",                  limit: 1,     default: false
+    t.boolean  "friends_enabled",                            default: true
+    t.boolean  "member",                                     default: false
+    t.boolean  "staff",                                      default: false
+    t.boolean  "elder",                                      default: false
+    t.boolean  "deacon",                                     default: false
+    t.boolean  "can_sign_in",                                default: false
+    t.boolean  "visible_to_everyone",                        default: false
+    t.boolean  "visible_on_printed_directory",               default: false
+    t.boolean  "full_access",                                default: false
     t.integer  "legacy_family_id",             limit: 4
     t.string   "feed_code",                    limit: 50
-    t.boolean  "share_activity",               limit: 1,     default: true
+    t.boolean  "share_activity",                             default: true
     t.integer  "site_id",                      limit: 4
     t.string   "twitter_account",              limit: 100
     t.string   "api_key",                      limit: 50
     t.string   "salt",                         limit: 50
-    t.boolean  "deleted",                      limit: 1,     default: false, null: false
-    t.boolean  "child",                        limit: 1
+    t.boolean  "deleted",                                    default: false, null: false
+    t.boolean  "child"
     t.string   "custom_type",                  limit: 100
     t.text     "custom_fields",                limit: 65535
     t.string   "can_pick_up",                  limit: 100
@@ -455,16 +486,18 @@ ActiveRecord::Schema.define(version: 20150223015348) do
     t.integer  "photo_file_size",              limit: 4
     t.datetime "photo_updated_at"
     t.string   "description",                  limit: 25
-    t.boolean  "share_anniversary",            limit: 1,     default: true
-    t.boolean  "share_address",                limit: 1,     default: true
-    t.boolean  "share_home_phone",             limit: 1,     default: true
+    t.boolean  "share_anniversary",                          default: true
+    t.boolean  "share_address",                              default: true
+    t.boolean  "share_home_phone",                           default: true
     t.string   "password_hash",                limit: 255
     t.string   "password_salt",                limit: 255
     t.datetime "created_at"
     t.string   "facebook_url",                 limit: 255
     t.string   "twitter",                      limit: 15
     t.integer  "incomplete_tasks_count",       limit: 4,     default: 0
-    t.boolean  "primary_emailer",              limit: 1
+    t.boolean  "primary_emailer"
+    t.integer  "last_seen_stream_item_id",     limit: 4
+    t.integer  "last_seen_group_id",           limit: 4
   end
 
   add_index "people", ["admin_id"], name: "index_admin_id_on_people", using: :btree
@@ -481,7 +514,7 @@ ActiveRecord::Schema.define(version: 20150223015348) do
   create_table "pictures", force: :cascade do |t|
     t.integer  "person_id",          limit: 4
     t.datetime "created_at"
-    t.boolean  "cover",              limit: 1,    default: false
+    t.boolean  "cover",                           default: false
     t.datetime "updated_at"
     t.integer  "site_id",            limit: 4
     t.integer  "album_id",           limit: 4
@@ -510,7 +543,7 @@ ActiveRecord::Schema.define(version: 20150223015348) do
     t.integer  "person_id",  limit: 4
     t.datetime "start"
     t.datetime "created_at"
-    t.boolean  "reminded",   limit: 1,   default: false
+    t.boolean  "reminded",               default: false
     t.string   "other_name", limit: 100
     t.integer  "site_id",    limit: 4
   end
@@ -555,7 +588,7 @@ ActiveRecord::Schema.define(version: 20150223015348) do
     t.integer  "site_id",        limit: 4
     t.string   "name",           limit: 255
     t.text     "definition",     limit: 65535
-    t.boolean  "restricted",     limit: 1,     default: true
+    t.boolean  "restricted",                   default: true
     t.integer  "created_by_id",  limit: 4
     t.integer  "run_count",      limit: 4,     default: 0
     t.datetime "last_run_at"
@@ -594,11 +627,11 @@ ActiveRecord::Schema.define(version: 20150223015348) do
     t.string   "format",      limit: 20
     t.string   "value",       limit: 500
     t.string   "description", limit: 500
-    t.boolean  "hidden",      limit: 1,   default: false
+    t.boolean  "hidden",                  default: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "site_id",     limit: 4
-    t.boolean  "global",      limit: 1,   default: false
+    t.boolean  "global",                  default: false
   end
 
   create_table "signin_failures", force: :cascade do |t|
@@ -616,12 +649,12 @@ ActiveRecord::Schema.define(version: 20150223015348) do
     t.integer  "max_admins",            limit: 4
     t.integer  "max_people",            limit: 4
     t.integer  "max_groups",            limit: 4
-    t.boolean  "import_export_enabled", limit: 1,   default: true
-    t.boolean  "pages_enabled",         limit: 1,   default: true
-    t.boolean  "pictures_enabled",      limit: 1,   default: true
-    t.boolean  "publications_enabled",  limit: 1,   default: true
-    t.boolean  "active",                limit: 1,   default: true
-    t.boolean  "twitter_enabled",       limit: 1,   default: false
+    t.boolean  "import_export_enabled",             default: true
+    t.boolean  "pages_enabled",                     default: true
+    t.boolean  "pictures_enabled",                  default: true
+    t.boolean  "publications_enabled",              default: true
+    t.boolean  "active",                            default: true
+    t.boolean  "twitter_enabled",                   default: false
     t.string   "external_guid",         limit: 255, default: "0"
     t.datetime "settings_changed_at"
     t.string   "logo_file_name",        limit: 255
@@ -635,20 +668,20 @@ ActiveRecord::Schema.define(version: 20150223015348) do
   add_index "sites", ["host"], name: "index_sites_on_host", using: :btree
 
   create_table "stream_items", force: :cascade do |t|
-    t.integer  "site_id",         limit: 4
-    t.string   "title",           limit: 500
-    t.text     "body",            limit: 65535
-    t.text     "context",         limit: 65535
-    t.integer  "person_id",       limit: 4
-    t.integer  "group_id",        limit: 4
-    t.integer  "streamable_id",   limit: 4
-    t.string   "streamable_type", limit: 255
+    t.integer  "site_id",              limit: 4
+    t.string   "title",                limit: 500
+    t.text     "body",                 limit: 65535
+    t.text     "context",              limit: 65535
+    t.integer  "person_id",            limit: 4
+    t.integer  "group_id",             limit: 4
+    t.integer  "streamable_id",        limit: 4
+    t.string   "streamable_type",      limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "shared",          limit: 1
-    t.boolean  "text",            limit: 1,     default: false
-    t.boolean  "is_public",       limit: 1
-    t.boolean  "false",           limit: 1
+    t.boolean  "shared"
+    t.boolean  "text",                               default: false
+    t.boolean  "is_public"
+    t.integer  "stream_item_group_id", limit: 4
   end
 
   add_index "stream_items", ["created_at"], name: "index_stream_items_on_created_at", using: :btree
@@ -674,7 +707,7 @@ ActiveRecord::Schema.define(version: 20150223015348) do
   create_table "syncs", force: :cascade do |t|
     t.integer  "site_id",       limit: 4
     t.integer  "person_id",     limit: 4
-    t.boolean  "complete",      limit: 1, default: false
+    t.boolean  "complete",                default: false
     t.integer  "success_count", limit: 4
     t.integer  "error_count",   limit: 4
     t.datetime "created_at"
@@ -702,7 +735,7 @@ ActiveRecord::Schema.define(version: 20150223015348) do
   create_table "tasks", force: :cascade do |t|
     t.string   "name",        limit: 255
     t.text     "description", limit: 65535
-    t.boolean  "completed",   limit: 1,     default: false
+    t.boolean  "completed",                 default: false
     t.date     "duedate"
     t.integer  "group_id",    limit: 4
     t.integer  "person_id",   limit: 4
@@ -726,7 +759,7 @@ ActiveRecord::Schema.define(version: 20150223015348) do
   create_table "updates", force: :cascade do |t|
     t.integer  "person_id",  limit: 4
     t.datetime "created_at"
-    t.boolean  "complete",   limit: 1,     default: false
+    t.boolean  "complete",                 default: false
     t.integer  "site_id",    limit: 4
     t.text     "data",       limit: 65535
     t.text     "diff",       limit: 65535
@@ -739,7 +772,7 @@ ActiveRecord::Schema.define(version: 20150223015348) do
     t.string   "email",        limit: 255
     t.string   "mobile_phone", limit: 25
     t.integer  "code",         limit: 4
-    t.boolean  "verified",     limit: 1
+    t.boolean  "verified"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "site_id",      limit: 4

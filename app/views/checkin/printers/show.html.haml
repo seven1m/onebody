@@ -1,0 +1,55 @@
+.row
+  .col-md-6.col-md-offset-3
+    %h1 OneBody Check-in Printer
+
+    = form_tag nil, method: 'put', class: 'form-inline' do
+      %table.table
+        %tr
+          %td
+            %label version:
+          %td= OneBody.current_version
+        %tr
+          %td
+            %label status:
+          %td#status.connecting connecting...
+        %tr
+          %td
+            %label printer name:
+          %td
+            .form-group
+              = text_field_tag :printer_name, @printer[:name], class: 'form-control'
+              = button_tag 'Save', class: 'btn btn-primary'
+        - if @printer[:id]
+          %tr
+            %td
+              %label printer id:
+            %td
+              %code= @printer[:id]
+          %tr
+            %td
+              %label how to use:
+            %td
+              To send labels to this printer from a check-in station, use the following URL:
+              %br
+              %code
+                == #{request.protocol}#{request.host_with_port}/checkin?printer=#{@printer[:id]}
+          %tr
+            %td
+              %label print count:
+            %td#print-count
+              0
+          %tr
+            %td
+              %label print log:
+            %td#print-log.checkin-print-log
+              %em none
+
+:javascript
+  checkin_labels = #{ json_escape checkin_labels_as_json.to_json };
+  pusher_config = {
+    app:     #{ json_escape Setting.get(:pusher, :app_key).to_json },
+    wsHost:  #{ json_escape Setting.get(:pusher, :ws_host).to_json },
+    wsPort:  #{ json_escape Setting.get(:pusher, :ws_port).to_json },
+    wssPort: #{ json_escape Setting.get(:pusher, :wss_port).to_json }
+  };
+  printer_id = #{ json_escape @printer[:id].to_json };

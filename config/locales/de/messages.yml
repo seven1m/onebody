@@ -11,7 +11,7 @@ de:
       description_html: "Das wird eine EMail an jedes Mitglied von %{group} senden."
     sent_at_html: "gesendet am %{when} von %{who}"
     sent_to_html: "zu %{who}"
-    read_more: "Mehr lesen"
+    read_more: Weiterlesen
     delete:
       button: Löschen
     in_reply_to_html: "Eine Antwort auf %{message}"
@@ -19,6 +19,18 @@ de:
       heading: Antworten
     reply_all:
       button: "Antworte auf diese Nachricht. (Sende an die ganze Gruppe)"
+    email:
+      reply_to_sender: "Klicke auf \"Antworten\" um eine Nachricht an %{person} zu senden."
+      reply_to_group: "Klick auf \"Allen Antworten\" um eine Nachricht an die Gruppe %{group} zu senden, oder an %{address} zu senden."
+      group_link: "Gruppenseite : %{url}"
+      reply_link: "Um zu antworten, gehe zu %{url}"
+      disable_group_email: |-
+          Um die Emails von diese Gruppe anzubestellen:
+          %{url}
+      disable_all_email: |-
+          Um diese Email auszuschalten, gehe zu deiner Datenschutzseite
+          %{url}
+    do_not_reply: "BITTE NICHT ANTWORTEN"
     ago: vergangen
     attachment_optional: "Anhang (optional)"
     attachments: Anhänge
@@ -33,7 +45,7 @@ de:
     not_found: "Nachricht nicht gefunden"
     posted_by: "gepostet von"
     send_message: "Nachricht senden"
-    sent: "Deine Nachricht wurde gesendent"
+    sent: "Deine Nachricht wurde gesendet"
     show_quoted_content: "Zeige zitierten Inhalt."
     some_quoted_text_is_hidden: "Zitierte Inhalte werden gerade nicht angezeigt."
     subject: Betreff

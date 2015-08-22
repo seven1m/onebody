@@ -1,0 +1,24 @@
+this.Checkin ?= {}
+
+{div, ul, li, i} = React.DOM
+
+Checkin.AddGuestLink = React.createFactory React.createClass
+
+  displayName: 'AddGuestLink'
+
+  render: ->
+    ul
+      className: 'list-unstyled'
+      li {},
+        div
+          className: React.addons.classSet
+            'clickable btn checkin-btn': true
+            'active': @props.active
+          onClick: @props.onClick
+          div
+            className: 'pull-right'
+            i
+              className: 'fa fa-chevron-right'
+          i
+            className: 'fa fa-plus'
+          " <%= I18n.t('checkin.interface.add_guest.button') %>"

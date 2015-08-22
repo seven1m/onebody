@@ -29,7 +29,7 @@ nl-NL:
       table:
         home_phone: Telefoon
         address: Adres
-        anniversary: Jubileum
+        anniversary: Trouwdatum
     name:
       same_last_name: "%{adult1_fname} & %{adult2_fname} %{adult1_lname}"
       different_last_names: "%{adult1_name} & %{adult2_name}"

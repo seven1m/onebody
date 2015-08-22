@@ -19,6 +19,18 @@ ro:
       heading: Răspunsuri
     reply_all:
       button: "Răspunde la acest mesaj (trimis întregului grup)"
+    email:
+      reply_to_sender: "Hit \"Reply\" to send a message to %{person}."
+      reply_to_group: "Hit \"Reply to All\" to send a message to the group %{group}, or send to %{address}."
+      group_link: "Group page: %{url}"
+      reply_link: "To reply, go to: %{url}"
+      disable_group_email: |-
+          To stop email from this group:
+          %{url}
+      disable_all_email: |-
+          To stop these emails, go to your privacy page:
+          %{url}
+    do_not_reply: "DO NOT REPLY"
     ago: ago
     attachment_optional: "Ataşament (opţional)"
     attachments: Ataşamente

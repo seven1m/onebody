@@ -1,30 +1,46 @@
 class StreamItemDecorator < Draper::Decorator
-
   MAX_BODY_SIZE = 250
   MAX_PICTURES = 10
-
-  # TODO i18n
 
   delegate_all
 
   def publishable?
-    shared? and not (streamable_type == 'Message' and group_id.nil?)
+    shared? && !(streamable_type == 'Message' && group_id.nil?)
   end
 
-  def to_html(options={})
+  def to_html(options = {})
     return unless publishable?
-    @first = options.delete(:first)
     h.content_tag(:li) do
-      icon +
-      h.content_tag(:div, class: 'timeline-item') do
-        h.content_tag(:span, class: 'time') do
-          h.icon('fa fa-clock-o') + ' ' + created_at.to_s(:time)
-        end +
-        header +
-        body +
-        footer
+      if streamable_type == 'StreamItemGroup'
+        group_content
+      else
+        icon +
+        h.content_tag(:div, class: 'timeline-item') do
+          h.content_tag(:span, class: 'time') do
+            h.icon('fa fa-clock-o') + ' ' + created_at.to_s(:time) +
+              (new? ? new_badge : '')
+          end +
+          header +
+          body +
+          footer
+        end
       end
     end.html_safe
+  end
+
+  def group_content
+    url = h.stream_url(format: :json, stream_item_group_id: id)
+    h.content_tag(:div, class: 'timeline-item') do
+      h.content_tag(:div, class: "timeline-body #{streamable_css_class}") do
+        I18n.t(
+          "#{object.context.fetch(:streamable_type, '').underscore}.description",
+          scope: 'stream.body.stream_item_group',
+          count: items.count,
+          default: ''
+        ).html_safe +
+        footer(class: 'timeline-group-load-more', data: { 'group-url' => url })
+      end
+    end
   end
 
   def icon
@@ -57,9 +73,18 @@ class StreamItemDecorator < Draper::Decorator
       end
       case streamable_type
       when 'Album'
-        args = { who: who, count: Array(object.context['picture_ids']).length, album: h.link_to(title, h.album_path(streamable_id)) }
+        args = {
+          who: who,
+          count: Array(object.context['picture_ids']).length,
+          album: h.link_to(title, h.album_path(streamable_id))
+        }
         if streamable.group
-          I18n.t('stream.header.picture_in_group', args.merge(group: h.link_to(streamable.group.name, streamable.group))).html_safe
+          I18n.t(
+            'stream.header.picture_in_group',
+            args.merge(
+              group: h.link_to(streamable.group.name, streamable.group)
+            )
+          ).html_safe
         else
           I18n.t('stream.header.picture', args).html_safe
         end
@@ -85,11 +110,11 @@ class StreamItemDecorator < Draper::Decorator
     h.content_tag(:div, class: "timeline-body #{streamable_css_class}") do
       if streamable_type == 'Message'
         h.truncate_html(h.render_message_body(object), length: MAX_BODY_SIZE)
-      elsif streamable_type == 'Person' and streamable
+      elsif streamable_type == 'Person' && streamable
         h.link_to streamable, class: 'btn btn-info' do
           I18n.t('stream.body.person.button', person: streamable.name)
         end
-      elsif streamable_type == 'PrayerRequest' and streamable
+      elsif streamable_type == 'PrayerRequest' && streamable
         h.preserve_breaks(object.body).tap do |html|
           if streamable.answer.present?
             html << h.content_tag(:div, class: 'prayer-answer') do
@@ -110,7 +135,7 @@ class StreamItemDecorator < Draper::Decorator
         pics.map do |picture_id, fingerprint, extension|
           url = Picture.photo_url_from_parts(picture_id, fingerprint, extension, :small)
           h.link_to(
-            h.image_tag(url, alt: I18n.t('stream.body.picture.alt'), class: "timeline-pic #{'small'}"),
+            h.image_tag(url, alt: I18n.t('stream.body.picture.alt'), class: 'timeline-pic small'),
             h.album_picture_path(streamable_id, picture_id),
             title: I18n.t('stream.body.picture.alt')
           )
@@ -121,10 +146,20 @@ class StreamItemDecorator < Draper::Decorator
     end
   end
 
-  def footer
+  def footer(options = {})
+    label = I18n.t(
+      streamable_type.underscore,
+      scope: 'stream.footer.button_label',
+      default: I18n.t('stream.footer.button_label.default')
+    )
+    return if label.blank?
     h.content_tag(:div, class: 'timeline-footer') do
-      label = I18n.t(streamable_type.downcase, scope: 'stream.footer.button_label', default: 'Read more')
-      h.link_to label, path, class: 'btn btn-primary btn-xs' if label.present?
+      h.link_to(
+        label,
+        path,
+        class: "btn btn-primary btn-xs #{options[:class]}",
+        data: options[:data]
+      )
     end
   end
 
@@ -134,8 +169,6 @@ class StreamItemDecorator < Draper::Decorator
       h.send(streamable_type.underscore + '_path', streamable_id)
     when 'Site'
       ''
-    # when 'PrayerRequest'
-      # FIXME
     else
       streamable
     end
@@ -145,4 +178,12 @@ class StreamItemDecorator < Draper::Decorator
     "streamable-#{streamable_type.underscore.dasherize}"
   end
 
+  def new?
+    return false unless h.current_user.last_seen_stream_item
+    created_at > h.current_user.last_seen_stream_item.created_at
+  end
+
+  def new_badge
+    h.content_tag(:small, h.t('new'), class: 'badge bg-green')
+  end
 end

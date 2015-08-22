@@ -29,14 +29,21 @@ en:
         button: "Say hello to %{person}!"
       site:
         description: "Community site for %{site} was created!"
+      stream_item_group:
+        person:
+          description:
+            one: "1 more person was added..."
+            other: "%{count} more people were added..."
 
     footer:
       button_label:
+        default: "Read more"
         album: "Show all"
         note: "Read more"
         verse: "Read more"
         person: ""
         site: ""
+        stream_item_group: "Show all"
 
     load_more: "load more..."
 

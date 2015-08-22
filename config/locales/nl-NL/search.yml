@@ -13,7 +13,7 @@ nl-NL:
       name: "Zoeken op naam"
       advanced: "Uitgebreid zoeken"
       birthday: Verjaardag
-      anniversary: Jubileum
+      anniversary: Trouwdatum
       gender: Geslacht
       genders:
         Male: Man
@@ -24,6 +24,10 @@ nl-NL:
       phone: Telefoon
       email: "E-mail adres"
       type: Lidmaatschap
+      group_membership: "Group Membership"
+      in_group: includes
+      not_in_group: "does not include"
+      group_membership_text: "group with category"
       types:
         member: Lid
         staff: Staff
@@ -48,3 +52,4 @@ nl-NL:
     search_by_name: "Zoek op naam"
     show_hidden: "Toon verborgen personen"
     staff: Werknemer
+    directory_map: "Directory Map"

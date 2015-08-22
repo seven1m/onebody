@@ -15,6 +15,8 @@ pt:
       heading: Configuração
     assigned_cards:
       button: "Cartões Atribuídos"
+    scan:
+      unknown_card: "card not found"
     cards:
       heading: "Cartões de Check-in Atribuídos"
       table:
@@ -27,22 +29,53 @@ pt:
         button: "Exportar para um Arquivo"
       none: "nenhum registro para exibir"
     groups:
+      movement_help_html: |
+          <p>
+            To move a check-in group into or out of a folder, first expand the folder, then click the
+            <i class="up"></i> or <i class="down"></i> button.
+          </p>
+          <p>
+            To jump a group all the way to the top or bottom,
+            hold <span class="highlight">shift</span> while clicking
+            <i class="up"></i> or <i class="down"></i>.
+          </p>
       heading: "Check-in em Grupos"
-      table:
-        group: Grupo
       index:
         heading: "%{time} no %{campus}"
+        add_folder:
+          button: "Add Folder"
+          heading: "Add a folder"
+          name: "Folder Name"
         add_group:
           heading: "Adicionar um destino (grupo)"
           search: "Buscar pelo nome"
+          select_folder:
+            label: "Select folder"
+            none: (none)
           button: "Adicionar Grupo"
         table:
-          group: "Destino (nome do grupo)"
-          print_nametag: "Imprimir Etiqueta de Nome"
+          name: Name
+          label_id: "Label (Nametag)"
           print_extra_nametag: "Etiqueta de Nome Adicional"
           section: Seção
       section:
         new: "[nova seção]"
+      table:
+        group: Grupo
+    labels:
+      button: "Labels Setup"
+      edit:
+        heading: "Edit Check-in Label"
+      delete:
+        notice: "Label deleted."
+      heading: "Check-in Labels"
+      new:
+        button: "New Label"
+        heading: "Edit Check-in Label"
+      table:
+        name: Name
+        description: Description
+        updated_at: Updated
     times:
       button: Configuração
       heading: "Horários de Check-in"
@@ -57,11 +90,15 @@ pt:
             other: "%{count} destinos"
       edit:
         button: editar
-        heading: "Editar Horário de Check-in"
         campus:
           new: "[novo campus]"
+        delete:
+          button: delete
+        heading: "Editar Horário de Check-in"
         save:
           button: "Salvar Alterações"
+      groups:
+        button: groups
       recurring:
         heading: "Horários Recorrentes"
         new:
@@ -106,3 +143,23 @@ pt:
         no_people: "Você precisa inserir pelo menos uma pessoa."
         no_parents: "Você precisa inserir pelo menos um pai ou mãe."
         no_barcode: "Por favor, passe o campo no final do cartão no leitor."
+    interface:
+      add_guest:
+        heading: "Add a Guest"
+        intro: "Type the full name of your guest in the field below."
+        button: "Add a guest"
+        save: Save
+      barcode:
+        placeholder: "Scan Your Card"
+      cancel:
+        button: cancel
+      heading: "Check In"
+      not_attending: "not attending"
+      print:
+        heading: "After making your selections..."
+        button: "Print Tags"
+      run_setup:
+        intro: "You must first set up your check-in times and destinations."
+        button: Setup
+      same_as_last_week:
+        button: "Choose same as last week"

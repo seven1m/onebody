@@ -44,6 +44,8 @@ class Person < ActiveRecord::Base
   has_many :generated_files
   has_many :tasks
   belongs_to :site
+  belongs_to :last_seen_stream_item, class_name: 'StreamItem'
+  belongs_to :last_seen_group, class_name: 'Group'
 
   scope_by_site_id
 
@@ -235,6 +237,12 @@ class Person < ActiveRecord::Base
     self.visible_to_everyone = true
     self.visible_on_printed_directory = true
     self.full_access = true
+  end
+
+  def record_last_seen_stream_item(stream_item)
+    return unless stream_item
+    return if stream_item.created_at <= (last_seen_stream_item.try(:created_at) || Time.now)
+    update_attribute(:last_seen_stream_item, stream_item)
   end
 
   def self.new_with_default_sharing(attrs)

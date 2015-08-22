@@ -45,8 +45,8 @@ OneBody::Application.routes.draw do
     end
     resource :stream
     resource :photo
-    resources :groups, :pictures, :groupies, :services, :albums, :verses
-    resource :privacy, :blog, :calendar
+    resources :groups, :pictures, :services, :albums, :verses
+    resource :privacy
   end
 
   resources :families do
@@ -96,7 +96,7 @@ OneBody::Application.routes.draw do
     end
     resource :stream
     resource :photo
-    resources :prayer_requests, :albums, :attachments
+    resources :prayer_requests, :albums
     resource :calendar
   end
 
@@ -141,7 +141,7 @@ OneBody::Application.routes.draw do
     get 'search', on: :collection
   end
 
-  resource :setup, :session, :search, :printable_directory, :privacy
+  resource :setup, :session, :search, :printable_directory
 
   resource :stream do
     resources :people, controller: 'stream_people'
@@ -167,6 +167,12 @@ OneBody::Application.routes.draw do
   resources :tasks do
     member do
       patch :complete
+    end
+  end
+
+  resources :directory_maps do
+    collection do
+      get :family_locations
     end
   end
 
@@ -217,14 +223,17 @@ OneBody::Application.routes.draw do
       resources :times do
         resources :groups
       end
-      resources :cards, :auths
+      resources :cards, :auths, :labels
     end
   end
 
+  resource :checkin, controller: 'checkin/checkins'
   namespace :checkin do
-    root to: 'interfaces#show'
-    resource :interface
+    resource :print
+    resource :printer
     resources :families, :people, :groups
   end
   resources :custom_reports
+
+  post '/pusher/auth_printer' => 'pusher#auth_printer'
 end

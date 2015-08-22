@@ -1,0 +1,8 @@
+---
+de:
+  generated_files:
+    building: "Building your file..."
+    complete_heading: Fertig!
+    complete_message: "Deine Datei ist fertig und bereit zum Download."
+    failure_heading: "Es tut uns leid…"
+    failure_message: "Es gab einen Fehler beim Generieren der Datei."

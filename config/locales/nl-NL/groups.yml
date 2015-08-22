@@ -49,13 +49,14 @@ nl-NL:
         admins: Beheerders
         meets: "ontmoet elkaar"
         location: locatie
+        directions: directions
         member_count_label: groepsleden
         member_count:
           one: "1 persoon"
           other: "%{count} personen"
         birthdays_this_month_html:
-          one: "<a href='%{url}'>1</a> groepslid is jarig deze maand!"
-          other: "<a href='%{url}'>%{count}</a> groepsleden zijn jarig deze maand!"
+          one: "<a href='%{url}'>1</a> is jarig deze maand!"
+          other: "<a href='%{url}'>%{count}</a> zijn jarig deze maand!"
         attachments: bestanden
         attachment_count:
           one: "1 bestand"
@@ -80,6 +81,7 @@ nl-NL:
       heading: "Nieuwe groep"
     edit:
       heading: "Wijzig groep"
+      required_field: required
       tabs:
         details: Details
         meets: Bijeenkomsten
@@ -118,6 +120,8 @@ nl-NL:
         help: "De omschrijving, groepsleden en andere groepsinformatie zijn niet zichtbaar voor niet-groepsleden. Alleen de titel van de groep is zichtbaar. Zorg ervoor dat ook de instelling 'Goedkeuring voor deelnemen aan de groep' staat aangevinkt."
       members_send:
         help: "Alle groepsleden kunnen elkaar berichten sturen."
+      attendance_disabled:
+        help: "Attendance must be enabled for any group used by Check-in."
       class_link_code:
         help_html: "<p>Geef een link op om te koppelen met externe pakketten. <a href='https://github.com/churchio/onebody/wiki/HowGroupMembershipWorks'>Klik hier</a> voor meer informatie.</p>\n\
             Klik op <strong>wijzigingen opslaan</strong> om de groepsleden elke nacht te updaten. \n"
@@ -156,7 +160,7 @@ nl-NL:
       this_group: "Deze groep wacht op goedkeuring."
       description:
         one: "De volgende groep wacht op goedkeuring:"
-        other: "De volgende groepen wachten op goedkeuring"
+        other: "De volgende groepen wachten op goedkeuring:"
       count:
         one: "%{count} groep ter goedkeuring"
         other: "%{count} groepen ter goedkeuring"

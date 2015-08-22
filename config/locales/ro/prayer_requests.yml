@@ -19,11 +19,12 @@ ro:
       heading: Cerere
     answer:
       heading: Răspuns
-      description: "Remember to come back and fill this section so your group can have a record of answered prayers."
+      description: "Revino şi completează această secţiune ca grupul să ştie despre rugăciunile acultate."
       on_date: "Răspuns în %{date}"
     save: "Salvează cerere de rugăciune"
     not_found: "Cererea de rugăciune nu a fost găsită"
     error:
       no_edit: "Nu poți edita această cerere de rugăciune"
       no_delete: "Nu poți șterge această cerere de rugăciune"
-      no_post: "You cannot post a prayer request in this group because you are not a member."
+      no_post: "Nu poţi posta o cerere de rugăciune în acest grup pentru că nu sunteţi un membru al grupului."
+    send_email: "Send as email to group members."

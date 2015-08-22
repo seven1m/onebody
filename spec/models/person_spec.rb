@@ -4,8 +4,8 @@ describe Person do
 
   describe 'Formats' do
 
-    BAD_EMAIL_ADDRESSES  = ['bad address@example.com', 'bad~address@example.com', 'baddaddress@example.123']
-    GOOD_EMAIL_ADDRESSES = ['bob@example.com', 'abcdefghijklmnopqrstuvwxyz0123456789._%-@abcdefghijklmnopqrstuvwxyz0123456789.-.com']
+    BAD_EMAIL_ADDRESSES  = ['bad address@example.com', 'bad~address@example.com', 'baddaddress@example.123', 'looksinnocent@example.com\n<script>alert("pwned")</script>']
+    GOOD_EMAIL_ADDRESSES = ['bob@example.com', 'abcdefghijklmnopqrstuvwxyz0123456789._%-@abcdefghijklmnopqrstuvwxyz0123456789.-.com', 'admin@newhorizon.church']
     BAD_WEB_ADDRESSES    = ['www.badaddress.com', 'ftp://badaddress.org', "javascript://void(alert('do evil stuff'))"]
     GOOD_WEB_ADDRESSES   = ['http://www.goodwebsite.org', 'http://goodwebsite.com/a/path?some=args']
 
@@ -443,25 +443,22 @@ describe Person do
   end
 
   describe '#create_as_stream_item' do
-    context 'given no people were created just prior' do
-      let!(:person) { FactoryGirl.create(:person) }
-
-      it 'creates a new stream item' do
-        expect(StreamItem.last.attributes).to include(
-          'title'     => person.name,
-          'person_id' => person.id
-        )
-      end
+    before do
+      allow(StreamItemGroupJob).to receive(:perform_later)
     end
 
-    context 'given two people were created just prior' do
-      let!(:person1) { FactoryGirl.create(:person) }
-      let!(:person2) { FactoryGirl.create(:person) }
-      let!(:person3) { FactoryGirl.create(:person) }
+    let!(:person) { FactoryGirl.create(:person) }
 
-      it 'does not create a third stream item' do
-        expect(StreamItem.count).to eq(2)
-      end
+    it 'creates a new stream item' do
+      expect(StreamItem.last.attributes).to include(
+        'title'     => person.name,
+        'person_id' => person.id
+      )
+    end
+
+    it 'calls StreamItemGroup.perform_later' do
+      expect(StreamItemGroupJob).to \
+        have_received(:perform_later).with(Site.current, StreamItem.last.id)
     end
   end
 

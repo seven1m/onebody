@@ -43,6 +43,7 @@ class Administration::SyncsController < ApplicationController
       @sync = Sync.find(params[:id])
       data = Hash.from_xml(request.body.read)['sync']
       @sync.update_attributes!(data)
+      GroupMembershipsUpdateJob.perform_later(Site.current) if @sync.complete?
       respond_to do |format|
         format.xml { render xml: @sync.to_xml }
       end

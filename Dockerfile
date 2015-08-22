@@ -10,12 +10,6 @@ RUN apt-get install -y software-properties-common
 RUN apt-add-repository -y ppa:brightbox/ruby-ng
 RUN apt-get update
 RUN apt-get install -y ruby2.1 ruby2.1-dev
-# manual compile way, leaving this just in case...
-#WORKDIR /tmp
-#RUN wget http://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.5.tar.gz && tar xzvf ruby-2.1.5.tar.gz
-#WORKDIR /tmp/ruby-2.1.5
-#RUN ./configure --disable-install-doc && make install
-#RUN rm -rf /tmp/ruby-2.1.5*
 RUN gem install bundler --no-rdoc --no-ri
 
 # set up user
@@ -30,7 +24,7 @@ ENV RAILS_ENV production
 # add Gemfile first, then bundle install; this will make our builds cleaner
 ADD .ruby-version /var/www/onebody/.ruby-version
 ADD Gemfile /var/www/onebody/Gemfile
-ADD Gemfile.lock /var/www/onebody/Gemfile.lock
+ADD config/database.yml /var/www/onebody/config/database.yml
 USER root
 RUN chown -R onebody /var/www/onebody
 

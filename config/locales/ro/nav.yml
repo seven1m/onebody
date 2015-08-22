@@ -10,12 +10,13 @@ ro:
     checkin: Check-in
     checkin_sub:
       times: Times
+      labels: Labels
     directory: Directory
     directory_sub:
       business: "Business Directory"
       printed: "Printed Directory"
       advanced: "Căutare avansată"
-      new_family: "New Family"
+      new_person: "New Person"
     documents: Documents
     groups: Grupuri
     groups_sub:
@@ -44,5 +45,12 @@ ro:
       privacy: Privacy
       relationships: Relaţii
       show: "View Profile"
+    report: Reporting
     syncs: Sincronizări
     verses: Versete
+    tasks: Tasks
+    tasks_sub:
+      assigned_count:
+        one: "1 assigned"
+        few: "%{count} assigned"
+        other: "%{count} assigned"

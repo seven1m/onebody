@@ -64,6 +64,7 @@
         = button_tag class: 'btn btn-info' do
           = icon('fa fa-search')
           = t('search.search')
+    = link_to t('search.directory_map'), directory_maps_path, class: "btn btn-success directory_map"
 
   .col-md-10
     = render partial: 'results'

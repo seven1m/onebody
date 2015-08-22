@@ -1,0 +1,35 @@
+this.Checkin ?= {}
+
+{div, button, i} = React.DOM
+
+Checkin.ActionButtons = React.createFactory React.createClass
+
+  displayName: 'ActionButtons'
+
+  render: ->
+    div
+      className: 'checkin-actions'
+      button
+        type: 'button'
+        className: 'btn checkin-btn print-btn'
+        style: { display: if @getSelectionCount() == 0 then 'none' }
+        onClick: @props.onSubmit
+        i
+          className: 'fa fa-print'
+        " <%= I18n.t('checkin.interface.print.button') %>"
+        div
+          className: 'badge pull-right tag-count'
+          @getSelectionCount()
+      button
+        className: 'btn checkin-btn cancel-btn'
+        onClick: @props.onCancel
+        i
+          className: 'fa fa-times-circle'
+        " <%= I18n.t('checkin.interface.cancel.button') %>"
+
+  getSelectionCount: ->
+    count = 0
+    for _person, times of @props.selections
+      if (time for time, selection of times when selection).length > 0
+        count++
+    count

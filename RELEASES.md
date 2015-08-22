@@ -4,6 +4,59 @@ This is not meant to be a detailed account of everything changed in releases, bu
 
 For general upgrade instructions, see the wiki [here](https://github.com/churchio/onebody/wiki/Manual-Installation#how-to-upgrade). Any release-specific upgrade notes below should be applied *after* the general instructions in the wiki (unless otherwise noted).
 
+## 3.4.0
+
+### Upgrade Notes
+
+This is the first version that started using `bundle install` instead of `bundle install --deployment`.
+
+To make this work, `rm -rf /var/www/onebody/vendor/bundle` and then run `bundle install` again so Rails can find the gems.
+
+### Changes
+
+* New check-in kiosk and printing feature
+* Improve admin dashboard
+* Allow document folders to be limited by group
+* Allow document folders to be hidden/archived
+* New Directory map feature
+* Group Person stream items (timeline)
+* Show "new" badges on items that are actually new
+* Make background jobs thread-safe
+* Show lock with tooltip on profile items that are hidden
+* Upgrade to Rails 4.2
+* Add experimental support for PostgreSQL as database
+* Fix incoming email when using different `email_host`
+* Link to prettier PDF for datetime formatting options
+* Add XSendFile to provision script, fixes file downloads in AMI and OVF
+* Catch sign up email errors and show helpful alert
+* Ensure deleted is never null
+* Ensure paperclip callbacks are run when deleting stale files
+* Fix issue deleting old GeneratedFile records nightly
+* Fix /session url issue when using a subfolder deployment
+* Fix message link and i18n message instructions
+* Fix printed directory pdf generation
+* Don't allow orphaned admins
+* Add ability to search for verses and then add them later.
+* Search for people by group category
+* Ensure email is lowercase on sign up
+* Fix broken name matching in search
+* Remove Gemfile.lock
+* Ensure a time without a date uses today's date on attendance records
+* Add setting to allow zoom level of maps diplayed on site to be configured
+* Don't set Person#child if birthday year is 1900
+* Use ActiveJob + sucker\_punch to export stuff and for the printable directory
+* Send email in background with sucker\_punch
+* Improve geocoding functionality to remove long/lats when an address does not give an accurate location.
+* Switch to google geocoder for better geocoding
+* Add OneBody version in header of admin dashboard with alert if not up-to-date
+* Add directions to group page
+* Remove extra family fields from person edit form
+* Fix bug getting primary emailer
+* Add checkin folders.
+* Improve reordering of groups in check-in time.
+* Add support for custom check-in labels.
+* Add site id to documents to support multiple sites
+
 
 ## 3.3.0
 

@@ -1,10 +1,15 @@
 en:
   admin:
 
+    actionables:
+      heading: "Actionables"
+
+    administration:
+      heading: "Administration & Settings"
+
     attendance:
-      heading: "Attendance"
-      intro: "View and export attendance records."
-      button: "Attendance Records"
+      heading: "Attendance (30 days)"
+      button: "Attendance"
 
     box:
       updates:
@@ -32,11 +37,14 @@ en:
           one: "Deleted Person"
           other: "Deleted People"
 
+    charts:
+      no_data: no data yet
+
     checkin:
-      heading: "Check-in"
-      intro: "Manage check-in and assign cards."
+      heading: "Check-in (48 hours)"
       cards_assigned: "Check-In Cards Assigned"
-      button: "Check-in Dashboard"
+      dashboard_button: "Check-in Admin"
+      button: "Check-in Kiosk"
 
     dashboard:
       heading: "Admin Dashboard"
@@ -64,6 +72,9 @@ en:
         intro: "The results of your search are displayed below."
       undelete:
         button: "Undelete Selected People"
+
+    gatherings:
+      heading: "Gatherings"
 
     membership_requests:
       count:
@@ -241,6 +252,28 @@ en:
         Send Attendance Submissions To:
           name: Send Attendance Submissions To
           description: Email sent when someone submits attendance for a group
+      Pusher:
+        App ID:
+          name: App ID
+          description: The application ID provided by Pusher.
+        App Key:
+          name: App Key
+          description: The application key provided by Pusher.
+        Secret:
+          name: Secret
+          description: The secret provided by Pusher.
+        API Scheme:
+          name: API Scheme
+        API Host:
+          name: API Host
+        API Port:
+          name: API Port
+        WS Host:
+          name: WS Host
+        WS Port:
+          name: WS Port
+        WSS Port:
+          name: WSS Port
       Services:
         Yahoo:
           name: Yahoo
@@ -456,7 +489,7 @@ en:
       enabled: Enabled
       features_heading: Features
       formats_heading: Formats
-      formats_date_about_html: "Enter your own date and time formats to match your part of the world. See <a href=\"/date_formatting_options.txt\" target=\"_new\">here</a> for formatting options."
+      formats_date_about_html: "Enter your own date and time formats to match your part of the world. See <a href=\"https://www.manystrands.com/wp-content/uploads/2013/01/strftime-cheat-sheet.pdf\" target=\"_new\">here</a> for formatting options."
       formats_phone_about: "Specify phone formatting with 'd', e.g. ddd-ddd-dddd or (dd) dddd-dddd, depending on your locale."
       locale_heading: Locale
       mailgun: Create Catch All Route on Mailgun

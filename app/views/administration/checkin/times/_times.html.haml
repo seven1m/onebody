@@ -8,10 +8,13 @@
     %tr.row-with-actions
       %td= time
       %td= time.campus
-      %td= t('checkin.times.table.groups.count', count: time.groups.count)
+      %td= t('checkin.times.table.groups.count', count: time.all_group_times.count)
       %td.actions
-        = link_to edit_administration_checkin_time_path(time), class: 'btn btn-info' do
+        = link_to administration_checkin_time_groups_path(time), class: 'btn btn-info' do
+          = icon 'fa fa-bars'
+          = t('checkin.times.groups.button')
+        = link_to edit_administration_checkin_time_path(time), class: 'btn btn-warning' do
           = icon 'fa fa-pencil'
           = t('checkin.times.edit.button')
-        = link_to administration_checkin_time_path(time), data: { method: 'delete', confirm: t('are_you_sure') }, class: 'btn btn-delete' do
+        = link_to administration_checkin_time_path(time), data: { method: 'delete', confirm: t('are_you_sure') }, class: 'btn btn-danger' do
           = icon 'fa fa-trash-o'

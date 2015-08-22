@@ -147,10 +147,12 @@ class BreadcrumbPresenter
     if @controller == 'administration/syncs' and @assigns['sync']
       crumbs << ['fa fa-refresh', t('nav.syncs'), administration_syncs_path]
     end
-    if @controller =~ %r(^administration/checkin/(times|cards|groups))
+    if @controller =~ %r(^administration/checkin/(times|cards|groups|labels))
       crumbs << ['fa fa-check-square-o', t('nav.checkin'), administration_checkin_dashboard_path]
       if @route == 'administration/checkin/groups#index' and @assigns['time']
         crumbs << ['fa fa-clock-o', t('nav.checkin_sub.times'), administration_checkin_times_path]
+      elsif @route =~ %r(administration/checkin/labels#(new|edit))
+        crumbs << ['fa fa-tags', t('nav.checkin_sub.labels'), administration_checkin_labels_path]
       end
     end
   end

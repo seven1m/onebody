@@ -3,6 +3,8 @@ class AttendanceController < ApplicationController
   skip_before_action :authenticate_user,
     if: -> c { %w(index batch).include?(c.action_name) and params[:public] }
 
+  before_action :eliminate_checkin_error # TEMP
+
   load_parent :group, optional: true
   before_action :authorize_group
   before_action :ensure_attendance_enabled_for_group
@@ -80,6 +82,15 @@ class AttendanceController < ApplicationController
   def ensure_attendance_enabled_for_group
     unless @group and @group.attendance?
       render text: t('attendance.not_enabled'), layout: true, status: :bad_request
+      return false
+    end
+  end
+
+  # TEMP - this is only needed due to legacy check-in software
+  # submitting bogus attendance (that can be ignored) at /groups/0/attendance.json
+  def eliminate_checkin_error
+    if params[:group_id] == '0' and params[:action] == 'create'
+      render status: 404, text: 'group not found'
       return false
     end
   end

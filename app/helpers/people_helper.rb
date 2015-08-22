@@ -8,13 +8,28 @@ module PeopleHelper
     end
   end
 
-  def show_attribute?(attribute, &block)
-    if @person.send(attribute).present? && @person.show_attribute_to?(attribute, @logged_in)
-      capture(&block)
-    end
+  def show_attribute?(attribute)
+    @person.send(attribute).present? &&
+      @person.show_attribute_to?(attribute, @logged_in)
   end
 
-  alias_method :attribute, :show_attribute? # TODO remove this
+  def show_attribute(attribute, &block)
+    capture(&block) if show_attribute?(attribute)
+  end
+
+  alias_method :attribute, :show_attribute # TODO remove this
+
+  def showing_attribute_because_admin?(attribute)
+    show_attribute?(attribute) &&
+      @person.respond_to?("share_#{attribute}?") &&
+      @person.send("share_#{attribute}?") == false &&
+      @logged_in.admin?(:view_hidden_properties)
+  end
+
+  def showing_attribute_because_admin_icon(attribute)
+    return unless showing_attribute_because_admin?(attribute)
+    icon('fa fa-lock text-gray with-title', title: t('people.show.showing_hidden_attribute.tooltip'))
+  end
 
   def person_title(person)
     if person.description.present?
@@ -36,7 +51,7 @@ module PeopleHelper
     person.elder? or person.deacon? or person.staff? or person.member? or person.custom_type.present?
   end
 
-  def avatar_path(person, size=:tn)
+  def avatar_path(person, size=:tn, variation=nil)
     if person.is_a?(Family)
       family_avatar_path(person, size)
     elsif person.is_a?(Group)
@@ -49,7 +64,11 @@ module PeopleHelper
       else
         size = :large unless size == :tn # we only have only two sizes
         img = person.try(:gender) == 'Female' ? 'woman' : 'man'
-        image_path("#{img}.#{size}.jpg")
+        if variation == :dark
+          image_path("#{img}.dark.#{size}.png")
+        else
+          image_path("#{img}.#{size}.jpg")
+        end
       end
     end
   end
@@ -70,7 +89,7 @@ module PeopleHelper
       if not person.try(:photo).try(:exists?) and fallback_to_family and person.try(:family).try(:photo).try(:exists?)
         path = family_avatar_path(person.family)
       else
-        path = avatar_path(person, options.delete(:size))
+        path = avatar_path(person, options.delete(:size), options.delete(:variation))
       end
       image_tag(path, options)
     end

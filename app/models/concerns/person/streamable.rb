@@ -13,8 +13,7 @@ module Concerns
       end
 
       def create_as_stream_item
-        return unless can_create_stream_item?
-        StreamItem.create!(
+        item = StreamItem.create!(
           title: name,
           person_id: id,
           streamable_type: 'Person',
@@ -22,15 +21,7 @@ module Concerns
           created_at: created_at,
           shared: visible? && email.present?
         )
-      end
-
-      LIMIT_CONSECUTIVE_STREAM_ITEMS = 2
-
-      def can_create_stream_item?
-        previous = StreamItem.limit(LIMIT_CONSECUTIVE_STREAM_ITEMS)
-                             .order(id: :desc)
-                             .pluck(:streamable_type)
-        previous != ['Person'] * LIMIT_CONSECUTIVE_STREAM_ITEMS
+        StreamItemGroupJob.perform_later(Site.current, item.id)
       end
 
       def update_stream_item

@@ -7,7 +7,9 @@ module Concerns
 
       def set_attributes_from_batch(attributes)
         attributes.each do |key, value|
-          value = value.presence
+          value = nil if value.respond_to?(:strip) && value.strip == '' # don't use .presence here!
+          birthday = attributes['birthday'] && Date.parse_in_locale(attributes['birthday'])
+          value = nil if key == 'child' && birthday.present? && birthday.year != 1900
           # avoid overwriting a newer email address
           if key == 'email' and email_changed?
             if value == email # email now matches (presumably, the external db has been updated to match the OneBody db)

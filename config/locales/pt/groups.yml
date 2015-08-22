@@ -49,6 +49,7 @@ pt:
         admins: adminstradores
         meets: "se enontra"
         location: local
+        directions: direções
         member_count_label: membros
         member_count:
           one: "1 pessoa"
@@ -80,6 +81,7 @@ pt:
       heading: "Novo Grupo"
     edit:
       heading: "Editar Grupo"
+      required_field: requerido
       tabs:
         details: Detalhes
         meets: "Se Encontra"
@@ -118,6 +120,8 @@ pt:
         help: "Se marcado, a descrição do grupo, lista de membros e outras informações serão ocultadas para quem não for membro (somente o título será exibido). Nós recomendamos que você também verifique a opção 'Aprovação requerida' abaixo."
       members_send:
         help: "Se marcado, qualquer membro deste grupo poderá enviar um email para qualquer pessoa do grupo."
+      attendance_disabled:
+        help: "Attendance must be enabled for any group used by Check-in."
       class_link_code:
         help_html: "<p>Esta função é útil para sincronizar com sistemas externos. Separe múltiplos códigos com um espaço. <a href='https://github.com/churchio/onebody/wiki/HowGroupMembershipWorks'>Veja aqui</a> maiores informações.\n\
             <p>Clique <strong>Salvar</strong> para atualizar os membros do grupo imediatamente. Os membros do grupo também serão atualizados automaticamente toda noite.</p> \n"

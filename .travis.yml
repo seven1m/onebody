@@ -1,31 +1,28 @@
 env:
-  - DB=pg
-  - DB=mysql
+- DB=pg
+- DB=mysql
 language: ruby
 rvm:
-  - 2.1.5
+- 2.2.2
 before_install:
-  - "echo -e 'test:\\n  adapter: mysql2\\n  database: onebody_test\\n  username: travis\\n  encoding: utf8' > config/database.yml.mysql"
-  - "echo -e 'test:\\n  adapter: postgresql\\n  database: onebody_test\\n  username: postgres\\n  encoding: unicode' > config/database.yml.pg"
-  - "cp config/database.yml.$DB config/database.yml"
-bundler_args: --without development production
+- 'echo -e ''test:\n  adapter: mysql2\n  database: onebody_test\n  username: travis\n  encoding:
+  utf8'' > config/database.yml.mysql'
+- 'echo -e ''test:\n  adapter: postgresql\n  database: onebody_test\n  username: postgres\n  encoding:
+  unicode'' > config/database.yml.pg'
+- cp config/database.yml.$DB config/database.yml
+bundler_args: "--without development production"
 cache: bundler
 sudo: false
 services:
-  - mysql
-  - postgresql
+- mysql
+- postgresql
 script:
-  - RAILS_ENV=test bundle exec rake --trace db:migrate
-  - bundle exec rspec
+- RAILS_ENV=test bundle exec rake --trace db:migrate
+- bundle exec rspec
 before_script:
-  - "echo -e 'test:\\n  secret_token: abc123\\n  secret_key_base: 123abc' > config/secrets.yml"
-  - "mysql -e 'create database onebody_test'"
-  - "psql -c 'create database onebody_test;' -U postgres"
+- 'echo -e ''test:\n  secret_token: abc123\n  secret_key_base: 123abc'' > config/secrets.yml'
+- mysql -e 'create database onebody_test'
+- psql -c 'create database onebody_test;' -U postgres
 notifications:
-  irc: "chat.freenode.net#church.io"
-  webhooks:
-    urls:
-      - https://webhooks.gitter.im/e/9e05a861c78289ee0608
-    on_success: change
-    on_failure: always
-    on_start: false
+  slack:
+    secure: k8ryQIZOiUVSo2pA0noNA/nwJbDvCejrxwls9bjJMF8WOObwd0BnhMh//iEnOdzdF5Z6MyF0tHgVuOtBa71QwVbMoufAK4X7I7ykLu0pVCWwhm13Gg1Ij7xi2cPT7+B/IyoKhRcEKEYwMlzV9CuispMMDoS3pHC2bMRxGSRYwTI=

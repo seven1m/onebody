@@ -20,6 +20,9 @@ en:
     assigned_cards:
       button: "Assigned Cards"
 
+    scan:
+      unknown_card: "card not found"
+
     cards:
       heading: "Assigned Check-in Cards"
       table:
@@ -33,25 +36,57 @@ en:
       none: "no records to display"
 
     groups:
+      movement_help_html: |
+        <p>
+          To move a check-in group into or out of a folder, first expand the folder, then click the
+          <i class="up"></i> or <i class="down"></i> button.
+        </p>
+        <p>
+          To jump a group all the way to the top or bottom,
+          hold <span class="highlight">shift</span> while clicking
+          <i class="up"></i> or <i class="down"></i>.
+        </p>
       heading: "Check-in Groups"
-      table:
-        group: "Group"
       index:
         heading: "%{time} at %{campus}"
+        add_folder:
+          button: "Add Folder"
+          heading: "Add a folder"
+          name: "Folder Name"
         add_group:
           heading: "Add a destination (group)"
           search: "Search by name"
+          select_folder:
+            label: "Select folder"
+            none: "(none)"
           button: "Add Group"
         table:
-          group: "Destination (group name)"
-          print_nametag: "Print Nametag"
+          name: "Name"
+          label_id: "Label (Nametag)"
           print_extra_nametag: "Extra Nametag"
           section: "Section"
       section:
         new: "[new section]"
+      table:
+        group: "Group"
+
+    labels:
+      button: "Labels Setup"
+      edit:
+        heading: "Edit Check-in Label"
+      delete:
+        notice: "Label deleted."
+      heading: "Check-in Labels"
+      new:
+        button: "New Label"
+        heading: "Edit Check-in Label"
+      table:
+        name: "Name"
+        description: "Description"
+        updated_at: "Updated"
 
     times:
-      button: "Setup"
+      button: "Times Setup"
       heading: "Check-in Times"
       intro: "Add, edit, and remove available checkin times here."
       table:
@@ -64,11 +99,15 @@ en:
             other: "%{count} destinations"
       edit:
         button: "edit"
-        heading: "Edit Check-in Time"
         campus:
           new: "[new campus]"
+        delete:
+          button: "delete"
+        heading: "Edit Check-in Time"
         save:
           button: "Save Changes"
+      groups:
+        button: "groups"
       recurring:
         heading: "Recurring Times"
         new:
@@ -115,3 +154,24 @@ en:
         no_people: "You must enter at least one person."
         no_parents: "You must enter at least one parent."
         no_barcode: "Please scan the card into the field at the bottom of the form."
+
+    interface:
+      add_guest:
+        heading: "Add a Guest"
+        intro: "Type the full name of your guest in the field below."
+        button: "Add a guest"
+        save: "Save"
+      barcode:
+        placeholder: "Scan Your Card"
+      cancel:
+        button: "cancel"
+      heading: "Check In"
+      not_attending: "not attending"
+      print:
+        heading: "After making your selections..."
+        button: "Print Tags"
+      run_setup:
+        intro: "You must first set up your check-in times and destinations."
+        button: "Setup"
+      same_as_last_week:
+        button: "Choose same as last week"

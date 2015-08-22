@@ -1,0 +1,72 @@
+.floating-boxes {
+  margin-left: -15px; // offset padding on each floating-box
+  .box {
+    margin: 0;
+  }
+}
+
+.metrics {
+  margin-bottom: 15px;
+  .small-box {
+    @extend .bg-aqua;
+    height: 150px;
+    overflow: hidden;
+  }
+  .small-box.warn {
+    @extend .bg-yellow;
+  }
+  .small-box.critical {
+    @extend .bg-red;
+  }
+}
+
+.floating-box {
+  width: 16.66%;
+  padding: 15px;
+  float: left;
+  .small-box {
+    margin-bottom: 0;
+  }
+}
+
+.floating-box.wide {
+  width: 33.33%;
+}
+
+@media (max-width: 1500px) {
+  .floating-box {
+    width: 33.33%;
+  }
+}
+
+@media (max-width: 600px) {
+  .floating-box {
+    width: 50%;
+  }
+}
+
+@media (max-width: 400px) {
+  .floating-box {
+    width: 100%;
+    display: block;
+  }
+}
+
+// override silly adminlte responsive stuff
+@media screen and (max-width: 480px) {
+  .small-box {
+    text-align: left;
+  }
+  .small-box .icon {
+    display: block;
+  }
+  .small-box p {
+    font-size: 15px;
+  }
+}
+
+.pending-updates table {
+  .prop, .before, .after {
+    width: 33%;
+  }
+}

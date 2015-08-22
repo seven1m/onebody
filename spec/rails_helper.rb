@@ -36,6 +36,11 @@ RSpec.configure do |config|
 
   config.before(:each) do
     ActionMailer::Base.deliveries.clear
+    allow(StreamItemGroupJob).to receive(:perform_later)
+  end
+
+  config.after(:each) do
+    Timecop.return
   end
 
   config.after(:suite) do

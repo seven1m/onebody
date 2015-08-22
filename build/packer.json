@@ -14,11 +14,11 @@
     },
     {
       "type": "amazon-ebs",
-      "ami_name": "onebody-3.3.0-1",
+      "ami_name": "onebody-3.4.0-1",
       "instance_type": "t2.micro",
       "region": "us-west-1",
       "ami_regions": ["us-east-1"],
-      "source_ami": "ami-a7fdfee2",
+      "source_ami": "ami-5c120b19",
       "ssh_username": "ubuntu"
     },
     {
@@ -52,8 +52,8 @@
       "disk_size": 40960,
       "guest_os_type": "Ubuntu_64",
       "http_directory": "ubuntu/14.04",
-      "iso_url": "http://releases.ubuntu.com/14.04.1/ubuntu-14.04.1-server-amd64.iso",
-      "iso_checksum": "ca2531b8cd79ea5b778ede3a524779b9",
+      "iso_url": "http://releases.ubuntu.com/14.04.2/ubuntu-14.04.2-server-amd64.iso",
+      "iso_checksum": "83aabd8dcf1e8f469f3c72fff2375195",
       "iso_checksum_type": "md5",
       "ssh_username": "onebody",
       "ssh_password": "onebody",

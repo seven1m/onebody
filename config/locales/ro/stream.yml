@@ -28,13 +28,21 @@ ro:
         button: "Salută pe %{person}!"
       site:
         description: "Siteul comunității pentru %{site} a fost creat!"
+      stream_item_group:
+        person:
+          description:
+            one: "1 more person was added..."
+            few: "%{count} more people were added..."
+            other: "%{count} more people were added..."
     footer:
       button_label:
+        default: "Read more"
         album: "Arată tot"
         note: "Citește mai mult"
         verse: "Citește mai mult"
         person: ""
         site: ""
+        stream_item_group: "Show all"
     load_more: "incarcă mai mult..."
     share:
       heading:

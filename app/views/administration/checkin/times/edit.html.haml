@@ -1,0 +1,21 @@
+- @title = t('checkin.times.edit.heading')
+
+.row
+  .col-lg-6
+    = form_for @time, url: administration_checkin_time_path(@time) do |form|
+      - if @time.weekday
+        .form-group
+          = form.select :weekday, Date::DAYNAMES.each_with_index.to_a, {}, class: 'form-control'
+        .form-group
+          = form.text_field :time, value: @time.time_to_s, size: 8, class: 'form-control', placeholder: t('checkin.times.recurring.time')
+      - else
+        .form-group
+          = form.text_field :the_datetime, value: @time.to_s, size: 15, class: 'form-control', placeholder: t('checkin.times.single.datetime')
+      .form-group
+        = form.select :campus, options_for_select([[t('checkin.times.edit.campus.new'), '!']] + CheckinTime.campuses, @time.campus), {}, class: 'form-control can-create'
+      .form-group
+        = form.button t('checkin.times.edit.save.button'), class: 'btn btn-success'
+        .pull-right
+          = link_to administration_checkin_time_path(@time), data: { method: 'delete', confirm: t('are_you_sure') }, class: 'btn btn-delete' do
+            = icon 'fa fa-trash-o'
+            = t('checkin.times.edit.delete.button')

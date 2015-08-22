@@ -122,6 +122,18 @@
       = setting_row('Email', 'MailgunApiKey')
       .form-group
         .col-sm-offset-2.col-sm-10
+          %h3 Pusher
+      = setting_row('Pusher', 'App ID')
+      = setting_row('Pusher', 'App Key')
+      = setting_row('Pusher', 'Secret')
+      = setting_row('Pusher', 'API Scheme')
+      = setting_row('Pusher', 'API Host')
+      = setting_row('Pusher', 'API Port')
+      = setting_row('Pusher', 'WS Host')
+      = setting_row('Pusher', 'WS Port')
+      = setting_row('Pusher', 'WSS Port')
+      .form-group
+        .col-sm-offset-2.col-sm-10
           = button_tag t('save_changes'), class: 'btn btn-success'
     - if @logged_in.super_admin?
       .tab-pane#advanced

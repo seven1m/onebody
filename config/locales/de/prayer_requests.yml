@@ -19,7 +19,7 @@ de:
       heading: Gebetsanliegen
     answer:
       heading: Antwort
-      description: "Remember to come back and fill this section so your group can have a record of answered prayers."
+      description: "Denkt daran diesen Abschnitt noch zu ergänzen, damit deine Gruppe eine Aufzeichnung von Gebetserhörungen hat."
       on_date: "Erhört am %{date}"
     save: "Gebetsanliegen speichern"
     not_found: "Gebetsanliegen nicht gefunden"
@@ -27,4 +27,4 @@ de:
       no_edit: "Du kannst dieses Gebetsanliegen nicht bearbeiten."
       no_delete: "Du kannst dieses Gebetsanliegen nicht löschen"
       no_post: "Du kannst nicht Gebetsanliegen in der Gruppe schreiben, weil du nicht ein Mitglied bist."
-    send_email: "Send as email to group members."
+    send_email: "Sende als EMail an die Gruppenmitglieder."

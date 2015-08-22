@@ -1,5 +1,16 @@
 - @title = @document.name
 
+- if @document.parent_folder_groups.any?
+  .alert.alert-warning
+    = icon('fa fa-lock')
+    = t('documents.restricted_document.alert_html', |
+      groups: @document.parent_folder_groups.map { |g| link_to(g.name, g) }.join(', ').html_safe)
+
+- if @document.hidden?
+  .alert.alert-warning
+    = icon('fa fa-eye-slash')
+    = t('documents.hidden_document.alert')
+
 %p
   = @document.description
 
