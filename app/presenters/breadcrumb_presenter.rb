@@ -27,6 +27,7 @@ class BreadcrumbPresenter
     document_crumb
     task_crumb
     reports_crumb
+    imports_crumb
   end
 
   private
@@ -135,7 +136,7 @@ class BreadcrumbPresenter
   end
 
   def admin_crumb
-    if @controller =~ /^administration\// or @controller == 'pages' or @route == 'people#import'
+    if @controller =~ /^administration\// or @controller == 'pages'
       crumbs << ['fa fa-gear', t('nav.admin'), admin_path]
     end
     if @controller == 'administration/admins' and @assigns['admin']
@@ -184,6 +185,12 @@ class BreadcrumbPresenter
     if @controller == 'dossier/reports' or @controller == 'custom_reports'
       crumbs << ['fa fa-gear', t('nav.admin'), admin_path]
       crumbs << ['fa fa-table', t('nav.report'), admin_reports_path]
+    end
+  end
+
+  def imports_crumb
+    if @controller == 'administration/imports'
+      crumbs << ['fa fa-upload', t('nav.imports'), administration_imports_path]
     end
   end
 

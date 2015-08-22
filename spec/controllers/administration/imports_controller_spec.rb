@@ -49,7 +49,7 @@ describe Administration::ImportsController, type: :controller do
     it 'creates a new Import and redirects to it' do
       import = assigns[:import]
       expect(response).to redirect_to(
-        edit_administration_import_path(import)
+        administration_import_path(import)
       )
     end
 
@@ -66,8 +66,8 @@ describe Administration::ImportsController, type: :controller do
         get :edit, { id: import.id }, logged_in_id: admin.id
       end
 
-      it 'renders the parsing template' do
-        expect(response).to render_template(:parsing)
+      it 'renders the edit template' do
+        expect(response).to render_template(:edit)
       end
     end
 
@@ -120,6 +120,21 @@ describe Administration::ImportsController, type: :controller do
 
     it 'redirects to the index' do
       expect(response).to redirect_to(administration_imports_path)
+    end
+  end
+
+  describe '#execute' do
+    let(:import) { FactoryGirl.create(:import, person: admin) }
+
+    before do
+      allow(Import).to receive(:find).with(import.id.to_s).and_return(import)
+      allow(import).to receive(:execute_async)
+      patch :execute, { id: import.id }, logged_in_id: admin.id
+    end
+
+    it 'executes the import and redirects to the show page' do
+      expect(import).to have_received(:execute_async)
+      expect(response).to redirect_to(administration_import_path(import))
     end
   end
 end

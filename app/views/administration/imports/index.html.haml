@@ -25,4 +25,6 @@
   %p To import data, click below.
 
 .page-controls
-  = link_to 'Import Data from CSV', new_administration_import_path, class: 'btn btn-success'
+  = link_to new_administration_import_path, class: 'btn btn-success' do
+    = icon 'fa fa-upload'
+    Import Data from CSV

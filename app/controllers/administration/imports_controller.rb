@@ -60,6 +60,12 @@ class Administration::ImportsController < ApplicationController
     redirect_to administration_imports_path
   end
 
+  def execute
+    @import = Import.find(params[:id])
+    @import.execute_async
+    redirect_to administration_import_path(@import)
+  end
+
   private
 
   def import_params

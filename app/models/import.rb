@@ -28,7 +28,6 @@ class Import < ActiveRecord::Base
   serialize :mappings, JSON
 
   before_update :set_status_to_matched
-  after_update :preview_async
 
   def progress
     number = self.class.statuses[status]
@@ -52,6 +51,11 @@ class Import < ActiveRecord::Base
 
   def mappable_attributes
     Person.importable_column_names
+  end
+
+  def execute_async
+    return if new_record? || !previewed?
+    ImportExecutionJob.perform_later(Site.current, id)
   end
 
   private

@@ -21,4 +21,23 @@ module Administration::ImportsHelper
       ]
     end
   end
+
+  def import_mapping_option_tags(from, to)
+    options_for_select(
+      @import.mappable_attributes,
+      import_mapping_selection(from, to)
+    )
+  end
+
+  def import_mapping_selection(from, to)
+    to || guess_import_mapping(from)
+  end
+
+  def guess_import_mapping(from)
+    @import.mappable_attributes.detect do |attr|
+      attr.downcase.gsub(/_/, ' ').index(
+        from.downcase.gsub(/_/, ' ')
+      )
+    end
+  end
 end

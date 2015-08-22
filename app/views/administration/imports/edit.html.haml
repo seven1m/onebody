@@ -19,7 +19,7 @@
             = from
           %td
             = select_tag "import[mappings][#{from}]", |
-              options_for_select(@import.mappable_attributes, to || from), |
+              import_mapping_option_tags(from, to), |
               include_blank: true, |
               class: 'form-control'
           %td

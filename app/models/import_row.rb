@@ -6,7 +6,7 @@ class ImportRow < ActiveRecord::Base
 
   validates :import, :status, :sequence, presence: true
 
-  enum status: %w(pending created updated unchanged blank)
+  enum status: %w(pending created updated unchanged blank errored)
 
   def import_attributes_as_hash(real_attributes: false)
     import_attributes.each_with_object({}) do |attr, hash|

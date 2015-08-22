@@ -5,9 +5,9 @@ class ImportPreview
 
   def preview
     return unless @import.matched?
-    @import.update_attribute(:status, 'previewing')
+    @import.update_attributes(status: 'previewing')
     @import.rows.each do |row|
-      if person = row.match_person
+      if (person = row.match_person)
         attributes = row.import_attributes_as_hash(real_attributes: true)
         changes = Comparator.new(person, attributes).changes
         if changes.any?
@@ -20,6 +20,6 @@ class ImportPreview
       end
       row.save
     end
-    @import.update_attribute(:status, 'previewed')
+    @import.update_attributes(status: 'previewed')
   end
 end

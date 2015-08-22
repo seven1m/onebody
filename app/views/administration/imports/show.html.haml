@@ -76,7 +76,10 @@
                 = icon 'fa fa-circle text-gray'
 
 .page-controls
-  - if @import.matched?
+  - if @import.previewed?
+    = link_to edit_administration_import_path(@import), class: 'btn btn-warning' do
+      = icon 'fa fa-arrow-left'
+      Edit Import
     = link_to execute_administration_import_path(@import), class: 'btn btn-danger', |
       data: { method: 'patch', confirm: t('are_you_sure') } do
       = icon 'fa fa-bolt'
