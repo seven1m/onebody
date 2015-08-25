@@ -35,6 +35,7 @@ module Concerns
       included do
         cattr_accessor :import_in_progress
         include ImportConstants
+        has_many :import_rows, dependent: :nullify
       end
 
       module ClassMethods

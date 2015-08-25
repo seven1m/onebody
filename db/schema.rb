@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150318034613) do
+ActiveRecord::Schema.define(version: 20150825001625) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -301,11 +301,19 @@ ActiveRecord::Schema.define(version: 20150318034613) do
   end
 
   create_table "import_rows", force: :cascade do |t|
-    t.integer "site_id",       limit: 4
-    t.integer "import_id",     limit: 4
-    t.integer "status",        limit: 4,    null: false
-    t.integer "sequence",      limit: 4,    null: false
-    t.string  "error_reasons", limit: 1000
+    t.integer "site_id",           limit: 4
+    t.integer "import_id",         limit: 4
+    t.integer "status",            limit: 4,                    null: false
+    t.integer "sequence",          limit: 4,                    null: false
+    t.string  "error_reasons",     limit: 1000
+    t.integer "person_id",         limit: 4
+    t.boolean "created_person",                 default: false
+    t.boolean "created_family",                 default: false
+    t.boolean "updated_person",                 default: false
+    t.boolean "updated_family",                 default: false
+    t.integer "family_id",         limit: 4
+    t.integer "matched_person_by", limit: 4
+    t.integer "matched_family_by", limit: 4
   end
 
   create_table "imports", force: :cascade do |t|

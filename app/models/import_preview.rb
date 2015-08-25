@@ -1,25 +1,79 @@
 class ImportPreview
+  include Concerns::Import::Attributes
+
   def initialize(import)
     @import = import
+    @created_family_ids = {}
+    @created_family_names = {} # TODO
   end
 
   def preview
     return unless @import.matched?
     @import.update_attributes(status: 'previewing')
     @import.rows.each do |row|
+      row.reset_statuses
       if (person = row.match_person)
-        attributes = row.import_attributes_as_hash(real_attributes: true)
-        changes = Comparator.new(person, attributes).changes
-        if changes.any?
-          row.status = :updated
-        else
-          row.status = :unchanged
-        end
+        update_existing_person(row, person)
       else
-        row.status = :created
+        create_new_person(row)
       end
+      reset_preview_data(row)
       row.save
     end
     @import.update_attributes(status: 'previewed')
+  end
+
+  private
+
+  def update_existing_person(row, person)
+    person.attributes = attributes_for_person(row)
+    if (person.family = match_family(row))
+      update_existing_family(row, person.family)
+    else
+      create_new_family(row, person)
+    end
+    row.updated_person = (person.valid? && person.changed?)
+    row.created_family = row.updated_family = false if person.invalid?
+    row.error_reasons = errors_as_string(person)
+    row.person = person
+  end
+
+  def create_new_person(row)
+    person = Person.new(attributes_for_person(row))
+    if (family = match_family(row))
+      update_existing_family(row, family)
+    else
+      create_new_family(row, person)
+    end
+    row.created_person = person.valid?
+    row.created_family = row.updated_family = false if person.invalid?
+    row.error_reasons = errors_as_string(person)
+  end
+
+  def update_existing_family(row, family)
+    attrs_before = family.attributes.dup
+    family.attributes = attributes_for_family(row)
+    row.updated_family = (family.attributes != attrs_before) && family.valid?
+    row.family = family
+  end
+
+  def create_new_family(row, person)
+    attrs = attributes_for_family(row)
+    person.family = Family.new(attrs)
+    person.family.last_name ||= person.family.name.split.last if person.family.name.present?
+    if (row.created_family = person.family.valid?)
+      @created_family_ids[attrs['id']] = person.family
+    end
+  end
+
+  def match_family(row)
+    id = attributes_for_family(row)['id']
+    row.match_family || @created_family_ids[id]
+  end
+
+  def reset_preview_data(row)
+    row.person.restore_attributes if row.person
+    row.family.restore_attributes if row.family
+    row.person.family = nil if row.person.try(:family).try(:new_record?)
   end
 end

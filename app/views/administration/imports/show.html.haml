@@ -3,11 +3,18 @@
 - if @import.working?
   :javascript
     var current_status = #{ json_escape @import.status.to_json };
-    setInterval(function() {
+    var delay = 1000;
+    function refreshOnStatusChange() {
       $.getJSON('#{administration_import_path(@import, format: :json)}', function(data) {
-        if (data.status != current_status) location.reload();
+        if (data.status != current_status) {
+          location.reload();
+        } else {
+          delay *= 1.1;
+          setTimeout(refreshOnStatusChange, delay);
+        }
       });
-    }, 1000);
+    }
+    setTimeout(refreshOnStatusChange, 1000);
 
 .row
   .col-md-4
@@ -53,27 +60,58 @@
             %tr
               %td Creates
               %td
-                = @import.rows.created.count
+                = @import.rows.created_person.count
                 = icon 'fa fa-circle text-green'
               %td
-                ?
+                = @import.rows.created_family.count
                 = icon 'fa fa-circle text-green'
             %tr
               %td Updates
               %td
-                = @import.rows.updated.count
+                = @import.rows.updated_person.count
                 = icon 'fa fa-circle text-yellow'
               %td
-                ?
+                = @import.rows.updated_family.count
                 = icon 'fa fa-circle text-yellow'
             %tr
               %td No Change
               %td
-                = @import.rows.unchanged.count
+                = @import.rows.unchanged_people.count
                 = icon 'fa fa-circle text-gray'
               %td
-                ?
+                = @import.rows.unchanged_families.count
                 = icon 'fa fa-circle text-gray'
+
+
+- if @import.status_at_least?('previewed')
+  %table.table
+    %thead
+      %tr
+        %th ID
+        %th First Name
+        %th Last Name
+        %th Person Matched
+        %th Person Status
+        %th Family ID
+        %th Family Name
+        %th Family Matched
+        %th Family Status
+    %tbody
+      - @import.rows.each do |row|
+        - attrs = row.import_attributes_as_hash(real_attributes: true)
+        %tr{ class: row.error_reasons.present? ? 'text-red' : nil }
+          %td= row.person ? link_to(row.person_id, row.person) : 'new'
+          %td= attrs['first_name']
+          %td= attrs['last_name']
+          %td= t(row.matched_person_by, scope: 'administration.imports.matched_by', default: '') # notest
+          %td= import_row_record_status(row, :person)
+          %td= row.family ? link_to(row.family_id, row.family) : 'new'
+          %td= attrs['family_name']
+          %td= t(row.matched_family_by, scope: 'administration.imports.matched_by', default: '') # notest
+          %td= import_row_record_status(row, :family)
+        - if row.error_reasons.present?
+          %tr.details.text-red
+            %td{ colspan: 9 }= row.error_reasons
 
 .page-controls
   - if @import.previewed?

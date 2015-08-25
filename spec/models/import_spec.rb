@@ -47,21 +47,4 @@ describe Import do
       )
     end
   end
-
-  describe 'before update' do
-    subject { FactoryGirl.create(:import) }
-
-    context 'given status is "parsed" and match strategy is chosen' do
-      before do
-        allow(ImportPreviewJob).to receive(:perform_later) # noop
-        subject.status = :parsed
-        subject.match_strategy = :by_name
-        subject.save!
-      end
-
-      it 'changes the status to "matched"' do
-        expect(subject.reload.status).to eq('matched')
-      end
-    end
-  end
 end

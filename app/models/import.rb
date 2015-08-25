@@ -27,7 +27,7 @@ class Import < ActiveRecord::Base
 
   serialize :mappings, JSON
 
-  before_update :set_status_to_matched
+  after_update :preview_async, if: :should_preview?
 
   def progress
     number = self.class.statuses[status]
@@ -53,20 +53,16 @@ class Import < ActiveRecord::Base
     Person.importable_column_names
   end
 
+  def preview_async
+    ImportPreviewJob.perform_later(Site.current, id)
+  end
+
   def execute_async
     return if new_record? || !previewed?
     ImportExecutionJob.perform_later(Site.current, id)
   end
 
-  private
-
-  def set_status_to_matched
-    return unless status == 'parsed' && match_strategy
-    self.status = 'matched'
-  end
-
-  def preview_async
-    return if new_record? || !matched?
-    ImportPreviewJob.perform_later(Site.current, id)
+  def should_preview?
+    !new_record? && matched? && !Rails.env.test?
   end
 end

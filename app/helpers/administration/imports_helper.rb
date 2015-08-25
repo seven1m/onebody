@@ -30,14 +30,24 @@ module Administration::ImportsHelper
   end
 
   def import_mapping_selection(from, to)
-    to || guess_import_mapping(from)
+    to || previous_import_mapping(from) || from
   end
 
-  def guess_import_mapping(from)
-    @import.mappable_attributes.detect do |attr|
-      attr.downcase.gsub(/_/, ' ').index(
-        from.downcase.gsub(/_/, ' ')
-      )
+  def previous_import_mapping(from)
+    previous_import.mappings[from]
+  end
+
+  def previous_import
+    Import.where.not(id: @import.id).order(:created_at).last
+  end
+
+  def import_row_record_status(row, model)
+    if row.send("created_#{model}?")
+      I18n.t('administration.imports.created')
+    elsif row.send("updated_#{model}?")
+      I18n.t('administration.imports.updated')
+    else
+      I18n.t('administration.imports.unchanged')
     end
   end
 end

@@ -19,3 +19,13 @@ tr.expanding {
 td.icon, th.icon {
   width: 32px;
 }
+
+table.table {
+  tr.description td, tr.details td {
+    border-top: none;
+    padding-top: 0;
+  }
+  td.actions {
+    white-space: nowrap;
+  }
+}

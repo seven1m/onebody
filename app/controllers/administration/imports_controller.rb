@@ -37,7 +37,7 @@ class Administration::ImportsController < ApplicationController
 
   def edit
     @import = Import.find(params[:id])
-    @import.update_attributes(status: 'parsed', match_strategy: nil)
+    @import.update_attributes(status: 'parsed')
     @example = build_example
   end
 

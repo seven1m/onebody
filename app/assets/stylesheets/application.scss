@@ -73,16 +73,6 @@ th.actions, td.actions {
   }
 }
 
-table.table {
-  tr.description td, tr.details td {
-    border-top: none;
-    padding-top: 0;
-  }
-  td.actions {
-    white-space: nowrap;
-  }
-}
-
 body > .footer {
   height: 30px;
   text-align: center;

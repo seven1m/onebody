@@ -17,7 +17,6 @@ class CreateImports < ActiveRecord::Migration
     create_table :import_rows do |t|
       t.references :site
       t.references :import
-      t.integer :status, null: false
       t.integer :sequence, null: false
       t.string :error_reasons, limit: 1000
     end
