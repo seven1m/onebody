@@ -4,7 +4,7 @@ class ImportPreview
   def initialize(import)
     @import = import
     @created_family_ids = {}
-    @created_family_names = {} # TODO
+    @created_family_names = {}
   end
 
   def preview
@@ -62,13 +62,18 @@ class ImportPreview
     person.family = Family.new(attrs)
     person.family.last_name ||= person.family.name.split.last if person.family.name.present?
     if (row.created_family = person.family.valid?)
-      @created_family_ids[attrs['id']] = person.family
+      if (id = id_for_family(row))
+        @created_family_ids[id] = person.family
+      else
+        @created_family_names[attrs['name']] = person.family
+      end
     end
   end
 
   def match_family(row)
-    id = attributes_for_family(row)['id']
-    row.match_family || @created_family_ids[id]
+    row.match_family ||
+      ((id = id_for_family(row)) && @created_family_ids[id]) ||
+      ((name = attributes_for_family(row)['name']) && @created_family_names[name])
   end
 
   def reset_preview_data(row)

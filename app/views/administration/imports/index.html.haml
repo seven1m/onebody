@@ -1,6 +1,8 @@
 - @title = 'Imports'
 
 - if @imports.any?
+  = pagination @imports
+
   %table.table
     %thead
       %tr
@@ -20,6 +22,8 @@
             = link_to import, class: 'btn btn-info btn-xs' do
               = icon 'fa fa-eye'
               View
+
+  = pagination @imports
 
 - else
   %p To import data, click below.

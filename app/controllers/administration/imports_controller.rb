@@ -2,7 +2,7 @@ class Administration::ImportsController < ApplicationController
   before_filter :only_admins
 
   def index
-    @imports = Import.order(created_at: :desc)
+    @imports = Import.order(created_at: :desc).page(params[:page])
   end
 
   def show
@@ -10,6 +10,7 @@ class Administration::ImportsController < ApplicationController
     respond_to do |format|
       format.html do
         redirect_to(action: :edit) if @import.parsed?
+        render :errored if @import.errored?
       end
       format.json do
         render json: @import
@@ -26,7 +27,9 @@ class Administration::ImportsController < ApplicationController
       person:          @logged_in,
       filename:        params[:file].original_filename,
       importable_type: 'Person',
-      status:          'pending'
+      status:          'pending',
+      mappings:        previous_import.try(:mappings),
+      match_strategy:  previous_import.try(:match_strategy)
     )
     @import.parse_async(
       file:          params[:file],
@@ -80,5 +83,9 @@ class Administration::ImportsController < ApplicationController
     return if @logged_in.admin?(:import_data)
     render text: t('only_admins'), layout: true, status: 401
     false
+  end
+
+  def previous_import
+    Import.order(:created_at).last
   end
 end

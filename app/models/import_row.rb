@@ -32,7 +32,7 @@ class ImportRow < ActiveRecord::Base
   def import_attributes_as_hash(real_attributes: false)
     import_attributes.each_with_object({}) do |attr, hash|
       key = real_attributes ? import.mappings[attr.name] : attr.name
-      hash[key] = attr.value if key
+      hash[key] = attr.value if key.present?
     end
   end
 

@@ -309,9 +309,10 @@ describe ImportPreview do
       end
     end
 
-    context 'given 2 new rows with the same new family name' do
-      let!(:row1) { create_row(first: 'John', last: 'Jones', fam_name: 'John & Jane Jones') }
+    context 'given 3 new rows with 2 of them having the same family name' do
+      let!(:row1) { create_row(first: 'Bob',  last: 'Jones', fam_name: 'Bob Jones') }
       let!(:row2) { create_row(first: 'Jane', last: 'Jones', fam_name: 'John & Jane Jones') }
+      let!(:row3) { create_row(first: 'Jane', last: 'Jones', fam_name: 'John & Jane Jones') }
 
       before { subject.preview }
 
@@ -324,8 +325,17 @@ describe ImportPreview do
         )
       end
 
-      it 'creates the second person but not the family' do
+      it 'creates the second person and family' do
         expect(row2.reload.attributes).to include(
+          'created_person' => true,
+          'created_family' => true,
+          'updated_person' => false,
+          'updated_family' => false
+        )
+      end
+
+      it 'creates the third person but not the family' do
+        expect(row3.reload.attributes).to include(
           'created_person' => true,
           'created_family' => false,
           'updated_person' => false,
@@ -366,6 +376,30 @@ describe ImportPreview do
 
       it 'saves the error message' do
         expect(row.reload.error_reasons).to match(/must have a name/)
+      end
+    end
+
+    context 'given a row with an blank id' do
+      let!(:family) { FactoryGirl.create(:family, name: 'John Jones') }
+      let!(:person) { FactoryGirl.create(:person, first_name: 'John', last_name: 'Jones', family: family) }
+
+      let!(:row) { create_row(id: '', first: person.first_name, last: person.last_name, email: 'a@new.com', fam_id: '', fam_name: family.name, fam_lname: 'Changed') }
+
+      before { subject.preview }
+
+      it 'updates the person and the family' do
+        expect(row.reload.attributes).to include(
+          'created_person' => false,
+          'created_family' => false,
+          'updated_person' => true,
+          'updated_family' => true,
+          'error_reasons'  => nil
+        )
+      end
+
+      it 'records the matched person and familiy' do
+        expect(row.reload.person).to eq(person)
+        expect(row.family).to eq(family)
       end
     end
   end

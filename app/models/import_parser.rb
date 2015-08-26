@@ -36,7 +36,6 @@ class ImportParser
           import_attributes_attributes: attributes
         )
       end
-      @import.mappings = Hash[parsed[:headers].zip]
       @import.status = :parsed
     end
     @import.save!

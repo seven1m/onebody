@@ -5,7 +5,13 @@ class ImportPreviewJob < ActiveJob::Base
     ActiveRecord::Base.connection_pool.with_connection do
       Site.with_current(site) do
         import = Import.find(import_id)
-        ImportPreview.new(import).preview
+        begin
+          ImportPreview.new(import).preview
+        rescue => e
+          import.status = :errored
+          import.error_message = e.message
+          import.save!
+        end
       end
     end
   end

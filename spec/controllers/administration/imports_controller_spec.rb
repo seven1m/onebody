@@ -41,6 +41,8 @@ describe Administration::ImportsController, type: :controller do
   describe '#create' do
     let(:file) { fixture_file_upload('files/people.csv', 'text/csv') }
 
+    let!(:previous_import) { FactoryGirl.create(:import, match_strategy: :by_name, mappings: { 'foo' => 'bar' }) }
+
     before do
       allow_any_instance_of(Import).to receive(:parse_async)
       post :create, { file: file }, logged_in_id: admin.id
@@ -55,6 +57,16 @@ describe Administration::ImportsController, type: :controller do
 
     it 'assigns a filename to the new import' do
       expect(assigns[:import].filename).to eq('people.csv')
+    end
+
+    it 'uses the mappings from the previous import' do
+      expect(assigns[:import].mappings).to eq(
+        previous_import.mappings
+      )
+    end
+
+    it 'uses the match_strategy from the previous import' do
+      expect(assigns[:import].match_strategy).to eq('by_name')
     end
   end
 

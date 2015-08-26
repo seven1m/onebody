@@ -23,22 +23,7 @@ module Administration::ImportsHelper
   end
 
   def import_mapping_option_tags(from, to)
-    options_for_select(
-      @import.mappable_attributes,
-      import_mapping_selection(from, to)
-    )
-  end
-
-  def import_mapping_selection(from, to)
-    to || previous_import_mapping(from) || from
-  end
-
-  def previous_import_mapping(from)
-    previous_import.mappings[from]
-  end
-
-  def previous_import
-    Import.where.not(id: @import.id).order(:created_at).last
+    options_for_select(@import.mappable_attributes, to || from)
   end
 
   def import_row_record_status(row, model)
