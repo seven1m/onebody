@@ -303,7 +303,6 @@ ActiveRecord::Schema.define(version: 20150825001625) do
   create_table "import_rows", force: :cascade do |t|
     t.integer "site_id",           limit: 4
     t.integer "import_id",         limit: 4
-    t.integer "status",            limit: 4,                    null: false
     t.integer "sequence",          limit: 4,                    null: false
     t.string  "error_reasons",     limit: 1000
     t.integer "person_id",         limit: 4
