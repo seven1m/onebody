@@ -23,8 +23,10 @@ class ImportPreview < ImportExecution
   end
 
   def reset_preview_data(row)
-    row.person.restore_attributes if row.person
-    row.family.restore_attributes if row.family
-    row.person.family = nil if row.person.try(:family).try(:new_record?)
+    row.person.restore_attributes if row.person && !row.person.new_record?
+    row.family.restore_attributes if row.family && !row.family.new_record?
+    row.person.family = nil if row.person && row.person.family && row.person.family.new_record?
+    row.person = nil if row.person && row.person.new_record?
+    row.family = nil if row.family && row.family.new_record?
   end
 end

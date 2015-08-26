@@ -34,8 +34,9 @@ describe ImportPreview do
   describe '#preview' do
     let(:family)  { FactoryGirl.create(:family, name: 'George Morgan', last_name: 'Morgan', home_phone: nil) }
     let!(:person) { FactoryGirl.create(:person, first_name: 'George', last_name: 'Morgan', email: nil, family: family) }
-    let!(:row1)   { create_row(first: 'John', last: 'Jones', fam_name: 'John Jones') }
-    let!(:row2)   { create_row(first: 'George', last: 'Morgan', email: 'a@new.com', fam_name: 'George Morgan', phone: '1234567890') }
+    let!(:row1)   { create_row(first: 'John', last: 'Jones', fam_name: 'John & Jane Jones') }
+    let!(:row2)   { create_row(first: 'Jane', last: 'Jones', fam_name: 'John & Jane Jones') }
+    let!(:row3)   { create_row(first: 'George', last: 'Morgan', email: 'a@new.com', fam_name: 'George Morgan', phone: '1234567890') }
 
     it 'updates the import status' do
       expect { subject.preview }.to change(import, :status).from('matched').to('previewed')
@@ -53,11 +54,22 @@ describe ImportPreview do
       )
     end
 
+    it 'caches records to be created so they do not get marked as created again' do
+      subject.preview
+      expect(row2.reload.attributes).to include(
+        'created_person' => true,
+        'created_family' => false,
+        'person_id' => nil,
+        'family_id' => nil,
+        'error_reasons' => nil
+      )
+    end
+
     it 'does not actually update person or family records' do
       subject.preview
       expect(person.reload.email).to be_nil
       expect(family.reload.home_phone).to be_nil
-      expect(row2.reload.attributes).to include(
+      expect(row3.reload.attributes).to include(
         'updated_person' => true,
         'updated_family' => true,
         'person_id' => person.id,

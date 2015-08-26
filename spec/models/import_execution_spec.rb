@@ -410,11 +410,13 @@ describe ImportExecution do
           expect(row3.person.family.attributes).to include(
             'name' => 'John & Jane Jones'
           )
+          expect(row3.person.family).to eq(row2.reload.person.family)
           expect(row3.attributes).to include(
             'created_person' => true,
             'created_family' => false,
             'updated_person' => false,
-            'updated_family' => false
+            'updated_family' => false,
+            'error_reasons' => nil
           )
         end
       end
