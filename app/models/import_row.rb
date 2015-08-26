@@ -171,12 +171,11 @@ class ImportRow < ActiveRecord::Base
     return unless hash['family_city'].present?
     return unless hash['family_state'].present?
     return unless hash['family_zip'].present?
-    family = families.where(
-      address1: hash['family_address1'].downcase,
-      city:     hash['family_city'].downcase,
-      state:    hash['family_state'].downcase,
-      zip:      hash['family_zip'].downcase
-    ).first
+    family = families.where('lower(address1) = ?', hash['family_address1'].downcase)
+                     .where('lower(city)     = ?', hash['family_city'].downcase)
+                     .where('lower(state)    = ?', hash['family_state'].downcase)
+                     .where('lower(zip)      = ?', hash['family_zip'].downcase)
+                     .first
     return unless family
     self.matched_family_by = :matched_family_by_contact_info
     family
