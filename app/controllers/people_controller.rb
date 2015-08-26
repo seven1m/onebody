@@ -98,6 +98,7 @@ class PeopleController < ApplicationController
 
   def edit
     @person ||= Person.find(params[:id])
+    render(text: t('people.edit.no_family_error'), layout: true) && return unless @person.family
     if @logged_in.can_update?(@person)
       @family = @person.family
       @business_categories = Person.business_categories

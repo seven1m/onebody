@@ -11,8 +11,8 @@ describe ImportRow do
 
     it 'returns a hash' do
       expect(subject.import_attributes_as_hash).to include(
-        'foo' => 'bar',
-        'baz' => 'quz'
+        'first' => 'foo',
+        'last'  => 'bar'
       )
     end
   end

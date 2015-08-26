@@ -5,7 +5,7 @@ describe ImportPreview do
     FactoryGirl.create(
       :import,
       status: 'matched',
-      match_strategy: 'by_id_only',
+      match_strategy: 'by_name',
       mappings: {
         'id'        => 'id',
         'first'     => 'first_name',
@@ -32,375 +32,37 @@ describe ImportPreview do
   end
 
   describe '#preview' do
+    let(:family)  { FactoryGirl.create(:family, name: 'George Morgan', last_name: 'Morgan', home_phone: nil) }
+    let!(:person) { FactoryGirl.create(:person, first_name: 'George', last_name: 'Morgan', email: nil, family: family) }
+    let!(:row1)   { create_row(first: 'John', last: 'Jones', fam_name: 'John Jones') }
+    let!(:row2)   { create_row(first: 'George', last: 'Morgan', email: 'a@new.com', fam_name: 'George Morgan', phone: '1234567890') }
+
     it 'updates the import status' do
       expect { subject.preview }.to change(import, :status).from('matched').to('previewed')
     end
-  end
 
-  context 'given the match strategy is by_id_only' do
-    before do
-      import.match_strategy = :by_id_only
-      import.save!
+    it 'does not actually create person or family records' do
+      expect {
+        subject.preview
+      }.not_to change { [Person.count, Family.count] }
+      expect(row1.reload.attributes).to include(
+        'created_person' => true,
+        'created_family' => true,
+        'person_id' => nil,
+        'family_id' => nil
+      )
     end
 
-    context 'given a row with an existing person id and existing family id' do
-      let(:family)  { FactoryGirl.create(:family) }
-      let!(:person) { FactoryGirl.create(:person) }
-
-      context 'given the attributes are valid' do
-        let!(:row) { create_row(id: person.id, first: 'John', last: 'Jones', fam_id: family.id) }
-
-        before { subject.preview }
-
-        it 'updates the person but not the family' do
-          expect(row.reload.attributes).to include(
-            'created_person' => false,
-            'created_family' => false,
-            'updated_person' => true,
-            'updated_family' => false
-          )
-        end
-
-        it 'records how the records were matched' do
-          expect(row.reload.matched_person_by_id?).to eq(true)
-          expect(row.matched_family_by_id?).to eq(true)
-        end
-      end
-
-      context 'given the person attributes are invalid' do
-        let!(:row) { create_row(id: person.id, first: '', last: 'Jones', fam_id: family.id) }
-
-        before { subject.preview }
-
-        it 'does not update and records the erorr message' do
-          expect(row.reload.attributes).to include(
-            'created_person' => false,
-            'created_family' => false,
-            'updated_person' => false,
-            'updated_family' => false,
-            'error_reasons'  => 'The person must have a first name.'
-          )
-        end
-      end
-
-      context 'given the family attributes are invalid' do
-        let!(:row) { create_row(id: person.id, first: 'John', last: 'Jones', fam_id: family.id, fam_name: '') }
-
-        before { subject.preview }
-
-        it 'does not update and records the error message' do
-          expect(row.reload.attributes).to include(
-            'created_person' => false,
-            'created_family' => false,
-            'updated_person' => false,
-            'updated_family' => false,
-            'error_reasons'  => 'The family must have a name.'
-          )
-        end
-      end
-    end
-
-    context 'given a row with an existing person id and new family id' do
-      let!(:person) { FactoryGirl.create(:person) }
-
-      let!(:row) { create_row(id: person.id, first: 'John', last: 'Jones', fam_id: 'new123', fam_name: 'John Jones') }
-
-      before { subject.preview }
-
-      it 'updates the person and creates the family' do
-        expect(row.reload.attributes).to include(
-          'created_person' => false,
-          'created_family' => true,
-          'updated_person' => true,
-          'updated_family' => false
-        )
-      end
-    end
-
-    context 'given a new row with a blank family id' do
-      let!(:row) { create_row(first: 'John', last: 'Jones', fam_id: '', fam_name: 'John Jones') }
-
-      before { subject.preview }
-
-      it 'creates the person and the family' do
-        expect(row.reload.attributes).to include(
-          'created_person' => true,
-          'created_family' => true,
-          'updated_person' => false,
-          'updated_family' => false
-        )
-      end
-    end
-
-    context 'given 2 new rows with the same new family id' do
-      let!(:row1) { create_row(first: 'John', last: 'Jones', fam_id: '100', fam_name: 'John & Jane Jones') }
-      let!(:row2) { create_row(first: 'Jane', last: 'Jones', fam_id: '100', fam_name: 'John & Jane Jones') }
-
-      before { subject.preview }
-
-      it 'creates the first person and family' do
-        expect(row1.reload.attributes).to include(
-          'created_person' => true,
-          'created_family' => true,
-          'updated_person' => false,
-          'updated_family' => false
-        )
-      end
-
-      it 'creates the second person but not the family' do
-        expect(row2.reload.attributes).to include(
-          'created_person' => true,
-          'created_family' => false,
-          'updated_person' => false,
-          'updated_family' => false
-        )
-      end
-    end
-
-    context 'given a new row with an existing family id' do
-      let(:family) { FactoryGirl.create(:family) }
-      let!(:row)   { create_row(first: 'John', last: 'Jones', fam_id: family.id) }
-
-      before { subject.preview }
-
-      it 'creates the person but not the family' do
-        expect(row.reload.attributes).to include(
-          'created_person' => true,
-          'created_family' => false,
-          'updated_person' => false,
-          'updated_family' => false
-        )
-      end
-    end
-  end
-
-  context 'given the match strategy is by_name' do
-    before do
-      import.match_strategy = :by_name
-      import.save!
-    end
-
-    context 'given a row with an existing person name and existing family name' do
-      let(:family) { FactoryGirl.create(:family, name: 'John Jones') }
-      let(:person) { FactoryGirl.create(:person, first_name: 'John', last_name: 'Jones', family: family) }
-
-      context 'given the attributes are valid and the data is unchanged' do
-        let!(:row) { create_row(first: person.first_name, last: person.last_name, fam_name: family.name) }
-
-        before { subject.preview }
-
-        it 'does not update the person or the family' do
-          expect(row.reload.attributes).to include(
-            'created_person' => false,
-            'created_family' => false,
-            'updated_person' => false,
-            'updated_family' => false
-          )
-        end
-
-        it 'records the matched person and family' do
-          expect(row.reload.person).to eq(person)
-          expect(row.family).to eq(family)
-        end
-
-        it 'records how the records were matched' do
-          expect(row.reload.matched_person_by_name?).to eq(true)
-          expect(row.matched_family_by_name?).to eq(true)
-        end
-      end
-
-      context 'given the attributes are valid and the person changed' do
-        let!(:row) { create_row(first: person.first_name, last: person.last_name, email: 'new@a.com', fam_name: family.name) }
-
-        before { subject.preview }
-
-        it 'updates the person but not the family' do
-          expect(row.reload.attributes).to include(
-            'created_person' => false,
-            'created_family' => false,
-            'updated_person' => true,
-            'updated_family' => false
-          )
-        end
-
-        it 'records the matched person and family' do
-          expect(row.reload.person).to eq(person)
-          expect(row.family).to eq(family)
-        end
-      end
-
-      context 'given the person attributes are invalid' do
-        let!(:row) { create_row(first: person.first_name, last: person.last_name, email: 'bad', fam_name: family.name, fam_lname: 'Changed') }
-
-        before { subject.preview }
-
-        it 'does not update and records the error message' do
-          expect(row.reload.attributes).to include(
-            'created_person' => false,
-            'created_family' => false,
-            'updated_person' => false,
-            'updated_family' => false,
-            'error_reasons'  => 'The email address is not formatted correctly (something@example.com).'
-          )
-        end
-
-        it 'records the matched person and family' do
-          expect(row.reload.person).to eq(person)
-          expect(row.family).to eq(family)
-        end
-      end
-
-      context 'given the family attributes are invalid' do
-        let!(:row) { create_row(first: person.first_name, last: person.last_name, fam_name: family.name, fam_lname: '') }
-
-        before { subject.preview }
-
-        it 'does not update and records the error message' do
-          expect(row.reload.attributes).to include(
-            'created_person' => false,
-            'created_family' => false,
-            'updated_person' => false,
-            'updated_family' => false,
-            'error_reasons'  => 'The family must have a last name.'
-          )
-        end
-
-        it 'records the matched person and family' do
-          expect(row.reload.person).to eq(person)
-          expect(row.family).to eq(family)
-        end
-      end
-    end
-
-    context 'given a row with an existing person name and new family name' do
-      let!(:person) { FactoryGirl.create(:person, first_name: 'John', last_name: 'Jones') }
-
-      let!(:row) { create_row(first: person.first_name, last: person.last_name, fam_name: 'John Jones') }
-
-      before { subject.preview }
-
-      it 'updates the person and creates the family' do
-        expect(row.reload.attributes).to include(
-          'created_person' => false,
-          'created_family' => true,
-          'updated_person' => true,
-          'updated_family' => false
-        )
-      end
-
-      it 'records the matched person' do
-        expect(row.reload.person).to eq(person)
-        expect(row.family).to be_nil
-      end
-    end
-
-    context 'given a new row with invalid person attributes and new family name' do
-      let!(:row) { create_row(first: 'John', last: '', fam_name: 'John Jones') }
-
-      before { subject.preview }
-
-      it 'does not update the person or family' do
-        expect(row.reload.attributes).to include(
-          'created_person' => false,
-          'created_family' => false,
-          'updated_person' => false,
-          'updated_family' => false
-        )
-      end
-    end
-
-    context 'given 3 new rows with 2 of them having the same family name' do
-      let!(:row1) { create_row(first: 'Bob',  last: 'Jones', fam_name: 'Bob Jones') }
-      let!(:row2) { create_row(first: 'Jane', last: 'Jones', fam_name: 'John & Jane Jones') }
-      let!(:row3) { create_row(first: 'Jane', last: 'Jones', fam_name: 'John & Jane Jones') }
-
-      before { subject.preview }
-
-      it 'creates the first person and family' do
-        expect(row1.reload.attributes).to include(
-          'created_person' => true,
-          'created_family' => true,
-          'updated_person' => false,
-          'updated_family' => false
-        )
-      end
-
-      it 'creates the second person and family' do
-        expect(row2.reload.attributes).to include(
-          'created_person' => true,
-          'created_family' => true,
-          'updated_person' => false,
-          'updated_family' => false
-        )
-      end
-
-      it 'creates the third person but not the family' do
-        expect(row3.reload.attributes).to include(
-          'created_person' => true,
-          'created_family' => false,
-          'updated_person' => false,
-          'updated_family' => false
-        )
-      end
-    end
-
-    context 'given a new row with an existing family id' do
-      let(:family) { FactoryGirl.create(:family) }
-      let!(:row)   { create_row(first: 'John', last: 'Jones', fam_name: family.name) }
-
-      before { subject.preview }
-
-      it 'creates the person but not the family' do
-        expect(row.reload.attributes).to include(
-          'created_person' => true,
-          'created_family' => false,
-          'updated_person' => false,
-          'updated_family' => false
-        )
-      end
-    end
-
-    context 'given a new row with a blank family name' do
-      let!(:row) { create_row(first: 'John', last: 'Jones', fam_name: '') }
-
-      before { subject.preview }
-
-      it 'does not create the person or the family' do
-        expect(row.reload.attributes).to include(
-          'created_person' => false,
-          'created_family' => false,
-          'updated_person' => false,
-          'updated_family' => false
-        )
-      end
-
-      it 'saves the error message' do
-        expect(row.reload.error_reasons).to match(/must have a name/)
-      end
-    end
-
-    context 'given a row with an blank id' do
-      let!(:family) { FactoryGirl.create(:family, name: 'John Jones') }
-      let!(:person) { FactoryGirl.create(:person, first_name: 'John', last_name: 'Jones', family: family) }
-
-      let!(:row) { create_row(id: '', first: person.first_name, last: person.last_name, email: 'a@new.com', fam_id: '', fam_name: family.name, fam_lname: 'Changed') }
-
-      before { subject.preview }
-
-      it 'updates the person and the family' do
-        expect(row.reload.attributes).to include(
-          'created_person' => false,
-          'created_family' => false,
-          'updated_person' => true,
-          'updated_family' => true,
-          'error_reasons'  => nil
-        )
-      end
-
-      it 'records the matched person and familiy' do
-        expect(row.reload.person).to eq(person)
-        expect(row.family).to eq(family)
-      end
+    it 'does not actually update person or family records' do
+      subject.preview
+      expect(person.reload.email).to be_nil
+      expect(family.reload.home_phone).to be_nil
+      expect(row2.reload.attributes).to include(
+        'updated_person' => true,
+        'updated_family' => true,
+        'person_id' => person.id,
+        'family_id' => family.id
+      )
     end
   end
 end

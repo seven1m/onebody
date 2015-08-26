@@ -1,5 +1,6 @@
 module PhotosHelper
   def photo_upload_for(object, &block)
+    return unless object
     url = object.persisted? ? url_for([object, :photo]) : nil
     id = object.persisted? ? "#{object.class.name.underscore}#{object.id}" : nil
     content_tag(:div, class: 'photo-drop-area') do

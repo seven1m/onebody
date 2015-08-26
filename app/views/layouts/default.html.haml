@@ -174,7 +174,7 @@
           %section.content-header
             = breadcrumbs
             %h1
-              = @title
+              = @title || raw('&nbsp;')
               - if sub_title = yield(:sub_title).presence
                 %small= sub_title
         %section.content

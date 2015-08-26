@@ -31,9 +31,20 @@ class ImportRow < ActiveRecord::Base
 
   def import_attributes_as_hash(real_attributes: false)
     import_attributes.each_with_object({}) do |attr, hash|
-      key = real_attributes ? import.mappings[attr.name] : attr.name
-      hash[key] = attr.value if key.present?
+      key = attr.name
+      real_key = import.mappings[key]
+      next unless valid_key?(real_key)
+      if real_attributes
+        hash[real_key] = attr.value
+      else
+        hash[key] = attr.value
+      end
     end
+  end
+
+  def valid_key?(key)
+    return false if key.blank?
+    Person.importable_column_names.include?(key)
   end
 
   def match_person

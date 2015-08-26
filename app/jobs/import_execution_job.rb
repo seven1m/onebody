@@ -5,7 +5,13 @@ class ImportExecutionJob < ActiveJob::Base
     ActiveRecord::Base.connection_pool.with_connection do
       Site.with_current(site) do
         import = Import.find(import_id)
-        ImportExecution.new(import).execute
+        begin
+          ImportExecution.new(import).execute
+        rescue => e
+          import.status = :errored
+          import.error_message = e.message
+          import.save!
+        end
       end
     end
   end

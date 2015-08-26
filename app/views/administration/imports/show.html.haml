@@ -113,16 +113,18 @@
           %tr.details.text-red
             %td{ colspan: 9 }= row.error_reasons
 
-.page-controls
-  - if @import.previewed?
-    = link_to edit_administration_import_path(@import), class: 'btn btn-warning' do
-      = icon 'fa fa-arrow-left'
-      Edit Import
-    = link_to execute_administration_import_path(@import), class: 'btn btn-danger', |
-      data: { method: 'patch', confirm: t('are_you_sure') } do
-      = icon 'fa fa-bolt'
-      Import Data Now!
-  = link_to @import, data: { method: :delete, confirm: t('are_you_sure') }, class: 'btn btn-delete pull-right' do
-    = icon 'fa fa-trash-o'
-    Delete Import
-  .clearfix
+- if @import.previewed? || @import.destroyable?
+  .page-controls
+    - if @import.previewed?
+      = link_to edit_administration_import_path(@import), class: 'btn btn-warning' do
+        = icon 'fa fa-arrow-left'
+        Edit Import
+      = link_to execute_administration_import_path(@import), class: 'btn btn-danger', |
+        data: { method: 'patch', confirm: t('are_you_sure') } do
+        = icon 'fa fa-bolt'
+        Import Data Now!
+    - if @import.destroyable?
+      = link_to @import, data: { method: :delete, confirm: t('are_you_sure') }, class: 'btn btn-delete pull-right' do
+        = icon 'fa fa-trash-o'
+        Delete Import
+    .clearfix

@@ -59,7 +59,7 @@ class Administration::ImportsController < ApplicationController
 
   def destroy
     @import = Import.find(params[:id])
-    @import.destroy
+    @import.destroy if @import.destroyable?
     redirect_to administration_imports_path
   end
 

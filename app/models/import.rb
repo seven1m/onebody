@@ -65,4 +65,8 @@ class Import < ActiveRecord::Base
   def should_preview?
     !new_record? && matched? && !Rails.env.test?
   end
+
+  def destroyable?
+    !%w(active complete).include?(status)
+  end
 end
