@@ -4,7 +4,7 @@ describe ImportPreview do
   let(:import) do
     FactoryGirl.create(
       :import,
-      status: 'matched',
+      status: 'previewing',
       match_strategy: 'by_name',
       mappings: {
         'id'        => 'id',
@@ -39,7 +39,7 @@ describe ImportPreview do
     let!(:row3)   { create_row(first: 'George', last: 'Morgan', email: 'a@new.com', fam_name: 'George Morgan', phone: '1234567890') }
 
     it 'updates the import status' do
-      expect { subject.preview }.to change(import, :status).from('matched').to('previewed')
+      expect { subject.preview }.to change(import, :status).to('previewed')
     end
 
     it 'does not actually create person or family records' do

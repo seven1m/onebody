@@ -4,7 +4,7 @@ describe ImportExecution do
   let(:import) do
     FactoryGirl.create(
       :import,
-      status: 'previewed',
+      status: 'active',
       match_strategy: 'by_id_only',
       mappings: {
         'id'        => 'id',
@@ -33,14 +33,14 @@ describe ImportExecution do
 
   describe '#execute' do
     it 'updates the import status' do
-      expect { subject.execute }.to change(import, :status).from('previewed').to('complete')
+      expect { subject.execute }.to change(import, :status).to('complete')
     end
 
     context 'given dangerous attribute mappings' do
       let(:import) do
         FactoryGirl.create(
           :import,
-          status: 'previewed',
+          status: 'active',
           match_strategy: 'by_id_only',
           mappings: {
             'id'       => 'id',

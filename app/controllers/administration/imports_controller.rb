@@ -28,7 +28,7 @@ class Administration::ImportsController < ApplicationController
       filename:        params[:file].original_filename,
       importable_type: 'Person',
       status:          'pending',
-      mappings:        previous_import.try(:mappings),
+      mappings:        previous_import.try(:mappings) || {},
       match_strategy:  previous_import.try(:match_strategy)
     )
     @import.parse_async(
@@ -76,7 +76,7 @@ class Administration::ImportsController < ApplicationController
   end
 
   def build_example
-    @import.rows.first.try(:import_attributes_as_hash) || {}
+    @import.rows.first.try(:import_attributes_as_hash, keep_invalid: true) || {}
   end
 
   def only_admins

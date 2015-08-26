@@ -32,10 +32,10 @@ class ImportParser
         next if attributes.empty?
         @import.rows.create!(
           sequence: index + 1,
-          status: 'pending',
           import_attributes_attributes: attributes
         )
       end
+      @import.mappings = Hash[parsed[:headers].zip].merge(@import.mappings || {})
       @import.status = :parsed
     end
     @import.save!

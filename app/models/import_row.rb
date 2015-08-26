@@ -29,11 +29,11 @@ class ImportRow < ActiveRecord::Base
     matched_family_by_contact_info: 3
   }
 
-  def import_attributes_as_hash(real_attributes: false)
+  def import_attributes_as_hash(real_attributes: false, keep_invalid: false)
     import_attributes.each_with_object({}) do |attr, hash|
       key = attr.name
       real_key = import.mappings[key]
-      next unless valid_key?(real_key)
+      next unless valid_key?(real_key) || keep_invalid
       if real_attributes
         hash[real_key] = attr.value
       else

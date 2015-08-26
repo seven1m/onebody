@@ -51,6 +51,14 @@ describe ImportParser do
       expect(import.reload.status).to eq('parsed')
     end
 
+    it 'stores the column headings' do
+      expect(import.reload.mappings).to eq(
+        'first_name' => nil,
+        'last_name'  => nil,
+        'email'      => nil
+      )
+    end
+
     it 'creates import rows' do
       import = subject.import
       expect(import.rows.count).to eq(1)

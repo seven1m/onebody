@@ -54,11 +54,16 @@ class Import < ActiveRecord::Base
   end
 
   def preview_async
+    return if new_record? || !matched?
+    self.status = :previewing
+    self.save!
     ImportPreviewJob.perform_later(Site.current, id)
   end
 
   def execute_async
     return if new_record? || !previewed?
+    self.status = :active
+    self.save!
     ImportExecutionJob.perform_later(Site.current, id)
   end
 

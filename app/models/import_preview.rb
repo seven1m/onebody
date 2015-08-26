@@ -6,10 +6,6 @@ class ImportPreview < ImportExecution
   private
 
   def status_before
-    'matched'
-  end
-
-  def status_during
     'previewing'
   end
 

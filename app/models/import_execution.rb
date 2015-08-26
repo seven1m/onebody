@@ -9,7 +9,6 @@ class ImportExecution
 
   def execute
     return unless ready?
-    @import.update_attributes(status: status_before)
     @import.rows.each do |row|
       row.reset_statuses
       if (person = row.match_person)
@@ -25,10 +24,6 @@ class ImportExecution
   private
 
   def status_before
-    'previewed'
-  end
-
-  def status_during
     'active'
   end
 
