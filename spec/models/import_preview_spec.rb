@@ -42,6 +42,13 @@ describe ImportPreview do
       expect { subject.preview }.to change(import, :status).to('previewed')
     end
 
+    it 'updates the status of the rows' do
+      subject.preview
+      expect(row1.reload.attributes).to include(
+        'status' => 1
+      )
+    end
+
     it 'does not actually create person or family records' do
       expect {
         subject.preview

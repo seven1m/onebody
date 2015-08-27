@@ -9,6 +9,7 @@ class Administration::ImportsController < ApplicationController
     @import = Import.find(params[:id])
     respond_to do |format|
       format.html do
+        @rows = @import.rows.includes(:import_attributes).paginate(page: params[:page], per_page: 100)
         redirect_to(action: :edit) if @import.parsed?
         render :errored if @import.errored?
       end

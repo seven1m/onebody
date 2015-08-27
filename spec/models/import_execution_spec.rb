@@ -94,6 +94,12 @@ describe ImportExecution do
             expect(row.reload.matched_person_by_id?).to eq(true)
             expect(row.matched_family_by_id?).to eq(true)
           end
+
+          it 'updates the status of the rows' do
+            expect(row.reload.attributes).to include(
+              'status' => 2
+            )
+          end
         end
 
         context 'given the person attributes are invalid' do

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150825001625) do
+ActiveRecord::Schema.define(version: 20150827010140) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -313,6 +313,7 @@ ActiveRecord::Schema.define(version: 20150825001625) do
     t.integer "family_id",         limit: 4
     t.integer "matched_person_by", limit: 4
     t.integer "matched_family_by", limit: 4
+    t.integer "status",            limit: 4
   end
 
   create_table "imports", force: :cascade do |t|
@@ -321,14 +322,13 @@ ActiveRecord::Schema.define(version: 20150825001625) do
     t.string   "filename",        limit: 255,               null: false
     t.integer  "status",          limit: 4,                 null: false
     t.string   "error_message",   limit: 255
-    t.integer  "success_count",   limit: 4,     default: 0, null: false
-    t.integer  "fail_count",      limit: 4,     default: 0, null: false
     t.string   "importable_type", limit: 50,                null: false
     t.text     "mappings",        limit: 65535
     t.integer  "match_strategy",  limit: 4
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
     t.datetime "completed_at"
+    t.integer  "row_count",       limit: 4,     default: 0
   end
 
   create_table "jobs", force: :cascade do |t|

@@ -29,3 +29,7 @@
     = button_tag class: 'btn btn-success' do
       Save and Contiue
       = icon 'fa fa-arrow-right'
+    - if @import.destroyable?
+      = link_to @import, data: { method: :delete, confirm: t('are_you_sure') }, class: 'btn btn-delete pull-right' do
+        = icon 'fa fa-trash-o'
+        Delete Import

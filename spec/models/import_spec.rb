@@ -1,4 +1,5 @@
 require_relative '../rails_helper'
+require 'stringio'
 
 describe Import do
   describe 'validations' do
@@ -45,6 +46,101 @@ describe Import do
         'first_name',
         'family_name'
       )
+    end
+  end
+
+  describe '#parse_async' do
+    subject { FactoryGirl.create(:import) }
+
+    let(:file) { StringIO.new("first,last\nTim,Morgan\nJen,Morgan") }
+
+    before do
+      allow(ImportParserJob).to receive(:perform_later)
+    end
+
+    it 'updates the row count' do
+      subject.parse_async(file: file, strategy_name: 'csv')
+      expect(subject.reload.row_count).to eq(2)
+    end
+  end
+
+  describe '#progress' do
+    context 'given the status is parsed' do
+      subject { FactoryGirl.create(:import, status: :parsed) }
+
+      it 'returns 30' do
+        expect(subject.progress).to eq(30)
+      end
+    end
+
+    context 'given the status is parsing' do
+      subject { FactoryGirl.create(:import, status: :parsing) }
+
+      context 'given there are 0 rows parsed' do
+        it 'returns 1' do
+          expect(subject.progress).to eq(1)
+        end
+      end
+
+      context 'given there are 1 of 5 rows parsed' do
+        before do
+          subject.row_count = 5
+          FactoryGirl.create(:import_row, status: :parsed, import: subject)
+        end
+
+        it 'returns 7' do
+          expect(subject.progress).to eq(7)
+        end
+      end
+
+      context 'given there are 3 of 5 rows parsed' do
+        before do
+          subject.row_count = 5
+          FactoryGirl.create_list(:import_row, 3, status: :parsed, import: subject)
+        end
+
+        it 'returns 18' do
+          expect(subject.progress).to eq(18)
+        end
+      end
+
+      context 'given there are 5 of 5 rows parsed' do
+        before do
+          subject.row_count = 5
+          FactoryGirl.create_list(:import_row, 5, status: :parsed, import: subject)
+        end
+
+        it 'returns 29' do
+          expect(subject.progress).to eq(29)
+        end
+      end
+    end
+
+    context 'given the status is active' do
+      subject { FactoryGirl.create(:import, status: :active) }
+
+      context 'given there are 3 of 5 rows imported' do
+        before do
+          subject.row_count = 5
+          FactoryGirl.create_list(:import_row, 3, status: :imported, import: subject)
+          FactoryGirl.create_list(:import_row, 2, status: :parsed, import: subject)
+        end
+
+        it 'returns 84' do
+          expect(subject.progress).to eq(84)
+        end
+      end
+
+      context 'given there are 5 of 5 rows imported' do
+        before do
+          subject.row_count = 5
+          FactoryGirl.create_list(:import_row, 5, status: :imported, import: subject)
+        end
+
+        it 'returns 99' do
+          expect(subject.progress).to eq(99)
+        end
+      end
     end
   end
 end

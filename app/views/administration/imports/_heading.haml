@@ -2,4 +2,4 @@
 - @title = t('administration.imports.status_heading', status: status)
 
 .progress{ class: @import.working? ? 'progress-striped active' : '' }
-  .progress-bar.progress-bar-green{ style: "width: #{@import.progress}%" }
+  #progress-text.progress-bar.progress-bar-green{ style: "width: #{@import.progress}%; min-width:5%" }

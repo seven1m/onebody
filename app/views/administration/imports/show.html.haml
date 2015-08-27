@@ -3,18 +3,28 @@
 - if @import.working?
   :javascript
     var current_status = #{ json_escape @import.status.to_json };
-    var delay = 1000;
+    var delay = 2000;
+    var previousCount = 0;
     function refreshOnStatusChange() {
       $.getJSON('#{administration_import_path(@import, format: :json)}', function(data) {
         if (data.status != current_status) {
           location.reload();
         } else {
-          delay *= 1.1;
+          if (previousCount == data.completed_rows_in_stage) {
+            delay *= 1.1;
+          }
+          previousCount = data.completed_rows_in_stage;
           setTimeout(refreshOnStatusChange, delay);
+          $('#progress-text').html(
+            data.completed_rows_in_stage
+          ).css(
+            'width',
+            data.row_progress + '%'
+          )
         }
       });
     }
-    setTimeout(refreshOnStatusChange, 1000);
+    setTimeout(refreshOnStatusChange, delay);
 
 .row
   .col-md-4
@@ -84,6 +94,8 @@
 
 
 - if @import.status_at_least?('previewed')
+  = pagination @rows
+
   %table.table
     %thead
       %tr
@@ -97,7 +109,7 @@
         %th Family Matched
         %th Family Status
     %tbody
-      - @import.rows.each do |row|
+      - @rows.each do |row|
         - attrs = row.import_attributes_as_hash(real_attributes: true)
         %tr{ class: row.error_reasons.present? ? 'text-red' : nil }
           %td= row.person ? link_to(row.person_id, row.person) : 'new'
@@ -112,6 +124,8 @@
         - if row.error_reasons.present?
           %tr.details.text-red
             %td{ colspan: 9 }= row.error_reasons
+
+  = pagination @rows
 
 - if @import.previewed? || @import.destroyable?
   .page-controls

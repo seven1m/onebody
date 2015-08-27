@@ -9,12 +9,17 @@ class ImportPreview < ImportExecution
     'previewing'
   end
 
+  def row_status_before
+    'parsed'
+  end
+
   def status_after
     'previewed'
   end
 
   def save_row(row)
     reset_preview_data(row)
+    row.status = :previewed
     row.save
   end
 

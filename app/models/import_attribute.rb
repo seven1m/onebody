@@ -4,5 +4,5 @@ class ImportAttribute < ActiveRecord::Base
 
   scope_by_site_id
 
-  validates :import, :row, :name, presence: true
+  validates :import_id, :row, :name, presence: true
 end

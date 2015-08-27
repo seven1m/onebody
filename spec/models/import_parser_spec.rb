@@ -51,6 +51,10 @@ describe ImportParser do
       expect(import.reload.status).to eq('parsed')
     end
 
+    it 'updates the row_count' do
+      expect(import.reload.row_count).to eq(1)
+    end
+
     it 'stores the column headings' do
       expect(import.reload.mappings).to eq(
         'first_name' => nil,
@@ -65,7 +69,8 @@ describe ImportParser do
       row = import.rows.first
       expect(row.attributes).to include(
         'site_id'  => 1,
-        'sequence' => 1
+        'sequence' => 1,
+        'status'   => 0
       )
     end
 

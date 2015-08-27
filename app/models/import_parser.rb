@@ -22,26 +22,37 @@ class ImportParser
 
   def parse
     parsed = @strategy.parse(@data)
-    @import.update_attribute(:status, 'parsing')
     if parsed[:error]
       @import.status = :errored
       @import.error_message = parsed[:error]
     else
+      @import.status = :parsing
+      @import.row_count = parsed[:rows].size
+      @import.save!
       parsed[:rows].each_with_index do |row, index|
         attributes = attrs_for_row(row)
         next if attributes.empty?
+        @import.reload if index % 1000 == 0 # make sure import didn't get deleted
         @import.rows.create!(
           sequence: index + 1,
-          import_attributes_attributes: attributes
+          import_attributes_attributes: attributes,
+          status: :parsed
         )
       end
-      @import.mappings = Hash[parsed[:headers].zip].merge(@import.mappings || {})
+      @import.mappings = build_mappings(parsed[:headers])
       @import.status = :parsed
     end
     @import.save!
   end
 
   private
+
+  def build_mappings(headers)
+    previous_mappings = @import.mappings || {}
+    headers.each_with_object({}) do |name, hash|
+      hash[name] = previous_mappings[name]
+    end
+  end
 
   def attrs_for_row(row)
     row.each_with_index.map do |(key, value), index|

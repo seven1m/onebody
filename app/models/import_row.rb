@@ -17,6 +17,12 @@ class ImportRow < ActiveRecord::Base
   scope :unchanged_people,   -> { where(created_person: false, updated_person: false) }
   scope :unchanged_families, -> { where(created_family: false, updated_family: false) }
 
+  enum status: %w(
+    parsed
+    previewed
+    imported
+  )
+
   enum matched_person_by: {
     matched_person_by_id: 1,
     matched_person_by_name: 2,

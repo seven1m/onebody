@@ -9,7 +9,11 @@ class ImportExecution
 
   def execute
     return unless ready?
-    @import.rows.each do |row|
+    @import.rows.update_all(status: row_status_before)
+    index = 0
+    @import.rows.includes(:import_attributes).find_each do |row|
+      @import.reload if index % 100 == 0 # make sure import didn't get deleted
+      index += 1
       row.reset_statuses
       if (person = row.match_person)
         update_existing_person(row, person)
@@ -27,6 +31,10 @@ class ImportExecution
     'active'
   end
 
+  def row_status_before
+    'previewed'
+  end
+
   def status_after
     'complete'
   end
@@ -38,6 +46,7 @@ class ImportExecution
   def save_row(row)
     row.person.save
     row.family.save
+    row.status = :imported
     row.save!
   end
 
@@ -65,7 +74,7 @@ class ImportExecution
       create_new_family(row, person)
     end
     row.created_person = person.valid?
-    row.created_family = row.updated_family = false if person.invalid?
+    row.created_family = row.updated_family = false unless row.created_person
     row.error_reasons = errors_as_string(person)
     row.person = person
   end
