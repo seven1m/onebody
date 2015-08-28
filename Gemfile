@@ -70,6 +70,7 @@ gem 'mustache', '~> 1.0.1'
 gem 'github_api', '~> 0.12.3'
 gem 'sucker_punch', '~> 1.5.0'
 gem 'pusher', '~> 0.14.5'
+gem 'omniauth-facebook', '~> 2.0.1'
 
 group :test do
   gem 'factory_girl_rails', '~> 4.5.0'
