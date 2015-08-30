@@ -34,16 +34,7 @@ class Import < ActiveRecord::Base
   after_update :preview_async, if: :should_preview?
 
   def progress
-    number = self.class.statuses[status]
-    next_number = self.class.statuses.values.select { |n| n > number }.first
-    return 0 if next_number.nil?
-    range = number...next_number
-    if row_count == 0
-      offset = 0
-    else
-      offset = row_progress / 100.0 * (range.size - 1)
-    end
-    number + offset.round
+    self.class.statuses[status]
   end
 
   def row_progress

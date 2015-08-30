@@ -1,6 +1,9 @@
 = render 'heading'
 
 - if @import.working?
+  .progress.progress-striped.active
+    #progress-text.progress-bar.progress-bar-green{ style: "width: #{@import.row_progress}%; min-width:5%" }
+
   :javascript
     var current_status = #{ json_escape @import.status.to_json };
     var delay = 2000;
