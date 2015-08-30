@@ -55,7 +55,7 @@ class ImportExecution
     if (family = match_family(row))
       person.family = family
       update_existing_family(row, family)
-    elsif person.family && id_for_family(row).blank?
+    elsif person.family && id_for_family(row).blank? && legacy_id_for_family(row).blank?
       update_existing_family(row, person.family)
     else
       create_new_family(row, person)

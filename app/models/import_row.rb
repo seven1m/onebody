@@ -57,16 +57,20 @@ class ImportRow < ActiveRecord::Base
     hash = import_attributes_as_hash(real_attributes: true)
     case import.match_strategy
     when 'by_id_only'
-      match_person_by_id(hash)
+      match_person_by_id(hash) ||
+        match_person_by_legacy_id(hash)
     when 'by_name'
       match_person_by_id(hash) ||
+        match_person_by_legacy_id(hash) ||
         match_person_by_name(hash)
     when 'by_contact_info'
       match_person_by_id(hash) ||
+        match_person_by_legacy_id(hash) ||
         match_person_by_mobile_phone(hash) ||
         match_person_by_email(hash)
     when 'by_name_or_contact_info'
       match_person_by_id(hash) ||
+        match_person_by_legacy_id(hash) ||
         match_person_by_name(hash) ||
         match_person_by_mobile_phone(hash) ||
         match_person_by_email(hash)
@@ -77,16 +81,20 @@ class ImportRow < ActiveRecord::Base
     hash = import_attributes_as_hash(real_attributes: true)
     case import.match_strategy
     when 'by_id_only'
-      match_family_by_id(hash)
+      match_family_by_id(hash) ||
+        match_family_by_legacy_id(hash)
     when 'by_name'
       match_family_by_id(hash) ||
+        match_family_by_legacy_id(hash) ||
         match_family_by_name(hash)
     when 'by_contact_info'
       match_family_by_id(hash) ||
+        match_family_by_legacy_id(hash) ||
         match_family_by_home_phone(hash) ||
         match_family_by_address(hash)
     when 'by_name_or_contact_info'
       match_family_by_id(hash) ||
+        match_family_by_legacy_id(hash) ||
         match_family_by_name(hash) ||
         match_family_by_home_phone(hash) ||
         match_family_by_address(hash)

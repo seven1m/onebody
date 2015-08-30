@@ -33,6 +33,11 @@ module Concerns
         attributes(row)['family_id']
       end
 
+      def legacy_id_for_family(row)
+        attrs = attributes(row)
+        attrs['family_legacy_id'] || attrs['legacy_family_id']
+      end
+
       def attributes(row)
         row.import_attributes_as_hash(real_attributes: true)
       end

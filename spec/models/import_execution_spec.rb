@@ -8,11 +8,13 @@ describe ImportExecution do
       match_strategy: 'by_id_only',
       mappings: {
         'id'        => 'id',
+        'legacy_id' => 'legacy_id',
         'first'     => 'first_name',
         'last'      => 'last_name',
         'fam_id'    => 'family_id',
         'fam_name'  => 'family_name',
         'fam_lname' => 'family_last_name',
+        'fam_lid'   => 'family_legacy_id',
         'phone'     => 'family_home_phone',
         'email'     => 'email'
       }
@@ -172,6 +174,45 @@ describe ImportExecution do
             'updated_person' => true,
             'updated_family' => true
           )
+        end
+      end
+
+      context 'given a row with an existing person legacy_id and no family legacy_id' do
+        let!(:person) { FactoryGirl.create(:person, legacy_id: 1000) }
+        let!(:family) { person.family }
+
+        let!(:row) { create_row(legacy_id: 1000, first: 'John', last: 'Jones', fam_name: 'John Jones') }
+
+        before { subject.execute }
+
+        it 'updates the person and updates the family' do
+          expect(row.reload.attributes).to include(
+            'created_person' => false,
+            'created_family' => false,
+            'updated_person' => true,
+            'updated_family' => true
+          )
+          expect(row.person).to eq(person)
+          expect(row.family).to eq(family)
+        end
+      end
+
+      context 'given a row with an existing person legacy_id and a new family legacy_id' do
+        let!(:person) { FactoryGirl.create(:person, legacy_id: 1000) }
+
+        let!(:row) { create_row(legacy_id: 1000, first: 'John', last: 'Jones', fam_name: 'John Jones', fam_lid: 5000) }
+
+        before { subject.execute }
+
+        it 'updates the person and creates the family' do
+          expect(row.reload.attributes).to include(
+            'created_person' => false,
+            'created_family' => true,
+            'updated_person' => true,
+            'updated_family' => false
+          )
+          expect(row.person).to eq(person)
+          expect(row.family).not_to eq(person.family)
         end
       end
 
