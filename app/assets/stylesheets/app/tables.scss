@@ -1,7 +1,3 @@
-tr.row-with-actions {
-  @extend tr.row-with-avatar;
-}
-
 td.icon-inset {
   padding-left: 24px !important;
 }
@@ -27,5 +23,23 @@ table.table {
   }
   td.actions {
     white-space: nowrap;
+  }
+}
+
+.spaced-table td, .spaced-table th {
+  padding-right: 10px;
+}
+
+td.strong {
+  font-weight: bold;
+}
+
+tr.row-with-actions, tr.row-with-controls {
+  @extend tr.row-with-avatar;
+}
+
+.table-no-top-border tr:first-child {
+  th, td {
+    border-top: none;
   }
 }
