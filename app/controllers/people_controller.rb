@@ -156,22 +156,6 @@ class PeopleController < ApplicationController
     end
   end
 
-  def import
-    if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
-      if request.get?
-        @column_names = Person.importable_column_names
-      elsif request.post?
-        @records = Person.queue_import_from_csv_file(params[:file].read, params[:match_by_name], params[:attributes])
-        render action: 'import_queue'
-      elsif request.put?
-        @completed, @errored = Person.import_data(params)
-        render action: 'import_results'
-      end
-    else
-      render text: t('not_authorized'), layout: true, status: 401
-    end
-  end
-
   def hashify
     params.merge!(Hash.from_xml(request.body.read))
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
