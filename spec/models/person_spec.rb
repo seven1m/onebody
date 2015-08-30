@@ -443,10 +443,6 @@ describe Person do
   end
 
   describe '#create_as_stream_item' do
-    before do
-      allow(StreamItemGroupJob).to receive(:perform_later)
-    end
-
     let!(:person) { FactoryGirl.create(:person) }
 
     it 'creates a new stream item' do
@@ -454,11 +450,6 @@ describe Person do
         'title'     => person.name,
         'person_id' => person.id
       )
-    end
-
-    it 'calls StreamItemGroup.perform_later' do
-      expect(StreamItemGroupJob).to \
-        have_received(:perform_later).with(Site.current, StreamItem.last.id)
     end
   end
 

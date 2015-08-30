@@ -21,6 +21,7 @@ module Concerns
           created_at: created_at,
           shared: visible? && email.present?
         )
+        return unless item_grouping_enabled?
         StreamItemGroupJob.perform_later(Site.current, item.id)
       end
 
@@ -29,10 +30,16 @@ module Concerns
         stream_item.title = name
         stream_item.shared = visible? && email.present?
         stream_item.save!
+        return unless item_grouping_enabled?
+        StreamItemGroupJob.perform_later(Site.current, stream_item.id)
       end
 
       def destroy_stream_item
         stream_item.destroy if stream_item
+      end
+
+      def item_grouping_enabled?
+        !Rails.env.test?
       end
     end
   end
