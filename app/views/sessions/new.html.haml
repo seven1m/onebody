@@ -18,6 +18,16 @@
       .form-group
         = check_box_tag :remember_me, true, params[:remember_me]
         = label_tag :remember_me, t('session.form.remember_me')
+
+      - if has_social_logins
+        %legend.text-muted.text-center
+          or
+
+        - if support_facebook_login
+          .text-center
+            %a.btn.btn-social-icon.btn-facebook{href: "/auth/facebook"}
+              %i.fa.fa-facebook
+
     .footer
       %button.btn.bg-olive.btn-block{type: 'submit'}
         = icon 'fa fa-sign-in'

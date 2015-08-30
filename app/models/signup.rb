@@ -41,6 +41,36 @@ class Signup
     save
   end
 
+  def self.save_with_omniauth(auth)
+    first_name = auth['info']['first_name']
+    last_name = auth['info']['last_name']
+
+    family ||= Family.create(
+      name:      "#{first_name} #{last_name}",
+      last_name: last_name
+    )
+
+    return false unless family.errors.empty?
+
+    person ||= Person.create(
+      provider:    auth['provider'],
+      uid:         auth['uid'],
+      first_name:  first_name,
+      last_name:   last_name,
+      email:       auth['info']['email'],
+      family:      family,
+      can_sign_in: true
+    )
+
+    case auth['provider']
+    when "facebook"
+      person.facebook_url = auth['info']['urls'][:Facebook]
+    end
+
+    return false unless person.errors.empty?
+    person
+  end
+
   def verification_sent?
     !!@verification_sent
   end

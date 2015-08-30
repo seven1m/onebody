@@ -3,6 +3,8 @@ class SessionsController < ApplicationController
   before_filter :check_ssl, except: %w(destroy)
   before_filter :check_too_many_signin_failures, only: %w(create)
 
+  helper_method :has_social_logins, :support_facebook_login
+
   layout 'signed_out'
 
   def show
@@ -14,28 +16,42 @@ class SessionsController < ApplicationController
     redirect_to(new_setup_path) unless Person.any?
   end
 
+  def create_from_external_provider
+    auth = request.env["omniauth.auth"]
+    @person = Person.where(
+      :provider => auth['provider'],
+      :uid => auth['uid'].to_s).first || Signup.save_with_omniauth(auth)
+    redirect_after_authentication
+  end
+
   # sign in
   def create
     @person = Person.authenticate(params[:email], params[:password])
-    if @person && !@person.can_sign_in?
-      redirect_to page_for_public_path('system/unauthorized')
-    elsif @person
-      if params[:for] == 'checkin'
-        login_success_for_checkin
-      else
-        login_success
-      end
-    elsif @person == false
-      login_auth_fail
-    else
-      login_not_found
-    end
+    redirect_after_authentication
   end
 
   # sign out
   def destroy
     reset_session
     redirect_to root_path
+  end
+
+  def has_social_logins
+    support_facebook_login
+  end
+
+  def support_facebook_login
+    !!Setting.get(:facebook, :app_id) and !!Setting.get(:facebook, :app_secret)
+  end
+
+  def setup_omniauth
+    provider = params['provider']
+    if provider == "facebook" and support_facebook_login
+      env['omniauth.strategy'].options[:client_id] = Setting.get(:facebook, :app_id)
+      env['omniauth.strategy'].options[:client_secret] = Setting.get(:facebook, :app_secret)
+      env['omniauth.strategy'].options[:scope] = 'email,read_stream'
+    end
+    render :text => "Setup complete.", :status => 404
   end
 
   private
@@ -129,5 +145,21 @@ class SessionsController < ApplicationController
       value: request.cookie_jar['_session_id'],
       expires: length.from_now
     }
+  end
+
+  def redirect_after_authentication
+    if @person && !@person.can_sign_in?
+      redirect_to page_for_public_path('system/unauthorized')
+    elsif @person
+      if params[:for] == 'checkin'
+        login_success_for_checkin
+      else
+        login_success
+      end
+    elsif @person == false
+      login_auth_fail
+    else
+      login_not_found
+    end
   end
 end

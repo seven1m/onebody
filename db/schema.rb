@@ -505,6 +505,8 @@ ActiveRecord::Schema.define(version: 20150827010140) do
     t.boolean  "primary_emailer"
     t.integer  "last_seen_stream_item_id",     limit: 4
     t.integer  "last_seen_group_id",           limit: 4
+    t.string   "provider",                     limit: 255
+    t.string   "uid",                          limit: 255
   end
 
   add_index "people", ["admin_id"], name: "index_admin_id_on_people", using: :btree

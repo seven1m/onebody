@@ -134,6 +134,11 @@ Pusher:
   WSS Port:
     format: string
     value: 443
+Facebook:
+  App ID:
+    format: string
+  App Secret:
+    format: string
 URL:
   Visitor:
     format: string
