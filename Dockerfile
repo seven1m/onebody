@@ -25,6 +25,7 @@ ENV RAILS_ENV production
 ADD .ruby-version /var/www/onebody/.ruby-version
 ADD Gemfile /var/www/onebody/Gemfile
 ADD config/database.yml /var/www/onebody/config/database.yml
+ADD config/email.yml /var/www/onebody/config/email.yml
 USER root
 RUN chown -R onebody /var/www/onebody
 
