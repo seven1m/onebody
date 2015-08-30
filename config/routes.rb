@@ -14,11 +14,8 @@ OneBody::Application.routes.draw do
   resources :people do
     collection do
       get  :schema
-      get  :import
-      post :import
       post :hashify
       post :batch
-      put  :import
     end
     member do
       get :favs
@@ -208,6 +205,9 @@ OneBody::Application.routes.draw do
       collection do
         put :batch
       end
+    end
+    resources :imports do
+      patch :execute, on: :member
     end
     resources :updates, :admins, :membership_requests
     namespace :checkin do

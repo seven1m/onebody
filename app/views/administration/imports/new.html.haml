@@ -1,0 +1,14 @@
+- @title = t('.heading')
+
+.box.box-success
+  .box-header
+    %h3.box-title
+      = t('.people.heading')
+  .box-body
+    = form_tag administration_imports_path, multipart: true do
+      = hidden_field_tag :importable_type, 'Person'
+      .form-group
+        = label_tag :file, t('.form.file')
+        = file_field_tag :file
+      .form-group
+        = button_tag t('.form.submit'), class: 'btn btn-success'

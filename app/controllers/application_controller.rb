@@ -177,7 +177,7 @@ class ApplicationController < ActionController::Base
   end
 
   def add_errors_to_flash(record)
-    flash[:warning] = record.errors.full_messages.join('; ')
+    flash[:warning] = record.errors.values.join('; ')
   end
 
   def only_admins

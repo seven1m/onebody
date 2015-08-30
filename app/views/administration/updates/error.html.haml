@@ -4,7 +4,7 @@
   = t('import.error_updating_message_html', url: administration_updates_path)
 %h3= pluralize @update.errors.length, t('import.error')
 %ul.list
-  - @update.errors.full_messages.each do |error|
+  - @update.errors.values.each do |error|
     %li= error
 %h3= t('import.records')
 %ul.list

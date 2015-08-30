@@ -220,7 +220,7 @@ class Notifier < ActionMailer::Base
           I18n.t('notifier.rejection.invalid.subject', subject: email.subject),
           I18n.t('notifier.rejection.invalid.body',
                  subject: email.subject,
-                 errors: message.errors.full_messages.join("\n"),
+                 errors: message.errors.values.join("\n"),
                  support: Setting.get(:contact, :tech_support_contact))
         ).deliver_now
         sent_to_count += 1

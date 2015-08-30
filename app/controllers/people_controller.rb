@@ -98,6 +98,7 @@ class PeopleController < ApplicationController
 
   def edit
     @person ||= Person.find(params[:id])
+    render(text: t('people.edit.no_family_error'), layout: true) && return unless @person.family
     if @logged_in.can_update?(@person)
       @family = @person.family
       @business_categories = Person.business_categories
@@ -149,22 +150,6 @@ class PeopleController < ApplicationController
       else
         @person.destroy
         redirect_to @person.family
-      end
-    else
-      render text: t('not_authorized'), layout: true, status: 401
-    end
-  end
-
-  def import
-    if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
-      if request.get?
-        @column_names = Person.importable_column_names
-      elsif request.post?
-        @records = Person.queue_import_from_csv_file(params[:file].read, params[:match_by_name], params[:attributes])
-        render action: 'import_queue'
-      elsif request.put?
-        @completed, @errored = Person.import_data(params)
-        render action: 'import_results'
       end
     else
       render text: t('not_authorized'), layout: true, status: 401

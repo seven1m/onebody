@@ -40,9 +40,6 @@ en:
     MM: "MM"
     YYYY: "YYYY"
 
-  errors:
-    format: "%{message}"
-
   activemodel:
     errors:
       models:
@@ -66,6 +63,9 @@ en:
               blank: Mobile phone cannot be blank.
 
   activerecord:
+    errors:
+      messages:
+        blank: "%{attribute} cannot be blank"
     attributes:
       album:
         name: "Name"
@@ -134,14 +134,14 @@ en:
         parents_of: "Child Group"
         hidden: "Hidden (Archived) Group"
         has_tasks: "Tasks"
+      note:
+        title: "Title"
+        body: "Body"
       prayer_request:
         answer: "Answer"
         answered_at: "Date Answered"
         person_id: "Person needing prayer"
         request: "Request"
-      note:
-        title: "Title"
-        body: "Body"
       task:
         name: Task
         description: Description

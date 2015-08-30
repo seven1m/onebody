@@ -32,6 +32,7 @@ en:
       new_count:
         one: "1 new"
         other: "%{count} new"
+    imports: "Imports"
     messages: "Messages"
     news: "News"
     notes: "Notes"

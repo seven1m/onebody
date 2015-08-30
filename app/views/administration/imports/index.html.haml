@@ -1,0 +1,34 @@
+- @title = 'Imports'
+
+- if @imports.any?
+  = pagination @imports
+
+  %table.table
+    %thead
+      %tr
+        %th= t('.table.created_at')
+        %th= t('.table.person')
+        %th= t('.table.status')
+        %th= t('.table.rows')
+        %th
+    %tbody
+      - @imports.each do |import|
+        %tr
+          %td= link_to import.created_at.to_s(:full), import
+          %td= link_to import.person.try(:name), import.person
+          %td= t(import.status, scope: 'administration.imports.status') # notest
+          %td= import.rows.count
+          %td.actions
+            = link_to import, class: 'btn btn-info btn-xs' do
+              = icon 'fa fa-eye'
+              View
+
+  = pagination @imports
+
+- else
+  %p To import data, click below.
+
+.page-controls
+  = link_to new_administration_import_path, class: 'btn btn-success' do
+    = icon 'fa fa-upload'
+    Import Data from CSV

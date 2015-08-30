@@ -23,7 +23,7 @@ end
 @last_test = nil
 
 def run_specs(test, force=false)
-  unless File.exist?(test) or force or not @last_test
+  if test == :last || (!File.exist?(test) && !force && @last_test)
     test = @last_test
   end
 
@@ -60,6 +60,7 @@ end
 
 watch('^spec/(.*)_spec\.rb'      ) { |m| run_specs("spec/#{m[1]}_spec.rb")                    }
 watch('^spec/factories/(.*)\.rb' ) { |m| run_specs("spec/models/#{m[1]}_spec.rb")             }
+watch('^spec/support/(.*)\.rb'   ) { |m| run_specs(:last)                                     }
 watch('^app/models/(.*)\.rb'     ) { |m| run_specs("spec/models/#{m[1]}_spec.rb")             }
 watch('^app/presenters/(.*)\.rb' ) { |m| run_specs("spec/presenters/#{m[1]}_spec.rb")         }
 watch('^app/authorizers/(.*)\.rb') { |m| run_specs("spec/models/authorizers/#{m[1]}_spec.rb") }

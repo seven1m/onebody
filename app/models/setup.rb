@@ -14,7 +14,7 @@ class Setup
       assign_params_to_person
       unless update_host!
         @site.errors
-        @site.errors.full_messages.each do |msg|
+        @site.errors.values.each do |msg|
           @person.errors.add :base, msg
         end
         return false

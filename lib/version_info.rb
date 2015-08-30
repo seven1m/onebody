@@ -23,7 +23,7 @@ module VersionInfo
       Github.repos.releases.all(GITHUB_REPO_OWNER, GITHUB_REPO_NAME).first['tag_name']
     end
     Version.from_string(string)
-  rescue Github::Error::ServiceError
+  rescue Github::Error::ServiceError, Faraday::ConnectionFailed
     nil
   end
 

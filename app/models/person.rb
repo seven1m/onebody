@@ -104,6 +104,7 @@ class Person < ActiveRecord::Base
   validates_date_of :birthday, :anniversary, allow_nil: true
   validates_attachment_size :photo, less_than: PAPERCLIP_PHOTO_MAX_SIZE
   validates_attachment_content_type :photo, content_type: PAPERCLIP_PHOTO_CONTENT_TYPES
+  validates_associated :family
   validate :validate_email_unique
 
   def validate_email_unique

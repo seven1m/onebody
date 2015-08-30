@@ -1,5 +1,5 @@
 <% if @success %>
   $('#notice').html("<i class='fa fa-check text-green'></i> <%= t('checkin.family.saved') %>").show();
 <% else %>
-  $('#notice').html("<i class='fa fa-exclamation-circle text-red'></i> <%= t('checkin.family.errors') %><br/><%= escape_javascript @family.errors.full_messages.join('; ') %>").show();
+  $('#notice').html("<i class='fa fa-exclamation-circle text-red'></i> <%= t('checkin.family.errors') %><br/><%= escape_javascript @family.errors.values.join('; ') %>").show();
 <% end %>

@@ -6,7 +6,7 @@ class Family < ActiveRecord::Base
 
   MAX_TO_BATCH_AT_A_TIME = 50
 
-  has_many :people, -> { order(:position) }, dependent: :destroy
+  has_many :people, -> { order(:position) }, dependent: :destroy, inverse_of: :family
   has_many :updates, -> { order(:created_at) }
   accepts_nested_attributes_for :people
   belongs_to :site

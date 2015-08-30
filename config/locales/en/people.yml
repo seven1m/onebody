@@ -49,6 +49,7 @@ en:
         placeholder: 'https://www.facebook.com/username'
       family_photo: "Family Photo"
       header: "Edit Profile"
+      no_family_error: "This person cannot be edited because they do not belong to a family."
       person_type: "Roles"
       person_type_hint: "These do not control access — only designation."
       photo: "Profile Photo"

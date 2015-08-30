@@ -1,0 +1,11 @@
+- @title = 'There was a problem.'
+
+%p
+  = icon 'fa fa-warning text-red'
+  = t('.message')
+
+%pre
+  = @import.error_message
+
+%p
+  = link_to t('.new.button'), new_administration_import_path, class: 'btn btn-success'
