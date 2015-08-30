@@ -14,9 +14,9 @@
   %table.table
     %thead
       %tr
-        %th Column from File
-        %th Attribute in Database
-        %th Example Data
+        %th= t('.table.column')
+        %th= t('.table.attribute')
+        %th= t('.table.example')
     %tbody
       - @import.mappings.each do |from, to|
         %tr.row-with-controls
@@ -32,9 +32,9 @@
 
   .page-controls
     = button_tag class: 'btn btn-success' do
-      Save and Contiue
+      = t('.save.button')
       = icon 'fa fa-arrow-right'
     - if @import.destroyable?
       = link_to @import, data: { method: :delete, confirm: t('are_you_sure') }, class: 'btn btn-delete pull-right' do
         = icon 'fa fa-trash-o'
-        Delete Import
+        = t('.delete.button')

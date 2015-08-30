@@ -2,10 +2,10 @@
 
 %p
   = icon 'fa fa-warning text-red'
-  We could not process your CSV file. The error is below:
+  = t('.message')
 
 %pre
   = @import.error_message
 
 %p
-  = link_to 'Try again', new_administration_import_path, class: 'btn btn-success'
+  = link_to t('.new.button'), new_administration_import_path, class: 'btn btn-success'
