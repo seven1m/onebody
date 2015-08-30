@@ -12,6 +12,7 @@ en:
       edit:
         form:
           match_strategy: "How should we try to match existing people?"
+          create_as_active: "Make new people active (able to log in)"
       match_strategies:
         by_id_only: "by ID only"
         by_name: "by name (use ID if present)"
@@ -25,6 +26,15 @@ en:
         matched_family_by_id: 'by ID'
         matched_family_by_name: 'by name'
         matched_family_by_contact_info: 'by contact info'
+      show:
+        match_strategies:
+          by_id_only: "id"
+          by_name: "name"
+          by_contact_info: "contact info"
+          by_name_or_contact_info: "name or contact info"
+        create_as_active:
+          "true": "yes"
+          "false": "no"
       status:
         pending: "Pending"
         parsing: "Parsing Data File"

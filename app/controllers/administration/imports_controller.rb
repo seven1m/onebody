@@ -25,12 +25,13 @@ class Administration::ImportsController < ApplicationController
   def create
     return redirect_to(action: 'new') unless params[:file]
     @import = Import.create(
-      person:          @logged_in,
-      filename:        params[:file].original_filename,
-      importable_type: 'Person',
-      status:          'pending',
-      mappings:        previous_import.try(:mappings) || {},
-      match_strategy:  previous_import.try(:match_strategy)
+      person:           @logged_in,
+      filename:         params[:file].original_filename,
+      importable_type:  'Person',
+      status:           'pending',
+      mappings:         previous_import.try(:mappings) || {},
+      match_strategy:   previous_import.try(:match_strategy),
+      create_as_active: previous_import.create_as_active?
     )
     @import.parse_async(
       file:          params[:file],
@@ -73,7 +74,7 @@ class Administration::ImportsController < ApplicationController
   private
 
   def import_params
-    params.require(:import).permit(:match_strategy)
+    params.require(:import).permit(:match_strategy, :create_as_active)
   end
 
   def build_example

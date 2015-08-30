@@ -2,9 +2,14 @@
 
 = form_for @import do |form|
   = hidden_field_tag :status, 'matched'
+
   .form-group
     = form.label :match_strategy, t('.form.match_strategy')
     = form.select :match_strategy, import_match_strategies, {}, class: 'form-control'
+
+  .form-group
+    = form.check_box :create_as_active, class: 'form-control'
+    = form.label :create_as_active, t('.form.create_as_active')
 
   %table.table
     %thead

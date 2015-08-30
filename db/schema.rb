@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150827010140) do
+ActiveRecord::Schema.define(version: 20150830002535) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -329,6 +329,7 @@ ActiveRecord::Schema.define(version: 20150827010140) do
     t.datetime "updated_at",                                null: false
     t.datetime "completed_at"
     t.integer  "row_count",       limit: 4,     default: 0
+    t.integer  "flags",           limit: 4,     default: 0, null: false
   end
 
   create_table "jobs", force: :cascade do |t|

@@ -27,6 +27,10 @@ class Import < ActiveRecord::Base
 
   serialize :mappings, JSON
 
+  include FlagShihTzu
+
+  has_flags 1 => :create_as_active
+
   after_update :preview_async, if: :should_preview?
 
   def progress

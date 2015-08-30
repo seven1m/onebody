@@ -369,6 +369,25 @@ describe ImportExecution do
         end
       end
 
+      context 'given a new row and create_as_active is true' do
+        let!(:row) { create_row(first: 'John', last: 'Jones', fam_name: 'John Jones') }
+
+        before do
+          import.create_as_active = true
+          import.save!
+          subject.execute
+        end
+
+        it 'creates the person and sets them active' do
+          expect(row.reload.person.attributes).to include(
+            'visible_to_everyone'          => true,
+            'visible_on_printed_directory' => true,
+            'can_sign_in'                  => true,
+            'full_access'                  => true
+          )
+        end
+      end
+
       context 'given 3 new rows with 2 of them having the same family name' do
         let!(:row1) { create_row(first: 'Bob',  last: 'Jones', fam_name: 'Bob Jones') }
         let!(:row2) { create_row(first: 'John', last: 'Jones', fam_name: 'John & Jane Jones') }
@@ -462,7 +481,7 @@ describe ImportExecution do
         end
       end
 
-      context 'given a row with an blank id' do
+      context 'given a row with a blank id' do
         let!(:family) { FactoryGirl.create(:family, name: 'John Jones') }
         let!(:person) { FactoryGirl.create(:person, first_name: 'John', last_name: 'Jones', family: family) }
 

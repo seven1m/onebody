@@ -51,6 +51,12 @@
             %tr
               %th Rows:
               %td= @import.rows.count
+          %tr
+            %th Match by:
+            %td= t(@import.match_strategy, scope: 'administration.imports.show.match_strategies')
+          %tr
+            %th Create as Active:
+            %td= t(@import.create_as_active?.to_s, scope: 'administration.imports.show.create_as_active')
 
   .col-md-8
     - if @import.status_at_least?('previewed')
