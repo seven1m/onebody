@@ -31,7 +31,7 @@ class Administration::ImportsController < ApplicationController
       status:           'pending',
       mappings:         previous_import.try(:mappings) || {},
       match_strategy:   previous_import.try(:match_strategy),
-      create_as_active: previous_import.create_as_active?
+      create_as_active: previous_import.try(:create_as_active?)
     )
     @import.parse_async(
       file:          params[:file],
