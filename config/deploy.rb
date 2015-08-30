@@ -1,4 +1,4 @@
-lock '3.3.5'
+lock '3.4.0'
 
 set :application, 'onebody'
 set :repo_url, 'git://github.com/churchio/onebody.git'
