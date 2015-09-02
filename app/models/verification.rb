@@ -12,8 +12,8 @@ class Verification < ActiveRecord::Base
   validates :criteria, presence: true
   validates :carrier, inclusion: MOBILE_GATEWAYS.keys, if: -> { mobile_phone }
   validate :validate_max_attempts, on: :create
-  validate :validate_people, if: -> { email or mobile_phone }
-  validate :validate_people_can_sign_in, if: -> { email or mobile_phone }
+  validate :validate_people, if: -> { email || mobile_phone }
+  validate :validate_people_able_to_sign_in, if: -> { email || mobile_phone }
 
   blank_to_nil :mobile_phone, :email
 
@@ -24,12 +24,10 @@ class Verification < ActiveRecord::Base
     end
   end
 
-  def validate_people_can_sign_in
-    if people.any?
-      unless people.any?(&:can_sign_in?)
-        errors.add(:base, :unauthorized)
-      end
-    end
+  def validate_people_able_to_sign_in
+    return if people.none?
+    return if people.any?(&:able_to_sign_in?)
+    errors.add(:base, :unauthorized)
   end
 
   def criteria(for_verification=false)

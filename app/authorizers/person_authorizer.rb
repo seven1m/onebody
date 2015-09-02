@@ -54,10 +54,7 @@ class PersonAuthorizer < ApplicationAuthorizer
   end
 
   def visible?
-    resource.visible? and
-    resource.visible_to_everyone? and
-    resource.adult_or_consent? and
-    resource.family.try(:visible?)
+    resource.visible?
   end
 
 end

@@ -48,10 +48,7 @@ class Setup
       @person.errors.add :email, I18n.t('activerecord.errors.models.person.attributes.email.invalid')
       return false
     end
-    @person.can_sign_in = true
-    @person.visible_to_everyone = true
-    @person.visible_on_printed_directory = true
-    @person.full_access = true
+    @person.status = :active
     @person.child = false
     @person.family = Family.create!(
       name:      @person.name,

@@ -5,7 +5,7 @@ describe PeopleController, type: :controller do
 
   before do
     @person, @other_person = FactoryGirl.create_list(:person, 2)
-    @limited_person = FactoryGirl.create(:person, full_access: false)
+    @limited_person = FactoryGirl.create(:person, status: :pending)
   end
 
   it "should redirect the index action to the currently logged in person" do
@@ -136,7 +136,7 @@ describe PeopleController, type: :controller do
 
   it "should not error when viewing a person not in a family" do
     @admin = FactoryGirl.create(:person, admin: Admin.create(edit_profiles: true, view_hidden_profiles: true))
-    @person = Person.create!(first_name: 'Deanna', last_name: 'Troi', child: false, visible_to_everyone: true)
+    @person = Person.create!(first_name: 'Deanna', last_name: 'Troi', child: false)
     # normal person should not see
     expect { get :show, {id: @person.id}, {logged_in_id: @other_person.id} }.to_not raise_error
     expect(response).to be_missing

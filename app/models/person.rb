@@ -59,7 +59,7 @@ class Person < ActiveRecord::Base
   scope :adults,                 -> { where(child: false) }
   scope :adults_or_have_consent, -> { where("child = ? or coalesce(parental_consent, '') != ''", false) }
   scope :children,               -> { where(child: true) }
-  scope :can_sign_in,            -> { undeleted.where(can_sign_in: true) }
+  scope :can_sign_in,            -> { undeleted.where(status: Person.statuses.values_at(:pending, :active)) }
   scope :administrators,         -> { undeleted.where('admin_id is not null') }
   scope :minimal,                -> { select(MINIMAL_ATTRIBUTES.map { |a| "people.#{a}" }.join(',')) }
   scope :with_birthday_month,    -> m { where('birthday is not null and extract(month from birthday) = ?', m) }
@@ -116,6 +116,12 @@ class Person < ActiveRecord::Base
     errors.add :email, :taken
   end
 
+  enum status: {
+    inactive: 0,
+    pending:  1,
+    active:   2
+  }
+
   lowercase_attribute :email, :alternate_email
 
   delegate :home_phone, :address, :address1, :address2, :city, :state, :zip, :short_zip, :mapable?, :parents,
@@ -140,6 +146,7 @@ class Person < ActiveRecord::Base
 
   def others_with_same_email
     return [] unless family
+    return [] unless email.present?
     family.people.undeleted.where(email: email).where.not(id: id)
   end
 
@@ -173,8 +180,8 @@ class Person < ActiveRecord::Base
     "<#{id}:#{name}>"
   end
 
-  def can_sign_in?
-    read_attribute(:can_sign_in) && adult_or_consent?
+  def able_to_sign_in?
+    (active? || pending?) && adult_or_consent? && email.present?
   end
 
   def messages_enabled?
@@ -191,7 +198,7 @@ class Person < ActiveRecord::Base
 
   def visible?(fam = nil)
     fam ||= family
-    fam && fam.visible? && read_attribute(:visible) && adult_or_consent? && visible_to_everyone?
+    fam && fam.visible? && read_attribute(:visible) && adult_or_consent? && (active? || pending?)
   end
 
   def gender=(g)
@@ -231,13 +238,6 @@ class Person < ActiveRecord::Base
       update_attribute(:deleted, true)
       updates.destroy_all
     end
-  end
-
-  def set_default_visibility
-    self.can_sign_in = true
-    self.visible_to_everyone = true
-    self.visible_on_printed_directory = true
-    self.full_access = true
   end
 
   def record_last_seen_stream_item(stream_item)

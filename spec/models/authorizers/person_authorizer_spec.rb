@@ -53,9 +53,9 @@ describe PersonAuthorizer do
       end
     end
 
-    context 'stranger is not marked visible_to_everyone' do
+    context 'stranger is inactive' do
       before do
-        @stranger.update_attributes!(visible_to_everyone: false)
+        @stranger.update_attributes!(status: :inactive)
       end
 
       it 'should not read stranger' do

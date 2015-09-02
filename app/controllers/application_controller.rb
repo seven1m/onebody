@@ -92,7 +92,7 @@ class ApplicationController < ActionController::Base
         redirect_to new_session_path
         return false
       end
-      unless person.can_sign_in?
+      unless person.able_to_sign_in?
         session[:logged_in_id] = nil
         redirect_to page_for_public_path('system/bad_status')
         return false
@@ -130,7 +130,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_full_access
-    if @logged_in and !@logged_in.full_access?
+    if @logged_in && @logged_in.pending?
       unless LIMITED_ACCESS_AVAILABLE_ACTIONS.include?("#{params[:controller]}/#{params[:action]}") or \
              LIMITED_ACCESS_AVAILABLE_ACTIONS.include?("#{params[:controller]}/*")
         render text: t('people.limited_access_denied'), layout: true, status: 401

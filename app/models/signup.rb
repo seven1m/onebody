@@ -59,7 +59,7 @@ class Signup
       last_name:   last_name,
       email:       auth['info']['email'],
       family:      family,
-      can_sign_in: true
+      status:      :pending # FIXME I don't think this is right
     )
 
     case auth['provider']
@@ -95,16 +95,16 @@ class Signup
 
   def validate_existing
     if @person = Person.where(email: email).first
-      if @person.can_sign_in? or !sign_up_approval_required?
-        @person.update_attributes(can_sign_in: true, full_access: true) unless sign_up_approval_required?
+      if @person.able_to_sign_in? || !sign_up_approval_required?
+        @person.update_attributes(status: :active) unless sign_up_approval_required?
         @family = @person.family
         @found_existing = true
         create_and_deliver_email_verification
         true
       end
-    elsif @person = Person.where(mobile_phone: mobile_phone.digits_only).first and @person.can_sign_in?
-      if @person.can_sign_in? or !sign_up_approval_required?
-        @person.update_attributes(can_sign_in: true, full_access: true) unless sign_up_approval_required?
+    elsif (@person = Person.where(mobile_phone: mobile_phone.digits_only).first) && @person.able_to_sign_in?
+      if @person.able_to_sign_in? || !sign_up_approval_required?
+        @person.update_attributes(status: :active) unless sign_up_approval_required?
         @family = @person.family
         @can_verify_mobile = true
         @found_existing = true
@@ -129,10 +129,7 @@ class Signup
       birthday: birthday,
       gender: gender,
       mobile_phone: mobile_phone,
-      can_sign_in: full_access?,
-      full_access: full_access?,
-      visible_to_everyone: full_access?,
-      visible_on_printed_directory: full_access?
+      status: status
     )
     @person.errors.empty?
   end
@@ -142,8 +139,12 @@ class Signup
     @approval_sent = true
   end
 
-  def full_access?
-    !sign_up_approval_required?
+  def status
+    if sign_up_approval_required?
+      :inactive
+    else
+      :active
+    end
   end
 
   def create_and_deliver_email_verification

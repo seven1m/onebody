@@ -61,7 +61,7 @@ class SessionsController < ApplicationController
   def login_success
     setup_session!
     sticky_session!(STICKY_SESSION_LENGTH) if params[:remember_me]
-    if @person.full_access?
+    if @person.active?
       full_access_redirect
     else
       redirect_to @person
@@ -148,7 +148,7 @@ class SessionsController < ApplicationController
   end
 
   def redirect_after_authentication
-    if @person && !@person.can_sign_in?
+    if @person && !@person.able_to_sign_in?
       redirect_to page_for_public_path('system/unauthorized')
     elsif @person
       if params[:for] == 'checkin'

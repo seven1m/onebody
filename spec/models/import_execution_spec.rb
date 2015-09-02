@@ -420,12 +420,7 @@ describe ImportExecution do
         end
 
         it 'creates the person and sets them active' do
-          expect(row.reload.person.attributes).to include(
-            'visible_to_everyone'          => true,
-            'visible_on_printed_directory' => true,
-            'can_sign_in'                  => true,
-            'full_access'                  => true
-          )
+          expect(row.reload.person).to be_active
         end
       end
 

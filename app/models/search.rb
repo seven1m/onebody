@@ -129,7 +129,7 @@ class Search
 
   def visible!
     return if show_hidden_profiles?
-    where!(people: { visible: true, visible_to_everyone: true })
+    where!(people: { visible: true, status: Person.statuses.values_at(:active, :pending) })
     where!(families: { visible: true })
   end
 

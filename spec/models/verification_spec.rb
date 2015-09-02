@@ -125,7 +125,7 @@ describe Verification do
 
       context 'person cannot sign in' do
         before do
-          @person.update_attribute(:can_sign_in, false)
+          @person.update_attributes(status: :inactive)
           @return = @verification.save
         end
 

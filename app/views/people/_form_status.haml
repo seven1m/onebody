@@ -1,22 +1,17 @@
-- unless @person.adult_or_consent?
-  %em= t('people.this_person_is_not_an_adult', years: Setting.get(:system, :adult_age))
-  %br/
-= content_tag :div, style: @person.adult_or_consent? ? nil : 'text-decoration:line-through;' do
-  .form-group
-    = form.check_box :can_sign_in
-    = form.label :can_sign_in, class: 'inline'
-  .form-group
-    = form.check_box :visible_to_everyone
-    = form.label :visible_to_everyone, class: 'inline'
-  .form-group
-    = form.check_box :visible_on_printed_directory
-    = form.label :visible_on_printed_directory, class: 'inline'
-  .form-group
-    = form.check_box :full_access
-    = form.label :full_access, class: 'inline'
-  - if @person.can_sign_in? and !@person.new_record?
-    .form-group
-      = render partial: 'admin_send_verification_button'
+.form-group
+  = form.label :status
+  = form.select :status, t('people.edit.statuses').invert, {}, class: 'form-control'
+- if @person.adult_or_consent?
+  .callout.callout-info.status-help#status-inactive{ style: 'display:none' }
+    = t('people.edit.status_help.inactive')
+  .callout.callout-info.status-help#status-pending{ style: 'display:none' }
+    = t('people.edit.status_help.pending')
+  .callout.callout-info.status-help#status-active{ style: 'display:none' }
+    = t('people.edit.status_help.active')
+- else
+  .callout.callout-warning
+    = t('people.edit.status_help.not_an_adult')
+
 - if Setting.get(:features, :checkin)
   .box.box-info
     .box-header

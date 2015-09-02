@@ -5,7 +5,10 @@ class StreamsController < ApplicationController
   include TimelineHelper
 
   def show
-    redirect_to(@logged_in) and return unless @logged_in.full_access?
+    unless @logged_in.active?
+      redirect_to(@logged_in)
+      return
+    end
     if params[:stream_item_group_id]
       @stream_group = StreamItem.where(streamable_type: 'StreamItemGroup').find(params[:stream_item_group_id])
       @stream_items = @stream_group.items

@@ -50,10 +50,7 @@ module Concerns
           staff
           elder
           deacon
-          can_sign_in
-          visible_to_everyone
-          visible_on_printed_directory
-          full_access
+          status
           legacy_family_id
           share_activity
           child
