@@ -10,13 +10,10 @@ RSpec.configure do |config|
   config.include SessionHelper
   config.include MailHelper
 
-  config.order = 'random'
   config.use_transactional_fixtures = true
   config.fixture_path = Rails.root.join('spec/fixtures')
-  ActiveRecord::Migration.maintain_test_schema!
 
-  config.filter_run_including focus: true
-  config.run_all_when_everything_filtered = true
+  ActiveRecord::Migration.maintain_test_schema!
 
   config.before(:all) do
     begin
