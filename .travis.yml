@@ -9,7 +9,8 @@ before_install:
   utf8'' > config/database.yml.mysql'
 - 'echo -e ''test:\n  adapter: postgresql\n  database: onebody_test\n  username: postgres\n  encoding:
   unicode'' > config/database.yml.pg'
-- cp config/database.yml.$DB config/database.yml
+- 'sed -i "s/#gem ''pg''/gem ''pg''/" Gemfile'
+- 'cp config/database.yml.$DB config/database.yml'
 bundler_args: "--without development production"
 cache: bundler
 sudo: false
