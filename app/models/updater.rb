@@ -42,9 +42,6 @@ class Updater
       staff:                :admin,
       elder:                :admin,
       deacon:               :admin,
-      visible_:             :admin,
-      can_sign_in:          :admin,
-      full_access:          :admin,
       child:                :admin,
       custom_type:          :admin,
       medical_notes:        :admin,
@@ -55,6 +52,7 @@ class Updater
       legacy_id:            :admin,
       legacy_family_id:     :admin,
       sequence:             :admin,
+      status:               :admin
     },
     family: {
       name:                 :approve,
@@ -72,7 +70,7 @@ class Updater
       email:                :admin,
       legacy_id:            :admin,
       barcode_id:           :admin,
-      alternate_barcode_id: :admin,
+      alternate_barcode_id: :admin
     }
   }
 
@@ -123,7 +121,7 @@ class Updater
   end
 
   def show_verification_link?
-    changes[:person].try(:[], :can_sign_in) and person.can_sign_in?
+    changes[:person].try(:[], :status) && person.able_to_sign_in?
   end
 
   private

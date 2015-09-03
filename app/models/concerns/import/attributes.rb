@@ -7,14 +7,7 @@ module Concerns
 
       def attributes_for_person(row)
         attrs = attributes(row).select { |a| a !~ /^family_|^id$/ }
-        if @import.create_as_active
-          attrs.reverse_merge!(
-            'visible_to_everyone'          => true,
-            'visible_on_printed_directory' => true,
-            'can_sign_in'                  => true,
-            'full_access'                  => true
-          )
-        end
+        attrs.reverse_merge!('status' => 'active') if @import.create_as_active # TODO allow creating as pending
         attrs
       end
 

@@ -14,7 +14,7 @@
 
 - if @people and @people.any?
 
-  - if @logged_in.full_access?
+  - if @logged_in.active?
     %table.table.search-results
       %tr
         %th

@@ -732,7 +732,7 @@ describe Person do
       FactoryGirl.create(
         :person,
         mobile_phone: '1234567890',
-        visible_on_printed_directory: true
+        status: :active
       )
     end
 

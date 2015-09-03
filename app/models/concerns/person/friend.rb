@@ -35,8 +35,8 @@ module Concerns
         person != self and
         person.family_id != self.family_id and
         !friend?(person) and
-        full_access? and
-        person.full_access? and
+        active? and
+        person.active? and
         person.email.present? and
         person.friends_enabled and
         !friendship_rejected_by?(person) and

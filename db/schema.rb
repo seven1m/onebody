@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150830002535) do
+ActiveRecord::Schema.define(version: 20150830225132) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -422,92 +422,89 @@ ActiveRecord::Schema.define(version: 20150830002535) do
   add_index "pages", ["path"], name: "index_pages_on_path", using: :btree
 
   create_table "people", force: :cascade do |t|
-    t.integer  "legacy_id",                    limit: 4
-    t.integer  "family_id",                    limit: 4
-    t.integer  "position",                     limit: 4
-    t.string   "gender",                       limit: 6
-    t.string   "first_name",                   limit: 255
-    t.string   "last_name",                    limit: 255
-    t.string   "suffix",                       limit: 25
-    t.string   "mobile_phone",                 limit: 25
-    t.string   "work_phone",                   limit: 25
-    t.string   "fax",                          limit: 25
+    t.integer  "legacy_id",                limit: 4
+    t.integer  "family_id",                limit: 4
+    t.integer  "position",                 limit: 4
+    t.string   "gender",                   limit: 6
+    t.string   "first_name",               limit: 255
+    t.string   "last_name",                limit: 255
+    t.string   "suffix",                   limit: 25
+    t.string   "mobile_phone",             limit: 25
+    t.string   "work_phone",               limit: 25
+    t.string   "fax",                      limit: 25
     t.datetime "birthday"
-    t.string   "email",                        limit: 255
-    t.boolean  "email_changed",                              default: false
-    t.string   "website",                      limit: 255
-    t.text     "classes",                      limit: 65535
-    t.string   "shepherd",                     limit: 255
-    t.string   "mail_group",                   limit: 1
-    t.string   "encrypted_password",           limit: 100
-    t.string   "business_name",                limit: 100
-    t.text     "business_description",         limit: 65535
-    t.string   "business_phone",               limit: 25
-    t.string   "business_email",               limit: 255
-    t.string   "business_website",             limit: 255
-    t.text     "about",                        limit: 65535
-    t.text     "testimony",                    limit: 65535
-    t.boolean  "share_mobile_phone",                         default: false
-    t.boolean  "share_work_phone",                           default: false
-    t.boolean  "share_fax",                                  default: false
-    t.boolean  "share_email",                                default: false
-    t.boolean  "share_birthday",                             default: true
+    t.string   "email",                    limit: 255
+    t.boolean  "email_changed",                          default: false
+    t.string   "website",                  limit: 255
+    t.text     "classes",                  limit: 65535
+    t.string   "shepherd",                 limit: 255
+    t.string   "mail_group",               limit: 1
+    t.string   "encrypted_password",       limit: 100
+    t.string   "business_name",            limit: 100
+    t.text     "business_description",     limit: 65535
+    t.string   "business_phone",           limit: 25
+    t.string   "business_email",           limit: 255
+    t.string   "business_website",         limit: 255
+    t.text     "about",                    limit: 65535
+    t.text     "testimony",                limit: 65535
+    t.boolean  "share_mobile_phone",                     default: false
+    t.boolean  "share_work_phone",                       default: false
+    t.boolean  "share_fax",                              default: false
+    t.boolean  "share_email",                            default: false
+    t.boolean  "share_birthday",                         default: true
     t.datetime "anniversary"
     t.datetime "updated_at"
-    t.string   "alternate_email",              limit: 255
-    t.integer  "email_bounces",                limit: 4,     default: 0
-    t.string   "business_category",            limit: 100
-    t.boolean  "account_frozen",                             default: false
-    t.boolean  "messages_enabled",                           default: true
-    t.string   "business_address",             limit: 255
-    t.string   "flags",                        limit: 255
-    t.boolean  "visible",                                    default: true
-    t.string   "parental_consent",             limit: 255
-    t.integer  "admin_id",                     limit: 4
-    t.boolean  "friends_enabled",                            default: true
-    t.boolean  "member",                                     default: false
-    t.boolean  "staff",                                      default: false
-    t.boolean  "elder",                                      default: false
-    t.boolean  "deacon",                                     default: false
-    t.boolean  "can_sign_in",                                default: false
-    t.boolean  "visible_to_everyone",                        default: false
-    t.boolean  "visible_on_printed_directory",               default: false
-    t.boolean  "full_access",                                default: false
-    t.integer  "legacy_family_id",             limit: 4
-    t.string   "feed_code",                    limit: 50
-    t.boolean  "share_activity",                             default: true
-    t.integer  "site_id",                      limit: 4
-    t.string   "twitter_account",              limit: 100
-    t.string   "api_key",                      limit: 50
-    t.string   "salt",                         limit: 50
-    t.boolean  "deleted",                                    default: false, null: false
+    t.string   "alternate_email",          limit: 255
+    t.integer  "email_bounces",            limit: 4,     default: 0
+    t.string   "business_category",        limit: 100
+    t.boolean  "account_frozen",                         default: false
+    t.boolean  "messages_enabled",                       default: true
+    t.string   "business_address",         limit: 255
+    t.string   "flags",                    limit: 255
+    t.boolean  "visible",                                default: true
+    t.string   "parental_consent",         limit: 255
+    t.integer  "admin_id",                 limit: 4
+    t.boolean  "friends_enabled",                        default: true
+    t.boolean  "member",                                 default: false
+    t.boolean  "staff",                                  default: false
+    t.boolean  "elder",                                  default: false
+    t.boolean  "deacon",                                 default: false
+    t.integer  "legacy_family_id",         limit: 4
+    t.string   "feed_code",                limit: 50
+    t.boolean  "share_activity",                         default: true
+    t.integer  "site_id",                  limit: 4
+    t.string   "twitter_account",          limit: 100
+    t.string   "api_key",                  limit: 50
+    t.string   "salt",                     limit: 50
+    t.boolean  "deleted",                                default: false, null: false
     t.boolean  "child"
-    t.string   "custom_type",                  limit: 100
-    t.text     "custom_fields",                limit: 65535
-    t.string   "can_pick_up",                  limit: 100
-    t.string   "cannot_pick_up",               limit: 100
-    t.string   "medical_notes",                limit: 200
-    t.string   "relationships_hash",           limit: 40
-    t.string   "photo_file_name",              limit: 255
-    t.string   "photo_content_type",           limit: 255
-    t.string   "photo_fingerprint",            limit: 50
-    t.integer  "photo_file_size",              limit: 4
+    t.string   "custom_type",              limit: 100
+    t.text     "custom_fields",            limit: 65535
+    t.string   "can_pick_up",              limit: 100
+    t.string   "cannot_pick_up",           limit: 100
+    t.string   "medical_notes",            limit: 200
+    t.string   "relationships_hash",       limit: 40
+    t.string   "photo_file_name",          limit: 255
+    t.string   "photo_content_type",       limit: 255
+    t.string   "photo_fingerprint",        limit: 50
+    t.integer  "photo_file_size",          limit: 4
     t.datetime "photo_updated_at"
-    t.string   "description",                  limit: 25
-    t.boolean  "share_anniversary",                          default: true
-    t.boolean  "share_address",                              default: true
-    t.boolean  "share_home_phone",                           default: true
-    t.string   "password_hash",                limit: 255
-    t.string   "password_salt",                limit: 255
+    t.string   "description",              limit: 25
+    t.boolean  "share_anniversary",                      default: true
+    t.boolean  "share_address",                          default: true
+    t.boolean  "share_home_phone",                       default: true
+    t.string   "password_hash",            limit: 255
+    t.string   "password_salt",            limit: 255
     t.datetime "created_at"
-    t.string   "facebook_url",                 limit: 255
-    t.string   "twitter",                      limit: 15
-    t.integer  "incomplete_tasks_count",       limit: 4,     default: 0
+    t.string   "facebook_url",             limit: 255
+    t.string   "twitter",                  limit: 15
+    t.integer  "incomplete_tasks_count",   limit: 4,     default: 0
     t.boolean  "primary_emailer"
-    t.integer  "last_seen_stream_item_id",     limit: 4
-    t.integer  "last_seen_group_id",           limit: 4
-    t.string   "provider",                     limit: 255
-    t.string   "uid",                          limit: 255
+    t.integer  "last_seen_stream_item_id", limit: 4
+    t.integer  "last_seen_group_id",       limit: 4
+    t.string   "provider",                 limit: 255
+    t.string   "uid",                      limit: 255
+    t.integer  "status",                   limit: 4
   end
 
   add_index "people", ["admin_id"], name: "index_admin_id_on_people", using: :btree

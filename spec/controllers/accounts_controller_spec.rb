@@ -148,12 +148,8 @@ describe AccountsController, type: :controller do
                 expect(@person.family.name).to eq(@person.name)
               end
 
-              it 'should set can_sign_in=true' do
-                expect(@person).to be_can_sign_in
-              end
-
-              it 'should set full_access=true' do
-                expect(@person).to be_full_access
+              it 'should set status=active' do
+                expect(@person.status).to eq('active')
               end
             end
 
@@ -202,12 +198,8 @@ describe AccountsController, type: :controller do
               expect(@person.family.name).to eq(@person.name)
             end
 
-            it 'should set can_sign_in=false' do
-              refute @person.can_sign_in?
-            end
-
-            it 'should set full_access=false' do
-              refute @person.full_access?
+            it 'should set status=inactive' do
+              expect(@person.status).to eq('inactive')
             end
           end
         end
@@ -273,10 +265,10 @@ describe AccountsController, type: :controller do
           end
         end
 
-        context 'user cannot sign in' do
+        context 'user is inactive' do
           before do
-            @person.update_attribute(:can_sign_in, false)
-            post :create, verification: {email: 'rick@example.com'}
+            @person.update_attributes(status: :inactive)
+            post :create, verification: { email: 'rick@example.com' }
           end
 
           it 'should show error message' do
@@ -317,10 +309,10 @@ describe AccountsController, type: :controller do
           end
         end
 
-        context 'user cannot sign in' do
+        context 'user is inactive' do
           before do
-            @person.update_attribute(:can_sign_in, false)
-            post :create, verification: {mobile_phone: '1234567899', carrier: 'AT&T'}
+            @person.update_attributes(status: :inactive)
+            post :create, verification: { mobile_phone: '1234567899', carrier: 'AT&T' }
           end
 
           it 'should show error message' do

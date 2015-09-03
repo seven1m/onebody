@@ -23,7 +23,7 @@ class PeopleController < ApplicationController
     else
       @person = Person.where(id: params[:id]).includes(:family).first
     end
-    if params[:limited] or !@logged_in.full_access?
+    if params[:limited] || !@logged_in.active?
       render action: 'show_limited'
     elsif @person and @logged_in.can_read?(@person)
       @family = @person.family
@@ -63,7 +63,7 @@ class PeopleController < ApplicationController
         @family = Family.new
         @person = Person.new(family: @family)
       end
-      @person.set_default_visibility
+      @person.status = :active
     else
       render text: t('not_authorized'), layout: true, status: 401
     end

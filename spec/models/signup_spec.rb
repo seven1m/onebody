@@ -109,7 +109,7 @@ describe Signup do
 
         context 'existing user cannot sign in' do
           before do
-            @person.update_attributes(can_sign_in: false, full_access: false)
+            @person.update_attributes(status: :inactive)
           end
 
           context 'approval required for new users' do
@@ -122,9 +122,8 @@ describe Signup do
               expect(@return).to eq(true)
             end
 
-            it 'does not change visibility and sign in permission' do
-              expect(@signup.person.reload.can_sign_in?).to eq(false)
-              expect(@signup.person.full_access?).to eq(false)
+            it 'does not change status' do
+              expect(@signup.person.reload).to be_inactive
             end
 
             context '#verification_sent?' do
@@ -150,9 +149,8 @@ describe Signup do
               expect(@return).to eq(true)
             end
 
-            it 'sets visibility and sign in permission' do
-              expect(@signup.person.reload.can_sign_in?).to eq(true)
-              expect(@signup.person.full_access?).to eq(true)
+            it 'sets the user to active' do
+              expect(@signup.person.reload).to be_active
             end
 
             context '#verification_sent?' do
@@ -308,20 +306,8 @@ describe Signup do
                 expect(@person.mobile_phone).to eq('1234567890')
               end
 
-              it 'should be able to sign in' do
-                expect(@person.can_sign_in?).to eq(true)
-              end
-
-              it 'should have full access' do
-                expect(@person.full_access?).to eq(true)
-              end
-
-              it 'should be visible to everyone' do
-                expect(@person.visible_to_everyone?).to eq(true)
-              end
-
-              it 'should be visible on printed directory' do
-                expect(@person.visible_on_printed_directory?).to eq(true)
+              it 'should be active' do
+                expect(@person).to be_active
               end
             end
           end
@@ -370,20 +356,8 @@ describe Signup do
                 @person = @signup.person
               end
 
-              it 'should not be able to sign in' do
-                expect(@person.can_sign_in?).to eq(false)
-              end
-
-              it 'should not have full access' do
-                expect(@person.full_access?).to eq(false)
-              end
-
-              it 'should not be visible to everyone' do
-                expect(@person.visible_to_everyone?).to eq(false)
-              end
-
-              it 'should not be visible on printed directory' do
-                expect(@person.visible_on_printed_directory?).to eq(false)
+              it 'should not be active' do
+                expect(@person).not_to be_active
               end
 
               it 'should deliver pending signup email to admin' do

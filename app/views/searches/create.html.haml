@@ -12,7 +12,7 @@
           = label_tag 'category', t('search.business_category')
           = select_tag 'category', options_for_select(Person.business_categories, params[:category]), include_blank: true, class: 'form-control'
 
-      - if @logged_in.full_access?
+      - if @logged_in.active?
         .form-group
           = check_box_tag 'advanced', 'true', params[:advanced], id: 'enable-advanced-search', class: 'form-control inline'
           = label_tag 'enable-advanced-search', t('search.form.advanced')

@@ -63,7 +63,16 @@ en:
       required_field: "required"
       twitter:
         placeholder: '@username'
-      visibility: "Visibility"
+      status: "Status"
+      status_help:
+        inactive: "Inactive people cannot sign in and are not visible to anyone on the site except administrators."
+        pending: "Pending people can sign in and look up limited contact info for members."
+        active: "Active people can sign in and make full use of the site."
+        not_an_adult: "Children cannot sign in, so setting the status here only affects their visiblity to others."
+      statuses:
+        inactive: "Inactive"
+        pending: "Pending"
+        active: "Active"
 
     move:
       heading: "Add to %{family} family"
@@ -167,7 +176,6 @@ en:
     show_hidden_groups: "Show Hidden Groups"
     tell_us_about_yourself: "Tell us about yourself. What's your personality like? What would your best friend say about you?"
     this_event_doesnt_have_pictures: "This event doesn't have any pictures yet."
-    this_person_is_not_an_adult: "This person is believed to be less than %{years} years of age, and does not have parental consent."
     this_profile_is_hidden: "This profile is hidden"
     update_to_profile_is: "An update to this profile is"
     visible_on_printed_directory: "Visible on Printed Directory"

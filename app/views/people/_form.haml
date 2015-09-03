@@ -23,7 +23,7 @@
           %li
             = link_to t('people.edit.person_type'), '#roles', data: { toggle: 'tab' }
           %li
-            = link_to t('people.edit.visibility'), '#visibility', data: { toggle: 'tab' }
+            = link_to t('people.edit.status'), '#status', data: { toggle: 'tab' }
 
       .tab-content
         .tab-pane.active#basics
@@ -40,8 +40,8 @@
           .tab-pane#roles
             = render partial: 'form_roles', object: form, as: :form
             .form-group= submit_or_save_button
-          .tab-pane#visibility
-            = render partial: 'form_visibility', object: form, as: :form
+          .tab-pane#status
+            = render partial: 'form_status', object: form, as: :form
             .form-group= submit_or_save_button
 
     .col-lg-4
