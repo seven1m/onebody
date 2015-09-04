@@ -16,6 +16,7 @@ class ImportRow < ActiveRecord::Base
   scope :updated_family,     -> { where(updated_family: true) }
   scope :unchanged_people,   -> { where(created_person: false, updated_person: false) }
   scope :unchanged_families, -> { where(created_family: false, updated_family: false) }
+  scope :errored,            -> { where('error_reasons is not null') }
 
   enum status: %w(
     parsed

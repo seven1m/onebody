@@ -76,7 +76,6 @@ class Admin < ActiveRecord::Base
     manage_news
     manage_pictures
     manage_prayer_signups
-    manage_sync
     manage_updates
     view_hidden_profiles
     view_hidden_properties

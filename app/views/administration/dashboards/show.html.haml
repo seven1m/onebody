@@ -34,16 +34,15 @@
               %p= t('admin.box.changed_emails.text', count: @email_changed_count)
           .icon
             = icon 'fa fa-envelope'
-    - if @logged_in.admin?(:manage_sync)
+    - if @logged_in.admin?(:import_data)
       .floating-box
-        - error_count = (@last_sync ? @last_sync.error_count : 0) || 0
-        .small-box{ class: metric_css_class(error_count, 1, 5) }
-          = link_to administration_syncs_path do
+        .small-box{ class: metric_css_class(@import_errors_count, 1, 5) }
+          = link_to administration_imports_path do
             .inner
-              %h3= error_count
-              %p= t('admin.box.sync_errors.text', count: error_count)
+              %h3= @import_errors_count
+              %p= t('admin.box.import_errors.text', count: @import_errors_count)
           .icon
-            = icon 'fa fa-refresh'
+            = icon 'fa fa-upload'
     - if @logged_in.admin?(:manage_groups) && setting(:features, :groups)
       .floating-box
         .small-box{ class: metric_css_class(@groups_pending_approval_count, 1, 5) }

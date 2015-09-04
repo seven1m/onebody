@@ -13,8 +13,6 @@ OneBody::Application.routes.draw do
 
   resources :people do
     collection do
-      get  :schema
-      post :hashify
       post :batch
     end
     member do
@@ -48,8 +46,6 @@ OneBody::Application.routes.draw do
 
   resources :families do
     collection do
-      get  :schema
-      post :hashify
       post :batch
       post :select
     end
@@ -194,11 +190,6 @@ OneBody::Application.routes.draw do
       collection do
         get :prev
         get :next
-      end
-    end
-    resources :syncs do
-      member do
-        post :create_items
       end
     end
     resources :deleted_people do

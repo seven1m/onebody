@@ -66,8 +66,6 @@ describe ApplicationHelper, type: :helper do
     attr_accessor :params
 
     it 'should generate a link to the correct url' do
-      @params = {controller: 'administration/syncs', action: 'show', id: 1}
-      expect(sortable_column_heading("type", "sync_items.syncable_type")).to match(/\/admin\/syncs\/1/)
       @params = {controller: 'administration/deleted_people', action: 'index'}
       expect(sortable_column_heading("id", "people.id")).to match(/\/admin\/deleted_people/)
       @params = {controller: 'administration/attendance', action: 'index'}

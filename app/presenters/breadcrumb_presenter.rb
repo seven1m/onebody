@@ -145,9 +145,6 @@ class BreadcrumbPresenter
     if @controller == 'pages' and @assigns['page']
       crumbs << ['fa fa-file', t('nav.pages'), pages_path]
     end
-    if @controller == 'administration/syncs' and @assigns['sync']
-      crumbs << ['fa fa-refresh', t('nav.syncs'), administration_syncs_path]
-    end
     if @controller =~ %r(^administration/checkin/(times|cards|groups|labels))
       crumbs << ['fa fa-check-square-o', t('nav.checkin'), administration_checkin_dashboard_path]
       if @route == 'administration/checkin/groups#index' and @assigns['time']

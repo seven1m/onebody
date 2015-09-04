@@ -76,9 +76,9 @@
           %tr
             %th
               %input{ onclick: "$('.family_checkbox').prop('checked', this.checked)", type: 'checkbox', class: 'simple' }
-            %th= t('admin.syncs.id')
-            %th= t('admin.syncs.legacy_id')
-            %th= t('people.family')
+            %th= t('.table.id')
+            %th= t('.table.legacy_id')
+            %th= t('.table.family_name')
           - @families.each do |family|
             %tr
               %td= check_box_tag 'ids[]', family.id, false, class: 'family_checkbox simple'

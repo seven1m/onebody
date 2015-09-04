@@ -13,6 +13,7 @@ en:
         form:
           match_strategy: "How should we try to match existing people?"
           create_as_active: "Make new people active (able to log in)"
+          overwrite_changed_emails: "Overwrite email addresses, even if \"changed email\" flag is set"
         table:
           column: "Column from file"
           attribute: "Attribute in database"

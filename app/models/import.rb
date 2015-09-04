@@ -29,7 +29,9 @@ class Import < ActiveRecord::Base
 
   include FlagShihTzu
 
-  has_flags 1 => :create_as_active
+  has_flags \
+    1 => :create_as_active,
+    2 => :overwrite_changed_emails
 
   after_update :preview_async, if: :should_preview?
 
