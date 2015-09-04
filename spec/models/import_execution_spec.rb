@@ -79,7 +79,7 @@ describe ImportExecution do
         let!(:person) { FactoryGirl.create(:person) }
 
         context 'given the attributes are valid' do
-          let!(:row) { create_row(id: person.id, first: 'John', last: 'Jones', fam_id: family.id) }
+          let!(:row) { create_row(id: person.id, first: 'John', last: 'Jones', fam_id: family.id, email: 'new@example.com') }
 
           before { subject.execute }
 
@@ -101,6 +101,10 @@ describe ImportExecution do
             expect(row.reload.attributes).to include(
               'status' => 2
             )
+          end
+
+          it 'does not set the email_changed flag' do
+            expect(person.reload.email_changed?).to eq(false)
           end
         end
 
@@ -132,6 +136,89 @@ describe ImportExecution do
               'updated_person' => false,
               'updated_family' => false,
               'error_reasons'  => 'The family must have a name.'
+            )
+          end
+        end
+
+        context "given the the person's email address has changed" do
+          let!(:row) { create_row(id: person.id, first: 'John', last: 'Jones', fam_id: family.id, email: 'changed2@example.com') }
+
+          before do
+            person.email = 'changed1@example.com'
+            person.email_changed = true
+            person.save!
+            subject.execute
+          end
+
+          it 'updates the person' do
+            expect(row.reload.attributes).to include(
+              'created_person' => false,
+              'created_family' => false,
+              'updated_person' => true,
+              'updated_family' => false
+            )
+          end
+
+          it 'does not change the email address and does not clear the email_changed flag' do
+            expect(person.reload.attributes).to include(
+              'email' => 'changed1@example.com',
+              'email_changed' => true
+            )
+          end
+        end
+
+        context "given the the person's email address has changed and the import matches it" do
+          let!(:row) { create_row(id: person.id, first: 'John', last: 'Jones', fam_id: family.id, email: 'changed1@example.com') }
+
+          before do
+            person.email = 'changed1@example.com'
+            person.email_changed = true
+            person.save!
+            subject.execute
+          end
+
+          it 'updates the person' do
+            expect(row.reload.attributes).to include(
+              'created_person' => false,
+              'created_family' => false,
+              'updated_person' => true,
+              'updated_family' => false
+            )
+          end
+
+          it 'clears the email_changed flag' do
+            expect(person.reload.attributes).to include(
+              'email' => 'changed1@example.com',
+              'email_changed' => false
+            )
+          end
+        end
+
+        context "given the the person's email address has changed and the import has overwrite_changed_emails=true" do
+          let!(:row) { create_row(id: person.id, first: 'John', last: 'Jones', fam_id: family.id, email: 'changed2@example.com') }
+
+          before do
+            import.overwrite_changed_emails = true
+            import.save!
+            person.email = 'changed1@example.com'
+            person.email_changed = true
+            person.save!
+            subject.execute
+          end
+
+          it 'updates the person' do
+            expect(row.reload.attributes).to include(
+              'created_person' => false,
+              'created_family' => false,
+              'updated_person' => true,
+              'updated_family' => false
+            )
+          end
+
+          it 'updates the email address and clears the email_changed flag' do
+            expect(person.reload.attributes).to include(
+              'email' => 'changed2@example.com',
+              'email_changed' => false
             )
           end
         end

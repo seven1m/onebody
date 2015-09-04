@@ -156,18 +156,6 @@ class PeopleController < ApplicationController
     end
   end
 
-  def hashify
-    params.merge!(Hash.from_xml(request.body.read))
-    if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
-      ids = params[:hash][:legacy_id].to_s.split(',')
-      raise 'error' if ids.length > 1000
-      hashes = Person.hashify(legacy_ids: ids, attributes: params[:hash][:attrs].split(','), debug: params[:hash][:debug])
-      render xml: hashes.to_a
-    else
-      render text: t('not_authorized'), layout: true, status: 401
-    end
-  end
-
   def batch
     # post from families/show page
     if params[:family_id] and @logged_in.admin?(:edit_profiles)
@@ -176,20 +164,9 @@ class PeopleController < ApplicationController
         format.html { redirect_to family_path(params[:family_id]) }
         format.js   { render js: "location.replace('#{family_path(params[:family_id])}')" }
       end
-    # API for use by UpdateAgent
-    elsif @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
-      xml_params = Hash.from_xml(request.body.read)['hash']
-      statuses = Person.update_batch(xml_params['records'], xml_params['options'] || {})
-      respond_to do |format|
-        format.xml { render xml: statuses }
-      end
     else
       render text: t('not_authorized'), layout: true, status: 401
     end
-  end
-
-  def schema
-    render xml: Person.columns.map { |c| {name: c.name, type: c.type} }
   end
 
   def testimony

@@ -20,10 +20,10 @@ en:
         text:
           one: "Changed Email"
           other: "Changed Emails"
-      sync_errors:
+      import_errors:
         text:
-          one: "Sync Error"
-          other: "Sync Errors"
+          one: "Import Error"
+          other: "Import Errors"
       groups_pending_approval:
         text:
           one: "Group Pending Approval"
@@ -116,9 +116,8 @@ en:
     enable_api_confirmation: Are you sure you want to enable your API key?
     emails:
       intro_html: |
-        <p><em>This administration section is useful if you sync your data from an external source using UpdateAgent. If you do not, you may safely clear all the items from this list (or just ignore it entirely).</em></p>
-        <p>When a user changes their email address online, a flag is set, and subsequent syncs cannot change the email address back until the flag is cleared. To clear the flag, simply set the user's email address in your external database to be the same as below, and then run your sync process (or wait for it to run at its next scheduled time).</p>
-        <p>Alternatively, you can clear the flag manually here to allow your sync process to overwrite the value (but beware you may confuse your users if you do so).</p>
+        <p>When a user changes their email address online, a flag is set, and subsequent CSV imports are prevented from overwriting that user's email address.</p>
+        <p>Below are users whose flags are set. You may clear the flag here once you've updated their email address in your database of record.</p>
       changed_addresses: "Changed Email Addresses"
       clear_flags: "Clear Flags"
       no_records: "There are currently no records with the changed email address flag set."
@@ -513,23 +512,6 @@ en:
         all: "share with all groups, regardless of size"
     super_admin: Super Admin
     super_admin_about: Super Admins have full control over the site, with all available privileges. Be careful who you give this to — it could be dangerous!
-    syncs:
-      complete: Complete
-      duration: Duration
-      error: Error
-      id: ID
-      legacy_id: Legacy ID
-      name: Name
-      none: None yet.
-      operation: Operation
-      rate: Rate
-      start: Start
-      status: Status
-      success: Success
-      show:
-        heading: "Sync %{at}"
-      syncs: Syncs
-      type: Type
     template: Template
     templates: Templates
     updates:

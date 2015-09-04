@@ -1,6 +1,6 @@
 class FamiliesController < ApplicationController
 
-  load_and_authorize_resource except: [:show, :hashify, :batch, :select, :schema]
+  load_and_authorize_resource except: [:show, :batch, :select]
 
   def index
     respond_to do |format|
@@ -100,18 +100,6 @@ class FamiliesController < ApplicationController
     end
   end
 
-  def hashify
-    params.merge!(Hash.from_xml(request.body.read))
-    if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
-      ids = params[:hash][:legacy_id].to_s.split(',')
-      raise 'error' if ids.length > 1000
-      hashes = Family.hashify(legacy_ids: ids, attributes: params[:hash][:attrs].split(','), debug: params[:hash][:debug])
-      render xml: hashes.to_a
-    else
-      render text: t('not_authorized'), layout: true, status: 401
-    end
-  end
-
   def batch
     # delete family (used by Administration::DeletedPeopleController)
     if @logged_in.admin?(:edit_profiles) and params[:delete]
@@ -119,13 +107,6 @@ class FamiliesController < ApplicationController
         Family.find(id).destroy
       end
       redirect_back
-    # API for use by UpdateAgent
-    elsif @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
-      xml_params = Hash.from_xml(request.body.read)['hash']
-      statuses = Family.update_batch(xml_params['records'], xml_params['options'] || {})
-      respond_to do |format|
-        format.xml { render xml: statuses }
-      end
     else
       render text: t('not_authorized'), layout: true, status: 401
     end
@@ -137,10 +118,6 @@ class FamiliesController < ApplicationController
       format.html { redirect_to new_person_path(family_id: @family) }
       format.js
     end
-  end
-
-  def schema
-    render xml: Family.columns.map { |c| {name: c.name, type: c.type} }
   end
 
   private

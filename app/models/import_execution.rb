@@ -51,7 +51,7 @@ class ImportExecution
   end
 
   def update_existing_person(row, person)
-    person.attributes = attributes_for_person(row)
+    set_person_attributes(row, person)
     if (family = match_family(row))
       person.family = family
       update_existing_family(row, family)
@@ -64,6 +64,19 @@ class ImportExecution
     row.created_family = row.updated_family = false if person.invalid?
     row.error_reasons = errors_as_string(person)
     row.person = person
+  end
+
+  def set_person_attributes(row, person)
+    attributes = attributes_for_person(row)
+    person.dont_mark_email_changed = true
+    if @import.overwrite_changed_emails?
+      person.email_changed = false
+      person.attributes = attributes
+    else
+      person.email_changed = false if attributes['email'] == person.email
+      person.attributes = attributes
+      person.restore_attributes([:email]) if person.email_changed?
+    end
   end
 
   def create_new_person(row)

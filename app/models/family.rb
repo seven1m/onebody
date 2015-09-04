@@ -224,56 +224,6 @@ class Family < ActiveRecord::Base
     update_attribute(:deleted, true)
   end
 
-  # used to update a batch of records at one time, for UpdateAgent API
-  def self.update_batch(records, options={})
-    raise "Too many records to batch at once (#{records.length})" if records.length > MAX_TO_BATCH_AT_A_TIME
-    records.map do |record|
-      # find the family (by legacy_id, preferably)
-      family = where(legacy_id: record["legacy_id"]).first
-      if family.nil? and options['claim_families_by_barcode_if_no_legacy_id'] and record['barcode_id'].present?
-        # if no family was found by legacy id, let's try by barcode id
-        # but only if the matched family has no legacy id!
-        # (because two separate families could potentially have accidentally been assigned the same barcode)
-        if family = where(legacy_id: nil, barcode_id: record["barcode_id"]).first
-          # mark all people in this family as deleted, and we'll try to revive them on the Person#update_batch side
-          family.people.where(legacy_id: nil).update_all(deleted: true)
-        end
-      end
-      # last resort, create a new record
-      family ||= new
-      if options['delete_families_with_conflicting_barcodes_if_no_legacy_id'] and !family.new_record?
-        # closely related to the other option, but this one deletes conflicting families
-        # (only if they have no legacy id)
-        destroy_all ["legacy_id is null and barcode_id = ? and id != ?", record['barcode_id'], family.id]
-      end
-      record.each do |key, value|
-        value = nil if value == ''
-        # avoid overwriting a newer barcode
-        if key == 'barcode_id' and family[:barcode_id_changed]
-          if value == family.barcode_id # barcode now matches (presumably, the external db has been updated to match the OneBody db)
-            family[:barcode_id_changed] = false # clear the flag
-          else
-            next # don't overwrite the newer barcode with an older one
-          end
-        elsif %w(barcode_id_changed remote_hash).include?(key) # skip these
-          next
-        end
-        family.send("#{key}=", value) # be sure to call the actual method (don't use write_attribute)
-      end
-      family.dont_mark_barcode_id_changed = true # set flag to indicate we're the api
-      if family.save
-        s = {status: 'saved', legacy_id: family.legacy_id, id: family.id, name: family.name}
-        if family.barcode_id_changed? # barcode_id_changed flag still set
-          s[:status] = 'saved with error'
-          s[:error] = "Newer barcode not overwritten: #{family.barcode_id.inspect}"
-        end
-        s
-      else
-        {status: 'not saved', legacy_id: record['legacy_id'], id: family.id, name: family.name, error: family.errors.full_messages.join('; ')}
-      end
-    end
-  end
-
   # Go straight to the database to fetch family details for the Directory Map
   def self.mappable_details
     connection.select_all(

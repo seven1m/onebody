@@ -11,7 +11,6 @@ class Person < ActiveRecord::Base
   include Concerns::Person::Import
   include Concerns::Person::Export
   include Concerns::Person::PdfGen
-  include Concerns::Person::Batch
   include Concerns::Person::TwitterUsername
   include Concerns::Person::Streamable
   include Concerns::Person::EmailChanged

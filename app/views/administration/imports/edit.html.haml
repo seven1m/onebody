@@ -11,6 +11,10 @@
     = form.check_box :create_as_active, class: 'form-control'
     = form.label :create_as_active, t('.form.create_as_active')
 
+  .form-group
+    = form.check_box :overwrite_changed_emails, class: 'form-control'
+    = form.label :overwrite_changed_emails, t('.form.overwrite_changed_emails')
+
   %table.table
     %thead
       %tr
