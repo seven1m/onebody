@@ -53,6 +53,7 @@ class Administration::ImportsController < ApplicationController
     @import.mappings = params[:import][:mappings]
     @import.status = 'matched' if params[:status] == 'matched'
     if @import.save
+      @import.execute_async if @import.dont_preview
       redirect_to administration_import_path(@import)
     else
       @example = build_example
@@ -75,7 +76,8 @@ class Administration::ImportsController < ApplicationController
   private
 
   def import_params
-    params.require(:import).permit(:match_strategy, :create_as_active, :overwrite_changed_emails)
+    params[:import].delete(:dont_preview) if params.fetch(:import, {})[:dont_preview] == '0'
+    params.require(:import).permit(:match_strategy, :create_as_active, :overwrite_changed_emails, :dont_preview)
   end
 
   def build_example

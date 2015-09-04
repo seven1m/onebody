@@ -33,6 +33,8 @@ class Import < ActiveRecord::Base
     1 => :create_as_active,
     2 => :overwrite_changed_emails
 
+  attr_accessor :dont_preview
+
   after_update :preview_async, if: :should_preview?
 
   def progress
@@ -86,14 +88,18 @@ class Import < ActiveRecord::Base
   end
 
   def execute_async
-    return if new_record? || !previewed?
+    return if new_record? || !ready_to_execute?
     self.status = :active
     self.save!
     ImportExecutionJob.perform_later(Site.current, id)
   end
 
+  def ready_to_execute?
+    previewed? || (dont_preview && matched?)
+  end
+
   def should_preview?
-    !new_record? && matched? && !Rails.env.test?
+    !new_record? && matched? && !dont_preview && !Rails.env.test?
   end
 
   def destroyable?

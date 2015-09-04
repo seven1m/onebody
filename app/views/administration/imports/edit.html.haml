@@ -15,6 +15,8 @@
     = form.check_box :overwrite_changed_emails, class: 'form-control'
     = form.label :overwrite_changed_emails, t('.form.overwrite_changed_emails')
 
+  .form-group
+
   %table.table
     %thead
       %tr
@@ -35,9 +37,14 @@
             = @example[from]
 
   .page-controls
-    = button_tag class: 'btn btn-success' do
+    = button_tag id: 'btn-preview', class: 'btn btn-success' do
       = t('.save.button')
       = icon 'fa fa-arrow-right'
+    = button_tag id: 'btn-execute', class: 'btn btn-danger', data: { method: 'patch', confirm: t('are_you_sure') }, style: 'display:none' do
+      = icon 'fa fa-bolt'
+      = t('administration.imports.show.execute.button')
+    = form.check_box :dont_preview, class: 'form-control'
+    = form.label :dont_preview, t('.form.dont_preview')
     - if @import.destroyable?
       = link_to @import, data: { method: :delete, confirm: t('are_you_sure') }, class: 'btn btn-delete pull-right' do
         = icon 'fa fa-trash-o'

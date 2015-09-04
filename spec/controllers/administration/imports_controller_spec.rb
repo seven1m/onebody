@@ -98,24 +98,49 @@ describe Administration::ImportsController, type: :controller do
   describe '#update' do
     let(:import) { FactoryGirl.create(:import, person: admin) }
 
-    before do
-      patch :update, {
-        id: import.id,
-        import: {
-          match_strategy: 'by_name',
-          mappings: {
-            'foo' => 'bar'
+    context do
+      before do
+        patch :update, {
+          id: import.id,
+          import: {
+            match_strategy: 'by_name',
+            mappings: {
+              'foo' => 'bar'
+            },
+            dont_preview: '0'
           }
-        }
-      }, logged_in_id: admin.id
+        }, logged_in_id: admin.id
+      end
+
+      it 'updates the import settings and redirects to the show page' do
+        expect(import.reload.match_strategy).to eq('by_name')
+        expect(import.mappings).to eq(
+          'foo' => 'bar'
+        )
+        expect(response).to redirect_to(administration_import_path(import))
+      end
     end
 
-    it 'updates the import settings and redirects to the show page' do
-      expect(import.reload.match_strategy).to eq('by_name')
-      expect(import.mappings).to eq(
-        'foo' => 'bar'
-      )
-      expect(response).to redirect_to(administration_import_path(import))
+    context 'given dont_preview=1' do
+      before do
+        allow(Import).to receive(:find).with(import.id.to_s).and_return(import)
+        allow(import).to receive(:execute_async)
+        patch :update, {
+          id: import.id,
+          import: {
+            match_strategy: 'by_name',
+            mappings: {
+              'foo' => 'bar'
+            },
+            dont_preview: '1'
+          }
+        }, logged_in_id: admin.id
+      end
+
+      it 'calls execute_async and redirects to the show page' do
+        expect(import).to have_received(:execute_async)
+        expect(response).to redirect_to(administration_import_path(import))
+      end
     end
   end
 
