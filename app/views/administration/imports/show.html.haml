@@ -57,10 +57,10 @@
               %td= @import.rows.count
           %tr
             %th= t('.table.match_strategy')
-            %td= t(@import.match_strategy, scope: 'administration.imports.show.match_strategies') # notest
+            %td= t(@import.match_strategy, scope: 'administration.imports.show.match_strategies', default: '') # notest
           %tr
             %th= t('.table.create_as_active')
-            %td= t(@import.create_as_active?.to_s, scope: 'administration.imports.show.create_as_active') # notest
+            %td= t(@import.create_as_active?.to_s, scope: 'administration.imports.show.create_as_active', default: '') # notest
 
   .col-md-8
     - if @import.status_at_least?('previewed')
