@@ -137,18 +137,16 @@
 
   = pagination @rows
 
-- if @import.previewed? || @import.destroyable?
-  .page-controls
-    - if @import.previewed?
-      = link_to edit_administration_import_path(@import), class: 'btn btn-warning' do
-        = icon 'fa fa-arrow-left'
-        = t('.edit.button')
-      = link_to execute_administration_import_path(@import), class: 'btn btn-danger', |
-        data: { method: 'patch', confirm: t('are_you_sure') } do
-        = icon 'fa fa-bolt'
-        = t('.execute.button')
-    - if @import.destroyable?
-      = link_to @import, data: { method: :delete, confirm: t('are_you_sure') }, class: 'btn btn-delete pull-right' do
-        = icon 'fa fa-trash-o'
-        = t('.delete.button')
-    .clearfix
+.page-controls
+  - if @import.previewed?
+    = link_to edit_administration_import_path(@import), class: 'btn btn-warning' do
+      = icon 'fa fa-arrow-left'
+      = t('.edit.button')
+    = link_to execute_administration_import_path(@import), class: 'btn btn-danger', |
+      data: { method: 'patch', confirm: t('are_you_sure') } do
+      = icon 'fa fa-bolt'
+      = t('.execute.button')
+  = link_to @import, data: { method: :delete, confirm: t('are_you_sure') }, class: 'btn btn-delete pull-right' do
+    = icon 'fa fa-trash-o'
+    = t('.delete.button')
+  .clearfix

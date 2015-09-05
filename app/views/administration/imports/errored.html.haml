@@ -8,4 +8,7 @@
   = @import.error_message
 
 %p
+  = link_to @import, data: { method: :delete, confirm: t('are_you_sure') }, class: 'btn btn-delete pull-right' do
+    = icon 'fa fa-trash-o'
+    = t('administration.imports.show.delete.button')
   = link_to t('.new.button'), new_administration_import_path, class: 'btn btn-success'

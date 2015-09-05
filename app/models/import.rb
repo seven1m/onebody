@@ -102,10 +102,6 @@ class Import < ActiveRecord::Base
     !new_record? && matched? && !dont_preview && !Rails.env.test?
   end
 
-  def destroyable?
-    !%w(active complete).include?(status)
-  end
-
   def as_json(*args)
     super.merge(
       completed_rows_in_stage: completed_rows_in_stage.size,
