@@ -208,11 +208,12 @@ describe Family do
         city: 'Tulsa',
         state: 'OK',
         zip: '74120',
-        country: 'US'
+        country: 'US',
+        dont_geocode: true
       )
     end
 
-    it 'appends the default country name on the end' do
+    it 'appends the country name on the end' do
       expect(family.geocoding_address).to eq('650 S. Peoria, Tulsa, OK, 74120, US')
     end
   end

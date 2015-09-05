@@ -31,15 +31,5 @@ module Concerns
       self.latitude = nil
       self.longitude = nil
     end
-
-    def should_geocode?
-      return false if dont_geocode
-      changes = address1_changed? || address2_changed? || city_changed? || state_changed? || zip_changed?
-      changes && !blank_address?
-    end
-
-    def blank_address?
-      address1.blank? || city.blank? || state.blank?
-    end
   end
 end

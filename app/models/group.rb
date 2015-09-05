@@ -69,13 +69,6 @@ class Group < ActiveRecord::Base
     group_times.any?
   end
 
-  include Concerns::Geocode
-  geocode_with :location_with_country
-
-  blank_to_nil :address
-
-  alias_attribute :pretty_address, :location
-
   before_create :set_share_token
 
   def inspect
@@ -100,8 +93,24 @@ class Group < ActiveRecord::Base
     membership_mode == 'parents_of' and parents_of
   end
 
+  include Concerns::Geocode
+  geocode_with :location_with_country
+
+  blank_to_nil :address
+
+  alias_attribute :pretty_address, :location
+
   def location_with_country
     [location, Setting.get(:system, :default_country)].join(", ")
+  end
+
+  def should_geocode?
+    return false if dont_geocode
+    location_changed? && !blank_address?
+  end
+
+  def blank_address?
+    location.blank?
   end
 
   def mapable?
