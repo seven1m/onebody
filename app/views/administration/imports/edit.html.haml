@@ -45,7 +45,6 @@
       = t('administration.imports.show.execute.button')
     = form.check_box :dont_preview, class: 'form-control'
     = form.label :dont_preview, t('.form.dont_preview')
-    - if @import.destroyable?
-      = link_to @import, data: { method: :delete, confirm: t('are_you_sure') }, class: 'btn btn-delete pull-right' do
-        = icon 'fa fa-trash-o'
-        = t('.delete.button')
+    = link_to @import, data: { method: :delete, confirm: t('are_you_sure') }, class: 'btn btn-delete pull-right' do
+      = icon 'fa fa-trash-o'
+      = t('.delete.button')
