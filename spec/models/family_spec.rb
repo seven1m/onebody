@@ -253,18 +253,6 @@ describe Family do
 
       context 'address is removed' do
         before do
-          Geocoder::Lookup::Test.add_stub(
-            "US", [
-              {
-                'precision' => 'APPROXIMATE',
-                'latitude'  => 35,
-                'longitude' => -95
-              }
-            ]
-          )
-        end
-
-        before do
           family.address1 = ''
           family.city = ''
           family.state = ''
@@ -275,6 +263,20 @@ describe Family do
         it 'removes latitude and longitude' do
           expect(family.latitude).to be_nil
           expect(family.longitude).to be_nil
+        end
+      end
+
+      context 'unrelated attribute is changed' do
+        before do
+          family # create family
+          Geocoder::Lookup::Test.reset
+          family.name = 'Jack Smith'
+          family.save!
+        end
+
+        it 'does not change the latitude or longitude' do
+          expect(family.latitude).to eq(36.151305)
+          expect(family.longitude).to eq(-95.975393)
         end
       end
     end
