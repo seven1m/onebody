@@ -4,12 +4,19 @@ class ImportParserJob < ActiveJob::Base
   def perform(site, import_id, data, strategy_name)
     ActiveRecord::Base.connection_pool.with_connection do
       Site.with_current(site) do
+        import = Import.find(import_id)
         parser = ImportParser.new(
-          import:        Import.find(import_id),
+          import:        import,
           data:          data,
           strategy_name: strategy_name
         )
-        parser.parse
+        begin
+          parser.parse
+        rescue => e
+          import.status = :errored
+          import.error_message = e.message.inspect
+          import.save!
+        end
       end
     end
   end
