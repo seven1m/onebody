@@ -56,6 +56,7 @@ class ImportParser
 
   def attrs_for_row(row)
     row.each_with_index.map do |(key, value), index|
+      value.encode!('UTF-8', invalid: :replace, undef: :replace, replace: ' ') if value.is_a?(String)
       {
         name:      key,
         value:     value,
