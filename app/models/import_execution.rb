@@ -22,10 +22,14 @@ class ImportExecution
       end
       save_row(row)
     end
-    @import.update_attributes(status: status_after)
+    @import.update_attributes(status: status_after, completed_at: set_completed_at? ? Time.now : nil)
   end
 
   private
+
+  def set_completed_at?
+    true
+  end
 
   def status_before
     'active'

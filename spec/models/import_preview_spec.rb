@@ -42,6 +42,11 @@ describe ImportPreview do
       expect { subject.preview }.to change(import, :status).to('previewed')
     end
 
+    it 'does not set the completed_at time' do
+      subject.execute
+      expect(import.completed_at).to be_nil
+    end
+
     it 'updates the status of the rows' do
       subject.preview
       expect(row1.reload.attributes).to include(

@@ -5,6 +5,10 @@ class ImportPreview < ImportExecution
 
   private
 
+  def set_completed_at?
+    false
+  end
+
   def status_before
     'previewing'
   end

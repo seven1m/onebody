@@ -38,6 +38,11 @@ describe ImportExecution do
       expect { subject.execute }.to change(import, :status).to('complete')
     end
 
+    it 'sets the completed_at time' do
+      subject.execute
+      expect(import.completed_at).to be
+    end
+
     context 'given dangerous attribute mappings' do
       let(:import) do
         FactoryGirl.create(
