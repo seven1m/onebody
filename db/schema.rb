@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150830225132) do
+ActiveRecord::Schema.define(version: 20150905045405) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -290,30 +290,21 @@ ActiveRecord::Schema.define(version: 20150830225132) do
   add_index "groups", ["category"], name: "index_groups_on_category", using: :btree
   add_index "groups", ["site_id"], name: "index_site_id_on_groups", using: :btree
 
-  create_table "import_attributes", force: :cascade do |t|
-    t.integer "site_id",       limit: 4
-    t.integer "import_id",     limit: 4
-    t.integer "import_row_id", limit: 4
-    t.string  "name",          limit: 255,   null: false
-    t.text    "value",         limit: 65535
-    t.integer "sequence",      limit: 4,     null: false
-    t.string  "error_reasons", limit: 255
-  end
-
   create_table "import_rows", force: :cascade do |t|
     t.integer "site_id",           limit: 4
     t.integer "import_id",         limit: 4
-    t.integer "sequence",          limit: 4,                    null: false
+    t.integer "sequence",          limit: 4,                     null: false
     t.string  "error_reasons",     limit: 1000
     t.integer "person_id",         limit: 4
-    t.boolean "created_person",                 default: false
-    t.boolean "created_family",                 default: false
-    t.boolean "updated_person",                 default: false
-    t.boolean "updated_family",                 default: false
+    t.boolean "created_person",                  default: false
+    t.boolean "created_family",                  default: false
+    t.boolean "updated_person",                  default: false
+    t.boolean "updated_family",                  default: false
     t.integer "family_id",         limit: 4
     t.integer "matched_person_by", limit: 4
     t.integer "matched_family_by", limit: 4
     t.integer "status",            limit: 4
+    t.text    "import_attributes", limit: 65535
   end
 
   create_table "imports", force: :cascade do |t|

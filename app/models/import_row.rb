@@ -2,9 +2,6 @@ class ImportRow < ActiveRecord::Base
   belongs_to :import
   belongs_to :person
   belongs_to :family
-  has_many :import_attributes, inverse_of: :row, dependent: :delete_all
-
-  accepts_nested_attributes_for :import_attributes
 
   validates :import, :sequence, presence: true
 
@@ -36,15 +33,23 @@ class ImportRow < ActiveRecord::Base
     matched_family_by_contact_info: 3
   }
 
+  serialize :import_attributes, JSON
+
+  def import_attributes_attributes=(attrs)
+    self.import_attributes = attrs.each_with_object({}) do |attr, hash|
+      attr.stringify_keys!
+      hash[attr['name']] = attr['value']
+    end
+  end
+
   def import_attributes_as_hash(real_attributes: false, keep_invalid: false)
-    import_attributes.each_with_object({}) do |attr, hash|
-      key = attr.name
+    import_attributes.each_with_object({}) do |(key, value), hash|
       real_key = import.mappings[key]
       next unless valid_key?(real_key) || keep_invalid
       if real_attributes
-        hash[real_key] = attr.value
+        hash[real_key] = value
       else
-        hash[key] = attr.value
+        hash[key] = value
       end
     end
   end

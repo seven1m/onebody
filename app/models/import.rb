@@ -1,7 +1,6 @@
 class Import < ActiveRecord::Base
   belongs_to :person
   has_many :rows, class_name: 'ImportRow', dependent: :delete_all
-  has_many :import_attributes, dependent: :delete_all
 
   validates :person, :filename, :status, presence: true
   validates :importable_type, inclusion: %w(Person)

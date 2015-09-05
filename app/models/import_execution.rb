@@ -11,7 +11,7 @@ class ImportExecution
     return unless ready?
     @import.rows.update_all(status: row_status_before)
     index = 0
-    @import.rows.includes(:import_attributes).find_each do |row|
+    @import.rows.find_each do |row|
       @import.reload if index % 100 == 0 # make sure import didn't get deleted
       index += 1
       row.reset_statuses
