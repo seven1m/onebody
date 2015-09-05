@@ -70,37 +70,13 @@ describe ImportParser do
       expect(row.attributes).to include(
         'site_id'  => 1,
         'sequence' => 1,
-        'status'   => 0
+        'status'   => 0,
+        'import_attributes' => {
+          'first_name' => 'Tim',
+          'last_name'  => 'Morgan',
+          'email'      => 'tim@timmorgan.org'
+        }
       )
-    end
-
-    it 'creates import attributes' do
-      import = subject.import
-      row = import.rows.first
-      attributes = row.import_attributes.map(&:attributes)
-      expect(attributes).to match_array([
-        include(
-          'site_id'   => 1,
-          'import_id' => import.id,
-          'name'      => 'first_name',
-          'value'     => 'Tim',
-          'sequence'  => 1
-        ),
-        include(
-          'site_id'   => 1,
-          'import_id' => import.id,
-          'name'      => 'last_name',
-          'value'     => 'Morgan',
-          'sequence'  => 2
-        ),
-        include(
-          'site_id'   => 1,
-          'import_id' => import.id,
-          'name'      => 'email',
-          'value'     => 'tim@timmorgan.org',
-          'sequence'  => 3
-        )
-      ])
     end
 
     context 'given malformed CSV' do
