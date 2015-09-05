@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150905045405) do
+ActiveRecord::Schema.define(version: 20150905135659) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -198,6 +198,7 @@ ActiveRecord::Schema.define(version: 20150905045405) do
   end
 
   add_index "families", ["last_name", "name"], name: "index_family_names", using: :btree
+  add_index "families", ["legacy_id"], name: "index_families_on_legacy_id", using: :btree
 
   create_table "friendship_requests", force: :cascade do |t|
     t.integer  "person_id",  limit: 4
@@ -500,7 +501,9 @@ ActiveRecord::Schema.define(version: 20150905045405) do
 
   add_index "people", ["admin_id"], name: "index_admin_id_on_people", using: :btree
   add_index "people", ["business_category"], name: "index_business_category_on_people", using: :btree
+  add_index "people", ["email"], name: "index_people_on_email", using: :btree
   add_index "people", ["family_id"], name: "index_people_on_family_id", using: :btree
+  add_index "people", ["legacy_id"], name: "index_people_on_legacy_id", using: :btree
   add_index "people", ["site_id", "feed_code"], name: "index_people_on_site_id_and_feed_code", using: :btree
   add_index "people", ["site_id"], name: "index_site_id_on_people", using: :btree
 
