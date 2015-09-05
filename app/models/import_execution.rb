@@ -56,6 +56,7 @@ class ImportExecution
 
   def update_existing_person(row, person)
     set_person_attributes(row, person)
+    person.dont_stream = true
     if (family = match_family(row))
       person.family = family
       update_existing_family(row, family)
@@ -85,6 +86,7 @@ class ImportExecution
 
   def create_new_person(row)
     person = Person.new(attributes_for_person(row))
+    person.dont_stream = true
     if (person.family = match_family(row))
       update_existing_family(row, person.family)
     else
