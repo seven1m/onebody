@@ -453,6 +453,51 @@ describe Person do
     end
   end
 
+  describe '#update_stream_item' do
+    let!(:person) { FactoryGirl.create(:person) }
+    let(:stream_item_spy) { spy('stream_item') }
+
+    before do
+      allow(person).to receive(:stream_item).and_return(stream_item_spy)
+    end
+
+    context 'given no relevant changes' do
+      before do
+        person.reload
+        person.email = 'new@example.com'
+        person.save!
+      end
+
+      it 'does not update the stream item' do
+        expect(stream_item_spy).not_to have_received(:save!)
+      end
+    end
+
+    context 'given the email went away' do
+      before do
+        person.reload
+        person.email = ''
+        person.save!
+      end
+
+      it 'updates the stream item' do
+        expect(stream_item_spy).to have_received(:save!)
+      end
+    end
+
+    context 'given the name changed' do
+      before do
+        person.reload
+        person.suffix = 'Jr.'
+        person.save!
+      end
+
+      it 'updates the stream item' do
+        expect(stream_item_spy).to have_received(:save!)
+      end
+    end
+  end
+
   describe '#position' do
     context 'given a family with three people in it' do
       let!(:family) { FactoryGirl.create(:family) }

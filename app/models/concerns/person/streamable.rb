@@ -10,9 +10,11 @@ module Concerns
         after_create :create_as_stream_item
         after_update :update_stream_item
         after_destroy :destroy_stream_item
+        attr_accessor :dont_stream
       end
 
       def create_as_stream_item
+        return if dont_stream
         item = StreamItem.create!(
           title: name,
           person_id: id,
@@ -26,6 +28,8 @@ module Concerns
       end
 
       def update_stream_item
+        return if dont_stream
+        return unless changes_affecting_stream_item?
         return unless stream_item
         stream_item.title = name
         stream_item.shared = visible? && email.present?
@@ -40,6 +44,14 @@ module Concerns
 
       def item_grouping_enabled?
         !Rails.env.test?
+      end
+
+      def changes_affecting_stream_item?
+        changes['first_name'] ||
+          changes['last_name'] ||
+          changes['suffix'] ||
+          changes['deleted'] ||
+          (changes['email'] || []).one?(&:blank?)
       end
     end
   end
