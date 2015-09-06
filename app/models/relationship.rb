@@ -7,8 +7,8 @@ class Relationship < ActiveRecord::Base
 
   validates_presence_of :name
   validates_presence_of :other_name, if: Proc.new { |r| r.name == 'other' }
-  validates_presence_of :person_id
-  validates_presence_of :related_id
+  validates_presence_of :person
+  validates_presence_of :related
   validates_uniqueness_of :name, scope: [:site_id, :other_name, :person_id, :related_id]
   validates_uniqueness_of :other_name, scope: [:site_id, :name, :person_id, :related_id]
   validates_each :name do |record, attribute, value|

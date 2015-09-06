@@ -11,6 +11,8 @@ class ImportExecutionJob < ActiveJob::Base
           import.status = :errored
           import.error_message = e.message
           import.save!
+          Rails.logger.error(e.message)
+          Rails.logger.error(e.backtrace.map(&:to_s).join("\n"))
         end
       end
     end

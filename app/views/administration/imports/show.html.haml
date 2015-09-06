@@ -30,7 +30,7 @@
     setTimeout(refreshOnStatusChange, delay);
 
 .row
-  .col-md-4
+  .col-lg-4
     .box.box-info
       .box-body
         %table.table.table-no-top-border
@@ -62,7 +62,7 @@
             %th= t('.table.create_as_active')
             %td= t(@import.create_as_active?.to_s, scope: 'administration.imports.show.create_as_active', default: '') # notest
 
-  .col-md-8
+  .col-lg-8
     - if @import.status_at_least?('previewed')
       .box.box-info
         .box-header
