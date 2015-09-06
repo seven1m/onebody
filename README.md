@@ -64,7 +64,7 @@ Check out [Using Vagrant](https://github.com/churchio/onebody/wiki/Using-Vagrant
 
 Operating System: Mac or Linux (See Vagrant above if you're on Windows)
 
-1. Install Ruby 2.2.2 or higher (we recommend you use [RVM](https://rvm.io/)).
+1. Install Ruby 2.2.2 or higher (we recommend you use [rbenv](https://github.com/sstephenson/rbenv) or [RVM](https://rvm.io/)).
 2. Install MySQL.
 3. Install Git.
 4. Install ImageMagick.
