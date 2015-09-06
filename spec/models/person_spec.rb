@@ -584,6 +584,27 @@ describe Person do
     end
   end
 
+  describe '#relationships=' do
+    context 'given a string' do
+      let(:person) { FactoryGirl.build(:person) }
+      let(:child)  { FactoryGirl.create(:person, legacy_id: 1001) }
+      let(:father) { FactoryGirl.create(:person, legacy_id: 1002) }
+      let(:neighbor) { FactoryGirl.create(:person, legacy_id: 1003) }
+
+      before do
+        person.relationships = "#{father.legacy_id}[father],#{child.legacy_id}[Son],#{neighbor.legacy_id}[Neighbor]"
+      end
+
+      it 'sets the attributes' do
+        expect(person.relationships.map(&:attributes)).to match_array([
+          include('name' => 'father', 'other_name' => nil,        'related_id' => father.id),
+          include('name' => 'son',    'other_name' => nil,        'related_id' => child.id),
+          include('name' => 'other',  'other_name' => 'Neighbor', 'related_id' => neighbor.id)
+        ])
+      end
+    end
+  end
+
   describe '#update_relationships_hash' do
     let(:person) { FactoryGirl.build(:person) }
 

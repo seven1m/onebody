@@ -389,10 +389,10 @@ en:
             other_name:
               blank: You must specify the relationship type.
               taken: This relationship already exists.
-            person_id:
+            person:
               blank: The relationship must be associated with a person.
-            related_id:
-              blank: The relationship must be associated with a person.
+            related:
+              blank: The relationship must be associated with a second person.
         report:
           attributes:
             definition:
