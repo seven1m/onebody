@@ -97,7 +97,6 @@ rake db:create db:schema:load
 ## Get Help
 
 * [Slack Chat](https://slackin-churchio.herokuapp.com/)
-* IRC channel #church.io on Freenode (try the [web-based IRC client](https://webchat.freenode.net/?channels=#church.io))
 * [Wiki](http://wiki.github.com/churchio/onebody)
 * [Google Group](http://groups.google.com/group/churchio)
 * [Help Guides](http://church.io/onebody/help)
