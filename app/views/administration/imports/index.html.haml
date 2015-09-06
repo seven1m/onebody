@@ -6,6 +6,7 @@
   %table.table
     %thead
       %tr
+        %th= t('.table.filename')
         %th= t('.table.created_at')
         %th= t('.table.person')
         %th= t('.table.status')
@@ -15,6 +16,7 @@
     %tbody
       - @imports.each do |import|
         %tr
+          %td= link_to import.filename, import
           %td= link_to import.created_at.to_s(:full), import
           %td= link_to import.person.try(:name), import.person
           %td= t(import.status, scope: 'administration.imports.status') # notest

@@ -29,6 +29,7 @@ en:
           button: "Try again"
       index:
         table:
+          filename: "Filename"
           created_at: "Created"
           errored: "Errors"
           person: "Created By"
