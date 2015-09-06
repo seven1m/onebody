@@ -87,7 +87,7 @@ describe ImportExecution do
         let(:family)  { FactoryGirl.create(:family) }
         let!(:person) { FactoryGirl.create(:person) }
 
-        context 'given the attributes are valid' do
+        context 'given the person attributes changed' do
           let!(:row) { create_row(id: person.id, first: 'John', last: 'Jones', fam_id: family.id, email: 'new@example.com') }
 
           before { subject.execute }

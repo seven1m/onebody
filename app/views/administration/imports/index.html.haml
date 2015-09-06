@@ -10,6 +10,7 @@
         %th= t('.table.person')
         %th= t('.table.status')
         %th= t('.table.rows')
+        %th= t('.table.errored')
         %th
     %tbody
       - @imports.each do |import|
@@ -18,6 +19,7 @@
           %td= link_to import.person.try(:name), import.person
           %td= t(import.status, scope: 'administration.imports.status') # notest
           %td= import.rows.count
+          %td= import.rows.errored.count
           %td.actions
             = link_to import, class: 'btn btn-info btn-xs' do
               = icon 'fa fa-eye'

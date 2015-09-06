@@ -35,4 +35,10 @@ module Administration::ImportsHelper
       I18n.t('administration.imports.unchanged')
     end
   end
+
+  def import_link_to(model)
+    return if model.nil?
+    return if model.deleted?
+    link_to(model.id, model)
+  end
 end
