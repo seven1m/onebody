@@ -5,10 +5,6 @@ module Concerns
     module Import
       extend ActiveSupport::Concern
 
-      included do
-        has_many :import_rows, dependent: :nullify
-      end
-
       module ClassMethods
         def importable_column_names
           (
