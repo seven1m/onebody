@@ -208,8 +208,7 @@ describe Family do
         city: 'Tulsa',
         state: 'OK',
         zip: '74120',
-        country: 'US',
-        dont_geocode: true
+        country: 'US'
       )
     end
 
@@ -248,8 +247,10 @@ describe Family do
       end
 
       it 'sets latitude and longitude' do
-        expect(family.latitude).to eq(36.151305)
-        expect(family.longitude).to eq(-95.975393)
+        expect(family.reload.attributes).to include(
+          'latitude'  => within(0.00001).of(36.151305),
+          'longitude' => within(0.00001).of(-95.975393)
+        )
       end
 
       context 'address is removed' do
@@ -276,8 +277,10 @@ describe Family do
         end
 
         it 'does not change the latitude or longitude' do
-          expect(family.latitude).to eq(36.151305)
-          expect(family.longitude).to eq(-95.975393)
+          expect(family.reload.attributes).to include(
+            'latitude'  => within(0.00001).of(36.151305),
+            'longitude' => within(0.00001).of(-95.975393)
+          )
         end
       end
     end

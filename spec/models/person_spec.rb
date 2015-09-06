@@ -569,9 +569,10 @@ describe Person do
     let(:existing) { FactoryGirl.create(:person) }
     let(:person)   { FactoryGirl.build(:person) }
 
-    context 'given an a collision in code generation' do
+    context 'given a collision in code generation' do
       before do
         existing.update_attribute(:feed_code, 'abc123')
+        person.family.save # saving the family calls SecureRandom.hex in the GeocoderJob, so get that out of the way
         allow(SecureRandom).to receive(:hex).and_return('abc123', 'xyz987')
       end
 

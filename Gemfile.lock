@@ -429,6 +429,9 @@ GEM
     will_paginate (3.0.7)
     will_paginate-bootstrap (1.0.1)
       will_paginate (>= 3.0.3)
+    with_advisory_lock (3.0.0)
+      activerecord (>= 3.2)
+      thread_safe
     zip-zip (0.3)
       rubyzip (>= 1.0.0)
 
@@ -501,6 +504,7 @@ DEPENDENCIES
   whenever
   will_paginate
   will_paginate-bootstrap
+  with_advisory_lock
   zip-zip
 
 BUNDLED WITH

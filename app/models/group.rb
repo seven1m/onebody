@@ -94,27 +94,14 @@ class Group < ActiveRecord::Base
   end
 
   include Concerns::Geocode
-  geocode_with :location_with_country
+  geocode_with :location, :country
 
-  blank_to_nil :address
-
-  alias_attribute :pretty_address, :location
-
-  def location_with_country
-    [location, Setting.get(:system, :default_country)].join(", ")
-  end
-
-  def should_geocode?
-    return false if dont_geocode
-    location_changed? && !blank_address?
-  end
-
-  def blank_address?
-    location.blank?
+  def country
+    Setting.get(:system, :default_country)
   end
 
   def mapable?
-    latitude.to_f != 0.0 and longitude.to_f != 0.0
+    latitude.to_f != 0.0 && longitude.to_f != 0.0
   end
 
   def get_options_for(person)

@@ -1,3 +1,4 @@
 Geocoder.configure(
-  lookup: :google
+  lookup: :google,
+  always_raise: :all
 )
