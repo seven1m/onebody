@@ -117,7 +117,9 @@ en:
     emails:
       intro_html: |
         <p>When a user changes their email address online, a flag is set, and subsequent CSV imports are prevented from overwriting that user's email address.</p>
-        <p>Below are users whose flags are set. You may clear the flag here once you've updated their email address in your database of record.</p>
+        <p>If you regularly import your people data from an external system, you should only have to <strong>update the user's email address in your database of record</strong> to match their address here. Then, next time you import your database, OneBody will clear the "email changed" flag for you and they will be removed from this list.</p>
+        <p>You can use this page as a To-Do list &ndash; a list of email address changes you need to make to your database of record.</p>
+        <p>Below are users whose flags are set. You may clear the flag here manually if needed.</p>
       changed_addresses: "Changed Email Addresses"
       clear_flags: "Clear Flags"
       no_records: "There are currently no records with the changed email address flag set."

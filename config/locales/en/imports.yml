@@ -14,7 +14,7 @@ en:
           create_as_active: "Make new people active (able to log in)"
           dont_preview: "Skip Preview"
           match_strategy: "How should we try to match existing people?"
-          overwrite_changed_emails: "Overwrite email addresses, even if \"changed email\" flag is set"
+          overwrite_changed_emails_html: "Overwrite changed email addresses no matter what. See <a href='%{url}' target='_blank'>here</a> for more information."
         table:
           attribute: "Attribute in database"
           column: "Column from file"

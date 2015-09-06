@@ -13,7 +13,7 @@
 
   .form-group
     = form.check_box :overwrite_changed_emails, class: 'form-control'
-    = form.label :overwrite_changed_emails, t('.form.overwrite_changed_emails')
+    = form.label :overwrite_changed_emails, t('.form.overwrite_changed_emails_html', url: administration_emails_path)
 
   .form-group
 
