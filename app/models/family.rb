@@ -50,13 +50,13 @@ class Family < ActiveRecord::Base
   end
 
   def barcode_id=(b)
-    write_attribute(:barcode_id, b.present? ? b : nil)
-    write_attribute(:barcode_assigned_at, Time.now.utc)
+    write_attribute(:barcode_id, b.presence)
+    self.barcode_assigned_at = Time.now if barcode_id_changed?
   end
 
   def alternate_barcode_id=(b)
-    write_attribute(:alternate_barcode_id, b.present? ? b : nil)
-    write_attribute(:barcode_assigned_at, Time.now.utc)
+    write_attribute(:alternate_barcode_id, b.presence)
+    self.barcode_assigned_at = Time.now if barcode_id_changed?
   end
 
   def address
