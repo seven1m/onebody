@@ -91,7 +91,7 @@ rspec
 If you don't have a test database yet, create it like you did the dev database:
 
 ```
-rake db:create db:schema:load
+RAILS_ENV=test rake db:create db:schema:load
 ```
 
 ## Get Help
