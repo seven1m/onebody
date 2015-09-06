@@ -16,6 +16,10 @@ describe ImportExecution do
         'fam_lname' => 'family_last_name',
         'fam_lid'   => 'family_legacy_id',
         'phone'     => 'family_home_phone',
+        'address'   => 'family_address1',
+        'city'      => 'family_city',
+        'state'     => 'family_state',
+        'zip'       => 'family_zip',
         'email'     => 'email'
       }
     )
@@ -245,6 +249,34 @@ describe ImportExecution do
             'created_family' => true,
             'updated_person' => true,
             'updated_family' => false
+          )
+        end
+      end
+
+      context 'given a row with a new family with an address' do
+        let!(:person) { FactoryGirl.create(:person) }
+        let!(:family) { person.family }
+
+        let!(:row) do
+          create_row(
+            id: person.id,
+            first: 'John',
+            last: 'Jones',
+            fam_id: 'new123',
+            fam_name: 'John Jones',
+            address: '650 S. Peoria Ave.',
+            city: 'Tulsa',
+            state: 'OK',
+            zip: '74120'
+          )
+        end
+
+        before { subject.execute }
+
+        it 'geocodes the family' do
+          expect(person.reload.family.attributes).to include(
+            'latitude'  => within(0.001).of(40.7143),
+            'longitude' => within(0.001).of(-74.0059)
           )
         end
       end

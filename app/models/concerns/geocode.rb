@@ -6,30 +6,44 @@ module Concerns
 
     included do
       attr_accessor :dont_geocode
-      after_validation :geocode, if: :should_geocode?
-      after_validation :clear_lat_lon, if: :blank_address?
+      after_save :geocode_later, if: :should_geocode?
     end
 
-    module ClassMethods
-      def geocode_with(location)
-        proc = method(:process_geocode_result).to_proc
-        geocoded_by location, &proc
-      end
+    def geocode_later
+      GeocoderJob.perform_later(site, self.class.name, id)
+    end
 
-      def process_geocode_result(model, results=nil)
-        if (geocoding_data = results.first) && geocoding_data.try(:precision) != 'APPROXIMATE'
-          model.latitude = geocoding_data.latitude
-          model.longitude = geocoding_data.longitude
+    def geocode
+      if blank_address?
+        self.latitude = nil
+        self.longitude = nil
+      else
+        results = Geocoder.search(geocoding_address)
+        if (result = results.first)
+          self.latitude = result.latitude
+          self.longitude = result.longitude
         else
-          model.latitude = nil
-          model.longitude = nil
+          self.latitude = nil
+          self.longitude = nil
         end
       end
     end
 
-    def clear_lat_lon
-      self.latitude = nil
-      self.longitude = nil
+    class_methods do
+      def geocode_with(*attrs)
+        define_method :geocoding_address do
+          attrs.map { |attr| send(attr) }.reject(&:blank?).join(', ')
+        end
+
+        define_method :blank_address? do
+          attrs.any? { |attr| send(attr).blank? }
+        end
+
+        define_method :should_geocode? do
+          return false if dont_geocode
+          attrs.any? { |attr| changed.include?(attr.to_s) }
+        end
+      end
     end
   end
 end

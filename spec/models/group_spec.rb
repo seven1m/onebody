@@ -153,15 +153,6 @@ describe Group do
     end
   end
 
-  describe '#location_with_country' do
-    let(:location) { "650 S. Peoria Ave.\nTulsa OK 74120" }
-    let(:group)    { FactoryGirl.create(:group, location: location) }
-
-    it 'appends the default country name on the end' do
-      expect(group.location_with_country).to eq(location + ', US')
-    end
-  end
-
   describe 'geocoding' do
     context 'group with address' do
       let(:location) { "650 S. Peoria Ave.\nTulsa OK 74120" }
@@ -184,8 +175,11 @@ describe Group do
       end
 
       it 'sets latitude and longitude' do
-        expect(group.latitude).to eq(36.151305)
-        expect(group.longitude).to eq(-95.975393)
+        expect(group.reload.attributes).to include(
+          'latitude'  => within(0.00001).of(36.151305),
+          'longitude' => within(0.00001).of(-95.975393)
+        )
+
       end
 
       context 'address is removed' do
