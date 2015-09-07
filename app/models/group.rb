@@ -65,6 +65,8 @@ class Group < ActiveRecord::Base
     errors.add('attendance', :invalid) if attendance_required? && !attendance?
   end
 
+  blank_to_nil :address
+
   def attendance_required?
     group_times.any?
   end
