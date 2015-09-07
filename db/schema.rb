@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150906004322) do
+ActiveRecord::Schema.define(version: 20150907020630) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -278,7 +278,7 @@ ActiveRecord::Schema.define(version: 20150906004322) do
     t.integer  "parents_of",                limit: 4
     t.integer  "site_id",                   limit: 4
     t.boolean  "blog",                                    default: true
-    t.boolean  "email",                                   default: true
+    t.boolean  "email",                                   default: false
     t.boolean  "prayer",                                  default: true
     t.boolean  "attendance",                              default: true
     t.integer  "legacy_id",                 limit: 4
