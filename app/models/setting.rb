@@ -4,7 +4,6 @@ class Setting < ActiveRecord::Base
   ]
 
   SETTINGS_FILE = Rails.root.join("config/settings.yml")
-  PLUGIN_SETTINGS_FILES = Rails.root.join("plugins/**/config/settings.yml")
 
   belongs_to :site
 
@@ -49,11 +48,6 @@ class Setting < ActiveRecord::Base
 
     def global?(section, name)
       Setting::GLOBAL_SETTINGS.map { |s| s.split('.').map { |p| p.underscore.gsub(' ', '_') } }.include? [section, name]
-    end
-
-    def delete(section, name) # must be proper case section and name
-      raise 'Must be proper case string' if name.is_a? Symbol
-      where(section: section, name: name).each { |s| s.destroy }
     end
 
     def set(*args)
@@ -161,41 +155,7 @@ class Setting < ActiveRecord::Base
     end
 
     def load_settings_hash
-      YAML::load(File.open(SETTINGS_FILE)).tap do |settings|
-        Dir[PLUGIN_SETTINGS_FILES].each do |path|
-          YAML::load(File.open(path)).each do |n, s|
-            settings[n].merge!(s)
-          end
-        end
-      end
-    end
-
-    def update_site_from_params(id, params)
-      Setting.where(site_id: id).each do |setting|
-        next if setting.hidden?
-        value = params[setting.id.to_s]
-        if setting.format == 'list'
-          value = value.to_s.split(/\n/)
-        elsif value == ''
-          value = nil
-        end
-        setting.update_attributes! value: value
-      end
-      Setting.precache_settings(true)
-    end
-
-    def update_global_from_params(params)
-      Setting.where(site_id: nil, global: true).each do |setting|
-        next if setting.hidden?
-        value = params[setting.id.to_s]
-        if setting.format == 'list'
-          value = value.to_s.split(/\n/)
-        elsif value == ''
-          value = nil
-        end
-        setting.update_attributes! value: value
-      end
-      Setting.precache_settings(true)
+      YAML::load(File.open(SETTINGS_FILE))
     end
   end
 end
