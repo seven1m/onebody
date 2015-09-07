@@ -1,17 +1,5 @@
 class Site < ActiveRecord::Base
-
-  class << self
-    def sub_tables
-      rejects = %w(site search notifier one_body_info tagging signin_failure processed_message)
-      @@sub_tables ||= Dir[File.join(File.dirname(__FILE__), '*.rb')].to_a.map { |f| File.split(f).last.split('.').first }.select { |f| !rejects.include? f }.map { |f| f.pluralize }
-    end
-    def sub_models
-      @@sub_models ||= sub_tables.map { |t| eval(t.classify) }
-    end
-  end
-
-  Site.sub_tables.each { |n| has_many n.to_sym, dependent: :delete_all }
-
+  has_many :settings, dependent: :delete_all
   has_one :stream_item, as: :streamable
 
   def self.current
@@ -130,16 +118,14 @@ class Site < ActiveRecord::Base
   end
 
   alias_method :rails_original_destroy, :destroy
+
   def destroy
-    raise 'This is such a destructive method that it has been renamed to destroy_for_sure for your safety.'
+    fail 'This is such a destructive method that it has been renamed to destroy_for_real for your safety.'
   end
-  def destroy_for_sure
-    raise 'You cannot delete the default site (ID=1).' if default?
-    # TO DO: this is messy
-    was = Site.current
-    Site.current = self
+
+  def destroy_for_real
+    fail 'You cannot delete the default site (ID=1).' if default?
     rails_original_destroy
-    Site.current = was
   end
 
   class << self

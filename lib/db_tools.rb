@@ -1,6 +1,6 @@
 class ActiveRecord::Base
   def self.scope_by_site_id
-    default_scope lambda { where(site_id: Site.current.id) }
+    default_scope -> { where(site_id: Site.current.id) }
   end
 
   def self.digits_only_for_attributes=(attributes)
