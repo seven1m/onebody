@@ -39,7 +39,7 @@ describe Site do
     end
 
     it 'creates a stream item' do
-      expect(Site.current.stream_item.attributes).to include(
+      expect(Site.current.reload.stream_item.attributes).to include(
         'title'  => 'One Church',
         'shared' => true
       )
