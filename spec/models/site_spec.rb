@@ -32,4 +32,34 @@ describe Site do
       end
     end
   end
+
+  describe '#create_as_stream_item' do
+    before do
+      Site.current.create_as_stream_item
+    end
+
+    it 'creates a stream item' do
+      expect(Site.current.reload.stream_item.attributes).to include(
+        'title'  => 'One Church',
+        'shared' => true
+      )
+    end
+  end
+
+  describe '#destroy' do
+    let(:site) { Site.create!(name: 'Church.IO', host: 'church.io') }
+
+    it 'raises an error' do
+      expect { site.destroy }.to raise_error(StandardError)
+    end
+  end
+
+  describe '#destroy_for_real' do
+    let(:site) { Site.create!(name: 'Church.IO', host: 'church.io') }
+
+    it 'deletes the site' do
+      site.destroy_for_real
+      expect { site.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
 end

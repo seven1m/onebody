@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150905135659) do
+ActiveRecord::Schema.define(version: 20150907165345) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -136,6 +136,7 @@ ActiveRecord::Schema.define(version: 20150905135659) do
     t.integer  "document_folder_id", limit: 4
     t.integer  "group_id",           limit: 4
     t.datetime "created_at"
+    t.integer  "site_id",            limit: 4
   end
 
   add_index "document_folder_groups", ["document_folder_id"], name: "index_document_folder_groups_on_document_folder_id", using: :btree

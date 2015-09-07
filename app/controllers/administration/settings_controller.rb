@@ -1,5 +1,4 @@
 class Administration::SettingsController < ApplicationController
-
   before_filter :only_admins
 
   def index
@@ -12,17 +11,8 @@ class Administration::SettingsController < ApplicationController
   end
 
   def batch
-    Site.current.host = params[:hostname] if params[:hostname]
-    Site.current.email_host = params[:email_host] if params[:email_host]
-    if Site.current.save
-      our_settings.each do |setting|
-        if value = params[setting.id.to_s]
-          value = value == '' ? nil : value
-          value = value == 'true' if setting.format == 'boolean'
-          setting.update_attributes! value: value
-        end
-      end
-      reload_settings
+    if update_site
+      update_settings
       flash[:notice] = t('application.settings_saved')
     else
       add_errors_to_flash(Site.current)
@@ -38,15 +28,30 @@ class Administration::SettingsController < ApplicationController
 
   private
 
+  def update_site
+    Site.current.host = params[:hostname] if params[:hostname]
+    Site.current.email_host = params[:email_host] if params[:email_host]
+    Site.current.save
+  end
+
+  def update_settings
+    our_settings.each do |setting|
+      next unless (value = params[setting.id.to_s])
+      value = value.presence
+      value = value == 'true' if setting.format == 'boolean'
+      setting.update_attributes!(value: value)
+    end
+    reload_settings
+  end
+
   def our_settings
-    Setting.where(hidden: false).where("site_id = ? or global = ?", Site.current.id, true).order('section, name')
+    Setting.where(hidden: false).where('site_id = ? or global = ?', Site.current.id, true).order('section, name')
   end
 
   def only_admins
-    unless @logged_in.super_admin?
-      render text: t('admin.must_be_superadmin'), layout: true, status: 401
-      return false
-    end
+    return if @logged_in.super_admin?
+    render text: t('admin.must_be_superadmin'), layout: true, status: 401
+    false
   end
 
   def reload_settings

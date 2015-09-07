@@ -77,7 +77,7 @@ namespace :onebody do
           Rake::Task['onebody:sites:show'].invoke
           Site.current = site
           if ENV['SURE'] or agree('Are you sure you want to delete this site and ALL its data? ')
-            site.destroy_for_sure
+            site.destroy_for_real
             Rake::Task['onebody:sites'].invoke
           else
             puts 'aborted'

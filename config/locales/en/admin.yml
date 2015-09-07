@@ -137,12 +137,6 @@ en:
     import_export: Import/Export
     invalidate_confirmation: Are you sure you want to invalidate this key and create a new one?
     key: Key
-    logo:
-      delete: delete logo
-      format_information: A transparent gif or png will look the best.
-      logo: Logo
-      size_information: Upload an image file below. It will be resized to be no larger than 300x80.
-      upload: Upload Logo
     manage_group_administrators: Manage Group Administrators
     must_be_superadmin: You must be a super administrator to modify settings.
     new_admin_template: Create a new admin template.
