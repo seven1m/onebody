@@ -234,17 +234,6 @@ ActiveRecord::Schema.define(version: 20150905135659) do
     t.string   "job_id",            limit: 50
   end
 
-  create_table "geocoding_jobs", force: :cascade do |t|
-    t.integer  "site_id",         limit: 4
-    t.integer  "geocodable_id",   limit: 4
-    t.string   "geocodable_type", limit: 255
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-    t.integer  "error_count",     limit: 4,   default: 0
-  end
-
-  add_index "geocoding_jobs", ["site_id", "created_at"], name: "index_geocoding_jobs_on_site_id_and_created_at", using: :btree
-
   create_table "group_times", force: :cascade do |t|
     t.integer  "group_id",            limit: 4
     t.integer  "checkin_time_id",     limit: 4
