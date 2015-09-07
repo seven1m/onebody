@@ -6,17 +6,16 @@
   .form-group
     = form.label :description
     = form.text_area :description, rows: 3, class: 'form-control'
-  - if @album.new_record?
-    .form-group.radios
-      - unless @album.group and @album.group.private?
-        = label_tag t('albums.sharing.heading')
-        = form.radio_button :is_public, true
-        = form.label :is_public_true, t('albums.is_public.enabled'), class: 'inline'
-        %br
-      = form.radio_button :is_public, false
-      - if @album.group
-        = form.label :is_public_false, t('albums.is_public.disabled_group'), class: 'inline'
-      - else
-        = form.label :is_public_false, t('albums.is_public.disabled_profile', url: stream_people_path).html_safe, class: 'inline'
+  .form-group.radios
+    - unless @album.group and @album.group.private?
+      = label_tag t('albums.sharing.heading')
+      = form.radio_button :is_public, true
+      = form.label :is_public_true, t('albums.is_public.enabled'), class: 'inline'
+      %br
+    = form.radio_button :is_public, false
+    - if @album.group
+      = form.label :is_public_false, t('albums.is_public.disabled_group'), class: 'inline'
+    - else
+      = form.label :is_public_false, t('albums.is_public.disabled_profile', url: stream_people_path).html_safe, class: 'inline'
   .form-group
     = form.button t('albums.save'), class: 'btn btn-success'

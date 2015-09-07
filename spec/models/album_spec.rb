@@ -125,4 +125,31 @@ describe Album do
       end
     end
   end
+
+  context '#update_stream_item' do
+    context 'when the album is changed from private to public' do
+      let!(:user)    { FactoryGirl.create(:person) }
+      let!(:album)   { FactoryGirl.create(:album, is_public: true) }
+      let!(:picture) { FactoryGirl.create(:picture, album: album, person: user) }
+
+      it 'updates a stream item' do
+        expect {
+          album.is_public = false
+          album.save!
+        }.to change(album.stream_item.reload, :is_public?).from(true).to(false)
+      end
+    end
+  end
+
+  describe 'callbacks' do
+    context 'when the album is destroyed' do
+      let!(:album)   { FactoryGirl.create(:album, is_public: true) }
+      let!(:stream_item) { album.create_stream_item! }
+
+      it 'deletes the stream item' do
+        album.destroy
+        expect { stream_item.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+  end
 end

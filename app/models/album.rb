@@ -1,5 +1,4 @@
 class Album < ActiveRecord::Base
-
   include Authority::Abilities
   include Concerns::Ability
   self.authorizer_name = 'AlbumAuthorizer'
@@ -7,11 +6,21 @@ class Album < ActiveRecord::Base
   belongs_to :owner, polymorphic: true
   belongs_to :site
   has_many :pictures, dependent: :destroy
+  has_one :stream_item, as: :streamable, dependent: :delete
 
   scope_by_site_id
 
   validates :name, presence: true, uniqueness: { scope: [:site_id, :owner_type, :owner_id] }
   validates :owner, presence: true
+
+  after_update :update_stream_item
+
+  def update_stream_item
+    return if stream_item.nil?
+    stream_item.title = name
+    stream_item.is_public = is_public?
+    stream_item.save
+  end
 
   def cover
     pictures.order('cover desc, id').first
@@ -22,17 +31,11 @@ class Album < ActiveRecord::Base
     pictures.find(picture.id).update_attributes!(cover: true)
   end
 
-  after_destroy :delete_stream_items
-
-  def delete_stream_items
-    StreamItem.destroy_all(streamable_type: 'Album', streamable_id: id)
-  end
-
   def group
-    Group === owner ? owner : nil
+    owner.is_a?(Group) ? owner : nil
   end
 
   def person
-    Person === owner ? owner : nil
+    owner.is_a?(Person) ? owner : nil
   end
 end
