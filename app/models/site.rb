@@ -88,10 +88,6 @@ class Site < ActiveRecord::Base
     settings.where(section: "Name", name: "Site").first.value rescue nil
   end
 
-  def count_people
-    connection.select_value("SELECT count(*) from people where site_id=#{id}").to_i
-  end
-
   def enabled?
     Setting.get(:features, :multisite) or default?
   end
