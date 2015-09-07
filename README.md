@@ -35,7 +35,7 @@ To help fix a bug, first make sure it has a logged [issue](https://github.com/ch
 4. Run the test suite (see the "Tests" section lower in this file) to make sure you didn't break something. (This is kind of optional, since Travis CI will run the test suite when you create your Pull Request anyway.)
 4. Submit a Pull Request to get your bug fix merged!
 
-If you'd like to add an awesome new feature, please hop on [chat](https://gitter.im/churchio/onebody) to talk about what you want to do. We'd like to give you some guidance on approach, coding style, tests, etc.
+If you'd like to add an awesome new feature, please join our [Slack chat](https://slackin-churchio.herokuapp.com/) to talk about what you want to do. We'd like to give you some guidance on approach, coding style, tests, etc.
 
 [FAQs for Contributors](https://github.com/churchio/onebody/wiki/FAQs-for-Contributors)
 
