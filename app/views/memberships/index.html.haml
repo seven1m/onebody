@@ -11,7 +11,7 @@
           .box-body
             %table.table.print-full-width
               %tr
-                %th{ style: 'width:75px' }
+                %th
                 %th
                 %th= t('memberships.requests.name')
                 %th= t('memberships.requests.created_at')
@@ -44,7 +44,7 @@
           %thead
             %tr
               - if @logged_in.can_update?(@group)
-                %th{ style: 'width:75px' }
+                %th
               %th
               %th= t('.details.name')
               - if params[:birthdays]
