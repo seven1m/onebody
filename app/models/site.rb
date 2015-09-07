@@ -99,9 +99,10 @@ class Site < ActiveRecord::Base
   after_update :update_url
 
   def update_url
-    if setting = self.settings.where(section: "URL", name: "Site").first
-      setting.update_attributes!(value: "http://#{host}/")
-    end
+    return unless (setting = settings.where(section: 'URL', name: 'Site').first)
+    scheme = Setting.get(:features, :ssl) ? 'https' : 'http'
+    setting.update_attributes!(value: "#{scheme}://#{host}/")
+    Setting.precache_settings(true)
   end
 
   after_create :add_settings, :add_pages
