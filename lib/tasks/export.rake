@@ -134,11 +134,6 @@ namespace :onebody do
         puts "Attachment #{record.id}"
         system("cp -r public/system/production/attachments/files/#{record.id} #{out_path}/#{record.id}")
       end
-      out_path = File.join(ENV['OUT_PATH'], 'sites', 'logos')
-      FileUtils.mkdir_p(out_path)
-      if Site.current.logo.exists?
-        system("cp -r public/system/production/sites/logos/#{Site.current.id} #{out_path}/#{Site.current.id}")
-      end
     end
 
   end

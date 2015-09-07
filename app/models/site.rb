@@ -32,20 +32,6 @@ class Site < ActiveRecord::Base
   validates_presence_of :name, :host
   validates_uniqueness_of :name, :host
   validates_format_of :host, without: /\A(https?:\/\/|www\.)/
-  do_not_validate_attachment_file_type :logo
-
-  has_attached_file :logo,
-    path:          ":rails_root/public/system/:rails_env/:class/:attachment/:id/:style/:fingerprint.:extension",
-    url:           "/system/:rails_env/:class/:attachment/:id/:style/:fingerprint.:extension",
-    styles:        {
-      tn:          '32x32#',
-      small:       '75x75>',
-      medium:      '150x150>',
-      layout:      '300x80>',
-      large:       '400x400>',
-      original:    '800x800>'
-    },
-    default_url:   "/images/missing_:style.png"
 
   def create_as_stream_item
     StreamItem.create!(
