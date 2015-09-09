@@ -14,28 +14,32 @@
 %p
   = @document.description
 
-.text-center.well
+.col-md-6
   - if @document.image?
     = link_to download_document_path(@document, inline: true) do
-      = image_tag(download_document_path(@document, inline: true))
+      = image_tag(download_document_path(@document, inline: true), class: 'thumbnail')
+  - elsif @document.preview.present?
+    = link_to download_document_path(@document) do
+      = image_tag(@document.preview.url, class: 'thumbnail')
   - else
     = link_to download_document_path(@document) do
       = icon document_icon_class(@document) + ' icon-huge'
 
-%table.table
-  %tr
-    %td= t('.table.filename')
-    %td= @document.file_file_name
-  %tr
-    %td= t('.table.content_type')
-    %td= @document.file.content_type
-  %tr
-    %td= t('.table.size')
-    %td= number_to_human_size @document.file.size
-  %tr
-    %td= t('.table.updated_at')
-    %td= @document.updated_at.to_s(:full)
-%p
-  = link_to download_document_path(@document), class: 'btn btn-info' do
-    = icon 'fa fa-download'
-    = t('.download.button')
+.col-md-6
+  %table.table
+    %tr
+      %td= t('.table.filename')
+      %td= @document.file_file_name
+    %tr
+      %td= t('.table.content_type')
+      %td= @document.file.content_type
+    %tr
+      %td= t('.table.size')
+      %td= number_to_human_size @document.file.size
+    %tr
+      %td= t('.table.updated_at')
+      %td= @document.updated_at.to_s(:full)
+  %p
+    = link_to download_document_path(@document), class: 'btn btn-info' do
+      = icon 'fa fa-download'
+      = t('.download.button')
