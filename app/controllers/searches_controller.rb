@@ -1,9 +1,8 @@
 class SearchesController < ApplicationController
-
   MAX_SELECT_PEOPLE = 10
   MAX_SELECT_FAMILIES = 10
 
-  before_filter :get_family, if: -> { params[:family_id] }
+  before_action :fetch_family, if: -> { params[:family_id] }
 
   def show
     create
@@ -14,45 +13,53 @@ class SearchesController < ApplicationController
   end
 
   def create
-    if params[:family_name].present? or params[:family_barcode_id].present?
-      if params[:family_name] =~ /^\d+$/
-        params[:family_barcode_id] = params.delete(:family_name)
-      end
-      @search = Search.new(params.merge(source: :family))
-      @families = @search.results.page(params[:page])
-    else
-      @search = Search.new(params)
-      @people = @search.results.page(params[:page])
-    end
+    create_search
     respond_to do |format|
       format.html do
-        if @people.length == 1 and (params[:name] or params[:quick_name])
-          redirect_to person_path(id: @people.first)
+        if @people.length == 1 && params[:quick_name]
+          redirect_to @people.first
         else
           render action: 'create'
         end
       end
       format.js do
-        if params[:auto_complete]
-          @people = @people[0..MAX_SELECT_PEOPLE]
-          render partial: 'auto_complete'
-        elsif params[:select_person]
-          @more = @people.length > MAX_SELECT_PEOPLE
-          @people = @people[0...MAX_SELECT_PEOPLE]
-        elsif params[:select_family]
-          @families ||= []
-          @more = @families.length > MAX_SELECT_FAMILIES
-          @families = @families.to_a[0..MAX_SELECT_FAMILIES]
-        end
+        render_js
       end
     end
   end
 
   private
 
-  def get_family
-    @family = Family.find(params[:family_id])
-    raise StandardError unless @logged_in.can_update?(@family)
+  def create_search
+    if params[:family_name].present? || params[:family_barcode_id].present?
+      create_family_search
+    else
+      @search = PersonSearch.new(params)
+      @people = @search.results.page(params[:page])
+    end
   end
 
+  def create_family_search
+    @search = FamilySearch.new(params)
+    @families = @search.results.page(params[:page])
+  end
+
+  def render_js
+    if params[:auto_complete]
+      @people = @people[0..MAX_SELECT_PEOPLE]
+      render partial: 'auto_complete'
+    elsif params[:select_person]
+      @more = @people.length > MAX_SELECT_PEOPLE
+      @people = @people[0...MAX_SELECT_PEOPLE]
+    elsif params[:select_family]
+      @families ||= []
+      @more = @families.length > MAX_SELECT_FAMILIES
+      @families = @families.to_a[0..MAX_SELECT_FAMILIES]
+    end
+  end
+
+  def fetch_family
+    @family = Family.find(params[:family_id])
+    fail StandardError unless @logged_in.can_update?(@family)
+  end
 end
