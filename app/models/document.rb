@@ -34,7 +34,7 @@ class Document < ActiveRecord::Base
 
   attr_accessor :dont_preview
 
-  after_commit :build_preview, on: :create, if: :previewable?
+  after_commit :build_preview, if: :previewable?
 
   PREVIEWABLE_CONTENT_TYPES = %w(
     application/pdf
