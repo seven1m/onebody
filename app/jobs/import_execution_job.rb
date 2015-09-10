@@ -13,6 +13,8 @@ class ImportExecutionJob < ActiveJob::Base
           import.save!
           Rails.logger.error(e.message)
           Rails.logger.error(e.backtrace.map(&:to_s).join("\n"))
+        else
+          GroupMembershipsUpdateJob.perform_later(site)
         end
       end
     end
