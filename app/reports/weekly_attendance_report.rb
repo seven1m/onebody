@@ -29,10 +29,10 @@ class WeeklyAttendanceReport < Dossier::Report
   # I wish Dossier allowed easier munging of the results
   def insert_non_attending
     if @group
-      rows = @results.adapter_results.rows
+      rows = query_results.rows
       rows.each { |p| p << I18n.t('reports.reports.weekly_attendance.attended.yes') }
       @group.people.each do |person|
-        unless @results.rows.detect { |r| r[0] == person.id }
+        unless query_results.rows.detect { |r| r[0] == person.id }
           rows << [person.id,
                    person.first_name,
                    person.last_name,
@@ -40,7 +40,6 @@ class WeeklyAttendanceReport < Dossier::Report
         end
       end
       rows.sort_by! { |p| [p[1], p[2]] }
-      @results.instance_variable_set(:@rows, nil) # clear the cached row set
     end
   end
 
