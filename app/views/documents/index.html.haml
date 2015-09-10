@@ -44,7 +44,7 @@
       %tr.row-with-avatar{ class: folder.hidden? ? 'hidden-folder' : nil }
         %td.icon
           = link_to documents_path(folder_id: folder.id) do
-            = icon 'fa fa-folder'
+            = icon 'fa fa-folder-o'
         %td
           = link_to documents_path(folder_id: folder.id) do
             = folder.name

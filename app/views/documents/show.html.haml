@@ -15,14 +15,10 @@
   = @document.description
 
 .col-md-6
-  - if @document.image?
-    = link_to download_document_path(@document, inline: true) do
-      = image_tag(download_document_path(@document, inline: true), class: 'thumbnail')
-  - elsif @document.preview.present?
-    = link_to download_document_path(@document) do
+  = link_to download_document_path(@document, inline: true) do
+    - if @document.preview.present?
       = image_tag(@document.preview.url, class: 'thumbnail')
-  - else
-    = link_to download_document_path(@document) do
+    - else
       = icon document_icon_class(@document) + ' icon-huge'
 
 .col-md-6

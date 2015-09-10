@@ -1,9 +1,14 @@
 require_relative '../rails_helper'
 
 describe Document do
-  let(:pdf)     { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/attachment.pdf'), 'application/pdf', true) }
-  let(:bad_pdf) { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/bad.pdf'), 'application/pdf', true) }
-  let(:jpg)     { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpg', true) }
+  def file(name, content_type)
+    Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files', name), content_type, true)
+  end
+
+  let(:doc) { file('word.doc', 'application/msword') }
+  let(:pdf) { file('attachment.pdf', 'application/pdf') }
+  let(:jpg) { file('image.jpg', 'image/jpg') }
+  let(:bad_pdf) { file('bad.pdf', 'application/pdf') }
 
   subject { FactoryGirl.build(:document) }
 
@@ -32,14 +37,25 @@ describe Document do
   end
 
   describe '#build_preview' do
+    context 'given a DOC file' do
+      before do
+        subject.file = doc
+        subject.save!
+      end
+
+      it 'does not create a preview' do
+        expect(subject.preview).not_to be_present
+      end
+    end
+
     context 'given a JPG image' do
       before do
         subject.file = jpg
         subject.save!
       end
 
-      it 'does not create a preview' do
-        expect(subject.preview).not_to be_present
+      it 'creates a preview' do
+        expect(subject.preview).to be_present
       end
     end
 

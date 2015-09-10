@@ -36,12 +36,13 @@ class Document < ActiveRecord::Base
 
   after_commit :build_preview, if: :previewable?
 
-  PREVIEWABLE_CONTENT_TYPES = %w(
-    application/pdf
-  )
+  def pdf?
+    file_content_type == 'application/pdf'
+  end
 
   def previewable?
-    PREVIEWABLE_CONTENT_TYPES.include?(file_content_type) && !dont_preview
+    return false if dont_preview
+    image? || pdf?
   end
 
   def build_preview
@@ -54,6 +55,7 @@ class Document < ActiveRecord::Base
         convert << out_path
       end
     rescue MiniMagick::Error
+      Rails.logger.warn("WARNING: Could not build preview image for #{file_file_name}")
       self.preview = nil
     else
       self.preview = Rack::Test::UploadedFile.new(out_path, 'image/png', true)
