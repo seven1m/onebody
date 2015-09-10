@@ -14,7 +14,7 @@
 
       - if @logged_in.active?
         .form-group
-          = check_box_tag 'advanced', 'true', params[:advanced], id: 'enable-advanced-search', class: 'form-control inline'
+          = check_box_tag 'advanced', 'true', params[:advanced], id: 'enable-advanced-search'
           = label_tag 'enable-advanced-search', t('search.form.advanced')
 
         .advanced-controls{style: 'display:none'}
@@ -41,9 +41,8 @@
             = label_tag 'address_zip', t('search.form.zip')
             = text_field_tag 'address[zip]', @search.address(:zip), class: 'form-control'
           .form-group
-            = label_tag 'group_category', t('search.form.group_membership')
+            = label_tag 'group_select_opton', t('search.form.group_membership')
             = select_tag 'group_select_option', options_for_select([[t('search.form.in_group'), '1'], [t('search.form.not_in_group'), '0']], @search.group_select_option.blank? ? "1" : @search.group_select_option), class: 'form-control'
-            = t('search.form.group_membership_text')
             = select_tag 'group_category', options_for_select(Group.category_names, @search.group_category), include_blank: true, class: 'form-control'
           .form-group
             = label_tag 'type', t('search.form.type')
@@ -57,7 +56,7 @@
               = text_field_tag 'email', @search.email, class: 'form-control'
           - if @logged_in.admin?(:view_hidden_profiles)
             .form-group
-              = check_box_tag :show_hidden, true, params[:show_hidden], class: 'checkbox form-control inline'
+              = check_box_tag :show_hidden, true, params[:show_hidden]
               %label.inline{for: "show_hidden"}= t('search.show_hidden')
 
       .form-group

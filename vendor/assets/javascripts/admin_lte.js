@@ -129,10 +129,12 @@ $(function() {
      * iCheck plugin in.
      * You can find the documentation at http://fronteed.com/iCheck/
      */
+    /* DISABLED by Tim
     $("input[type='checkbox']:not(.simple), input[type='radio']:not(.simple)").iCheck({
         checkboxClass: 'icheckbox_minimal',
         radioClass: 'iradio_minimal'
     });
+    */
 
 });
 function fix_sidebar() {
