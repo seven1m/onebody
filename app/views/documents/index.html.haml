@@ -33,7 +33,7 @@
           = label_tag :restricted_folders, t('documents.index.restricted_folders.label', count: @restricted_folder_count)
 
 - if @folders.any? or @documents.any?
-  %table.table
+  %table.table.documents-index
     %tr
       %th.icon
       %th= t('.table.name')
@@ -66,9 +66,12 @@
           = folder.description
     - @documents.each do |document|
       %tr
-        %td
+        %td.icon
           = link_to document_path(document.id) do
-            = icon document_icon_class(document)
+            - if document.preview.present?
+              = image_tag document.preview.url(:tn), class: 'img-thumbnail'
+            - else
+              = icon document_icon_class(document)
         %td
           = link_to document_path(document.id) do
             = document.name
