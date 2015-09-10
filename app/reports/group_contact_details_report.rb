@@ -8,23 +8,27 @@ class GroupContactDetailsReport < Dossier::Report
   end
 
   def formatted_title
-    group_title ('reports.reports.group_contact_details')
+    group_title('reports.reports.group_contact_details')
   end
 
+  COLUMNS = %w(
+    people.first_name
+    people.last_name
+    people.email
+    people.mobile_phone
+    families.home_phone
+    families.address1
+    families.address2
+    families.city
+    families.state
+    families.zip
+  )
+
   def sql
-   Group
-      .select(:first_name,
-      '`people`.`last_name` as last_name',
-      '`people`.`email` as email',
-      :mobile_phone,
-      :home_phone,
-      :address1,
-      :address2,
-      :city,
-      :state,
-      :zip)
-      .joins(memberships: [{ person: :family }])
-      .where(id: options[:group_id])
+    Group
+      .select(COLUMNS)
+      .joins(memberships: { person: :family })
+      .where('groups.id' => group_id)
       .to_sql
   end
 
@@ -32,15 +36,13 @@ class GroupContactDetailsReport < Dossier::Report
 
   def format_output
     # Headers - First 5 fields of sql, plus address label
-    @results
-      .adapter_results
+    query_results
       .headers
       .push(I18n.t('reports.reports.group_contact_details.address'))
       .slice!(5..9)
 
     # Report Body - First five fields of output, compact address to one field.
-    @results
-      .adapter_results
+    query_results
       .rows
       .map! { |x| x.take(5) << x.drop(5).compact.join(', ') }
       .sort_by! { |p| [p[1]] }
