@@ -5,10 +5,13 @@
     %h3.box-title
       = t('.people.heading')
   .box-body
-    = form_tag administration_imports_path, multipart: true do
+    = form_tag administration_imports_path, multipart: true, id: 'import-form' do
       = hidden_field_tag :importable_type, 'Person'
+      .form-group.input-group
+        = file_field_tag :file, accept: 'text/csv,text/comma-separated-values'
       .form-group
-        = label_tag :file, t('.form.file')
-        = file_field_tag :file
-      .form-group
+        %span.btn.btn-info.browse-button{ style: 'display:none' }
+          = icon 'fa fa-folder-open-o'
+          = t('.browse.button')
+      .form-group.submit-group
         = button_tag t('.form.submit'), class: 'btn btn-success'

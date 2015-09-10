@@ -2,12 +2,13 @@ en:
   administration:
     imports:
       new:
+        browse:
+          button: "Select CSV File"
+        form:
+          submit: "Upload File"
         heading: "Import Data"
         people:
           heading: "Import People"
-        form:
-          file: "CSV File"
-          submit: "Upload File"
       created: 'created'
       edit:
         form:
