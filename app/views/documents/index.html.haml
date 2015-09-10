@@ -41,7 +41,7 @@
       %th= t('.table.size')
       %th
     - @folders.each do |folder|
-      %tr{ class: folder.hidden? ? 'hidden-folder' : nil }
+      %tr.row-with-avatar{ class: folder.hidden? ? 'hidden-folder' : nil }
         %td.icon
           = link_to documents_path(folder_id: folder.id) do
             = icon 'fa fa-folder'
@@ -60,12 +60,13 @@
               = icon 'fa fa-pencil'
             = link_to document_path(folder, folder: true), data: { method: 'delete', confirm: t('documents.delete_folder.confirmation') }, class: 'btn btn-delete btn-xs' do
               = icon 'fa fa-trash-o'
-      %tr.description
-        %td
-        %td{ colspan: 4 }
-          = folder.description
+      - if folder.description.present?
+        %tr.description
+          %td
+          %td{ colspan: 4 }
+            = folder.description
     - @documents.each do |document|
-      %tr
+      %tr.row-with-avatar
         %td.icon
           = link_to document_path(document.id) do
             - if document.preview.present?
@@ -85,10 +86,11 @@
               = icon 'fa fa-pencil'
             = link_to document_path(document), data: { method: 'delete', confirm: t('are_you_sure') }, class: 'btn btn-delete btn-xs' do
               = icon 'fa fa-trash-o'
-      %tr.description
-        %td
-        %td{ colspan: 4 }
-          = document.description
+      - if document.description.present?
+        %tr.description
+          %td
+          %td{ colspan: 4 }
+            = document.description
 - else
   %em= t('none')
 
