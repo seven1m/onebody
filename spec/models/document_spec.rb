@@ -1,8 +1,9 @@
 require_relative '../rails_helper'
 
 describe Document do
-  let(:pdf) { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/attachment.pdf'), 'application/pdf', true) }
-  let(:jpg) { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpg', true) }
+  let(:pdf)     { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/attachment.pdf'), 'application/pdf', true) }
+  let(:bad_pdf) { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/bad.pdf'), 'application/pdf', true) }
+  let(:jpg)     { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpg', true) }
 
   subject { FactoryGirl.build(:document) }
 
@@ -50,6 +51,17 @@ describe Document do
 
       it 'creates a preview image' do
         expect(subject.preview).to be_present
+      end
+    end
+
+    context 'given a corrupt PDF file' do
+      before do
+        subject.file = bad_pdf
+        subject.save!
+      end
+
+      it 'does not create a preview' do
+        expect(subject.preview).not_to be_present
       end
     end
   end

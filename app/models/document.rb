@@ -45,17 +45,21 @@ class Document < ActiveRecord::Base
   end
 
   def build_preview
-    # convert -thumbnail x350 test.pdf[0] test.png
     temp = Tempfile.new('preview')
     temp.close
     out_path = temp.path + '.png'
-    MiniMagick::Tool::Convert.new do |convert|
-      convert << file.path + '[0]'
-      convert << out_path
+    begin
+      MiniMagick::Tool::Convert.new do |convert|
+        convert << file.path + '[0]'
+        convert << out_path
+      end
+    rescue MiniMagick::Error
+      self.preview = nil
+    else
+      self.preview = Rack::Test::UploadedFile.new(out_path, 'image/png', true)
+      self.dont_preview = true
+      save!
     end
-    self.preview = Rack::Test::UploadedFile.new(out_path, 'image/png', true)
-    self.dont_preview = true
-    save!
   end
 
   def parent_folders
