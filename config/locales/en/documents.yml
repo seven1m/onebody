@@ -13,6 +13,8 @@ en:
         item_count: "%{count} items"
       edit_folder:
         button: "Edit this folder"
+      delete_folder:
+        button: "Delete this folder"
       new_folder:
         button: "New folder"
       new_document:

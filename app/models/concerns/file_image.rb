@@ -6,7 +6,7 @@ module Concerns
 
     def image
       return @img unless @img.nil?
-      if File.exist?(file.path) and img = mini_magick_image
+      if file.path && File.exist?(file.path) and img = mini_magick_image
         @img = img
       else
         @img = false
