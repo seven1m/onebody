@@ -12,10 +12,10 @@ describe DocumentsController, type: :controller do
   describe '#index' do
     let!(:top_folder)          { FactoryGirl.create(:document_folder) }
     let!(:top_folder_hidden)   { FactoryGirl.create(:document_folder, hidden: true) }
-    let!(:top_document)        { FactoryGirl.create(:document) }
+    let!(:top_document)        { FactoryGirl.create(:document, :with_fake_file) }
     let!(:child_folder)        { FactoryGirl.create(:document_folder, folder_id: top_folder.id) }
     let!(:child_folder_hidden) { FactoryGirl.create(:document_folder, folder_id: top_folder.id, hidden: true) }
-    let!(:child_document)      { FactoryGirl.create(:document, folder_id: top_folder.id) }
+    let!(:child_document)      { FactoryGirl.create(:document, :with_fake_file, folder_id: top_folder.id) }
 
     context 'user is not an admin' do
       context 'at top level' do
@@ -134,7 +134,7 @@ describe DocumentsController, type: :controller do
   end
 
   describe '#show' do
-    let(:document) { FactoryGirl.create(:document) }
+    let(:document) { FactoryGirl.create(:document, :with_fake_file) }
 
     context 'user is not an admin' do
       context 'document is not in a hidden folder' do
@@ -465,7 +465,7 @@ describe DocumentsController, type: :controller do
 
       context 'document' do
         before do
-          @document = FactoryGirl.create(:document)
+          @document = FactoryGirl.create(:document, :with_fake_file)
           get :edit, { id: @document.id }, { logged_in_id: user.id }
         end
 
@@ -496,7 +496,7 @@ describe DocumentsController, type: :controller do
 
       context 'document' do
         before do
-          @document = FactoryGirl.create(:document)
+          @document = FactoryGirl.create(:document, :with_fake_file)
         end
 
         context 'updating name' do
@@ -597,7 +597,7 @@ describe DocumentsController, type: :controller do
       end
 
       context 'document' do
-        let(:document) { FactoryGirl.create(:document) }
+        let(:document) { FactoryGirl.create(:document, :with_fake_file) }
 
         before do
           delete :destroy, { id: document.id }, { logged_in_id: user.id }
@@ -616,7 +616,7 @@ describe DocumentsController, type: :controller do
       context 'folder' do
         let!(:folder)         { FactoryGirl.create(:document_folder) }
         let!(:child_folder)   { FactoryGirl.create(:document_folder, folder_id: folder.id) }
-        let!(:child_document) { FactoryGirl.create(:document, folder_id: folder.id) }
+        let!(:child_document) { FactoryGirl.create(:document, :with_fake_file, folder_id: folder.id) }
 
         before do
           delete :destroy, { id: folder.id, folder: true }, { logged_in_id: user.id }
@@ -640,7 +640,7 @@ describe DocumentsController, type: :controller do
   end
 
   describe '#download' do
-    let(:document) { FactoryGirl.create(:document) }
+    let(:document) { FactoryGirl.create(:document, :with_fake_file) }
 
     before do
       document.file = file

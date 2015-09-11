@@ -1,4 +1,4 @@
-= form_for @document, multipart: true do |form|
+= form_for @document, multipart: true, id: 'new-document-form' do |form|
   = error_messages_for(form)
   = form.hidden_field :folder_id
   - if parent_document_folder_options.any?

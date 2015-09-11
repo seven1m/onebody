@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150907165345) do
+ActiveRecord::Schema.define(version: 20150909030547) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -155,17 +155,22 @@ ActiveRecord::Schema.define(version: 20150907165345) do
   end
 
   create_table "documents", force: :cascade do |t|
-    t.string   "name",              limit: 255
-    t.string   "description",       limit: 1000
-    t.integer  "folder_id",         limit: 4
-    t.string   "file_file_name",    limit: 255
-    t.string   "file_content_type", limit: 255
-    t.string   "file_fingerprint",  limit: 50
-    t.integer  "file_file_size",    limit: 4
+    t.string   "name",                 limit: 255
+    t.string   "description",          limit: 1000
+    t.integer  "folder_id",            limit: 4
+    t.string   "file_file_name",       limit: 255
+    t.string   "file_content_type",    limit: 255
+    t.string   "file_fingerprint",     limit: 50
+    t.integer  "file_file_size",       limit: 4
     t.datetime "file_updated_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "site_id",           limit: 4
+    t.integer  "site_id",              limit: 4
+    t.string   "preview_file_name",    limit: 255
+    t.string   "preview_content_type", limit: 255
+    t.string   "preview_fingerprint",  limit: 50
+    t.integer  "preview_file_size",    limit: 4
+    t.datetime "preview_updated_at"
   end
 
   create_table "families", force: :cascade do |t|

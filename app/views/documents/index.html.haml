@@ -19,6 +19,12 @@
 %p
   = @parent_folder.try(:description) || t('.intro')
 
+.btn-group.pull-right
+  = link_to params.merge(view: 'detail'), class: @view == 'detail' ? 'btn btn-primary' : 'btn btn-default' do
+    = icon 'fa fa-bars'
+  = link_to params.merge(view: 'thumbnail'), class: @view == 'thumbnail' ? 'btn btn-primary' : 'btn btn-default' do
+    = icon 'fa fa-th-large'
+
 - if @logged_in.admin?(:manage_documents)
   = form_tag nil, method: 'get', id: 'document-visibility' do
     = hidden_field_tag 'folder_id', params[:folder_id]
@@ -33,64 +39,23 @@
           = label_tag :restricted_folders, t('documents.index.restricted_folders.label', count: @restricted_folder_count)
 
 - if @folders.any? or @documents.any?
-  %table.table
-    %tr
-      %th.icon
-      %th= t('.table.name')
-      %th= t('.table.updated_at')
-      %th= t('.table.size')
-      %th
-    - @folders.each do |folder|
-      %tr{ class: folder.hidden? ? 'hidden-folder' : nil }
-        %td.icon
-          = link_to documents_path(folder_id: folder.id) do
-            = icon 'fa fa-folder'
-        %td
-          = link_to documents_path(folder_id: folder.id) do
-            = folder.name
-            = icon('fa fa-eye-slash', title: t('documents.hidden_folder.tooltip')) if folder.hidden?
-            = icon('fa fa-lock', title: t('documents.restricted_folder.tooltip')) if folder.restricted?
-        %td
-          = folder.updated_at.to_s(:full)
-        %td
-          = t('.table.item_count', count: folder.item_count)
-        %td.actions
-          - if @logged_in.admin?(:manage_documents)
-            = link_to edit_document_path(folder, folder: true), class: 'btn btn-info btn-xs' do
-              = icon 'fa fa-pencil'
-            = link_to document_path(folder, folder: true), data: { method: 'delete', confirm: t('documents.delete_folder.confirmation') }, class: 'btn btn-delete btn-xs' do
-              = icon 'fa fa-trash-o'
-      %tr.description
-        %td
-        %td{ colspan: 4 }
-          = folder.description
-    - @documents.each do |document|
-      %tr
-        %td
-          = link_to document_path(document.id) do
-            = icon document_icon_class(document)
-        %td
-          = link_to document_path(document.id) do
-            = document.name
-        %td
-          = document.updated_at.to_s(:full)
-        %td
-          = number_to_human_size(document.file.try(:size) || 0)
-        %td.actions
-          - if @logged_in.admin?(:manage_documents)
-            = link_to edit_document_path(document), class: 'btn btn-info btn-xs' do
-              = icon 'fa fa-pencil'
-            = link_to document_path(document), data: { method: 'delete', confirm: t('are_you_sure') }, class: 'btn btn-delete btn-xs' do
-              = icon 'fa fa-trash-o'
-      %tr.description
-        %td
-        %td{ colspan: 4 }
-          = document.description
+  - if @view == 'detail'
+    = render 'details'
+  - else
+    = render 'thumbnails'
 - else
   %em= t('none')
 
 - if @logged_in.admin?(:manage_documents)
   .page-controls.push-down
+    - if @logged_in.admin?(:manage_documents) && @parent_folder
+      .pull-right
+        = link_to edit_document_path(@parent_folder, folder: true), class: 'btn btn-info' do
+          = icon 'fa fa-pencil'
+          = t('.edit_folder.button')
+        = link_to document_path(@parent_folder, folder: true), data: { method: 'delete', confirm: t('documents.delete_folder.confirmation') }, class: 'btn btn-delete' do
+          = icon 'fa fa-trash-o'
+          = t('.delete_folder.button')
     = link_to new_document_path(folder: true, folder_id: @parent_folder), class: 'btn btn-success' do
       = icon 'fa fa-folder'
       = t('.new_folder.button')

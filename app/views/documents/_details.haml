@@ -1,0 +1,58 @@
+%table.table.documents-index
+  %tr
+    %th.icon
+    %th= t('documents.index.table.name')
+    %th= t('documents.index.table.updated_at')
+    %th= t('documents.index.table.size')
+    %th
+  - @folders.each do |folder|
+    %tr.row-with-avatar{ class: folder.hidden? ? 'hidden-folder' : nil }
+      %td.icon
+        = link_to documents_path(folder_id: folder.id) do
+          = icon 'fa fa-folder-o'
+      %td
+        = link_to documents_path(folder_id: folder.id) do
+          = folder.name
+          = icon('fa fa-eye-slash', title: t('documents.hidden_folder.tooltip')) if folder.hidden?
+          = icon('fa fa-lock', title: t('documents.restricted_folder.tooltip')) if folder.restricted?
+      %td
+        = folder.updated_at.to_s(:full)
+      %td
+        = t('documents.index.table.item_count', count: folder.item_count)
+      %td.actions
+        - if @logged_in.admin?(:manage_documents)
+          = link_to edit_document_path(folder, folder: true), class: 'btn btn-info btn-xs' do
+            = icon 'fa fa-pencil'
+          = link_to document_path(folder, folder: true), data: { method: 'delete', confirm: t('documents.delete_folder.confirmation') }, class: 'btn btn-delete btn-xs' do
+            = icon 'fa fa-trash-o'
+    - if folder.description.present?
+      %tr.description
+        %td
+        %td{ colspan: 4 }
+          = folder.description
+  - @documents.each do |document|
+    %tr.row-with-avatar
+      %td.icon
+        = link_to document_path(document.id) do
+          - if document.preview.present?
+            = image_tag document.preview.url(:tn), class: 'img-thumbnail'
+          - else
+            = icon document_icon_class(document)
+      %td
+        = link_to document_path(document.id) do
+          = document.name
+      %td
+        = document.updated_at.to_s(:full)
+      %td
+        = number_to_human_size(document.file.try(:size) || 0)
+      %td.actions
+        - if @logged_in.admin?(:manage_documents)
+          = link_to edit_document_path(document), class: 'btn btn-info btn-xs' do
+            = icon 'fa fa-pencil'
+          = link_to document_path(document), data: { method: 'delete', confirm: t('are_you_sure') }, class: 'btn btn-delete btn-xs' do
+            = icon 'fa fa-trash-o'
+    - if document.description.present?
+      %tr.description
+        %td
+        %td{ colspan: 4 }
+          = document.description

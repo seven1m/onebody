@@ -13,6 +13,8 @@ class DocumentsController < ApplicationController
     @folders = @folders.open unless @show_restricted_folders
     @folders = @folders.active unless @show_hidden_folders
     @documents = (@parent_folder.try(:documents) || Document.top).order(:name)
+    cookies[:document_view] = params[:view] if params[:view].present?
+    @view = cookies[:document_view] || 'detail'
   end
 
   def show

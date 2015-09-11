@@ -16,3 +16,8 @@ $('#document-visibility input[type="checkbox"]').click (e) ->
   args += '&hidden_folders=false' unless args.match(/hidden_folders/)
   args += '&restricted_folders=false' unless args.match(/restricted_folders/)
   location.href = '?' + args
+
+$('#document_file').change (e) ->
+  return if $('#document_name').val() != ''
+  name = e.target.value.replace(/_/g, ' ').replace(/\.\w{3,4}$/, '')
+  $('#document_name').val(name)

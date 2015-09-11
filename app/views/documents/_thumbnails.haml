@@ -1,0 +1,17 @@
+.document-thumbnails
+  - @folders.each do |folder|
+    .item
+      = link_to documents_path(folder_id: folder.id) do
+        = icon 'fa fa-folder-o'
+      %br
+      = link_to folder.name, documents_path(folder_id: folder.id)
+
+  - @documents.each do |document|
+    .item
+      = link_to document_path(document.id) do
+        - if document.preview.present?
+          = image_tag document.preview.url(:medium), class: 'img-thumbnail'
+        - else
+          = icon document_icon_class(document)
+      %br
+      = link_to document.name, document_path(document.id)

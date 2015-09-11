@@ -3,3 +3,32 @@ tr.hidden-folder, tr.hidden-document {
     color: #aaa;
   }
 }
+
+.documents-index .icon {
+  text-align: center;
+  i {
+    font-size: 24pt;
+  }
+  img {
+    height: 35px;
+  }
+}
+
+.document-thumbnails {
+  .item {
+    display: inline-block;
+    margin: 0 15px 15px 0;
+    text-align: center;
+  }
+  img {
+    height: 150px;
+  }
+  i {
+    font-size: 150px;
+    vertical-align: middle;
+  }
+}
+
+.document-preview-col {
+  padding-bottom: 15px;
+}

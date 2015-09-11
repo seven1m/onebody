@@ -2,6 +2,9 @@ FactoryGirl.define do
   factory :document do
     name 'Test Document'
     description 'document description'
-    file_file_name 'dummy'
+
+    trait :with_fake_file do
+      file_file_name 'dummy'
+    end
   end
 end
