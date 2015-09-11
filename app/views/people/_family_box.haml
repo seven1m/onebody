@@ -1,0 +1,13 @@
+- if @family_people.any?
+  .box.box-info.family-box
+    .box-header
+      %h3.box-title= link_to t('people.show.details.family', family: @family.try(:name)), @family
+    .box-body
+      - @family_people.each do |person|
+        = link_to person do
+          .person
+            = avatar_tag(person)
+            %br
+            = person.first_name
+            - unless person.visible?
+              %i.fa.fa-lock.text-gray
