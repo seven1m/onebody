@@ -18,7 +18,7 @@ $('[data-toggle^="#"], [data-toggle^="."]').each (i, elm) ->
   toggle = (show) -> $(elm.data('toggle')).toggle(show)
   if elm.is(':checkbox')
     enabled_selector = elm.data('toggle-selector') || ':checked'
-    elm.on 'change, ifToggled', ->
+    elm.on 'change', ->
       toggle(elm.is(enabled_selector))
     toggle(elm.is(enabled_selector))
   else if elm.is('a')

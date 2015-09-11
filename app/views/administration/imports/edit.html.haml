@@ -8,11 +8,11 @@
     = form.select :match_strategy, import_match_strategies, {}, class: 'form-control'
 
   .form-group
-    = form.check_box :create_as_active, class: 'form-control'
+    = form.check_box :create_as_active
     = form.label :create_as_active, t('.form.create_as_active')
 
   .form-group
-    = form.check_box :overwrite_changed_emails, class: 'form-control'
+    = form.check_box :overwrite_changed_emails
     = form.label :overwrite_changed_emails, t('.form.overwrite_changed_emails_html', url: administration_emails_path)
 
   .form-group
@@ -43,7 +43,7 @@
     = button_tag id: 'btn-execute', class: 'btn btn-danger', data: { method: 'patch', confirm: t('are_you_sure') }, style: 'display:none' do
       = icon 'fa fa-bolt'
       = t('administration.imports.show.execute.button')
-    = form.check_box :dont_preview, class: 'form-control'
+    = form.check_box :dont_preview
     = form.label :dont_preview, t('.form.dont_preview')
     = link_to @import, data: { method: :delete, confirm: t('are_you_sure') }, class: 'btn btn-delete pull-right' do
       = icon 'fa fa-trash-o'

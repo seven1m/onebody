@@ -23,8 +23,8 @@ module Administration::SettingsHelper
   def setting_field(options = {})
     @setting = @settings[options[:section]][options[:name]] if options[:section] and options[:name]
     if @setting.format == 'boolean'
-      content_tag(:div, class: 'checkbox') do
-        hidden_field_tag(@setting.id, false, id: '') +
+      content_tag(:div, class: 'setting-checkbox-group') do
+        hidden_field_tag(@setting.id, false, id: '') + \
           check_box_tag(@setting.id, true, @setting.value?)
       end
     elsif @setting.format == 'list'
