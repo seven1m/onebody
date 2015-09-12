@@ -8,14 +8,6 @@ GIT
       transaction-simple (~> 1.3)
 
 GIT
-  remote: git://github.com/bokmann/font-awesome-rails.git
-  revision: 2137b6bb3c9dcc41809d9f92aa65b4943bc7f082
-  ref: 2137b6b
-  specs:
-    font-awesome-rails (4.3.0.0)
-      railties (>= 3.2, < 5.0)
-
-GIT
   remote: git://github.com/seven1m/acts_as_taggable_on_steroids.git
   revision: cffba0397c1d367baeee273125afcf8aa4d8df76
   ref: cffba03
@@ -179,6 +171,8 @@ GEM
       sax-machine (~> 1.0)
     ffi (1.9.10)
     flag_shih_tzu (0.3.13)
+    font-awesome-rails (4.4.0.0)
+      railties (>= 3.2, < 5.0)
     formatador (0.2.5)
     geocoder (1.2.9)
     github_api (0.12.4)
@@ -457,7 +451,7 @@ DEPENDENCIES
   factory_girl_rails
   feedjira
   flag_shih_tzu
-  font-awesome-rails!
+  font-awesome-rails
   geocoder
   github_api
   guard-rspec
