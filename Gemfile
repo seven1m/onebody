@@ -43,7 +43,6 @@ gem 'responders'
 gem 'sanitize'
 gem 'sass-rails'
 gem 'sucker_punch'
-gem 'test_after_commit'
 gem 'truncate_html'
 gem 'uglifier'
 gem 'whenever'
@@ -57,6 +56,7 @@ gem 'dossier'
 group :test do
   gem 'factory_girl_rails'
   gem 'shoulda-matchers', require: false
+  gem 'test_after_commit'
   gem 'webmock'
 end
 
