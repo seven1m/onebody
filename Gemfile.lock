@@ -30,15 +30,6 @@ GIT
     load_and_authorize_resource (0.4.0)
       rails (>= 4.0)
 
-GIT
-  remote: git://github.com/stefanpenner/country_select.git
-  revision: fad7c1d4aa24af9c84b1718176392d56f201a1f3
-  ref: fad7c1d
-  specs:
-    country_select (2.2.0)
-      countries (~> 0.11.0)
-      sort_alphabetical (~> 1.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -132,9 +123,12 @@ GEM
     coffee-script-source (1.9.1.1)
     color (1.7.1)
     colorize (0.7.7)
-    countries (0.11.5)
+    countries (1.0.0)
       currencies (~> 0.4.2)
       i18n_data (~> 0.7.0)
+    country_select (2.3.0)
+      countries (~> 1.0.0)
+      sort_alphabetical (~> 1.0)
     coveralls (0.8.2)
       json (~> 1.8)
       rest-client (>= 1.6.8, < 2)
@@ -455,7 +449,7 @@ DEPENDENCIES
   capistrano-newrelic
   capistrano-rails
   coffee-rails
-  country_select!
+  country_select
   coveralls
   date_validator
   dossier
