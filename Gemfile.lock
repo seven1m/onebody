@@ -341,7 +341,6 @@ GEM
       rspec-mocks (~> 3.3.0)
       rspec-support (~> 3.3.0)
     rspec-support (3.3.0)
-    rubyzip (1.1.7)
     safe_yaml (1.0.4)
     sanitize (4.0.0)
       crass (~> 1.0.2)
@@ -416,8 +415,6 @@ GEM
     with_advisory_lock (3.0.0)
       activerecord (>= 3.2)
       thread_safe
-    zip-zip (0.3)
-      rubyzip (>= 1.0.0)
 
 PLATFORMS
   ruby
@@ -473,7 +470,6 @@ DEPENDENCIES
   rails_autolink
   responders
   rspec-rails
-  rubyzip
   sanitize
   sass-rails
   shoulda-matchers
@@ -490,7 +486,6 @@ DEPENDENCIES
   will_paginate
   will_paginate-bootstrap
   with_advisory_lock
-  zip-zip
 
 BUNDLED WITH
    1.10.6

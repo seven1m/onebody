@@ -40,7 +40,6 @@ gem 'pdf-writer', github: 'Hermanverschooten/pdf-writer', require: 'pdf/writer',
 gem 'pusher'
 gem 'rails_autolink'
 gem 'responders'
-gem 'rubyzip'
 gem 'sanitize'
 gem 'sass-rails'
 gem 'sucker_punch'
@@ -51,7 +50,6 @@ gem 'whenever'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'with_advisory_lock'
-gem 'zip-zip'
 
 # this needs to be down here due to load order weirdness
 gem 'dossier'
