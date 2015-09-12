@@ -8,36 +8,11 @@ GIT
       transaction-simple (~> 1.3)
 
 GIT
-  remote: git://github.com/bokmann/font-awesome-rails.git
-  revision: 2137b6bb3c9dcc41809d9f92aa65b4943bc7f082
-  ref: 2137b6b
-  specs:
-    font-awesome-rails (4.3.0.0)
-      railties (>= 3.2, < 5.0)
-
-GIT
   remote: git://github.com/seven1m/acts_as_taggable_on_steroids.git
   revision: cffba0397c1d367baeee273125afcf8aa4d8df76
   ref: cffba03
   specs:
     acts_as_taggable_on_steroids (1.1)
-
-GIT
-  remote: git://github.com/seven1m/load_and_authorize_resource.git
-  revision: a77cce9a1170c59f3ec1abde9390c5107aaf962e
-  ref: a77cce9
-  specs:
-    load_and_authorize_resource (0.4.0)
-      rails (>= 4.0)
-
-GIT
-  remote: git://github.com/stefanpenner/country_select.git
-  revision: fad7c1d4aa24af9c84b1718176392d56f201a1f3
-  ref: fad7c1d
-  specs:
-    country_select (2.2.0)
-      countries (~> 0.11.0)
-      sort_alphabetical (~> 1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -132,9 +107,12 @@ GEM
     coffee-script-source (1.9.1.1)
     color (1.7.1)
     colorize (0.7.7)
-    countries (0.11.5)
+    countries (1.0.0)
       currencies (~> 0.4.2)
       i18n_data (~> 0.7.0)
+    country_select (2.3.0)
+      countries (~> 1.0.0)
+      sort_alphabetical (~> 1.0)
     coveralls (0.8.2)
       json (~> 1.8)
       rest-client (>= 1.6.8, < 2)
@@ -185,6 +163,8 @@ GEM
       sax-machine (~> 1.0)
     ffi (1.9.10)
     flag_shih_tzu (0.3.13)
+    font-awesome-rails (4.4.0.0)
+      railties (>= 3.2, < 5.0)
     formatador (0.2.5)
     geocoder (1.2.9)
     github_api (0.12.4)
@@ -233,6 +213,8 @@ GEM
     listen (3.0.3)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
+    load_and_authorize_resource (0.4.0)
+      rails (>= 4.0)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.9)
@@ -359,7 +341,6 @@ GEM
       rspec-mocks (~> 3.3.0)
       rspec-support (~> 3.3.0)
     rspec-support (3.3.0)
-    rubyzip (1.1.7)
     safe_yaml (1.0.4)
     sanitize (4.0.0)
       crass (~> 1.0.2)
@@ -390,7 +371,7 @@ GEM
       spring (>= 0.9.1)
     sprockets (3.3.4)
       rack (~> 1.0)
-    sprockets-rails (2.3.2)
+    sprockets-rails (2.3.3)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
@@ -434,8 +415,6 @@ GEM
     with_advisory_lock (3.0.0)
       activerecord (>= 3.2)
       thread_safe
-    zip-zip (0.3)
-      rubyzip (>= 1.0.0)
 
 PLATFORMS
   ruby
@@ -455,7 +434,7 @@ DEPENDENCIES
   capistrano-newrelic
   capistrano-rails
   coffee-rails
-  country_select!
+  country_select
   coveralls
   date_validator
   dossier
@@ -463,7 +442,7 @@ DEPENDENCIES
   factory_girl_rails
   feedjira
   flag_shih_tzu
-  font-awesome-rails!
+  font-awesome-rails
   geocoder
   github_api
   guard-rspec
@@ -471,7 +450,7 @@ DEPENDENCIES
   highline
   httparty
   jquery-rails
-  load_and_authorize_resource!
+  load_and_authorize_resource
   loofah
   mini_magick
   mustache
@@ -491,7 +470,6 @@ DEPENDENCIES
   rails_autolink
   responders
   rspec-rails
-  rubyzip
   sanitize
   sass-rails
   shoulda-matchers
@@ -508,7 +486,6 @@ DEPENDENCIES
   will_paginate
   will_paginate-bootstrap
   with_advisory_lock
-  zip-zip
 
 BUNDLED WITH
    1.10.6
