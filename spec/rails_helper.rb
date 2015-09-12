@@ -27,6 +27,7 @@ RSpec.configure do |config|
       else
         Site.connection.execute('ALTER TABLE sites AUTO_INCREMENT = 1;')
       end
+      Setting.update_all
       Site.current = Site.create!(name: 'Default', host: 'example.com')
     end
     Setting.update_all
