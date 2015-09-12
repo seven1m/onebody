@@ -14,14 +14,6 @@ GIT
   specs:
     acts_as_taggable_on_steroids (1.1)
 
-GIT
-  remote: git://github.com/seven1m/load_and_authorize_resource.git
-  revision: a77cce9a1170c59f3ec1abde9390c5107aaf962e
-  ref: a77cce9
-  specs:
-    load_and_authorize_resource (0.4.0)
-      rails (>= 4.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -221,6 +213,8 @@ GEM
     listen (3.0.3)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
+    load_and_authorize_resource (0.4.0)
+      rails (>= 4.0)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.9)
@@ -378,7 +372,7 @@ GEM
       spring (>= 0.9.1)
     sprockets (3.3.4)
       rack (~> 1.0)
-    sprockets-rails (2.3.2)
+    sprockets-rails (2.3.3)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
@@ -459,7 +453,7 @@ DEPENDENCIES
   highline
   httparty
   jquery-rails
-  load_and_authorize_resource!
+  load_and_authorize_resource
   loofah
   mini_magick
   mustache
