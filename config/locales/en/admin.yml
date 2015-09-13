@@ -478,13 +478,6 @@ en:
         Host:
           name: "Email Host Name"
           description: "A subdomain, e.g. mg.example.com, to use if your domain is already serving email. Defaults to the domain name."
-        MailgunApiKey:
-          name: "Mailgun API Key"
-          description: "API Key to use mailgun.com as the email receiver."
-      advanced:
-        heading: "Advanced"
-        intro: "If settings aren't getting reloaded, click the button below to force reload."
-        mailgun_html: "Please visit <a href='%{url}' target='_blank'>the wiki</a> for help setting up email."
       contact_automated_email_about: "These email addresses are sent email when certain things happen on the site. You can set them all to the same address or to different ones, depending on separation of duties in your community."
       contact_community_info_about: "Enter contact information for your church or community office, where people can contact administrative staff."
       contact_heading: Contact

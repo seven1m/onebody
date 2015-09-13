@@ -1,6 +1,5 @@
 class EmailsController < ApplicationController
-
-  skip_before_filter :authenticate_user, only: :create
+  skip_before_action :authenticate_user, only: :create
   before_action :ensure_admin, except: %w(create)
 
   def create
@@ -9,27 +8,27 @@ class EmailsController < ApplicationController
   end
 
   def create_route
-    result = Email.create_catch_all
-    if result['message'] == 'Route found.'
-      flash[:notice] = t('application.mailgun_route_found')
-    elsif result['message'] == 'Route has been created'
-      flash[:notice] = t('application.mailgun_route_created')
-    elsif result['message'] == 'apikey'
-      flash[:notice] = t('application.mailgun_apikey_notfound')
+    return if request.get?
+    begin
+      MailgunApi.new(params[:api_key]).create_catch_all
+    rescue MailgunApi::KeyMissing
+      flash[:error] = t('emails.mailgun.apikey_notfound')
+    rescue MailgunApi::Forbidden
+      flash[:error] = t('emails.mailgun.route_error')
+    rescue MailgunApi::RouteAlreadyExists
+      flash[:notice] = t('emails.mailgun.route_found')
+      redirect_to admin_path
     else
-      flash[:error] = t('application.mailgun_route_error')
+      flash[:notice] = t('emails.mailgun.route_created')
+      redirect_to admin_path
     end
-    redirect_to administration_settings_path(anchor: 'tab-advanced')
   end
 
   private
 
   def ensure_admin
-    unless @logged_in.super_admin?
-      render text: t('not_authorized'), layout: true
-      false
-    end
+    return if @logged_in.super_admin?
+    render text: t('not_authorized'), layout: true
+    false
   end
-
-
 end

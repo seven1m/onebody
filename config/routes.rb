@@ -123,6 +123,7 @@ OneBody::Application.routes.draw do
 
   resource :emails
 
+  get 'setup_email' => 'emails#create_route'
   put 'setup_email' => 'emails#create_route'
 
   resources :tags, only: :show

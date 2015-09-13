@@ -1,0 +1,10 @@
+- @title = t('emails.mailgun.heading')
+
+%p= t('emails.mailgun.intro_html', url: 'https://github.com/churchio/onebody/wiki/Mailgun-Email-Setup')
+
+= form_tag setup_email_path, method: 'put' do
+  .form-group
+    = label_tag :api_key, t('emails.mailgun.api_key')
+    = text_field_tag :api_key, '', class: 'form-control'
+  .form-group
+    = button_tag t('emails.mailgun.submit.button'), class: 'btn btn-success'
