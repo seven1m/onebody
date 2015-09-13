@@ -12,8 +12,6 @@
     = section_tab(t('admin.settings.formats_heading'), :formats)
     = section_tab(t('admin.settings.privacy_heading'), :privacy)
     = section_tab(t('admin.settings.services_heading'), :services)
-    - if @logged_in.super_admin?
-      = section_tab(t('admin.settings.advanced.heading'), :advanced)
 
   .tab-content
     .tab-pane.active#naming
@@ -143,10 +141,3 @@
       .form-group
         .col-sm-offset-2.col-sm-10
           = button_tag t('save_changes'), class: 'btn btn-success'
-    - if @logged_in.super_admin?
-      .tab-pane#advanced
-        = setting_row('Email', 'MailgunApiKey')
-        .form-group
-          .col-sm-offset-2.col-sm-10
-            %p= t('admin.settings.advanced.mailgun_html', url: 'https://github.com/churchio/onebody/wiki/Email+Setup')
-            %p= link_to t('admin.settings.mailgun'), setup_email_path, method: 'put', title: t('admin.settings.mailgun_message'), class: 'btn btn-warning'

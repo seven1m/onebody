@@ -25,10 +25,6 @@ Contact:
   Send Updates To:
     format: string
     value: admin@example.com
-Email:
-  MailgunApiKey:
-    format: string
-    value:
 Name:
   Community:
     format: string
