@@ -19,6 +19,8 @@ en:
         button: "New folder"
       new_document:
         button: "New document"
+      multiple_documents:
+        button: "Upload multiple documents"
       hidden_folders:
         label:
           one: "1 hidden folder"
@@ -40,6 +42,9 @@ en:
         button: "Edit"
       delete:
         button: "Delete"
+
+    new_multiple:
+      heading: "New Documents"
 
     new:
       heading: "New Document"
