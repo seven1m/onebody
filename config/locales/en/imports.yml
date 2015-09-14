@@ -96,8 +96,6 @@ en:
         pending: "Pending"
         parsing: "Parsing Data File"
         parsed: "Parsed"
-        matching: "Matching Fields"
-        matched: "Matched"
         previewing: "Building Preview"
         previewed: "Preview Changes"
         active: "Active"
