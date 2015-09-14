@@ -49,6 +49,7 @@ class ImportExecution
   def save_row(row)
     row.person.save
     row.family.save
+    record_changes(row)
     row.status = :imported
     row.save!
   end
@@ -100,6 +101,7 @@ class ImportExecution
   def update_existing_family(row, family)
     attrs_before = family.attributes.dup
     family.attributes = attributes_for_family(row)
+    update_family_last_name(row, family)
     row.updated_family = (family.attributes != attrs_before) && family.valid?
     row.family = family
   end
@@ -107,7 +109,7 @@ class ImportExecution
   def create_new_family(row, person)
     attrs = attributes_for_family(row)
     person.family = Family.new(attrs)
-    person.family.last_name ||= person.family.name.split.last if person.family.name.present?
+    update_family_last_name(row, person.family)
     if (row.created_family = person.family.valid?)
       if (id = id_for_family(row))
         @created_family_ids[id] = person.family
@@ -116,6 +118,21 @@ class ImportExecution
       end
     end
     row.family = person.family
+  end
+
+  def record_changes(row, changes_method = :previous_changes)
+    row.attribute_changes ||= {}
+    unless row.person.new_record?
+      row.attribute_changes[:person] = row.person.send(changes_method).reject { |k| k == 'updated_at' }
+    end
+    unless row.family.new_record?
+      row.attribute_changes[:family] = row.family.send(changes_method).reject { |k| k == 'updated_at' }
+    end
+  end
+
+  def update_family_last_name(row, family)
+    return if row.import_attributes_as_hash(real_attributes: true)['family_last_name']
+    family.last_name = family.name.split.last if family.name.present?
   end
 
   def match_family(row)

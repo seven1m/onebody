@@ -34,6 +34,7 @@ class ImportRow < ActiveRecord::Base
   }
 
   serialize :import_attributes, JSON
+  serialize :attribute_changes, JSON
 
   def import_attributes_attributes=(attrs)
     self.import_attributes = attrs.each_with_object({}) do |attr, hash|

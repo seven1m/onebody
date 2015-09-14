@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150909030547) do
+ActiveRecord::Schema.define(version: 20150914022938) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -312,6 +312,7 @@ ActiveRecord::Schema.define(version: 20150909030547) do
     t.integer "matched_family_by", limit: 4
     t.integer "status",            limit: 4
     t.text    "import_attributes", limit: 65535
+    t.text    "attribute_changes", limit: 65535
   end
 
   create_table "imports", force: :cascade do |t|

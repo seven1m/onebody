@@ -30,7 +30,9 @@ module Administration::ImportsHelper
     if row.send("created_#{model}?")
       I18n.t('administration.imports.created')
     elsif row.send("updated_#{model}?")
-      I18n.t('administration.imports.updated')
+      content_tag :span, title: row.attribute_changes.inspect do
+        I18n.t('administration.imports.updated')
+      end
     else
       I18n.t('administration.imports.unchanged')
     end

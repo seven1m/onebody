@@ -101,10 +101,10 @@ describe ImportExecution do
 
       context 'given a row with an existing person id and existing family id' do
         let(:family)  { FactoryGirl.create(:family) }
-        let!(:person) { FactoryGirl.create(:person) }
+        let!(:person) { FactoryGirl.create(:person, first_name: 'John', last_name: 'Smith', email: 'old@example.com') }
 
         context 'given the person attributes changed' do
-          let!(:row) { create_row(id: person.id, first: 'John', last: 'Jones', fam_id: family.id, email: 'new@example.com') }
+          let!(:row) { create_row(id: person.id, first: 'John', last: 'Jones', email: 'new@example.com', fam_id: person.family_id) }
 
           before { subject.execute }
 
@@ -120,6 +120,16 @@ describe ImportExecution do
           it 'records how the records were matched' do
             expect(row.reload.matched_person_by_id?).to eq(true)
             expect(row.matched_family_by_id?).to eq(true)
+          end
+
+          it 'records what attributes changed' do
+            expect(row.reload.attribute_changes).to eq(
+              'person' => {
+                'last_name' => ['Smith', 'Jones'],
+                'email'     => ['old@example.com', 'new@example.com']
+              },
+              'family' => {}
+            )
           end
 
           it 'updates the status of the rows' do
@@ -166,7 +176,7 @@ describe ImportExecution do
         end
 
         context "given the the person's email address has changed" do
-          let!(:row) { create_row(id: person.id, first: 'John', last: 'Jones', fam_id: family.id, email: 'changed2@example.com') }
+          let!(:row) { create_row(id: person.id, first: 'John', last: 'Jones', email: 'changed2@example.com', fam_id: person.family_id) }
 
           before do
             person.email = 'changed1@example.com'
@@ -190,10 +200,19 @@ describe ImportExecution do
               'email_changed' => true
             )
           end
+
+          it 'records what attributes changed' do
+            expect(row.reload.attribute_changes).to eq(
+              'person' => {
+                'last_name' => ['Smith', 'Jones']
+              },
+              'family' => {}
+            )
+          end
         end
 
         context "given the the person's email address has changed and the import matches it" do
-          let!(:row) { create_row(id: person.id, first: 'John', last: 'Jones', fam_id: family.id, email: 'changed1@example.com') }
+          let!(:row) { create_row(id: person.id, first: 'John', last: 'Jones', email: 'changed1@example.com', fam_id: person.family_id) }
 
           before do
             person.email = 'changed1@example.com'
@@ -215,6 +234,16 @@ describe ImportExecution do
             expect(person.reload.attributes).to include(
               'email' => 'changed1@example.com',
               'email_changed' => false
+            )
+          end
+
+          it 'records what attributes changed' do
+            expect(row.reload.attribute_changes).to eq(
+              'person' => {
+                'last_name'     => ['Smith', 'Jones'],
+                'email_changed' => [true, false]
+              },
+              'family' => {}
             )
           end
         end
@@ -267,6 +296,16 @@ describe ImportExecution do
             'updated_family' => false
           )
         end
+
+        it 'records what attributes changed' do
+          expect(row.reload.attribute_changes).to eq(
+            'person' => {
+              'last_name' => ['Smith', 'Jones'],
+              'family_id' => [family.id, person.reload.family_id]
+            },
+              'family' => {}
+          )
+        end
       end
 
       context 'given a row with a new family with an address' do
@@ -313,6 +352,18 @@ describe ImportExecution do
             'created_family' => false,
             'updated_person' => true,
             'updated_family' => true
+          )
+        end
+
+        it 'records what attributes changed' do
+          expect(row.reload.attribute_changes).to eq(
+            'person' => {
+              'last_name' => ['Smith', 'Jones']
+            },
+            'family' => {
+              'name'      => ['John Smith', 'John Jones'],
+              'last_name' => ['Smith', 'Jones']
+            }
           )
         end
       end
@@ -420,7 +471,7 @@ describe ImportExecution do
       end
 
       context 'given a row with an existing person name and existing family name' do
-        let(:family) { FactoryGirl.create(:family, name: 'John Jones') }
+        let(:family) { FactoryGirl.create(:family, name: 'John Jones', last_name: 'Jones') }
         let(:person) { FactoryGirl.create(:person, first_name: 'John', last_name: 'Jones', family: family) }
 
         context 'given the attributes are valid and the data is unchanged' do

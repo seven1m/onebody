@@ -22,6 +22,7 @@ class ImportPreview < ImportExecution
   end
 
   def save_row(row)
+    record_changes(row, :changes)
     reset_preview_data(row)
     row.status = :previewed
     row.save

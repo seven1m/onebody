@@ -89,5 +89,17 @@ describe ImportPreview do
         'family_id' => family.id
       )
     end
+
+    it 'records what attributes changed' do
+      subject.preview
+      expect(row3.reload.attribute_changes).to eq(
+        'person' => {
+          'email' => [nil, 'a@new.com']
+        },
+        'family' => {
+          'home_phone' => [nil, '1234567890']
+        }
+      )
+    end
   end
 end
