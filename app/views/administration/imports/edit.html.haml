@@ -43,8 +43,8 @@
     = button_tag id: 'btn-execute', class: 'btn btn-danger', data: { method: 'patch', confirm: t('are_you_sure') }, style: 'display:none' do
       = icon 'fa fa-bolt'
       = t('administration.imports.show.execute.button')
-    = form.check_box :dont_preview
-    = form.label :dont_preview, t('.form.dont_preview')
+    = check_box_tag :dont_preview
+    = label_tag :dont_preview, t('.form.dont_preview')
     = link_to @import, data: { method: :delete, confirm: t('are_you_sure') }, class: 'btn btn-delete pull-right' do
       = icon 'fa fa-trash-o'
       = t('.delete.button')

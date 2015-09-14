@@ -124,21 +124,21 @@ describe Administration::ImportsController, type: :controller do
     context 'given dont_preview=1' do
       before do
         allow(Import).to receive(:find).with(import.id.to_s).and_return(import)
-        allow(import).to receive(:execute_async)
+        allow(import).to receive(:reset_and_execute_async)
         patch :update, {
           id: import.id,
           import: {
             match_strategy: 'by_name',
             mappings: {
               'foo' => 'bar'
-            },
-            dont_preview: '1'
-          }
+            }
+          },
+          dont_preview: '1'
         }, logged_in_id: admin.id
       end
 
       it 'calls execute_async and redirects to the show page' do
-        expect(import).to have_received(:execute_async)
+        expect(import).to have_received(:reset_and_execute_async)
         expect(response).to redirect_to(administration_import_path(import))
       end
     end

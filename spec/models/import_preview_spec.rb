@@ -25,6 +25,7 @@ describe ImportPreview do
     FactoryGirl.create(
       :import_row,
       import: import,
+      status: :parsed,
       import_attributes_attributes: attrs.each_with_index.map do |(name, value), index|
         { import: import, name: name.to_s, value: value, sequence: index }
       end

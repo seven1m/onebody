@@ -1,5 +1,5 @@
 class ImportRow < ActiveRecord::Base
-  belongs_to :import
+  belongs_to :import, touch: true
   belongs_to :person
   belongs_to :family
 

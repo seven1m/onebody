@@ -7,6 +7,7 @@ class Administration::ImportsController < ApplicationController
 
   def show
     @import = Import.find(params[:id])
+    @import.verify_working
     respond_to do |format|
       format.html do
         @rows = @import.rows.paginate(page: params[:page], per_page: 100)
@@ -53,7 +54,7 @@ class Administration::ImportsController < ApplicationController
     @import.mappings = params[:import][:mappings]
     @import.status = 'matched' if params[:status] == 'matched'
     if @import.save
-      @import.execute_async if @import.dont_preview
+      preview_or_execute
       redirect_to administration_import_path(@import)
     else
       @example = build_example
@@ -69,15 +70,23 @@ class Administration::ImportsController < ApplicationController
 
   def execute
     @import = Import.find(params[:id])
+    @import.rows.update_all(status: :previewed)
     @import.execute_async
     redirect_to administration_import_path(@import)
   end
 
   private
 
+  def preview_or_execute
+    if params[:dont_preview] == '1'
+      @import.reset_and_execute_async
+    else
+      @import.reset_and_preview_async
+    end
+  end
+
   def import_params
-    params[:import].delete(:dont_preview) if params.fetch(:import, {})[:dont_preview] == '0'
-    params.require(:import).permit(:match_strategy, :create_as_active, :overwrite_changed_emails, :dont_preview)
+    params.require(:import).permit(:match_strategy, :create_as_active, :overwrite_changed_emails)
   end
 
   def build_example

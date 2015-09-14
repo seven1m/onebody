@@ -27,10 +27,11 @@ describe ImportExecution do
 
   subject { ImportExecution.new(import) }
 
-  def create_row(attrs)
+  def create_row(attrs, status: :previewed)
     FactoryGirl.create(
       :import_row,
       import: import,
+      status: status,
       import_attributes_attributes: attrs.each_with_index.map do |(name, value), index|
         { import: import, name: name.to_s, value: value, sequence: index }
       end
@@ -74,6 +75,21 @@ describe ImportExecution do
         }
         expect(row.reload.updated_person).to eq(true)
         expect(person.reload.first_name).to eq('Changed')
+      end
+    end
+
+    context 'given the job fails mid-way and is restarted' do
+      let!(:person)        { FactoryGirl.create(:person) }
+      let!(:completed_row) { create_row({ id: person.id }, status: :imported) }
+      let!(:pending_row)   { create_row({ id: person.id, first: 'Changed' }, status: :previewed) }
+
+      it 'only imports the pending rows' do
+        expect {
+          subject.execute
+        }.not_to change {
+          completed_row.reload.attributes
+        }
+        expect(pending_row.reload.updated_person).to eq(true)
       end
     end
 

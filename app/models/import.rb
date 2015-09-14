@@ -32,10 +32,6 @@ class Import < ActiveRecord::Base
     1 => :create_as_active,
     2 => :overwrite_changed_emails
 
-  attr_accessor :dont_preview
-
-  after_update :preview_async, if: :should_preview?
-
   def progress
     self.class.statuses[status]
   end
@@ -58,8 +54,24 @@ class Import < ActiveRecord::Base
     rows.send(stage)
   end
 
+  def waiting?
+    %w(parsed matched previewed complete errored).include?(status)
+  end
+
   def working?
-    !%w(parsed previewed complete errored).include?(status)
+    %w(pending parsing previewing active).include?(status)
+  end
+
+  WORKING_TIMEOUT = 1.minute
+
+  def working_timeout_expired?
+    updated_at < WORKING_TIMEOUT.ago
+  end
+
+  def verify_working
+    return if waiting? || !working_timeout_expired?
+    preview_async if previewing?
+    execute_async if active?
   end
 
   def parse_async(file:, strategy_name:)
@@ -80,25 +92,27 @@ class Import < ActiveRecord::Base
   end
 
   def preview_async
-    return if new_record? || !matched?
+    return if new_record? || !(matched? || previewing?)
     self.status = :previewing
     self.save!
     ImportPreviewJob.perform_later(Site.current, id)
   end
 
+  def reset_and_preview_async
+    rows.update_all(status: ImportRow.statuses['parsed'])
+    preview_async
+  end
+
   def execute_async
-    return if new_record? || !ready_to_execute?
+    return if new_record? || !(matched? || previewed? || active?)
     self.status = :active
     self.save!
     ImportExecutionJob.perform_later(Site.current, id)
   end
 
-  def ready_to_execute?
-    previewed? || (dont_preview && matched?)
-  end
-
-  def should_preview?
-    !new_record? && matched? && !dont_preview && !Rails.env.test?
+  def reset_and_execute_async
+    rows.update_all(status: ImportRow.statuses['previewed'])
+    execute_async
   end
 
   def as_json(*args)
