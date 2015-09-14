@@ -27,6 +27,9 @@ class DocumentsController < ApplicationController
       @folder = (@parent_folder.try(:folders) || DocumentFolder).new
       render action: 'new_folder'
     else
+      if params[:multiple_documents]
+        @documents = Array.new
+      end
       @document = (@parent_folder.try(:documents) || Document).new
     end
   end
@@ -39,6 +42,8 @@ class DocumentsController < ApplicationController
       else
         render action: 'new_folder'
       end
+    elsif params[:multiple_documents]
+      params[:documents].each
     else
       @document = Document.new(document_params)
       if @document.save
@@ -114,6 +119,10 @@ class DocumentsController < ApplicationController
 
   def document_params
     params.require(:document).permit(:name, :description, :folder_id, :file)
+  end
+
+  def multidoc_params
+    params.require(:documents)
   end
 
   def feature_enabled?

@@ -29,6 +29,7 @@ en:
         label:
           one: "1 restricted (group) folder"
           other: "%{count} restricted (group) folders"
+      no_file: "No file chosen"
 
     show:
       table:
