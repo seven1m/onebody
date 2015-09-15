@@ -53,7 +53,7 @@ module Concerns
             { name: name, other_name: other_name, person_id: id, related_id: related.id }
           end
         end
-        keep_ids = new_and_existing.map { |r| r[:id] }.compact
+        keep_ids = new_and_existing.compact.map { |r| r[:id] }.compact
         old = existing.reject { |r| keep_ids.include?(r.id) }.map do |record|
           { id: record.id, _destroy: true }
         end
