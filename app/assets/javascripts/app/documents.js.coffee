@@ -24,15 +24,16 @@ $('#document_file').change (e) ->
     return
   if window.location.search.indexOf('multiple_documents=true') > -1
     $('#document_table > tbody > tr:not(:first-child)').empty()
-		id_count = 0
-		for file in e.target.files
+    id_count = 0
+    for file in e.target.files
       row = $(documentUploadTemplate).clone()
       row.find('td > .form-group > label').first().html( file.name )
       row.find('td:nth-child(2) > .form-group > input').first().attr({ name: "document[name][]", id: "document_name#{id_count}" }).val( file.name )
       row.find('td:nth-child(3) > .form-group > input').first().attr({ name: "document[description][]", id: "document_description#{id_count}" })
       $('#document_table > tbody:last-child').append( row )
       id_count++
-  name = e.target.files[0].name
-  $('#document_name').val(name)
+  else
+    name = e.target.files[0].name
+    $('#document_name').val(name)
 
 window.documentUploadTemplate = $( $('#document_table > tbody > tr')[1] ).clone()
