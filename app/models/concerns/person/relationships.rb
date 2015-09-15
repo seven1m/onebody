@@ -36,6 +36,7 @@ module Concerns
         end
       end
 
+      # TODO: apply relationships *after* a CSV import is complete so that all the legacy_ids exist
       def relationships_from_string=(string)
         existing = relationships.to_a
         new_and_existing = string.scan(/(\d+)\[([^\]]+)\]/).map do |related_id, name|
@@ -52,8 +53,8 @@ module Concerns
           else
             { name: name, other_name: other_name, person_id: id, related_id: related.id }
           end
-        end
-        keep_ids = new_and_existing.compact.map { |r| r[:id] }.compact
+        end.compact
+        keep_ids = new_and_existing.map { |r| r[:id] }.compact
         old = existing.reject { |r| keep_ids.include?(r.id) }.map do |record|
           { id: record.id, _destroy: true }
         end
