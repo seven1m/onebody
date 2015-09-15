@@ -10,7 +10,7 @@ module Concerns
         has_many :related_people, class_name: 'Person', through: :relationships, source: :related
         has_many :inward_relationships, class_name: 'Relationship', foreign_key: 'related_id', dependent: :delete_all
         has_many :inward_related_people, class_name: 'Person', through: :inward_relationships, source: :person
-        accepts_nested_attributes_for :relationships
+        accepts_nested_attributes_for :relationships, allow_destroy: true
       end
 
       def update_relationships_hash
@@ -36,8 +36,10 @@ module Concerns
         end
       end
 
+      # TODO: apply relationships *after* a CSV import is complete so that all the legacy_ids exist
       def relationships_from_string=(string)
-        self.relationships_attributes = string.scan(/(\d+)\[([^\]]+)\]/).map do |related_id, name|
+        existing = relationships.to_a
+        new_and_existing = string.scan(/(\d+)\[([^\]]+)\]/).map do |related_id, name|
           if I18n.t(name.downcase, scope: 'relationships.names', default: '').present?
             other_name = nil
             name = name.downcase
@@ -45,9 +47,18 @@ module Concerns
             other_name = name
             name = 'other'
           end
-          related = self.class.where(legacy_id: related_id).first
-          { name: name, other_name: other_name, person_id: id, related_id: related.try(:id) }
+          next unless (related = self.class.where(legacy_id: related_id).first)
+          if (record = existing.detect { |r| [r.related_id, r.name, r.other_name] == [related.id, name, other_name] })
+            { id: record.id }
+          else
+            { name: name, other_name: other_name, person_id: id, related_id: related.id }
+          end
+        end.compact
+        keep_ids = new_and_existing.map { |r| r[:id] }.compact
+        old = existing.reject { |r| keep_ids.include?(r.id) }.map do |record|
+          { id: record.id, _destroy: true }
         end
+        self.relationships_attributes = new_and_existing + old
       end
     end
   end

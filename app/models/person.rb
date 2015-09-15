@@ -132,7 +132,7 @@ class Person < ActiveRecord::Base
   self.skip_time_zone_conversion_for_attributes = [:birthday, :anniversary]
   self.digits_only_for_attributes = [:mobile_phone, :work_phone, :fax, :business_phone]
 
-  blank_to_nil :suffix
+  blank_to_nil :suffix, :can_pick_up, :cannot_pick_up, :classes, :medical_notes
 
   date_writer :birthday, :anniversary
 

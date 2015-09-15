@@ -20,7 +20,8 @@ describe ImportExecution do
         'city'      => 'family_city',
         'state'     => 'family_state',
         'zip'       => 'family_zip',
-        'email'     => 'email'
+        'email'     => 'email',
+        'rel'       => 'relationships'
       }
     )
   end
@@ -460,6 +461,25 @@ describe ImportExecution do
             'updated_person' => false,
             'updated_family' => false
           )
+        end
+      end
+
+      context 'given a row with an existing id and a relationships string' do
+        let!(:person)  { FactoryGirl.create(:person) }
+        let!(:person2) { FactoryGirl.create(:person, legacy_id: 1001) }
+        let!(:person3) { FactoryGirl.create(:person, legacy_id: 1002) }
+        let!(:row)     { create_row(id: person.id, first: 'John', last: 'Jones', rel: '1001[son],1002[daughter]') }
+        let!(:rel1)    { person.relationships.create!(related: person2, name: 'son') }
+        let!(:rel2)    { person.relationships.create!(related: person2, name: 'other', other_name: 'Delete Me') }
+
+        before do
+          subject.execute
+        end
+
+        it 'creates the new relationship' do
+          expect(row.reload.updated_person).to eq(true)
+          expect(person.relationships.count).to eq(2)
+          expect { rel2.reload }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
     end
