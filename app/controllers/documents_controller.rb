@@ -27,14 +27,12 @@ class DocumentsController < ApplicationController
       @folder = (@parent_folder.try(:folders) || DocumentFolder).new
       render action: 'new_folder'
     else
-      if params[:multiple_documents]
-        @documents = Array.new
-      end
       @document = (@parent_folder.try(:documents) || Document).new
     end
   end
 
   def create
+    #binding.remote_pry
     if params[:folder]
       @folder = DocumentFolder.new(folder_params)
       if @folder.save
@@ -42,8 +40,21 @@ class DocumentsController < ApplicationController
       else
         render action: 'new_folder'
       end
-    elsif params[:multiple_documents]
-      params[:documents].each
+    elsif params[:document][:file].kind_of?(Array)
+      params[:document][:file].each_with_index do |file, index|
+        @document = Document.new({
+          :name => params[:document][:name][index],
+          :description => params[:document][:description][index],
+          :folder_id => params[:document][:folder_id],
+          :file => file,
+        })
+        if !@document.save
+          params[:multiple_documents] = true
+          render action: 'new'
+          return
+        end
+      end
+      redirect_to documents_path(folder_id: params[:document][:folder_id] || 0), notice: t('documents.multiple_create.notice')
     else
       @document = Document.new(document_params)
       if @document.save
@@ -119,10 +130,6 @@ class DocumentsController < ApplicationController
 
   def document_params
     params.require(:document).permit(:name, :description, :folder_id, :file)
-  end
-
-  def multidoc_params
-    params.require(:documents)
   end
 
   def feature_enabled?

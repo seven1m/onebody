@@ -56,6 +56,9 @@ en:
     create:
       notice: "Your document has been created."
 
+    multiple_create:
+      notice: "Your documents have been created."
+
     create_folder:
       notice: "Your folder has been created."
 

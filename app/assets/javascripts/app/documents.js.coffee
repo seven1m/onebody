@@ -28,6 +28,8 @@ $('#document_file').change (e) ->
 		for file in e.target.files
       row = $(documentUploadTemplate).clone()
       row.find('td > .form-group > label').first().html( file.name )
+      row.find('td:nth-child(2) > .form-group > input').first().attr({ name: "document[name][]", id: "document_name#{id_count}" }).val( file.name )
+      row.find('td:nth-child(3) > .form-group > input').first().attr({ name: "document[description][]", id: "document_description#{id_count}" })
       $('#document_table > tbody:last-child').append( row )
       id_count++
   name = e.target.files[0].name
