@@ -79,6 +79,7 @@ module ApplicationHelper
   module_function :format_phone
 
   def link_to_phone(phone, options = {})
+    return if phone.blank?
     label = options.delete(:label)
     label ||= format_phone(phone, options.delete(:mobile))
     link_to label, "tel:#{phone.digits_only}", options
