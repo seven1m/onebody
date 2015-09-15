@@ -102,6 +102,8 @@ class Group < ActiveRecord::Base
     Setting.get(:system, :default_country)
   end
 
+  alias_attribute :pretty_address, :location
+
   def mapable?
     latitude.to_f != 0.0 && longitude.to_f != 0.0
   end
