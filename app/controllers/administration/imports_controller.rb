@@ -70,8 +70,7 @@ class Administration::ImportsController < ApplicationController
 
   def execute
     @import = Import.find(params[:id])
-    @import.rows.update_all(status: :previewed)
-    @import.execute_async
+    @import.reset_and_execute_async
     redirect_to administration_import_path(@import)
   end
 
@@ -95,7 +94,7 @@ class Administration::ImportsController < ApplicationController
   end
 
   def preview_or_execute
-    if params[:dont_preview] == '1'
+    if @import.previewed? || params[:dont_preview] == '1'
       @import.reset_and_execute_async
     else
       @import.reset_and_preview_async
