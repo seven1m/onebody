@@ -83,31 +83,31 @@
               %td= t('.table.creates')
               %td
                 = icon 'fa fa-circle text-green'
-                = @import.rows.created_person.count
+                = link_to @import.rows.created_person.count, created_person: true
               %td
                 = icon 'fa fa-circle text-green'
-                = @import.rows.created_family.count
+                = link_to @import.rows.created_family.count, created_family: true
             %tr
               %td= t('.table.updates')
               %td
                 = icon 'fa fa-circle text-yellow'
-                = @import.rows.updated_person.count
+                = link_to @import.rows.updated_person.count, updated_person: true
               %td
                 = icon 'fa fa-circle text-yellow'
-                = @import.rows.updated_family.count
+                = link_to @import.rows.updated_family.count, updated_family: true
             %tr
               %td= t('.table.no_change')
               %td
                 = icon 'fa fa-circle text-gray'
-                = @import.rows.unchanged_people.count
+                = link_to @import.rows.unchanged_people.count, unchanged_people: true
               %td
                 = icon 'fa fa-circle text-gray'
-                = @import.rows.unchanged_families.count
+                = link_to @import.rows.unchanged_families.count, unchanged_families: true
             %tr
               %td= t('.table.errored')
               %td
                 = icon 'fa fa-circle text-red'
-                = @import.rows.errored.count
+                = link_to @import.rows.errored.count, errored: true
               %td
 
 
