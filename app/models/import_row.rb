@@ -13,7 +13,7 @@ class ImportRow < ActiveRecord::Base
   scope :updated_family,     -> { where(updated_family: true) }
   scope :unchanged_people,   -> { where(created_person: false, updated_person: false) }
   scope :unchanged_families, -> { where(created_family: false, updated_family: false) }
-  scope :errored,            -> { where('error_reasons is not null') }
+  scope :errored,            -> { where(errored: true) }
 
   enum status: %w(
     parsed
@@ -37,6 +37,7 @@ class ImportRow < ActiveRecord::Base
 
   serialize :import_attributes, JSON
   serialize :attribute_changes, JSON
+  serialize :attribute_errors, JSON
 
   def import_attributes_attributes=(attrs)
     self.import_attributes = attrs.each_with_object({}) do |attr, hash|
@@ -117,9 +118,9 @@ class ImportRow < ActiveRecord::Base
     self.updated_family    = false
     self.matched_person_by = nil
     self.matched_family_by = nil
-    self.error_reasons     = nil
     self.person            = nil
     self.family            = nil
+    self.attribute_errors  = {}
   end
 
   private

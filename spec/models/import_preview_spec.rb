@@ -70,11 +70,11 @@ describe ImportPreview do
     it 'caches records to be created so they do not get marked as created again' do
       subject.preview
       expect(row2.reload.attributes).to include(
-        'created_person' => true,
-        'created_family' => false,
-        'person_id' => nil,
-        'family_id' => nil,
-        'error_reasons' => nil
+        'created_person'   => true,
+        'created_family'   => false,
+        'person_id'        => nil,
+        'family_id'        => nil,
+        'attribute_errors' => {}
       )
     end
 

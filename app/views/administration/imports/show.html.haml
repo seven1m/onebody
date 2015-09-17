@@ -129,7 +129,7 @@
     %tbody
       - @rows.each do |row|
         - attrs = row.import_attributes_as_hash(real_attributes: true)
-        %tr{ class: row.error_reasons.present? ? 'text-red' : nil }
+        %tr{ class: row.errored? ? 'text-red' : nil }
           %td= import_link_to(row.person)
           %td= attrs['first_name']
           %td= attrs['last_name']
@@ -139,9 +139,16 @@
           %td= attrs['family_name']
           %td= t(row.matched_family_by, scope: 'administration.imports.matched_by', default: '') # notest
           %td= import_row_record_status(row, :family)
-        - if row.error_reasons.present?
+        - if row.errored?
           %tr.details.text-red
-            %td{ colspan: 9 }= row.error_reasons
+            %td{ colspan: 9, title: row.import_attributes.inspect }
+              = import_row_errors(row).join('; ')
+              %ul
+                - import_row_errored_attributes(row).each do |attr, value|
+                  %li
+                    %string= attr
+                    \=
+                    = value.inspect
 
   = pagination @rows
 

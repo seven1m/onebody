@@ -151,11 +151,12 @@ describe ImportExecution do
 
           it 'does not update and records the erorr message' do
             expect(row.reload.attributes).to include(
-              'created_person' => false,
-              'created_family' => false,
-              'updated_person' => false,
-              'updated_family' => false,
-              'error_reasons'  => 'The person must have a first name.'
+              'created_person'   => false,
+              'created_family'   => false,
+              'updated_person'   => false,
+              'updated_family'   => false,
+              'attribute_errors' => { 'first_name' => 'The person must have a first name.' },
+              'errored'          => true
             )
           end
         end
@@ -167,11 +168,12 @@ describe ImportExecution do
 
           it 'does not update and records the error message' do
             expect(row.reload.attributes).to include(
-              'created_person' => false,
-              'created_family' => false,
-              'updated_person' => false,
-              'updated_family' => false,
-              'error_reasons'  => 'The family must have a name.'
+              'created_person'   => false,
+              'created_family'   => false,
+              'updated_person'   => false,
+              'updated_family'   => false,
+              'attribute_errors' => { 'family' => { 'name' => 'The family must have a name.' } },
+              'errored'          => true
             )
           end
         end
@@ -546,11 +548,12 @@ describe ImportExecution do
 
           it 'does not update and records the error message' do
             expect(row.reload.attributes).to include(
-              'created_person' => false,
-              'created_family' => false,
-              'updated_person' => false,
-              'updated_family' => false,
-              'error_reasons'  => 'The email address is not formatted correctly (something@example.com).'
+              'created_person'   => false,
+              'created_family'   => false,
+              'updated_person'   => false,
+              'updated_family'   => false,
+              'attribute_errors' => { 'email' => 'The email address is not formatted correctly (something@example.com).' },
+              'errored'          => true
             )
           end
 
@@ -567,11 +570,12 @@ describe ImportExecution do
 
           it 'does not update and records the error message' do
             expect(row.reload.attributes).to include(
-              'created_person' => false,
-              'created_family' => false,
-              'updated_person' => false,
-              'updated_family' => false,
-              'error_reasons'  => 'The family must have a last name.'
+              'created_person'   => false,
+              'created_family'   => false,
+              'updated_person'   => false,
+              'updated_family'   => false,
+              'attribute_errors' => { 'family' => { 'last_name' => 'The family must have a last name.' } },
+              'errored'          => true
             )
           end
 
@@ -684,11 +688,11 @@ describe ImportExecution do
           )
           expect(row3.person.family).to eq(row2.reload.person.family)
           expect(row3.attributes).to include(
-            'created_person' => true,
-            'created_family' => false,
-            'updated_person' => false,
-            'updated_family' => false,
-            'error_reasons' => nil
+            'created_person'   => true,
+            'created_family'   => false,
+            'updated_person'   => false,
+            'updated_family'   => false,
+            'attribute_errors' => {}
           )
         end
       end
@@ -719,12 +723,18 @@ describe ImportExecution do
             'created_person' => false,
             'created_family' => false,
             'updated_person' => false,
-            'updated_family' => false
+            'updated_family' => false,
+            'errored'        => true
           )
         end
 
         it 'saves the error message' do
-          expect(row.reload.error_reasons).to match(/must have a name/)
+          expect(row.reload.attribute_errors).to eq(
+            'family' => {
+              'name'      => 'The family must have a name.',
+              'last_name' => 'The family must have a last name.'
+            }
+          )
         end
       end
 
@@ -738,11 +748,11 @@ describe ImportExecution do
 
         it 'updates the person and the family' do
           expect(row.reload.attributes).to include(
-            'created_person' => false,
-            'created_family' => false,
-            'updated_person' => true,
-            'updated_family' => true,
-            'error_reasons'  => nil
+            'created_person'   => false,
+            'created_family'   => false,
+            'updated_person'   => true,
+            'updated_family'   => true,
+            'attribute_errors' => {}
           )
         end
 
