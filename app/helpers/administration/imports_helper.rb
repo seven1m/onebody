@@ -47,7 +47,7 @@ module Administration::ImportsHelper
   def import_row_errors(row)
     errors = row.attribute_errors.dup
     return if errors.blank?
-    family = errors.delete('family')
+    family = errors.delete('family') || {}
     errors.values + family.values
   end
 
