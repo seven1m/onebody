@@ -46,23 +46,15 @@ module Administration::ImportsHelper
 
   def import_row_errors(row)
     errors = row.attribute_errors.dup
-    return if errors.blank?
-    family = errors.delete('family') || {}
-    errors.values + family.values
-  end
-
-  def import_row_errored_attributes(row)
-    errors = row.attribute_errors.dup
-    return {} if errors.blank?
-    family = errors.delete('family')
+    return [] if errors.blank?
+    family_errors = errors.delete('family') || {}
     attrs = row.import_attributes_as_hash(real_attributes: true)
-    hash = errors.keys.each_with_object({}) do |attr, h|
-      h[attr] = attrs[attr]
+    errors.map do |attr, error|
+      { name: attr, value: attrs[attr], message: error }
+    end +
+    family_errors.map do |attr, error|
+      name = "family_#{attr}"
+      { name: name, value: attrs[name], message: error }
     end
-    return hash if family.nil?
-    family.keys.each do |attr|
-      hash["family_#{attr}"] = attrs["family_#{attr}"]
-    end
-    hash
   end
 end

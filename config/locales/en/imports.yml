@@ -94,6 +94,11 @@ en:
           button: "Import Data Now!"
         delete:
           button: "Delete Import"
+        errors_table:
+          name: "Attribute"
+          value: "Value"
+          error: "Error"
+          blank_value: "(blank)"
       status:
         pending: "Pending"
         parsing: "Parsing Data File"

@@ -140,15 +140,21 @@
           %td= t(row.matched_family_by, scope: 'administration.imports.matched_by', default: '') # notest
           %td= import_row_record_status(row, :family)
         - if row.errored?
-          %tr.details.text-red
-            %td{ colspan: 9, title: row.import_attributes.inspect }
-              = import_row_errors(row).join('; ')
-              %ul
-                - import_row_errored_attributes(row).each do |attr, value|
-                  %li
-                    %string= attr
-                    \=
-                    = value.inspect
+          %tr.details
+            %td
+            %td{ colspan: 8, title: row.import_attributes.inspect }
+              %table.spaced-table
+                %thead
+                  %tr
+                    %th= t('.errors_table.name')
+                    %th= t('.errors_table.value')
+                    %th= t('.errors_table.error')
+                %tbody
+                  - import_row_errors(row).each do |error|
+                    %tr
+                      %td= error[:name]
+                      %td= error[:value].presence || t('.errors_table.blank_value')
+                      %td.text-red= error[:message]
 
   = pagination @rows
 
