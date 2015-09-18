@@ -129,7 +129,7 @@
     %tbody
       - @rows.each do |row|
         - attrs = row.import_attributes_as_hash(real_attributes: true)
-        %tr{ class: row.errored? ? 'text-red' : nil }
+        %tr
           %td= import_link_to(row.person)
           %td= attrs['first_name']
           %td= attrs['last_name']
