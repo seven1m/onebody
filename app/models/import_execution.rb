@@ -67,7 +67,7 @@ class ImportExecution
     end
     row.updated_person = (person.valid? && person.changed?)
     row.created_family = row.updated_family = false if person.invalid?
-    row.error_reasons = errors_as_string(person)
+    record_errors(row, person)
     row.person = person
   end
 
@@ -94,7 +94,7 @@ class ImportExecution
     end
     row.created_person = person.valid?
     row.created_family = row.updated_family = false unless row.created_person
-    row.error_reasons = errors_as_string(person)
+    record_errors(row, person)
     row.person = person
   end
 
@@ -139,5 +139,13 @@ class ImportExecution
     row.match_family ||
       ((id = id_for_family(row)) && @created_family_ids[id]) ||
       ((name = attributes_for_family(row)['name']) && @created_family_names[name])
+  end
+
+  def record_errors(row, person)
+    family_errors = person.errors.delete(:family)
+    hash = person.errors.to_h
+    hash[:family] = person.family.errors.to_h if family_errors
+    row.attribute_errors = hash
+    row.errored = hash.any?
   end
 end

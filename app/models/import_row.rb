@@ -13,7 +13,7 @@ class ImportRow < ActiveRecord::Base
   scope :updated_family,     -> { where(updated_family: true) }
   scope :unchanged_people,   -> { where(created_person: false, updated_person: false) }
   scope :unchanged_families, -> { where(created_family: false, updated_family: false) }
-  scope :errored,            -> { where('error_reasons is not null') }
+  scope :errored,            -> { where(errored: true) }
 
   enum status: %w(
     parsed
@@ -24,17 +24,20 @@ class ImportRow < ActiveRecord::Base
   enum matched_person_by: {
     matched_person_by_id: 1,
     matched_person_by_name: 2,
-    matched_person_by_contact_info: 3
+    matched_person_by_contact_info: 3,
+    matched_person_by_legacy_id: 4
   }
 
   enum matched_family_by: {
     matched_family_by_id: 1,
     matched_family_by_name: 2,
-    matched_family_by_contact_info: 3
+    matched_family_by_contact_info: 3,
+    matched_family_by_legacy_id: 4
   }
 
   serialize :import_attributes, JSON
   serialize :attribute_changes, JSON
+  serialize :attribute_errors, JSON
 
   def import_attributes_attributes=(attrs)
     self.import_attributes = attrs.each_with_object({}) do |attr, hash|
@@ -115,9 +118,9 @@ class ImportRow < ActiveRecord::Base
     self.updated_family    = false
     self.matched_person_by = nil
     self.matched_family_by = nil
-    self.error_reasons     = nil
     self.person            = nil
     self.family            = nil
+    self.attribute_errors  = {}
   end
 
   private
@@ -131,9 +134,9 @@ class ImportRow < ActiveRecord::Base
 
   def match_person_by_legacy_id(hash)
     return unless hash['legacy_id'].present?
-    people.where(
-      legacy_id: hash['legacy_id']
-    ).first
+    return unless (person = people.where(legacy_id: hash['legacy_id']).first)
+    self.matched_person_by = :matched_person_by_legacy_id
+    person
   end
 
   def match_person_by_name(hash)
@@ -168,9 +171,9 @@ class ImportRow < ActiveRecord::Base
   def match_family_by_legacy_id(hash)
     legacy_id = hash['family_legacy_id'] || hash['legacy_family_id']
     return unless legacy_id.present?
-    families.where(
-      legacy_id: legacy_id
-    ).first
+    return unless (family = families.where(legacy_id: legacy_id).first)
+    self.matched_family_by = :matched_family_by_legacy_id
+    family
   end
 
   def match_family_by_name(hash)

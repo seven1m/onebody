@@ -10,7 +10,7 @@ class Administration::ImportsController < ApplicationController
     @import.verify_working
     respond_to do |format|
       format.html do
-        @rows = @import.rows.paginate(page: params[:page], per_page: 100)
+        @rows = filter_rows(@import.rows).paginate(page: params[:page], per_page: 100)
         redirect_to(action: :edit) if @import.parsed?
         render :errored if @import.errored?
       end
@@ -70,15 +70,31 @@ class Administration::ImportsController < ApplicationController
 
   def execute
     @import = Import.find(params[:id])
-    @import.rows.update_all(status: :previewed)
-    @import.execute_async
+    @import.reset_and_execute_async
     redirect_to administration_import_path(@import)
   end
 
   private
 
+  FILTERS = %w(
+    created_person
+    created_family
+    updated_person
+    updated_family
+    unchanged_people
+    unchanged_families
+    errored
+  )
+
+  def filter_rows(rows)
+    FILTERS.each do |filter|
+      rows = rows.send(filter) if params[filter]
+    end
+    rows
+  end
+
   def preview_or_execute
-    if params[:dont_preview] == '1'
+    if @import.previewed? || params[:dont_preview] == '1'
       @import.reset_and_execute_async
     else
       @import.reset_and_preview_async

@@ -44,9 +44,11 @@ en:
       matched_by:
         default: 'not found'
         matched_person_by_id: 'by ID'
+        matched_person_by_legacy_id: 'by legacy ID'
         matched_person_by_name: 'by name'
         matched_person_by_contact_info: 'by contact info'
         matched_family_by_id: 'by ID'
+        matched_family_by_legacy_id: 'by legacy ID'
         matched_family_by_name: 'by name'
         matched_family_by_contact_info: 'by contact info'
       parsing:
@@ -92,6 +94,11 @@ en:
           button: "Import Data Now!"
         delete:
           button: "Delete Import"
+        errors_table:
+          name: "Attribute"
+          value: "Value"
+          error: "Error"
+          blank_value: "(blank)"
       status:
         pending: "Pending"
         parsing: "Parsing Data File"

@@ -15,7 +15,7 @@ module Administration::SettingsHelper
           else
             setting_field(options)
           end +
-            options[:description] || setting_description(@setting)
+            (options[:description] || setting_description(@setting))
         end
     end
   end

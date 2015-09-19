@@ -434,6 +434,9 @@ en:
         Small Group Size:
           name: 'Max size of a "small group"'
           description: 'People in groups with this many members or fewer are considered in a "small group" together, and can easily share content with one another via the homepage.'
+        Edit Legacy Ids:
+          name: 'Edit Legacy ID'
+          description: 'Allow admins to see and edit the legacy_id field.'
       Privacy:
         Hide Contact Details in Messages:
           name: Hide Contact Details in Messages
