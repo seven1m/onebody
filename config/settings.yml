@@ -98,6 +98,9 @@ Features:
   Small Group Size:
     format: string
     value: 75
+  Giving:
+    format: boolean
+    value: false
 Services:
   Analytics:
     format: string
