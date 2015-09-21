@@ -59,8 +59,6 @@ OneBody::Application.routes.draw do
     resource :search
   end
 
-  resource :giving
-
   resources :groups do
     collection do
       get  :batch
@@ -225,6 +223,11 @@ OneBody::Application.routes.draw do
     resources :families, :people, :groups
   end
   resources :custom_reports
+
+  resource :giving, controller: 'giving/dashboard'
+  namespace :giving do
+
+  end
 
   post '/pusher/auth_printer'    => 'pusher#auth_printer'
   get '/auth/facebook/callback'  => 'sessions#create_from_external_provider'
