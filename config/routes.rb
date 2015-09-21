@@ -59,6 +59,8 @@ OneBody::Application.routes.draw do
     resource :search
   end
 
+  resource :giving
+
   resources :groups do
     collection do
       get  :batch

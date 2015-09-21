@@ -153,6 +153,11 @@
                 = link_to documents_path do
                   %i.fa.fa-file
                   %span= t('nav.documents')
+            - if setting(:features, :giving)
+              %li{ class: tab_selected?(:giving) ? 'active' : '' }
+                = link_to giving_path do
+                  %i.fa.fa-money
+                  %span= t('nav.giving')
             - if @logged_in.incomplete_tasks_count > 0
               %li{ class: tab_selected?(:tasks) ? 'active' : '' }
                 = link_to tasks_path do
