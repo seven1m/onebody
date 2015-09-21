@@ -1,7 +1,6 @@
-require 'erb'
-require 'yaml'
-
 source 'https://rubygems.org'
+
+ruby '2.2.3'
 
 gem 'rails'
 

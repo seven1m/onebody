@@ -1,0 +1,40 @@
+#!/bin/bash
+
+set -e
+
+onebody config | grep SERVE_ASSETS || onebody config:set SERVE_ASSETS=true
+
+if [[ ! -e /etc/onebody/database.yml ]]; then
+  echo "Building /etc/onebody/database.yml"
+  echo -e "production:\n  adapter: mysql2\n  database: onebody\n  host: localhost\n  username: onebody\n  password: onebody\n  encoding: utf8" > /opt/onebody/config/database.yml
+  ln -sf /opt/onebody/config/database.yml /etc/onebody/database.yml
+  chown onebody:onebody /etc/onebody/database.yml
+fi
+
+if [[ ! -e /etc/onebody/secrets.yml ]]; then
+  echo "Building /etc/onebody/secrets.yml"
+  cp /opt/onebody/config/secrets.yml{.example,}
+  secret=$(onebody run rake secret)
+  sed -i "s/SOMETHING_RANDOM_HERE/$secret/" /opt/onebody/config/secrets.yml
+  ln -sf /opt/onebody/config/secrets.yml /etc/onebody/secrets.yml
+  chown onebody:onebody /etc/onebody/secrets.yml
+fi
+
+echo "Checking database state"
+
+onebody run rake db:version 2>&1 | grep -i "unknown database" &>/dev/null || exists=true
+if [[ $exists == true ]]; then
+  echo "Updating database"
+  onebody run rake db:migrate
+else
+  mysql -uroot -e "grant all on onebody.* to onebody@localhost identified by 'onebody';" || grant_failed=true
+  if [[ $grant_failed == true ]]; then
+    echo "Could not create database automatically. Please run the following commands manually:"
+    echo
+    echo "  mysql -u root -p -e \"grant all on onebody.* to onebody@localhost identified by 'onebody';\""
+    echo "  onebody run rake db:setup"
+  else
+    echo "Creating database"
+    onebody run rake db:setup
+  fi
+fi
