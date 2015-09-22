@@ -55,6 +55,7 @@ en:
 
     create:
       notice: "Your document has been created."
+      failure: "One or more documents did not upload."
 
     multiple_create:
       notice: "Your documents have been created."

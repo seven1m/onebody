@@ -32,7 +32,6 @@ class DocumentsController < ApplicationController
   end
 
   def create
-    #binding.remote_pry
     if params[:folder]
       @folder = DocumentFolder.new(folder_params)
       if @folder.save
@@ -41,6 +40,8 @@ class DocumentsController < ApplicationController
         render action: 'new_folder'
       end
     elsif params[:document][:file].kind_of?(Array)
+      @successes = []
+      @errors = []
       params[:document][:file].each_with_index do |file, index|
         @document = Document.new({
           :name => params[:document][:name][index],
@@ -49,9 +50,16 @@ class DocumentsController < ApplicationController
           :file => file,
         })
         if !@document.save
+	  @errors.concat([{
+            :filename => params[:document][:name][index],
+	    :errors => @document.errors.messages, 
+	  }])
           params[:multiple_documents] = true
+	  @document = Document.new
           render action: 'new'
           return
+	else
+	  @successes.concat([params[:document][:name][index]])
         end
       end
       redirect_to documents_path(folder_id: params[:document][:folder_id] || 0), notice: t('documents.multiple_create.notice')

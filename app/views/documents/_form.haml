@@ -2,6 +2,18 @@
   = form_for @document, multipart: true, id: 'new-document-form' do |form|
     = error_messages_for(form)
     = form.hidden_field :folder_id
+    - if @successes
+      %div{:class => 'callout callout-success'}
+        %p
+          = t('documents.multiple_create.notice') + ": " + @successes.join(", ")
+    - if @errors
+      %div{:class => 'callout callout-danger'}
+        %p
+          = t('documents.create.failure')
+        %ul
+          - @errors.each do |error|
+            %li
+              = error[:filename] + ' - ' + error[:errors].map{|k,v| "#{v}"}.join(",\n")
     %table{:class => 'table', :id => 'document_table'}
       %tr
         %th
