@@ -22,7 +22,7 @@ $('#document_file').change (e) ->
     $('#document_table > tbody > tr:not(:first-child)').empty()
     $('#document_table > tbody:last-child').append( documentUploadTemplate.clone() )
     return
-  if window.location.search.indexOf('multiple_documents=true') > -1
+  if $('#document_table').length
     $('#document_table > tbody > tr:not(:first-child)').empty()
     id_count = 0
     for file in e.target.files
