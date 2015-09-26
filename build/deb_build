@@ -3,9 +3,15 @@
 set -e
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-cd $DIR/..
 
 mkdir -p /tmp/pkgr-cache
+
+# set up a new clone of onebody to ensure no temporary files or configs
+mkdir -p $DIR/tmp
+cd $DIR/tmp
+rm -rf onebody
+git clone $DIR/.. onebody
+cd onebody
 
 RUBY_VERSION=$(cat .ruby-version | tr -d '\n')
 ONEBODY_VERSION=$(cat VERSION | tr -d '\n')
@@ -17,8 +23,4 @@ bundle config --local build.nokogumbo "--use-system-libraries --with-xml2-includ
 
 # build the package!
 pkgr package . --name=onebody --version=$ONEBODY_VERSION
-
-# put configs back like they were...
-sed -i '/^ruby/d' Gemfile
-bundle config --delete build.nokogiri
-bundle config --delete build.nokogumbo
+mv *.deb $DIR
