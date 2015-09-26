@@ -59,8 +59,13 @@ else
   echo "      }"
   echo "  }"
   echo
+  echo "Finally, run the following to start the site in nginx:"
+  echo
   echo "  ln -s /etc/nginx/sites-{available,enabled}/onebody"
   echo "  rm /etc/nginx/sites-enabled/default"
   echo "  nginx -s reload"
+  echo
+  echo "You're done! Your site should be available by visiting the IP address"
+  echo "of this server!"
   echo
 fi
