@@ -11,7 +11,7 @@ gem 'mysql2'
 
 gem 'activerecord-session_store'
 gem 'acts_as_list'
-gem 'acts_as_taggable_on_steroids', github: 'seven1m/acts_as_taggable_on_steroids', ref: 'cffba03'
+gem 'acts_as_taggable_on_steroids', github: 'seven1m/acts_as_taggable_on_steroids'
 gem 'authority'
 gem 'bcrypt'
 gem 'bootstrap-sass'
