@@ -16,7 +16,7 @@ bundle config --local build.nokogiri "--use-system-libraries --with-xml2-include
 bundle config --local build.nokogumbo "--use-system-libraries --with-xml2-include=/usr/include/libxml2"
 
 # build the package!
-pkgr package . --version=$ONEBODY_VERSION
+pkgr package . --name=onebody --version=$ONEBODY_VERSION
 
 # put configs back like they were...
 sed -i '/^ruby/d' Gemfile
