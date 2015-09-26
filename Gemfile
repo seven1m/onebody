@@ -1,6 +1,3 @@
-require 'erb'
-require 'yaml'
-
 source 'https://rubygems.org'
 
 gem 'rails'
