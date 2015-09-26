@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -e
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+cd $DIR/..
+
+mkdir -p /tmp/pkgr-cache
+
+RUBY_VERSION=$(cat .ruby-version | tr -d '\n')
+ONEBODY_VERSION=$(cat VERSION | tr -d '\n')
+
+# explicitly set the ruby version, and tell bundler how to build nokogiri...
+sed -i "1iruby '$RUBY_VERSION'" Gemfile
+bundle config --local build.nokogiri "--use-system-libraries --with-xml2-include=/usr/include/libxml2"
+bundle config --local build.nokogumbo "--use-system-libraries --with-xml2-include=/usr/include/libxml2"
+
+# build the package!
+pkgr package . --name=onebody --version=$ONEBODY_VERSION
+
+# put configs back like they were...
+sed -i '/^ruby/d' Gemfile
+bundle config --delete build.nokogiri
+bundle config --delete build.nokogumbo

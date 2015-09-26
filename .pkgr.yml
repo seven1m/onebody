@@ -1,0 +1,11 @@
+name: onebody
+homepage: https://church.io/onebody
+description:  private member portal for churches, built with Ruby on Rails
+changelog: RELEASES.md
+license: AGPL
+dependencies:
+  - mysql-server
+  - libxml2
+compile_cache_dir: /tmp/pkgr-cache
+after_install: build/script/deb-post-install
+store_cache: true

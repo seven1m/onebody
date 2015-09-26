@@ -1,6 +1,3 @@
-require 'erb'
-require 'yaml'
-
 source 'https://rubygems.org'
 
 gem 'rails'
@@ -11,7 +8,7 @@ gem 'mysql2'
 
 gem 'activerecord-session_store'
 gem 'acts_as_list'
-gem 'acts_as_taggable_on_steroids', github: 'seven1m/acts_as_taggable_on_steroids', ref: 'cffba03'
+gem 'acts_as_taggable_on_steroids', github: 'seven1m/acts_as_taggable_on_steroids'
 gem 'authority'
 gem 'bcrypt'
 gem 'bootstrap-sass'
@@ -43,6 +40,7 @@ gem 'responders'
 gem 'sanitize'
 gem 'sass-rails'
 gem 'sucker_punch'
+gem 'thin'
 gem 'truncate_html'
 gem 'uglifier'
 gem 'whenever'

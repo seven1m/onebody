@@ -28,3 +28,4 @@ script/package
 Vagrantfile.local
 .gem
 coverage
+cache.tar.gz

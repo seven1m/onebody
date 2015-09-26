@@ -228,6 +228,7 @@ class Family < ActiveRecord::Base
       'left outer join people on people.family_id = families.id ' \
       "where people.visible = #{Family.connection.quoted_true} " \
       "and families.visible = #{Family.connection.quoted_true} " \
+      "and families.deleted = #{Family.connection.quoted_false} " \
       "and people.status = #{Person.statuses[:active]} " \
       "and families.site_id = #{Site.current.id} " \
       'and coalesce(families.latitude, 0.0) != 0.0 ' \
