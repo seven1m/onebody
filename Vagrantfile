@@ -113,9 +113,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |global_config|
 
   global_config.vm.define "deb" do |deb|
     deb.vm.box = "debian/jessie64"
+    deb.vm.provider :virtualbox do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "1024"]
+    end
     deb.vm.provision :shell, inline: <<-SCRIPT
       set -e
-      apt-get install -y git ruby2.1 ruby2.1-dev rubygems
+      apt-get update
+      apt-get install -y git ruby2.1 ruby2.1-dev rubygems libmysqlclient-dev libpq-dev libevent-dev libxml2-dev libxslt1-dev libreadline-dev build-essential
       cd /opt
       if [[ -d pkgr ]]; then
         cd pkgr
@@ -124,9 +128,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |global_config|
         git clone https://github.com/seven1m/pkgr.git
         cd pkgr
       fi
+      chown -R vagrant /opt/pkgr
       gem install bundler --no-rdoc --no-ri
       bundle install
-      ln -sf /opt/pkgr/bin/pkgr /usr/bin/pkgr
+      grep "pkgr" /home/vagrant/.bashrc || echo "PATH=/opt/pkgr/bin:\\$PATH" >> /home/vagrant/.bashrc
+      mkdir -p /tmp/pkgr-cache
+      chown -R vagrant /tmp/pkgr-cache
     SCRIPT
   end
 end

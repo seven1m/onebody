@@ -3,8 +3,6 @@ homepage: https://church.io/onebody
 description:  private member portal for churches, built with Ruby on Rails
 changelog: RELEASES.md
 license: AGPL
-version: 3.5.0-pre
-
 dependencies:
   - mysql-server
   - libxml2
