@@ -1,3 +1,4 @@
 output-virtualbox-iso
 packer_cache
 *.pem
+cache.tar.gz

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+RUBY_VERSION=2.2.3
+ONEBODY_VERSION=$(cat ../VERSION | tr -d '\n')
+
+mkdir -p /tmp/pkgr-cache
+
+sed -i "1iruby '$RUBY_VERSION'" ../Gemfile
+
+pkgr package .. --version=$ONEBODY_VERSION
+
+sed -i '/^ruby/d' ../Gemfile
