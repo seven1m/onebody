@@ -15,10 +15,16 @@ cd onebody
 RUBY_VERSION=$(cat .ruby-version | tr -d '\n')
 ONEBODY_VERSION=$(cat VERSION | tr -d '\n')
 
-# explicitly set the ruby version, and tell bundler how to build nokogiri...
+# explicitly set the ruby version
 sed -i "1iruby '$RUBY_VERSION'" Gemfile
+
+# tell bundler to use the local libxml
 bundle config --local build.nokogiri "--use-system-libraries --with-xml2-include=/usr/include/libxml2"
 bundle config --local build.nokogumbo "--use-system-libraries --with-xml2-include=/usr/include/libxml2"
+
+# I kept having gems time out during bundle install, so I set up Geminabox as a proxy.
+# Uncomment this line to use the local gem source instead of rubygems.
+#sed -i "s/source 'https:\/\/rubygems.org'/source 'http:\/\/127.0.0.1:9292'/" Gemfile
 
 # build the package!
 pkgr package . --name=onebody --version=$ONEBODY_VERSION
