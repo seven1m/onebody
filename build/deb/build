@@ -6,10 +6,9 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 mkdir -p /tmp/pkgr-cache
 
-# set up a new clone of onebody to ensure no temporary files or configs
-cd /tmp
-rm -rf onebody
-git clone $DIR/.. onebody
+# clone onebody
+cd /
+git clone https://github.com/churchio/onebody.git onebody
 cd onebody
 
 RUBY_VERSION=$(cat .ruby-version | tr -d '\n')
@@ -27,5 +26,5 @@ bundle config --local build.nokogumbo "--use-system-libraries --with-xml2-includ
 #sed -i "s/source 'https:\/\/rubygems.org'/source 'http:\/\/127.0.0.1:9292'/" Gemfile
 
 # build the package!
-pkgr package . --name=onebody --version=$ONEBODY_VERSION
-mv *.deb $DIR
+/opt/pkgr/bin/pkgr package . --name=onebody --version=$ONEBODY_VERSION
+mv *.deb /out

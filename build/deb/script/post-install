@@ -39,6 +39,7 @@ else
   echo
   echo "  onebody scale web=2"
   echo "  systemctl start onebody"
+  echo "  (or 'service onebody start' on Ubuntu 14.04)"
   echo
   echo "Last, you'll need to set up a web server to proxy requests to OneBody."
   echo "Here's how to do it with nginx:"
@@ -54,6 +55,7 @@ else
   echo "  }"
   echo "  server {"
   echo "      listen 80;"
+  echo "      client_max_body_size 25m;"
   echo "      location / {"
   echo "          proxy_pass http://onebody;"
   echo "      }"

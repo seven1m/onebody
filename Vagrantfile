@@ -93,37 +93,19 @@ fi
 service apache2 reload
 SCRIPT
 
-Vagrant.configure(VAGRANTFILE_API_VERSION) do |global_config|
-  global_config.vm.define "web", primary: true do |config|
-    config.vm.box = "phusion/ubuntu-14.04-amd64"
-    config.vm.network "forwarded_port", guest: 80, host: 8080, auto_correct: true
-    config.ssh.forward_agent = true
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "phusion/ubuntu-14.04-amd64"
+  config.vm.network "forwarded_port", guest: 80, host: 8080, auto_correct: true
+  config.ssh.forward_agent = true
 
-    config.vm.provision :shell, inline: $setup
+  config.vm.provision :shell, inline: $setup
 
-    # apply local customizations
-    custom_file = File.expand_path("../Vagrantfile.local", __FILE__)
-    eval(File.read(custom_file)) if File.exists?(custom_file)
+  # apply local customizations
+  custom_file = File.expand_path("../Vagrantfile.local", __FILE__)
+  eval(File.read(custom_file)) if File.exists?(custom_file)
 
-    # ...for example, you can give your box more ram by adding this to your Vagrantfile.local:
-    #config.vm.provider :virtualbox do |vb|
-    #  vb.customize ["modifyvm", :id, "--memory", "2048"]
-    #end
-  end
-
-  global_config.vm.define "deb-debian" do |deb|
-    deb.vm.box = "debian/jessie64"
-    deb.vm.provider :virtualbox do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "1024"]
-    end
-    deb.vm.provision :shell, path: "build/deb_setup"
-  end
-
-  global_config.vm.define "deb-ubuntu" do |deb|
-    deb.vm.box = "ubuntu/trusty64"
-    deb.vm.provider :virtualbox do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "1024"]
-    end
-    deb.vm.provision :shell, path: "build/deb_setup"
-  end
+  # ...for example, you can give your box more ram by adding this to your Vagrantfile.local:
+  #config.vm.provider :virtualbox do |vb|
+  #  vb.customize ["modifyvm", :id, "--memory", "2048"]
+  #end
 end

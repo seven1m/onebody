@@ -6,6 +6,7 @@ license: AGPL
 dependencies:
   - mysql-server
   - libxml2
+  - imagemagick
 compile_cache_dir: /tmp/pkgr-cache
-after_install: build/script/deb-post-install
+after_install: build/deb/script/post-install
 store_cache: true
