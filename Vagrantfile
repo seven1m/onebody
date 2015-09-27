@@ -116,7 +116,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |global_config|
     deb.vm.provider :virtualbox do |vb|
       vb.customize ["modifyvm", :id, "--memory", "1024"]
     end
-    deb.vm.provision :shell, "build/deb_setup"
+    deb.vm.provision :shell, path: "build/deb_setup"
   end
 
   global_config.vm.define "deb-ubuntu" do |deb|
