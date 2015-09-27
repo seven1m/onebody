@@ -2,13 +2,22 @@
 
 set -e
 
+which systemctl &>/dev/null && upstart=false || upstart=true
+which sudo &>/dev/null && sudo=true || sudo=false
+
+function p_sudo() {
+  if [[ $sudo = true ]]; then
+    printf "sudo "
+  fi
+}
+
 onebody config | grep SERVE_ASSETS &>/dev/null || onebody config:set SERVE_ASSETS=true
 onebody config | grep PORT=6000    &>/dev/null && onebody config:set PORT=3000
 
 if [[ ! -e /etc/onebody/database.yml ]]; then
   echo "Building /etc/onebody/database.yml"
   echo -e "production:\n  adapter: mysql2\n  database: onebody\n  host: localhost\n  username: onebody\n  password: onebody\n  encoding: utf8" > /opt/onebody/config/database.yml
-  ln -sf /opt/onebody/config/database.yml /etc/onebody/database.yml 
+  ln -sf /opt/onebody/config/database.yml /etc/onebody/database.yml
   chown onebody:onebody /etc/onebody/database.yml
 fi
 
@@ -17,7 +26,7 @@ if [[ ! -e /etc/onebody/secrets.yml ]]; then
   cp /opt/onebody/config/secrets.yml{.example,}
   secret=$(onebody run rake secret)
   sed -i "s/SOMETHING_RANDOM_HERE/$secret/" /opt/onebody/config/secrets.yml
-  ln -sf /opt/onebody/config/secrets.yml /etc/onebody/secrets.yml 
+  ln -sf /opt/onebody/config/secrets.yml /etc/onebody/secrets.yml
   chown onebody:onebody /etc/onebody/secrets.yml
 fi
 
@@ -27,25 +36,32 @@ onebody run rake db:version &>/dev/null && exists=true || exists=false
 if [[ $exists == true ]]; then
   echo "Updating database"
   onebody run rake db:migrate
-  systemctl restart onebody
+  if [[ $upstart = true ]]; then
+    service onebody restart
+  else
+    systemctl restart onebody
+  fi
 else
   echo
   echo "To create the OneBody database, run the following commands manually:"
   echo
   echo "  mysql -u root -p -e \"grant all on onebody.* to onebody@localhost identified by 'onebody';\""
-  echo "  onebody run rake db:setup"
+  echo "  $(p_sudo)onebody run rake db:setup"
   echo
   echo "Next, create and start the OneBody web service with the following commands:"
   echo
-  echo "  onebody scale web=2"
-  echo "  systemctl start onebody"
-  echo "  (or 'service onebody start' on Ubuntu 14.04)"
+  echo "  $(p_sudo)onebody scale web=2"
+  if [[ $upstart = true ]]; then
+    echo "  $(p_sudo)service onebody start"
+  else
+    echo "  $(p_sudo)systemctl start onebody"
+  fi
   echo
   echo "Last, you'll need to set up a web server to proxy requests to OneBody."
   echo "Here's how to do it with nginx:"
   echo
-  echo "  apt-get install nginx"
-  echo "  nano /etc/nginx/sites-available/onebody"
+  echo "  $(p_sudo)apt-get install nginx"
+  echo "  $(p_sudo)nano /etc/nginx/sites-available/onebody"
   echo
   echo "Paste the following config and save the file:"
   echo
@@ -63,9 +79,9 @@ else
   echo
   echo "Finally, run the following to start the site in nginx:"
   echo
-  echo "  ln -s /etc/nginx/sites-{available,enabled}/onebody"
-  echo "  rm /etc/nginx/sites-enabled/default"
-  echo "  nginx -s reload"
+  echo "  $(p_sudo)ln -s /etc/nginx/sites-{available,enabled}/onebody"
+  echo "  $(p_sudo)rm /etc/nginx/sites-enabled/default"
+  echo "  $(p_sudo)nginx -s reload"
   echo
   echo "You're done! Your site should be available by visiting the IP address"
   echo "of this server!"
