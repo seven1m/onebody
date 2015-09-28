@@ -14,8 +14,12 @@ else
 fi
 
 function p_sudo() {
-  if [[ $sudo ]] && [[ $USER != "root" ]]; then
-    printf "sudo "
+  if [[ $sudo ]]; then
+    if [[ -n $SUDO_USER ]] && [[ $SUDO_USER != "root" ]]; then
+      printf "sudo "
+    elif [[ -z $SUDO_USER ]] && [[ $USER != "root" ]]; then
+      printf "sudo "
+    fi
   fi
 }
 
