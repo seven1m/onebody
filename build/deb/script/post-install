@@ -19,6 +19,14 @@ function p_sudo() {
   fi
 }
 
+function p_red() {
+  echo "$(tput setaf 1)$1$(tput sgr0)"
+}
+
+function p_bold() {
+  echo "$(tput bold)$1$(tput sgr0)"
+}
+
 function restart_or_create_service() {
   if [[ $service_exists ]]; then
     echo "Restarting service"
@@ -44,15 +52,15 @@ function create_service() {
     echo
     echo "The \"onebody\" service is running on port 3000."
     echo
-    echo "You'll need to set up a web server to proxy web requests to this port."
+    p_red "You'll need to set up a web server to proxy web requests to this port."
     echo "Here's how to do it with nginx (assuming you don't have other sites"
     echo "you serve from this same server):"
     echo
-    echo "  $(p_sudo)apt-get install nginx"
-    echo "  $(p_sudo)cp /opt/onebody/build/deb/vhost/nginx.conf /etc/nginx/sites-available/onebody"
-    echo "  $(p_sudo)ln -s /etc/nginx/sites-{available,enabled}/onebody"
-    echo "  $(p_sudo)rm /etc/nginx/sites-enabled/default"
-    echo "  $(p_sudo)nginx -s reload"
+    p_bold "  $(p_sudo)apt-get install nginx"
+    p_bold "  $(p_sudo)cp /opt/onebody/build/deb/vhost/nginx.conf /etc/nginx/sites-available/onebody"
+    p_bold "  $(p_sudo)ln -s /etc/nginx/sites-{available,enabled}/onebody"
+    p_bold "  $(p_sudo)rm /etc/nginx/sites-enabled/default"
+    p_bold "  $(p_sudo)nginx -s reload"
     echo
   fi
 }
@@ -84,10 +92,10 @@ if [[ $? -eq 0 ]]; then
   restart_or_create_service
 else
   echo
-  echo "To create the OneBody database, run the following commands manually:"
+  p_red "To create the OneBody database, run the following commands manually:"
   echo
-  echo "  mysql -u root -p -e \"grant all on onebody.* to onebody@localhost identified by 'onebody';\""
-  echo "  $(p_sudo)onebody run rake db:setup"
+  p_bold "  mysql -u root -p -e \"grant all on onebody.* to onebody@localhost identified by 'onebody';\""
+  p_bold "  $(p_sudo)onebody run rake db:setup"
   echo
   restart_or_create_service
 fi
