@@ -60,7 +60,7 @@ function create_service() {
     echo "Here's how to do it with nginx (assuming you don't have other sites"
     echo "you serve from this same server):"
     echo
-    p_bold "  $(p_sudo)apt-get install nginx"
+    p_bold "  $(p_sudo)apt-get install -y nginx"
     p_bold "  $(p_sudo)cp /opt/onebody/build/deb/vhost/nginx.conf /etc/nginx/sites-available/onebody"
     p_bold "  $(p_sudo)ln -s /etc/nginx/sites-{available,enabled}/onebody"
     p_bold "  $(p_sudo)rm /etc/nginx/sites-enabled/default"
@@ -99,6 +99,7 @@ else
   p_red "To create the OneBody database, run the following commands manually:"
   echo
   p_bold "  mysql -u root -p -e \"grant all on onebody.* to onebody@localhost identified by 'onebody';\""
+  echo   "  (enter your password or press enter for none)"
   p_bold "  $(p_sudo)onebody run rake db:setup"
   echo
   restart_or_create_service
