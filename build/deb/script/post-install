@@ -1,13 +1,59 @@
 #!/bin/bash
 
-set -e
+which systemctl &>/dev/null
+[[ $? -eq 0 ]] && systemd=1
+which sudo &>/dev/null
+[[ $? -eq 0 ]] && sudo=1
 
-which systemctl &>/dev/null && upstart=false || upstart=true
-which sudo &>/dev/null && sudo=true || sudo=false
+if [[ $systemd ]]; then
+  systemctl list-units | grep onebody.service &>/dev/null
+  [[ $? -eq 0 ]] && service_exists=1
+else
+  service onebody status | grep "unrecognized service" &>/dev/null
+  [[ $? -ne 0 ]] && service_exists=1
+fi
 
 function p_sudo() {
-  if [[ $sudo = true ]]; then
+  if [[ $sudo ]] && [[ $USER != "root" ]]; then
     printf "sudo "
+  fi
+}
+
+function restart_or_create_service() {
+  if [[ $service_exists ]]; then
+    echo "Restarting service"
+    if [[ $systemd ]]; then
+      service onebody restart
+    else
+      systemctl restart onebody
+    fi
+  else
+    create_service
+  fi
+}
+
+function create_service() {
+  if [[ ! $service_exists ]]; then
+    echo "Creating and starting service"
+    onebody scale web=1
+    if [[ $systemd ]]; then
+      systemctl start onebody
+    else
+      service onebody start
+    fi
+    echo
+    echo "The \"onebody\" service is running on port 3000."
+    echo
+    echo "You'll need to set up a web server to proxy web requests to this port."
+    echo "Here's how to do it with nginx (assuming you don't have other sites"
+    echo "you serve from this same server):"
+    echo
+    echo "  $(p_sudo)apt-get install nginx"
+    echo "  $(p_sudo)cp /opt/onebody/build/deb/vhost/nginx.conf /etc/nginx/sites-available/onebody"
+    echo "  $(p_sudo)ln -s /etc/nginx/sites-{available,enabled}/onebody"
+    echo "  $(p_sudo)rm /etc/nginx/sites-enabled/default"
+    echo "  $(p_sudo)nginx -s reload"
+    echo
   fi
 }
 
@@ -30,17 +76,12 @@ if [[ ! -e /etc/onebody/secrets.yml ]]; then
   chown onebody:onebody /etc/onebody/secrets.yml
 fi
 
-echo "Checking database state"
-
-onebody run rake db:version &>/dev/null && exists=true || exists=false
-if [[ $exists == true ]]; then
+echo "Checking for database"
+onebody run rake db:version &>/dev/null
+if [[ $? -eq 0 ]]; then
   echo "Updating database"
   onebody run rake db:migrate
-  if [[ $upstart = true ]]; then
-    service onebody restart
-  else
-    systemctl restart onebody
-  fi
+  restart_or_create_service
 else
   echo
   echo "To create the OneBody database, run the following commands manually:"
@@ -48,42 +89,6 @@ else
   echo "  mysql -u root -p -e \"grant all on onebody.* to onebody@localhost identified by 'onebody';\""
   echo "  $(p_sudo)onebody run rake db:setup"
   echo
-  echo "Next, create and start the OneBody web service with the following commands:"
-  echo
-  echo "  $(p_sudo)onebody scale web=2"
-  if [[ $upstart = true ]]; then
-    echo "  $(p_sudo)service onebody start"
-  else
-    echo "  $(p_sudo)systemctl start onebody"
-  fi
-  echo
-  echo "Last, you'll need to set up a web server to proxy requests to OneBody."
-  echo "Here's how to do it with nginx:"
-  echo
-  echo "  $(p_sudo)apt-get install nginx"
-  echo "  $(p_sudo)nano /etc/nginx/sites-available/onebody"
-  echo
-  echo "Paste the following config and save the file:"
-  echo
-  echo "  upstream onebody {"
-  echo "      server 127.0.0.1:3000;"
-  echo "      server 127.0.0.1:3001;"
-  echo "  }"
-  echo "  server {"
-  echo "      listen 80;"
-  echo "      client_max_body_size 25m;"
-  echo "      location / {"
-  echo "          proxy_pass http://onebody;"
-  echo "      }"
-  echo "  }"
-  echo
-  echo "Finally, run the following to start the site in nginx:"
-  echo
-  echo "  $(p_sudo)ln -s /etc/nginx/sites-{available,enabled}/onebody"
-  echo "  $(p_sudo)rm /etc/nginx/sites-enabled/default"
-  echo "  $(p_sudo)nginx -s reload"
-  echo
-  echo "You're done! Your site should be available by visiting the IP address"
-  echo "of this server!"
-  echo
+  restart_or_create_service
 fi
+
