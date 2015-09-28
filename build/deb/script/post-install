@@ -9,7 +9,7 @@ if [[ $systemd ]]; then
   systemctl list-units | grep onebody.service &>/dev/null
   [[ $? -eq 0 ]] && service_exists=1
 else
-  service onebody status | grep "unrecognized service" &>/dev/null
+  service onebody status 2>&1 | grep "unrecognized service" &>/dev/null
   [[ $? -ne 0 ]] && service_exists=1
 fi
 
@@ -23,9 +23,9 @@ function restart_or_create_service() {
   if [[ $service_exists ]]; then
     echo "Restarting service"
     if [[ $systemd ]]; then
-      service onebody restart
-    else
       systemctl restart onebody
+    else
+      service onebody restart
     fi
   else
     create_service
