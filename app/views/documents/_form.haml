@@ -1,18 +1,62 @@
-= form_for @document, multipart: true, id: 'new-document-form' do |form|
-  = error_messages_for(form)
-  = form.hidden_field :folder_id
-  - if parent_document_folder_options.any?
+- if params[:multiple_documents]
+  = form_for @document, multipart: true, id: 'new-document-form' do |form|
+    = error_messages_for(form)
+    = form.hidden_field :folder_id
+    - if @successes
+      %div{:class => 'callout callout-success'}
+        %p
+          = t('documents.multiple_create.notice') + ": " + @successes.join(", ")
+    - if @errors
+      %div{:class => 'callout callout-danger'}
+        %p
+          = t('documents.create.failure')
+        %ul
+          - @errors.each do |error|
+            %li
+              = error[:filename] + ' - ' + error[:errors].map{|k,v| "#{v}"}.join(",\n")
+    %table{:class => 'table', :id => 'document_table'}
+      %tr
+        %th
+          = :file
+        %th
+          = :name
+        %th
+          = :description
+      %tr
+        %td
+          .form-group
+            = form.label t('documents.index.no_file')
+        %td
+          .form-group
+            = form.text_field :name, class: 'form-control'
+        %td
+          .form-group
+            = form.text_field :description, class: 'form-control'
     .form-group
-      = form.label :folder_id
-      = form.select :folder_id, parent_document_folder_options, { include_blank: true }, class: 'form-control'
-  .form-group
-    = form.label :name
-    = form.text_field :name, class: 'form-control'
-  .form-group
-    = form.label :description
-    = form.text_area :description, class: 'form-control'
-  .form-group
-    = form.label :file
-    = form.file_field :file
-  .form-group
-    = form.button t('save'), class: 'btn btn-success'
+      = form.label :files
+      = form.file_field :file, multiple: true
+    - if parent_document_folder_options.any?
+      .form-group
+        = form.label :folder_id
+        = form.select :folder_id, parent_document_folder_options, { include_blank: true }, class: 'form-control'
+    .form-group
+      = form.button t('save'), class: 'btn btn-success'
+- else
+  = form_for @document, multipart: true, id: 'new-document-form' do |form|
+    = error_messages_for(form)
+    = form.hidden_field :folder_id
+    - if parent_document_folder_options.any?
+      .form-group
+        = form.label :folder_id
+        = form.select :folder_id, parent_document_folder_options, { include_blank: true }, class: 'form-control'
+    .form-group
+      = form.label :name
+      = form.text_field :name, class: 'form-control'
+    .form-group
+      = form.label :description
+      = form.text_area :description, class: 'form-control'
+    .form-group
+      = form.label :file
+      = form.file_field :file
+    .form-group
+      = form.button t('save'), class: 'btn btn-success'

@@ -18,6 +18,22 @@ $('#document-visibility input[type="checkbox"]').click (e) ->
   location.href = '?' + args
 
 $('#document_file').change (e) ->
-  return if $('#document_name').val() != ''
-  name = e.target.value.replace(/_/g, ' ').replace(/\.\w{3,4}$/, '')
-  $('#document_name').val(name)
+  if ( e.target.files.length == 0 )
+    $('#document_table > tbody > tr:not(:first-child)').empty()
+    $('#document_table > tbody:last-child').append( documentUploadTemplate.clone() )
+    return
+  if $('#document_table').length
+    $('#document_table > tbody > tr:not(:first-child)').empty()
+    id_count = 0
+    for file in e.target.files
+      row = $(documentUploadTemplate).clone()
+      row.find('td > .form-group > label').first().html( file.name )
+      row.find('td:nth-child(2) > .form-group > input').first().attr({ name: "document[name][]", id: "document_name#{id_count}" }).val( file.name )
+      row.find('td:nth-child(3) > .form-group > input').first().attr({ name: "document[description][]", id: "document_description#{id_count}" })
+      $('#document_table > tbody:last-child').append( row )
+      id_count++
+  else
+    name = e.target.files[0].name
+    $('#document_name').val(name)
+
+window.documentUploadTemplate = $( $('#document_table > tbody > tr')[1] ).clone()

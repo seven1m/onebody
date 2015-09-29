@@ -79,6 +79,7 @@ en:
         name: "Name"
         description: "Description"
         file: "File"
+        files: "Files"
         folder_id: "Folder"
       document_folder:
         name: "Name"
