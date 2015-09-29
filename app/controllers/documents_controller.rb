@@ -34,15 +34,8 @@ class DocumentsController < ApplicationController
   def create
     if params[:folder]
       create_folder
-    elsif params[:document][:file].is_a?(Array)
-      create_multiple_documents
     else
-      @document = Document.new(document_params)
-      if @document.save
-        redirect_to document_path(@document), notice: t('documents.create.notice')
-      else
-        render action: 'new'
-      end
+      create_documents
     end
   end
 
@@ -107,7 +100,7 @@ class DocumentsController < ApplicationController
     end
   end
 
-  def create_multiple_documents
+  def create_documents
     @successes = []
     @errors = []
     params[:document][:file].each_with_index do |file, index|
@@ -117,21 +110,18 @@ class DocumentsController < ApplicationController
         folder_id: params[:document][:folder_id],
         file: file
       )
-      if !@document.save
-        @errors << {
-          filename: params[:document][:name][index],
-          errors: @document.errors.messages
-        }
-        params[:multiple_documents] = true
-        @document = Document.new
-        render action: 'new'
+      if @document.save
+        @successes << @document.name
       else
-        @successes.concat([params[:document][:name][index]])
+        @errors << @document.name
       end
     end
-    return if @errors.any?
-    redirect_to documents_path(folder_id: params[:document][:folder_id] || 0),
-                notice: t('documents.multiple_create.notice')
+    if @errors.any?
+      flash[:error] = t('documents.create.failure', count: @errors.size, filenames: @errors.join(', '))
+    else
+      flash[:notice] = t('documents.create.notice', count: @successes.size)
+    end
+    redirect_to documents_path(folder_id: params[:document][:folder_id])
   end
 
   def find_parent_folder

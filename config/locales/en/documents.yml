@@ -19,8 +19,6 @@ en:
         button: "New folder"
       new_document:
         button: "New document"
-      multiple_documents:
-        button: "Upload multiple documents"
       hidden_folders:
         label:
           one: "1 hidden folder"
@@ -44,21 +42,21 @@ en:
       delete:
         button: "Delete"
 
-    new_multiple:
-      heading: "New Documents"
-
     new:
       heading: "New Document"
+      select:
+        button: "Select File(s)"
 
     new_folder:
       heading: "New Folder"
 
     create:
-      notice: "Your document has been created."
-      failure: "One or more documents did not upload."
-
-    multiple_create:
-      notice: "Your documents have been created."
+      notice:
+        one: "Your document has been created."
+        other: "Your documents have been created."
+      failure:
+        one: "Your document could not be saved: %{filenames}"
+        other: "Your documents could not be saved: %{filenames}"
 
     create_folder:
       notice: "Your folder has been created."

@@ -22,18 +22,21 @@ $('#document_file').change (e) ->
     $('#document_table > tbody > tr:not(:first-child)').empty()
     $('#document_table > tbody:last-child').append( documentUploadTemplate.clone() )
     return
-  if $('#document_table').length
-    $('#document_table > tbody > tr:not(:first-child)').empty()
-    id_count = 0
-    for file in e.target.files
-      row = $(documentUploadTemplate).clone()
-      row.find('td > .form-group > label').first().html( file.name )
-      row.find('td:nth-child(2) > .form-group > input').first().attr({ name: "document[name][]", id: "document_name#{id_count}" }).val( file.name )
-      row.find('td:nth-child(3) > .form-group > input').first().attr({ name: "document[description][]", id: "document_description#{id_count}" })
-      $('#document_table > tbody:last-child').append( row )
-      id_count++
-  else
-    name = e.target.files[0].name
-    $('#document_name').val(name)
+  $('#document_table').show()
+  $('#select-files-button').hide()
+  $('#document-form-submit-button').show()
+  $('#document_table > tbody > tr:not(:first-child)').empty()
+  id_count = 0
+  for file in e.target.files
+    name = file.name.replace(/_/g, ' ').replace(/\.\w{3,4}$/, '')
+    row = $(documentUploadTemplate).clone()
+    row.find('td > .form-group > label').first().html( file.name )
+    row.find('td:nth-child(2) > .form-group > input').first().attr({ name: "document[name][]", id: "document_name#{id_count}" }).val( name )
+    row.find('td:nth-child(3) > .form-group > input').first().attr({ name: "document[description][]", id: "document_description#{id_count}" })
+    $('#document_table > tbody:last-child').append( row )
+    id_count++
 
 window.documentUploadTemplate = $( $('#document_table > tbody > tr')[1] ).clone()
+
+$('#document_file').hide()
+$('#select-files-button').click -> $('#document_file').click()
