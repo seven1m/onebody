@@ -1,10 +1,9 @@
 %ul.nav.navbar-nav
-  %li.dropdown.tasks-menu
-    %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
-      %i.fa.fa-user
-      %span
-        = @logged_in.name
-        %i.caret
+  %li.dropdown.user.user-menu
+    = link_to @logged_in, :class => 'dropdown-toggle padding', 'data-toggle' => "dropdown" do
+      = avatar_tag @logged_in, class: 'user-image'
+      = @logged_in.name
+      %i.caret
     %ul.dropdown-menu
       %li.header
         = @logged_in.email

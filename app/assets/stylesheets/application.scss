@@ -1,8 +1,8 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "font-awesome";
-@import "admin_lte";
 @import "admin_lte_skins";
+@import "admin_lte";
 @import "leaflet";
 @import "MarkerCluster.Default";
 @import "MarkerCluster";
@@ -118,4 +118,8 @@ body.bg-black > .footer {
 
 .with-title {
   cursor: pointer;
+}
+
+.dropdown-toggle.padding {
+  padding-right: 25px;
 }

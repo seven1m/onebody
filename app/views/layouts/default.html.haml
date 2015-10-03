@@ -27,25 +27,22 @@
           event_queue.push(e);
         }
       }, false);
-  %body.skin-blue-light{ data: { 'datepicker-format' => datepicker_format } }
+  %body.skin-blue{ data: { 'datepicker-format' => datepicker_format } }
     / header logo: style can be found in header.less
-    %header.header
+    %header.main-header
       = link_to setting(:name, :site), root_path, class: 'logo'
       / Header Navbar: style can be found in header.less
       %nav.navbar.navbar-static-top{ role: "navigation" }
         / Sidebar toggle button
-        %a.navbar-btn.sidebar-toggle{ 'data-toggle' => 'offcanvas', href: '#', role: 'button' }
+        %a.sidebar-toggle{ 'data-toggle' => 'offcanvas', href: '#', role: 'button' }
           %span.sr-only Toggle navigation
-          %span.icon-bar
-          %span.icon-bar
-          %span.icon-bar
         .navbar-right
           = render 'layouts/navbar_right'
         %h3.site-name
           = link_to setting(:name, :community), root_path
     .wrapper.row-offcanvas.row-offcanvas-left
       / Left side column. contains the logo and sidebar
-      %aside.left-side.sidebar-offcanvas
+      %aside.main-sidebar
         / sidebar: style can be found in sidebar.less
         %section.sidebar
           / Sidebar user panel
