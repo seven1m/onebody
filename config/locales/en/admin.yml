@@ -503,6 +503,7 @@ en:
       reload_message: If you have made modifications to the system from the command line, you may need to reload all settings to see the changes take effect.
       save: Save Settings
       services_heading: External Services
+      styles_heading: "Styles"
       settings: Settings
       sharing_about: OneBody is best when members participate by adding their own content. Enable content sharing with these settings.
       sharing_communications_about: Share information with your members easily.

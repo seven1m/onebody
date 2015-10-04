@@ -449,4 +449,5 @@ en:
   footer:
     help: "Help using this site"
     privacy_policy: "Privacy Policy"
-    powered_by: "Powered by CHURCH.IO OneBody"
+    powered_by: "Powered by"
+    churchio_onebody: "CHURCH.IO OneBody"

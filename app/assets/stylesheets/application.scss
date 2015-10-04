@@ -76,19 +76,6 @@ th.actions, td.actions {
   }
 }
 
-body > .footer {
-  height: 30px;
-  text-align: center;
-  background-color: #eee;
-  color: #555;
-  padding: 5px 15px;
-}
-
-body.bg-black > .footer {
-  background-color: #333;
-  color: #999;
-}
-
 .footer-links {
   list-style: none;
   margin: 0;
@@ -122,4 +109,55 @@ body.bg-black > .footer {
 
 .dropdown-toggle.padding {
   padding-right: 25px;
+}
+
+.style-blue {
+  background-color: #367fa9;
+}
+
+.style-yellow {
+  background-color: #e08e0b;
+}
+
+.style-green {
+  background-color: #00a65a;
+}
+
+.style-purple {
+  background-color: #605ca8;
+}
+
+.style-red {
+  background-color: #dd4b39;
+}
+
+.style-black {
+  background-color: #111;
+}
+
+.style-dark {
+  background-color: #444;
+}
+
+.style-light {
+  background-color: #aaa;
+}
+
+#site-colors > label.active, #site-shades > label.active {
+  width: 50px;
+  height: 50px;
+}
+
+#site-colors > label:hover, #site-shades > label:hover {
+  height: 50px;
+  transition: height 2s;
+}
+
+.btn span.fa {    			
+  opacity: 0;				
+  color: white;
+}
+
+.btn.active span.fa {				
+ opacity: 1;				
 }
