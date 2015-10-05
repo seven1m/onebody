@@ -1,20 +1,26 @@
 - @title = t('session.form.header')
 - @hide_title = true
-- @body_class = 'bg-black centered-header'
+- @body_class = 'hold-transition login-page bg-black centered-header'
 - @section_class = 'content-centered'
 
-#login-box.form-box
-  = flash_messages
-  .header= t('session.form.header')
+#login-box.login-box
+  .login-logo
+    = setting(:name, :site)
 
   = form_tag session_path do
     = hidden_field_tag :from, params[:from]
     = hidden_field_tag :for, params[:for]
-    .body.bg-gray
-      .form-group
+    .login-box-body.bg-gray
+      .login-box-msg
+        = flash_messages
+        %h3
+          = t('session.form.header')
+      .form-group.has-feedback
         = text_field_tag :email, params[:email], placeholder: t('session.form.placeholder.email'), class: 'form-control', autofocus: !@focus_password
-      .form-group
+        %span{:class => 'form-control-feedback fa fa-envelope'}
+      .form-group.has-feedback
         = password_field_tag :password, '', placeholder: t('session.form.placeholder.password'), class: 'form-control', autofocus: @focus_password
+        %span{:class => 'form-control-feedback fa fa-lock'}
       .form-group
         = check_box_tag :remember_me, true, params[:remember_me]
         = label_tag :remember_me, t('session.form.remember_me')
@@ -28,10 +34,9 @@
             %a.btn.btn-social-icon.btn-facebook{href: "/auth/facebook"}
               %i.fa.fa-facebook
 
-    .footer
-      %button.btn.bg-olive.btn-block{type: 'submit'}
-        = icon 'fa fa-sign-in'
-        = t('session.sign_in_button')
-      %p
-        = link_to t('session.sign_up_button'), new_account_path, class: 'btn btn-info'
-        = link_to t('session.forgot_password_button'), new_account_path(forgot: true), class: 'btn btn-warning pull-right'
+      .main-footer.text-center.no-margin-left
+        %button.btn.bg-olive.btn-block{type: 'submit'}
+          = icon 'fa fa-sign-in'
+          = t('session.sign_in_button')
+        = link_to t('session.sign_up_button'), new_account_path, class: 'btn btn-info btn-block'
+        = link_to t('session.forgot_password_button'), new_account_path(forgot: true), class: 'btn btn-warning btn-block'

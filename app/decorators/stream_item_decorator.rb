@@ -67,7 +67,10 @@ class StreamItemDecorator < Draper::Decorator
   def header
     h.content_tag(:h3, class: 'timeline-header') do
       if person
-        who = h.link_to(person.name, person)
+	who = h.content_tag(:div, class: 'user-header') do      
+          h.concat(h.image_tag(avatar_path(person), {class: 'avatar tn img-circle'}).html_safe)
+          h.concat(h.link_to(person.name, person))
+	end
       else
         who = I18n.t('stream.header.noone')
       end
@@ -185,5 +188,27 @@ class StreamItemDecorator < Draper::Decorator
 
   def new_badge
     h.content_tag(:small, h.t('new'), class: 'badge bg-green')
+  end
+
+  def avatar_path(person, size=:tn, variation=nil)
+    if person.is_a?(Family)
+      family_avatar_path(person, size)
+    elsif person.is_a?(Group)
+      group_avatar_path(person, size)
+    elsif person.is_a?(Album)
+      album_avatar_path(person, size)
+    else
+      if person.try(:photo).try(:exists?)
+        person.photo.url(size)
+      else
+        size = :large unless size == :tn # we only have only two sizes
+        img = person.try(:gender) == 'Female' ? 'woman' : 'man'
+        if variation == :dark
+          image_path("#{img}.dark.#{size}.png")
+        else
+          image_path("#{img}.#{size}.jpg")
+        end
+      end
+    end
   end
 end

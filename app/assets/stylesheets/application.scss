@@ -95,6 +95,10 @@ th.actions, td.actions {
   }
 }
 
+.main-footer.no-margin-left {
+  margin-left: 0;
+}
+
 .text-pink {
   color: #ff82ab;
 }
@@ -160,4 +164,13 @@ th.actions, td.actions {
 
 .btn.active span.fa {				
  opacity: 1;				
+}
+
+.user-header {
+  display: inline-block;
+  font-weight: 600;
+}
+
+.user-header > * {
+  padding: 5px;
 }
