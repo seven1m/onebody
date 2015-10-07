@@ -49,7 +49,7 @@ module Concerns
 
         alpha = nil
 
-        families = Family.undeleted.has_printable_people.includes(:people) \
+        families = Family.has_printable_people.includes(:people) \
           .order('families.last_name, families.name, people.position').references(:people)
         families.each do |family|
           if family.mapable? or family.home_phone.to_i > 0
@@ -92,7 +92,7 @@ module Concerns
               pdf.text family.city + ', ' + family.state + '  ' + family.zip.to_s + "\n"
             end
             pdf.text ApplicationHelper.format_phone(family.home_phone), font_size: 14 if family.home_phone.to_i > 0
-            family.people.undeleted.each do |person|
+            family.people.where(deleted: false).each do |person|
               name = person.last_name == family.last_name ? person.first_name : person.name
               pdf.text "\n", font_size: 11
               pdf.add_text_wrap pdf.absolute_left_margin, pdf.y, 400, name, 11
