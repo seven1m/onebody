@@ -10,7 +10,7 @@
     = section_tab(t('admin.settings.membership_management_heading'), :membership_management)
     = section_tab(t('admin.settings.locale_heading'), :locale)
     = section_tab(t('admin.settings.formats_heading'), :formats)
-    = section_tab(t('admin.settings.styles_heading'), :styles)
+    = section_tab(t('admin.settings.theme_heading'), :theme)
     = section_tab(t('admin.settings.privacy_heading'), :privacy)
     = section_tab(t('admin.settings.services_heading'), :services)
 
@@ -82,9 +82,9 @@
       .form-group
         .col-sm-offset-2.col-sm-10
           = button_tag t('save_changes'), class: 'btn btn-success'
-    .tab-pane#styles
-      = setting_row('Appearance', 'Skin Style', options: [['Blue','skin-blue'],['Blue On Light','skin-blue-light'],['Yellow','skin-yellow'],['Yellow On Light','skin-yellow-light'],['Green','skin-green'],['Green On Light','skin-green-light'],['Purple','skin-purple'],['Purple on Light','skin-purple-light'],['Red','skin-red'],['Red On Light','skin-red-light'],['Black','skin-black'],['Black On Light','skin-black-light']])
-      %div.btn-group.col-sm-10{ :id => 'site-colors', 'data-toggle' => 'buttons'}
+    .tab-pane#theme
+      = setting_row('Appearance', 'Theme', options: t('admin.settings.Appearance.Theme.options').invert)
+      %div.btn-group.col-sm-4.col-sm-offset-2{ :id => 'site-colors', 'data-toggle' => 'buttons'}
         %label{ :class => 'btn style-blue'}
           %input{ :type => 'radio', :name => 'site_color', :autocomplete => 'off', :value => 'skin-blue'}
           %span{ :class => 'fa fa-check'}
@@ -110,7 +110,9 @@
         %label{ :class => 'btn style-dark'}
           %input{ :type => 'radio', :name => 'site_shade', :autocomplete => 'off', :value => 'dark'}
           %span{ :class => 'fa fa-check'}
-
+      .form-group
+        .col-sm-offset-2.col-sm-10
+          = button_tag t('save_changes'), class: 'btn btn-success'
     .tab-pane#formats
       .callout.callout-info= t('admin.settings.formats_date_about_html')
       = setting_row('Formats', 'Full Date and Time')
