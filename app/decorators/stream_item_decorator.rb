@@ -204,9 +204,9 @@ class StreamItemDecorator < Draper::Decorator
         size = :large unless size == :tn # we only have only two sizes
         img = person.try(:gender) == 'Female' ? 'woman' : 'man'
         if variation == :dark
-          image_path("#{img}.dark.#{size}.png")
+          h.image_path("#{img}.dark.#{size}.png")
         else
-          image_path("#{img}.#{size}.jpg")
+          h.image_path("#{img}.#{size}.jpg")
         end
       end
     end
