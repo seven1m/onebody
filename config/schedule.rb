@@ -10,7 +10,7 @@ set :environment, 'production'
 set :job_template, "bash -l -c ':job'"
 
 if File.exist?("#{Dir.pwd}/config/email.yml")
-  if settings = YAML::load_file("#{Dir.pwd}/config/email.yml")[@environment]['pop']
+  if (settings = YAML::load_file("#{Dir.pwd}/config/email.yml")[@environment]) && settings['pop']
     every 1.minute do
       command "#{Dir.pwd}/script/inbox -e #{@environment} \"#{settings['host']}\" \"#{settings['username']}\" \"#{settings['password']}\""
     end
