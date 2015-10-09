@@ -29,7 +29,7 @@ $('#site-colors > label').click (e) ->
   $(document.body).removeClass (index,css) ->
     return (css.match(/\bskin-\S+/g) || []).join(' ')
   $(document.body).addClass(skin)
-  $('div#theme select#77').first().val(skin)
+  $('div#theme select').first().val(skin)
   $('#site-shades > label').removeClass('active').filter('.style-dark').addClass('active')
 
 $('#site-shades > label').hover ((e) ->
