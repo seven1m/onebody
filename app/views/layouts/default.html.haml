@@ -36,7 +36,7 @@
         / Sidebar toggle button
         %a.sidebar-toggle{ 'data-toggle' => 'offcanvas', href: '#', role: 'button' }
           %span.sr-only Toggle navigation
-        .navbar-right
+        .navbar-custom-menu
           = render 'layouts/navbar_right'
         %h3.site-name
           = link_to setting(:name, :community), root_path
@@ -177,6 +177,9 @@
         %section.content
           = flash_messages
           = yield
+    %aside.control-sidebar.control-sidebar-light
+      = render partial: 'layouts/sidebar_right'
+    %div.control-sidebar-bg
     %footer.main-footer
       = render partial: 'layouts/footer_links'
     = javascript_include_tag 'application'
