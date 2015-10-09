@@ -1,10 +1,6 @@
 # Include settings for your email server/mailbox below (you probably only need to edit the "production" settings).
 # Settings here are used to generate your crontab configuration when running the "whenever" command.
 ---
-development:
-
-test:
-
 production:
   pop:
     host: localhost
