@@ -83,7 +83,7 @@ module PeopleHelper
       album_avatar_tag(person, options)
     else
       options.reverse_merge!(size: :tn, alt: person.try(:name))
-      options.reverse_merge!(class: "avatar #{options[:size]} #{options[:class]} img-circle")
+      options.reverse_merge!(class: "avatar #{options[:size]} #{options[:class]}")
       options.reverse_merge!(data: { id: "person#{person.id}", size: options[:size] })
       fallback_to_family = options.delete(:fallback_to_family)
       if not person.try(:photo).try(:exists?) and fallback_to_family and person.try(:family).try(:photo).try(:exists?)

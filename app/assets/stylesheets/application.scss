@@ -175,8 +175,16 @@ th.actions, td.actions {
   padding: 5px;
 }
 
-img.fit-width {
+img, img.fit-width {
   width: 100%;	
+}
+
+.control-sidebar > .tab-content > .header h2 {
+  color: #656565;
+}
+
+.control-sidebar > .tab-content > .header h4 {
+  color: #aaa;
 }
 
 .control-sidebar-bg {
