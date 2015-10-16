@@ -7,13 +7,13 @@ CKEDITOR.editorConfig = function(config) {
     { name: 'document', items: ['Preview', '-', 'Print', '-', 'Templates'] }, 
     { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'] }, 
     { name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'SpellChecker', 'Scayt'] }, 
-    { name: 'tools', items: ['Maximize', 'ShowBlocks', '-', 'About'] }, 
-    { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike'] }, 
+    { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },      
     { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl'] }, 
     { name: 'links', items: ['Link', 'Unlink'] },
-    { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] }, 
+    { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike'] }, 
     { name: 'colors', items: ['TextColor', 'BGColor'] }, 
-    { name: 'insert', items: ['Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak'] }
+    { name: 'insert', items: ['Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak'] },
+	{ name: 'tools', items: ['Maximize', 'ShowBlocks', '-', 'About'] }
   ];
   config.toolbar = 'Menu';
   return true;
