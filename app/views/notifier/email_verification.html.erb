@@ -6,7 +6,9 @@
   <p style="margin-top:15px;padding-top:15px;font-size:12px; font-family:courier new,courier,monospace;">
 <%=raw t('notifier.email_verification.intro', site: Setting.get(:name, :site)) %><br/><br/>
 <%=raw t('notifier.email_verification.instruction') %><br/><br/>
-<%=raw "#{Setting.get(:url, :site)}account/verify_code?id=#{@verification.id}&code=#{@verification.code}" %>
+<%= link_to "#{Setting.get(:url, :site)account/verify_code?id=#{@verification.id}&code=#{@verification.code}", "#{Setting.get(:url, :site)}account/verify_code?id=#{@verification.id}&code=#{@verification.code}" %>
+  </p>
+  <p style="border-top:1px solid #ccc;margin-top:15px;padding-top:15px;font-size:12px; font-family:courier new,courier,monospace;">
 <%=raw t('notifier.email_verification.footer',
          name: Setting.get(:name, :community),
          phone: Setting.get(:contact, :community_office_phone)).gsub(/\n/, "<br/>\n") %>

@@ -15,7 +15,7 @@
   <p style="border-top:1px solid #ccc;margin-top:15px;padding-top:15px;font-size:12px; font-family:courier new,courier,monospace;">
 <%=raw t('notifier.pending_sign_up.instruction_first') %>
     </br>
-<%=raw Setting.get(:url, :site) %>people/<%= @person.id %>/edit#tab-visibility
+<%= link_to "#{Setting.get(:url, :site)}people/#{@person.id}/edit#tab-visibility", "#{Setting.get(:url, :site)}people/#{@person.id}/edit#tab-visibility" %>
     </br>
 <%=raw t('notifier.pending_sign_up.instruction_last') %>
   </p>

@@ -7,7 +7,7 @@
 <%=raw t('notifier.photo_update.intro', person: @person.name) %>
   </p>
   <p style="border-top:1px solid #ccc;margin-top:15px;padding-top:15px;font-size:12px; font-family:courier new,courier,monospace;">
-<a href ="<%=raw Setting.get(:url, :site) %>people/<%= @person.id %>/edit"><%=raw Setting.get(:url, :site) %>people/<%= @person.id %>/edit</a>
+<%= link_to "#{Setting.get(:url, :site)}people/#{@person.id}/edit", "#{Setting.get(:url, :site)}people/#{@person.id}/edit" %>
   </p>
   </body>
 </html>
