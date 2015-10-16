@@ -3,19 +3,21 @@
   <head>
   </head>
   <body>
-    <p style="border-top:1px solid #ccc;margin-top:15px;padding-top:15px;">
+    <p style="border-top:1px solid #ccc;margin-top:15px;padding-top:15px;font-size:12px; font-family:courier new,courier,monospace;">
 <%- if @person -%>
-<%=raw t('attendance.email.intro_with_submitter', person: @person.name, group: @group.name) %></p>
+<%=raw t('attendance.email.intro_with_submitter', person: @person.name, group: @group.name) %>
+	</p>
 <%- else -%>
-<%=raw t('attendance.email.intro_anonymous', group: @group.name) %></p>
+<%=raw t('attendance.email.intro_anonymous', group: @group.name) %>
+	</p>
 <%- end -%>
-	<p style="border-top:1px solid #ccc;margin-top:15px;padding-top:15px;">
+    <p style="border-top:1px solid #ccc;margin-top:15px;padding-top:15px;font-size:12px; font-family:courier new,courier,monospace;">
 <%- for ar in @attendance_records -%>
 - <%=raw "#{ar.first_name} #{ar.last_name}".ljust(30) %><br/>
 <%- end -%>
-</p>
+    </p>
 <%- if @notes.present? -%>
-	<p style="border-top:1px solid #ccc;margin-top:15px;padding-top:15px;">
+    <p style="border-top:1px solid #ccc;margin-top:15px;padding-top:15px;font-size:12px; font-family:courier new,courier,monospace;">
 <%=raw t('attendance.email.notes') %>
 		<p>
 <%=raw @notes %>

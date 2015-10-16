@@ -4,10 +4,15 @@
   </head>
   <body>
   <p style="margin-top:15px;padding-top:15px;font-size:12px; font-family:courier new,courier,monospace;">
-<%=raw t('notifier.email_update.intro', person: @person.name) %>
+<%=raw t('notifier.membership_request.intro',
+         person: @person.name,
+         group: @group.name) %>
   </p>
   <p style="border-top:1px solid #ccc;margin-top:15px;padding-top:15px;font-size:12px; font-family:courier new,courier,monospace;">
-<a href ="mailto:<%=raw @person.email %>"><%=raw @person.email %></a>
+<%=raw t('notifier.membership_request.instruction') %>
+  </p>
+  <p>
+<%=raw "#{Setting.get(:url, :site)}groups/#{@group.id}/memberships" %>
   </p>
   </body>
 </html>
