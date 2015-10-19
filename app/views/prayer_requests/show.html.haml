@@ -2,13 +2,13 @@
 
 %p= t('prayer_requests.by', person: link_to(@prayer_request.person.try(:name), @prayer_request.person)).html_safe
 
-%p= @prayer_request.request
+%p= render_prayer_body(@prayer_request.request)
 
 - if @prayer_request.answer.present?
   %h3= t('prayer_requests.answer.heading')
   - if @prayer_request.answered_at
     %p= t('prayer_requests.answer.on_date', date: @prayer_request.answered_at.to_s(:date))
-  %p= @prayer_request.answer
+  %p= render_prayer_body(@prayer_request.answer)
 
 - if @logged_in.can_update?(@prayer_request)
   .page-controls

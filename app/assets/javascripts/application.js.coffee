@@ -12,6 +12,9 @@
 #= require leaflet.markercluster
 #= require bootstrap-filestyle
 #= require_directory ./app
+#= require turbolinks
+#= require ckeditor/init
+#= require_tree .
 
 $('[data-toggle^="#"], [data-toggle^="."]').each (i, elm) ->
   elm = $(elm)

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+  <p style="margin-top:15px;padding-top:15px;font-size:12px; font-family:courier new,courier,monospace;">
+<%=raw t('notifier.printed_directory.intro',
+       person: @person.name,
+       site: Setting.get(:name, :site)) %>
+  </p>
+  </body>
+</html>
