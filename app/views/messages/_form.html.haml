@@ -12,7 +12,7 @@
       = form.text_field :subject, class: 'form-control'
   .form-group
     = form.label :body
-    = form.trix_editor :body, rows: 15, cols: 80, class: 'form-control'
+    = form.trix_editor :body, rows: 15, cols: 80, class: 'trix-stuff'
   .form-group
     %label{:for => "file"}= t('messages.attachment_optional')
     %input#file{:multiple => "multiple", :name => "files[]", :type => "file", :class => "filestyle", :data => {:input => "false", :buttonName => "btn-success"}}
