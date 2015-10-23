@@ -10,13 +10,13 @@
 
 - @messages.each do |message|
   .box.box-info
-    .box-header
+    .box-header.html_safe
       %h3.box-title
         = link_to message.subject, message
         - if message.attachments.any?
           = link_to message, class: 'btn btn-xs btn-info' do
             = icon 'fa fa-link'
-    .box-body
+    .box-body.html_safe
       = render_message_body message
       %p.push-down= link_to t('messages.read_more'), message, class: 'btn btn-info btn-xs'
     .box-footer
