@@ -12,7 +12,6 @@
 #= require leaflet.markercluster
 #= require bootstrap-filestyle
 #= require_directory ./app
-#= require trix
 
 $('[data-toggle^="#"], [data-toggle^="."]').each (i, elm) ->
   elm = $(elm)
