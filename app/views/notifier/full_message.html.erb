@@ -3,7 +3,9 @@
   <head>
   </head>
   <body>
+  <p style="border-top:1px solid #ccc;margin-top:15px;padding-top:15px;font-size:12px; font-family:courier new,courier,monospace;">
 <%=raw @msg.body %>
+  </p>
   <p style="border-top:1px solid #ccc;margin-top:15px;padding-top:15px;font-size:12px; font-family:courier new,courier,monospace;">
 <%=raw @msg.reply_instructions(@to).gsub(/\n/, "<br/>\n") %><br/>
 <%=raw @msg.disable_email_instructions(@to).gsub(/\n/, "<br/>\n") %>

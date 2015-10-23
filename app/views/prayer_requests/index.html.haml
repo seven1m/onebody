@@ -13,14 +13,14 @@
       %h3.box-title
         = link_to req.created_at.to_s(:date), req
         = t('prayer_requests.by', person: link_to(req.person.try(:name), req.person)).html_safe
-    .box-body.html_safe
-      = render_prayer_body req.request
+    .box-body
+      = preserve_breaks req.request
       - if req.answer.present?
         .prayer-answer.html_safe
           - if req.answered_at
             %h4= t('prayer_requests.answer.on_date', date: req.answered_at.to_s(:date))
           - else
             %h4= t('prayer_requests.answer.heading')
-          = render_prayer_body req.answer
+          = preserve_breaks req.answer
 
 = pagination @reqs

@@ -12,7 +12,7 @@
 <%=raw t('notifier.membership_request.instruction') %>
   </p>
   <p>
-<%= link_to "#{Setting.get(:url, :site)groups/#{@group.id}/memberships", "#{Setting.get(:url, :site)}groups/#{@group.id}/memberships" %>
+<%=raw "#{Setting.get(:url, :site)}groups/#{@group.id}/memberships" %>
   </p>
   </body>
 </html>
