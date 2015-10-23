@@ -84,13 +84,11 @@ class Notifier < ActionMailer::Base
       from:    msg.email_from(to),
       subject: msg.subject
     ) do |format|
-      #if msg.body.present?
-      #  format.text
-      #end
-      #if msg.html_body.present?
-	  if msg.body.present?
+      if msg.body.present?
+        format.text
+      end
+      if msg.html_body.present?
         format.html
-		format.text
       end
     end
   end

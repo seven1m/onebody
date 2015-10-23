@@ -16,7 +16,6 @@ module MessagesHelper
     if message.is_a?(StreamItem)
       if message.text?
         render_message_text_body(message.body)
-		render_message_html_body(message.body)
       else
         render_message_html_body(message.body)
       end

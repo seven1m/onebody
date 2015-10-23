@@ -1,4 +1,4 @@
-<%= sanitize_html(@msg.body) %>
+<%=raw @msg.body %>
 - - - - - - - - - - - - - - - - - - - - - - - -
 <%=raw @msg.reply_instructions(@to) -%>
 <%=raw @msg.disable_email_instructions(@to) -%>
