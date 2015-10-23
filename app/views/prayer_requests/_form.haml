@@ -9,7 +9,7 @@
     = form.select :person_id, @group.people.map { |p| [p.name, p.id] }, {}, class: 'form-control'
   .form-group
     = form.label :request
-    = form.text_area :request, rows: 5, class: 'form-control'
+    = form.trix_editor :request, rows: 5, class: 'form-control'
 
   %h3= t('prayer_requests.answer.heading')
   %p= t('prayer_requests.answer.description')
@@ -23,7 +23,7 @@
       = form.date_field :answered_at, class: 'form-control'
   .form-group
     = form.label :answer
-    = form.text_area :answer, rows: 5, class: 'form-control'
+    = form.trix_editor :answer, rows: 5, class: 'form-control'
   .form-group
     = check_box_tag :send_email
     = t('prayer_requests.send_email')
