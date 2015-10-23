@@ -34,13 +34,6 @@ module Concerns
       def attributes(row)
         row.import_attributes_as_hash(real_attributes: true)
       end
-
-      def errors_as_string(person)
-        family_errors = person.errors.delete(:family)
-        errors = person.errors.values
-        errors += person.family.errors.values if family_errors
-        errors.join('; ')[0...255].presence
-      end
     end
   end
 end

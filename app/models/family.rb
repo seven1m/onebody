@@ -17,7 +17,7 @@ class Family < ActiveRecord::Base
 
   scope :undeleted, -> { where(deleted: false) }
   scope :deleted, -> { where(deleted: true) }
-  scope :has_printable_people, -> { where('(select count(*) from people where family_id = families.id and status = ?) > 0', Person.statuses[:active]) }
+  scope :has_printable_people, -> { where('(select count(*) from people where family_id = families.id and status = ? and deleted = ?) > 0', Person.statuses[:active], false) }
   scope :by_barcode, -> b { where('barcode_id = ? or alternate_barcode_id = ?', b, b) }
 
   validates :name, presence: true
@@ -228,6 +228,7 @@ class Family < ActiveRecord::Base
       'left outer join people on people.family_id = families.id ' \
       "where people.visible = #{Family.connection.quoted_true} " \
       "and families.visible = #{Family.connection.quoted_true} " \
+      "and families.deleted = #{Family.connection.quoted_false} " \
       "and people.status = #{Person.statuses[:active]} " \
       "and families.site_id = #{Site.current.id} " \
       'and coalesce(families.latitude, 0.0) != 0.0 ' \

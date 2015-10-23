@@ -33,19 +33,9 @@ class DocumentsController < ApplicationController
 
   def create
     if params[:folder]
-      @folder = DocumentFolder.new(folder_params)
-      if @folder.save
-        redirect_to documents_path(folder_id: @folder), notice: t('documents.create_folder.notice')
-      else
-        render action: 'new_folder'
-      end
+      create_folder
     else
-      @document = Document.new(document_params)
-      if @document.save
-        redirect_to document_path(@document), notice: t('documents.create.notice')
-      else
-        render action: 'new'
-      end
+      create_documents
     end
   end
 
@@ -100,6 +90,39 @@ class DocumentsController < ApplicationController
   end
 
   private
+
+  def create_folder
+    @folder = DocumentFolder.new(folder_params)
+    if @folder.save
+      redirect_to documents_path(folder_id: @folder), notice: t('documents.create_folder.notice')
+    else
+      render action: 'new_folder'
+    end
+  end
+
+  def create_documents
+    @successes = []
+    @errors = []
+    params[:document][:file].each_with_index do |file, index|
+      @document = Document.new(
+        name: params[:document][:name][index],
+        description: params[:document][:description][index],
+        folder_id: params[:document][:folder_id],
+        file: file
+      )
+      if @document.save
+        @successes << @document.name
+      else
+        @errors << @document.name
+      end
+    end
+    if @errors.any?
+      flash[:error] = t('documents.create.failure', count: @errors.size, filenames: @errors.join(', '))
+    else
+      flash[:notice] = t('documents.create.notice', count: @successes.size)
+    end
+    redirect_to documents_path(folder_id: params[:document][:folder_id])
+  end
 
   def find_parent_folder
     return if params[:folder_id].blank?

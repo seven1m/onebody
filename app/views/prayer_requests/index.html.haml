@@ -8,7 +8,7 @@
 = pagination @reqs
 
 - @reqs.each do |req|
-  .prayer-request.box.html_safe
+  .prayer-request.box
     .box-header
       %h3.box-title
         = link_to req.created_at.to_s(:date), req
@@ -16,7 +16,7 @@
     .box-body
       = preserve_breaks req.request
       - if req.answer.present?
-        .prayer-answer.html_safe
+        .prayer-answer
           - if req.answered_at
             %h4= t('prayer_requests.answer.on_date', date: req.answered_at.to_s(:date))
           - else

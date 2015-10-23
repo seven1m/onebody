@@ -43,4 +43,18 @@ module Administration::ImportsHelper
     return if model.deleted?
     link_to(model.id, model)
   end
+
+  def import_row_errors(row)
+    errors = row.attribute_errors.dup
+    return [] if errors.blank?
+    family_errors = errors.delete('family') || {}
+    attrs = row.import_attributes_as_hash(real_attributes: true)
+    errors.map do |attr, error|
+      { name: attr, value: attrs[attr], message: error }
+    end +
+    family_errors.map do |attr, error|
+      name = "family_#{attr}"
+      { name: name, value: attrs[name], message: error }
+    end
+  end
 end

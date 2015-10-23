@@ -1,4 +1,4 @@
-$(document).on 'change', '#import_dont_preview', (e) ->
+$(document).on 'change', '#dont_preview', (e) ->
   $('#btn-execute').toggle(@checked)
   $('#btn-preview').toggle(!@checked)
 

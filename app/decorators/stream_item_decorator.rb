@@ -115,7 +115,7 @@ class StreamItemDecorator < Draper::Decorator
           I18n.t('stream.body.person.button', person: streamable.name)
         end
       elsif streamable_type == 'PrayerRequest' && streamable
-        h.truncate_html(h.render_prayer_body(object.body), length: MAX_BODY_SIZE).tap do |html|
+        h.preserve_breaks(object.body).tap do |html|
           if streamable.answer.present?
             html << h.content_tag(:div, class: 'prayer-answer') do
               if streamable.answered_at
