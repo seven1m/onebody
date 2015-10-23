@@ -5,7 +5,7 @@
 <%- end -%>
 
 <%- for ar in @attendance_records -%>
-- <%=raw "#{ar.first_name} #{ar.last_name}".ljust(30) %>
+- <%=raw "#{ar.first_name} #{ar.last_name}".ljust(30) %> <%=raw ar.age %>
 <%- end -%>
 
 <%- if @notes.present? -%>
