@@ -85,11 +85,9 @@ class Notifier < ActionMailer::Base
       subject: msg.subject
     ) do |format|
       if msg.body.present?
-        format.text
-      end
-      if msg.html_body.present?
         format.html
-      end
+	    format.text
+	  end
     end
   end
 
