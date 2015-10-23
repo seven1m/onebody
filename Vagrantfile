@@ -96,6 +96,7 @@ SCRIPT
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "phusion/ubuntu-14.04-amd64"
   config.vm.network "forwarded_port", guest: 80, host: 8080, auto_correct: true
+  config.vm.network :forwarded_port, host: 1080, guest: 1080
   config.ssh.forward_agent = true
 
   config.vm.provision :shell, inline: $setup
