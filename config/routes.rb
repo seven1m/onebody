@@ -224,6 +224,20 @@ OneBody::Application.routes.draw do
     resources :families, :people, :groups
   end
 
+  namespace :api do
+    namespace :v2 do
+      jsonapi_resources :people
+      jsonapi_resources :families
+      jsonapi_resources :groups
+      jsonapi_resources :messages
+      jsonapi_resources :attachments
+      jsonapi_resources :attendance_records
+      jsonapi_resources :comments
+      jsonapi_resources :verses
+      jsonapi_resources :news_items
+    end
+  end
+
   post '/pusher/auth_printer'    => 'pusher#auth_printer'
   get '/auth/facebook/callback'  => 'sessions#create_from_external_provider'
   post '/auth/facebook/callback' => 'sessions#create_from_external_provider'

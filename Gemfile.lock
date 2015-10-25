@@ -206,6 +206,8 @@ GEM
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
     json (1.8.3)
+    jsonapi-resources (0.5.9)
+      rails (>= 4.0)
     jwt (1.5.1)
     listen (3.0.6)
       rb-fsevent (>= 0.9.3)
@@ -449,6 +451,7 @@ DEPENDENCIES
   highline
   httparty
   jquery-rails
+  jsonapi-resources
   load_and_authorize_resource
   loofah
   mini_magick
