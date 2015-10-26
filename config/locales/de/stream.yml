@@ -29,11 +29,11 @@ de:
       stream_item_group:
         person:
           description:
-            one: "1 more person was added..."
-            other: "%{count} more people were added..."
+            one: "Ein mehr Person wurde Hinzugefügt"
+            other: "%{count} Leute wurde Hinzugefügt"
     footer:
       button_label:
-        default: "Read more"
+        default: Weiterlesen
         album: "Alles anzeigen"
         note: Weiterlesen
         verse: Weiterlesen

@@ -1,6 +1,15 @@
 ---
 de:
   verses:
+    heading: Bibelverse
+    new:
+      heading: "Suche nach einer Bibelstelle"
+    about_tags: "Tags können Verse nach Thema, Author, Zeitabschnitten, und vielen anderen Dingen gruppieren"
+    about_this_verse: "über diesen Vers. Teile mit Anderen wie dieser Vers dich angesprochen, oder dir geholfen hat"
+    add_this_verse_to_my_list: "Füge diesen Vers zu meiner Liste hinzu"
+    add_verse: "Füge Vers hinzu"
+    search_verse: "Vers suchen"
+    add_your_favorite_verse: "Füge deinen Lieblingsvers hinzu:"
     comment_count:
       one: "<a href='%{url}'>1 Kommentar</a> von %{by}"
       other: "<a href='%{url}'>1 Kommentar</a> von %{by}"
@@ -14,12 +23,5 @@ de:
     saved_by_count:
       one: "gespeichert von 1 Person"
       other: "gespeichert von %{count} Personen"
-    heading: Bibelverse
-    new:
-      heading: "Suche nach einer Bibelstelle"
-    about_tags: "Tags können Verse nach Thema, Author, Zeitabschnitten, und vielen anderen Dingen gruppieren"
-    about_this_verse: "über diesen Vers. Teile mit Anderen wie dieser Vers dich angesprochen, oder dir geholfen hat"
-    add_this_verse_to_my_list: "Füge diesen Vers zu meiner Liste hinzu"
-    add_verse: "Füge Vers hinzu"
-    search_verse: "Vers suchen"
-    add_your_favorite_verse: "Füge deinen Lieblingsvers hinzu:"
+    search:
+      error: "Dieser Verse wurde nicht gefunden. Hast du die richtige Referenz angegeben?"

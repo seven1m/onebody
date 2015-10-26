@@ -1,13 +1,6 @@
 ---
 de:
   admin:
-    actionables:
-      heading: Actionables
-    administration:
-      heading: "Administration & Settings"
-    attendance:
-      heading: "Attendance (30 days)"
-      button: Attendance
     box:
       updates:
         text:
@@ -17,10 +10,6 @@ de:
         text:
           one: "Changed Email"
           other: "Changed Emails"
-      sync_errors:
-        text:
-          one: "Sync Error"
-          other: "Sync Errors"
       groups_pending_approval:
         text:
           one: "Group Pending Approval"
@@ -33,13 +22,10 @@ de:
         text:
           one: "Deleted Person"
           other: "Deleted People"
-    charts:
-      no_data: "no data yet"
-    checkin:
-      heading: "Check-in (48 hours)"
-      cards_assigned: "Check-In Cards Assigned"
-      dashboard_button: "Check-in Admin"
-      button: "Check-in Kiosk"
+      import_errors:
+        text:
+          one: "Import Error"
+          other: "Import Errors"
     dashboard:
       heading: "Admin Dashboard"
       sub_title: "OneBody %{version}"
@@ -50,7 +36,6 @@ de:
       tabs:
         people: "Deleted People"
         families: "Empty Families"
-      family_deleted: deleted
       heading: "Deleted People"
       empty_families:
         intro: "The following active families have no people in them and probably should be deleted."
@@ -65,20 +50,11 @@ de:
         intro: "The results of your search are displayed below."
       undelete:
         button: "Undelete Selected People"
-    gatherings:
-      heading: Gatherings
+      family_deleted: deleted
     membership_requests:
       count:
         one: "%{count} request"
         other: "%{count} requests"
-    report:
-      back: "Back to Report Dash"
-      button: "Reporting Dashboard"
-      heading: Reporting
-      intro: "Access the Reporting Dashboard for pre-defined reports and ad-hoc reporting tools."
-      launch: Launch
-      list: Reports
-      title: "Reporting Dashboard"
     active: active
     admin_added: "%{name} added."
     admin_count:
@@ -105,9 +81,10 @@ de:
     enable_api_confirmation: "Are you sure you want to enable your API key?"
     emails:
       intro_html: |
-          <p><em>This administration section is useful if you sync your data from an external source using UpdateAgent. If you do not, you may safely clear all the items from this list (or just ignore it entirely).</em></p>
-          <p>When a user changes their email address online, a flag is set, and subsequent syncs cannot change the email address back until the flag is cleared. To clear the flag, simply set the user's email address in your external database to be the same as below, and then run your sync process (or wait for it to run at its next scheduled time).</p>
-          <p>Alternatively, you can clear the flag manually here to allow your sync process to overwrite the value (but beware you may confuse your users if you do so).</p>
+          <p>When a user changes their email address online, a flag is set, and subsequent CSV imports are prevented from overwriting that user's email address.</p>
+          <p>If you regularly import your people data from an external system, you should only have to <strong>update the user's email address in your database of record</strong> to match their address here. Then, next time you import your database, OneBody will clear the "email changed" flag for you and they will be removed from this list.</p>
+          <p>You can use this page as a To-Do list &ndash; a list of email address changes you need to make to your database of record.</p>
+          <p>Below are users whose flags are set. You may clear the flag here manually if needed.</p>
       changed_addresses: "Changed Email Addresses"
       clear_flags: "Clear Flags"
       no_records: "There are currently no records with the changed email address flag set."
@@ -125,12 +102,6 @@ de:
     import_export: Import/Export
     invalidate_confirmation: "Are you sure you want to invalidate this key and create a new one?"
     key: Key
-    logo:
-      delete: "delete logo"
-      format_information: "A transparent gif or png will look the best."
-      logo: Logo
-      size_information: "Upload an image file below. It will be resized to be no larger than 300x80."
-      upload: "Upload Logo"
     manage_group_administrators: "Manage Group Administrators"
     must_be_superadmin: "You must be a super administrator to modify settings."
     new_admin_template: "Create a new admin template."
@@ -246,36 +217,6 @@ de:
         :
           name: "Send Attendance Submissions To"
           description: "Email sent when someone submits attendance for a group"
-      Pusher:
-        ? "App ID"
-        :
-          name: "App ID"
-          description: "The application ID provided by Pusher."
-        ? "App Key"
-        :
-          name: "App Key"
-          description: "The application key provided by Pusher."
-        Secret:
-          name: Secret
-          description: "The secret provided by Pusher."
-        ? "API Scheme"
-        :
-          name: "API Scheme"
-        ? "API Host"
-        :
-          name: "API Host"
-        ? "API Port"
-        :
-          name: "API Port"
-        ? "WS Host"
-        :
-          name: "WS Host"
-        ? "WS Port"
-        :
-          name: "WS Port"
-        ? "WSS Port"
-        :
-          name: "WSS Port"
       Services:
         Yahoo:
           name: Yahoo
@@ -308,7 +249,7 @@ de:
           description: "Age at which a person is considered old enough to use the site and be seen by others in the directory."
         Language:
           name: Language
-          description: "Language for interface elements."
+          description: "Language for interface elements. <a href='%{url}' target='_blank'>You can help!</a>"
         ? "Time Zone"
         :
           name: "Time Zone"
@@ -372,10 +313,6 @@ de:
         :
           name: "Updates Must Be Approved"
           description: "If enabled, all changes to a user's \"basic\" information (phone, address, etc.) will await approval from an admin before being applied."
-        ? "Notify on Photo Change"
-        :
-          name: "Notify on Photo Change"
-          description: "If enabled, admins will be notified whenever a user changes their personal or family photos."
         ? "Sign Up"
         :
           name: "Sign Up"
@@ -409,8 +346,8 @@ de:
           description: "Add custom field names, one per line. Including the word \"date\" (or \"Date\") makes a date field. Append an asterisk (*) to make the field visible and editable by users."
         ? "Edit Legacy Ids"
         :
-          name: "Edit Legacy Ids"
-          description: "If enabled, will allow admin access to manually modify Family and Person legacy ids."
+          name: "Edit Legacy ID"
+          description: "Allow admins to see and edit the legacy_id field."
         ? "Sign Up Approval Email"
         :
           name: "Sign Up Approval Email"
@@ -446,20 +383,24 @@ de:
         Service:
           name: Service
           description: "If enabled, admin users can track indviduals' service in areas of the community."
+        ? "Notify on Photo Change"
+        :
+          name: "Notify on Photo Change"
+          description: "If enabled, admins will be notified whenever a user changes their personal or family photos."
         Checkin:
           name: Check-in
           description: "If enabled, users can check-in to designated classes."
         Documents:
           name: Documents
           description: "If enabled, admins can upload files in a general area where users can browse and download them."
-        ? "Business Directory"
-        :
-          name: "Business Directory"
-          description: "If enabled, users can add business information to be listed in a church business directory."
         ? "Small Group Size"
         :
           name: "Max size of a \"small group\""
           description: "People in groups with this many members or fewer are considered in a \"small group\" together, and can easily share content with one another via the homepage."
+        ? "Business Directory"
+        :
+          name: "Business Directory"
+          description: "If enabled, users can add business information to be listed in a church business directory."
       Privacy:
         ? "Hide Contact Details in Messages"
         :
@@ -467,24 +408,24 @@ de:
           description: "If enabled, attempts are made to hide phone numbers and email addresses inside messages when viewed online."
         ? "Share Anniversary by Default"
         :
-          name: "Share Anniversary"
-          description: "If enabled, new users will have their anniversary shared with other site members."
+          name: "Geburtstag teilen"
+          description: "Wenn aktiviert, werden neue Nutzer ihren Hochzeitstag mit anderen Mitglieder teilen"
         ? "Share Email by Default"
         :
-          name: "Share Email"
-          description: "If enabled, new users will have their email address shared with other site members."
+          name: "Email teilen"
+          description: "Wenn aktiviert, werden neue Nutzer ihre Email mit anderen Mitglieder teilen"
         ? "Allow Unencrypted Logins"
         :
-          name: "Allow Unencrypted Logins"
+          name: "Erlaube unverschlüsselte Logins"
           description: "Logins are secured with public/private RSA encryption using JavaScript. Check this box to allow fallback for mobile phones and other browsers that are having trouble signing in."
         ? "Share Home Phone by Default"
         :
-          name: "Share Home Phone"
-          description: "If enabled, new users will have their home phone shared with other site members."
+          name: "Teile Festnetzanschluss"
+          description: "Wenn aktiviert, werden neue Nutzer ihren Festnetzanschluss mit anderen Mitglieder teilen"
         ? "Allow Picture Comments"
         :
-          name: "Allow Picture Comments"
-          description: "If enabled, users will be allowed to post comments on pictures."
+          name: "Erlaube Kommentare zu Bildern"
+          description: "Wenn aktiviert, werden Nutzer Kommentare zu Bildern veröffentlichen können"
         ? "Share Work Phone by Default"
         :
           name: "Share Work Phone"
@@ -509,39 +450,23 @@ de:
         :
           name: "Share Birthday"
           description: "If enabled, new users will have their birthday shared with other site members."
-      host:
-        name: "Host/Domain Name"
-        description: "The domain name where this site is accessible on the web, e.g. example.com or members.mychurch.com (do not include http:// on the front)"
-      Email:
-        Host:
-          name: "Email Host Name"
-          description: "A subdomain, e.g. mg.example.com, to use if your domain is already serving email. Defaults to the domain name."
-        MailgunApiKey:
-          name: "Mailgun API Key"
-          description: "API Key to use mailgun.com as the email receiver."
-      advanced:
-        heading: Advanced
-        intro: "If settings aren't getting reloaded, click the button below to force reload."
-        mailgun: "Click the button below to create a catch all route on your mailgun account."
       contact_automated_email_about: "These email addresses are sent email when certain things happen on the site. You can set them all to the same address or to different ones, depending on separation of duties in your community."
       contact_community_info_about: "Enter contact information for your church or community office, where people can contact administrative staff."
-      contact_heading: Contact
-      disabled: Disabled
-      enabled: Enabled
-      features_heading: Features
+      contact_heading: Kontakt
+      disabled: Deaktiviert
+      enabled: Aktiviert
+      features_heading: Funktionalitäten
       formats_heading: Formats
       formats_date_about_html: "Enter your own date and time formats to match your part of the world. See <a href=\"https://www.manystrands.com/wp-content/uploads/2013/01/strftime-cheat-sheet.pdf\" target=\"_new\">here</a> for formatting options."
       formats_phone_about: "Specify phone formatting with 'd', e.g. ddd-ddd-dddd or (dd) dddd-dddd, depending on your locale."
-      locale_heading: Locale
-      mailgun: "Create Catch All Route on Mailgun"
-      mailgun_message: "Use this to create a catch all route on your host/domain with mailgun to receive email messages."
-      membership_management_heading: Members
+      locale_heading: Spracheinstellungen
+      membership_management_heading: Mitglieder
       name_heading: Name
-      one_per_line: "(one per line)"
+      one_per_line: "(eine pro Zeile)"
       privacy_defaults: "Default Privacy Settings"
       privacy_defaults_about: "When a member's account is first created, the following privacy settings are applied to their information. (Members can still choose to show or hide any of their information at any time, regardless of the settings below.)"
-      privacy_heading: Privacy
-      reload: "Reload Settings"
+      privacy_heading: Datenschutz
+      reload: "Einstellungen neuladen"
       reload_message: "If you have made modifications to the system from the command line, you may need to reload all settings to see the changes take effect."
       save: "Save Settings"
       services_heading: "External Services"
@@ -549,28 +474,50 @@ de:
       sharing_about: "OneBody is best when members participate by adding their own content. Enable content sharing with these settings."
       sharing_communications_about: "Share information with your members easily."
       sharing_heading: Sharing
+      host:
+        name: "Host/Domain Name"
+        description: "The domain name where this site is accessible on the web, e.g. example.com or members.mychurch.com (do not include http:// on the front)"
+      Email:
+        Host:
+          name: "Email Host Name"
+          description: "A subdomain, e.g. mg.example.com, to use if your domain is already serving email. Defaults to the domain name."
+      mailgun: "Create Catch All Route on Mailgun"
+      mailgun_message: "Use this to create a catch all route on your host/domain with mailgun to receive email messages."
       small_group_sharing:
         disable: "disable sharing among small groups"
         all: "share with all groups, regardless of size"
+      Pusher:
+        ? "App ID"
+        :
+          name: "App ID"
+          description: "The application ID provided by Pusher."
+        ? "App Key"
+        :
+          name: "App Key"
+          description: "The application key provided by Pusher."
+        Secret:
+          name: Secret
+          description: "The secret provided by Pusher."
+        ? "API Scheme"
+        :
+          name: "API Scheme"
+        ? "API Host"
+        :
+          name: "API Host"
+        ? "API Port"
+        :
+          name: "API Port"
+        ? "WS Host"
+        :
+          name: "WS Host"
+        ? "WS Port"
+        :
+          name: "WS Port"
+        ? "WSS Port"
+        :
+          name: "WSS Port"
     super_admin: "Super Admin"
     super_admin_about: "Super Admins have full control over the site, with all available privileges. Be careful who you give this to — it could be dangerous!"
-    syncs:
-      complete: Complete
-      duration: Duration
-      error: Error
-      id: ID
-      legacy_id: "Legacy ID"
-      name: Name
-      none: "None yet."
-      operation: Operation
-      rate: Rate
-      start: Start
-      status: Status
-      success: Success
-      show:
-        heading: "Sync %{at}"
-      syncs: Syncs
-      type: Type
     template: Template
     templates: Templates
     updates:
@@ -600,3 +547,33 @@ de:
       updated: updated
     username: Username
     your_key: "your key"
+    attendance:
+      heading: "Attendance (30 days)"
+      button: Attendance
+    checkin:
+      heading: "Check-in (48 hours)"
+      cards_assigned: "Check-In Cards Assigned"
+      button: "Check-in Kiosk"
+      dashboard_button: "Check-in Admin"
+    report:
+      back: "Back to Report Dash"
+      button: "Reporting Dashboard"
+      heading: Reporting
+      intro: "Access the Reporting Dashboard for pre-defined reports and ad-hoc reporting tools."
+      launch: Launch
+      list: Reports
+      title: "Reporting Dashboard"
+    actionables:
+      heading: Actionables
+    administration:
+      heading: "Administration & Settings"
+    charts:
+      no_data: "no data yet"
+    gatherings:
+      heading: Gatherings
+    facebook:
+      heading: Facebook
+      intro_html: "Allow people to sign in using Facebook. You'll need to first set up a Facebook \"app\", then plug in the app id and secret below."
+    pusher:
+      heading: Pusher
+      intro_html: "Pusher is a service that facilitates real-time communication. Right now, OneBody uses Pusher only for remote Check-in printing, which you may not need. You can sign up for a free Pusher account at <a href='https://pusher.com'>pusher.com</a> or use the open source software <a href='https://github.com/stevegraham/slanger'>Slanger</a> on your own server."

@@ -10,7 +10,7 @@ de:
     checkin: Einchecken
     checkin_sub:
       times: Zeiten
-      labels: Labels
+      labels: Etiketten
     directory: Verzeichnis
     directory_sub:
       business: Geschäftsverzeichnis
@@ -30,6 +30,7 @@ de:
       new_count:
         one: "1 Neue"
         other: "%{count} Neue"
+    imports: Importe
     messages: Nachrichten
     news: News
     notes: Notizen
@@ -44,7 +45,6 @@ de:
       relationships: Beziehungen
       show: "Profile ansehen"
     report: Berichte
-    syncs: Sync
     verses: Bibelverse
     tasks: Aufgaben
     tasks_sub:

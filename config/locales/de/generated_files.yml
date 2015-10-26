@@ -1,7 +1,7 @@
 ---
 de:
   generated_files:
-    building: "Building your file..."
+    building: "Bauen ihre Datei"
     complete_heading: Fertig!
     complete_message: "Deine Datei ist fertig und bereit zum Download."
     failure_heading: "Es tut uns leid…"
