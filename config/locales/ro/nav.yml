@@ -32,6 +32,7 @@ ro:
         one: "1 nou"
         few: "%{count} noi"
         other: "%{count} noi"
+    imports: Imports
     messages: Mesaje
     news: Ştiri
     notes: Notiţe
@@ -46,7 +47,6 @@ ro:
       relationships: Relaţii
       show: "View Profile"
     report: Reporting
-    syncs: Sincronizări
     verses: Versete
     tasks: Tasks
     tasks_sub:
