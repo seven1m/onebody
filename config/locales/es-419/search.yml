@@ -13,7 +13,7 @@ es-419:
       name: "Buscar por nombre"
       advanced: "Búsqueda avanzada"
       birthday: Cumpleaños
-      anniversary: Aniversario
+      anniversary: "Aniversario de Boda"
       gender: Sexo
       genders:
         Male: Masculino
@@ -21,9 +21,13 @@ es-419:
       city: Ciudad
       state: Estado
       zip: C.P.
-      phone: "Phone Number"
-      email: "Email Address"
+      phone: "Número de Teléfono"
+      email: "Dirección de Correo"
       type: "Tipo de membresía"
+      group_membership: "Group Membership"
+      in_group: includes
+      not_in_group: "does not include"
+      group_membership_text: "Group with category"
       types:
         member: Miembro
         staff: Staff
@@ -48,3 +52,4 @@ es-419:
     search_by_name: "Buscar por nombre"
     show_hidden: "Mostrar ocultos"
     staff: Staff
+    directory_map: "Directory Map"

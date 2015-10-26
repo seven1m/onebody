@@ -8,6 +8,7 @@ es-419:
     about_this_verse: "acerca de este verso. Comparte lo que significa para ti o como te ha ayudado."
     add_this_verse_to_my_list: "Añadir este verso a mi lista."
     add_verse: "Añadir verso."
+    search_verse: "Search Verse"
     add_your_favorite_verse: "Añadir tu verso favorito:"
     comment_count:
       one: "<a href='%{url}'>1 comentario</a> por %{by}"
@@ -22,3 +23,5 @@ es-419:
     saved_by_count:
       one: "guardado por 1 persona"
       other: "guardado por %{count} personas"
+    search:
+      error: "Verse not found. Did you type the reference correctly?"
