@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery
+  protect_from_forgery with: :reset_session
   skip_before_action :verify_authenticity_token, if: -> { logged_in_from_api_key? }
 
   # these are prepended so they happen before verify_authenticity_token
