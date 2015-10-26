@@ -12,7 +12,7 @@ pt:
       last_name: Sobrenome
       status: Status
     apply_settings_to_imports: "Aplicar as seguintes configurações para todos os registros importados:"
-    attempt_match_existing_people: "Tente encontrar pessoas existentes pelo nome se os IDs não forem incluídos."
+    attempt_match_existing_people: "Tentar combinar pessoas existentes pelo nome se os IDs não estiverem incluídos."
     completed_records: "Registros Completados"
     error: Erro
     error_updating: "Erro ao atualizar registro."

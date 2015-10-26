@@ -1,7 +1,7 @@
 ---
 pt:
   prayer_requests:
-    by: "por %{person}"
+    by: "pelo(a) %{person}"
     name: "Pedidos de Oração em %{group}"
     index:
       heading: "Pedidos de Oração"

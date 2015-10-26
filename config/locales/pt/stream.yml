@@ -29,17 +29,17 @@ pt:
       stream_item_group:
         person:
           description:
-            one: "1 more person was added..."
-            other: "%{count} more people were added..."
+            one: "1 pessoa foi adicionada..."
+            other: "%{count} pessoas foram adicionadas..."
     footer:
       button_label:
-        default: "Read more"
+        default: "Leia mais"
         album: "Mostrar tudo"
         note: "Ler mais"
         verse: "Ler mais"
         person: ""
         site: ""
-        stream_item_group: "Show all"
+        stream_item_group: "Mostrar tudo"
     load_more: "carregar mais..."
     share:
       heading:
