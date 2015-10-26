@@ -34,7 +34,6 @@ zh-CN:
       mother_in_law: Mother-in-law
       nephew: Nephew
       niece: Niece
-      other_name: 其他
       sister: 姐妹
       sister_in_law: Sister-in-law
       son: 儿子
@@ -47,9 +46,10 @@ zh-CN:
       stepson: Stepson
       uncle: Uncle
       wife: 妻子
-    other_name:
-      placeholder: "Relationship Type"
+      other_name: 其他
     no_person_selected: "No person selected."
     relationship: 关系
     relationship_type: 类型：
     toggle_individual: "View Individual Relationships"
+    other_name:
+      placeholder: "Relationship Type"
