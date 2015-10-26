@@ -492,6 +492,3 @@ DEPENDENCIES
   will_paginate
   will_paginate-bootstrap
   with_advisory_lock
-
-BUNDLED WITH
-   1.10.6
