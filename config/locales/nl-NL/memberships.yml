@@ -12,9 +12,9 @@ nl-NL:
       remove:
         button: Verwijderen
     add:
-      heading: "Persoon toevoegen"
       description: "Voeg een persoon toe aan deze groep."
       name_placeholder: "Type de naam of een deel van de naam"
+      heading: "Persoon toevoegen"
       parents_of_warning_html: |
           This is a group automatically linked with parents of people in %{group}.
           If you add someone manually, that person won't be managed automatically.
@@ -27,9 +27,9 @@ nl-NL:
     requests:
       heading: "Deelnemen aan de groep"
       select_some: "Selecteer een van de bovenstaande opties en kies een actie."
-      name: Naam
-      created_at: Aangevraagd
       accept:
         button: Accepteer
       ignore:
         button: Negeer
+      name: Naam
+      created_at: Aangevraagd

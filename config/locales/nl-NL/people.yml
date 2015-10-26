@@ -9,44 +9,31 @@ nl-NL:
       no_family_warning_html: |
           Je gaat nu een <strong>nieuwe persoon en familie </strong>toevoegen.
           Als je een persoon wilt toevoegen aan een bestaande familie voeg deze dan toe via de pagina van de familie.
-    title_html: "%{name}<span class='discreet'>, %{description}</span>"
-    show:
-      details:
-        family: "Familie %{family}"
-        website: Website
-        email: E-mail
-        mobile_phone: "Mobiele telefoon"
-        home_phone: Telefoon
-        work_phone: "Telefoon werk"
-        address: Adres
-        birthday: Verjaardag
-        anniversary: Trouwdatum
-        social: Social
-      showing_hidden_attribute:
-        tooltip: "This detail is visible to you because you are an admin with 'View Hidden Properties' enabled."
     edit:
       about: Over
       basics: Basis
-      business: Bedrijf
-      business_category:
-        new: "[maak een nieuwe categorie aan]"
-        create_prompt: "Vul de categorie van je bedrijf in:"
       child:
         enabled: Kind
         disabled: Volwassene
       child_hint: "Als er geen geboortedatum is opgegeven, moet er aangegeven worden of het hier gaat om een minderjarige of volwassene."
-      custom_type:
-        new: "[rol aanmaken]"
-        create_prompt: "Vul de naam van de rol in:"
       description_hint: "Omschrijf jezelf in een woord of twee  — bijvoorbeeld je beroep."
-      email_hint: " (this is your main email address used for login and receiving emails)"
-      facebook_url:
-        placeholder: "http://www.facebook.com/username"
       family_photo: "Familie foto"
-      header: "Profiel wijzigen"
       person_type: Rollen
       person_type_hint: "Dit stelt geen toegang in — enkel de benaming."
       photo: "Profiel foto"
+      header: "Profiel wijzigen"
+      business: Bedrijf
+      business_category:
+        new: "[maak een nieuwe categorie aan]"
+        create_prompt: "Vul de categorie van je bedrijf in:"
+      custom_type:
+        new: "[rol aanmaken]"
+        create_prompt: "Vul de naam van de rol in:"
+      facebook_url:
+        placeholder: "http://www.facebook.com/username"
+      required_field: verplicht
+      twitter:
+        placeholder: "@gebruikersnaam"
       primary_emailer:
         intro_html: |
             Je deelt een e-mail adres met %{person}.
@@ -54,10 +41,18 @@ nl-NL:
             Zorg ervoor dat dit e-mail adres <strong>altijd</strong> gekoppeld is aan je account.
             As jij en %{person} beiden groepsberichten versturen
             is het beter om verschillende e-mail adressen te gebruiken.
-      required_field: verplicht
-      twitter:
-        placeholder: "@gebruikersnaam"
-      visibility: Zichtbaarheid
+      email_hint: " (this is your main email address used for login and receiving emails)"
+      no_family_error: "This person cannot be edited because they do not belong to a family."
+      status: Status
+      status_help:
+        inactive: "Inactive people cannot sign in and are not visible to anyone on the site except administrators."
+        pending: "Pending people can sign in and look up limited contact info for members."
+        active: "Active people can sign in and make full use of the site."
+        not_an_adult: "Children cannot sign in, so setting the status here only affects their visiblity to others."
+      statuses:
+        inactive: Inactive
+        pending: Pending
+        active: Active
     move:
       heading: "Voeg toe aan %{family}"
       description_html: "Zoek een persoon om toe te voegen aan <a href='%{url}'>%{family}</a> en klik op Toevoegen..."
@@ -89,11 +84,11 @@ nl-NL:
       groups:
         heading: "E-mail communicatie groepen"
     groups:
-      heading: Groepen
       members: leden
       messages: berichten
       join:
         button: "Zoek en wordt lid van een groep"
+      heading: Groepen
       see_all: "Toon alle groepen"
     business:
       services_provided_by: "Diensten geleverd door %{person}"
@@ -101,9 +96,6 @@ nl-NL:
       email: E-mail
       phone: Telefoon
       website: Website
-    checkin:
-      heading: "Check-in Notes"
-      intro: "These are notes that are displayed on check-in screens and (optionally) on printed check-in labels in order to alert workers."
     testimony:
       box_heading: Getuigenis
       heading: "Getuigenis van %{person}"
@@ -112,10 +104,6 @@ nl-NL:
       find_more: "Lees andere getuigenissen"
     updates:
       pending_callout: "Wijzigingen voor dit profiel wachten op goedkeuring."
-    verification_email:
-      heading: "Je aanmelding is bijna voltooid"
-      intro: "Before this user can sign in, they must complete setup by clicking a link in their email. Click below to send them the email."
-      button: "Reset wachtwoord e-mail versturen"
     advanced: Geavanceerd
     can_sign_in: Inloggen
     cant_delete_yourself: "Je bent niet bevoegd om je account te verwijderen."
@@ -151,9 +139,30 @@ nl-NL:
     show_hidden_groups: "Toon verborgen groepen"
     tell_us_about_yourself: "Vertel over jezelf. Wat voor een persoon ben jij? Wat zouden goede vrienden over je vertellen?"
     this_event_doesnt_have_pictures: "Aan dit evenement zijn nog geen foto's toegevoegd."
-    this_person_is_not_an_adult: "Deze persoon is jonger dan %{years} jaar en heeft geen toestemming van een ouder/verzorger."
     this_profile_is_hidden: "Dit profiel is verborgen."
     update_to_profile_is: "Een update van het profiel"
     visible_on_printed_directory: "Zichtbaar in ledenlijst printen"
     visible_to_everyone: "Zichtbaar voor alle leden"
     you_arent_in_any_groups: "Je bent nog geen lid van groepen."
+    title_html: "%{name}<span class='discreet'>, %{description}</span>"
+    verification_email:
+      heading: "Je aanmelding is bijna voltooid"
+      intro: "Before this user can sign in, they must complete setup by clicking a link in their email. Click below to send them the email."
+      button: "Reset wachtwoord e-mail versturen"
+    show:
+      details:
+        family: "Familie %{family}"
+        website: Website
+        email: E-mail
+        mobile_phone: "Mobiele telefoon"
+        home_phone: Telefoon
+        work_phone: "Telefoon werk"
+        address: Adres
+        birthday: Verjaardag
+        anniversary: Trouwdatum
+        social: Social
+      showing_hidden_attribute:
+        tooltip: "This detail is visible to you because you are an admin with 'View Hidden Properties' enabled."
+    checkin:
+      heading: "Check-in Notes"
+      intro: "These are notes that are displayed on check-in screens and (optionally) on printed check-in labels in order to alert workers."

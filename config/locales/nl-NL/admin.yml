@@ -1,13 +1,6 @@
 ---
 nl-NL:
   admin:
-    actionables:
-      heading: Actionables
-    administration:
-      heading: "Administration & Settings"
-    attendance:
-      heading: Bezoekersregistratie
-      button: Bezoekersregistratie
     box:
       updates:
         text:
@@ -17,10 +10,6 @@ nl-NL:
         text:
           one: "E-mail wijziging"
           other: "E-mail wijzigingen"
-      sync_errors:
-        text:
-          one: "Sync fout"
-          other: "Sync fouten"
       groups_pending_approval:
         text:
           one: "Groep wacht op goedkeuring"
@@ -33,13 +22,10 @@ nl-NL:
         text:
           one: "Persoon verwijderd"
           other: "Personen verwijderd"
-    charts:
-      no_data: "no data yet"
-    checkin:
-      heading: "Check-in systeem"
-      cards_assigned: "Check-in kaarten toegewezen."
-      dashboard_button: "Check-in Admin"
-      button: "Check-in dashboard"
+      import_errors:
+        text:
+          one: "Import Error"
+          other: "Import Errors"
     dashboard:
       heading: Dashboard
       sub_title: "OneBody %{version}"
@@ -50,7 +36,6 @@ nl-NL:
       tabs:
         people: "personen verwijderd"
         families: "Verwijder families"
-      family_deleted: Verwijderd.
       heading: "personen verwijderd"
       empty_families:
         intro: "Onder de volgende actieve families zijn geen familieleden aanwezig. Overweeg om deze families te verwijderen."
@@ -65,20 +50,11 @@ nl-NL:
         intro: "Je zoekresultaat wordt hieronder weergegeven."
       undelete:
         button: "Verwijderen ongedaan maken"
-    gatherings:
-      heading: Gatherings
+      family_deleted: Verwijderd.
     membership_requests:
       count:
         one: "%{count} verzoek"
         other: "%{count} verzoeken"
-    report:
-      back: "Back to Report Dash"
-      button: "Reporting Dashboard"
-      heading: Reporting
-      intro: "Access the Reporting Dashboard for pre-defined reports and ad-hoc reporting tools."
-      launch: Launch
-      list: Reports
-      title: "Reporting Dashboard"
     active: actief
     admin_added: "%{name} is toegevoegd."
     admin_count:
@@ -125,12 +101,6 @@ nl-NL:
     import_export: Import/Export
     invalidate_confirmation: "Weet je zeker dat je deze key wilt deactiveren en een nieuwe wilt aanmaken?"
     key: Key
-    logo:
-      delete: "Verwijder het logo"
-      format_information: "Tip! Een transparant GIF of PNG bestand geeft het beste resultaat."
-      logo: Logo
-      size_information: "Upload een bestand. De afbeelding wordt verkleind naar 300 x 80 px."
-      upload: "Upload logo"
     manage_group_administrators: "Beheer groepsbeheerders"
     must_be_superadmin: "Je bent niet bevoegd om deze instelling aan te passen."
     new_admin_template: "Maak een nieuwe rechtengroep."
@@ -246,36 +216,6 @@ nl-NL:
         :
           name: "Send Attendance Submissions To"
           description: "Email sent when someone submits attendance for a group"
-      Pusher:
-        ? "App ID"
-        :
-          name: "App ID"
-          description: "The application ID provided by Pusher."
-        ? "App Key"
-        :
-          name: "App Key"
-          description: "The application key provided by Pusher."
-        Secret:
-          name: Secret
-          description: "The secret provided by Pusher."
-        ? "API Scheme"
-        :
-          name: "API Scheme"
-        ? "API Host"
-        :
-          name: "API Host"
-        ? "API Port"
-        :
-          name: "API Port"
-        ? "WS Host"
-        :
-          name: "WS Host"
-        ? "WS Port"
-        :
-          name: "WS Port"
-        ? "WSS Port"
-        :
-          name: "WSS Port"
       Services:
         Yahoo:
           name: Yahoo
@@ -374,10 +314,6 @@ nl-NL:
         :
           name: "Profielwijziging goedkeuren"
           description: "Alle profielwijzigingen (adres, telefoon) moeten eerst goedgekeurd worden door beheerders."
-        ? "Notify on Photo Change"
-        :
-          name: "Notificatie bij wijzigingen foto"
-          description: "Beheerder worden geïnformeerd bij profielfoto wijzigingen."
         ? "Sign Up"
         :
           name: Inloggen
@@ -448,20 +384,24 @@ nl-NL:
         Service:
           name: Service
           description: "If enabled, admin users can track indviduals' service in areas of the community."
+        ? "Notify on Photo Change"
+        :
+          name: "Notificatie bij wijzigingen foto"
+          description: "Beheerder worden geïnformeerd bij profielfoto wijzigingen."
         Checkin:
           name: "Check-in systeem"
           description: "Personen kunnen inchecken bij toegewezen groepen."
         Documents:
           name: Documenten
           description: "Beheerders kunnen bestanden delen op de site zodat leden de bestanden kunnen bekijken en downloaden"
-        ? "Business Directory"
-        :
-          name: "Business Directory"
-          description: "If enabled, users can add business information to be listed in a church business directory."
         ? "Small Group Size"
         :
           name: "Maximale grootte van een 'kleine groep'"
           description: "People in groups with this many members or fewer are considered in a \"small group\" together, and can easily share content with one another via the homepage."
+        ? "Business Directory"
+        :
+          name: "Business Directory"
+          description: "If enabled, users can add business information to be listed in a church business directory."
       Privacy:
         ? "Hide Contact Details in Messages"
         :
@@ -511,20 +451,6 @@ nl-NL:
         :
           name: Verjaardag
           description: "De verjaardag is zichtbaar voor andere leden."
-      host:
-        name: Domeinnaam
-        description: "De domeinnaam waarop de site bereikbaar is. Bijvoorbeeld www.leden.1kerk.nl (Voeg in dit veld geen http:// toe )"
-      Email:
-        Host:
-          name: "E-mail adres host name"
-          description: "A subdomain, e.g. mg.example.com, to use if your domain is already serving email. Defaults to the domain name."
-        MailgunApiKey:
-          name: "Mailgun API Key"
-          description: "API Key om mailgun.com te gebruiken voor het ontvangen van e-mail."
-      advanced:
-        heading: Geavanceerd
-        intro: "Als de instellingen niet worden ververst kun je via de knop hieronder de pagina verversen."
-        mailgun: "Klik op de onderstaande knop om een 'catch all route' in te stellen op je Mailgun account."
       contact_automated_email_about: "These email addresses are sent email when certain things happen on the site. You can set them all to the same address or to different ones, depending on separation of duties in your community."
       contact_community_info_about: "Vul hier contactinformatie in van je organisatie. "
       contact_heading: Contact
@@ -535,8 +461,6 @@ nl-NL:
       formats_date_about_html: "Vul de datum- en tijdnotaties in voor je eigen land. <a href=\"/date_formatting_options.txt\" target=\"_new\">Klik hier </a> voor een instructie."
       formats_phone_about: "Specificeer de notatie van de tijd met de 'd'. Bijvoorbeeld: (ddd)-dddddd"
       locale_heading: Lokaal
-      mailgun: "Instellen Catch all route"
-      mailgun_message: "Klik op de onderstaande knop om een 'catch all route' in te stellen op je Mailgun account."
       membership_management_heading: Leden
       name_heading: Naam
       one_per_line: "(1 per regel)"
@@ -551,28 +475,50 @@ nl-NL:
       sharing_about: "De site functioneert het beste als leden hun eigen content toevoegen. Activeer het delen van informatie hieronder."
       sharing_communications_about: "Deel gemakkelijk informatie met elkaar."
       sharing_heading: Delen
+      host:
+        name: Domeinnaam
+        description: "De domeinnaam waarop de site bereikbaar is. Bijvoorbeeld www.leden.1kerk.nl (Voeg in dit veld geen http:// toe )"
+      Email:
+        Host:
+          name: "E-mail adres host name"
+          description: "A subdomain, e.g. mg.example.com, to use if your domain is already serving email. Defaults to the domain name."
+      mailgun: "Instellen Catch all route"
+      mailgun_message: "Klik op de onderstaande knop om een 'catch all route' in te stellen op je Mailgun account."
       small_group_sharing:
         disable: "disable sharing among small groups"
         all: "Delen met alle groepen, ongeacht grootte."
+      Pusher:
+        ? "App ID"
+        :
+          name: "App ID"
+          description: "The application ID provided by Pusher."
+        ? "App Key"
+        :
+          name: "App Key"
+          description: "The application key provided by Pusher."
+        Secret:
+          name: Secret
+          description: "The secret provided by Pusher."
+        ? "API Scheme"
+        :
+          name: "API Scheme"
+        ? "API Host"
+        :
+          name: "API Host"
+        ? "API Port"
+        :
+          name: "API Port"
+        ? "WS Host"
+        :
+          name: "WS Host"
+        ? "WS Port"
+        :
+          name: "WS Port"
+        ? "WSS Port"
+        :
+          name: "WSS Port"
     super_admin: Superuser
     super_admin_about: "Super users hebben alle mogelijke rechten op de site en kunnen alle gegevens bekijken. Ga hier zorgvuldig mee om."
-    syncs:
-      complete: Voltooid
-      duration: Duur
-      error: "Sorry.. Er is een fout opgetreden."
-      id: ID
-      legacy_id: ID
-      name: Naam
-      none: "Geen resultaten"
-      operation: Werking
-      rate: Snelheid
-      start: Start
-      status: Status
-      success: "Succesvol voltooid"
-      show:
-        heading: "Gesynchroniseerd %{at}"
-      syncs: Synchronisaties
-      type: Type
     template: Rechtengroep
     templates: Rechtengroepen
     updates:
@@ -602,3 +548,33 @@ nl-NL:
       updated: Geupdate.
     username: Gebruikersnaam
     your_key: key
+    attendance:
+      heading: Bezoekersregistratie
+      button: Bezoekersregistratie
+    checkin:
+      heading: "Check-in systeem"
+      cards_assigned: "Check-in kaarten toegewezen."
+      button: "Check-in dashboard"
+      dashboard_button: "Check-in Admin"
+    report:
+      back: "Back to Report Dash"
+      button: "Reporting Dashboard"
+      heading: Reporting
+      intro: "Access the Reporting Dashboard for pre-defined reports and ad-hoc reporting tools."
+      launch: Launch
+      list: Reports
+      title: "Reporting Dashboard"
+    actionables:
+      heading: Actionables
+    administration:
+      heading: "Administration & Settings"
+    charts:
+      no_data: "no data yet"
+    gatherings:
+      heading: Gatherings
+    facebook:
+      heading: Facebook
+      intro_html: "Allow people to sign in using Facebook. You'll need to first set up a Facebook \"app\", then plug in the app id and secret below."
+    pusher:
+      heading: Pusher
+      intro_html: "Pusher is a service that facilitates real-time communication. Right now, OneBody uses Pusher only for remote Check-in printing, which you may not need. You can sign up for a free Pusher account at <a href='https://pusher.com'>pusher.com</a> or use the open source software <a href='https://github.com/stevegraham/slanger'>Slanger</a> on your own server."

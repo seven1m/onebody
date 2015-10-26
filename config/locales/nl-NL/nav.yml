@@ -30,6 +30,7 @@ nl-NL:
       new_count:
         one: "1 nieuw"
         other: "%{count} nieuw"
+    imports: Imports
     messages: Berichten
     news: Nieuws
     notes: Notities
@@ -44,7 +45,6 @@ nl-NL:
       relationships: Relaties
       show: "Bekijk profiel"
     report: Reporting
-    syncs: Synchronisaties
     verses: Bijbelteksten
     tasks: Taken
     tasks_sub:
