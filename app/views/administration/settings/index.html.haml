@@ -84,32 +84,32 @@
           = button_tag t('save_changes'), class: 'btn btn-success'
     .tab-pane#theme
       = setting_row('Appearance', 'Theme', options: t('admin.settings.Appearance.Theme.options').invert)
-      %div.btn-group.col-sm-4.col-sm-offset-2{ :id => 'site-colors', 'data-toggle' => 'buttons'}
-        %label{ :class => 'btn style-blue'}
-          %input{ :type => 'radio', :name => 'site_color', :autocomplete => 'off', :value => 'skin-blue'}
-          %span{ :class => 'fa fa-check'}
-        %label{ :class => 'btn style-yellow'}
-          %input{ :type => 'radio', :name => 'site_color', :autocomplete => 'off', :value => 'skin-yellow'}
-          %span{ :class => 'fa fa-check'}
-        %label{ :class => 'btn style-green'}
-          %input{ :type => 'radio', :name => 'site_color', :autocomplete => 'off', :value => 'skin-green'}
-          %span{ :class => 'fa fa-check'}
-        %label{ :class => 'btn style-purple'}
-          %input{ :type => 'radio', :name => 'site_color', :autocomplete => 'off', :value => 'skin-purple'}
-          %span{ :class => 'fa fa-check'}
-        %label{ :class => 'btn style-red'}
-          %input{ :type => 'radio', :name => 'site_color', :autocomplete => 'off', :value => 'skin-red'}
-          %span{ :class => 'fa fa-check'}
-        %label{ :class => 'btn style-black'}
-          %input{ :type => 'radio', :name => 'site_color', :autocomplete => 'off', :value => 'skin-black'}
-          %span{ :class => 'fa fa-check'}
-      .btn-group{ :id => 'site-shades', 'data-toggle' => 'buttons'}
-        %label{ :class => 'btn style-light'}
-          %input{ :type => 'radio', :name => 'site_shade', :autocomplete => 'off', :value => 'light'}
-          %span{ :class => 'fa fa-check'}
-        %label{ :class => 'btn style-dark'}
-          %input{ :type => 'radio', :name => 'site_shade', :autocomplete => 'off', :value => 'dark'}
-          %span{ :class => 'fa fa-check'}
+      %div.btn-group.col-sm-4.col-sm-offset-2{ id: 'site-colors', 'data-toggle' => 'buttons'}
+        %label{ class: 'btn style-blue'}
+          %input{ type: 'radio', name: 'site_color', autocomplete: 'off', value: 'skin-blue'}
+          %span{ class: 'fa fa-check'}
+        %label{ class: 'btn style-yellow'}
+          %input{ type: 'radio', name: 'site_color', autocomplete: 'off', value: 'skin-yellow'}
+          %span{ class: 'fa fa-check'}
+        %label{ class: 'btn style-green'}
+          %input{ type: 'radio', name: 'site_color', autocomplete: 'off', value: 'skin-green'}
+          %span{ class: 'fa fa-check'}
+        %label{ class: 'btn style-purple'}
+          %input{ type: 'radio', name: 'site_color', autocomplete: 'off', value: 'skin-purple'}
+          %span{ class: 'fa fa-check'}
+        %label{ class: 'btn style-red'}
+          %input{ type: 'radio', name: 'site_color', autocomplete: 'off', value: 'skin-red'}
+          %span{ class: 'fa fa-check'}
+        %label{ class: 'btn style-black'}
+          %input{ type: 'radio', name: 'site_color', autocomplete: 'off', value: 'skin-black'}
+          %span{ class: 'fa fa-check'}
+      .btn-group{ id: 'site-shades', 'data-toggle' => 'buttons'}
+        %label{ class: 'btn style-light'}
+          %input{ type: 'radio', name: 'site_shade', autocomplete: 'off', value: 'light'}
+          %span{ class: 'fa fa-check'}
+        %label{ class: 'btn style-dark'}
+          %input{ type: 'radio', name: 'site_shade', autocomplete: 'off', value: 'dark'}
+          %span{ class: 'fa fa-check'}
       %br
       .form-group
         .col-sm-offset-2.col-sm-10
