@@ -1,5 +1,5 @@
-include PeopleHelper
 class StreamItemDecorator < Draper::Decorator
+  include Draper::LazyHelpers
 
   MAX_BODY_SIZE = 250
   MAX_PICTURES = 10
