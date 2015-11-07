@@ -1,6 +1,4 @@
 class StreamItemDecorator < Draper::Decorator
-  include Draper::LazyHelpers
-
   MAX_BODY_SIZE = 250
   MAX_PICTURES = 10
 
@@ -70,7 +68,7 @@ class StreamItemDecorator < Draper::Decorator
     h.content_tag(:h3, class: 'timeline-header') do
       if person
         who = h.content_tag(:div, class: 'user-header') do      
-          h.concat(h.image_tag(avatar_path(person), {class: 'avatar tn img-circle'}).html_safe)
+          h.concat(h.image_tag(h.avatar_path(person), {class: 'avatar tn img-circle'}).html_safe)
           h.concat(h.link_to(person.name, person))
         end
       else
