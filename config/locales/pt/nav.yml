@@ -10,7 +10,7 @@ pt:
     checkin: Check-in
     checkin_sub:
       times: Horários
-      labels: Labels
+      labels: Rótulos
     directory: Diretório
     directory_sub:
       business: "Diretório de Negócios"
@@ -30,6 +30,7 @@ pt:
       new_count:
         one: "1 novo"
         other: "%{count} novos"
+    imports: Importações
     messages: Mensagens
     news: Notícias
     notes: Notas
@@ -44,7 +45,6 @@ pt:
       relationships: Relacionamentos
       show: "Visualizar Perfil"
     report: Relatórios
-    syncs: Sincronizações
     verses: Versículos
     tasks: Tarefas
     tasks_sub:

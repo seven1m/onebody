@@ -1,13 +1,6 @@
 ---
 zh-CN:
   admin:
-    actionables:
-      heading: Actionables
-    administration:
-      heading: "Administration & Settings"
-    attendance:
-      heading: "Attendance (30 days)"
-      button: 出席记录
     box:
       updates:
         text:
@@ -15,9 +8,6 @@ zh-CN:
       changed_emails:
         text:
           other: 已变更的邮箱
-      sync_errors:
-        text:
-          other: 同步出错
       groups_pending_approval:
         text:
           other: 待审核的小组
@@ -27,13 +17,9 @@ zh-CN:
       deleted_people:
         text:
           other: 已删除的人员
-    charts:
-      no_data: "no data yet"
-    checkin:
-      heading: 签到（两天内）
-      cards_assigned: 签到卡片已分配
-      dashboard_button: "Check-in Admin"
-      button: 签到管理中心
+      import_errors:
+        text:
+          other: "Import Errors"
     dashboard:
       heading: 管理员中心
       sub_title: "OneBody %{version}"
@@ -44,7 +30,6 @@ zh-CN:
       tabs:
         people: 已删除人员
         families: 空的团契
-      family_deleted: 已删除
       heading: 已删除的人员
       empty_families:
         intro: "The following active families have no people in them and probably should be deleted."
@@ -59,19 +44,10 @@ zh-CN:
         intro: "The results of your search are displayed below."
       undelete:
         button: "Undelete Selected People"
-    gatherings:
-      heading: Gatherings
+      family_deleted: 已删除
     membership_requests:
       count:
         other: "%{count} requests"
-    report:
-      back: "Back to Report Dash"
-      button: "Reporting Dashboard"
-      heading: 报告
-      intro: "Access the Reporting Dashboard for pre-defined reports and ad-hoc reporting tools."
-      launch: Launch
-      list: Reports
-      title: "Reporting Dashboard"
     active: active
     admin_added: "%{name} added."
     admin_count:
@@ -97,9 +73,10 @@ zh-CN:
     enable_api_confirmation: "Are you sure you want to enable your API key?"
     emails:
       intro_html: |
-          <p><em>This administration section is useful if you sync your data from an external source using UpdateAgent. If you do not, you may safely clear all the items from this list (or just ignore it entirely).</em></p>
-          <p>When a user changes their email address online, a flag is set, and subsequent syncs cannot change the email address back until the flag is cleared. To clear the flag, simply set the user's email address in your external database to be the same as below, and then run your sync process (or wait for it to run at its next scheduled time).</p>
-          <p>Alternatively, you can clear the flag manually here to allow your sync process to overwrite the value (but beware you may confuse your users if you do so).</p>
+          <p>When a user changes their email address online, a flag is set, and subsequent CSV imports are prevented from overwriting that user's email address.</p>
+          <p>If you regularly import your people data from an external system, you should only have to <strong>update the user's email address in your database of record</strong> to match their address here. Then, next time you import your database, OneBody will clear the "email changed" flag for you and they will be removed from this list.</p>
+          <p>You can use this page as a To-Do list &ndash; a list of email address changes you need to make to your database of record.</p>
+          <p>Below are users whose flags are set. You may clear the flag here manually if needed.</p>
       changed_addresses: "Changed Email Addresses"
       clear_flags: "Clear Flags"
       no_records: "There are currently no records with the changed email address flag set."
@@ -117,12 +94,6 @@ zh-CN:
     import_export: 导入／导出
     invalidate_confirmation: "Are you sure you want to invalidate this key and create a new one?"
     key: Key
-    logo:
-      delete: "delete logo"
-      format_information: "A transparent gif or png will look the best."
-      logo: Logo
-      size_information: "Upload an image file below. It will be resized to be no larger than 300x80."
-      upload: "Upload Logo"
     manage_group_administrators: "Manage Group Administrators"
     must_be_superadmin: "You must be a super administrator to modify settings."
     new_admin_template: "Create a new admin template."
@@ -238,36 +209,6 @@ zh-CN:
         :
           name: "Send Attendance Submissions To"
           description: "Email sent when someone submits attendance for a group"
-      Pusher:
-        ? "App ID"
-        :
-          name: "App ID"
-          description: "The application ID provided by Pusher."
-        ? "App Key"
-        :
-          name: "App Key"
-          description: "The application key provided by Pusher."
-        Secret:
-          name: Secret
-          description: "The secret provided by Pusher."
-        ? "API Scheme"
-        :
-          name: "API Scheme"
-        ? "API Host"
-        :
-          name: "API Host"
-        ? "API Port"
-        :
-          name: "API Port"
-        ? "WS Host"
-        :
-          name: "WS Host"
-        ? "WS Port"
-        :
-          name: "WS Port"
-        ? "WSS Port"
-        :
-          name: "WSS Port"
       Services:
         Yahoo:
           name: 雅虎
@@ -300,7 +241,7 @@ zh-CN:
           description: "Age at which a person is considered old enough to use the site and be seen by others in the directory."
         Language:
           name: Language
-          description: "Language for interface elements."
+          description: "Language for interface elements. <a href='%{url}' target='_blank'>You can help!</a>"
         ? "Time Zone"
         :
           name: "Time Zone"
@@ -364,10 +305,6 @@ zh-CN:
         :
           name: "Updates Must Be Approved"
           description: "If enabled, all changes to a user's \"basic\" information (phone, address, etc.) will await approval from an admin before being applied."
-        ? "Notify on Photo Change"
-        :
-          name: "Notify on Photo Change"
-          description: "If enabled, admins will be notified whenever a user changes their personal or family photos."
         ? "Sign Up"
         :
           name: 注册
@@ -401,8 +338,8 @@ zh-CN:
           description: "Add custom field names, one per line. Including the word \"date\" (or \"Date\") makes a date field. Append an asterisk (*) to make the field visible and editable by users."
         ? "Edit Legacy Ids"
         :
-          name: "Edit Legacy Ids"
-          description: "If enabled, will allow admin access to manually modify Family and Person legacy ids."
+          name: "Edit Legacy ID"
+          description: "Allow admins to see and edit the legacy_id field."
         ? "Sign Up Approval Email"
         :
           name: "Sign Up Approval Email"
@@ -438,20 +375,24 @@ zh-CN:
         Service:
           name: Service
           description: "If enabled, admin users can track indviduals' service in areas of the community."
+        ? "Notify on Photo Change"
+        :
+          name: "Notify on Photo Change"
+          description: "If enabled, admins will be notified whenever a user changes their personal or family photos."
         Checkin:
           name: 签到
           description: "If enabled, users can check-in to designated classes."
         Documents:
           name: 文档
           description: "If enabled, admins can upload files in a general area where users can browse and download them."
-        ? "Business Directory"
-        :
-          name: "Business Directory"
-          description: "If enabled, users can add business information to be listed in a church business directory."
         ? "Small Group Size"
         :
           name: "Max size of a \"small group\""
           description: "People in groups with this many members or fewer are considered in a \"small group\" together, and can easily share content with one another via the homepage."
+        ? "Business Directory"
+        :
+          name: "Business Directory"
+          description: "If enabled, users can add business information to be listed in a church business directory."
       Privacy:
         ? "Hide Contact Details in Messages"
         :
@@ -501,20 +442,6 @@ zh-CN:
         :
           name: "Share Birthday"
           description: "If enabled, new users will have their birthday shared with other site members."
-      host:
-        name: "Host/Domain Name"
-        description: "The domain name where this site is accessible on the web, e.g. example.com or members.mychurch.com (do not include http:// on the front)"
-      Email:
-        Host:
-          name: "Email Host Name"
-          description: "A subdomain, e.g. mg.example.com, to use if your domain is already serving email. Defaults to the domain name."
-        MailgunApiKey:
-          name: "Mailgun API Key"
-          description: "API Key to use mailgun.com as the email receiver."
-      advanced:
-        heading: Advanced
-        intro: "If settings aren't getting reloaded, click the button below to force reload."
-        mailgun: "Click the button below to create a catch all route on your mailgun account."
       contact_automated_email_about: "These email addresses are sent email when certain things happen on the site. You can set them all to the same address or to different ones, depending on separation of duties in your community."
       contact_community_info_about: "Enter contact information for your church or community office, where people can contact administrative staff."
       contact_heading: Contact
@@ -525,8 +452,6 @@ zh-CN:
       formats_date_about_html: "Enter your own date and time formats to match your part of the world. See <a href=\"https://www.manystrands.com/wp-content/uploads/2013/01/strftime-cheat-sheet.pdf\" target=\"_new\">here</a> for formatting options."
       formats_phone_about: "Specify phone formatting with 'd', e.g. ddd-ddd-dddd or (dd) dddd-dddd, depending on your locale."
       locale_heading: Locale
-      mailgun: "Create Catch All Route on Mailgun"
-      mailgun_message: "Use this to create a catch all route on your host/domain with mailgun to receive email messages."
       membership_management_heading: 成员
       name_heading: 名字
       one_per_line: "(one per line)"
@@ -541,28 +466,50 @@ zh-CN:
       sharing_about: "OneBody is best when members participate by adding their own content. Enable content sharing with these settings."
       sharing_communications_about: "Share information with your members easily."
       sharing_heading: 分享
+      host:
+        name: "Host/Domain Name"
+        description: "The domain name where this site is accessible on the web, e.g. example.com or members.mychurch.com (do not include http:// on the front)"
+      Email:
+        Host:
+          name: "Email Host Name"
+          description: "A subdomain, e.g. mg.example.com, to use if your domain is already serving email. Defaults to the domain name."
+      mailgun: "Create Catch All Route on Mailgun"
+      mailgun_message: "Use this to create a catch all route on your host/domain with mailgun to receive email messages."
       small_group_sharing:
         disable: "disable sharing among small groups"
         all: "share with all groups, regardless of size"
+      Pusher:
+        ? "App ID"
+        :
+          name: "App ID"
+          description: "The application ID provided by Pusher."
+        ? "App Key"
+        :
+          name: "App Key"
+          description: "The application key provided by Pusher."
+        Secret:
+          name: Secret
+          description: "The secret provided by Pusher."
+        ? "API Scheme"
+        :
+          name: "API Scheme"
+        ? "API Host"
+        :
+          name: "API Host"
+        ? "API Port"
+        :
+          name: "API Port"
+        ? "WS Host"
+        :
+          name: "WS Host"
+        ? "WS Port"
+        :
+          name: "WS Port"
+        ? "WSS Port"
+        :
+          name: "WSS Port"
     super_admin: "Super Admin"
     super_admin_about: "Super Admins have full control over the site, with all available privileges. Be careful who you give this to — it could be dangerous!"
-    syncs:
-      complete: 完成
-      duration: Duration
-      error: 错误
-      id: ID
-      legacy_id: "Legacy ID"
-      name: 名字
-      none: "None yet."
-      operation: Operation
-      rate: Rate
-      start: Start
-      status: 状态
-      success: Success
-      show:
-        heading: "Sync %{at}"
-      syncs: Syncs
-      type: 类型
     template: Template
     templates: Templates
     updates:
@@ -592,3 +539,33 @@ zh-CN:
       updated: updated
     username: Username
     your_key: "your key"
+    attendance:
+      heading: "Attendance (30 days)"
+      button: 出席记录
+    checkin:
+      heading: 签到（两天内）
+      cards_assigned: 签到卡片已分配
+      button: 签到管理中心
+      dashboard_button: "Check-in Admin"
+    report:
+      back: "Back to Report Dash"
+      button: "Reporting Dashboard"
+      heading: 报告
+      intro: "Access the Reporting Dashboard for pre-defined reports and ad-hoc reporting tools."
+      launch: Launch
+      list: Reports
+      title: "Reporting Dashboard"
+    actionables:
+      heading: Actionables
+    administration:
+      heading: "Administration & Settings"
+    charts:
+      no_data: "no data yet"
+    gatherings:
+      heading: Gatherings
+    facebook:
+      heading: Facebook
+      intro_html: "Allow people to sign in using Facebook. You'll need to first set up a Facebook \"app\", then plug in the app id and secret below."
+    pusher:
+      heading: Pusher
+      intro_html: "Pusher is a service that facilitates real-time communication. Right now, OneBody uses Pusher only for remote Check-in printing, which you may not need. You can sign up for a free Pusher account at <a href='https://pusher.com'>pusher.com</a> or use the open source software <a href='https://github.com/stevegraham/slanger'>Slanger</a> on your own server."

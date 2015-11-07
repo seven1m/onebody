@@ -26,7 +26,7 @@ set -ex
 apt-get update -qq
 debconf-set-selections <<< 'mysql-server mysql-server/root_password password vagrant'
 debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password vagrant'
-apt-get install -q -y build-essential curl libcurl4-openssl-dev nodejs git mysql-server libmysqlclient-dev libaprutil1-dev libapr1-dev apache2 apache2-threaded-dev imagemagick
+apt-get install -q -y build-essential curl libcurl4-openssl-dev nodejs git mysql-server libmysqlclient-dev libgmp3-dev libaprutil1-dev libapr1-dev apache2 apache2-threaded-dev imagemagick
 
 # setup db
 mysql -u root -pvagrant -e "grant all on onebody_dev.*  to onebody@localhost identified by 'onebody';"

@@ -12,9 +12,9 @@ ro:
       remove:
         button: "Remove Selected"
     add:
-      heading: "Add Someone"
       description: "Adaugă pe cineva în grup"
       name_placeholder: "Type all or part of someone's name"
+      heading: "Add Someone"
       parents_of_warning_html: |
           This is a group automatically linked with parents of people in %{group}.
           If you add someone manually, that person won't be managed automatically.
@@ -27,9 +27,9 @@ ro:
     requests:
       heading: "Cereri de înscriere în acest grup"
       select_some: "Selectează unul sau mai multe de deasupra şi alege o acţiune."
-      name: Name
-      created_at: Requested
       accept:
         button: Acceptă
       ignore:
         button: Ignoră
+      name: Name
+      created_at: Requested

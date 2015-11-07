@@ -8,54 +8,49 @@ pt:
       heading_without_family: "Nova Pessoa"
       no_family_warning_html: "Você irá criar uma nova pessoa e um <strong>novo registro de família</strong>\n\
           Se você deseja adicionar uma pessoa a uma família existente, primeiro acesse a página da família e adicione a pessoa nela. \n"
-    title_html: "%{name}<span class='discreet'>, %{description}</span>"
-    show:
-      details:
-        family: "Família %{family}"
-        website: Website
-        email: Email
-        mobile_phone: "Telefone Celular"
-        home_phone: "Telefone Residencial"
-        work_phone: "Telefone de Trabalho"
-        address: "Endereço Residencial"
-        birthday: "Data de Nascimento"
-        anniversary: "Aniversário de Casamento"
-        social: Social
-      showing_hidden_attribute:
-        tooltip: "This detail is visible to you because you are an admin with 'View Hidden Properties' enabled."
     edit:
       about: Sobre
       basics: Básico
-      business: Negócios
-      business_category:
-        new: "[criar uma nova categoria]"
-        create_prompt: "Digite a categoria do seu negócio:"
       child:
         enabled: Criança
         disabled: Adulto
       child_hint: "Se nenhuma data de nascimento for especificada, você necessita indicar se este é uma criança ou um adulto."
-      custom_type:
-        new: "[criar função]"
-        create_prompt: "Digite o nome da função:"
       description_hint: "Algumas palavras sobre você — algumas pessoas colocam a profissão aqui."
-      email_hint: " (este é o seu endereço de email principal utilizado para o login e receber emails)"
-      facebook_url:
-        placeholder: "https://www.facebook.com/nomedousuario"
       family_photo: "Foto da Família"
-      header: "Editar Perfil"
       person_type: Funções
       person_type_hint: "Estes não controlam acesso - somente designação."
       photo: "Foto do Perfil"
+      header: "Editar Perfil"
+      business: Negócios
+      business_category:
+        new: "[criar uma nova categoria]"
+        create_prompt: "Digite a categoria do seu negócio:"
+      custom_type:
+        new: "[criar função]"
+        create_prompt: "Digite o nome da função:"
+      facebook_url:
+        placeholder: "https://www.facebook.com/nomedousuario"
+      required_field: requerido
+      twitter:
+        placeholder: "@nomedousuario"
       primary_emailer:
         intro_html: "Você está compartilhando um endereço de email com %{person}.\n\
             Se os emails do seu grupo estão sendo rejeitados, considere marcar a opção abaixo para ter certeza que\n\
             os seus email estão <strong>sempre</strong> conectados com a sua conta\n\
             &ndash; <strong>not %{person}</strong>. (Nota: Se você e %{person} enviam emails para o grupo,\n\
             então será melhor utilizar endereços de email diferentes.) \n"
-      required_field: requerido
-      twitter:
-        placeholder: "@nomedousuario"
-      visibility: Visibilidade
+      email_hint: " (este é o seu endereço de email principal utilizado para o login e receber emails)"
+      no_family_error: "Essa pessoa não pode ser editada, pois ela não pertence a família."
+      status: Estado
+      status_help:
+        inactive: "Pessoas inativas não podem acessar e estão visíveis apenas para administradores."
+        pending: "Pessoas com pendências podem acessar e visualizar informações limitadas dos membros."
+        active: "Pessoas ativas podem acessar e fazer uso total do site."
+        not_an_adult: "Crianças não podem acessar, então configurar o estado aqui afeta apenas a visibilidade delas para os outros."
+      statuses:
+        inactive: Inativo
+        pending: Pendente
+        active: Ativo
     move:
       heading: "Adicionar na família %{family}"
       description_html: "Encontre pessoas para adicionar na família <a href='%{url}'>%{family}</a>, e clique no botão Adicionar..."
@@ -87,11 +82,11 @@ pt:
       groups:
         heading: "Email do Grupo"
     groups:
-      heading: Grupos
       members: membros
       messages: mensagens
       join:
         button: "Encontre e participe de um grupo"
+      heading: Grupos
       see_all: "ver todos..."
     business:
       services_provided_by: "Serviços fornecidos por %{person}"
@@ -99,9 +94,6 @@ pt:
       email: Email
       phone: Telefone
       website: Website
-    checkin:
-      heading: "Check-in Notes"
-      intro: "These are notes that are displayed on check-in screens and (optionally) on printed check-in labels in order to alert workers."
     testimony:
       box_heading: Testemunho
       heading: "Testemunho de %{person}"
@@ -110,10 +102,6 @@ pt:
       find_more: "Ler outros testemunhos"
     updates:
       pending_callout: "Este perfil possui atualizações pendentes."
-    verification_email:
-      heading: "Completar Configuração do Usuário"
-      intro: "Antes deste usuário poder acessar, ele precisa completar a configuração clicando no link fornecido no email. Clique abaixo para enviar o email para ele."
-      button: "Enviar uma senha de configuração para este usuário."
     advanced: Avançado
     can_sign_in: Cadastre-se
     cant_delete_yourself: "Você não pode se excluir."
@@ -149,9 +137,30 @@ pt:
     show_hidden_groups: "Exibir Grupos Ocultos"
     tell_us_about_yourself: "Fala um pouco sobre você. Como é a sua personalidade? Como o seu melhor amigo descreveria você?"
     this_event_doesnt_have_pictures: "Este evento ainda não possui nenhuma foto."
-    this_person_is_not_an_adult: "Acreditamos que esta pessoa tem menos de %{years} anos de idade e não tem o consentimento dos pais."
     this_profile_is_hidden: "Este perfil está oculto"
     update_to_profile_is: "Uma atualização para este perfil é"
     visible_on_printed_directory: "Visível no Diretório Impresso"
     visible_to_everyone: "Visível para todos"
     you_arent_in_any_groups: "Você ainda não faz parte de nenhum grupo."
+    title_html: "%{name}<span class='discreet'>, %{description}</span>"
+    verification_email:
+      heading: "Completar Configuração do Usuário"
+      intro: "Antes deste usuário poder acessar, ele precisa completar a configuração clicando no link fornecido no email. Clique abaixo para enviar o email para ele."
+      button: "Enviar uma senha de configuração para este usuário."
+    show:
+      details:
+        family: "Família %{family}"
+        website: Website
+        email: Email
+        mobile_phone: "Telefone Celular"
+        home_phone: "Telefone Residencial"
+        work_phone: "Telefone de Trabalho"
+        address: "Endereço Residencial"
+        birthday: "Data de Nascimento"
+        anniversary: "Aniversário de Casamento"
+        social: Social
+      showing_hidden_attribute:
+        tooltip: "Isso é visível para você porque você é um administrador com privilégios de 'Visualização de Propriedades Ocultas' habilitado."
+    checkin:
+      heading: "Notas de Check-in"
+      intro: "Essas são notas mostradas nas telas de check-in e (opcionalmente) nos rótulos de check-in impressos com objetivo de alertar os trabalhadores."

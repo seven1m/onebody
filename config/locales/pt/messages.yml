@@ -20,8 +20,8 @@ pt:
     reply_all:
       button: "Responder esta mensagem (enviar para todo o grupo)"
     email:
-      reply_to_sender: "Hit \"Reply\" to send a message to %{person}."
-      reply_to_group: "Hit \"Reply to All\" to send a message to the group %{group}, or send to %{address}."
+      reply_to_sender: "Pressione \"Responder\" para enviar uma mensagem para %{person}."
+      reply_to_group: "Pressione \"Responder a Todos\" para enviar uma mensagem para o grupo %{group}, ou enviar para %{address}."
       group_link: "Página do grupo: %{url}"
       reply_link: "Para responder, acesse: %{url}"
       disable_group_email: |-

@@ -12,18 +12,21 @@ pt:
         item_count: "%{count} itens"
       edit_folder:
         button: "Editar esta pasta"
+      delete_folder:
+        button: "Remover essa pasta"
       new_folder:
         button: "Nova pasta"
       new_document:
         button: "Novo documento"
       hidden_folders:
         label:
-          one: "1 hidden folder"
-          other: "%{count} hidden folders"
+          one: "Uma pasta oculta"
+          other: "%{count} pastas ocultas"
       restricted_folders:
         label:
-          one: "1 restricted (group) folder"
-          other: "%{count} restricted (group) folders"
+          one: "Uma pasta (de grupo) restrita"
+          other: "%{count} pastas (de grupo) restritas"
+      no_file: "No file chosen"
     show:
       table:
         filename: "Nome de arquivo"
@@ -38,10 +41,17 @@ pt:
         button: Excluir
     new:
       heading: "Novo Documento"
+      select:
+        button: "Select File(s)"
     new_folder:
       heading: "Nova Pasta"
     create:
-      notice: "O seu documento foi criado."
+      notice:
+        one: "Your document has been created."
+        other: "Your documents have been created."
+      failure:
+        one: "Your document could not be saved: %{filenames}"
+        other: "Your documents could not be saved: %{filenames}"
     create_folder:
       notice: "A sua pasta foi criada."
     edit:
@@ -58,24 +68,24 @@ pt:
       confirmation: "Você tem certeza que deseja exluir esta pasta E TUDO DENTRO DELA? Não há como desfazer isto."
       notice: "A pasta e todo o seu conteúdo foram excluídos."
     hidden_folder:
-      alert: "This folder is hidden from regular users."
-      tooltip: hidden
+      alert: "Esta pasta é oculta para usuários regulares."
+      tooltip: oculto
     hidden_folder_due_to_parent:
-      alert: "This folder is hidden from regular users because it is inside a hidden folder."
+      alert: "Esta pasta é oculta para usuários regulares porque está dentro de uma pasta oculta."
     hidden_document:
-      alert: "This document is hidden from regular users."
-      tooltip: hidden
+      alert: "Este documento está oculto dos usuários comuns."
+      tooltip: oculto
     hidden_document_due_to_parent:
-      alert: "This document is hidden from regular users because it is inside a hidden folder."
+      alert: "Este documento está oculto dos usuários comuns porque está dentro de um diretório oculto."
     groups:
       add:
-        heading: "Share with groups (optional)"
-        search_button: "Search by name"
-        add_button: "Add Group"
+        heading: "Compartilhar com os grupos (opcional)"
+        search_button: "Buscar pelo nome"
+        add_button: "Adicionar Grupo"
       link: link
     restricted_folder:
-      alert_html: "This folder is only visible to the following groups: %{groups}"
-      tooltip: restricted
+      alert_html: "Esta pasta somente é visível para os seguintes grupos: %{groups}"
+      tooltip: restrito
     restricted_document:
-      alert_html: "This document is only visible to the following groups: %{groups}"
-      tooltip: restricted
+      alert_html: "Este documento somente é visível para os seguintes grupos: %{groups}"
+      tooltip: restrito

@@ -12,9 +12,9 @@ zh-CN:
       remove:
         button: "Remove Selected"
     add:
-      heading: "Add Someone"
       description: "Add someone to this group."
       name_placeholder: "Type all or part of someone's name"
+      heading: "Add Someone"
       parents_of_warning_html: |
           This is a group automatically linked with parents of people in %{group}.
           If you add someone manually, that person won't be managed automatically.
@@ -27,9 +27,9 @@ zh-CN:
     requests:
       heading: "Requests to join this group"
       select_some: "Select one or more above and choose an action."
-      name: 名字
-      created_at: Requested
       accept:
         button: 接受
       ignore:
         button: 忽略
+      name: 名字
+      created_at: Requested

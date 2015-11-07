@@ -43,14 +43,14 @@ nl-NL:
       index:
         heading: "%{time} op %{campus}"
         add_folder:
-          button: "Add Folder"
-          heading: "Add a folder"
-          name: "Folder Name"
+          button: "Voeg een map toe."
+          heading: "Voeg een map toe."
+          name: Mapnaam
         add_group:
           heading: "Bestemming toevoegen (groep)"
           search: "Zoeken op naam"
           select_folder:
-            label: "Select folder"
+            label: "Selecteer map"
             none: (none)
           button: "Groep toevoegen"
         table:
@@ -70,11 +70,11 @@ nl-NL:
         notice: "Label deleted."
       heading: "Check-in Labels"
       new:
-        button: "New Label"
+        button: "Nieuw label"
         heading: "Edit Check-in Label"
       table:
         name: Name
-        description: Description
+        description: Beschrijving
         updated_at: Updated
     times:
       button: Installatie
@@ -93,7 +93,7 @@ nl-NL:
         campus:
           new: "[nieuw campus]"
         delete:
-          button: delete
+          button: verwijder
         heading: "Wijzig check-in tijd"
         save:
           button: "Wijzigingen opslaan"
@@ -146,10 +146,10 @@ nl-NL:
         no_barcode: "Scan de barcode"
     interface:
       add_guest:
-        heading: "Add a Guest"
-        intro: "Type the full name of your guest in the field below."
-        button: "Add a guest"
-        save: Save
+        heading: "Voeg een gast toe."
+        intro: "Type de volledige naam van je gast in het veld hieronder."
+        button: "Voeg een gast toe."
+        save: Opslaan
       barcode:
         placeholder: "Scan Your Card"
       cancel:

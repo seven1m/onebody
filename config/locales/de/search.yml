@@ -27,7 +27,7 @@ de:
       group_membership: Gruppenmitgliedschaft
       in_group: behinhaltet
       not_in_group: "beinhaltet nicht"
-      group_membership_text: "group with category"
+      group_membership_text: "gruppe mit Kategorie"
       types:
         member: Mitglied
         staff: Mitarbeiter
@@ -52,4 +52,4 @@ de:
     search_by_name: "Nach Namen suchen"
     show_hidden: "Zeige Versteckte"
     staff: Mitarbeiter
-    directory_map: "Directory Map"
+    directory_map: "Verzeichnis Karte"

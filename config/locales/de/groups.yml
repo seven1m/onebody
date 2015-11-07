@@ -93,20 +93,20 @@ de:
         membership_mode:
           options:
             manual: "Füge Mitglieder manuell hinzu(standard)"
-            link_code: "Add members automatic by external link code."
-            parents_of: "Link to a child group to get parents of those children."
-            adults: "Include all adults in this community."
+            link_code: "Hinzufügen Mitglieder automatisch aus externer Link."
+            parents_of: "Schließ sich einer Kindergruppe, die Eltern dieser Kinder abrufen."
+            adults: "Umfassen alle Erwachsenen in dieser Community."
       files:
         description: "Dateien die hier hinzugefügt werden sind für alle Gruppenmitglieder sichtbar."
         delete_button: Löschen
       meets:
         help: "Schreibe etwas wie \"Mittwoch um 19Uhr\" oder \"Wie angesagt\""
       location:
-        help: "If you enter a physical address, an interactive map will be displayed on your group page."
+        help: "Wenn du eine physikalische Adresse eingeben, wird eine interaktive Karte auf der Gruppenseite angezeigt werden."
       directions:
-        help: "You may want to include travel directions."
+        help: "Velleicht möchtest du Fahrtrichtungen gehören."
       address:
-        help: "Give your group a unique email address so messages can be sent easily."
+        help: "Gib deine Gruppe eine eindeutige Email-Addresse ein, damit Nachrichten können problemlos gesendet werden."
       calendar:
         help: "In your Google Calendar, in Calendar Settings, copy your \"Private\" XML Link and paste in this box to display your calendar on the group page."
       category:
@@ -124,7 +124,7 @@ de:
         help: "Attendance must be enabled for any group used by Check-in."
       class_link_code:
         help_html: |
-            <p>This is useful for syncing with external systems. Separate multiple codes with a space. <a href='https://github.com/churchio/onebody/wiki/HowGroupMembershipWorks'>See here</a> for more information.</p>
+            <p>This is useful for syncing with external systems. Separate multiple codes with a space. <a href='%{url}' target='_blank'>See here</a> for more information.</p>
             <p>Click <strong>Save</strong> to update group members immediately. Group members will also be updated automatically every night.</p>
       parents_of:
         help_html: |

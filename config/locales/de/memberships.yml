@@ -12,24 +12,22 @@ de:
       remove:
         button: "Entferne ausgewählte."
     add:
-      heading: "Füge jemanden hinzu"
       description: "Füge jemanden zu dieser Gruppe hinzu."
-      name_placeholder: "Type all or part of someone's name"
-      parents_of_warning_html: |
-          This is a group automatically linked with parents of people in %{group}.
-          If you add someone manually, that person won't be managed automatically.
-      linked_group_warning_html: |
-          This group is linked with class code <strong>%{code}</strong>.
-          If you add someone manually, that person won't be managed automatically.
-    promote: "Promote member to admin"
-    demote: "Demote admin to regular member"
+      name_placeholder: "Gibst du alle oder einen Teil des Namens jemand"
+      heading: "Füge jemanden hinzu"
+      parents_of_warning_html: "Dies ist eine Gruppe automatisch mit den Eltern der Menschen in %{group} verbunden. \n\n\
+          Wenn du jemand manuell hinsufügst, wird diese Person nicht automatisch verwaltet werden. \n"
+      linked_group_warning_html: "Diese Gruppe wird mit dem Klassencode <strong>%{code}</strong> verknüpft. \n\n\
+          Wenn du jemand manuell hinsufügst, wird diese Person nicht automatisch verwaltet werden. \n"
+    promote: "Förd Mitglied zum Admin"
+    demote: "Herabstufen Um die regelmäßige Mitgelieder."
     group_pending_approval: "Diese Gruppe muss erst noch bestätigt werden. Bis dahin kannst du niemanden hinzufügen."
     requests:
       heading: "Anfragen, um dieser Gruppe beizutreten"
-      select_some: "Select one or more above and choose an action."
-      name: Name
-      created_at: Angefragt
+      select_some: "Wähl ein oder mehrere oben und wähl eine Aktion."
       accept:
         button: Akzeptieren
       ignore:
         button: Ignorieren
+      name: Name
+      created_at: Angefragt

@@ -88,6 +88,14 @@ if [[ ! -e /etc/onebody/secrets.yml ]]; then
   chown onebody:onebody /etc/onebody/secrets.yml
 fi
 
+if [[ ! -e /etc/onebody/email.yml ]]; then
+  echo "Building /etc/onebody/email.yml"
+  cp /opt/onebody/config/email.yml{.example,}
+  sed -i 's/^\([^#-]\)/#\1/' /opt/onebody/config/email.yml
+  ln -sf /opt/onebody/config/email.yml /etc/onebody/email.yml
+  chown onebody:onebody /etc/onebody/email.yml
+fi
+
 echo "Checking for database"
 onebody run rake db:version &>/dev/null
 if [[ $? -eq 0 ]]; then
@@ -105,3 +113,5 @@ else
   restart_or_create_service
 fi
 
+echo "Updating crontab"
+onebody run whenever -w

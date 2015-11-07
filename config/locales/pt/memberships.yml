@@ -12,9 +12,9 @@ pt:
       remove:
         button: "Remover Selecionado"
     add:
-      heading: "Adicionar Alguém"
       description: "Adicionar alguém neste grupo."
       name_placeholder: "Digite o nome de alguém (completo ou parte do nome)"
+      heading: "Adicionar Alguém"
       parents_of_warning_html: "Este é um grupo que contém um link automático com os pais de pessoas no grupo %{group}.\n\
           Se você adicionar alguém manualmente, a pessoa não será gerenciada automaticamente. \n"
       linked_group_warning_html: "Este grupo contém um link com o código de classe <strong>%{code}</strong>.\n\
@@ -25,9 +25,9 @@ pt:
     requests:
       heading: "Solicita para entrar neste grupo"
       select_some: "Selecione um ou mais abaixo e escolha uma ação."
-      name: Name
-      created_at: Solicitado
       accept:
         button: Aceitar
       ignore:
         button: Ignorar
+      name: Nome
+      created_at: Solicitado

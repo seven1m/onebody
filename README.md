@@ -73,7 +73,7 @@ Operating System: Mac or Linux (See Vagrant above if you're on Windows)
 7. `mysql -uroot -e "grant all on onebody_dev.* to onebody@localhost identified by 'onebody';"`
 8. `mysql -uroot -e "grant all on onebody_test.* to onebody@localhost identified by 'onebody';"`
 9. `cp config/database.yml{.mysql-example,}`
-10. `bundle install`
+10. `bundle install` (If you get an error installing eventmachine, you might need to do [this](http://stackoverflow.com/a/31516586/197498))
 11. `cp config/secrets.yml{.example,} && vim config/secrets.yml` and add a random secret token to both the "development" and "test" sections (you can use `rake secret` to generate a new random secret).
 12. `rake db:create db:schema:load db:seed`
 13. `rails server`

@@ -21,7 +21,6 @@ de:
   for: for
   multiple_files: "Your web browser may support multiple file uploads — try selecting multiple files using the Ctrl key (Windows) or Command key (Mac) on your keyboard."
   name: Name
-  new: new
   none: none
   not_authorized: "You are not authorized."
   ? "true"
@@ -36,12 +35,6 @@ de:
   show_all: "Show All"
   submit_changes: "Submit Changes"
   you_made_a_change_page: "Looks like you made a change to something on this page. Click OK to discard your edits and leave this page."
-  date_format:
-    DD: DD
-    MM: MM
-    YYYY: YYYY
-  errors:
-    format: "%{message}"
   activemodel:
     errors:
       models:
@@ -68,47 +61,32 @@ de:
       album:
         name: Name
         description: Beschreibung
-      checkin_label:
-        name: Name
-        description: Description
-        xml: "Label XML"
-        xml_file: "Label XML File"
-      document:
-        name: Name
-        description: Bescheibung
-        file: Datei
-        folder_id: Ordner
-      document_folder:
-        name: Name
-        description: Beschreibung
-        folder_id: "Übergeordneter Ordner"
-        hidden: "Hide/Archive this folder"
-        groups: "Only share with these groups"
       family:
+        name: Name
+        last_name: Nachname
+        home_phone: Festnetz
         address1: Adresse
         address2: "Adresse 2"
         city: Stadt
-        country: Land
-        home_phone: Festnetz
-        last_name: Nachname
-        name: Name
         state: Land
         zip: PLZ
+        country: Land
       person:
+        first_name: Vorname
+        last_name: Nachname
+        email: EMail
+        facebook_url: Facebook
+        twitter: "Twitter Username"
         anniversary: Hochzeitstag
         birthday: Geburtstag
         custom_type: "Custom Role"
-        email: EMail
-        facebook_url: Facebook
         fax: Faxnummer
-        first_name: Vorname
         gender: Geschlecht
-        last_name: Nachname
         mobile_phone: Mobiltelefon
-        primary_emailer: "Primary email account holder"
         suffix: Suffix
-        twitter: "Twitter Username"
         work_phone: Arbeitstelefon
+        primary_emailer: "Primary email account holder"
+        status: Status
       group:
         name: Name
         category: Kategorie
@@ -127,10 +105,10 @@ de:
         approval_required_to_join: "Approval required for people to join group"
         private: "Private Gruppe"
         members_send: "Group Members Can Post Messages"
-        membership_mode: "Select how group members should be added to this group"
         link_code: "External Link Code"
         parents_of: Untergruppe
         hidden: "Unsichtbare (archivierte) Gruppe"
+        membership_mode: "Select how group members should be added to this group"
         has_tasks: Aufgaben
       prayer_request:
         answer: Answer
@@ -140,6 +118,18 @@ de:
       note:
         title: Title
         body: Body
+      document:
+        name: Name
+        description: Bescheibung
+        file: Datei
+        folder_id: Ordner
+        files: Files
+      document_folder:
+        name: Name
+        description: Beschreibung
+        folder_id: "Übergeordneter Ordner"
+        hidden: "Hide/Archive this folder"
+        groups: "Only share with these groups"
       task:
         name: Task
         description: Description
@@ -147,6 +137,11 @@ de:
         person_id: "Assigned to"
         duedate: "Fällig am"
         completed: Fertig
+      checkin_label:
+        name: Name
+        description: Description
+        xml: "Label XML"
+        xml_file: "Label XML File"
     errors:
       models:
         admin:
@@ -166,48 +161,6 @@ de:
               blank: "The attendance record must specify a date and time."
             group_id:
               blank: "The attendance record must be associated with a group."
-        checkin_label:
-          attributes:
-            name:
-              blank: "You must enter a name."
-            xml:
-              blank: "You must paste the label XML."
-        checkin_time:
-          attributes:
-            campus:
-              blank: "You must select a campus."
-              exclusion: "You must select a campus."
-        document:
-          attributes:
-            file:
-              blank: "Du must eine Datei hochladen."
-            name:
-              blank: "Du must einen Namen eingeben."
-              too_long: "Bitte gib einen kürzeren Namen ein."
-            description:
-              too_long: "Bitte gib eine kürzere Beschreibung ein."
-        document_folder:
-          attributes:
-            name:
-              blank: "Du must einen Namen eingeben."
-              too_long: "Bitte gib einen kürzeren Namen ein."
-            description:
-              too_long: "Bitte gib eine kürzere Beschreibung ein."
-            folder_id:
-              invalid: "Du kannst diesen Ordner nicht als den übergeordneten Ordner angeben."
-            parent_folder_ids:
-              too_long: "Dieser Order ist zu tief veschachtelt. Bite plaziere ihn irgendwo anders."
-        custom_report:
-          attributes:
-            title:
-              blank: "The title cannot be blank."
-              too_long: "The maximum description is 50 characters."
-            body:
-              blank: "The Report Body cannot be blank."
-            filters:
-              invalid: "Filters must contain a colon, in the form field:value."
-            category:
-              inclusion: "Select a valid category value."
         family:
           attributes:
             name:
@@ -251,8 +204,6 @@ de:
               taken: "There is another group with this email address. Please choose another address."
               too_long: "Die Emailadresse für diese Gruppe ist zu lang."
               too_short: "Die Emailadresse für diese Gruppe ist zu kurz."
-            attendance:
-              invalid: "Attendance must be enabled for any group in use by Check-in."
             category:
               blank: "Die Gruppe muss einer Kategorie zugehören."
             name:
@@ -263,6 +214,8 @@ de:
             photo:
               too_large: "The photo must be less than %{size} megabytes."
               wrong_type: "Das Foto muss vom Typ JPG, GIF, oder PNG sein."
+            attendance:
+              invalid: "Attendance must be enabled for any group in use by Check-in."
         membership:
           attributes:
             group_id:
@@ -273,8 +226,6 @@ de:
               taken: "Diese Person hat schon eine Anfrage für Mitgliedschaft in dieser Gruppe gestellt."
         message:
           attributes:
-            base:
-              taken: "Die Nachricht wurde schon gesandt. Versuch den Betreff oder die Nachricht zu ändern wenn du eine weitere EMail senden willst."
             body:
               blank: "The message must have a body."
               too_short: "The message body is too short."
@@ -285,12 +236,8 @@ de:
               too_short: "Der Betreff ist zu kurz."
             to_person_id:
               invalid: "The recipient of this message does not have an email address. The message cannot be sent."
-        news_item:
-          attributes:
-            title:
-              blank: "Du must eine Titel für diese Nachricht eingeben."
-            body:
-              blank: "Du musst einen Text für diese Nachricht eingeben."
+            base:
+              taken: "Die Nachricht wurde schon gesandt. Versuch den Betreff oder die Nachricht zu ändern wenn du eine weitere EMail senden willst."
         note:
           attributes:
             body:
@@ -312,10 +259,6 @@ de:
             alternate_email:
               invalid: "The alternate email address is not formatted correctly (something@example.com)."
               taken: "There is another person with the same alternate email."
-            anniversary:
-              not_a_date: "Please enter a valid date for the anniversary."
-            birthday:
-              not_a_date: "Please enter a valid date for the birthday."
             business_email:
               invalid: "The business email address is not formatted correctly (something@example.com)."
             business_website:
@@ -324,13 +267,9 @@ de:
               exclusion: "You must enter a category for your business."
             child:
               inclusion: "You must enter a birthday or specify whether this person is a child."
-            description:
-              too_long: "Description must be less than 25 characters.  A word or two. :)"
             email:
               invalid: "The email address is not formatted correctly (something@example.com)."
               taken: "There is another person with the same email address."
-            facebook_url:
-              invalid: "Facebook URL is invalid."
             feed_code:
               taken: "The same feed code exists on another person record."
             first_name:
@@ -342,14 +281,22 @@ de:
             password:
               confirmation: "Das Passwörter stimmen nicht überein."
               too_short: "Das Passwort ist zu kurz"
+            website:
+              invalid: "The website URL is not formatted correctly (are you missing 'http://' at the beginning?)"
             photo:
               too_large: "Das Photo muss kleiner als %{size} mb sein."
               wrong_type: "Der Dateityp des Photos muss JPG, GIF, oder PNG sein"
+            anniversary:
+              not_a_date: "Please enter a valid date for the anniversary."
+            birthday:
+              not_a_date: "Please enter a valid date for the birthday."
+            description:
+              too_long: "Description must be less than 25 characters.  A word or two. :)"
+            facebook_url:
+              invalid: "Facebook URL is invalid."
             twitter:
               invalid: "Twitter username is invalid."
               too_long: "Twitter username is too long."
-            website:
-              invalid: "The website URL is not formatted correctly (are you missing 'http://' at the beginning?)"
         picture:
           attributes:
             album_id:
@@ -386,10 +333,10 @@ de:
             other_name:
               blank: "You must specify the relationship type."
               taken: "This relationship already exists."
-            person_id:
+            person:
               blank: "The relationship must be associated with a person."
-            related_id:
-              blank: "The relationship must be associated with a person."
+            related:
+              blank: "The relationship must be associated with a second person."
         report:
           attributes:
             definition:
@@ -429,12 +376,56 @@ de:
             text:
               blank: "The passage could not be found. Did you type the reference correctly?"
               too_long: "The passage is too long. Try to specify a shorter passage."
+        document:
+          attributes:
+            file:
+              blank: "Du must eine Datei hochladen."
+            name:
+              blank: "Du must einen Namen eingeben."
+              too_long: "Bitte gib einen kürzeren Namen ein."
+            description:
+              too_long: "Bitte gib eine kürzere Beschreibung ein."
+        document_folder:
+          attributes:
+            name:
+              blank: "Du must einen Namen eingeben."
+              too_long: "Bitte gib einen kürzeren Namen ein."
+            description:
+              too_long: "Bitte gib eine kürzere Beschreibung ein."
+            folder_id:
+              invalid: "Du kannst diesen Ordner nicht als den übergeordneten Ordner angeben."
+            parent_folder_ids:
+              too_long: "Dieser Order ist zu tief veschachtelt. Bite plaziere ihn irgendwo anders."
+        news_item:
+          attributes:
+            title:
+              blank: "Du must eine Titel für diese Nachricht eingeben."
+            body:
+              blank: "Du musst einen Text für diese Nachricht eingeben."
+        custom_report:
+          attributes:
+            title:
+              blank: "The title cannot be blank."
+              too_long: "The maximum description is 50 characters."
+            body:
+              blank: "The Report Body cannot be blank."
+            filters:
+              invalid: "Filters must contain a colon, in the form field:value."
+            category:
+              inclusion: "Select a valid category value."
+        checkin_label:
+          attributes:
+            name:
+              blank: "You must enter a name."
+            xml:
+              blank: "You must paste the label XML."
+        checkin_time:
+          attributes:
+            campus:
+              blank: "You must select a campus."
+              exclusion: "You must select a campus."
   application:
     api_access: "You must be a super administrator to use the API."
-    mailgun_route_found: "Diese Route existiert bereits."
-    mailgun_route_created: "Die Route werde erstellt."
-    mailgun_apikey_notfound: "Please check the mailgun api key."
-    mailgun_route_error: "Eine Fehler ist aufgetreten beim Erstellen der Route."
     no_default_site: "No Default site found."
     no_site_configured: "There is no site configured at this address: %{host}"
     settings_reloaded: "Settings reloaded."
@@ -447,3 +438,8 @@ de:
     help: "Help using this site"
     privacy_policy: "Privacy Policy"
     powered_by: "Powered by CHURCH.IO OneBody"
+  date_format:
+    DD: DD
+    MM: MM
+    YYYY: YYYY
+  new: new
