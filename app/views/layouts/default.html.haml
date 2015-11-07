@@ -27,25 +27,22 @@
           event_queue.push(e);
         }
       }, false);
-  %body.skin-blue{ data: { 'datepicker-format' => datepicker_format } }
+  %body{ class: setting(:appearance, :theme), data: { 'datepicker-format' => datepicker_format } }
     / header logo: style can be found in header.less
-    %header.header
+    %header.main-header
       = link_to setting(:name, :site), root_path, class: 'logo'
       / Header Navbar: style can be found in header.less
       %nav.navbar.navbar-static-top{ role: "navigation" }
         / Sidebar toggle button
-        %a.navbar-btn.sidebar-toggle{ 'data-toggle' => 'offcanvas', href: '#', role: 'button' }
+        %a.sidebar-toggle{ 'data-toggle' => 'offcanvas', href: '#', role: 'button' }
           %span.sr-only Toggle navigation
-          %span.icon-bar
-          %span.icon-bar
-          %span.icon-bar
-        .navbar-right
+        .navbar-custom-menu
           = render 'layouts/navbar_right'
         %h3.site-name
           = link_to setting(:name, :community), root_path
     .wrapper.row-offcanvas.row-offcanvas-left
       / Left side column. contains the logo and sidebar
-      %aside.left-side.sidebar-offcanvas
+      %aside.main-sidebar
         / sidebar: style can be found in sidebar.less
         %section.sidebar
           / Sidebar user panel
@@ -180,7 +177,10 @@
         %section.content
           = flash_messages
           = yield
-    .footer
+    %aside.control-sidebar.control-sidebar-light
+      = render partial: 'layouts/sidebar_right'
+    %div.control-sidebar-bg
+    %footer.main-footer
       = render partial: 'layouts/footer_links'
     = javascript_include_tag 'application'
     = yield(:js)

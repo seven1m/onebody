@@ -205,6 +205,9 @@ Appearance:
   Theme Nav Color:
     format: string
     value: E4E4E4
+  Theme:
+    format: string
+    value: skin-blue-light
 Privacy:
   Allow Unencrypted Logins:
     format: boolean

@@ -324,6 +324,19 @@ en:
         Theme:
           name: Theme
           description: Name of selected theme for site.
+          options:
+            skin-blue: "Blue"
+            skin-blue-light: "Blue On Light"
+            skin-yellow: "Yellow"
+            skin-yellow-light: "Yellow On Light"
+            skin-green: "Green"
+            skin-green-light: "Green On Light"
+            skin-purple: "Purple"
+            skin-purple-light: "Purple On Light"
+            skin-red: "Red"
+            skin-red-light: "Red On Light"
+            skin-black: "Black"
+            skin-black-light: "Black On Light"
         Show Subheading:
           name: Show Subheading
           description: Under the site title/logo, display the site address and slogan.
@@ -503,6 +516,7 @@ en:
       reload_message: If you have made modifications to the system from the command line, you may need to reload all settings to see the changes take effect.
       save: Save Settings
       services_heading: External Services
+      theme_heading: "Theme"
       settings: Settings
       sharing_about: OneBody is best when members participate by adding their own content. Enable content sharing with these settings.
       sharing_communications_about: Share information with your members easily.
