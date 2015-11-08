@@ -19,8 +19,8 @@ Visit our website at [church.io](http://church.io) or browse through our [screen
 [![Build](http://img.shields.io/travis/churchio/onebody.svg)](https://travis-ci.org/churchio/onebody)
 [![Coverage](https://coveralls.io/repos/churchio/onebody/badge.svg)](https://coveralls.io/r/churchio/onebody)
 [![Code Climate](https://codeclimate.com/github/churchio/onebody/badges/gpa.svg)](https://codeclimate.com/github/churchio/onebody)
-
 [![Security Status](https://hakiri.io/github/churchio/onebody/master.svg)](https://hakiri.io/github/churchio/onebody/master)
+
 [![Stories Ready](https://badge.waffle.io/churchio/onebody.svg?label=ready&title=stories+ready)](http://waffle.io/churchio/onebody)
 [![Stories in Progress](https://badge.waffle.io/churchio/onebody.svg?label=in+progress&title=stories+in+progress)](http://waffle.io/churchio/onebody)
 
@@ -65,18 +65,19 @@ Check out [Using Vagrant](https://github.com/churchio/onebody/wiki/Using-Vagrant
 Operating System: Mac or Linux (See Vagrant above if you're on Windows)
 
 1. Install Ruby 2.2.2 or higher (we recommend you use [rbenv](https://github.com/sstephenson/rbenv) or [RVM](https://rvm.io/)).
-2. Install MySQL.
-3. Install Git.
-4. Install ImageMagick.
-5. Install Node.js.
-6. `git clone git://github.com/churchio/onebody.git && cd onebody`
-7. `mysql -uroot -e "grant all on onebody_dev.* to onebody@localhost identified by 'onebody';"`
-8. `mysql -uroot -e "grant all on onebody_test.* to onebody@localhost identified by 'onebody';"`
-9. `cp config/database.yml{.mysql-example,}`
-10. `bundle install` (If you get an error installing eventmachine, you might need to do [this](http://stackoverflow.com/a/31516586/197498))
-11. `cp config/secrets.yml{.example,} && vim config/secrets.yml` and add a random secret token to both the "development" and "test" sections (you can use `rake secret` to generate a new random secret).
-12. `rake db:create db:schema:load db:seed`
-13. `rails server`
+1. Install MySQL.
+1. Install Git.
+1. Install ImageMagick.
+1. Install Node.js.
+1. `git clone git://github.com/churchio/onebody.git && cd onebody`
+1. `mysql -uroot -e "grant all on onebody_dev.* to onebody@localhost identified by 'onebody';"`
+1. `mysql -uroot -e "grant all on onebody_test.* to onebody@localhost identified by 'onebody';"`
+1. `cp config/database.yml{.mysql-example,}`
+1. `gem install bundler`
+1. `bundle install` (If you get an error installing eventmachine, you might need to do [this](http://stackoverflow.com/a/31516586/197498))
+1. `cp config/secrets.yml{.example,} && vim config/secrets.yml` and add a random secret token to both the "development" and "test" sections (you can use `rake secret` to generate a new random secret).
+1. `rake db:create db:schema:load db:seed`
+1. `rails server`
 
 Now visit the site running in development mode at http://localhost:3000.
 
