@@ -4,9 +4,6 @@
 - @section_class = 'content-centered'
 
 #login-box.login-box
-  .login-logo
-    = setting(:name, :site)
-
   = form_tag session_path do
     = hidden_field_tag :from, params[:from]
     = hidden_field_tag :for, params[:for]
