@@ -10,7 +10,7 @@ class MembershipsController < ApplicationController
   def show
     # allow email links to work (since they will be GET requests)
     if params[:email]
-      update
+      render file: 'memberships/email'
     else
       fail ActionController::UnknownAction, t('No_action_to_show')
     end
@@ -55,8 +55,7 @@ class MembershipsController < ApplicationController
       @group.set_options_for @person, get_email: @get_email
       respond_to do |format|
         format.html do
-          flash[:notice] = t('groups.email_settings_changed')
-          redirect_to :back
+          render text: t('groups.email_settings_changed'), layout: true
         end
         format.js
       end
