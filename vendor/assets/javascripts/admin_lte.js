@@ -310,35 +310,26 @@ function _init() {
    */
   $.AdminLTE.pushMenu = {
     activate: function (toggleBtn) {
-        console.log(1);
       //Get the screen sizes
       var screenSizes = $.AdminLTE.options.screenSizes;
-        console.log(2);
 
       //Enable sidebar toggle
       $(toggleBtn).on('click', function (e) {
-          console.log(3);
         e.preventDefault();
 
         //Enable sidebar push menu
         if ($(window).width() > (screenSizes.sm - 1)) {
-            console.log(4);
           if ($("body").hasClass('sidebar-collapse')) {
-              console.log(5);
             $("body").removeClass('sidebar-collapse').trigger('expanded.pushMenu');
           } else {
-              console.log(6);
             $("body").addClass('sidebar-collapse').trigger('collapsed.pushMenu');
           }
         }
         //Handle sidebar push menu for small screens
         else {
-            console.log(7);
           if ($("body").hasClass('sidebar-open')) {
-              console.log(8);
             $("body").removeClass('sidebar-open').removeClass('sidebar-collapse').trigger('collapsed.pushMenu');
           } else {
-              console.log(9);
             $("body").addClass('sidebar-open').trigger('expanded.pushMenu');
           }
         }
@@ -355,7 +346,6 @@ function _init() {
       if ($.AdminLTE.options.sidebarExpandOnHover
               || ($('body').hasClass('fixed')
                       && $('body').hasClass('sidebar-mini'))) {
-          console.log(10);
         this.expandOnHover();
       }
     },
