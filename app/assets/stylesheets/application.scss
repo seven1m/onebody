@@ -15,7 +15,7 @@ html.full-height, html.full-height body {
   height: 100%;
 }
 
-.full-width {
+img.fit-width, .full-width {
   width: 100%;
 }
 
@@ -173,10 +173,6 @@ th.actions, td.actions {
 
 .user-header > * {
   padding: 5px;
-}
-
-img, img.fit-width {
-  width: 100%;	
 }
 
 .control-sidebar > .tab-content > .header h2 {
