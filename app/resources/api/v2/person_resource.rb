@@ -10,6 +10,7 @@ module Api
       has_one :family
       has_many :groups
       has_many :messages
+      has_many :friends, class_name: 'Person'
     end
   end
 end

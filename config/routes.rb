@@ -235,6 +235,8 @@ OneBody::Application.routes.draw do
       jsonapi_resources :comments
       jsonapi_resources :verses
       jsonapi_resources :news_items
+      jsonapi_resources :checkin_times
+      jsonapi_resources :pages
     end
   end
 

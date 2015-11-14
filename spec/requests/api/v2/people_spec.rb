@@ -44,5 +44,31 @@ describe 'People API', type: :request do
     expect(json_data[0]['type']).to eq('groups')
   end
 
+  context 'with friends' do
+    it 'should retrieve a list of friends' do
+      person = FactoryGirl.create(:person)
+      friends = FactoryGirl.create_list(:person, 3)
+      friends.each do |friend|
+        person.friendships.create(friend: friend)
+      end
+
+      get "/api/v2/people/#{person.id}/friends"
+
+      expect(response).to be_success
+      expect(json_data.length).to eq(3)
+      expect(json_data[0]['type']).to eq('people')
+    end
+  end
+
+  context 'without friends' do
+    it 'should return an empty list of friends' do
+      person = FactoryGirl.create(:person)
+
+      get "/api/v2/people/#{person.id}/friends"
+
+      expect(response).to be_success
+      expect(json_data.length).to be(0)
+    end
+  end
 
 end

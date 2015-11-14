@@ -7,7 +7,7 @@ module Api
 
       has_one :person
       has_one :group
-      # has_one :checkin_time  # TODO implement resource and spec for checkin_time
+      has_one :checkin_time
     end
   end
 end
