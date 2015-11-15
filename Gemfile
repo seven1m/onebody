@@ -50,6 +50,7 @@ gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'with_advisory_lock'
 gem 'jsonapi-resources'
+gem 'doorkeeper'
 
 # this needs to be down here due to load order weirdness
 gem 'dossier'

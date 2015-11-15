@@ -1,5 +1,8 @@
 OneBody::Application.routes.draw do
 
+  use_doorkeeper do
+    skip_controllers :applications, :authorized_applications
+  end
   root to: redirect('/stream')
 
   resource :account do

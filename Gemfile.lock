@@ -130,6 +130,10 @@ GEM
       thread_safe (~> 0.3, >= 0.3.1)
     diff-lcs (1.2.5)
     docile (1.1.5)
+    domain_name (0.5.24)
+      unf (>= 0.0.5, < 1.0.0)
+    doorkeeper (3.0.1)
+      railties (>= 3.2)
     dossier (2.13.1)
       actionmailer (>= 3.2)
       actionpack (>= 3.2)
@@ -438,6 +442,7 @@ DEPENDENCIES
   country_select
   coveralls
   date_validator
+  doorkeeper
   dossier
   draper
   factory_girl_rails
