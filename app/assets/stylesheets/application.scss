@@ -15,6 +15,10 @@ html.full-height, html.full-height body {
   height: 100%;
 }
 
+img {
+  max-width: 100%;
+}
+
 img.fit-width, .full-width {
   width: 100%;
 }
