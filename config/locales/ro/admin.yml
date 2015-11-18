@@ -80,6 +80,9 @@ ro:
     add_template: "Adaugă şablon"
     already_admin: "%{name} este deja admin."
     api: API
+    api_clients:
+      title: "API Clients Dashboard"
+      list: "Clients"
     api_login_details: "Detaliile de logare la API."
     customization:
       heading: Customization

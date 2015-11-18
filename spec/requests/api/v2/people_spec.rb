@@ -1,11 +1,13 @@
 require_relative '../../../rails_helper'
 
 describe 'People API', type: :request do
+  let!(:application) { FactoryGirl.create(:oauth_application) }
+  let!(:token)       { FactoryGirl.create(:oauth_access_token, application: application) }
 
   it 'should return a list of people' do
     FactoryGirl.create_list(:person, 10)
 
-    get '/api/v2/people'
+    get '/api/v2/people', :access_token => token.token
 
     expect(response).to be_success
     expect(json_data.length).to eq(10)
@@ -14,7 +16,7 @@ describe 'People API', type: :request do
   it 'should retrieve a specific person' do
     person = FactoryGirl.create(:person)
 
-    get "/api/v2/people/#{person.id}"
+    get "/api/v2/people/#{person.id}", :access_token => token.token
 
     expect(response).to be_success
     expect(json_data['id'].to_i).to eq(person.id)
@@ -24,7 +26,7 @@ describe 'People API', type: :request do
   it 'should should retrieve the family' do
     person = FactoryGirl.create(:person)
 
-    get "/api/v2/people/#{person.id}/family"
+    get "/api/v2/people/#{person.id}/family", :access_token => token.token
 
     expect(response).to be_success
     expect(json_data['id'].to_i).to eq(person.family.id)
@@ -37,7 +39,7 @@ describe 'People API', type: :request do
     groups = FactoryGirl.create_list(:group, 3)
     groups.each { |group| group.memberships.create(person: person) }
 
-    get "/api/v2/people/#{person.id}/groups"
+    get "/api/v2/people/#{person.id}/groups", :access_token => token.token
 
     expect(response).to be_success
     expect(json_data.length).to eq(3)
@@ -52,7 +54,7 @@ describe 'People API', type: :request do
         person.friendships.create(friend: friend)
       end
 
-      get "/api/v2/people/#{person.id}/friends"
+      get "/api/v2/people/#{person.id}/friends", :access_token => token.token
 
       expect(response).to be_success
       expect(json_data.length).to eq(3)
@@ -64,7 +66,7 @@ describe 'People API', type: :request do
     it 'should return an empty list of friends' do
       person = FactoryGirl.create(:person)
 
-      get "/api/v2/people/#{person.id}/friends"
+      get "/api/v2/people/#{person.id}/friends", :access_token => token.token
 
       expect(response).to be_success
       expect(json_data.length).to be(0)

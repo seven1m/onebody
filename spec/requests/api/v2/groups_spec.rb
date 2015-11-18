@@ -1,11 +1,13 @@
 require_relative '../../../rails_helper'
 
 describe 'Groups API', type: :request do
+  let!(:application) { FactoryGirl.create(:oauth_application) }
+  let!(:token)       { FactoryGirl.create(:oauth_access_token, application: application) }
 
   it 'should return a list of groups' do
     FactoryGirl.create_list(:group, 10)
 
-    get '/api/v2/groups'
+    get '/api/v2/groups', :access_token => token.token
 
     expect(response).to be_success
     expect(json_data.length).to eq(10)
@@ -14,7 +16,7 @@ describe 'Groups API', type: :request do
   it 'should retrieve a specific group' do
     group = FactoryGirl.create(:group)
 
-    get "/api/v2/groups/#{group.id}"
+    get "/api/v2/groups/#{group.id}", :access_token => token.token
 
     expect(response).to be_success
     expect(json_data['id'].to_i).to eq(group.id)
@@ -26,7 +28,7 @@ describe 'Groups API', type: :request do
     members = FactoryGirl.create_list(:person, 10)
     members.each { |member| group.memberships.create(person: member) }
 
-    get "/api/v2/groups/#{group.id}/people"
+    get "/api/v2/groups/#{group.id}/people", :access_token => token.token
 
     expect(response).to be_success
     expect(json_data.length).to eq(10)
@@ -39,7 +41,7 @@ describe 'Groups API', type: :request do
     members.each { |member| group.memberships.create(person: member) }
     group.memberships.create(person: admin, admin: true)
 
-    get "/api/v2/groups/#{group.id}/admins"
+    get "/api/v2/groups/#{group.id}/admins", :access_token => token.token
 
     expect(response).to be_success
     expect(json_data.length).to eq(1)
@@ -50,7 +52,7 @@ describe 'Groups API', type: :request do
     creator = FactoryGirl.create(:person)
     group = FactoryGirl.create(:group, creator: creator)
 
-    get "/api/v2/groups/#{group.id}/creator"
+    get "/api/v2/groups/#{group.id}/creator", :access_token => token.token
 
     expect(response).to be_success
     expect(json_data['id'].to_i).to eq(creator.id)
@@ -60,7 +62,7 @@ describe 'Groups API', type: :request do
     leader = FactoryGirl.create(:person)
     group = FactoryGirl.create(:group, leader: leader)
 
-    get "/api/v2/groups/#{group.id}/leader"
+    get "/api/v2/groups/#{group.id}/leader", :access_token => token.token
 
     expect(response).to be_success
     expect(json_data['id'].to_i).to eq(leader.id)

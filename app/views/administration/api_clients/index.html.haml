@@ -1,0 +1,43 @@
+- @title = t('admin.api_clients.title')
+- content_for :header do
+  %section.content-header
+    = breadcrumbs
+    %h1
+      = @title
+.row
+  .col-xs-12
+    .box
+      .box-header
+        %h4.box-title= t('admin.api_clients.list')
+      .box-body.table-responsive.nopadding
+        %table.table.table-hover
+          %tr
+            %th
+              Client Name
+            %th
+              Client ID
+            %th
+              Client Secret
+            %th
+              &nbsp;
+            - @clients.each do |client|
+              %tr
+                %td
+                  = client.name
+                %td
+                  = client.uid
+                %td
+                  = client.secret
+                %td.actions
+                  = link_to edit_administration_api_client_path(client), class: 'btn btn-xs btn-primary' do
+                    = icon 'fa fa-pencil'
+                    = t('admin.api_clients.button.edit')
+                  = link_to administration_api_client_path(client), data: { method: 'delete', confirm: t('are_you_sure') }, class: 'btn btn-xs btn-danger' do
+                    = icon 'fa fa-trash-o'
+                    = t('admin.api_clients.button.delete')
+        - if @logged_in.admin?(:manage_reports)
+          %tr
+            %td
+              = link_to new_administration_api_client_path, class: 'btn btn-success' do
+                = icon 'fa fa-plus-circle'
+                = t('admin.api_clients.button.add')

@@ -177,8 +177,12 @@ OneBody::Application.routes.draw do
 
   get '/admin' => 'administration/dashboards#show'
   get '/admin/reports' => 'administration/reports#index'
+  # get '/admin/api' => 'administration/api#index'
 
   namespace :administration, path: :admin do
+    resources :api_clients do
+
+    end
     resources :emails do
       collection do
         put :batch

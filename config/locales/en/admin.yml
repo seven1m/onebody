@@ -138,6 +138,26 @@ en:
     add_template: Add Template
     already_admin: "%{name} is already an admin."
     api: API
+    api_clients:
+      title: "API Clients Dashboard"
+      list: "API Clients"
+      intro: "Add and remove API Clients."
+      button:
+        add: "Add New"
+        delete: "Delete"
+        edit: "Edit"
+      new:
+        title: "New API Client"
+      edit:
+        title: "Edit API Client"
+      fields:
+        name: "Name"
+      create:
+        notice: "API Client was successfully created."
+      destroy:
+        notice: "API Client was successfully deleted."
+      update:
+        notice: "API Client was successfully updated."
     api_login_details: Your API login details
     customization:
       heading: "Customization"
