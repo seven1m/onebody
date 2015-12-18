@@ -27,7 +27,7 @@ ro:
       group_membership: "Group Membership"
       in_group: includes
       not_in_group: "does not include"
-      group_membership_text: "group with category"
+      group_membership_text: "Group with category"
       types:
         member: Membru
         staff: Staf

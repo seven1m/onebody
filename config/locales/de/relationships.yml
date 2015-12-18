@@ -34,7 +34,6 @@ de:
       mother_in_law: Schwiegermutter
       nephew: Neffe
       niece: Nichte
-      other_name: Andere
       sister: Schwester
       sister_in_law: Schwägerin
       son: Sohn
@@ -47,9 +46,10 @@ de:
       stepson: Stiefsohn
       uncle: Onkel
       wife: Ehefrau
-    other_name:
-      placeholder: Beziehungsart
+      other_name: Andere
     no_person_selected: "Keine Person ausgewählt"
     relationship: Beziehung
     relationship_type: "Type:"
     toggle_individual: "Zeige individuelle Beziehungen"
+    other_name:
+      placeholder: Beziehungsart

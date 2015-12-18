@@ -9,44 +9,31 @@ de:
       no_family_warning_html: |
           You are about to create a new person and a <strong>new family record</strong>.
           If instead you wish to add a person to an existing family, first go to that family's page and add a person there.
-    title_html: "%{name}<span class='discreet'>, %{description}</span>"
-    show:
-      details:
-        family: "Familie von %{family}"
-        website: Webseite
-        email: EMail
-        mobile_phone: Mobiltelefon
-        home_phone: Festnetz
-        work_phone: Arbeitstelefon
-        address: Adresse
-        birthday: Geburtstag
-        anniversary: Hochzeitstag
-        social: Social
-      showing_hidden_attribute:
-        tooltip: "This detail is visible to you because you are an admin with 'View Hidden Properties' enabled."
     edit:
       about: Über
       basics: Grundlagen
-      business: Geschäft
-      business_category:
-        new: "[neue Kategorie erstellen]"
-        create_prompt: "Geben Sie die Kategorie für das Geschäft an."
       child:
         enabled: Kind
         disabled: Erwachsener
       child_hint: "Wenn kein Geburtstag angegeben ist, dann müssen Sie angeben ob es ein Kind oder ein Erwachsener ist."
-      custom_type:
-        new: "[Role erstellen]"
-        create_prompt: "Geben SIe den Rolenamen an."
       description_hint: "Ein paar Worte über dich - manche nehmen hierfür ihre Arbeitsbeschreibung"
-      email_hint: " (das ist deine Haupt-EMail Adresse welche für die Anmeldung und das Empfangen von EMail verwendet wird)"
-      facebook_url:
-        placeholder: "https://www.facebook.com/username"
       family_photo: "Familien Photo"
-      header: "Profil bearbeiten"
       person_type: Rolen
       person_type_hint: "Diese kontrollieren nicht den Zugriff, sondern nur die Bereitstellung"
       photo: Profilphoto
+      header: "Profil bearbeiten"
+      business: Geschäft
+      business_category:
+        new: "[neue Kategorie erstellen]"
+        create_prompt: "Geben Sie die Kategorie für das Geschäft an."
+      custom_type:
+        new: "[Role erstellen]"
+        create_prompt: "Geben SIe den Rolenamen an."
+      facebook_url:
+        placeholder: "https://www.facebook.com/username"
+      required_field: erforderlich
+      twitter:
+        placeholder: "@username"
       primary_emailer:
         intro_html: |
             Du teilst dir deine Emailadresse mit %{person}.
@@ -54,10 +41,18 @@ de:
             Emails von deiner Adresse <strong>immer</strong> mit deinem Konto verknüpft sind
             &ndash; <strong>nicht mit %{person}</strong>. (Anmerkung: falls du und %{person} Emails an die Gruppe schickt,
             wäre es besser eine andere Emailadresse zu verwenden.)
-      required_field: erforderlich
-      twitter:
-        placeholder: "@username"
-      visibility: Sichtbarkeit
+      email_hint: " (das ist deine Haupt-EMail Adresse welche für die Anmeldung und das Empfangen von EMail verwendet wird)"
+      no_family_error: "Diese Person kann nicht ändert werden , weil sie nicht zu einer Familie gehören."
+      status: Status
+      status_help:
+        inactive: "Inaktive Menschen können sich nicht anmelden, und sind nicht für jeden sichtbar auf der Website außer Administratoren."
+        pending: "Schwebende Menschen können sich anmelden und schauen Sie oben begrenzten Kontaktinfos für die Mitglieder."
+        active: "Aktive Menschen dürfen Sie sich anmelden und nutzen Sie die Website."
+        not_an_adult: "Kinder können sich nicht anmelden, so dass du den Status hier ändert, um wirkt sich nur auf ihre Sichtbarkeit."
+      statuses:
+        inactive: Inaktiv
+        pending: "Steht noch aus"
+        active: Aktiv
     move:
       heading: "Zu Familie %{family} hinzufügen"
       description_html: "Find someone to add to the <a href='%{url}'>%{family}</a> family, then click the Add button..."
@@ -89,11 +84,11 @@ de:
       groups:
         heading: "Gruppen EMail"
     groups:
-      heading: Gruppen
       members: Mitglieder
       messages: Nachrichten
       join:
         button: "Suche und trete einer Gruppe bei"
+      heading: Gruppen
       see_all: "sehe alles..."
     business:
       services_provided_by: "Dienstleitungen werden durch %{person} bereitgestellt"
@@ -101,9 +96,6 @@ de:
       email: EMail
       phone: Telefon
       website: Website
-    checkin:
-      heading: "Check-in Notes"
-      intro: "These are notes that are displayed on check-in screens and (optionally) on printed check-in labels in order to alert workers."
     testimony:
       box_heading: Zeugnis
       heading: "Zeugnis von %{person}"
@@ -112,10 +104,6 @@ de:
       find_more: "Andere Zeugnisse lesen"
     updates:
       pending_callout: "Es stehen Aktualisierungen für dieses Profil aus"
-    verification_email:
-      heading: "Vollständige Benutzereinstellung"
-      intro: "Bevor der Benutzer sich anmelden kann, muss die die Einrichtungen fertigstellen, indem er auf einen Link in der EMail klickt. Klicken sie unten, um ihm diese EMail zu senden."
-      button: "Sende eine Passworteinrichtungsemail an der Benutzer."
     advanced: Vortgeschritten
     can_sign_in: "Kann sich anmelden"
     cant_delete_yourself: "Du kannst du nicht selber löschen."
@@ -151,9 +139,30 @@ de:
     show_hidden_groups: "Zeige versteckte Gruppen"
     tell_us_about_yourself: "Erzähl ein bisschen über dich selbst. Wie bist du? Wie würden deine Freunde dich beschreiben?"
     this_event_doesnt_have_pictures: "Das Ereignis hat noch keine Bilder."
-    this_person_is_not_an_adult: "This person is believed to be less than %{years} years of age, and does not have parental consent."
     this_profile_is_hidden: "Das Profil ist versteckt."
     update_to_profile_is: "An update to this profile is"
     visible_on_printed_directory: "Sichtbar im gedruckten Verzeichnis."
     visible_to_everyone: "Sichtbar für alle"
     you_arent_in_any_groups: "Du bist noch in keinen Gruppen."
+    title_html: "%{name}<span class='discreet'>, %{description}</span>"
+    verification_email:
+      heading: "Vollständige Benutzereinstellung"
+      intro: "Bevor der Benutzer sich anmelden kann, muss die die Einrichtungen fertigstellen, indem er auf einen Link in der EMail klickt. Klicken sie unten, um ihm diese EMail zu senden."
+      button: "Sende eine Passworteinrichtungsemail an der Benutzer."
+    show:
+      details:
+        family: "Familie von %{family}"
+        website: Webseite
+        email: EMail
+        mobile_phone: Mobiltelefon
+        home_phone: Festnetz
+        work_phone: Arbeitstelefon
+        address: Adresse
+        birthday: Geburtstag
+        anniversary: Hochzeitstag
+        social: Social
+      showing_hidden_attribute:
+        tooltip: "This detail is visible to you because you are an admin with 'View Hidden Properties' enabled."
+    checkin:
+      heading: "Einchecken Notitzen"
+      intro: "These are notes that are displayed on check-in screens and (optionally) on printed check-in labels in order to alert workers."

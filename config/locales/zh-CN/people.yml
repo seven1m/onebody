@@ -8,44 +8,31 @@ zh-CN:
       heading_without_family: 新成员
       no_family_warning_html: "您将要创建一个新的成员角色和一项 <strong>新的家庭记录</strong>。\n\
           如果您是想在一个已有的家庭中创建一个成员的话，请前往该家庭的主页并在那里增加成员。 \n"
-    title_html: "%{name}<span class='discreet'>， %{description}</span>"
-    show:
-      details:
-        family: "%{family}家庭"
-        website: 网站
-        email: 电子邮件
-        mobile_phone: 手机号码
-        home_phone: 家庭电话
-        work_phone: 办公电话
-        address: 家庭地址
-        birthday: 生日
-        anniversary: 结婚纪念日
-        social: 社交
-      showing_hidden_attribute:
-        tooltip: "This detail is visible to you because you are an admin with 'View Hidden Properties' enabled."
     edit:
       about: 关于
       basics: 基本信息
-      business: 职业
-      business_category:
-        new: ［创建一个新目录］
-        create_prompt: 输入您的行业类别
       child:
         enabled: 孩童
         disabled: 成人
       child_hint: 如果不写明生日，您至少需要注明这是个孩童还是成人。
-      custom_type:
-        new: ［创建角色］
-        create_prompt: 输入角色的名字
       description_hint: 简单介绍一下你自己（有的人喜欢把自己的职位填到这里）。
-      email_hint: " （这是您用来登录网站和收取信息的主邮箱）"
-      facebook_url:
-        placeholder: "https://www.facebook.com/username"
       family_photo: 家庭照片
-      header: 编辑简介
       person_type: 角色
       person_type_hint: "These do not control access — only designation."
       photo: "Profile Photo"
+      header: 编辑简介
+      business: 职业
+      business_category:
+        new: ［创建一个新目录］
+        create_prompt: 输入您的行业类别
+      custom_type:
+        new: ［创建角色］
+        create_prompt: 输入角色的名字
+      facebook_url:
+        placeholder: "https://www.facebook.com/username"
+      required_field: required
+      twitter:
+        placeholder: "@username"
       primary_emailer:
         intro_html: |
             You're sharing an email address with %{person}.
@@ -53,10 +40,18 @@ zh-CN:
             emails from your address are <strong>always</strong> connected with your account
             &ndash; <strong>not %{person}</strong>. (Note: if both you and %{person} send group emails,
             then it would be better to use different email addresses.)
-      required_field: required
-      twitter:
-        placeholder: "@username"
-      visibility: Visibility
+      email_hint: " （这是您用来登录网站和收取信息的主邮箱）"
+      no_family_error: "This person cannot be edited because they do not belong to a family."
+      status: Status
+      status_help:
+        inactive: "Inactive people cannot sign in and are not visible to anyone on the site except administrators."
+        pending: "Pending people can sign in and look up limited contact info for members."
+        active: "Active people can sign in and make full use of the site."
+        not_an_adult: "Children cannot sign in, so setting the status here only affects their visiblity to others."
+      statuses:
+        inactive: Inactive
+        pending: Pending
+        active: Active
     move:
       heading: "Add to %{family} family"
       description_html: "Find someone to add to the <a href='%{url}'>%{family}</a> family, then click the Add button..."
@@ -88,11 +83,11 @@ zh-CN:
       groups:
         heading: "Group Email"
     groups:
-      heading: 群组
       members: 成员
       messages: 消息
       join:
         button: 查找和加入群组
+      heading: 群组
       see_all: 查看全部...
     business:
       services_provided_by: "Services provided by %{person}"
@@ -100,9 +95,6 @@ zh-CN:
       email: 电子邮箱
       phone: 电话号码
       website: 网址
-    checkin:
-      heading: "Check-in Notes"
-      intro: "These are notes that are displayed on check-in screens and (optionally) on printed check-in labels in order to alert workers."
     testimony:
       box_heading: Testimony
       heading: "Testimony of %{person}"
@@ -111,10 +103,6 @@ zh-CN:
       find_more: "Read other testimonies"
     updates:
       pending_callout: "Updates to this profile are pending."
-    verification_email:
-      heading: 完成用户设置
-      intro: "Before this user can sign in, they must complete setup by clicking a link in their email. Click below to send them the email."
-      button: "Send a password setup email to this user."
     advanced: Advanced
     can_sign_in: "Can Sign In"
     cant_delete_yourself: "You cannot delete yourself."
@@ -149,9 +137,30 @@ zh-CN:
     show_hidden_groups: 显示隐藏群组
     tell_us_about_yourself: "Tell us about yourself. What's your personality like? What would your best friend say about you?"
     this_event_doesnt_have_pictures: "This event doesn't have any pictures yet."
-    this_person_is_not_an_adult: "This person is believed to be less than %{years} years of age, and does not have parental consent."
     this_profile_is_hidden: "This profile is hidden"
     update_to_profile_is: "An update to this profile is"
     visible_on_printed_directory: "Visible on Printed Directory"
     visible_to_everyone: "Visible to everyone"
     you_arent_in_any_groups: "You aren't in any groups yet."
+    title_html: "%{name}<span class='discreet'>， %{description}</span>"
+    verification_email:
+      heading: 完成用户设置
+      intro: "Before this user can sign in, they must complete setup by clicking a link in their email. Click below to send them the email."
+      button: "Send a password setup email to this user."
+    show:
+      details:
+        family: "%{family}家庭"
+        website: 网站
+        email: 电子邮件
+        mobile_phone: 手机号码
+        home_phone: 家庭电话
+        work_phone: 办公电话
+        address: 家庭地址
+        birthday: 生日
+        anniversary: 结婚纪念日
+        social: 社交
+      showing_hidden_attribute:
+        tooltip: "This detail is visible to you because you are an admin with 'View Hidden Properties' enabled."
+    checkin:
+      heading: "Check-in Notes"
+      intro: "These are notes that are displayed on check-in screens and (optionally) on printed check-in labels in order to alert workers."

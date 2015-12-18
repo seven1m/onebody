@@ -27,6 +27,7 @@ en:
         label:
           one: "1 restricted (group) folder"
           other: "%{count} restricted (group) folders"
+      no_file: "No file chosen"
 
     show:
       table:
@@ -43,12 +44,19 @@ en:
 
     new:
       heading: "New Document"
+      select:
+        button: "Select File(s)"
 
     new_folder:
       heading: "New Folder"
 
     create:
-      notice: "Your document has been created."
+      notice:
+        one: "Your document has been created."
+        other: "Your documents have been created."
+      failure:
+        one: "Your document could not be saved: %{filenames}"
+        other: "Your documents could not be saved: %{filenames}"
 
     create_folder:
       notice: "Your folder has been created."

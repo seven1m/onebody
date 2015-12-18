@@ -21,7 +21,6 @@ nl-NL:
   for: voor
   multiple_files: "Misschien ondersteund je browser het batch uploaden van bestanden. Probeer het uit door meerdere bestanden te selecteren met de Ctrl toets."
   name: Naam
-  new: new
   none: Geen
   not_authorized: "Je bent niet bevoegd."
   ? "true"
@@ -36,12 +35,6 @@ nl-NL:
   show_all: "Toon alles"
   submit_changes: "Wijzigingen indienen"
   you_made_a_change_page: "Er zijn wijzigingen gedaan op deze pagina. Sla je wijzigingen op voordat je deze pagina verlaat."
-  date_format:
-    DD: DD
-    MM: MM
-    YYYY: JJJJ
-  errors:
-    format: "%{message}"
   activemodel:
     errors:
       models:
@@ -68,47 +61,32 @@ nl-NL:
       album:
         name: Naam
         description: Omschrijving
-      checkin_label:
-        name: Name
-        description: Description
-        xml: "Label XML"
-        xml_file: "Label XML File"
-      document:
-        name: Naam
-        description: Omschrijving
-        file: Bestand
-        folder_id: Map
-      document_folder:
-        name: Naam
-        description: Omschrijving
-        folder_id: "Bovenliggende map"
-        hidden: "Hide/Archive this folder"
-        groups: "Only share with these groups"
       family:
+        name: Naam
+        last_name: Achternaam
+        home_phone: Telefoon
         address1: Adres
         address2: "Adresregel 2 (optioneel)"
         city: Woonplaats
-        country: Land
-        home_phone: Telefoon
-        last_name: Achternaam
-        name: Naam
         state: Provincie
         zip: Postcode
+        country: Land
       person:
+        first_name: Voornaam
+        last_name: Achternaam
+        email: E-mail
+        facebook_url: "Facebook URL"
+        twitter: "Twitter gebruikersnaam"
         anniversary: Jubileum
         birthday: Verjaardag
         custom_type: Rollen
-        email: E-mail
-        facebook_url: "Facebook URL"
         fax: Fax
-        first_name: Voornaam
         gender: Geslacht
-        last_name: Achternaam
         mobile_phone: "Mobiele telefoon"
-        primary_emailer: "Primair e-mail adres"
         suffix: Achtervoegsel
-        twitter: "Twitter gebruikersnaam"
         work_phone: "Telefoon werk"
+        primary_emailer: "Primair e-mail adres"
+        status: Status
       group:
         name: Naam
         category: Categorie
@@ -127,10 +105,10 @@ nl-NL:
         approval_required_to_join: "Goedkeuring vereist om deel te nemen"
         private: "Prive groep"
         members_send: "Groepsleden kunnen berichten plaatsten"
-        membership_mode: "Selecteer hoe personen toegevoegd kunnen worden aan deze groep"
         link_code: "Externe link"
         parents_of: "Groep van"
         hidden: "Verborgen groepen"
+        membership_mode: "Selecteer hoe personen toegevoegd kunnen worden aan deze groep"
         has_tasks: Taken
       prayer_request:
         answer: Getuigenis
@@ -140,6 +118,18 @@ nl-NL:
       note:
         title: Titel
         body: Inhoud
+      document:
+        name: Naam
+        description: Omschrijving
+        file: Bestand
+        folder_id: Map
+        files: Files
+      document_folder:
+        name: Naam
+        description: Omschrijving
+        folder_id: "Bovenliggende map"
+        hidden: "Hide/Archive this folder"
+        groups: "Only share with these groups"
       task:
         name: Taak
         description: Omschrijving
@@ -147,6 +137,11 @@ nl-NL:
         person_id: "Toegewezen aan"
         duedate: Deadline
         completed: Voltooid
+      checkin_label:
+        name: Name
+        description: Description
+        xml: "Label XML"
+        xml_file: "Label XML File"
     errors:
       models:
         admin:
@@ -166,48 +161,6 @@ nl-NL:
               blank: "Geef en datum en tijd op voor het bezoek."
             group_id:
               blank: "De bezoekers moeten geregistreerd worden op de gewenste groep."
-        checkin_label:
-          attributes:
-            name:
-              blank: "You must enter a name."
-            xml:
-              blank: "You must paste the label XML."
-        checkin_time:
-          attributes:
-            campus:
-              blank: "You must select a campus."
-              exclusion: "You must select a campus."
-        document:
-          attributes:
-            file:
-              blank: "Bestand is verplicht"
-            name:
-              blank: "Naam is verplicht"
-              too_long: "De naam is te lang. Vul een kortere naam in."
-            description:
-              too_long: "De omschrijving is te lang. Vul een kortere omschrijving in."
-        document_folder:
-          attributes:
-            name:
-              blank: "De naam is verplicht"
-              too_long: "De naam is te lang. Vul een kortere naam in."
-            description:
-              too_long: "De omschrijving is te lang. Vul een kortere omschrijving in."
-            folder_id:
-              invalid: "Je kunt deze map niet als bovenliggende map aanmaken."
-            parent_folder_ids:
-              too_long: "Je kunt deze map niet aanmaken op zo een laag niveau. Plaatst de map in een bovenliggende map."
-        custom_report:
-          attributes:
-            title:
-              blank: "The title cannot be blank."
-              too_long: "The maximum description is 50 characters."
-            body:
-              blank: "The Report Body cannot be blank."
-            filters:
-              invalid: "Filters must contain a colon, in the form field:value."
-            category:
-              inclusion: "Select a valid category value."
         family:
           attributes:
             name:
@@ -251,8 +204,6 @@ nl-NL:
               taken: "Er bestaat al een andere groep met dit e-mail adres. Kies een ander e-mail adres."
               too_long: "Het e-mail adres is te lang."
               too_short: "Het e-mail adres is te kort."
-            attendance:
-              invalid: "Attendance must be enabled for any group in use by Check-in."
             category:
               blank: "Categorie is verplicht"
             name:
@@ -263,6 +214,8 @@ nl-NL:
             photo:
               too_large: "De afbeelding is te groot. De maximale grootte is %{size} mb."
               wrong_type: "De foto kan niet worden geupload. Je kunt JPG, GIF of PNG bestanden gebruiken."
+            attendance:
+              invalid: "Attendance must be enabled for any group in use by Check-in."
         membership:
           attributes:
             group_id:
@@ -273,8 +226,6 @@ nl-NL:
               taken: "Deze persoon heeft al een verzoek ingediend."
         message:
           attributes:
-            base:
-              taken: "Dit bericht is al verstuurd. Pas het onderwerp of de tekst aan om de e-mail toch te versturen."
             body:
               blank: "Inhoud is verplicht"
               too_short: "De inhoud is te kort."
@@ -285,12 +236,8 @@ nl-NL:
               too_short: "Het onderwerp is te kort."
             to_person_id:
               invalid: "Het bericht kan niet worden verstuurd. De ontvangers van dit berichten hebben geen geldig e-mail adres."
-        news_item:
-          attributes:
-            title:
-              blank: "Titel is verplicht"
-            body:
-              blank: "Omschrijving is verplicht"
+            base:
+              taken: "Dit bericht is al verstuurd. Pas het onderwerp of de tekst aan om de e-mail toch te versturen."
         note:
           attributes:
             body:
@@ -312,10 +259,6 @@ nl-NL:
             alternate_email:
               invalid: "Het e-mail adres is onjuist. Voorbeeld: naam@voorbeeld.nl"
               taken: "Er bestaat al een persoon met dit e-mail adres."
-            anniversary:
-              not_a_date: "Vul een geldige datum in als jubileum."
-            birthday:
-              not_a_date: "Vul een geldige datum is als verjaardag."
             business_email:
               invalid: "Het zakelijke e-mail adres is onjuist. Voorbeeld: naam@voorbeeld.nl"
             business_website:
@@ -324,13 +267,9 @@ nl-NL:
               exclusion: "Categorie is verplicht"
             child:
               inclusion: "Specificeer of deze persoon een minderjarige is of vul een een geboortedatum in."
-            description:
-              too_long: "De omschrijving is de lang. Gebruik max. 25 karakters."
             email:
               invalid: "Het e-mail adres is onjuist. Voorbeeld: naam@voorbeeld.nl"
               taken: "Er bestaat al een persoon met dit e-mail adres."
-            facebook_url:
-              invalid: "Facebook URL is onjuist."
             feed_code:
               taken: "De feed code bestaat al voor een ander persoon."
             first_name:
@@ -342,14 +281,22 @@ nl-NL:
             password:
               confirmation: "Het wachtwoord is onjuist."
               too_short: "Het wachtwoord is te kort."
+            website:
+              invalid: "Het webadres is onjuist. Voorbeeld: http://www.zakelijkwebadres.nl"
             photo:
               too_large: "De afbeelding is te groot. De maximale grootte is %{size} mb."
               wrong_type: "De foto kan niet worden geupload. Je kunt JPG, GIF of PNG bestanden gebruiken."
+            anniversary:
+              not_a_date: "Vul een geldige datum in als jubileum."
+            birthday:
+              not_a_date: "Vul een geldige datum is als verjaardag."
+            description:
+              too_long: "De omschrijving is de lang. Gebruik max. 25 karakters."
+            facebook_url:
+              invalid: "Facebook URL is onjuist."
             twitter:
               invalid: "Twitter gebruikersnaam is onjuist."
               too_long: "Twitter gebruikersnaam is te lang."
-            website:
-              invalid: "Het webadres is onjuist. Voorbeeld: http://www.zakelijkwebadres.nl"
         picture:
           attributes:
             album_id:
@@ -386,10 +333,10 @@ nl-NL:
             other_name:
               blank: "Relatietype is verplicht"
               taken: "De relatie bestaat al."
-            person_id:
-              blank: "De relatie moet gekoppeld zijn aan een persoon."
-            related_id:
-              blank: "De relatie moet gekoppeld zijn aan een persoon."
+            person:
+              blank: "The relationship must be associated with a person."
+            related:
+              blank: "The relationship must be associated with a second person."
         report:
           attributes:
             definition:
@@ -429,12 +376,56 @@ nl-NL:
             text:
               blank: "De bijbeltekst is niet gevonden. Heb je het goed ingevuld?"
               too_long: "Het bijbeltekst is te lang. Probeer specifieker te zijn en selecteer een korter gedeelte."
+        document:
+          attributes:
+            file:
+              blank: "Bestand is verplicht"
+            name:
+              blank: "Naam is verplicht"
+              too_long: "De naam is te lang. Vul een kortere naam in."
+            description:
+              too_long: "De omschrijving is te lang. Vul een kortere omschrijving in."
+        document_folder:
+          attributes:
+            name:
+              blank: "De naam is verplicht"
+              too_long: "De naam is te lang. Vul een kortere naam in."
+            description:
+              too_long: "De omschrijving is te lang. Vul een kortere omschrijving in."
+            folder_id:
+              invalid: "Je kunt deze map niet als bovenliggende map aanmaken."
+            parent_folder_ids:
+              too_long: "Je kunt deze map niet aanmaken op zo een laag niveau. Plaatst de map in een bovenliggende map."
+        news_item:
+          attributes:
+            title:
+              blank: "Titel is verplicht"
+            body:
+              blank: "Omschrijving is verplicht"
+        custom_report:
+          attributes:
+            title:
+              blank: "The title cannot be blank."
+              too_long: "The maximum description is 50 characters."
+            body:
+              blank: "The Report Body cannot be blank."
+            filters:
+              invalid: "Filters must contain a colon, in the form field:value."
+            category:
+              inclusion: "Select a valid category value."
+        checkin_label:
+          attributes:
+            name:
+              blank: "You must enter a name."
+            xml:
+              blank: "You must paste the label XML."
+        checkin_time:
+          attributes:
+            campus:
+              blank: "You must select a campus."
+              exclusion: "You must select a campus."
   application:
     api_access: "Je bent niet bevoegd om de API te gebruiken."
-    mailgun_route_found: "De route bestaat al."
-    mailgun_route_created: "De route is aangemaakt."
-    mailgun_apikey_notfound: "Controleer de mailgun API key"
-    mailgun_route_error: "Sorry.. Er is een fout opgetreden tijdens het aanmaken van de route."
     no_default_site: "Geen default site gevonden."
     no_site_configured: "Er is geen site geconfigureerd op dit adres: %{host}"
     settings_reloaded: "Instellingen ververst."
@@ -447,3 +438,8 @@ nl-NL:
     help: "Geef tips door voor het gebruik van de site."
     privacy_policy: "Privacy Policy"
     powered_by: "Aangedreven door CHURCH.IO OneBody"
+  date_format:
+    DD: DD
+    MM: MM
+    YYYY: JJJJ
+  new: new

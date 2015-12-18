@@ -5,7 +5,7 @@ de:
       sharing: Teilen
       children: Kinder
     sharing:
-      intro_html: "You can change the privacy settings for your family here. Items with a checkmark are visible to other members who sign into this website. Click the <i class='fa fa-plus-circle'></i> to set privacy for groups (optional). To understand how we use the personal information of you and your family, please read our <a href='%{url}'>Privacy Policy</a>."
+      intro_html: "Heir kannst du die Privatsphäre Einstellungen für ihre Familie ändern.  Reihen mit Häkchen sind zur andere Mitgeleider dieser Seite sichtbar.   Klick <i class='fa fa-plus-circle'></i> zu setzen die Privatsphäre für Gruppen (optional). Zu Verstehen wie wir die Personaldatei  ihrem Familie benutzen, bitte lies unsere <a href='%{url}'>Datenschutz</a>."
     children:
       intro: "Stellen sie, welche ihrer Kinder Zugriff auf diese Seite hat."
     scroll_notice: "Es kann sein, dass du nach links und nach rechts scrollen musst, um alle Optionen zu sehen."

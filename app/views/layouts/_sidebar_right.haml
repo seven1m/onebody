@@ -1,0 +1,44 @@
+%ul{:class => 'nav nav-tabs nav-justified control-sidebar-tabs'}
+  %li.active
+    %a{:href => '#', 'data-toggle' => 'tab'}
+      %i.fa.fa-gears
+.tab-content
+  %span.header.text-center
+    = link_to @logged_in, :class => 'control-sidebar-heading' do
+      %h2
+        = @logged_in.name
+    %a.control-sidebar-heading
+      %h4
+        = @logged_in.email
+  %ul.control-sidebar-menu
+    %li
+      = link_to @logged_in do
+        = icon 'menu-icon img-circle bg-olive fa fa-user'
+        .menu-info
+          = t('nav.profile_sub.show')
+    %li
+      = link_to edit_person_path(@logged_in) do
+        = icon 'menu-icon img-circle bg-olive fa fa-pencil'
+        .menu-info
+          = t('nav.profile_sub.edit')
+    %li
+      = link_to edit_person_account_path(@logged_in) do
+        = icon 'menu-icon img-circle bg-olive fa fa-key'
+        .menu-info
+          = t('nav.profile_sub.password')
+    - if setting(:features, :groups)
+      %li
+        = link_to edit_person_path(@logged_in, email: true) do
+          = icon 'menu-icon img-circle bg-olive fa fa-envelope'
+          .menu-info
+            = t('nav.profile_sub.email')
+    %li
+      = link_to edit_person_privacy_path(@logged_in) do
+        = icon 'menu-icon img-circle bg-olive fa fa-lock'
+        .menu-info
+          = t('nav.profile_sub.privacy')
+    %li
+      = link_to session_path, method: :delete do
+        = icon 'menu-icon img-circle bg-olive fa fa-sign-out'
+        .menu-info
+          = t("session.sign_out")

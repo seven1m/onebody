@@ -16,7 +16,7 @@ pt:
     assigned_cards:
       button: "Cartões Atribuídos"
     scan:
-      unknown_card: "card not found"
+      unknown_card: "cartão não encontrado"
     cards:
       heading: "Cartões de Check-in Atribuídos"
       table:
@@ -31,31 +31,31 @@ pt:
     groups:
       movement_help_html: |
           <p>
-            To move a check-in group into or out of a folder, first expand the folder, then click the
-            <i class="up"></i> or <i class="down"></i> button.
+          Para mover um grupo de check-in para dentro ou fora de uma pasta, primeiro expanda a pasta depois clique em
+          <i class="up"></i> ou  <i class="down"></i>.
           </p>
           <p>
-            To jump a group all the way to the top or bottom,
-            hold <span class="highlight">shift</span> while clicking
-            <i class="up"></i> or <i class="down"></i>.
+          Para mover um grupo para o topo ou para o fim,
+          segure <span class="highlight">shift</span> enquanto clica com o botão esquerdo do mouse
+          <i class="up"></i> ou <i class="down"></i>.
           </p>
       heading: "Check-in em Grupos"
       index:
         heading: "%{time} no %{campus}"
         add_folder:
-          button: "Add Folder"
-          heading: "Add a folder"
-          name: "Folder Name"
+          button: "Adicionar Pasta"
+          heading: "Adicionar uma pasta"
+          name: "Nome a pasta"
         add_group:
           heading: "Adicionar um destino (grupo)"
           search: "Buscar pelo nome"
           select_folder:
-            label: "Select folder"
-            none: (none)
+            label: "Selecionar pasta"
+            none: (nenhum)
           button: "Adicionar Grupo"
         table:
-          name: Name
-          label_id: "Label (Nametag)"
+          name: Nome
+          label_id: "Rótulo (etiqueta)"
           print_extra_nametag: "Etiqueta de Nome Adicional"
           section: Seção
       section:
@@ -63,21 +63,21 @@ pt:
       table:
         group: Grupo
     labels:
-      button: "Labels Setup"
+      button: "Configurações de rótulo"
       edit:
-        heading: "Edit Check-in Label"
+        heading: "Editar Rótulo de Check-in"
       delete:
-        notice: "Label deleted."
-      heading: "Check-in Labels"
+        notice: "Rótulo deletado"
+      heading: "Etiquetas de Check-in"
       new:
-        button: "New Label"
-        heading: "Edit Check-in Label"
+        button: "Novo Rótulo"
+        heading: "Editar Etiquetas de Check-in"
       table:
-        name: Name
-        description: Description
-        updated_at: Updated
+        name: Nome
+        description: Descrição
+        updated_at: Atualizado
     times:
-      button: Configuração
+      button: "Configuração de Horários"
       heading: "Horários de Check-in"
       intro: "Adicione, edite e exclua horários disponíveis de check-in aqui."
       table:
@@ -93,12 +93,12 @@ pt:
         campus:
           new: "[novo campus]"
         delete:
-          button: delete
+          button: deletar
         heading: "Editar Horário de Check-in"
         save:
           button: "Salvar Alterações"
       groups:
-        button: groups
+        button: grupos
       recurring:
         heading: "Horários Recorrentes"
         new:
@@ -145,21 +145,21 @@ pt:
         no_barcode: "Por favor, passe o campo no final do cartão no leitor."
     interface:
       add_guest:
-        heading: "Add a Guest"
-        intro: "Type the full name of your guest in the field below."
-        button: "Add a guest"
-        save: Save
+        heading: "Adicionar um convidado"
+        intro: "Informe o nome completo do seu convidado no cambo abaixo"
+        button: "Adicionar um convidado"
+        save: Salvar
       barcode:
-        placeholder: "Scan Your Card"
+        placeholder: "Passe o Seu Cartão"
       cancel:
-        button: cancel
-      heading: "Check In"
-      not_attending: "not attending"
+        button: cancelar
+      heading: "Check in"
+      not_attending: "não comparecendo"
       print:
-        heading: "After making your selections..."
-        button: "Print Tags"
+        heading: "Depois de fazer suas seleções..."
+        button: "Imprimir Etiquetas"
       run_setup:
-        intro: "You must first set up your check-in times and destinations."
-        button: Setup
+        intro: "Você precisa primeiramente configurar os horários e destinos de check-in"
+        button: Configuração
       same_as_last_week:
-        button: "Choose same as last week"
+        button: "Escolher o mesmo da semana passada"

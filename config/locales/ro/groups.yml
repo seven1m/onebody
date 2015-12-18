@@ -127,7 +127,7 @@ ro:
         help: "Attendance must be enabled for any group used by Check-in."
       class_link_code:
         help_html: |
-            <p>This is useful for syncing with external systems. Separate multiple codes with a space. <a href='https://github.com/churchio/onebody/wiki/HowGroupMembershipWorks'>See here</a> for more information.</p>
+            <p>This is useful for syncing with external systems. Separate multiple codes with a space. <a href='%{url}' target='_blank'>See here</a> for more information.</p>
             <p>Click <strong>Save</strong> to update group members immediately. Group members will also be updated automatically every night.</p>
       parents_of:
         help_html: |

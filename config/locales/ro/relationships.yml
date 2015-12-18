@@ -34,7 +34,6 @@ ro:
       mother_in_law: Soacră
       nephew: Nepot
       niece: Nepoată
-      other_name: Other
       sister: Soră
       sister_in_law: Cumnată
       son: Fiu
@@ -47,9 +46,10 @@ ro:
       stepson: "Fiu vitreg"
       uncle: Unchi
       wife: Nevastă
-    other_name:
-      placeholder: "Relationship Type"
+      other_name: Other
     no_person_selected: "Nicio persoană selectată."
     relationship: Relație
     relationship_type: "Tip:"
     toggle_individual: "Vezi relații individuale"
+    other_name:
+      placeholder: "Relationship Type"

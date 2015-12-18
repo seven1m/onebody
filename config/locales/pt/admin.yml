@@ -1,13 +1,6 @@
 ---
 pt:
   admin:
-    actionables:
-      heading: Actionables
-    administration:
-      heading: "Administration & Settings"
-    attendance:
-      heading: Frequência
-      button: "Registros de Presença"
     box:
       updates:
         text:
@@ -17,10 +10,6 @@ pt:
         text:
           one: "Email Alterado"
           other: "Emails Alterados"
-      sync_errors:
-        text:
-          one: "Erro de Sincronização"
-          other: "Erros de Sincronização"
       groups_pending_approval:
         text:
           one: "Grupo Pendente de Aprovação"
@@ -33,13 +22,10 @@ pt:
         text:
           one: "Excluir Pessoa"
           other: "Excluir Pessoas"
-    charts:
-      no_data: "no data yet"
-    checkin:
-      heading: Check-in
-      cards_assigned: "Cartões de Check-in Atribuídos"
-      dashboard_button: "Check-in Admin"
-      button: "Painel de Check-in"
+      import_errors:
+        text:
+          one: "Erro de Importação"
+          other: "Erros de Importação"
     dashboard:
       heading: "Painel do Administrador"
       sub_title: "OneBody %{version}"
@@ -50,7 +36,6 @@ pt:
       tabs:
         people: "Pessoas Excluídas"
         families: "Famílias Vazias"
-      family_deleted: excluído
       heading: "Pessoas Excluídas"
       empty_families:
         intro: "As seguintes famílias estão ativas e não possuem pessoas nelas. Provavelmente elas devem ser excluídas."
@@ -65,20 +50,11 @@ pt:
         intro: "Os resultados da sua busca são exibidos abaixo."
       undelete:
         button: "Cancelar Exclusão das Pessoas Selecionadas"
-    gatherings:
-      heading: Gatherings
+      family_deleted: excluído
     membership_requests:
       count:
         one: "%{count} pedido"
         other: "%{count} pedidos"
-    report:
-      back: "Voltar para o Painel de Relatórios"
-      button: "Painel de Relatórios"
-      heading: Relatórios
-      intro: "Acesse o Painel de Relatórios para acessar relatórios pré-definidos e ferramentas de relatórios ad-hoc."
-      launch: Iniciar
-      list: Relatórios
-      title: "Painel de Relatórios"
     active: ativo
     admin_added: "%{name} adicionado."
     admin_count:
@@ -104,9 +80,10 @@ pt:
     enable: Habilitar
     enable_api_confirmation: "Você tem certeza que deseja habilitar a sua chave de API?"
     emails:
-      intro_html: "<p><em>Esta seção de administração é útil se você sincronizou os seus dados de uma fonte externa utilizando o UpdateAgent. Se você não fez isso, você pode desmarcar todos os itens desta lista (ou apenas ignorá-los completamente).</em></p>\n\
-          <p>Quando um usuário altera o seu endereço de email online, uma marcação é definida e subsequentemente, as sincronizações não podem alterar o endereço de email até que a marcação seja removida. Para remover a marcação, simplesmente defina o endereço de email no seu banco de dados externo para o mesmo abaixo e então execute o seu processo de sincronização (ou espere para a próxima execução agendada).</p>\n\
-          <p>Alternativamente, você pode remover a marcação manualmente aqui para permitir o seu processo de sincronização sobrescrever o valor (mas cuidado, você pode confundir os seus usuários se você fizer isto).</p> \n"
+      intro_html: "<p>Quando um usuário altera o seu endereço de email online, uma marcação é definida, e as importações CSV subsequentes são impedidas de sobrescrever o endereço de email daquele contato.</p> \n\
+          <p>Se você importa regularmente os dados das pessoas de um sistema externo, você apenas precisa <strong>atualizar o endereço de email do usuário no banco de dados do registro</strong>, para combinar com o endereço de email daqui. Então, da próxima vez que você importar o seu banco de dados, o OneBody limpará a marcação \"email alterado\" para você e os dados serão removidos dessa lista.</p> \n\
+          <p>Você pode usar essa página como uma Lista de Tarefas &ndash; uma lista de alterações de endereço de email que você precisa fazer no banco de dados do registro</p> \n\
+          <p>Abaixo estão os usuários com marcações definidas. Você pode limpar as marcações aqui manualmente se necessário.</p> \n"
       changed_addresses: "Endereço de Email Alterado"
       clear_flags: "Limpar Marcações"
       no_records: "Atualmente, não existem registro com a marcação de endereço de email alterado."
@@ -124,12 +101,6 @@ pt:
     import_export: Importar/Exportar
     invalidate_confirmation: "Você tem certeza que deseja invalidar esta chave e criar uma nova?"
     key: Chave
-    logo:
-      delete: "excluir logotipo"
-      format_information: "Um gif ou png transparente irá ficar melhor."
-      logo: Logotipo
-      size_information: "Carregue uma imagem abaixo. Ela será redimensionada para não ficar maior do que 300x80."
-      upload: "Carregar Logotipo"
     manage_group_administrators: "Gerenciar Administradores de Grupo"
     must_be_superadmin: "Você precisa ser um super administrador para alterar as configurações."
     new_admin_template: "Crie um novo modelo admin."
@@ -245,36 +216,6 @@ pt:
         :
           name: "Enviar Registros de Presença para"
           description: "Email enviado quando alguém envia a presença de um grupo"
-      Pusher:
-        ? "App ID"
-        :
-          name: "App ID"
-          description: "The application ID provided by Pusher."
-        ? "App Key"
-        :
-          name: "App Key"
-          description: "The application key provided by Pusher."
-        Secret:
-          name: Secret
-          description: "The secret provided by Pusher."
-        ? "API Scheme"
-        :
-          name: "API Scheme"
-        ? "API Host"
-        :
-          name: "API Host"
-        ? "API Port"
-        :
-          name: "API Port"
-        ? "WS Host"
-        :
-          name: "WS Host"
-        ? "WS Port"
-        :
-          name: "WS Port"
-        ? "WSS Port"
-        :
-          name: "WSS Port"
       Services:
         Yahoo:
           name: Yahoo
@@ -307,7 +248,7 @@ pt:
           description: "Idade na qual a pessoa é considerada velha o bastante para utilizar o site e ser vista por outros no diretório."
         Language:
           name: Idioma
-          description: "Idioma dos elementos da interface."
+          description: "Idioma dos elementos da interface. <a href='%{url}' target='_blank'>Você poed ajudar!</a>"
         ? "Time Zone"
         :
           name: "Fuso Horário"
@@ -371,10 +312,6 @@ pt:
         :
           name: "Atualizações Precisam ser Aprovadas"
           description: "Se habilitado, todas as mudanças de informações \"básicas\" de usuários (telefone, endereço, etc) aguardarão uma aprovação de um administrador antes de serem aplicadas."
-        ? "Notify on Photo Change"
-        :
-          name: "Notificar ao Mudar a Foto"
-          description: "Se habilitado, administradores serão notificados quando um usuário mudar a sua foto pessoal ou de família."
         ? "Sign Up"
         :
           name: Registrar
@@ -408,8 +345,8 @@ pt:
           description: "Adicione nomes de campos customizados, um por linha. Ao incluir a palavra \"date\" (ou \"Date\") o campo será do tipo data. Incluindo um asterísco (*), o campo será visível e editável pelos usuários."
         ? "Edit Legacy Ids"
         :
-          name: "Editar IDs Legados"
-          description: "Se habilitado, permitirá acesso administrativo para alterar os IDs Legados de Família e Pessoa."
+          name: "Editar ID Legado"
+          description: "Permite que administradores vejam e modifiquem o campo legacy_id."
         ? "Sign Up Approval Email"
         :
           name: "Email de Aprovação de Registro"
@@ -445,20 +382,24 @@ pt:
         Service:
           name: Culto
           description: "Se habilitado, os usuários administrativos podem acompanhar cultos individuais em áreas da comunidade."
+        ? "Notify on Photo Change"
+        :
+          name: "Notificar ao Mudar a Foto"
+          description: "Se habilitado, administradores serão notificados quando um usuário mudar a sua foto pessoal ou de família."
         Checkin:
           name: Check-in
           description: "Se habilitado, usuários podem fazer o check-in em cursos determinados."
         Documents:
           name: Documentos
           description: "Se habilitado, administradores podem carregar arquivos em uma área geral na qual os usuários podem procurá-los e baixá-los."
-        ? "Business Directory"
-        :
-          name: "Business Directory"
-          description: "Se habilitado, usuários podem adicionar informações profissionais para ser listado no diretório de negócios da igreja."
         ? "Small Group Size"
         :
           name: "Tamanho máximo de um \"grupo pequeno\""
           description: "Pessoas em grupos com esta quantidade de membros ou menos são consideradas parte de um \"grupo pequeno\" e podem facilmente compartilhar conteúdo entre eles utilizando a página inicial."
+        ? "Business Directory"
+        :
+          name: "Diretório de Empresas"
+          description: "Se habilitado, usuários podem adicionar informações profissionais para ser listado no diretório de negócios da igreja."
       Privacy:
         ? "Hide Contact Details in Messages"
         :
@@ -508,20 +449,6 @@ pt:
         :
           name: "Compartilhar Data de Nascimento"
           description: "Se habilitado, os novos usuários terão o aniversário compartilhado com outros membros do site."
-      host:
-        name: "Servidor / Nome de Domínio"
-        description: "O nome de domínio no qual este site está acessível na internet, por exemplo, igreja.com ou membros.igreja.com (não inclua o prefixo http:// no início)"
-      Email:
-        Host:
-          name: "Enviar Nome do Servidor por email"
-          description: "Um subdomínio, ex. comunidade.exemplo.com.br, para utilizar se o seu domínio já está servindo o email. O padrão é o nome de domínio."
-        MailgunApiKey:
-          name: "Chave de API do Mailgun"
-          description: "Chave de API para utilizar o mailgun.com como servidor de recebimento de emails."
-      advanced:
-        heading: Avançado
-        intro: "Se as configurações não estiverem sendo recarregadas, clique no botão abaixo para forçar a atualização."
-        mailgun: "Clique no botão abaixo para criar um rota \"pega tudo\" na sua conta do mailgun."
       contact_automated_email_about: "Estes endereços de email são enviados quando certas coisas acontecem no site. Você pode definir todos para o mesmo endereço ou endereços independentes, dependendo com a separação de atividades da sua comunidade."
       contact_community_info_about: "Insira as informações de contato do escritório da sua igreja ou comunidade, na qual as pessoas possam entrar em contato com a equipe administrativa."
       contact_heading: Contato
@@ -529,11 +456,9 @@ pt:
       enabled: Habilitado
       features_heading: Características
       formats_heading: Formatos
-      formats_date_about_html: "Insira os seus próprios formatos de data e hora que são utilizados no seu país. Veja <a href=\"/date_formatting_options.txt\" target=\"_new\">aqui</a> as opções de formatação."
+      formats_date_about_html: "Insira os seus próprios formatos de data e hora que são utilizados no seu país. Veja <a href=\"https://www.manystrands.com/wp-content/uploads/2013/01/strftime-cheat-sheet.pdf\" target=\"_new\">aqui</a> para opções de formatação."
       formats_phone_about: "Informe o formato do telefone com o caracter 'd', por exemplo, dddd-dddd ou (dd) dddd-dddd, dependendo da sua localização."
       locale_heading: Localização
-      mailgun: "Criar uma Rota \"Pega Tudo\" no Mailgun"
-      mailgun_message: "Use isto para criar uma rota \"pega tudo\" no seu servidor/domínio com o mailgin para receber emails."
       membership_management_heading: Membros
       name_heading: Nome
       one_per_line: "(um por linha)"
@@ -548,28 +473,50 @@ pt:
       sharing_about: "OneBody fica melhor quando os membros participam adicionando o seu próprio conteúdo. Habilite o compartilhamento de conteúdo com estas configurações."
       sharing_communications_about: "Compartilhe informações com os seus membros facilmente."
       sharing_heading: Compartilhando
+      host:
+        name: "Servidor / Nome de Domínio"
+        description: "O nome de domínio no qual este site está acessível na internet, por exemplo, igreja.com ou membros.igreja.com (não inclua o prefixo http:// no início)"
+      Email:
+        Host:
+          name: "Enviar Nome do Servidor por email"
+          description: "Um subdomínio, ex. comunidade.exemplo.com.br, para utilizar se o seu domínio já está servindo o email. O padrão é o nome de domínio."
+      mailgun: "Criar uma Rota \"Pega Tudo\" no Mailgun"
+      mailgun_message: "Use isto para criar uma rota \"pega tudo\" no seu servidor/domínio com o mailgin para receber emails."
       small_group_sharing:
         disable: "desabilitar compartilhamentos entre pequenos grupos"
         all: "compartilhar com todos os grupos, independentemente do tamanho"
+      Pusher:
+        ? "App ID"
+        :
+          name: "ID da aplicação"
+          description: "ID da aplicação fornecido pelo Pusher."
+        ? "App Key"
+        :
+          name: "App Key"
+          description: "A key da aplicação fornecida pelo Pusher."
+        Secret:
+          name: Secret
+          description: "O secret fornecido pelo Pusher."
+        ? "API Scheme"
+        :
+          name: "APi Scheme"
+        ? "API Host"
+        :
+          name: "API Host"
+        ? "API Port"
+        :
+          name: "API Port"
+        ? "WS Host"
+        :
+          name: "WS Host"
+        ? "WS Port"
+        :
+          name: "WS Port"
+        ? "WSS Port"
+        :
+          name: "WSS Port"
     super_admin: "Super Admin"
     super_admin_about: "Super Admins possuem controle total sobre o site, com todos os privilégios disponíveis. Tenha cuidado com quem você concede esta permissão - pode ser perigoso!"
-    syncs:
-      complete: Completado
-      duration: Duração
-      error: Erro
-      id: ID
-      legacy_id: "ID Legado"
-      name: Nome
-      none: "Nada ainda."
-      operation: Operação
-      rate: Avaliação
-      start: Iniciar
-      status: Status
-      success: Sucesso
-      show:
-        heading: "Sincronizado %{at}"
-      syncs: Sincronizações
-      type: Tipo
     template: Modelo
     templates: Modelos
     updates:
@@ -599,3 +546,33 @@ pt:
       updated: atualizado
     username: Usuário
     your_key: "sua chave"
+    attendance:
+      heading: "Frequência (30 dias)"
+      button: Frequência
+    checkin:
+      heading: "Check-in (48 horas)"
+      cards_assigned: "Cartões de Check-in Atribuídos"
+      button: "Quiosque de Check-in"
+      dashboard_button: "Administração de Check-in"
+    report:
+      back: "Voltar para o Painel de Relatórios"
+      button: "Painel de Relatórios"
+      heading: Relatórios
+      intro: "Acesse o Painel de Relatórios para acessar relatórios pré-definidos e ferramentas de relatórios ad-hoc."
+      launch: Iniciar
+      list: Relatórios
+      title: "Painel de Relatórios"
+    actionables:
+      heading: Ações
+    administration:
+      heading: "Administração e configurações"
+    charts:
+      no_data: "nenhum dado ainda"
+    gatherings:
+      heading: Recolhimentos
+    facebook:
+      heading: Facebook
+      intro_html: "Permite pessoas entrarem usando o Facebook. Você precisará primeiro configurar um app do Facebook, então inserir o id do app e o segredo abaixo."
+    pusher:
+      heading: Pusher
+      intro_html: "O Pusher é um serviço que facilita a comunicação em tempo real. Nesse momento, o OneBody usa o Pusher apenas para impressão remota de Check-in, o que você pode não precisar. Você pode registrar uma conta gratuitda do Pusher em <a href='https://pusher.com'>pusher.com</a> ou usar o software de código livre <a href='https://github.com/stevegraham/slanger'>Slanger</a> no seu próprio servidor."

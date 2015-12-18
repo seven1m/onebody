@@ -35,6 +35,10 @@ sudo chown -R $USER /var/www/onebody
 cd /var/www/onebody
 git checkout stable
 
+mkdir -p tmp/pids log public/system
+chmod -R 777 tmp log public/system
+chmod -R 777 cache
+
 # brightbox may have a slightly newer version than we're pinned to -- that's ok
 sed -i '/ruby-version/d' Gemfile
 

@@ -9,17 +9,11 @@ describe MembershipsController, type: :controller do
 
     context 'given email param' do
       before do
-        allow(controller).to receive(:update).and_call_original
-        request.env['HTTP_REFERER'] = group_memberships_path(group)
-        get :show, {
-          group_id: group.id,
-          id: person.id,
-          email: 'on'
-        }, { logged_in_id: person.id }
+        get :show, { group_id: group.id, id: person.id, email: 'off' }, { logged_in_id: person.id }
       end
 
-      it 'calls #update' do
-        expect(controller).to have_received(:update)
+      it 'renders the email template' do
+        expect(controller).to render_template(:email)
       end
     end
   end

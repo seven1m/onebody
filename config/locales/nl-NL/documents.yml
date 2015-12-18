@@ -12,6 +12,8 @@ nl-NL:
         item_count: "%{count} documenten"
       edit_folder:
         button: "Wijzig deze map"
+      delete_folder:
+        button: "Delete this folder"
       new_folder:
         button: "Nieuwe map"
       new_document:
@@ -24,6 +26,7 @@ nl-NL:
         label:
           one: "1 restricted (group) folder"
           other: "%{count} restricted (group) folders"
+      no_file: "No file chosen"
     show:
       table:
         filename: Bestandsnaam
@@ -38,10 +41,17 @@ nl-NL:
         button: Verwijderen
     new:
       heading: "Nieuw document"
+      select:
+        button: "Select File(s)"
     new_folder:
       heading: "Nieuwe map"
     create:
-      notice: "Het document is aangemaakt."
+      notice:
+        one: "Your document has been created."
+        other: "Your documents have been created."
+      failure:
+        one: "Your document could not be saved: %{filenames}"
+        other: "Your documents could not be saved: %{filenames}"
     create_folder:
       notice: "De map is aangemaakt."
     edit:
@@ -59,9 +69,9 @@ nl-NL:
       notice: "De map en in de inhoud is verwijderd."
     hidden_folder:
       alert: "This folder is hidden from regular users."
-      tooltip: hidden
+      tooltip: verborgen
     hidden_folder_due_to_parent:
-      alert: "This folder is hidden from regular users because it is inside a hidden folder."
+      alert: "Deze map is verborgen voor reguliere gebruikers, omdat het in een verborgen folder zit."
     hidden_document:
       alert: "This document is hidden from regular users."
       tooltip: hidden
@@ -70,7 +80,7 @@ nl-NL:
     groups:
       add:
         heading: "Share with groups (optional)"
-        search_button: "Search by name"
+        search_button: "Zoek op naam."
         add_button: "Add Group"
       link: link
     restricted_folder:

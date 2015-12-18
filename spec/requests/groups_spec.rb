@@ -52,12 +52,13 @@ describe GroupsController, type: :request do
 
     context 'with code' do
       it 'should disable email' do
-        get "/groups/#{@group.id}/memberships/#{@user.id}?code=#{@user.feed_code}&email=off", {}, referer: "/groups/#{@group.id}"
+        patch "/groups/#{@group.id}/memberships/#{@user.id}", code: @user.feed_code, email: 'off'
         expect(@group.get_options_for(@user).get_email).not_to be
       end
 
       it 'should enable email' do
-        get "/groups/#{@group.id}/memberships/#{@user.id}?code=#{@user.feed_code}&email=on", {}, referer: "/groups/#{@group.id}"
+        @group.set_options_for(@user, get_email: false)
+        patch "/groups/#{@group.id}/memberships/#{@user.id}", code: @user.feed_code, email: 'on'
         expect(@group.get_options_for(@user).get_email).to be
       end
     end

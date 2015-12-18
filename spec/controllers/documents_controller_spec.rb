@@ -1,9 +1,13 @@
 require_relative '../rails_helper'
 
 describe DocumentsController, type: :controller do
-  let(:user)      { FactoryGirl.create(:person) }
-  let(:file_path) { Rails.root.join('spec/fixtures/files/attachment.pdf') }
-  let(:file)      { Rack::Test::UploadedFile.new(file_path, 'application/pdf', true) }
+  let(:user)        { FactoryGirl.create(:person) }
+  let(:file_path)   { Rails.root.join('spec/fixtures/files/attachment.pdf') }
+  let(:file_path2)  { Rails.root.join('spec/fixtures/files/image.bmp') }
+  let(:file_path3)  { Rails.root.join('spec/fixtures/files/people.csv') }
+  let(:file)        { Rack::Test::UploadedFile.new(file_path, 'application/pdf', true) }
+  let(:file2)       { Rack::Test::UploadedFile.new(file_path2, 'image/x-ms-bmp', true) }
+  let(:file3)       { Rack::Test::UploadedFile.new(file_path3, 'text/plain', true) }
 
   before do
     Setting.set(:features, :documents, true)
@@ -292,6 +296,20 @@ describe DocumentsController, type: :controller do
             expect(assigns[:document].folder_id).to eq(top_folder.id)
           end
         end
+
+        context 'multiple documents' do
+          before do
+            get :new, {multiple_documents: true}, { logged_in_id: user.id }
+          end
+
+          it 'builds a new document' do
+            expect(assigns[:document]).to be_new_record
+          end
+
+          it 'renders new template' do
+            expect(response).to render_template('new')
+          end
+        end
       end
     end
   end
@@ -385,71 +403,48 @@ describe DocumentsController, type: :controller do
         end
       end
 
-      context 'new document' do
-        context 'at top level' do
-          context 'given proper params' do
-            before do
-              post :create, {
-                document: {
-                  name:        'Test Document',
-                  description: 'description of document',
-                  file:        file
-                }
-              }, { logged_in_id: user.id }
-            end
-
-            it 'creates a new document' do
-              expect(assigns[:document].reload).to be
-              expect(assigns[:document].name).to eq('Test Document')
-              expect(assigns[:document].description).to eq('description of document')
-            end
-
-            it 'attaches the file' do
-              expect(assigns[:document].reload.file).to exist
-              expect(assigns[:document].file_file_name).to eq(file.original_filename)
-              expect(assigns[:document].file.size).to eq(file.size)
-            end
-
-            it 'redirects to the document' do
-              expect(response).to redirect_to(document_path(assigns[:document].id))
-            end
-
-            it 'sets a flash notice' do
-              expect(flash[:notice]).to be
-            end
+      context 'new documents' do
+        context 'given proper params' do
+          before do
+            post :create, {
+              document: {
+                name:        ['Test Document', 'Test Presentation', 'Test Program'],
+                description: ['description of document', 'description of presentation', 'description of virus'],
+                file:        [file, file2, file3]
+              }
+            }, { logged_in_id: user.id }
           end
 
-          context 'given missing params' do
-            render_views
-
-            before do
-              post :create, { document: { description: 'description of document' } }, { logged_in_id: user.id }
-            end
-
-            it 'renders the new template, showing the errors' do
-              expect(response).to render_template('new')
-              expect(response.body).to match(/there were errors/i)
-            end
+          it 'creates a new document' do
+            doc = Document.find_by(name: 'Test Document')
+            expect(doc.name).to eq('Test Document')
+            expect(doc.description).to eq('description of document')
+            doc = Document.find_by(name: 'Test Presentation')
+            expect(doc.name).to eq('Test Presentation')
+            expect(doc.description).to eq('description of presentation')
+            doc = Document.find_by(name: 'Test Program')
+            expect(doc.name).to eq('Test Program')
+            expect(doc.description).to eq('description of virus')
           end
-        end
 
-        context 'inside a folder' do
-          let(:top_folder) { FactoryGirl.create(:document_folder) }
+          it 'attaches the files' do
+            doc = Document.find_by(name: 'Test Document')
+            expect(doc.file.size).to eq(file.size)
+            expect(doc.file_file_name).to eq(file.original_filename)
+            doc = Document.find_by(name: 'Test Presentation')
+            expect(doc.file.size).to eq(file2.size)
+            expect(doc.file_file_name).to eq(file2.original_filename)
+            doc = Document.find_by(name: 'Test Program')
+            expect(doc.file.size).to eq(file3.size)
+            expect(doc.file_file_name).to eq(file3.original_filename)
+          end
 
-          context 'given proper params' do
-            before do
-              post :create, {
-                document: {
-                  folder_id: top_folder.id,
-                  name: 'Child Document',
-                  description: 'description of document'
-                }
-              }, { logged_in_id: user.id }
-            end
+          it 'redirects to the documents folder' do
+            expect(response).to redirect_to(documents_path)
+          end
 
-            it 'associates parent folder' do
-              expect(assigns[:document].folder_id).to eq(top_folder.id)
-            end
+          it 'sets a flash notice' do
+            expect(flash[:notice]).to be
           end
         end
       end

@@ -10,7 +10,7 @@ module FamiliesHelper
 
   def family_avatar_tag(family, options={})
     options.reverse_merge!(size: :tn, alt: family.try(:name))
-    options.reverse_merge!(class: "avatar #{options[:size]} #{options[:class]}")
+    options.reverse_merge!(class: "avatar #{options[:size]} #{options[:class]} fit-width")
     options.reverse_merge!(data: { id: "family#{family.id}", size: options[:size] })
     image_tag(family_avatar_path(family, options.delete(:size)), options)
   end

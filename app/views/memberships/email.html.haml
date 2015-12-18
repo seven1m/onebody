@@ -1,0 +1,7 @@
+= form_tag group_membership_path(@group, params[:id]), method: 'PATCH', id: 'email_form' do |form|
+  = hidden_field_tag :email, params[:email]
+  = hidden_field_tag :code, params[:code]
+
+= content_for(:js) do
+  :javascript
+    $('#email_form').submit();

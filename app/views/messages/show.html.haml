@@ -4,7 +4,7 @@
   .col-md-2
     %p
       = link_to @message.person do
-        = avatar_tag @message.person, size: :medium
+        = avatar_tag @message.person, class: 'fit-width'
 
     %p
       = t('messages.sent_at_html', when: @message.created_at.to_s(:full), who: link_to(@message.person.try(:name), @message.person))

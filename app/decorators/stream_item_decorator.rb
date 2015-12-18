@@ -67,7 +67,10 @@ class StreamItemDecorator < Draper::Decorator
   def header
     h.content_tag(:h3, class: 'timeline-header') do
       if person
-        who = h.link_to(person.name, person)
+        who = h.content_tag(:div, class: 'user-header') do      
+          h.concat(h.image_tag(h.avatar_path(person), {class: 'avatar tn img-circle'}).html_safe)
+          h.concat(h.link_to(person.name, person))
+        end
       else
         who = I18n.t('stream.header.noone')
       end
