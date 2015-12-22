@@ -1,0 +1,44 @@
+- @title = t('giving.heading')
+
+- content_for :js do
+  %script{:src => "https://checkout.stripe.com/checkout.js", :type => "text/javascript"}
+  - javascript_include_tag "giving/transactions"
+  :javascript
+    $(function() {
+      var amount = 0;
+    
+      var handler = StripeCheckout.configure({
+        key: '#{Rails.configuration.x.stripe[:publishable_key]}',
+        locale: 'auto',
+        token: function(token) {
+          $('#donation_transaction_transaction_id').val(token.id);
+          $('#donation_transaction_transaction_email').val(token.email);
+          $('#new_donation_transaction').submit();
+        }
+      });
+
+      $('button.donate').on('click', function(e) {
+        amount = $('#donation_transaction_amount').val();
+        amount = amount * 100; // convert to cents
+        handler.open({
+          name: 'Donation to #{setting(:name, :community)}',
+          amount: amount
+        });
+        e.preventDefault();
+      });
+    });
+
+= form_for @transaction, url: giving_transactions_path, method: :post do |f|
+  .row
+    .col-lg-8
+      %table.table
+        %tr
+          %td= "Amount"
+          %td= f.text_field :amount
+      = f.hidden_field :transaction_id
+      = f.hidden_field :transaction_email
+  
+      %button.donate
+        = t('giving.transaction.create.form.button')
+
+

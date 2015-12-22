@@ -1,1 +1,6 @@
 - @title = t('giving.heading')
+
+%p
+  = link_to new_giving_transaction_path, class: 'btn btn-success' do
+    = icon 'fa fa-plus-circle'
+    = t('giving.transaction.create.button')

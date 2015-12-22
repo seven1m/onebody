@@ -226,7 +226,7 @@ OneBody::Application.routes.draw do
 
   resource :giving, controller: 'giving/dashboard'
   namespace :giving do
-
+    resources :transactions
   end
 
   post '/pusher/auth_printer'    => 'pusher#auth_printer'

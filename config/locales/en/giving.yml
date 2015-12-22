@@ -1,4 +1,10 @@
 en:
-
   giving:
     heading: "Giving"
+    transaction:
+      create:
+        heading: "Give a One-Time Donation"
+        button: "Give a One-Time Donation"
+
+        form:
+          button: "Donate Now"
