@@ -4,3 +4,17 @@
   = link_to new_giving_transaction_path, class: 'btn btn-success' do
     = icon 'fa fa-plus-circle'
     = t('giving.transaction.create.button')
+
+%h1= t('giving.dashboard.transaction_header')
+%table.table
+  %tr
+    %th= t('giving.dashboard.table_headers.email')
+    %th= t('giving.dashboard.table_headers.amount')
+    %th= t('giving.dashboard.table_headers.date_given')
+- @transactions.each do |t|
+  %tr
+    %td= t.transaction_email
+    %td= t.amount
+    %td= t.created_at
+    
+    

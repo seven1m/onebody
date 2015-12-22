@@ -8,3 +8,14 @@ en:
 
         form:
           button: "Donate Now"
+
+    dashboard:
+      transaction_header: "Transactions"
+      table_headers:
+        amount: "Amount"
+        email: "Email"
+        date_given: "Date Given"
+
+    flash:
+      success: "Thank you for your donation"
+            

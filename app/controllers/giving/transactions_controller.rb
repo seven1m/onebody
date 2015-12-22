@@ -24,9 +24,19 @@ class Giving::TransactionsController < ApplicationController
         currency: 'usd'
       )
 
+      DonationTransaction.create(
+        user_id: @logged_in.id,
+        amount: amount,
+        transaction_id: charge.id,
+        transaction_email: transaction_email
+      )
+
     rescue Stripe::CardError => e
+      
     end
 
+    flash[:notice] = t('giving.flash.success')
+    
     redirect_to giving_path
   end
 end
