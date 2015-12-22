@@ -18,4 +18,8 @@ en:
 
     flash:
       success: "Thank you for your donation"
+      card_error: "There was an error with the credit card details you provided. Please try again."
+      system_error: "There was an error while processing your donation. Please try again later. If you 
+continue to have issue, please email the administrator of the website at %{admin_email}."
+      generic_error: "There was an error while processing your donation. Please try again."
             

@@ -31,12 +31,37 @@ class Giving::TransactionsController < ApplicationController
         transaction_email: transaction_email
       )
 
-    rescue Stripe::CardError => e
+      flash[:notice] = t('giving.flash.success')
+      redirect_to giving_path
       
+    rescue Stripe::CardError => e
+      flash[:error] = t('giving.flash.card_error')
+    rescue Stripe::RateLimitError => e
+      flash[:error] = t('giving.flash.generic_error')
+      logger.info "Stripe rate limit error"
+    rescue Stripe::InvalidRequestError => e
+      flash[:error] = t('giving.flash.system_error', admin_email: Setting.get(:contact, :bug_notification_email))
+      log_error "Invalid Request Error", e
+    rescue Stripe::AuthenticationError => e
+      flash[:error] = t('giving.flash.system_error', admin_email: Setting.get(:contact, :bug_notification_email))
+      log_error "Authentication Error", e      
+    rescue Stripe::APIConnectionError => e
+      flash[:error] = t('giving.flash.generic_error')
+    rescue Stripe::StripeError => e
+      flash[:error] = t('giving.flash.generic_error')
+    rescue => e
+      flash[:error] = t('giving.flash.system_error', admin_email: Setting.get(:contact, :bug_notification_email))
+      log_error "Generic Error", e      
     end
 
-    flash[:notice] = t('giving.flash.success')
-    
-    redirect_to giving_path
+    redirect_to new_giving_transaction_path
+    end
+
+  private
+
+  def log_error(type, e)
+    body = e.json_body
+    err = body[:error]
+    logger.info "Donation Transaction Exception: #{type}: #{err[:message]}\n#{e.backtrace.join('\n')}"
   end
 end
