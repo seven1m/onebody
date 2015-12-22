@@ -28,17 +28,25 @@
       });
     });
 
-= form_for @transaction, url: giving_transactions_path, method: :post do |f|
-  .row
-    .col-lg-8
-      %table.table
-        %tr
-          %td= "Amount"
-          %td= f.text_field :amount
-      = f.hidden_field :transaction_id
-      = f.hidden_field :transaction_email
-  
-      %button.donate
-        = t('giving.transaction.create.form.button')
+.row
+  .col-lg-8
+    .box.box-info
+      .box-header
+        %h3= t('giving.transaction.create.heading')
+      .box-body
+        = form_for @transaction, url: giving_transactions_path, method: :post do |f|
+          .form-group
+            = label_tag :amount, t('giving.transaction.create.amount'), class: 'sr-only'
+            .input-group.col-xs-3
+              %span.input-group-addon= "$"
+              = f.text_field :amount, class: 'form-control input-lg', placeholder: t('giving.transaction.create.amount')
+
+          = f.hidden_field :transaction_id
+          = f.hidden_field :transaction_email
+
+          .form-group
+            = button_tag class: 'donate btn btn-lg btn-info' do
+              = icon('fa fa-money')
+              = t('giving.transaction.create.form.button')
 
 

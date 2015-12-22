@@ -5,6 +5,7 @@ en:
       create:
         heading: "Give a One-Time Donation"
         button: "Give a One-Time Donation"
+        amount: "Amount"
 
         form:
           button: "Donate Now"
@@ -13,8 +14,8 @@ en:
       transaction_header: "Transactions"
       table_headers:
         amount: "Amount"
-        email: "Email"
-        date_given: "Date Given"
+        email: "Email Address"
+        date_given: "Date of Donation"
 
     flash:
       success: "Thank you for your donation"
