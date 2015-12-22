@@ -33,6 +33,7 @@ class Giving::TransactionsController < ApplicationController
 
       flash[:notice] = t('giving.flash.success')
       redirect_to giving_path
+      return
       
     rescue Stripe::CardError => e
       flash[:error] = t('giving.flash.card_error')
@@ -55,7 +56,7 @@ class Giving::TransactionsController < ApplicationController
     end
 
     redirect_to new_giving_transaction_path
-    end
+  end
 
   private
 
