@@ -448,7 +448,7 @@ en:
           description: "If enabled, admins can upload files in a general area where users can browse and download them."
         Giving:
           name: "Giving"
-          description: "If enabled, users can give donations through OneBody."
+          description: "BETA: If enabled, users can give donations through OneBody."
         Business Directory:
           name: "Business Directory"
           description: If enabled, users can add business information to be listed in a church business directory.
