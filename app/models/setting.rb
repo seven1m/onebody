@@ -76,7 +76,7 @@ class Setting < ActiveRecord::Base
         name = setting.name
       end
       if setting = where(site_id: site_id, section: section, name: name).first
-        if setting.format == 'encrypted-string'
+        if setting.format == 'encrypted-string' and not value.nil?
           value = AES.encrypt(value, KEY)
         end
         setting.update_attributes! value: value
