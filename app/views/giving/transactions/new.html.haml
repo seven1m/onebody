@@ -1,0 +1,67 @@
+- @title = t('giving.heading')
+
+- content_for :js do
+  %script{:src => "https://checkout.stripe.com/checkout.js", :type => "text/javascript"}
+  - javascript_include_tag "giving/transactions"
+  :javascript
+    $(function() {
+      var amount = 0;
+      var amount_regex = /^\d+(\.\d{0,2})?$/
+    
+      var handler = StripeCheckout.configure({
+        key: '#{setting(:stripe, :publishable_key)}',
+        locale: 'auto',
+        token: function(token) {
+          $('#donation_transaction_transaction_id').val(token.id);
+          $('#donation_transaction_transaction_email').val(token.email);
+          $('#new_donation_transaction').submit();
+        }
+      });
+
+      $('button.donate').on('click', function(e) {
+        e.preventDefault();
+        $('#amount-form-group').removeClass('has-error');
+
+        amount = $('#donation_transaction_amount').val();
+
+        if (!amount_regex.test(amount)) {
+          $('#amount-form-group').addClass('has-error', 500);
+          return;
+        }
+        
+        amount = amount * 100; // convert to cents
+
+        if (amount <= 0) {
+          $('#amount-form-group').addClass('has-error', 500);
+          return;
+        }
+        
+        handler.open({
+          name: 'Donation to #{setting(:name, :community)}',
+          amount: amount
+        });
+      });
+    });
+
+.row
+  .col-lg-8
+    .box.box-info
+      .box-header
+        %h3= t('giving.transaction.create.heading')
+      .box-body
+        = form_for @transaction, url: giving_transactions_path, method: :post do |f|
+          .form-group#amount-form-group
+            = label_tag :amount, t('giving.transaction.create.amount'), class: 'sr-only'
+            .input-group.col-xs-3
+              %span.input-group-addon= "$"
+              = f.text_field :amount, class: 'form-control input-lg', placeholder: t('giving.transaction.create.amount')
+
+          = f.hidden_field :transaction_id
+          = f.hidden_field :transaction_email
+
+          .form-group
+            = button_tag class: 'donate btn btn-lg btn-info' do
+              = icon('fa fa-money')
+              = t('giving.transaction.create.form.button')
+
+

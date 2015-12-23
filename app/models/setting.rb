@@ -4,6 +4,7 @@ class Setting < ActiveRecord::Base
   ]
 
   SETTINGS_FILE = Rails.root.join("config/settings.yml")
+  KEY = Rails.application.secrets.secret_token
 
   belongs_to :site
 
@@ -14,6 +15,12 @@ class Setting < ActiveRecord::Base
         !['', '0', 'f', 'false', 'no'].include?(v.to_s)
       when 'list'
         v ? v.to_s.split(/\r?\n/) : []
+      when 'encrypted-string'
+        if v.nil? or v.empty?
+          v
+        else
+          AES.decrypt(v, KEY)
+        end
       else
         v
     end
@@ -69,6 +76,9 @@ class Setting < ActiveRecord::Base
         name = setting.name
       end
       if setting = where(site_id: site_id, section: section, name: name).first
+        if setting.format == 'encrypted-string' and not value.nil?
+          value = AES.encrypt(value, KEY)
+        end
         setting.update_attributes! value: value
       else
         raise "No setting found for #{section}/#{name}."

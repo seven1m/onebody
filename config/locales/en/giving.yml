@@ -1,0 +1,26 @@
+en:
+  giving:
+    heading: "Giving"
+    transaction:
+      create:
+        heading: "Give a One-Time Donation"
+        button: "Give a One-Time Donation"
+        amount: "Amount"
+
+        form:
+          button: "Donate Now"
+
+    dashboard:
+      transaction_header: "Transactions"
+      table_headers:
+        amount: "Amount"
+        email: "Email Address"
+        date_given: "Date of Donation"
+
+    flash:
+      success: "Thank you for your donation"
+      card_error: "There was an error with the credit card details you provided. Please try again."
+      system_error: "There was an error while processing your donation. Please try again later. If you 
+continue to have issue, please email the administrator of the website at %{admin_email}."
+      generic_error: "There was an error while processing your donation. Please try again."
+            

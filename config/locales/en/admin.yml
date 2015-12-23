@@ -77,6 +77,11 @@ en:
       heading: "Facebook"
       intro_html: "Allow people to sign in using Facebook. You'll need to first set up a Facebook \"app\", then plug in the app id and secret below."
 
+    giving:
+      stripe:
+        heading: "Stripe"
+        intro_html: "Allow people to give donations via Stripe. This requires the Giving module to be turned on under 'Features'."
+
     gatherings:
       heading: "Gatherings"
 
@@ -371,7 +376,7 @@ en:
           description: The URL for the community Google Calendar.  Can be either the public or private address, but the calendar itself will need to be shared publicly in order to be included in the indivdual ("my calendar") feature.
         Updates Must Be Approved:
           name: Updates Must Be Approved
-          description: If enabled, all changes to a user's "basic" information (phone, address, etc.) will await approval from an admin before being applied.
+          description: "If enabled, all changes to a user's \"basic\" information (phone, address, etc.) will await approval from an admin before being applied."
         Notify on Photo Change:
           name: Notify on Photo Change
           description: If enabled, admins will be notified whenever a user changes their personal or family photos.
@@ -380,7 +385,7 @@ en:
           description: If enabled, potential members can create their own login account on the site. It is highly recommended that you also enter an approval email address in the next field so that you can review signups before allowing login.
         SSL:
           name: SSL
-          description: If you have SSL setup, you may turn on this feature, which will make the login page encrypted. If not, some advanced JavaScript hashing is enabled to make sure the users' passwords aren't being sent in plaintext.
+          description: "If you have SSL setup, you may turn on this feature, which will make the login page encrypted. If not, some advanced JavaScript hashing is enabled to make sure the users' passwords aren't being sent in plaintext."
         Notes:
           name: Notes
           description: Enable Note sharing.
@@ -419,7 +424,7 @@ en:
           description: Requires MongoDB to be setup and running.
         Sidebar Group Category:
           name: Sidebar Group Category
-          description: People in mutual groups of this category will be displayed on the user's profile sidebar.
+          description: "People in mutual groups of this category will be displayed on the user's profile sidebar."
         Content Management System:
           name: Content Management System
           description: Enable "Pages" - Use OneBody to host your website.
@@ -434,13 +439,16 @@ en:
           description: Enable Recipe sharing.
         Service:
           name: Service
-          description: If enabled, admin users can track indviduals' service in areas of the community.
+          description: "If enabled, admin users can track indviduals' service in areas of the community."
         Checkin:
           name: "Check-in"
           description: "If enabled, users can check-in to designated classes."
         Documents:
           name: "Documents"
           description: "If enabled, admins can upload files in a general area where users can browse and download them."
+        Giving:
+          name: "Giving"
+          description: "BETA: If enabled, users can give donations through OneBody."
         Business Directory:
           name: "Business Directory"
           description: If enabled, users can add business information to be listed in a church business directory.

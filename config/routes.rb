@@ -224,6 +224,11 @@ OneBody::Application.routes.draw do
   end
   resources :custom_reports
 
+  resource :giving, controller: 'giving/dashboard'
+  namespace :giving do
+    resources :transactions
+  end
+
   post '/pusher/auth_printer'    => 'pusher#auth_printer'
   get '/auth/facebook/callback'  => 'sessions#create_from_external_provider'
   post '/auth/facebook/callback' => 'sessions#create_from_external_provider'

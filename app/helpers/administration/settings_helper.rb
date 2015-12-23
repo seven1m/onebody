@@ -29,6 +29,8 @@ module Administration::SettingsHelper
       end
     elsif @setting.format == 'list'
       text_area_tag(@setting.id, Array(@setting.value).join("\n"), rows: 3, cols: 40, class: 'form-control')
+    elsif @setting.format == 'encrypted-string'
+      password_field_tag(@setting.id, @setting.value, size: 30, class: 'form-control')
     elsif options[:options]
       select_tag(@setting.id, options_for_select(options[:options], @setting.value), class: 'form-control')
     else

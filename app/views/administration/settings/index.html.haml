@@ -48,6 +48,7 @@
       = setting_row('Features', 'Documents')
       = setting_row('Features', 'Business Directory')
       = setting_row('Features', 'Edit Legacy Ids')
+      = setting_row('Features', 'Giving')
       .form-group
         .col-sm-offset-2.col-sm-10
           = button_tag t('save_changes'), class: 'btn btn-success'
@@ -172,6 +173,14 @@
             = t('admin.facebook.intro_html')
       = setting_row('Facebook', 'App ID')
       = setting_row('Facebook', 'App Secret')
+      .form-group
+        .col-sm-offset-2.col-sm-10
+          %h3= t('admin.giving.stripe.heading')
+          %p
+            %strong EXPERIMENTAL
+            = t('admin.giving.stripe.intro_html')
+      = setting_row('Stripe', 'Secret Key')
+      = setting_row('Stripe', 'Publishable Key')
       .form-group
         .col-sm-offset-2.col-sm-10
           = button_tag t('save_changes'), class: 'btn btn-success'

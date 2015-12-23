@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150917010613) do
+ActiveRecord::Schema.define(version: 20151221170827) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -171,6 +171,15 @@ ActiveRecord::Schema.define(version: 20150917010613) do
     t.string   "preview_fingerprint",  limit: 50
     t.integer  "preview_file_size",    limit: 4
     t.datetime "preview_updated_at"
+  end
+
+  create_table "donation_transactions", force: :cascade do |t|
+    t.integer  "user_id",           limit: 4
+    t.integer  "amount",            limit: 4
+    t.string   "transaction_id",    limit: 255
+    t.string   "transaction_email", limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "families", force: :cascade do |t|

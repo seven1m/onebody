@@ -66,4 +66,28 @@ describe Setting do
       end
     end
   end
+
+  describe 'encryped field' do
+    # (:stripe, :secret_key) is currently the only encrypted field
+
+    context 'before set' do
+      it 'should return nil if get before set' do
+        Setting.set(:stripe, :secret_key, nil)
+        expect(Setting.get(:stripe, :secret_key)).to be_nil
+      end
+    end
+
+    context 'setting and getting a value' do
+      it 'should set and get the field' do
+        Setting.set(:stripe, :secret_key, 'password')
+        expect(Setting.get(:stripe, :secret_key)).to eq 'password'
+      end
+
+      it 'should set the field to something not equal to value' do
+        Setting.set(:stripe, :secret_key, 'password')
+        setting = Setting.find_by section: 'Stripe', name: 'Secret Key'
+        expect(setting.value_before_type_cast).not_to eq 'password'
+      end
+    end
+  end
 end
