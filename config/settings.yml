@@ -138,6 +138,11 @@ Facebook:
     format: string
   App Secret:
     format: string
+Stripe:
+  Secret Key:
+    format: encrypted-string
+  Publishable Key:
+    format: string
 URL:
   Visitor:
     format: string

@@ -58,6 +58,7 @@ GEM
     acts_as_list (0.7.2)
       activerecord (>= 3.0)
     addressable (2.3.8)
+    aes (0.5.0)
     arel (6.0.3)
     authority (3.1.0)
       activesupport (>= 3.0.0)
@@ -431,6 +432,7 @@ DEPENDENCIES
   activerecord-session_store
   acts_as_list
   acts_as_taggable_on_steroids!
+  aes
   authority
   bcrypt
   better_errors
