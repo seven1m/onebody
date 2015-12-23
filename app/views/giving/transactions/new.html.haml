@@ -9,7 +9,7 @@
       var amount_regex = /^\d+(\.\d{0,2})?$/
     
       var handler = StripeCheckout.configure({
-        key: '#{Rails.configuration.x.stripe[:publishable_key]}',
+        key: '#{setting(:stripe, :publishable_key)}',
         locale: 'auto',
         token: function(token) {
           $('#donation_transaction_transaction_id').val(token.id);

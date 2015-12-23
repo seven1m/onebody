@@ -12,6 +12,8 @@ class Giving::TransactionsController < ApplicationController
       # Parse amount to get it to cents
       amount = (amount.to_f * 100).to_i
 
+      Stripe.api_key = Setting.get(:stripe, :secret_key)
+
       customer = Stripe::Customer.create(
         email: transaction_email,
         source: transaction_id
