@@ -39,7 +39,8 @@ class Administration::SettingsController < ApplicationController
       next unless (value = params[setting.id.to_s])
       value = value.presence
       value = value == 'true' if setting.format == 'boolean'
-      setting.update_attributes!(value: value)
+
+      Setting.set(setting.site_id, setting.section, setting.name, value)
     end
     reload_settings
   end

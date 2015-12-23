@@ -16,7 +16,11 @@ class Setting < ActiveRecord::Base
       when 'list'
         v ? v.to_s.split(/\r?\n/) : []
       when 'encrypted-string'
-        AES.decrypt(v, KEY)
+        if v.nil? or v.empty?
+          v
+        else
+          AES.decrypt(v, KEY)
+        end
       else
         v
     end

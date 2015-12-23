@@ -71,6 +71,10 @@ describe Setting do
     # (:stripe, :secret_key) is currently the only encrypted field
 
     context 'setting and getting a value' do
+      it 'should return nil if get before set' do
+        expect(Setting.get(:stripe, :secret_key)).to be_nil
+      end
+      
       it 'should set and get the field' do
         Setting.set(:stripe, :secret_key, 'password')
         expect(Setting.get(:stripe, :secret_key)).to eq 'password'
