@@ -1,7 +1,7 @@
 FROM ubuntu:14.04
 
 # install build tools
-RUN apt-get update && apt-get install -y -q wget git vim build-essential curl libreadline-dev libcurl4-openssl-dev nodejs git libmysqlclient-dev imagemagick mysql-server nginx && apt-get clean
+RUN apt-get update && apt-get install -y -q wget git supervisor vim build-essential curl libreadline-dev libcurl4-openssl-dev nodejs git libmysqlclient-dev imagemagick mysql-server nginx && apt-get clean
 
 # install Ruby
 RUN apt-get install -y software-properties-common && apt-add-repository -y ppa:brightbox/ruby-ng && apt-get update && apt-get install -y ruby2.1 ruby2.1-dev && gem install bundler --no-rdoc --no-ri
@@ -71,11 +71,33 @@ RUN echo 'upstream onebody {\n\
 }'\
 >> /etc/nginx/sites-enabled/onebody.conf
 
+RUN echo '; supervisor config file\n\
+[supervisord]\n\
+nodaemon=true\n\
+\n\
+[program:startup]\n\
+priority=1\n\
+command=/start\n\
+stdout_logfile=/var/log/supervisor/%(program_name)s.log\n\
+stderr_logfile=/var/log/supervisor/%(program_name)s.log\n\
+autorestart=false\n\
+startsecs=0\n\
+\n\
+[program:nginx]\n\
+priority=10\n\
+command=nginx -g "daemon off;"\n\
+stdout_logfile=/var/log/supervisor/nginx.log\n\
+stderr_logfile=/var/log/supervisor/nginx.log\n\
+autorestart=true\n\
+\n\
+[include]\n\
+files = /etc/supervisor/conf.d/*.conf'\
+>> /etc/supervisor/supervisord.conf
 
 # share port
 EXPOSE 8080
 
 # serve assets with rack
 ENV SERVE_ASSETS true
-RUN echo "#!/bin/bash\n\ncd /var/www/onebody\nbundle exec rails server -d\n nginx\n bash" > /start && chmod +x /start
-CMD ["/start"]
+RUN echo "#!/bin/bash\n\ncd /var/www/onebody\nbundle exec rails server -d\n" > /start && chmod +x /start
+CMD ["/usr/bin/supervisord", "-n"]
