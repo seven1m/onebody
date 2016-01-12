@@ -1,10 +1,7 @@
 FROM ubuntu:14.04
 
 # install build tools
-RUN apt-get update && apt-get install -y -q wget git vim build-essential curl libreadline-dev libcurl4-openssl-dev nodejs git libmysqlclient-dev imagemagick mysql-server && apt-get clean
-
-# install passenger + nginx
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7 && apt-get install -y -q apt-transport-https ca-certificates && echo 'deb https://oss-binaries.phusionpassenger.com/apt/passenger trusty main' > /etc/apt/sources.list.d/passenger.list && apt-get update && apt-get install -y -q nginx nginx-extras passenger && sed -i 's/# passenger_/passenger_/g' /etc/nginx/nginx.conf
+RUN apt-get update && apt-get install -y -q wget git vim build-essential curl libreadline-dev libcurl4-openssl-dev nodejs git libmysqlclient-dev imagemagick mysql-server nginx && apt-get clean
 
 # install Ruby
 RUN apt-get install -y software-properties-common && apt-add-repository -y ppa:brightbox/ruby-ng && apt-get update && apt-get install -y ruby2.1 ruby2.1-dev && gem install bundler --no-rdoc --no-ri
@@ -22,33 +19,21 @@ ENV RAILS_ENV production
 USER root
 WORKDIR /var/www
 RUN git clone git://github.com/churchio/onebody.git onebody && chown -R onebody /var/www/onebody
-
-# Set up the database
-RUN service mysql start && mysql -uroot -e "grant all on onebody.* to 'onebody'@'localhost' identified by 'onebody';"
+COPY .ruby-version /var/www/onebody/.ruby-version
+COPY Gemfile /var/www/onebody/Gemfile
+COPY config/email.yml /var/www/onebody/config/email.yml
+COPY config/database.yml /var/www/onebody/config/database.yml
+COPY config/secrets.yml /var/www/onebody/config/secrets.yml
 
 # install gems
 USER onebody
 WORKDIR /var/www/onebody
-#RUN sed -i "s/gem 'will_paginate'/gem 'will_paginate'\\ngem 'passenger'/g" Gemfile && bundle install
 RUN bundle install
 
-# Set up the secrets
-RUN SECRET=$(rake -s secret) && sed "s/SOMETHING_RANDOM_HERE/"$SECRET"/g" config/secrets.yml.example > config/secrets.yml
-
-# Set up the database
-RUN cp config/database.yml.mysql-example config/database.yml
-
-# Run rake tasts
 USER root
-RUN service mysql start && bundle exec rake db:create db:schema:load db:seed db:migrate
-
 # allow onebody user to run special 'chown_data' script as root
 # workaround for volumes readonly to non-root users
 RUN echo "ALL ALL=NOPASSWD: /var/www/onebody/script/docker/chown_data" > /etc/sudoers.d/chown_data
-
-# copy scripts
-RUN echo "#!/bin/bash\n\n/var/www/onebody/script/docker/server \$@"  > /server  && chmod +x /server
-RUN echo "#!/bin/bash\n\n/var/www/onebody/script/docker/console \$@" > /console && chmod +x /console
 
 # compile assets
 USER onebody
@@ -92,5 +77,5 @@ EXPOSE 8080
 
 # serve assets with rack
 ENV SERVE_ASSETS true
-RUN echo "#!/bin/bash\n\nservice mysql start\ncd /var/www/onebody\nbundle exec rails server -d\n nginx -g \"daemon off;\"" > /start && chmod +x /start
+RUN echo "#!/bin/bash\n\ncd /var/www/onebody\nbundle exec rails server -d\n nginx\n bash" > /start && chmod +x /start
 CMD ["/start"]
