@@ -39,6 +39,8 @@
         = preserve_breaks @person.address
         %br
         == #{@person.city}, #{@person.state} #{@person.short_zip}
+        %br
+        = link_to "View on map", "https://www.google.com/maps/place/#{@person.address.tr("\n","")} #{@person.city}, #{@person.state} #{@person.short_zip}/", :target => "_blank"
   = show_attribute(:birthday) do
     %tr
       %td
