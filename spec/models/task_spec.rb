@@ -5,6 +5,7 @@ describe Task do
     @group = FactoryGirl.create(:group)
     @person = FactoryGirl.create(:person)
     @task = FactoryGirl.create(:task, name: "Do stuff", group: @group, person: @person)
+    @group_task = FactoryGirl.create(:task, name: "Group work", group: @group, group_scope: true)
   end
 
   it "should have a name" do
@@ -27,4 +28,14 @@ describe Task do
       end
     end
   end
+  describe '.group_scope' do
+    it 'should return false when task is assigned' do
+      expect(@task.group_scope).to be_false
+    end
+    it 'should return true when set' do
+      expect(@group_task.group_scope).to be_true
+    end
+  end
+
+
 end
