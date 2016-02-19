@@ -19,10 +19,15 @@ class Task < ActiveRecord::Base
 
   after_save :update_counter_cache
   after_destroy :update_counter_cache
-
+  
+  def person_id_or_all=id
+    (self.group_scope = !!(id == "All")) && self.person_id = 0 || self.person_id = id
+  end
+  def person_id_or_all
+    group_scope ? "All" : person_id
+  end
   def update_counter_cache
     self.person.update_attribute(:incomplete_tasks_count, self.person.tasks.incomplete.count) if self.person.present?
   end
-
   date_writer :duedate
 end

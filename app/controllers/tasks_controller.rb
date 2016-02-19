@@ -2,6 +2,9 @@ class TasksController < ApplicationController
   load_and_authorize_parent :group, optional: true
   load_and_authorize_resource
 
+  before_action only: [:create, :update] do
+    @task.person_id_or_all = params[:task][:person_id_or_all] if params.has_key? :task
+  end
   def index
     if !@group
       @groups = @logged_in.tasks.map(&:group).uniq
@@ -62,6 +65,6 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:person_id, :name, :description, :duedate, :group_id)
+    params.require(:task).permit(:person_id, :person_id_or_all, :name, :description, :duedate, :group_id)
   end
 end

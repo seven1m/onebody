@@ -31,10 +31,9 @@ describe TasksController, type: :controller do
   describe "group_scope" do
     it "should create a task, intended for the entire group" do
       @group.update_attribute(:has_tasks, true)
-      post :create, {group_id: @group.id, task: {person_id: 'All', name: 'everybodys taking a chance; safety dance', description: 'men without hats', duedate: '1/4/2016'}}, {logged_in_id: @person.id}
+      post :create, {group_id: @group.id, task: {person_id_or_all: 'All', name: 'everybodys taking a chance; safety dance', description: 'men without hats', duedate: '1/4/2016'}}, {logged_in_id: @person.id}
       expect(response).to be_redirect
       group_task = Task.last
-      expect(group_task.person_id).to eq(0)
       expect(group_task.group_scope).to be
     end 
   end
