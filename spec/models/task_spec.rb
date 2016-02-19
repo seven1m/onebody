@@ -30,10 +30,10 @@ describe Task do
   end
   describe '.group_scope' do
     it 'should return false when task is assigned' do
-      expect(@task.group_scope).to be_false
+      expect(@task.group_scope).to be_falsey
     end
     it 'should return true when set' do
-      expect(@group_task.group_scope).to be_true
+      expect(@group_task.group_scope).to be
     end
   end
 
