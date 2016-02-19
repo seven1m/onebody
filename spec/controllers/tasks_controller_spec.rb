@@ -6,6 +6,7 @@ describe TasksController, type: :controller do
     @person, @other_person = FactoryGirl.create_list(:person, 2)
     @group, @other_group = FactoryGirl.create_list(:group, 2)
     @group.memberships.create(person_id: @person.id)
+    @group.update_attribute(:has_tasks, true)
     @task = FactoryGirl.create(:task, group: @group, person: @person)
     @other_task = FactoryGirl.create(:task, group: @other_group, person: @other_person)
   end
@@ -17,7 +18,6 @@ describe TasksController, type: :controller do
   end
 
   it "should create a task" do
-    @group.update_attribute(:has_tasks, true)
     get :new, {group_id: @group.id}, {logged_in_id: @person.id}
     expect(response).to be_success
     post :create, {group_id: @group.id, task: {person_id: @person.id, name: 'test task', description: 'test description', duedate: '1/1/2010'}}, {logged_in_id: @person.id}
@@ -30,11 +30,16 @@ describe TasksController, type: :controller do
 
   describe "group_scope" do
     it "should create a task, intended for the entire group" do
-      @group.update_attribute(:has_tasks, true)
       post :create, {group_id: @group.id, task: {person_id_or_all: 'All', name: 'everybodys taking a chance; safety dance', description: 'men without hats', duedate: '1/4/2016'}}, {logged_in_id: @person.id}
       expect(response).to be_redirect
       group_task = Task.last
       expect(group_task.group_scope).to be
-    end 
+    end
+ 
+    it "should create a task, assigned to a person" do
+      post :create, {group_id: @group.id, task: {person_id_or_all: @person.id, name: 'Little boy blue and the man in the moon', description: 'Harry Chapin', duedate: '1/4/2017'}}, {logged_in_id: @person.id}
+      person_id_or_all_as_person = Task.last
+      expect(person_id_or_all_as_person.person_id).to eq(@person.id)
+    end
   end
 end
