@@ -2,9 +2,6 @@ class TasksController < ApplicationController
   load_and_authorize_parent :group, optional: true
   load_and_authorize_resource
 
-  before_action only: [:create, :update] do
-    @task.person_id_or_all = params[:task][:person_id_or_all] if params.has_key? :task
-  end
   def index
     if !@group
       @groups = @logged_in.tasks.map(&:group).uniq

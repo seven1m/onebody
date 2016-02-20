@@ -15,10 +15,12 @@
       %dd
         = simple_format @task.description
       %dt
-        = @task.group_scope ? "All Members" : t("activerecord.attributes.task.person")
+        = t("activerecord.attributes.task.person")
       %dd
         - if @task.person
           = link_to @task.person.name, person_path(@task.person)
+        - if @task.group_scope
+          = t('All Members')
       %dt
         = t("activerecord.attributes.task.duedate")
       %dd
