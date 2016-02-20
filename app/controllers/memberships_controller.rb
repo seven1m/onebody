@@ -17,7 +17,10 @@ class MembershipsController < ApplicationController
   end
 
   def index
-    @memberships = @group.memberships.includes(:person).paginate(page: params[:page], per_page: 100)
+    @memberships = @group.memberships
+                         .includes(:person)
+                         .order(name_order)
+                         .paginate(page: params[:page], per_page: 100)
     if params[:birthdays]
       @memberships = @memberships.order_by_birthday
     else
@@ -103,6 +106,14 @@ class MembershipsController < ApplicationController
   end
 
   private
+
+  def name_order
+    if params[:order] == 'last'
+      'people.last_name, people.first_name'
+    else
+      'people.first_name, people.last_name'
+    end
+  end
 
   def can_update_email?
     @logged_in.can_update?(@group) || @logged_in.can_update?(@person)
