@@ -28,7 +28,11 @@ class Task < ActiveRecord::Base
     group_scope ? "All" : person_id
   end
   def update_counter_cache
-    Person.find([].append(self.group_scope && self.group.memberships.pluck(:person_id)).flatten.append(self.person_id).reject {|n| !n}.uniq).each do |assigned| 
+    Person.find([]
+      .append(self.group_scope && self.group.memberships.pluck(:person_id)).flatten
+      .append(self.person_id)
+      .reject {|n| !n}.uniq
+      ).each do |assigned| 
       assigned.update_attribute(:incomplete_tasks_count, assigned.tasks.incomplete.count)
     end
   end
