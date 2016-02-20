@@ -21,14 +21,16 @@ class Task < ActiveRecord::Base
   after_destroy :update_counter_cache
   
   def person_id_or_all=id
-    (self.group_scope = !!(id == "All")) ? self.person_id = nil : self.person_id = id
+    self.person_id= (self.group_scope = !!(id == "All")) ? nil : id
     id
   end
   def person_id_or_all
     group_scope ? "All" : person_id
   end
   def update_counter_cache
-    self.person.update_attribute(:incomplete_tasks_count, self.person.tasks.incomplete.count) if self.person.present?
+    Person.find([].append(self.group_scope && self.group.memberships.pluck(:person_id)).flatten.append(self.person_id).reject {|n| !n}.uniq).each do |assigned| 
+      assigned.update_attribute(:incomplete_tasks_count, assigned.tasks.incomplete.count)
+    end
   end
   date_writer :duedate
 end
