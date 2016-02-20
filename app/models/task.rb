@@ -21,7 +21,8 @@ class Task < ActiveRecord::Base
   after_destroy :update_counter_cache
   
   def person_id_or_all=id
-    (self.group_scope = !!(id == "All")) && self.person_id = 0 || self.person_id = id
+    (self.group_scope = !!(id == "All")) ? self.person_id = nil : self.person_id = id
+    id
   end
   def person_id_or_all
     group_scope ? "All" : person_id
