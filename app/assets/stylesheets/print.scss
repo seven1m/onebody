@@ -57,7 +57,6 @@ body {
 }
 
 header {
-  border-bottom: 1px solid #ccc;
   text-align: center;
   font-size: 15pt;
 }
@@ -100,4 +99,8 @@ table.table {
 a {
   color: black;
   text-decoration: none;
+}
+
+.control-sidebar, footer {
+  display: none;
 }
