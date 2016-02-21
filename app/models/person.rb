@@ -51,7 +51,7 @@ class Person < ActiveRecord::Base
   MINIMAL_ATTRIBUTES = %w(
     id first_name last_name suffix child gender birthday gender deleted
     photo_file_name photo_content_type photo_fingerprint photo_updated_at
-  ).frozen
+  ).freeze
 
   scope :undeleted,              -> { where(deleted: false) }
   scope :deleted,                -> { where(deleted: true) }
