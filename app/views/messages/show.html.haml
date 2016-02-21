@@ -13,7 +13,7 @@
       - if @message.to
         = t('messages.sent_to_html', who: link_to(@message.to.try(:name), @message.to))
       - elsif @message.group
-        = t('messages.sent_to_html', who: link_to(@message.group.try(:name), @message.group))
+        = t('messages.sent_to_html', who: @message.members.any? ? @message.members.collect(&:name).join(', ') : link_to(@message.group.try(:name), @message.group))
 
     - if @logged_in.can_update?(@message)
       %p
@@ -52,4 +52,4 @@
       #reply.push-down
         = link_to new_message_path(parent_id: @message.id), remote: true, method: :get, class: 'btn btn-info' do
           = icon 'fa fa-reply-all'
-          = t('messages.reply_all.button')
+          = @message.members.empty? ? t('messages.reply_all.button') : t('messages.reply_all.subset')

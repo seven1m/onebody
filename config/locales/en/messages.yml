@@ -25,6 +25,7 @@ en:
       heading: "Replies"
     reply_all:
       button: "Reply to this message (send to entire group)"
+      subset: "Reply to this message (selected members)"
 
     email:
       reply_to_sender: "Hit \"Reply\" to send a message to %{person}."
@@ -56,4 +57,6 @@ en:
     subject: Subject
     to_show_the_entire_message: to show the entire message.
     unknown_type: Unknown message type.
-
+    send_to_subset: Only send this message to
+    filter: filter
+    more: more ...

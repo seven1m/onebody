@@ -2,8 +2,9 @@ require 'uri'
 require 'digest/md5'
 
 class Message < ActiveRecord::Base
-
   include Authority::Abilities
+  include Concerns::Message::Streamable
+  include Concerns::Message::Sendable
   self.authorizer_name = 'MessageAuthorizer'
 
   MESSAGE_ID_RE = /<(\d+)_([0-9abcdef]{6})_/
@@ -13,59 +14,45 @@ class Message < ActiveRecord::Base
   belongs_to :person
   belongs_to :to, class_name: 'Person', foreign_key: 'to_person_id'
   belongs_to :parent, class_name: 'Message', foreign_key: 'parent_id'
-  has_many :children, -> { where('to_person_id is null') }, class_name: 'Message', foreign_key: 'parent_id', dependent: :destroy
+  has_many :children, -> { where('to_person_id is null') },
+           class_name: 'Message', foreign_key: 'parent_id', dependent: :destroy
   has_many :attachments, dependent: :destroy
   has_many :log_items, -> { where(loggable_type: 'Message') }, foreign_key: 'loggable_id'
   belongs_to :site
+  has_and_belongs_to_many :members, class_name: 'Person', join_table: :members_messages, association_foreign_key: :member_id
 
   scope_by_site_id
-
-  scope :same_as, -> m { where('id != ?', m.id || 0).where(person_id: m.person_id, subject: m.subject, body: m.body, to_person_id: m.to_person_id, group_id: m.group_id).where('created_at >= ?', 1.day.ago) }
+  scope(:same_as, lambda do |m|
+    where('id != ?', m.id || 0)
+      .where(person_id:    m.person_id,
+             subject:      m.subject,
+             body:         m.body,
+             to_person_id: m.to_person_id,
+             group_id:     m.group_id)
+      .where('created_at >= ?', 1.day.ago)
+  end)
+  scope(:for_user, lambda do |user|
+    joins(:members).where('members_messages.member_id = ? OR messages.person_id = ?', user.id, user.id).uniq 
+  end)
+  scope :for_whole_group, -> { includes(:members).where(members_messages: { :message_id => nil }) }
 
   validates_presence_of :person_id
-  validates_presence_of :subject
   validates_length_of :subject, minimum: 2
-
-  validates_each :to_person_id, allow_nil: true do |record, attribute, value|
-    if attribute.to_s == 'to_person_id' and value and record.to and record.to.email.nil?
-      record.errors.add attribute, :invalid
-    end
+  validate do |message|
+    errors.add(:to, :invalid) if message.to && message.to.email.nil?
+    errors.add(:body, :blank) unless body || html_body
   end
 
-  validates_each :body do |record, attribute, value|
-    if attribute.to_s == 'body' and value.to_s.blank? and record.html_body.to_s.blank?
-      record.errors.add attribute, :blank
-    end
+  def top(top_message = self)
+    top_message.parent ? top(top_message.parent) : top_message
   end
 
-  def top
-    top = self
-    while top.parent
-      top = top.parent
-    end
-    return top
-  end
-
-  before_save :remove_unsubscribe_link
-
-  def remove_unsubscribe_link
-    if body
-      body.gsub!(/http:\/\/.*?person_id=\d+&code=\d+/i, '--removed--')
-    end
-    if html_body
-      html_body.gsub!(/http:\/\/.*?person_id=\d+&code=\d+/i, '--removed--')
-    end
-  end
-
-  before_save :remove_message_id_in_body
-
-  def remove_message_id_in_body
-    if body
-      body.gsub! MESSAGE_ID_RE_IN_BODY, ''
-    end
-    if html_body
-      html_body.gsub! MESSAGE_ID_RE_IN_BODY, ''
-    end
+  before_save do
+    self.body &&= body.gsub(%r{http://.*?person_id=\d+&code=\d+}i, '--removed--').gsub(MESSAGE_ID_RE_IN_BODY, '')
+    self.html_body &&= html_body.gsub(%r{http://.*?person_id=\d+&code=\d+}i, '--removed--')
+                                .gsub(MESSAGE_ID_RE_IN_BODY, '')
+    self.code ||= rand(999_999) + 1
+    self.member_ids = parent.member_ids << parent.person_id if group_id? && parent_id? && parent.member_ids.any?
   end
 
   validate on: :create do |record|
@@ -73,52 +60,7 @@ class Message < ActiveRecord::Base
       record.errors.add :base, 'already saved' # Notifier relies on this message (don't change it)
       record.errors.add :base, :taken
     end
-    if record.subject =~ /Out of Office/i
-      record.errors.add :base, 'autoreply' # don't change!
-    end
-  end
-
-  attr_accessor :dont_send
-
-  after_create :enqueue_send
-
-  def enqueue_send
-    return if dont_send
-    MessageSendJob.perform_later(Site.current, id)
-  end
-
-  def send_message
-    if group
-      send_to_group
-    elsif to
-      send_to_person(to)
-    end
-  end
-
-  def send_to_person(person)
-    if person.email.present?
-      email = Notifier.full_message(person, self, id_and_code)
-      email.add_message_id
-      email.message_id = "<#{id_and_code}_#{email.message_id.gsub(/^</, '')}"
-      email.deliver_now
-    end
-  end
-
-  def send_to_group(sent_to=[])
-    return unless group
-    group.people.each do |person|
-      if should_send_group_email_to_person?(person, sent_to)
-        send_to_person(person)
-        sent_to << person.email
-      end
-    end
-  end
-
-  def should_send_group_email_to_person?(person, sent_to)
-    person.email.present? and
-    person.email =~ VALID_EMAIL_ADDRESS and
-    group.get_options_for(person).get_email? and
-    not sent_to.include?(person.email)
+    record.errors.add :base, 'autoreply' if record.subject =~ /Out of Office/i # don't change!
   end
 
   def id_and_code
@@ -126,41 +68,30 @@ class Message < ActiveRecord::Base
   end
 
   def reply_url
-    if group
-      "#{Setting.get(:url, :site)}messages/#{id}"
-    else
-      reply_subject = subject
-      reply_subject = "RE: #{subject}" unless reply_subject =~ /^re:/i
-      "#{Setting.get(:url, :site)}messages/new?to_person_id=#{person.id}?subject=#{URI.escape(reply_subject)}"
-    end
+    return "#{Setting.get(:url, :site)}messages/#{id}" if group
+    reply_subject = subject =~ /^re:/i ? subject : "RE: #{subject}"
+    "#{Setting.get(:url, :site)}messages/new?to_person_id=#{person.id}?subject=#{URI.escape(reply_subject)}"
   end
 
   def reply_instructions(to_person)
     msg = []
-    if to || group
-      msg << I18n.t('messages.email.reply_to_sender', person: person.try(:name))
-    end
-    if group
-      if group.can_post?(to_person)
-        if group.address.present?
-          msg << I18n.t('messages.email.reply_to_group', group: group.try(:name), address: group.try(:full_address))
-        else
-          msg << I18n.t('messages.email.reply_link', url: reply_url)
-        end
-      end
-      msg << I18n.t('messages.email.group_link', url: "#{Setting.get(:url, :site)}groups/#{group.id}")
-    end
-    msg.join("\n") + "\n"
+    msg << I18n.t('messages.email.reply_to_sender', person: person.try(:name)) if to || group
+    (msg << case
+            when group.address.present?
+              I18n.t('messages.email.reply_to_group',
+                     group:   group.try(:name),
+                     address: group.try(:full_address))
+            else
+              I18n.t('messages.email.reply_link',
+                     url: reply_url)
+            end) if group && group.can_post?(to_person)
+    msg << I18n.t('messages.email.group_link', url: "#{Setting.get(:url, :site)}groups/#{group.id}") if group
+    msg.join("\n") << "\n"
   end
 
   def disable_email_instructions(to_person)
-    msg = []
-    if group
-      msg << I18n.t('messages.email.disable_group_email', url: disable_group_email_link(to_person))
-    else
-      msg << I18n.t('messages.email.disable_all_email', url: "#{Setting.get(:url, :site)}privacy")
-    end
-    msg.join("\n") + "\n"
+    return I18n.t('messages.email.disable_group_email', url: disable_group_email_link(to_person)) << "\n" if group
+    I18n.t('messages.email.disable_all_email', url: "#{Setting.get(:url, :site)}privacy") << "\n"
   end
 
   def disable_group_email_link(to_person)
@@ -168,109 +99,48 @@ class Message < ActiveRecord::Base
     "#{Setting.get(:url, :site)}groups/#{group.id}/memberships/#{to_person.id}?code=#{to_person.feed_code}&email=off"
   end
 
-  def email_from(to_person)
-    if group
-      from_address("#{person.name} [#{group.name}]")
-    else
-      from_address(person.name)
-    end
+  def email_from(*)
+    from_address(group ? "#{person.name} [#{group.name}]" : person.name)
   end
 
   def email_reply_to(to_person)
-    if not to_person.messages_enabled?
-      "\"#{I18n.t('messages.do_not_reply')}\" <#{Site.current.noreply_email}>"
-    else
-      from_address(person.name, :real)
-    end
+    return from_address(person.name, :real) if to_person.messages_enabled?
+    "\"#{I18n.t('messages.do_not_reply')}\" <#{Site.current.noreply_email}>"
   end
 
-  def from_address(name, real=false)
+  def from_address(name, real = false)
     if person.email.present?
-      %("#{name.gsub(/"/, '')}" <#{real ? person.email : Site.current.noreply_email}>)
+      %("#{name.delete('"')}" <#{real ? person.email : Site.current.noreply_email}>)
     else
       "\"#{I18n.t('messages.do_not_reply')}\" <#{Site.current.noreply_email}>"
     end
-  end
-
-  before_create :generate_security_code
-
-  def generate_security_code
-    begin
-      code = rand(999999)
-      write_attribute :code, code
-    end until code > 0
   end
 
   def code_hash
     Digest::MD5.hexdigest(code.to_s)[0..5]
   end
 
-  def streamable?
-    person_id and not to_person_id and group
-  end
-
-  after_create :create_as_stream_item
-
-  def create_as_stream_item
-    return unless streamable?
-    StreamItem.create!(
-      title:           subject,
-      body:            html_body.present? ? html_body : body,
-      text:            !html_body.present?,
-      person_id:       person_id,
-      group_id:        group_id,
-      streamable_type: 'Message',
-      streamable_id:   id,
-      created_at:      created_at,
-      shared:          !!group
-    )
-  end
-
-  after_update :update_stream_items
-
-  def update_stream_items
-    return unless streamable?
-    StreamItem.where(streamable_type: "Message", streamable_id: id).each do |stream_item|
-      stream_item.title = subject
-      if html_body.present?
-        stream_item.body = html_body
-        stream_item.text = false
-      else
-        stream_item.body = body
-        stream_item.text = true
-      end
-      stream_item.save
-    end
-  end
-
-  after_destroy :delete_stream_items
-
-  def delete_stream_items
-    StreamItem.destroy_all(streamable_type: 'Message', streamable_id: id)
-  end
-
   def self.preview(attributes)
-    msg = Message.new(attributes)
-    Notifier.full_message(Person.new(email: 'test@example.com'), msg)
+    Notifier.full_message(Person.new(email: 'test@example.com'), Message.new(attributes))
   end
 
   def self.create_with_attachments(attributes, files)
     message = Message.create(attributes.update(dont_send: true))
-    unless message.errors.any?
-      files.select { |f| f && f.size > 0 }.each do |file|
-        attachment = message.attachments.create(
-          name:         File.split(file.original_filename).last,
-          content_type: file.content_type,
-          file:         file
-        )
-        if attachment.errors.any?
-          attachment.errors.full_messages.each { |e| message.errors.add(:base, e) }
-          return message
-        end
-      end
-      message.dont_send = false
-      message.enqueue_send
+    message.attach_files(files) unless message.errors.any?
+  end
+
+  def attach_files(files)
+    files.reject { |f| f.size.zero? }.each do |file|
+      attachment = attachments.create(
+        name:         File.split(file.original_filename).last,
+        content_type: file.content_type,
+        file:         file
+      )
+      attachment.errors.full_messages.each { |e| errors.add(:base, e) }
+      return self if errors.any?
     end
-    message
+    self.dont_send = false
+    enqueue_send
+    self
   end
 end

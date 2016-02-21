@@ -34,12 +34,12 @@
             - if @member_of
               = link_to group_messages_path(@group) do
                 .inner
-                  %h3= @group.messages.count
-                  %p= t('groups.box.messages.text', count: @group.messages.count)
+                  %h3= @group.messages.for_user(@logged_in).count + @group.messages.for_whole_group.count
+                  %p= t('groups.box.messages.text', count: @group.messages.for_user(@logged_in).count + @group.messages.for_whole_group.count)
             - else
               .inner
-                %h3= @group.messages.count
-                %p= t('groups.box.messages.text', count: @group.messages.count)
+                %h3= @group.messages.for_whole_group.count
+                %p= t('groups.box.messages.text', count: @group.messages.for_whole_group.count)
             %div{ class: @member_of ? 'icon' : 'icon-disabled' }
               = icon 'fa fa-envelope-o'
             - if @group.can_send?(@logged_in)
