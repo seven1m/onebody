@@ -1,4 +1,4 @@
-header nav, section.sidebar, section.content-header .breadcrumb, .footer, .hidden-print, .datepicker, #map, .btn,
+header nav, section.sidebar, section.content-header .breadcrumb, footer, .hidden-print, .datepicker, #map, .btn,
 input[type="checkbox"] {
   display: none;
 }
@@ -57,7 +57,6 @@ body {
 }
 
 header {
-  border-bottom: 1px solid #ccc;
   text-align: center;
   font-size: 15pt;
 }

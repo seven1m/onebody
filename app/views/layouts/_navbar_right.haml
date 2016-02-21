@@ -1,6 +1,32 @@
 %ul.nav.navbar-nav
   %li.dropdown.user.user-menu
-    = link_to @logged_in, :class => 'dropdown', 'data-toggle' => "control-sidebar" do
+    %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
       = avatar_tag @logged_in, class: 'user-image'
-      = @logged_in.name
-      %i.fa.fa-gears
+      %span.hidden-xs= @logged_in.name
+    %ul.dropdown-menu
+      / User image
+      %li.user-header
+        = avatar_tag @logged_in, class: 'img-circle'
+        %p
+          = @logged_in.name
+          - if @logged_in.description.present?
+            \-
+            = @logged_in.description
+      / Menu Body
+      %li.user-body
+        .distribute
+          .item
+            = link_to edit_person_path(@logged_in) do
+              = t('nav.profile_sub.edit')
+          .item
+            = link_to edit_person_account_path(@logged_in) do
+              = t('nav.profile_sub.password')
+          .item
+            = link_to edit_person_privacy_path(@logged_in) do
+              = t('nav.profile_sub.privacy')
+      / Menu Footer
+      %li.user-footer
+        .pull-left
+          = link_to t('nav.profile_sub.show'), @logged_in, class: 'btn btn-default btn-flat'
+        .pull-right
+          = link_to t('session.sign_out'), session_path, method: :delete, class: 'btn btn-default btn-flat'

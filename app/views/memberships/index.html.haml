@@ -46,7 +46,7 @@
               - if @logged_in.can_update?(@group)
                 %th
               %th
-              %th= t('.details.name')
+              %th= link_to t('.details.name'), "?order=#{params[:order] == 'last' ? 'first' : 'last'}"
               - if params[:birthdays]
                 %th= t('.details.birthday')
               - else

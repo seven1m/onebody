@@ -6,7 +6,11 @@
   %td.avatar
     = avatar_tag person
   %td
-    = link_to person.name, person
+    = link_to person do
+      - if params[:order] == 'last'
+        == #{person.last_name}, #{person.first_name}
+      - else
+        = person.name
   - if params[:birthdays]
     %td
       = person.birthday.to_s(:date_without_year) if person.birthday

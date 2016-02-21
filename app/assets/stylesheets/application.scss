@@ -179,14 +179,19 @@ th.actions, td.actions {
   padding: 5px;
 }
 
-.control-sidebar > .tab-content > .header h2 {
-  color: #656565;
-}
-
-.control-sidebar > .tab-content > .header h4 {
-  color: #aaa;
-}
-
-.control-sidebar-bg {
-  background-color: #f9fafc;
+.user-menu {
+  .user-header {
+    width: 100%;
+  }
+  .user-body {
+    .distribute {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      .item {
+        flex-grow: 1;
+        text-align: center;
+      }
+    }
+  }
 }
