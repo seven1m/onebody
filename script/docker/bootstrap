@@ -58,7 +58,7 @@ end
 
 unless containers.grep(/server/).any?
   puts '=> creating server container'
-  run "docker run --name='server' -d --link onebody-data:db -v /var/data/onebody/files:/data -p 80:3000 onebody /server"
+  run "docker run --name='server' -d --link onebody-data:db -v /var/data/onebody/files:/data -p 80:8080 onebody"
   puts '-> done'
   puts
 end
