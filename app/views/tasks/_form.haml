@@ -17,7 +17,7 @@
               = form.date_field :duedate, class: 'form-control'
           .col-md-6
             = form.label :person_id
-            = form.select :person_id, @group.people.map { |p| [p.name, p.id] }, {include_blank: true}, class: 'form-control'
+            = form.select :person_id_or_all, @group.people.map { |p| [p.name, p.id] }.append([t('tasks.members'), 'All']), {include_blank: true}, class: 'form-control'
       .form-group
         = form.label :description
         = form.text_area :description, rows: 5, class: 'form-control'

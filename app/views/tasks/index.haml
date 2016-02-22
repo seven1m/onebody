@@ -27,4 +27,4 @@
             = t("tasks.go_to_group")
             = icon "fa fa-arrow-circle-right"
       .box-body
-        = render partial: 'index', locals: { tasks: group.tasks.where(person: @logged_in) }
+        = render partial: 'index', locals: { tasks: group.tasks.where("group_scope is true or person_id = ?", @logged_in.id) }

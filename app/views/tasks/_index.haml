@@ -16,6 +16,10 @@
           %span.label.label-primary.hidden-xs
             = icon 'fa fa-user'
             = task.person.name
+        - if task.group_scope?
+          %span.label.label-primary.hidden-xs
+            = icon 'fa fa-user-plus'
+            = t("tasks.members")
         - if task.comments.any?
           %span.label.label-default.hidden-xs
             = icon 'fa fa-comment'

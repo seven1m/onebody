@@ -41,7 +41,7 @@ class Person < ActiveRecord::Base
   has_many :prayer_requests, -> { order(created_at: :desc) }
   has_many :attendance_records
   has_many :generated_files
-  has_many :tasks
+  has_many :tasks, ->(my) { where('tasks.group_scope is true or tasks.person_id = ? ', my.id) }, through: :groups
   belongs_to :site
   belongs_to :last_seen_stream_item, class_name: 'StreamItem'
   belongs_to :last_seen_group, class_name: 'Group'
@@ -51,7 +51,7 @@ class Person < ActiveRecord::Base
   MINIMAL_ATTRIBUTES = %w(
     id first_name last_name suffix child gender birthday gender deleted
     photo_file_name photo_content_type photo_fingerprint photo_updated_at
-  )
+  ).freeze
 
   scope :undeleted,              -> { where(deleted: false) }
   scope :deleted,                -> { where(deleted: true) }
@@ -61,7 +61,7 @@ class Person < ActiveRecord::Base
   scope :can_sign_in,            -> { undeleted.where(status: Person.statuses.values_at(:pending, :active)) }
   scope :administrators,         -> { undeleted.where('admin_id is not null') }
   scope :minimal,                -> { select(MINIMAL_ATTRIBUTES.map { |a| "people.#{a}" }.join(',')) }
-  scope :with_birthday_month,    -> m { where('birthday is not null and extract(month from birthday) = ?', m) }
+  scope :with_birthday_month,    -> (m) { where('birthday is not null and extract(month from birthday) = ?', m) }
 
   has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
 
@@ -79,7 +79,7 @@ class Person < ActiveRecord::Base
   validates :alternate_email,
             uniqueness: { scope: [:site_id, :deleted] },
             allow_nil: true,
-            unless: -> p { p.deleted? }
+            unless: -> (p) { p.deleted? }
   validates :feed_code,
             uniqueness: { scope: :site_id },
             allow_nil: true
@@ -136,7 +136,7 @@ class Person < ActiveRecord::Base
 
   date_writer :birthday, :anniversary
 
-  after_initialize :guess_last_name, if: -> p { p.last_name.nil? }
+  after_initialize :guess_last_name, if: -> (p) { p.last_name.nil? }
 
   def guess_last_name
     return unless family

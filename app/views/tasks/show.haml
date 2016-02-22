@@ -19,6 +19,8 @@
       %dd
         - if @task.person
           = link_to @task.person.name, person_path(@task.person)
+        - if @task.group_scope
+          = t('tasks.members')
       %dt
         = t("activerecord.attributes.task.duedate")
       %dd

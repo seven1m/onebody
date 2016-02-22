@@ -17,6 +17,7 @@ class TasksController < ApplicationController
 
   def new
   end
+
   def create
     if @task.save
       redirect_to group_tasks_path(@group)
@@ -62,6 +63,6 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:person_id, :name, :description, :duedate, :group_id)
+    params.require(:task).permit(:person_id, :person_id_or_all, :name, :description, :duedate, :group_id)
   end
 end
