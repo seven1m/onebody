@@ -32,6 +32,7 @@ en:
       table:
         home_phone: "Home Phone"
         address: "Home Address"
+        map: "View on map"
         anniversary: "Wedding Anniversary"
 
     name:

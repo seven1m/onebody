@@ -23,6 +23,7 @@ en:
         home_phone: "Home Phone"
         work_phone: "Work Phone"
         address: "Home Address"
+        map: "View on map"
         birthday: "Birthday"
         anniversary: "Wedding Anniversary"
         social: "Social"
