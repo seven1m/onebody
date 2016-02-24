@@ -66,3 +66,9 @@
             = link_to(@person.facebook_url, target: '_blank') do
               = icon 'fa fa-facebook'
               = simple_url(@person.facebook_url, www: false)
+  = show_attribute(:about) do
+    %tr
+      %td
+        = t('people.show.details.about')
+      %td
+        = preserve_breaks @person.about
