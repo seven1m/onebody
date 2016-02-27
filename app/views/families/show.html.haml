@@ -27,6 +27,8 @@
             = preserve_breaks @family.address
             %br
             == #{@family.city}, #{@family.state} #{@family.short_zip}
+            %br
+            = link_to t('.table.map'), "https://www.google.com/maps/place/#{@family.address.tr("\n","")} #{@family.city}, #{@family.state} #{@family.short_zip}/", :target => "_blank"
       - if anniversary = @family.anniversary_sharable_with(@logged_in)
         %tr
           %td= t('.table.anniversary')
