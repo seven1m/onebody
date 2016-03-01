@@ -50,4 +50,14 @@ module MapsHelper
       end
     end
   end
+
+  def url_for_address_map(address)
+    'https://www.google.com/maps/place/' +
+      [
+        address.address.to_s.tr("\n", ''),
+        address.city,
+        address.state,
+        address.short_zip
+      ].join(' ')
+  end
 end

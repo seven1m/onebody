@@ -1,0 +1,29 @@
+- hidden = false unless defined?(hidden)
+.address.well{ style: hidden ? 'display:none' : '', class: hidden ? 'blank-address' : '' }
+  = address_fields.hidden_field :_destroy, class: 'destroy-address-field'
+  .form-group
+    .row
+      .col-xs-11
+        = address_fields.label :kind
+        = address_fields.select :kind, t('addresses.kinds').invert, {}, class: 'form-control address-kind'
+      .col-xs-1{ style: 'padding-top:25px' }
+        %span.btn.btn-delete.right.delete-address-button
+          = icon 'fa fa-trash-o'
+  .form-group
+    = address_fields.label :address1
+    = address_fields.text_field :address1, class: 'form-control'
+  .form-group
+    = address_fields.label :address2
+    = address_fields.text_field :address2, class: 'form-control'
+  .form-group
+    = address_fields.label :city, t('families.edit.city_st_zip')
+    .row
+      .col-sm-4
+        = address_fields.text_field :city, class: 'form-control inline full-width'
+      .col-sm-4
+        = address_fields.text_field :state, class: 'form-control inline full-width'
+      .col-sm-4
+        = address_fields.text_field :zip, class: 'form-control inline full-width'
+  .form-group
+    = address_fields.label :country
+    = address_fields.country_select :country, { include_blank: true }, class: 'form-control'

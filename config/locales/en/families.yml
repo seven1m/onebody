@@ -10,6 +10,8 @@ en:
         notice: "The family was created. Now, add people to this family using the 'New Person' button below..."
 
     edit:
+      add_address:
+        button: "Add Address"
       heading: "Edit Family"
       name_example_html: "<em>John Doe</em> or <em>John &amp; Jane Doe</em>"
       name_suggestion_html: "Suggested: <strong>%{name}</strong>"

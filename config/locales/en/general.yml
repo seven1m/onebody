@@ -67,6 +67,8 @@ en:
       messages:
         blank: "%{attribute} cannot be blank"
     attributes:
+      address:
+        kind: "Location"
       album:
         name: "Name"
         description: "Description"

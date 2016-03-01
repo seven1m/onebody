@@ -11,7 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160218235045) do
+ActiveRecord::Schema.define(version: 20160225024901) do
+
+  create_table "addresses", force: :cascade do |t|
+    t.integer "site_id",     limit: 4
+    t.integer "family_id",   limit: 4
+    t.integer "kind",        limit: 4
+    t.string  "description", limit: 255
+    t.string  "address1",    limit: 255
+    t.string  "address2",    limit: 255
+    t.string  "city",        limit: 255
+    t.string  "state",       limit: 255
+    t.string  "zip",         limit: 25
+    t.string  "country",     limit: 2
+    t.float   "latitude",    limit: 24
+    t.float   "longitude",   limit: 24
+  end
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -178,15 +193,8 @@ ActiveRecord::Schema.define(version: 20160218235045) do
     t.string   "name",                 limit: 255
     t.string   "last_name",            limit: 255
     t.string   "suffix",               limit: 25
-    t.string   "address1",             limit: 255
-    t.string   "address2",             limit: 255
-    t.string   "city",                 limit: 255
-    t.string   "state",                limit: 255
-    t.string   "zip",                  limit: 10
     t.string   "home_phone",           limit: 25
     t.string   "email",                limit: 255
-    t.float    "latitude",             limit: 24
-    t.float    "longitude",            limit: 24
     t.datetime "updated_at"
     t.boolean  "visible",                          default: true
     t.integer  "site_id",              limit: 4
@@ -200,7 +208,6 @@ ActiveRecord::Schema.define(version: 20160218235045) do
     t.string   "photo_fingerprint",    limit: 50
     t.integer  "photo_file_size",      limit: 4
     t.datetime "photo_updated_at"
-    t.string   "country",              limit: 2
   end
 
   add_index "families", ["last_name", "name"], name: "index_family_names", using: :btree

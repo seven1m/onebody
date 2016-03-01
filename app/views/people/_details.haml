@@ -30,17 +30,19 @@
         = t('people.show.details.work_phone')
         = showing_attribute_because_admin_icon(:work_phone)
       %td= link_to_phone @person.work_phone
-  = show_attribute(:address) do
-    %tr
-      %td
-        = t('people.show.details.address')
-        = showing_attribute_because_admin_icon(:address)
-      %td
-        = preserve_breaks @person.address
-        %br
-        == #{@person.city}, #{@person.state} #{@person.short_zip}
-        %br
-        = link_to t('people.show.details.map'), "https://www.google.com/maps/place/#{@person.address.tr("\n","")} #{@person.city}, #{@person.state} #{@person.short_zip}/", :target => "_blank"
+  - if @person.share_attribute_with?(:address, @logged_in)
+    - @person.family.addresses.each do |address|
+      %tr
+        %td
+          = t('people.show.details.address', type: address.description)
+          = showing_attribute_because_admin_icon(:address)
+        %td
+          = address.address1
+          = "<br/>#{address.address2}" if address.address2.present?
+          %br
+          == #{address.city}, #{address.state} #{address.short_zip}
+          %br
+          = link_to t('people.show.details.map'), url_for_address_map(address), target: '_blank'
   = show_attribute(:birthday) do
     %tr
       %td

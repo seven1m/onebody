@@ -23,6 +23,10 @@ img.fit-width, .full-width {
   width: 100%;
 }
 
+.right {
+  float: right;
+}
+
 .site-name {
   @extend .hidden-sm;
   @extend .hidden-xs;

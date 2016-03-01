@@ -63,5 +63,6 @@
           = icon 'fa fa-calendar'
       = form.date_field :anniversary, class: 'form-control'
 - unless @person.new_record?
+  %h3= t('people.family')
   = fields_for @family do |family|
     = render partial: 'families/form_fields', locals: {form: family}

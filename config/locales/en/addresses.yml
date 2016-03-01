@@ -1,0 +1,18 @@
+en:
+  addresses:
+
+    kinds:
+      home: "Home"
+      work: "Work"
+      other: "Other"
+
+    description: "Description"
+
+    formatted:
+      no_address2: |
+        %{address1}
+        %{city}, %{state} %{zip} %{country}
+      with_address2: |
+        %{address1}
+        %{address2}
+        %{city}, %{state} %{zip} %{country}

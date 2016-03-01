@@ -3,6 +3,7 @@
 #= require jquery.scrollTo
 #= require jquery.color-2.1.2
 #= require jquery.sparkline
+#= require underscore
 #= require sortable
 #= require bootstrap
 #= require bootstrap-datepicker

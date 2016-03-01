@@ -123,8 +123,7 @@ class Person < ActiveRecord::Base
 
   lowercase_attribute :email, :alternate_email
 
-  delegate :home_phone, :address, :address1, :address2, :city, :state, :zip, :short_zip, :mapable?, :parents,
-           to: :family, allow_nil: true
+  delegate :home_phone, :mapable?, :parents, to: :family, allow_nil: true
 
   sharable_attributes :home_phone, :mobile_phone, :work_phone, :fax,
                       :email, :birthday, :address, :anniversary, :activity

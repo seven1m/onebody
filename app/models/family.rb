@@ -8,7 +8,9 @@ class Family < ActiveRecord::Base
 
   has_many :people, -> { order(:position) }, dependent: :destroy, inverse_of: :family
   has_many :updates, -> { order(:created_at) }
+  has_many :addresses
   accepts_nested_attributes_for :people
+  accepts_nested_attributes_for :addresses, allow_destroy: true
   belongs_to :site
 
   scope_by_site_id
@@ -44,11 +46,6 @@ class Family < ActiveRecord::Base
     end
   end
 
-  def initialize(*args)
-    super
-    self.country = Setting.get(:system, :default_country) unless country.present?
-  end
-
   def barcode_id=(b)
     write_attribute(:barcode_id, b.presence)
     self.barcode_assigned_at = Time.now if barcode_id_changed?
@@ -57,33 +54,6 @@ class Family < ActiveRecord::Base
   def alternate_barcode_id=(b)
     write_attribute(:alternate_barcode_id, b.presence)
     self.barcode_assigned_at = Time.now if barcode_id_changed?
-  end
-
-  def address
-    address1.to_s + (address2.present? ? "\n#{address2}" : '')
-  end
-
-  def mapable?
-    latitude.to_f != 0.0 and longitude.to_f != 0.0
-  end
-
-  include Concerns::Geocode
-  geocode_with :address, :city, :state, :zip, :country
-
-  # not HTML-escaped!
-  def pretty_address
-    a = ''
-    a << address1.to_s   if address1.present?
-    a << ", #{address2}" if address2.present?
-    if city.present? and state.present?
-      a << "\n#{city}, #{state}"
-      a << "  #{zip}" if zip.present?
-    end
-    return a
-  end
-
-  def short_zip
-    zip.to_s.split('-').first
   end
 
   self.digits_only_for_attributes = [:home_phone]

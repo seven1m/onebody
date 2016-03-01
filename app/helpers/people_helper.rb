@@ -20,8 +20,7 @@ module PeopleHelper
   alias_method :attribute, :show_attribute # TODO remove this
 
   def showing_attribute_because_admin?(attribute)
-    show_attribute?(attribute) &&
-      @person.respond_to?("share_#{attribute}?") &&
+    @person.respond_to?("share_#{attribute}?") &&
       @person.send("share_#{attribute}?") == false &&
       @logged_in.admin?(:view_hidden_properties)
   end
