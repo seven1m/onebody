@@ -20,7 +20,7 @@
         .form-group
           = form.text_field :description, class: 'form-control'
   .form-group
-    = form.file_field :file, multiple: true, style: 'display:none'
+    = form.file_field :file, multiple: multiple, style: 'display:none'
     %span.btn.btn-success#select-files-button
       = icon 'fa fa-upload'
       = t('documents.new.select.button')
