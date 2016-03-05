@@ -34,7 +34,7 @@ module Concerns
       end
 
       def streamable?
-        person_id && !to_person_id && group && member_ids.empty?
+        person_id && !to_person_id && group
       end
     end
   end
