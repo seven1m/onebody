@@ -1,7 +1,10 @@
 - @title = t('attendance.heading_html', group: link_to(@group.name, @group), when: @attended_at.to_s(:date))
 
-.row
+.row.attendance
   .col-md-8
+    .text-right{ style: 'margin-bottom: -22px' }
+      = check_box_tag :order, :last, params[:order] == 'last'
+      = label_tag :order, t('attendance.order_by_last')
     .form-group
       = label_tag :attended_at, t('attendance.date')
       .input-group

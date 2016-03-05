@@ -16,10 +16,8 @@ class AttendanceController < ApplicationController
       end
       Date.current
     end
-    @records = @group.get_people_attendance_records_for_date(@attended_at)
-    if params[:public]
-      render action: 'public_index', layout: 'signed_out'
-    end
+    @records = @group.get_people_attendance_records_for_date(@attended_at, order_by_last: params[:order] == 'last')
+    render action: 'public_index', layout: 'signed_out' if params[:public]
   end
 
   # this method is similar to batch, but does not clear all the existing records for the group first

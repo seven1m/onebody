@@ -50,6 +50,8 @@ en:
       label: "Notes"
       help: "Use this field to send notes to the administrator."
 
+    order_by_last: "Order by last name"
+
     prev_date: prev date
     recorded_time: Recorded Time
     records:
