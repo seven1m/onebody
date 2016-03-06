@@ -1,6 +1,8 @@
 nav = ->
-  args = '?attended_at=' + encodeURIComponent(this.value)
-  if $('#public').val() == 'true'
-    args += '&public=true&token=' + $('#token').val()
-  location.href = args
+  addOrUpdateURLParam('attended_at', encodeURIComponent(this.value))
+
 $('#attended_at').on('changeDate', nav).on('change', nav)
+
+$('body').on 'click', '.attendance input#order', ->
+  order = if $(this).is(':checked') then 'last' else 'first'
+  addOrUpdateURLParam('order', order)

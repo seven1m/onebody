@@ -203,14 +203,20 @@ class Group < ActiveRecord::Base
     address.present? ? (address + '@' + Site.current.email_host) : nil
   end
 
-  def get_people_attendance_records_for_date(date)
+  def get_people_attendance_records_for_date(date, order_by_last: false)
     records = {}
     people.each { |p| records[p.id] = [p, false] }
     date = Date.parse(date) if(date.is_a?(String))
     attendance_records_for_date(date).each do |record|
       records[record.person.id] = [record.person, record]
     end
-    records.values.sort_by { |r| [r[0].last_name, r[0].first_name] }
+    records.values.sort_by do |r|
+      if order_by_last
+        [r[0].last_name, r[0].first_name]
+      else
+        [r[0].first_name, r[0].last_name]
+      end
+    end
   end
 
   def attendance_records_for_date(date)

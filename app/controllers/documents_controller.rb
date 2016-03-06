@@ -59,7 +59,7 @@ class DocumentsController < ApplicationController
     else
       @document = Document.find(params[:id])
       if @document.update_attributes(document_params)
-        redirect_to documents_path(folder_id: @document.folder_id), notice: t('documents.update.notice')
+        redirect_to @document, notice: t('documents.update.notice')
       else
         render action: 'edit'
       end
@@ -136,7 +136,14 @@ class DocumentsController < ApplicationController
   end
 
   def document_params
+    params[:document] = dearray_params(params[:document]) if params[:action] == 'update'
     params.require(:document).permit(:name, :description, :folder_id, :file)
+  end
+
+  def dearray_params(params)
+    params.transform_values do |value|
+      value.is_a?(Array) ? value.first : value
+    end
   end
 
   def feature_enabled?
