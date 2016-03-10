@@ -503,8 +503,8 @@ describe DocumentsController, type: :controller do
             expect(assigns[:document].reload.name).to eq('New Name')
           end
 
-          it 'redirects to the parent folder with a notice' do
-            expect(response).to redirect_to(documents_path)
+          it 'redirects to the document' do
+            expect(response).to redirect_to(document_path(@document))
             expect(flash[:notice]).to be
           end
         end
@@ -519,8 +519,8 @@ describe DocumentsController, type: :controller do
             expect(assigns[:document].reload.folder).to eq(@folder)
           end
 
-          it 'redirects to the parent folder with a notice' do
-            expect(response).to redirect_to(documents_path(folder_id: @folder))
+          it 'redirects to the document' do
+            expect(response).to redirect_to(document_path(@document))
             expect(flash[:notice]).to be
           end
         end
