@@ -4,6 +4,46 @@ This is not meant to be a detailed account of everything changed in releases, bu
 
 For general upgrade instructions, see the wiki [here](https://github.com/churchio/onebody/wiki/Manual-Installation#how-to-upgrade). Any release-specific upgrade notes below should be applied *after* the general instructions in the wiki (unless otherwise noted).
 
+## 3.5.0
+
+### Upgrade Notes
+
+We've changed back to using `bundle install --deployment` (sorry).
+
+### Changes
+
+* Update UI template (AdminLTE)
+* Newly redesigned CSV Import
+* Experimental Debian/Ubuntu package for easier installation
+* Simplify how active/inactive/pending users are classified
+* Show document previews on index page
+* Show friendlier message when no email server can be contacted
+* Support facebook login
+* Don't include deleted families in directory map
+* Relax the email validation rule so emails on new TLDs can be accepted
+* Update gems and config so developers can hack on OneBody on Windows
+* Add 'About' section to user profile view
+* Allow sorting group members and attendance list by last name
+* Assign tasks to all group members
+* Fix bug where prefetching email clients accidentally unsubscribe people from group emails
+* Add new translations and update existing ones
+* Add technical support email to help page
+* Add code of conduct to project
+* Allow enabling 'edit legacy id' setting
+* Add multi-file upload to Documents
+* Improve the Settings page
+* Fix printed directory when family image is a PNG
+* Fix links in emails not using https://
+* Allow changing an album's visibility
+* Put back email feature by default on groups
+* Fix bug creating group without address
+* Background and rate-limit geocoding
+* Add back Gemfile.lock (it was a bad idea to remove it, sorry!)
+* Update Rails to 4.2.6
+* Fix attendance graphs for postgres
+* Remove Docker config
+
+
 ## 3.4.0
 
 ### Upgrade Notes
