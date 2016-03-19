@@ -60,9 +60,7 @@ You can use your favorite text editor to make changes inside the `onebody` direc
 
 Check out [Using Vagrant](https://github.com/churchio/onebody/wiki/Using-Vagrant) on the wiki for further help and tips.
 
-### Manual Development Setup
-
-Operating System: Mac or Linux (See Vagrant above if you're on Windows)
+### Manual Development Setup on Mac or Linux
 
 1. Install Ruby 2.2.2 or higher (we recommend you use [rbenv](https://github.com/sstephenson/rbenv) or [RVM](https://rvm.io/)).
 1. Install MySQL.
@@ -75,6 +73,26 @@ Operating System: Mac or Linux (See Vagrant above if you're on Windows)
 1. `cp config/database.yml{.mysql-example,}`
 1. `gem install bundler`
 1. `bundle install` (If you get an error installing eventmachine, you might need to do [this](http://stackoverflow.com/a/31516586/197498))
+1. `cp config/secrets.yml{.example,} && vim config/secrets.yml` and add a random secret token to both the "development" and "test" sections (you can use `rake secret` to generate a new random secret).
+1. `rake db:create db:schema:load db:seed`
+1. `rails server`
+
+Now visit the site running in development mode at http://localhost:3000.
+
+### Manual Development Setup on Windows
+
+1. Download the Ruby 2.2 package from http://railsinstaller.org and install.
+1. Download MariaDB stable from https://downloads.mariadb.org and install. Take note of what you enter for the root password.
+1. Download Git from https://git-scm.com/download/win and install.
+1. Download ImageMagick from http://imagemagick.org/www/binary-releases.html#windows and install.
+1. Download Node.js from https://nodejs.org/en/download/ and install.
+1. Open the "Git Bash" program, then run...
+1. `git clone git://github.com/churchio/onebody.git && cd onebody`
+1. `mysql -uroot -pROOT_PASSWORD -e "grant all on onebody_dev.* to onebody@localhost identified by 'onebody';"`
+1. `mysql -uroot -pROOT_PASSWORD -e "grant all on onebody_test.* to onebody@localhost identified by 'onebody';"`
+1. `cp config/database.yml{.mysql-example,}`
+1. `gem install bundler`
+1. `bundle install`
 1. `cp config/secrets.yml{.example,} && vim config/secrets.yml` and add a random secret token to both the "development" and "test" sections (you can use `rake secret` to generate a new random secret).
 1. `rake db:create db:schema:load db:seed`
 1. `rails server`
