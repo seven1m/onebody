@@ -42,7 +42,7 @@ gem 'sass-rails'
 gem 'sucker_punch'
 gem 'thin'
 gem 'truncate_html'
-gem 'tzinfo-data', platforms: %i(mingw mswin x64_mingw)
+gem 'tzinfo-data'
 gem 'uglifier'
 gem 'whenever'
 gem 'will_paginate'
