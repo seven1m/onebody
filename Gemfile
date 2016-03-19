@@ -39,7 +39,7 @@ gem 'rails_autolink'
 gem 'responders'
 gem 'sanitize'
 gem 'sass-rails'
-gem 'sucker_punch'
+gem 'sucker_punch', '~> 1.5.1' # 2.0.x doesn't appear to be compatible with ActiveJob
 gem 'thin'
 gem 'truncate_html'
 gem 'tzinfo-data'
@@ -54,7 +54,7 @@ gem 'dossier'
 
 group :test do
   gem 'factory_girl_rails'
-  gem 'shoulda-matchers', require: false
+  gem 'shoulda-matchers', '~> 2.8.0', require: false # I can't get 3.x to work (will try again later)
   gem 'test_after_commit'
   gem 'webmock'
 end
