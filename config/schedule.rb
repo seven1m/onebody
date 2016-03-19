@@ -10,9 +10,11 @@ set :environment, 'production'
 set :job_template, "bash -l -c ':job'"
 
 if File.exist?("#{Dir.pwd}/config/email.yml")
-  if settings = YAML::load_file("#{Dir.pwd}/config/email.yml")[@environment]['pop']
+  config = YAML.load_file("#{Dir.pwd}/config/email.yml")
+  if config[@environment] && (settings = config[@environment]['pop'])
     every 1.minute do
-      command "#{Dir.pwd}/script/inbox -e #{@environment} \"#{settings['host']}\" \"#{settings['username']}\" \"#{settings['password']}\""
+      command "#{Dir.pwd}/script/inbox -e #{@environment} " \
+              "\"#{settings['host']}\" \"#{settings['username']}\" \"#{settings['password']}\""
     end
   end
 end
@@ -22,5 +24,5 @@ every 1.hour, at: 19 do
 end
 
 every 1.day, at: '3:49 am' do
-  runner "Site.each { Group.update_memberships; GeneratedFile.stale.destroy_all }"
+  runner 'Site.each { Group.update_memberships; GeneratedFile.stale.destroy_all }'
 end

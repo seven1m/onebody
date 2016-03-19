@@ -107,7 +107,7 @@ else
   p_red "To create the OneBody database, run the following commands manually:"
   echo
   p_bold "  mysql -u root -p -e \"grant all on onebody.* to onebody@localhost identified by 'onebody';\""
-  echo   "  (enter your password or press enter for none)"
+  echo   "  (enter your MySQL root password or press enter for none)"
   p_bold "  $(p_sudo)onebody run rake db:setup"
   echo
   restart_or_create_service
