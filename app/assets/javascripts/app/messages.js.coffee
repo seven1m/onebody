@@ -15,6 +15,9 @@ $ ->
     $('.checkbox-inline[data-keywords].hidden').removeClass('hidden')
     displaySubsetFilterMore()
   )
+  $('input[name=message\\[member_ids\\]\\[\\]]').on('click', ->
+    brandAsSubset()
+  )
   maxSubsetFilter()
 maxSubsetFilter = ->
   $('.checkbox-inline[data-keywords]').removeClass('hidden')
@@ -27,3 +30,12 @@ displaySubsetFilterMore = ->
     $('#subset_more').filter(-> $('#subset_more.hidden').length == 0
     ).addClass('hidden')
   $('.checkbox-inline[data-keywords].hidden input:checked').parent().removeClass('hidden')
+brandAsSubset = ->
+  if $('input[name=message\\[member_ids\\]\\[\\]]:checked').length == 0
+    $('.group-description.hidden').removeClass('hidden')
+    $('.subset-description').addClass('hidden')
+    $('.subset-warning').addClass('hidden')
+  else
+    $('.group-description').addClass('hidden')
+    $('.subset-description.hidden').removeClass('hidden')
+    $('.subset-warning.hidden').removeClass('hidden')

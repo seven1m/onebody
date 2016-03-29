@@ -13,6 +13,9 @@ en:
       heading: "Group Message"
       description_html: "This will send an email to every member of %{group}."
 
+    subset:
+      description_html: "This will send an email only to selected members of %{group}."
+
     sent_at_html: "sent %{when} by %{who}"
     sent_to_html: "to %{who}"
 
@@ -57,6 +60,7 @@ en:
     subject: Subject
     to_show_the_entire_message: to show the entire message.
     unknown_type: Unknown message type.
-    send_to_subset: Only send this message to
+    send_to_subset: Only send this message to (other members will not see this message)
     filter: filter
     more: more ...
+    subset_warning: This message will be delivered only to selected members

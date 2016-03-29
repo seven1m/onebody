@@ -24,6 +24,8 @@
           = member.check_box
           = member.object.name
       = link_to t('messages.more'), '#', id: :subset_more, class: 'hidden btn btn-primary btn-xs'
+      .subset-warning.hidden
+        %strong= t('messages.subset_warning')
   .form-group
     %label{:for => "file"}= t('messages.attachment_optional')
     %input#file{:multiple => "multiple", :name => "files[]", :type => "file", :class => "filestyle", :data => {:input => "false", :buttonName => "btn-success"}}
