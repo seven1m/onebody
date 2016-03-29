@@ -11,6 +11,6 @@ config:
       shell: /bin/bash
       sudo: ['ALL=(ALL) NOPASSWD:ALL']
   packages:
-    - git
+    - wget
   runcmd:
-    - su -l onebody -c "cd /home/onebody && git clone git://github.com/churchio/onebody.git && cd onebody && bash build/ubuntu/14.04/provision.sh"
+    - su -l onebody -c "cd /tmp && wget https://raw.githubusercontent.com/seven1m/onebody/master/build/ubuntu/14.04/provision.sh && bash provision.sh"

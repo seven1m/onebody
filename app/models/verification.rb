@@ -74,7 +74,7 @@ class Verification < ActiveRecord::Base
         Notifier.email_verification(self).deliver_now
       end
     end
-  rescue Errno::ECONNREFUSED => e
+  rescue Errno::ECONNREFUSED, Net::SMTPAuthenticationError => e
     raise EmailConnectionError, e.message
   end
 
