@@ -229,6 +229,9 @@ class Family < ActiveRecord::Base
       "where people.visible = #{Family.connection.quoted_true} " \
       "and families.visible = #{Family.connection.quoted_true} " \
       "and families.deleted = #{Family.connection.quoted_false} " \
+      "and (people.share_address = TRUE " \
+      "  or  #{Person.logged_in.admin?(:view_hidden_profiles)} " \
+      "  or  people.id = #{Person.logged_in.id} )" \
       "and people.status = #{Person.statuses[:active]} " \
       "and families.site_id = #{Site.current.id} " \
       'and coalesce(families.latitude, 0.0) != 0.0 ' \
