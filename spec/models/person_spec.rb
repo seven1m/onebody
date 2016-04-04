@@ -398,6 +398,20 @@ describe Person do
       end
     end
 
+    context 'user with a nickname' do
+      before do
+        @person = FactoryGirl.create(:person, first_name: 'Saul', last_name: 'Tarsus', alias: 'Paul')
+      end
+
+      it 'should have the name Saul Tarsus' do
+        expect(@person.name).to eq('Saul Tarsus')
+      end
+
+      it 'should have the display with nickname of Saul Tarsus [Paul]' do
+        expect(@person.name_and_nick).to eq('Saul Tarsus [Paul]')
+      end
+    end
+
     context 'user with legacy password' do
       before do
         @person = FactoryGirl.create(:person,

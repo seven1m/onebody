@@ -14,6 +14,7 @@ class Updater
       first_name:           :approve,
       last_name:            :approve,
       suffix:               :approve,
+      alias:                :approve,
       gender:               :approve,
       mobile_phone:         :approve,
       work_phone:           :approve,

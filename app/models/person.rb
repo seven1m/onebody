@@ -168,6 +168,11 @@ class Person < ActiveRecord::Base
     end
   end
 
+  def name_and_nick
+    return name unless self.alias
+    "#{name} [#{self.alias}]"
+  end
+
   def formatted_email
     return unless email.present?
     Mail::Address.new(email).tap do |address|
