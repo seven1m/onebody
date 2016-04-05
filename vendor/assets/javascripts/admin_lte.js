@@ -160,7 +160,8 @@ $(function () {
   $.AdminLTE.layout.activate();
 
   //Enable sidebar tree view controls
-  $.AdminLTE.tree('.sidebar');
+  //XXX: disabled because we don't want the sidebar nav groups to collapse
+  //$.AdminLTE.tree('.sidebar');
 
   //Enable control sidebar
   if (o.enableControlSidebar) {
