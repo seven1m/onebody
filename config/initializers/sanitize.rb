@@ -29,6 +29,21 @@ class Sanitize
         'q'          => { 'cite' => ['http', 'https', :relative] }
       },
 
+      css: {
+        # These properties are often used in emails crafted by Outlook and seem safe enough.
+        # If you have need to add others properties here, be careful not to add any that would
+        # allow placing anything that looks like a button or link outside these region of the
+        # email displayed on screen, which might allow an attacker to trick a user into thinking
+        # their button is a part of the OneBody UI (absolute positioning, background colors, etc.).
+        # A better approach would be to display HTML emails in an iFrame, but that's for another day...
+        properties: %w(
+          display
+          color
+          font font-family font-size font-weight line-height
+          margin margin-top margin-right margin-bottom margin-left
+        )
+      },
+
       remove_contents: %w(script style)
     }.freeze
   end
