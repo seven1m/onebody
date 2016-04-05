@@ -4,6 +4,13 @@ This is not meant to be a detailed account of everything changed in releases, bu
 
 For general upgrade instructions, see the wiki [here](https://github.com/churchio/onebody/wiki/Manual-Installation#how-to-upgrade). Any release-specific upgrade notes below should be applied *after* the general instructions in the wiki (unless otherwise noted).
 
+## 3.6.0 (unreleased)
+
+### Changes
+
+* Fix: Allow more style attributes in HTML emails and don't strip formatting from emails when they are delivered
+* Fix: Show correct size user photo when viewing sent message
+
 ## 3.5.0
 
 ### Upgrade Notes
