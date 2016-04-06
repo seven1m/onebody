@@ -1,4 +1,4 @@
-<%= @msg.html_body %>
+<%= @msg.html_body.html_safe %>
 <p style="border-top:1px solid #ccc;margin-top:15px;padding-top:15px;">
   <%=raw @msg.reply_instructions(@to).gsub(/\n/, "<br/>\n") %><br/>
   <%=raw @msg.disable_email_instructions(@to).gsub(/\n/, "<br/>\n") %>
