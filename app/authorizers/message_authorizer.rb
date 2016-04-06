@@ -2,25 +2,28 @@ class MessageAuthorizer < ApplicationAuthorizer
 
   def readable_by?(user)
     # message is from me
-    if resource.person and resource.person == user
-      true
+    if resource.person && resource.person == user
+      return true
     # message is to me
-    elsif resource.to and resource.to == user
-      true
-    # message in a group I'm a member of
-    elsif resource.group and user.member_of?(resource.group)
-      true
+    elsif resource.to && resource.to == user
+      return true
+    # message in a group I'm a member of and the message was sent to the whole group
+    elsif resource.group && user.member_of?(resource.group) && resource.members.empty?
+      return true
+    # message is sent to a subset of the groups members, including me
+    elsif resource.group && resource.members.include?(user)
+      return true
     end
   end
 
   def creatable_by?(user)
     # first make sure a reply isn't on a message I can't see
-    return false if resource.parent and not user.can_read?(resource.parent)
+    return false if resource.parent && !user.can_read?(resource.parent)
     # message in a group and I'm a member or admin
-    if resource.group and resource.group.can_send?(user)
+    if resource.group && resource.group.can_send?(user)
       true
     # message to a person and I can see that person and they have messaging enabled
-    elsif resource.to and user.can_read?(resource.to) and resource.to.messages_enabled?
+    elsif resource.to && user.can_read?(resource.to) && resource.to.messages_enabled?
       true
     end
   end
@@ -44,12 +47,11 @@ class MessageAuthorizer < ApplicationAuthorizer
       scope.where(
         "(owner_type = 'Person' and owner_id in (?)) or " \
         "(owner_type = 'Group' and owner_id in (?)) or " \
-        "is_public = ?",
+        'is_public = ?',
         [user.id] + user.friend_ids,
         user.group_ids,
         true
       )
     end
   end
-
 end

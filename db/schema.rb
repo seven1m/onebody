@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160218235045) do
+ActiveRecord::Schema.define(version: 20160224004739) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -338,6 +338,14 @@ ActiveRecord::Schema.define(version: 20160218235045) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "members_messages", id: false, force: :cascade do |t|
+    t.integer "message_id", limit: 4, null: false
+    t.integer "member_id",  limit: 4, null: false
+  end
+
+  add_index "members_messages", ["member_id", "message_id"], name: "index_members_messages_on_member_id_and_message_id", using: :btree
+  add_index "members_messages", ["message_id", "member_id"], name: "index_members_messages_on_message_id_and_member_id", using: :btree
 
   create_table "membership_requests", force: :cascade do |t|
     t.integer  "person_id",  limit: 4
