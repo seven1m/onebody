@@ -43,7 +43,7 @@
                 = link_to person.business_category, search_path(business: true, category: person.business_category)
           - else
             %td
-              = link_to person.name, person
+              = link_to person.name_and_nick, person
               - unless person.visible?
                 %i.fa.fa-lock
             %td

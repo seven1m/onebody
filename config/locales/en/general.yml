@@ -99,6 +99,7 @@ en:
         zip: "Zip"
       person:
         anniversary: "Wedding Anniversary"
+        alias: "Known By"
         birthday: "Birthday"
         custom_type: "Custom Role"
         email: "Email"

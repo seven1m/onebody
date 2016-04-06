@@ -19,6 +19,9 @@
   = form.label :suffix
   = form.select :suffix, [nil]+Setting.get(:system, :suffixes), {}, class: 'form-control'
 .form-group
+  = form.label :alias
+  = form.text_field :alias, size: 15, class: 'form-control'
+.form-group
   = form.label :description, t('accounts.description')
   = form.text_field :description, class: 'form-control', maxlength: 25
   %span.help-block= t('people.edit.description_hint')
