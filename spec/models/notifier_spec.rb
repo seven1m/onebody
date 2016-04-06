@@ -1,9 +1,10 @@
+# coding: utf-8
 require_relative '../rails_helper'
 require 'notifier'
 
 describe Notifier, type: :mailer do
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures'
-  CHARSET = "utf-8"
+  CHARSET = 'utf-8'.freeze
 
   before do
     ActionMailer::Base.delivery_method = :test
@@ -60,7 +61,12 @@ describe Notifier, type: :mailer do
 
     context 'given an email sent from one of the members' do
       before do
-        @email = to_email(from: @user.email, to: @group.full_address, subject: 'test to group from user', body: 'Hello Group')
+        @email = to_email(
+          from: @user.email,
+          to: @group.full_address,
+          subject: 'test to group from user',
+          body: 'Hello Group'
+        )
         Notifier.receive(@email.to_s)
       end
 
@@ -73,7 +79,13 @@ describe Notifier, type: :mailer do
         before do
           body = "reply\n\n" + ActionMailer::Base.deliveries.first.body.to_s # must contain message id from original
           ActionMailer::Base.deliveries = [] # reset deliveries
-          @email = to_email(from: @user2.email, to: @user.email, cc: @group.full_address, subject: 're: Hello Group', body: body)
+          @email = to_email(
+            from: @user2.email,
+            to: @user.email,
+            cc: @group.full_address,
+            subject: 're: Hello Group',
+            body: body
+          )
           Notifier.receive(@email.to_s)
         end
 
@@ -134,7 +146,12 @@ describe Notifier, type: :mailer do
 
     context 'both group emails in the TO field' do
       before do
-        @email = to_email(from: @user.email, to: [@group.full_address, @group2.full_address], subject: 'test to two groups', body: 'hello')
+        @email = to_email(
+          from: @user.email,
+          to: [@group.full_address, @group2.full_address],
+          subject: 'test to two groups',
+          body: 'hello'
+        )
         Notifier.receive(@email.to_s)
       end
 
@@ -149,7 +166,13 @@ describe Notifier, type: :mailer do
 
     context 'one group email in the TO field and one in the CC field' do
       before do
-        @email = to_email(from: @user.email, to: [@group.full_address], cc: [@group2.full_address], subject: 'test to two groups', body: 'hello')
+        @email = to_email(
+          from: @user.email,
+          to: [@group.full_address],
+          cc: [@group2.full_address],
+          subject: 'test to two groups',
+          body: 'hello'
+        )
         Notifier.receive(@email.to_s)
       end
 
@@ -164,7 +187,13 @@ describe Notifier, type: :mailer do
 
     context 'both group emails in the CC field' do
       before do
-        @email = to_email(from: @user.email, to: ['irrelevant@example.com'], cc: [@group.full_address, @group2.full_address], subject: 'test to two groups', body: 'hello')
+        @email = to_email(
+          from: @user.email,
+          to: ['irrelevant@example.com'],
+          cc: [@group.full_address, @group2.full_address],
+          subject: 'test to two groups',
+          body: 'hello'
+        )
         Notifier.receive(@email.to_s)
       end
 
@@ -186,7 +215,13 @@ describe Notifier, type: :mailer do
     # The second message should not try to deliver to anyone, and should not trigger a rejection notice
 
     before do
-      @email = to_email(from: @user.email, to: @group.full_address, cc: 'peter@example.com', subject: 'test', body: 'hello')
+      @email = to_email(
+        from: @user.email,
+        to: @group.full_address,
+        cc: 'peter@example.com',
+        subject: 'test',
+        body: 'hello'
+      )
       Notifier.receive(@email.to_s)
       assert_emails_delivered(@email, @group.people)
       # now the second copy rolls in
@@ -230,12 +265,16 @@ describe Notifier, type: :mailer do
 
   context 'given subject containing UTF-8 characters' do
     before do
-      @email = "From: #{@user.email}\nTo: #{@group.full_address}\nContent-Type: text/html; charset=\"LATIN-1\"\nSubject: You don’t have to buy it all at frustrating prices!\n\ntest!"
+      @email = "From: #{@user.email}\n" \
+               "To: #{@group.full_address}\n" \
+               "Content-Type: text/html; charset=\"LATIN-1\"\n" \
+               "Subject: You don’t have to buy it all at frustrating prices!\n\n" \
+               'test!'
       Notifier.receive(@email.to_s)
       @delivery = ActionMailer::Base.deliveries.last
     end
 
-    it 'deliver the message' do
+    it 'delivers the message' do
       assert_deliveries 1
       expect(@delivery.subject).to eq("You don’t have to buy it all at frustrating prices!")
     end
@@ -245,7 +284,12 @@ describe Notifier, type: :mailer do
     before do
       @user.alternate_email = 'alternate@example.com'
       @user.save!
-      email = to_email(from: 'alternate@example.com', to: @group.full_address, subject: 'test from my alternate', body: 'test!')
+      email = to_email(
+        from: 'alternate@example.com',
+        to: @group.full_address,
+        subject: 'test from my alternate',
+        body: 'test!'
+      )
       Notifier.receive(email.to_s)
     end
 
@@ -349,7 +393,7 @@ describe Notifier, type: :mailer do
   end
 
   it 'sends a profile update' do
-    Notifier.profile_update(@user, first_name: ['Tim', 'Timothy']).deliver_now
+    Notifier.profile_update(@user, first_name: %w(Tim Timothy)).deliver_now
     expect(ActionMailer::Base.deliveries.size).to eq(1)
     sent = ActionMailer::Base.deliveries.last
     expect(sent.subject).to eq("Profile Update from #{@user.name}")
@@ -384,7 +428,7 @@ describe Notifier, type: :mailer do
     it 'delivers the message' do
       expect(ActionMailer::Base.deliveries.length).to eq(1)
       expect(@sent.to).to eq([@user2.email])
-      expect(@sent.subject).to eq("test")
+      expect(@sent.subject).to eq('test')
       expect(@sent.body.to_s).to match(/^hello/)
     end
 
@@ -408,7 +452,7 @@ describe Notifier, type: :mailer do
 
     it 'saves both the html and text part' do
       expect(@message.body).to match(/This is a test of complicated multipart message/)
-      expect(@message.html_body).to match(/<p>This is a test of complicated multipart message.<\/p>/)
+      expect(@message.html_body).to match(%r{<p>This is a test of complicated multipart message.</p>})
     end
 
     it 'delivers the message to the group' do
@@ -547,23 +591,24 @@ describe Notifier, type: :mailer do
     expect(ActionMailer::Base.deliveries.size).to eq(1)
     rejection = ActionMailer::Base.deliveries.last
     expect(rejection.subject).to eq('Message Not Sent: email to nowhere')
-    expect(rejection.body.to_s.gsub("\n", ' ')).to match(/could not find any valid group addresses/)
+    expect(rejection.body.to_s.tr("\n", ' ')).to match(/could not find any valid group addresses/)
   end
 
   private
-    def to_email(values)
-      values.symbolize_keys!
-      email = Mail.new do
-        to      values[:to]
-        cc      values[:cc] if values[:cc]
-        from    values[:from]
-        subject values[:subject]
-        body    values[:body]
-      end
-      email
-    end
 
-    def encode(subject)
-      quoted_printable(subject, CHARSET)
+  def to_email(values)
+    values.symbolize_keys!
+    email = Mail.new do
+      to      values[:to]
+      cc      values[:cc] if values[:cc]
+      from    values[:from]
+      subject values[:subject]
+      body    values[:body]
     end
+    email
+  end
+
+  def encode(subject)
+    quoted_printable(subject, CHARSET)
+  end
 end
