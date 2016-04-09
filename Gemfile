@@ -41,6 +41,7 @@ gem 'sanitize'
 gem 'sass-rails'
 gem 'sucker_punch', '~> 1.5.1' # 2.0.x doesn't appear to be compatible with ActiveJob
 gem 'thin'
+gem 'translation'
 gem 'truncate_html'
 gem 'tzinfo-data'
 gem 'uglifier'

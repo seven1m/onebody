@@ -166,6 +166,9 @@ GEM
       railties (>= 3.2, < 5.1)
     formatador (0.2.5)
     geocoder (1.3.1)
+    gettext (3.1.7)
+      locale (>= 2.0.5)
+      text (>= 1.3.0)
     github_api (0.13.1)
       addressable (~> 2.4.0)
       descendants_tracker (~> 0.0.4)
@@ -212,6 +215,7 @@ GEM
       rb-inotify (>= 0.9.7)
     load_and_authorize_resource (0.4.0)
       rails (>= 4.0)
+    locale (2.1.2)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.10)
@@ -378,6 +382,7 @@ GEM
     terminal-notifier (1.6.3)
     test_after_commit (1.0.0)
       activerecord (>= 3.2)
+    text (1.3.1)
     thin (1.6.4)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0, >= 1.0.4)
@@ -390,6 +395,8 @@ GEM
       hitimes
     tins (1.6.0)
     transaction-simple (1.4.0.2)
+    translation (1.6)
+      gettext (= 3.1.7)
     truncate_html (0.9.3)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
@@ -476,6 +483,7 @@ DEPENDENCIES
   test_after_commit
   thin
   timecop
+  translation
   truncate_html
   tzinfo-data
   uglifier

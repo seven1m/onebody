@@ -1,8 +1,0 @@
----
-de:
-  tags:
-    add_tags: "Tag hinzufügen"
-    confirm_delete: "Wollen sie wirklich diesen Tag entfernen?"
-    no_tags_yet: "Keine Tags bisher"
-    tag: Tag
-    tags: Tags

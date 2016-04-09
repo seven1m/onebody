@@ -1,20 +1,16 @@
+---
 en:
   notes:
-
     index:
-      heading: "Notes"
-
+      heading: Notes
     new:
-      heading: "New Note"
-      button: "New"
-
+      heading: New Note
+      button: New
     edit:
-      heading: "Edit Note"
-      button: "Edit"
-
+      heading: Edit Note
+      button: Edit
     delete:
-      button: "Delete"
-
-    posted: "posted %{when}"
-    save: "Save Note"
-    saved: "Note saved"
+      button: Delete
+    posted: posted %{when}
+    save: Save Note
+    saved: Note saved

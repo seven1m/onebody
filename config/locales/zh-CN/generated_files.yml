@@ -1,8 +1,0 @@
----
-zh-CN:
-  generated_files:
-    building: "Building your file..."
-    complete_heading: 完成！
-    complete_message: "Your file is complete and ready to download."
-    failure_heading: "We're sorry..."
-    failure_message: "There seems to have been an error while generating your file."

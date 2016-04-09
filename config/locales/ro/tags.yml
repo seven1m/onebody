@@ -1,8 +1,0 @@
----
-ro:
-  tags:
-    add_tags: "Adaugă etichete (separate prin spațiu)"
-    confirm_delete: "Dorești să ștergi această etichetă?"
-    no_tags_yet: "fără etichete deocamdată"
-    tag: Etichetă
-    tags: Etichete

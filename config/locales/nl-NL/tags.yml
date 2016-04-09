@@ -1,8 +1,0 @@
----
-nl-NL:
-  tags:
-    add_tags: "Tags toevoegen (spatie gescheiden)"
-    confirm_delete: "Weet je zeker dat je deze tag wilt verwijderen?"
-    no_tags_yet: "nog geen tags"
-    tag: Tag
-    tags: Tags

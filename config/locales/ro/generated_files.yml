@@ -1,8 +1,0 @@
----
-ro:
-  generated_files:
-    building: "Building your file..."
-    complete_heading: Gata!
-    complete_message: "Fişierul este gata si pregătit de descărcare."
-    failure_heading: "Ne pare rău..."
-    failure_message: "O eroare a apărut în timpul generării fişierului."

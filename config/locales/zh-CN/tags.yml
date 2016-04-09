@@ -1,8 +1,0 @@
----
-zh-CN:
-  tags:
-    add_tags: 增加标签（用空格区分）
-    confirm_delete: 确定删除此标签？
-    no_tags_yet: 还没有标签
-    tag: 标签
-    tags: 标签

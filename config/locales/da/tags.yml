@@ -1,8 +1,0 @@
----
-da:
-  tags:
-    add_tags: "Tilføj tags (kommasepareret)"
-    confirm_delete: "Er du sikker på at du vil slette dette tag?"
-    no_tags_yet: "endnu ingen tags"
-    tag: Tag
-    tags: Tags

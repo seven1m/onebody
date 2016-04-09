@@ -1,10 +1,9 @@
+---
 en:
   attachments:
-    heading: "Group Files"
-
+    heading: Group Files
     new:
-      button: "New File"
-
+      button: New File
     deleted: Attachment deleted.
     file: File
     file_deleted: This file has been deleted.
@@ -14,4 +13,3 @@ en:
     unknown_type: Unknown attachment type.
     upload_attachment: Upload Attachment
     upload_file: Upload File
-
