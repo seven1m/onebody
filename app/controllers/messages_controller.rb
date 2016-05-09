@@ -47,7 +47,7 @@ class MessagesController < ApplicationController
   private
 
   def message_params
-    params.require(:message).permit(:group_id, :to_person_id, :parent_id, :subject, :body)
+    params.require(:message).permit(:group_id, :to_person_id, :parent_id, :subject, :body, member_ids: [])
   end
 
   def create_private_message

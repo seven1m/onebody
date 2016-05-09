@@ -219,4 +219,25 @@ describe Message do
       end
     end
   end
+
+  describe '#members' do
+    context 'A group that can send messages to the members' do
+      let(:sender)    { FactoryGirl.create(:person) }
+      let(:judas)     { FactoryGirl.create(:person, first_name: 'Judas', last_name: 'Iscariot') }
+      let(:recipient) { FactoryGirl.create(:person) }
+      let(:group)     { FactoryGirl.create(:group, members_send: true) }
+      before(:each) { [sender, judas, recipient].each { |member| group.memberships.create! person: member } }
+
+      subject do
+        group.messages.create(subject: judas.name,
+                              person:  sender,
+                              body:    'Did you see who was talking to the Pharisies?',
+                              member_ids: [recipient.id.to_s])
+      end
+      it "is a personal message only sent to recipient" do
+        expect(subject.group).not_to be
+        expect(subject.to).to eq(recipient) 
+      end 
+    end
+  end
 end
