@@ -4,6 +4,7 @@ cs:
     changes:
       count:
         one: "1 change"
+        few: "%{count} changes"
         other: "%{count} changes"
       show_button: "show"
 

@@ -28,6 +28,7 @@ cs:
       edit_link: "Edit Family"
       suggested_name_html:
         one: "%{first} is the only adult in this family. Consider <a href='%{url}'>changing the family name</a> to “<strong>%{name}</strong>.”"
+        few: "%{first} and %{second} are the first two adults in this family. Consider <a href='%{url}'>changing the family name</a> to “<strong>%{name}</strong>.”"
         other: "%{first} and %{second} are the first two adults in this family. Consider <a href='%{url}'>changing the family name</a> to “<strong>%{name}</strong>.”"
       table:
         home_phone: "Home Phone"

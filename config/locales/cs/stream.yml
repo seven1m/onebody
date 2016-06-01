@@ -35,7 +35,7 @@ cs:
         person:
           description:
             one: "Ještě jeden uživatel byl přidán..."
-            other: "%{count} další uživatelé byli přidáni..."
+            few: "%{count} další uživatelé byli přidáni..."
             other: "%{count} dalších uživatelů bylo přidáno..."
 
     footer:

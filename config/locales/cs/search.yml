@@ -52,6 +52,7 @@ cs:
     not_showing_hidden_people: "(not showing hidden people)"
     people_found:
       one: "1 person found"
+      few: "%{count} people found"
       other: "%{count} people found"
     search: "Directory Search"
     search_by_name: "Search by name"

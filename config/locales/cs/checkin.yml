@@ -96,6 +96,7 @@ cs:
           heading: "Destinations"
           count:
             one: "1 destination"
+            few: "%{count} destinations"
             other: "%{count} destinations"
       edit:
         button: "edit"

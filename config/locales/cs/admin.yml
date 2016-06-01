@@ -15,26 +15,32 @@ cs:
       updates:
         text:
           one: "Profile Update"
+          few: "Profile Updates"
           other: "Profile Updates"
       changed_emails:
         text:
           one: "Changed Email"
+          few: "Changed Emails"
           other: "Changed Emails"
       import_errors:
         text:
           one: "Import Error"
+          few: "Import Errors"
           other: "Import Errors"
       groups_pending_approval:
         text:
           one: "Group Pending Approval"
+          few: "Groups Pending Approval"
           other: "Groups Pending Approval"
       membership_requests:
         text:
           one: "Group Membership Request"
+          few: "Group Membership Requests"
           other: "Group Membership Requests"
       deleted_people:
         text:
           one: "Deleted Person"
+          few: "Deleted People"
           other: "Deleted People"
 
     charts:
@@ -83,6 +89,7 @@ cs:
     membership_requests:
       count:
         one: "%{count} request"
+        few: "%{count} requests"
         other: "%{count} requests"
 
     pusher:
@@ -102,6 +109,7 @@ cs:
     admin_added: "%{name} added."
     admin_count:
       one: "%{count} Administrator"
+      few: "%{count} Administrators"
       other: "%{count} Administrators"
     admin_removed: Admin removed.
     admin_template_description: Templates allow you to have predefined permission sets for use with more than one administrator.
