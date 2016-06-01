@@ -196,6 +196,17 @@ class Family < ActiveRecord::Base
       (first, second) = adults.take(2)
       if first.last_name == second.last_name
         key = 'families.name.same_last_name'
+      elsif Setting.get(:system, :language) == "cs"
+        key = 'families.name.different_last_names'
+        husband, wife = first, second
+        if first.gender == "Female"
+          husband, wife = second, first
+        end
+        # In Czech, wife's and family name are usualy extensions of husband's name
+        if wife.last_name[husband.last_name]
+          key = 'families.name.husband_last_name'
+          first, second = husband, wife
+        end
       else
         key = 'families.name.different_last_names'
       end

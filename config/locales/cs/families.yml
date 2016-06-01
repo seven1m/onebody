@@ -37,6 +37,7 @@ cs:
 
     name:
       same_last_name: "%{adult1_fname} & %{adult2_fname} %{adult1_lname}"
+      husband_last_name: "%{adult1_fname} & %{adult2_fname} %{adult1_lname}ovi"
       different_last_names: "%{adult1_name} & %{adult2_name}"
 
     not_found: "Family not found"
