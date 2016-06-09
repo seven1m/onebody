@@ -22,10 +22,12 @@ cs:
       hidden_folders:
         label:
           one: "1 hidden folder"
+          few: "%{count} hidden folders"
           other: "%{count} hidden folders"
       restricted_folders:
         label:
           one: "1 restricted (group) folder"
+          few: "%{count} restricted (group) folders"
           other: "%{count} restricted (group) folders"
       no_file: "No file chosen"
 
@@ -53,9 +55,11 @@ cs:
     create:
       notice:
         one: "Your document has been created."
+        few: "Your documents have been created."
         other: "Your documents have been created."
       failure:
         one: "Your document could not be saved: %{filenames}"
+        few: "Your documents could not be saved: %{filenames}"
         other: "Your documents could not be saved: %{filenames}"
 
     create_folder:

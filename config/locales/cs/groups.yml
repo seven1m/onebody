@@ -65,13 +65,16 @@ cs:
         member_count_label: "members"
         member_count:
           one: "1 person"
+          few: "%{count} people"
           other: "%{count} people"
         birthdays_this_month_html:
           one: "(<a href='%{url}'>1</a> with a birthday this month)"
+          few: "(<a href='%{url}'>%{count}</a> with birthdays this month)"
           other: "(<a href='%{url}'>%{count}</a> with birthdays this month)"
         attachments: "files"
         attachment_count:
           one: "1 file"
+          few: "%{count} files"
           other: "%{count} files"
         attendance:
           button: "Track Attendance"
@@ -186,9 +189,11 @@ cs:
       this_group: "This group is pending approval."
       description:
         one: "The following group is pending approval:"
+        few: "The following groups are pending approval:"
         other: "The following groups are pending approval:"
       count:
         one: "%{count} group to approve"
+        few: "%{count} groups to approve"
         other: "%{count} groups to approve"
 
     approve:
@@ -197,6 +202,7 @@ cs:
     membership_requests:
       count:
         one: "%{count} membership request"
+        few: "%{count} membership requests"
         other: "%{count} membership requests"
 
     not_found: "Group not found"
@@ -218,21 +224,25 @@ cs:
       messages:
         text:
           one: "Message"
+          few: "Messages"
           other: "Messages"
         new_link: "New Message"
       prayer_requests:
         text:
           one: "Prayer Request"
+          few: "Prayer Requests"
           other: "Prayer Requests"
         new_link: "New Request"
       pictures:
         text:
           one: "Picture"
+          few: "Pictures"
           other: "Pictures"
         new_link: "New Picture"
       tasks:
         text:
           one: "Task"
+          few: "Tasks"
           other: "Tasks"
         new_link: "New Task"
 

@@ -41,6 +41,7 @@ cs:
     name: "Name"
     records:
       one: "1 record"
+      few: "%{count} records"
       other: "%{count} records"
     reports:
       attendance_totals:

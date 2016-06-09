@@ -5,6 +5,7 @@ cs:
       group_heading: "Tasks for %{group}"
       comment_count:
         one: "1 comment"
+        few: "%{count} comments"
         other: "%{count} comments"
     new:
       heading: "New task"

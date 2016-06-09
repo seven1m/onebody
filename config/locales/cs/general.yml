@@ -445,6 +445,7 @@ cs:
 
   people_count:
     one: "1 person"
+    few: "%{count} people"
     other: "%{count} people"
 
   footer:
