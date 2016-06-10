@@ -3,37 +3,37 @@ cs:
   albums:
 
     index:
-      heading: "Picture Albums"
+      heading: "Alba"
 
     table:
-      name: "Name"
-      picture_count: "Pictures"
-      created_at: "Created"
+      name: "Jméno"
+      picture_count: "Obrázky"
+      created_at: "Vytvořeno"
 
     new:
-      heading: "New Album"
-      button: "New Album"
+      heading: "Nové album"
+      button: "Nové album"
 
     edit:
-      heading: "Edit Album"
-      button: "Edit Album"
+      heading: "Úprava alba"
+      button: "Upravit album"
 
     delete:
-      button: "Delete Album"
+      button: "Smazat album"
 
     sharing:
-      heading: "Who should see this album?"
+      heading: "Kdo může vidět toto album?"
 
-    none: "No albums yet"
+    none: "Zatím žádná alba"
 
     is_public:
-      enabled: "Community – show this album to everyone"
-      disabled_group: "Share this album in this group only."
-      disabled_profile: "Profile – show this album to <a href='%{url}'>these people</a>"
+      enabled: "Společenství – ukažte toto album každému"
+      disabled_group: "Sdílejte album pouze se členy této skupiny."
+      disabled_profile: "Profil – ukažte album <a href='%{url}'>těmto lidem</a>"
 
-    cannot_add_pictures_to_group: "Cannot add pictures in this group."
-    click_to_view: "click to view"
-    description: "Description"
-    edit_picture: "Edit Picture Album"
-    save: "Save Album"
-    saved: "Album saved."
+    cannot_add_pictures_to_group: "Není možné přidat obrázky v této skupině."
+    click_to_view: "klinout pro zobrazení"
+    description: "Popis"
+    edit_picture: "Upravit album"
+    save: "Uložit album"
+    saved: "Album bylo uloženo."
