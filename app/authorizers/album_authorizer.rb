@@ -1,14 +1,13 @@
 class AlbumAuthorizer < ApplicationAuthorizer
-
   def readable_by?(user)
     # belongs to me
     if resource.owner == user
       true
     # belongs to a friend
-    elsif resource.owner.is_a?(Person) and user.friend_ids.include?(resource.owner.id)
+    elsif resource.owner.is_a?(Person) && user.friend_ids.include?(resource.owner.id)
       true
     # belongs to a group I'm in
-    elsif resource.owner.is_a?(Group) and user.member_of?(resource.owner)
+    elsif resource.owner.is_a?(Group) && user.member_of?(resource.owner)
       true
     # is marked public
     elsif resource.is_public?
@@ -23,7 +22,7 @@ class AlbumAuthorizer < ApplicationAuthorizer
       return false unless resource.group.pictures?
       if user.member_of?(resource.group)
         true
-      elsif user.admin?(:manage_pictures) and user.admin?(:manage_groups)
+      elsif user.admin?(:manage_pictures) && user.admin?(:manage_groups)
         true
       end
     else
@@ -36,7 +35,7 @@ class AlbumAuthorizer < ApplicationAuthorizer
     if resource.owner == user
       true
     # belongs to a group I'm admin of
-    elsif resource.owner.is_a?(Group) and resource.owner.admin?(user)
+    elsif resource.owner.is_a?(Group) && resource.owner.admin?(user)
       true
     # I'm a global admin
     elsif user.admin?(:manage_pictures)
@@ -60,5 +59,4 @@ class AlbumAuthorizer < ApplicationAuthorizer
       )
     end
   end
-
 end
