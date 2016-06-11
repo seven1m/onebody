@@ -1,22 +1,22 @@
 cs:
   tasks:
     index:
-      heading: "Tasks"
-      group_heading: "Tasks for %{group}"
+      heading: "Úkoly"
+      group_heading: "Úkoly pro skupinu %{group}"
       comment_count:
-        one: "1 comment"
-        few: "%{count} comments"
-        other: "%{count} comments"
+        one: "1 komentář"
+        few: "%{count} komentáře"
+        other: "%{count} komentářů"
     new:
-      heading: "New task"
-      button: "New task"
+      heading: "Nový úkol"
+      button: "Nový úkol"
     edit:
-      heading: "Edit task"
+      heading: "Upravit úkol"
     show:
-      heading: "Task: %{task}"
-      edit: "Edit Task"
-    heading: "Task"
-    save: "Save Task"
-    go_to_group: "Go to group"
-    deleted: "Task deleted"
-    members: "All Members"
+      heading: "Úkol: %{task}"
+      edit: "Upravit úkol"
+    heading: "Úkol"
+    save: "Uložit úkol"
+    go_to_group: "Jít do skupiny"
+    deleted: "Úkol byl smazán"
+    members: "Všichni členové"
