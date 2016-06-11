@@ -310,6 +310,7 @@ class Notifier < ActionMailer::Base
     to_addresses = Array(email.cc) + Array(email.to)
     site = nil
     to_addresses.each do |address|
+      next if address.nil?
       site = Site.where(host: address.downcase.split('@').last).first ||
              Site.where(email_host: address.downcase.split('@').last).first
       return site if site
