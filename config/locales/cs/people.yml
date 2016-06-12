@@ -16,7 +16,7 @@ cs:
 
     show:
       details:
-        family: "%{family} Rodina"
+        family: "Rodina %{family}"
         website: "WWW stránky"
         email: "E-mail"
         mobile_phone: "Mobilní telefon"

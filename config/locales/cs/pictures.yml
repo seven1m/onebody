@@ -1,27 +1,27 @@
 cs:
   pictures:
 
-    none: "No pictures yet"
+    none: "Zatím žádné obrázky"
 
     new:
-      heading: "New Picture"
+      heading: "Nový obrázek"
       existing_album:
-        intro: "Add one or more photos to an existing album..."
+        intro: "Přidejte fotografie do existujícího alba..."
       new_album:
-        intro: "Or create a new album..."
-        button: "New Album"
+        intro: "Nebo vytvořte nové album..."
+        button: "Nové album"
 
-    show_original: "Show Original"
+    show_original: "Zobrazit originál"
 
     create_an_album:
-      notice: "First create an album..."
+      notice: "Nejprve vytvořte album..."
 
-    click_to_enlarge: click to enlarge
-    comment_on_this_picture: Comment on this picture
-    failed: "%{fail} not saved due to errors"
-    picture_uploaded_by: "Picture uploaded %{when} by"
-    rotate_left: Rotate Left
-    rotate_right: Rotate Right
-    saved: "%{success} picture(s) saved"
-    set_as_cover: Set as Cover
-    upload: Upload!
+    click_to_enlarge: "Kliněte pro zvětšení"
+    comment_on_this_picture: "Komentujte tento obrázek"
+    failed: "%{fail} nebylo uloženo (došlo k chybám)"
+    picture_uploaded_by: "Obrázek nahrán %{when} uživatelem"
+    rotate_left: "Otočit vlevo"
+    rotate_right: "Otočit vpravo"
+    saved: "%{success} obrázků úspěšně uloženo"
+    set_as_cover: "Nastavit jako pozadí"
+    upload: "Nahrát!"
