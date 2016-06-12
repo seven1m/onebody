@@ -2,19 +2,19 @@ cs:
   notes:
 
     index:
-      heading: "Notes"
+      heading: "Poznámky"
 
     new:
-      heading: "New Note"
-      button: "New"
+      heading: "Nová poznámka"
+      button: "Nová"
 
     edit:
-      heading: "Edit Note"
-      button: "Edit"
+      heading: "Úprava poznámky"
+      button: "Upravit"
 
     delete:
-      button: "Delete"
+      button: "Smazat"
 
-    posted: "posted %{when}"
-    save: "Save Note"
-    saved: "Note saved"
+    posted: "vytvořeno %{when}"
+    save: "Uložit poznámku"
+    saved: "Poznámka byla uložena"

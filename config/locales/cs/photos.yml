@@ -1,13 +1,13 @@
 cs:
 
   photos:
-    object_not_found: "Object not found."
-    browse: "Select Photo"
-    remove: "Remove Photo"
-    unavailable: "Photo unavailable."
+    object_not_found: "Objekt nebyl nalezen."
+    browse: "Vybrat fotografii"
+    remove: "Odstranit fotografii"
+    unavailable: "Fotografie není dostupná."
     upload:
-      button: "Upload"
-      error: "Your photo could not be saved."
-      wrong_type: "The photo file type must be JPG, GIF, or PNG."
-    ready_filename: "Ready to upload %{filename}"
-    uploading_filename: "Uploading %{filename}"
+      button: "Nahrát"
+      error: "Nepodařilo se uložit Vaši fotografii."
+      wrong_type: "Typ souboru musí být JPG, GIF nebo PNG."
+    ready_filename: "Připraveno k nahrání %{filename}"
+    uploading_filename: "Nahrává se %{filename}"

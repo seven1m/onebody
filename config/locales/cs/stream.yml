@@ -64,7 +64,7 @@ cs:
         picture: "obrázek"
         verse: "biblický verš"
         message: "vzkaz skupině"
-        news: "sdílet novinku"
+        news: "sdílet zprávu"
       sharing_with_html:
         one: "sdíleno s <a href='%{url}'>jedním uživatelem</a>"
         few: "sdíleno s <a href='%{url}'>%{count} lidmi</a>"
