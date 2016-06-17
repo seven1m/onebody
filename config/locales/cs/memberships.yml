@@ -3,38 +3,38 @@ cs:
   memberships:
 
     index:
-      heading: "People in %{group}"
+      heading: "Lidé ve skupině %{group}"
       details:
-        name: "Name"
-        birthday: "Birthday"
-        created_at: "Added"
+        name: "Jméno"
+        birthday: "Narozeniny"
+        created_at: "Přidáno"
         manual:
-          tooltip: "This person was added manually."
+          tooltip: "Tento uživatel byl přidán ručně.."
       remove:
-        button: "Remove Selected"
+        button: "Smazat vybrané"
 
     add:
-      heading: "Add Someone"
-      description: "Add someone to this group."
-      name_placeholder: "Type all or part of someone's name"
+      heading: "Přidání osoby"
+      description: "Přidejte někoho do této skupiny."
+      name_placeholder: "Zadejte celé jméno nebo jeho část"
       parents_of_warning_html: |
-        This is a group automatically linked with parents of people in %{group}.
-        If you add someone manually, that person won't be managed automatically.
+        Toto je skupina automaticky propojená s rodiči osob ve skupině %{group}.
+        Jestliže zde někoho ručně přidáte, tato osoba nebude automaticky spravována.
       linked_group_warning_html: |
-        This group is linked with class code <strong>%{code}</strong>.
-        If you add someone manually, that person won't be managed automatically.
+        Tato skupina je propojena kódem <strong>%{code}</strong>.
+        Jestliže zde někoho ručně přidáte, tato osoba nebude automaticky spravována.
 
-    promote: "Promote member to admin"
-    demote: "Demote admin to regular member"
+    promote: "Ustanovit správcem skupiny"
+    demote: "Učinit správce běžným členem"
 
-    group_pending_approval: "This group is pending approval. You may not add people to it yet."
+    group_pending_approval: "Tato skupina čeká na schválení. Zatím do ní nemůžete přidávat členy."
 
     requests:
-      heading: "Requests to join this group"
-      select_some: "Select one or more above and choose an action."
-      name: "Name"
-      created_at: "Requested"
+      heading: "Žádosti o vstup do této skupiny"
+      select_some: "Vyberte jednoho nebo několik z uvedených a proveďte akci."
+      name: "Jméno"
+      created_at: "Zažádáno"
       accept:
-        button: "Accept"
+        button: "Schválit"
       ignore:
-        button: "Ignore"
+        button: "Ignorovat"
