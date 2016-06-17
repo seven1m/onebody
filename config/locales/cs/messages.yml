@@ -3,57 +3,57 @@ cs:
   messages:
 
     new:
-      button: "New Message"
+      button: "Nový vzkaz"
 
     private:
-      heading: "Private Message"
-      description_html: "This will send a <em>private</em> email to %{person}."
+      heading: "Soukromý vzkaz"
+      description_html: "Tímto pošlete <em>soukromýprivate</em> e-mail uživateli %{person}."
 
     group:
-      heading: "Group Message"
-      description_html: "This will send an email to every member of %{group}."
+      heading: "Skupinový vzkaz"
+      description_html: "Takto pošlete e-mail všem členům skupiny %{group}."
 
-    sent_at_html: "sent %{when} by %{who}"
-    sent_to_html: "to %{who}"
+    sent_at_html: "odesláno %{when} uživatelem %{who}"
+    sent_to_html: "osobě %{who}"
 
-    read_more: "Read More"
+    read_more: "Přečíst celé"
     delete:
-      button: "Delete"
+      button: "Smazat"
 
-    in_reply_to_html: "in reply to %{message}"
+    in_reply_to_html: "odpověď na %{message}"
     replies:
-      heading: "Replies"
+      heading: "Odpovědi"
     reply_all:
-      button: "Reply to this message (send to entire group)"
+      button: "Odpovědět na tento vzkaz (zaslat celé skupině)"
 
     email:
-      reply_to_sender: "Hit \"Reply\" to send a message to %{person}."
-      reply_to_group: "Hit \"Reply to All\" to send a message to the group %{group}, or send to %{address}."
-      group_link: "Group page: %{url}"
-      reply_link: "To reply, go to: %{url}"
-      disable_group_email: "To stop email from this group:\n%{url}"
-      disable_all_email: "To stop these emails, go to your privacy page:\n%{url}"
+      reply_to_sender: "Klikněte \"Odpovědět\", chcete-li poslat vzkaz uživateli %{person}."
+      reply_to_group: "Klikněte \"Odpovědět všem\", chcete-li poslat vzkaz skupině %{group} na adresu %{address}."
+      group_link: "Stránka skupiny: %{url}"
+      reply_link: "Chcete-li odpovědět, jděte na: %{url}"
+      disable_group_email: "Nechcete-li dostávat zprávy z této skupiny:\n%{url}"
+      disable_all_email: "Nechcete-li dostávat tyto e-maily, jděte na stránku nastavení soukromí:\n%{url}"
 
-    do_not_reply: "DO NOT REPLY"
+    do_not_reply: "NEODPOVÍDAT"
 
-    ago: ago
-    attachment_optional: Attachment (optional)
-    attachments: Attachments
-    file_missing: file missing
-    flag_cleared: Flag(s) cleared.
-    from: From
-    in: in
-    messages_in_html: Messages in <a href="%{url}">%{name}</a>
-    missing_param: Missing the message param.
-    no_email_for_person: Sorry. We don't have an email address on file for %{name}.
-    not_authorized_delete: You are not authorized to delete this message.
-    not_found: Message not found.
-    posted_by: posted by
-    send_message: Send Message
-    sent: Your message has been sent.
-    show_quoted_content: show quoted content
-    some_quoted_text_is_hidden: Some quoted text in this message is hidden;
-    subject: Subject
-    to_show_the_entire_message: to show the entire message.
-    unknown_type: Unknown message type.
+    ago: "zpátky"
+    attachment_optional: "Příloha (volitelně)"
+    attachments: "Přílohy"
+    file_missing: "soubor chybí"
+    flag_cleared: "Štítky byly vytvořeny"
+    from: "Od"
+    in: "v"
+    messages_in_html: "Zprávy ve skupině <a href=\"%{url}\">%{name}</a>"
+    missing_param: "Chybí parametry zprávy"
+    no_email_for_person: "Bohužel, není známa e-mailová adresa uživatele %{name}."
+    not_authorized_delete: "Nemáte právo smazat tuto zprávu."
+    not_found: "Zpráva nebyla nalezena."
+    posted_by: "odesláno uživatelem"
+    send_message: "Odeslat zprávu"
+    sent: "Zpráva byla odeslána."
+    show_quoted_content: "zobrazit citovaný kontext"
+    some_quoted_text_is_hidden: "Část citovaného textu v této zprávě je skryta;"
+    subject: "Předmět"
+    to_show_the_entire_message: "k zobrazení celého vzkazu"
+    unknown_type: "Neznámý typ vzkazu"
 
