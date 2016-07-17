@@ -39,6 +39,7 @@ gem 'rails_autolink'
 gem 'responders'
 gem 'sanitize'
 gem 'sass-rails'
+gem 'strong_password'
 gem 'sucker_punch', '~> 1.5.1' # 2.0.x doesn't appear to be compatible with ActiveJob
 gem 'thin'
 gem 'truncate_html'

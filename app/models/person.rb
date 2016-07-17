@@ -68,7 +68,7 @@ class Person < ActiveRecord::Base
   validates :first_name, :last_name,
             presence: true
   validates :password,
-            length: { minimum: 5 },
+            length: { minimum: Setting.get(:privacy, :minimum_password_characters).to_i },
             allow_nil: true,
             if: -> { Person.logged_in }
   validates :description,
@@ -76,6 +76,8 @@ class Person < ActiveRecord::Base
   validates :password,
             confirmation: true,
             if: -> { Person.logged_in }
+  validates :password, password_strength: true,
+            if: -> { Setting.get(:privacy, :require_strong_password) }
   validates :alternate_email,
             uniqueness: { scope: [:site_id, :deleted] },
             allow_nil: true,

@@ -215,6 +215,12 @@ Privacy:
   Max Sign in Attempts:
     format: string
     value: 10
+  Minimum Password Characters:
+    format: string
+    value: 6
+  Require Strong Password:
+    format: boolean
+    value: false
   Share Address by Default:
     format: boolean
     value: true

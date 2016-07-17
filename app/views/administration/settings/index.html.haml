@@ -129,6 +129,8 @@
     .tab-pane#privacy
       = setting_row('Privacy', 'Allow Picture Comments')
       = setting_row('Privacy', 'Max Sign in Attempts', options: [5, 10, 20, 50])
+      = setting_row('Privacy', 'Minimum Password Characters', options: [5, 6, 7, 8, 9, 10])
+      = setting_row('Privacy', 'Require Strong Password')
       .callout.callout-info= t('admin.settings.privacy_defaults_about')
       = setting_row('Privacy', 'Share Email by Default',        label: :name)
       = setting_row('Privacy', 'Share Home Phone by Default',   label: :name)
