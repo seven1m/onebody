@@ -67,10 +67,7 @@ class Person < ActiveRecord::Base
 
   validates :first_name, :last_name,
             presence: true
-  validates :password,
-            length: { minimum: Setting.get(:privacy, :minimum_password_characters).to_i },
-            allow_nil: true,
-            if: -> { Person.logged_in }
+  validate :validate_password_length
   validates :description,
             length: { maximum: 25 }
   validates :password,
@@ -115,6 +112,13 @@ class Person < ActiveRecord::Base
                         .where.not(family_id: family_id || 0)
                         .any?
     errors.add :email, :taken
+  end
+
+  def validate_password_length
+    return unless Person.logged_in
+    return if password.nil?
+    return if password.length >= Setting.get(:privacy, :minimum_password_characters).to_i
+    errors.add :password, 'Password is too short'
   end
 
   enum status: {
