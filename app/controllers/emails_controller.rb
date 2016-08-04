@@ -1,6 +1,7 @@
 class EmailsController < ApplicationController
   skip_before_action :authenticate_user, only: :create
   before_action :ensure_admin, except: %w(create)
+  skip_before_action :verify_authenticity_token
 
   def create
     Notifier.receive(params['body-mime'])
