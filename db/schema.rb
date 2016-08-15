@@ -122,6 +122,22 @@ ActiveRecord::Schema.define(version: 20160403231924) do
     t.string   "commentable_type", limit: 255
   end
 
+  create_table "custom_field_values", force: :cascade do |t|
+    t.integer "site_id",     limit: 4
+    t.integer "field_id",    limit: 4
+    t.integer "object_id",   limit: 4
+    t.string  "object_type", limit: 255
+    t.string  "value",       limit: 255
+  end
+
+  create_table "custom_fields", force: :cascade do |t|
+    t.integer  "site_id",    limit: 4
+    t.string   "name",       limit: 50
+    t.string   "format",     limit: 10
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "custom_reports", force: :cascade do |t|
     t.integer "site_id",  limit: 4
     t.string  "title",    limit: 255

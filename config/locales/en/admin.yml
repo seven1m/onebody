@@ -46,6 +46,20 @@ en:
       dashboard_button: "Check-in Admin"
       button: "Check-in Kiosk"
 
+    custom_fields:
+      heading: "Custom Fields"
+      intro: |
+        Custom fields allow you to shape the database to your community's needs.
+        Add fields here to keep track of data you need.
+      new:
+        heading: "New Custom Field"
+      edit:
+        heading: "Edit Custom Field"
+      formats:
+        string: "Text"
+        number: "Number"
+        boolean: "Yes/No"
+
     dashboard:
       heading: "Admin Dashboard"
       sub_title: "OneBody %{version}"

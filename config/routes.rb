@@ -214,6 +214,7 @@ OneBody::Application.routes.draw do
       end
       resources :cards, :auths, :labels
     end
+    resources :custom_fields
   end
 
   resource :checkin, controller: 'checkin/checkins'
