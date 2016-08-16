@@ -1,0 +1,4 @@
+.form-group
+  - CustomField.all.each do |field|
+    = label_tag dom_id(field), field.name
+    = text_field_tag "person[fields][#{field.id}]", @person.fields[field.id], class: 'form-control', id: dom_id(field)

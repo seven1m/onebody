@@ -59,6 +59,7 @@ en:
         string: "Text"
         number: "Number"
         boolean: "Yes/No"
+        date: "Date"
 
     dashboard:
       heading: "Admin Dashboard"

@@ -50,6 +50,7 @@ en:
       facebook_url:
         placeholder: 'https://www.facebook.com/username'
       family_photo: "Family Photo"
+      fields: "Fields"
       header: "Edit Profile"
       no_family_error: "This person cannot be edited because they do not belong to a family."
       person_type: "Roles"
