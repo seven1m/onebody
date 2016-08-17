@@ -47,6 +47,7 @@ en:
       button: "Check-in Kiosk"
 
     custom_fields:
+      button: "Custom Fields"
       heading: "Custom Fields"
       intro: |
         Custom fields allow you to shape the database to your community's needs.
