@@ -82,7 +82,7 @@ cs:
       success_message: "%{person} byl(a) přidán(a) do rodiny %{family}."
 
     roles:
-      elder: "Kněz (kazatel; starší)"
+      elder: "Starší"
       deacon: "Jáhen"
       staff: "Zaměstnanec"
       member: "Člen"
