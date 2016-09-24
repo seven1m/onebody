@@ -67,15 +67,14 @@ class Person < ActiveRecord::Base
 
   validates :first_name, :last_name,
             presence: true
-  validates :password,
-            length: { minimum: 5 },
-            allow_nil: true,
-            if: -> { Person.logged_in }
+  validate :validate_password_length
   validates :description,
             length: { maximum: 25 }
   validates :password,
             confirmation: true,
             if: -> { Person.logged_in }
+  validates :password, password_strength: true,
+            if: -> { Setting.get(:privacy, :require_strong_password) }
   validates :alternate_email,
             uniqueness: { scope: [:site_id, :deleted] },
             allow_nil: true,
@@ -113,6 +112,13 @@ class Person < ActiveRecord::Base
                         .where.not(family_id: family_id || 0)
                         .any?
     errors.add :email, :taken
+  end
+
+  def validate_password_length
+    return unless Person.logged_in
+    return if password.nil?
+    return if password.length >= Setting.get(:privacy, :minimum_password_characters).to_i
+    errors.add :password, 'Password is too short'
   end
 
   enum status: {
