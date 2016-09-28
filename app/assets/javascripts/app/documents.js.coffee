@@ -36,6 +36,9 @@ $('#document_file').change (e) ->
     $('#document_table > tbody:last-child').append( row )
     id_count++
 
+$('#folder_id').change (e) ->
+  $('#document-form-submit-button').show()
+
 window.documentUploadTemplate = $( $('#document_table > tbody > tr')[1] ).clone()
 
 $('#document_file').hide()

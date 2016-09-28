@@ -27,6 +27,6 @@
   - if parent_document_folder_options.any?
     .form-group
       = form.label :folder_id
-      = form.select :folder_id, parent_document_folder_options, { include_blank: true }, class: 'form-control'
+      = form.select :folder_id, parent_document_folder_options, { include_blank: true }, class: 'form-control', id: 'folder_id'
   .form-group
     = form.button t('save'), class: 'btn btn-success', style: 'display:none', id: 'document-form-submit-button'
