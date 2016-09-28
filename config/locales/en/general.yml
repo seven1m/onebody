@@ -232,6 +232,8 @@ en:
             photo:
               too_large: "The photo must be less than %{size} megabytes."
               wrong_type: "The photo file type must be JPG, GIF, or PNG."
+            country:
+              wrong_length: "The country code must be 2 characters."
         friendship:
           attributes:
             friend_id:
