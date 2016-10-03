@@ -15,4 +15,4 @@
         .input-group-btn
           %button{ type: 'button', class: 'btn btn-info date-picker-btn' }
             = icon 'fa fa-calendar'
-        = date_field_tag name, @person.fields[field.id], class: 'form-control', id: dom_id(field)
+        = date_field_tag name, custom_field_date_format(@person.fields[field.id]), class: 'form-control', id: dom_id(field)

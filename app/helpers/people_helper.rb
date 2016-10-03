@@ -135,4 +135,10 @@ module PeopleHelper
     return unless person.twitter.present?
     "https://twitter.com/#{person.twitter}"
   end
+
+  def custom_field_date_format(string)
+    Date.parse(string).to_s(:date)
+  rescue ArgumentError, TypeError
+    nil
+  end
 end
