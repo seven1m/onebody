@@ -34,7 +34,7 @@ cs:
         member: "Člen"
         staff: "Zaměstnanec"
         deacon: "Jáhen"
-        elder: "Kněz (kazatel; starší)"
+        elder: "Starší"
 
     results:
       testimony_read_more: "ukaž více"
@@ -43,7 +43,7 @@ cs:
     add_selected: "Přidat vybrané"
     business_category: "Oblast podnikání:"
     deacon: "Jáhen"
-    elder: "Kněz (kazatel; starší)"
+    elder: "Starší"
     female: "Žena"
     heading: "Adresář %{name}"
     male: "Muž"
