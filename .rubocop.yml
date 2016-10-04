@@ -19,3 +19,6 @@ Style/Documentation:
 
 Style/MultilineOperationIndentation:
   EnforcedStyle: indented
+
+Style/ClassAndModuleChildren:
+  Enabled: false

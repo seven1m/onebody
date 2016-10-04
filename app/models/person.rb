@@ -5,17 +5,18 @@ class Person < ActiveRecord::Base
 
   include Concerns::Person::Administrator
   include Concerns::Person::Child
-  include Concerns::Person::Password
-  include Concerns::Person::Friend
-  include Concerns::Person::Sharing
-  include Concerns::Person::Import
-  include Concerns::Person::Export
-  include Concerns::Person::PdfGen
-  include Concerns::Person::TwitterUsername
-  include Concerns::Person::Streamable
   include Concerns::Person::EmailChanged
-  include Concerns::Person::Relationships
+  include Concerns::Person::Export
+  include Concerns::Person::Fields
+  include Concerns::Person::Friend
+  include Concerns::Person::Import
   include Concerns::Person::Memberships
+  include Concerns::Person::Password
+  include Concerns::Person::PdfGen
+  include Concerns::Person::Relationships
+  include Concerns::Person::Sharing
+  include Concerns::Person::Streamable
+  include Concerns::Person::TwitterUsername
   include Concerns::DateWriter
 
   acts_as_list scope: :family

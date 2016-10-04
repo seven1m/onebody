@@ -1,6 +1,6 @@
 show_tab = ->
   if location.hash.match(/^#tab-/)
-    $(".wrapper .nav-tabs a[href=##{location.hash.replace('#tab-', '')}]").tab('show')
+    $(".wrapper .nav-tabs a[href='##{location.hash.replace('#tab-', '')}']").tab('show')
 
 show_default_tab = ->
   if $('.wrapper .nav-tabs').length > 0

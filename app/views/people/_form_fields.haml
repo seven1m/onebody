@@ -1,0 +1,18 @@
+- CustomField.all.each do |field|
+  .form-group
+    = label_tag dom_id(field), field.name
+    - name = "person[fields][#{field.id}]"
+    - case field.format
+    - when 'string'
+      = text_field_tag name, @person.fields[field.id], class: 'form-control', id: dom_id(field)
+    - when 'number'
+      = number_field_tag name, @person.fields[field.id], class: 'form-control', id: dom_id(field)
+    - when 'boolean'
+      = hidden_field_tag name, '0'
+      = check_box_tag name, '1', @person.fields[field.id] == '1', class: 'checkbox', id: dom_id(field)
+    - when 'date'
+      .input-group
+        .input-group-btn
+          %button{ type: 'button', class: 'btn btn-info date-picker-btn' }
+            = icon 'fa fa-calendar'
+        = date_field_tag name, custom_field_date_format(@person.fields[field.id]), class: 'form-control', id: dom_id(field)

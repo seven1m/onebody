@@ -45,6 +45,7 @@ class Updater
       deacon:               :admin,
       child:                :admin,
       custom_type:          :admin,
+      fields:               :admin,
       medical_notes:        :admin,
       can_pick_up:          :admin,
       cannot_pick_up:       :admin,

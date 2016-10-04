@@ -1,0 +1,2 @@
+class PersonCustomField < CustomField
+end

@@ -75,6 +75,9 @@ en:
         description: "Description"
         xml: "Label XML"
         xml_file: "Label XML File"
+      custom_field:
+        name: "Name"
+        format: "Format"
       document:
         name: "Name"
         description: "Description"
@@ -182,6 +185,12 @@ en:
             campus:
               blank: "You must select a campus."
               exclusion: "You must select a campus."
+        custom_field:
+          attributes:
+            name:
+              blank: "You must enter a field name."
+            format:
+              inclusion: "You must select a valid format."
         document:
           attributes:
             file:

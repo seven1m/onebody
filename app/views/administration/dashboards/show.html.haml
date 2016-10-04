@@ -151,9 +151,10 @@
               = link_to administration_settings_path, class: 'btn btn-warning' do
                 = icon 'fa fa-gear'
                 = t('admin.settings.settings')
-              = link_to pages_path, class: 'btn btn-warning' do
+              = link_to administration_custom_fields_path, class: 'btn btn-warning', title: t('admin.custom_fields.button') do
+                = icon 'fa fa-bars'
+              = link_to pages_path, class: 'btn btn-warning', title: t('admin.pages') do
                 = icon 'fa fa-file'
-                = t('admin.pages')
 
     - if Site.current.import_export_enabled? and (@logged_in.admin?(:import_data) or @logged_in.admin?(:export_data))
       .col-md-3
