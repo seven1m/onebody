@@ -11,7 +11,7 @@ class AttachmentAuthorizer < ApplicationAuthorizer
     if resource.message.try(:person) == user
       true
     # message attachment in group and user is admin
-    elsif resource.message and resource.message.group.try(:admin?, user)
+    elsif resource.message && resource.message.group.try(:admin?, user)
       true
     end
   end
