@@ -29,8 +29,7 @@ describe PrayerRequest do
 
     context 'with answer and answer date' do
       before do
-        @req.answer = 'the answer'
-        @req.answered_at = Date.new(2014, 9, 14)
+        @req.update!(answer: 'the answer', answered_at: Date.new(2014, 9, 14))
         @req.send_group_email
         @email = ActionMailer::Base.deliveries.last
       end
@@ -44,7 +43,7 @@ describe PrayerRequest do
 
     context 'with answer but no answer date' do
       before do
-        @req.answer = 'the answer'
+        @req.update!(answer: 'the answer')
         @req.send_group_email
         @email = ActionMailer::Base.deliveries.last
       end
