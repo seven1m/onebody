@@ -71,9 +71,10 @@ class FamiliesController < ApplicationController
   def update
     @updater = FamilyUpdater.new(params)
     @family = @updater.family
+    safe_redirect_path = params[:redirect_to].present? ? URI.parse(params[:redirect_to]).path : @family
     if @updater.save!
       respond_to do |format|
-        format.html { flash[:notice] = t('families.edit.saved'); redirect_to params[:redirect_to] || @family }
+        format.html { flash[:notice] = t('families.edit.saved'); redirect_to(safe_redirect_path) }
         format.xml  { render xml: @family.to_xml } if can_export?
       end
     else
