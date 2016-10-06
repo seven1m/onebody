@@ -1,5 +1,5 @@
 - @title = t('families.show.heading', family: @family.name)
-- map_header(@family)
+- map_header(@family) if @family.show_attribute_to?(:address, @logged_in)
 
 - if show_family_name_suggestion
   .callout.callout-warning
