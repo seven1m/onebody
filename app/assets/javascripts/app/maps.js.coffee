@@ -1,6 +1,6 @@
 L.Icon.Default.imagePath = '/images'
 
-offsets = 
+offsets =
   12: 0.01
   13: 0.005
   14: 0.0025
@@ -14,12 +14,11 @@ if (div = $('#map')).length > 0
   map_voffset = offsets[zoom] # shift center down just a bit to go under heading
   lat = div.data('latitude')
   lon = div.data('longitude')
-  protocol = div.data('protocol')
   map = L.map 'map',
     center: [lat + map_voffset, lon],
     zoom: zoom
     zoomControl: false
-  tiles = L.tileLayer "#{protocol}://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  tiles = L.tileLayer "//a.tile.openstreetmap.org/{z}/{x}/{y}.png",
     attribution: div.data('notice')
     maxZoom: 18
   tiles.addTo(map)
@@ -31,10 +30,9 @@ if (div = $('#directory_map')).length > 0
   excl_height = $('.header').outerHeight() + $('.content-header').outerHeight() + $('.footer').outerHeight()
   padding = 40
   $('#directory_map').height($(window).height() - (excl_height + padding)) # set height of map div
-  
-  protocol = div.data('protocol')
+
   map = L.map 'directory_map',
-  tiles = L.tileLayer "#{protocol}://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  tiles = L.tileLayer "//a.tile.openstreetmap.org/{z}/{x}/{y}.png",
     attribution: div.data('notice')
     maxZoom: 18
   tiles.addTo(map)

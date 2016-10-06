@@ -24,7 +24,6 @@ module MapsHelper
       longitude: object.longitude,
       address: preserve_breaks(object.pretty_address),
       notice: t('maps.notice'),
-      protocol: Setting.get(:features, :ssl) ? 'https' : 'http',
       zoom: Setting.get(:system, :map_zoom_level)
     }
   end
@@ -36,7 +35,6 @@ module MapsHelper
   def directory_map_data
     {
       notice: t('maps.notice'),
-      protocol: Setting.get(:features, :ssl) ? 'https' : 'http',
     }
   end
 
