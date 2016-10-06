@@ -24,6 +24,8 @@ class Update < ActiveRecord::Base
   attr_accessor :apply
   after_save { apply! if apply and not complete? }
 
+  after_create :notify_admin
+
   def apply!
     return false if complete?
     transaction do
@@ -93,5 +95,10 @@ class Update < ActiveRecord::Base
     attrs.each_with_object({}) do |(key, val), hash|
       hash[key] = [:unknown, val]
     end
+  end
+
+  def notify_admin
+    return if Setting.get(:contact, :send_updates_to).blank?
+    Notifier.profile_update(person).deliver_now
   end
 end
