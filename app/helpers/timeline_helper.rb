@@ -2,7 +2,7 @@ module TimelineHelper
   def timeline(stream_items)
     last_date = nil
     if stream_items.any?
-      content_tag(:ul, class: 'timeline', 'data-next-url' => next_timeline_url) do
+      content_tag(:ul, class: 'timeline', 'data-next-url' => next_timeline_path) do
         [].tap do |items|
           @stream_items.each_with_index do |stream_item, index|
             next unless stream_item.decorate.publishable?
@@ -49,14 +49,14 @@ module TimelineHelper
     (params[:timeline_page] || 1).to_i
   end
 
-  def next_timeline_url(page=nil)
+  def next_timeline_path(page=nil)
     page = timeline_page + 1
     if params[:controller] == 'people' or params[:person_id]
-      person_stream_url(@person || params[:person_id], format: :json, timeline_page: page)
+      person_stream_path(@person || params[:person_id], format: :json, timeline_page: page)
     elsif params[:controller] == 'groups' or params[:group_id]
-      group_stream_url(@group || params[:group_id], format: :json, timeline_page: page)
+      group_stream_path(@group || params[:group_id], format: :json, timeline_page: page)
     else
-      stream_url(format: :json, timeline_page: page)
+      stream_path(format: :json, timeline_page: page)
     end
   end
 end
