@@ -15,8 +15,8 @@
 - if @people and @people.any?
 
   - if @logged_in.active?
-    %table.table.search-results
-      %tr
+    %table.table.search-results#search-table
+      %thead
         %th
         - if @search.business
           %th= t('search.column.business')
