@@ -10,9 +10,11 @@ module Concerns
       end
 
       def fields
-        field_ids = CustomField.pluck(:id)
-        custom_field_values.each_with_object({}) do |field_value, hash|
-          hash[field_value.field_id] = field_value.value if field_ids.include?(field_value.field_id)
+        @fields ||= begin
+          field_ids = CustomField.pluck(:id)
+          custom_field_values.each_with_object({}) do |field_value, hash|
+            hash[field_value.field_id] = field_value.value if field_ids.include?(field_value.field_id)
+          end
         end
       end
 
