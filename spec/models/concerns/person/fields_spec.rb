@@ -19,7 +19,7 @@ describe Concerns::Person::Fields do
       subject.save!
     end
 
-    fit 'updates existing custom field values' do
+    it 'updates existing custom field values' do
       expect(field_value.reload.value).to eq('bar')
     end
 
