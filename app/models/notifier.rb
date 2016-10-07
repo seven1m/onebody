@@ -3,9 +3,8 @@ class Notifier < ActionMailer::Base
 
   default charset: 'UTF-8', from: -> _ { get_from_address.to_s }
 
-  def profile_update(person, updates)
+  def profile_update(person)
     @person = person
-    @updates = updates
     mail(
       to:      Setting.get(:contact, :send_updates_to),
       subject: I18n.t('notifier.profile_update.subject', person: person.name)

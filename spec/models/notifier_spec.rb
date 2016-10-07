@@ -393,7 +393,7 @@ describe Notifier, type: :mailer do
   end
 
   it 'sends a profile update' do
-    Notifier.profile_update(@user, first_name: %w(Tim Timothy)).deliver_now
+    Notifier.profile_update(@user).deliver_now
     expect(ActionMailer::Base.deliveries.size).to eq(1)
     sent = ActionMailer::Base.deliveries.last
     expect(sent.subject).to eq("Profile Update from #{@user.name}")
