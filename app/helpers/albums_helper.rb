@@ -16,6 +16,6 @@ module AlbumsHelper
   end
 
   def show_album_actions
-    @logged_in.admin?(:manage_pictures) or @group.try(:admin?, @logged_in)
+    @logged_in.admin?(:manage_pictures) || @group.try(:admin?, @logged_in)
   end
 end
