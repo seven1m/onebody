@@ -13,6 +13,19 @@
   .form-group
     = form.label :body
     = form.text_area :body, rows: 15, cols: 80, class: 'form-control'
+  - if @message.group
+    .form-group.send_to_subset
+      %label.control-label
+        = t('messages.send_to_subset')
+      = text_field_tag 'subset_filter', nil, placeholder: t('messages.filter'), class: 'pull-right'
+    .form-group.send_to_subset
+      = form.collection_check_boxes(:member_ids, @message.group.people, :id, :name, checked: @message.member_ids) do |member|
+        = member.label(class: 'checkbox-inline', data: { keywords: member.object.name.downcase }) do
+          = member.check_box
+          = member.object.name
+      = link_to t('messages.more'), '#', id: :subset_more, class: 'hidden btn btn-primary btn-xs'
+      .subset-warning.hidden
+        %strong= t('messages.subset_warning')
   .form-group
     %label{:for => "file"}= t('messages.attachment_optional')
     %input#file{:multiple => "multiple", :name => "files[]", :type => "file", :class => "filestyle", :data => {:input => "false", :buttonName => "btn-success"}}

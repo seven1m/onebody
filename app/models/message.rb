@@ -68,6 +68,22 @@ class Message < ActiveRecord::Base
     end
   end
 
+  attr_accessor :member_ids
+
+  before_save :prepare_subset_message
+
+  def prepare_subset_message
+    if member_ids && member_ids.reject(&:empty?).any?
+      members = Person.where(id: member_ids).where.not(email: nil)
+      return false if members.count.zero?
+      self.group_id = nil
+      self.to = members.first
+      members[1..members.count].each do |recipient|
+        Message.create(attributes.reject {|k,v| k == 'id'}.merge "to_person_id" => recipient.id)
+      end
+    end
+  end
+
   validate on: :create do |record|
     if Message.same_as(self).any?
       record.errors.add :base, 'already saved' # Notifier relies on this message (don't change it)
