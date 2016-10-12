@@ -17,8 +17,8 @@ module FamiliesHelper
 
   def show_family_name_suggestion
     @logged_in.admin?(:edit_profiles)          \
-    and @family.people.any?                    \
-    and @family.suggested_name.present?        \
-    and @family.suggested_name != @family.name
+    && @family.people.any?                    \
+    && @family.suggested_name.present?        \
+    && @family.suggested_name != @family.name
   end
 end
