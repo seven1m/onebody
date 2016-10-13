@@ -3,6 +3,7 @@
 #= require jquery.scrollTo
 #= require jquery.color-2.1.2
 #= require jquery.sparkline
+#= require jquery-tablesorter
 #= require sortable
 #= require bootstrap
 #= require bootstrap-datepicker
@@ -34,3 +35,9 @@ $('[data-toggle^="#"], [data-toggle^="."]').each (i, elm) ->
 if csrf_token = $('meta[name="csrf-token"]').attr('content')
   $(document).ajaxSend (_, xhr) ->
     xhr.setRequestHeader('X-CSRF-Token', csrf_token)
+
+$ ->
+  $('#search-table').tablesorter
+
+$ -> 
+  $('#search-table').tablesorter({ sortList: [[0,0], [1,0]] })
