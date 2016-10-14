@@ -84,7 +84,7 @@ Now visit the site running in development mode at http://localhost:3000.
 1. Download the Ruby 2.2 package from http://railsinstaller.org and install.
 1. Download MariaDB stable from https://downloads.mariadb.org and install. Take note of what you enter for the root password.
 1. Download Git from https://git-scm.com/download/win and install.
-1. Download ImageMagick from http://imagemagick.org/www/binary-releases.html#windows and install.
+1. Download ImageMagick from http://imagemagick.org/script/binary-releases.php#windows and install.
 1. Download Node.js from https://nodejs.org/en/download/ and install.
 1. Open the "Git Bash" program, then run...
 1. `git clone git://github.com/churchio/onebody.git && cd onebody`
