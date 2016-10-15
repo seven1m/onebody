@@ -9,6 +9,10 @@ class StreamsController < ApplicationController
       redirect_to(@logged_in)
       return
     end
+    unless Setting.get(:features, :stream)
+      redirect_to('/search')
+      return
+    end
     if params[:stream_item_group_id]
       @stream_group = StreamItem.where(streamable_type: 'StreamItemGroup').find(params[:stream_item_group_id])
       @stream_items = @stream_group.items

@@ -424,6 +424,9 @@ en:
         Sign Up Approval Email:
           name: Sign Up Approval Email
           description: Where to send pending sign up requests (must be admin; leave blank to auto-approve).
+        Stream:
+          name: Stream
+          description: Enable messages, news, and notices on user's homepage.  Disable this setting to replace with directory.
         Friends:
           name: Friends
           description: Enable mutual friendships (confirmed via email)
