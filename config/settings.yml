@@ -86,6 +86,9 @@ Features:
   News by Users:
     format: boolean
     value: true
+  Stream:
+    format: boolean
+    value: true
   Checkin:
     format: boolean
     value: false

@@ -7,7 +7,14 @@ describe StreamsController, type: :controller do
   end
 
   it 'should show a stream' do
+    Setting.set(:features, :stream, true)
     get :show, nil, {logged_in_id: @person.id}
     expect(response).to be_success
+  end
+
+  it 'should show search' do
+    Setting.set(:features, :stream, false)
+    get :show, nil, {logged_in_id: @person.id}
+    expect(response).to redirect_to '/search'
   end
 end
