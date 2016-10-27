@@ -3,6 +3,7 @@ class ImportParser
     class CSV
       def parse(string)
         string.force_encoding('UTF-8')
+        string.encode!('UTF-8', undef: :replace, invalid: :replace, replace: '')
         rows = ::CSV.parse(string, headers: true)
         {
           headers: rows.headers,
