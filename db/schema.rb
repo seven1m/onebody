@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160403231924) do
+ActiveRecord::Schema.define(version: 20161027001942) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -331,6 +331,8 @@ ActiveRecord::Schema.define(version: 20160403231924) do
     t.text    "attribute_errors",  limit: 65535
     t.boolean "errored",                         default: false
   end
+
+  add_index "import_rows", ["site_id", "import_id"], name: "index_import_rows_on_site_id_and_import_id", using: :btree
 
   create_table "imports", force: :cascade do |t|
     t.integer  "site_id",         limit: 4
