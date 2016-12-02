@@ -1,43 +1,25 @@
 require_relative '../rails_helper'
 
 describe CustomReport do
-
-  before do
-    @custom_report = FactoryGirl.create(:custom_report)
-  end
+  subject { CustomReport.new }
+  before { @custom_report = FactoryGirl.create(:custom_report) }
 
   context '#title' do
     context 'title is blank' do
-      before do
-        @custom_report.title = nil
-      end
-
-      it 'should be invalid' do
-        expect(@custom_report).to be_invalid
-      end
+      before { @custom_report.title = nil }
+      it { should be_invalid }
     end
 
     context 'title is too long' do
-      before do
-        @custom_report.title = 'a' * 51
-      end
-
-      it 'should be invalid' do
-        expect(@custom_report).to be_invalid
-      end
+     before { @custom_report.title = 'a' * 51 }
+     it { should be_invalid }
     end
-
   end
 
   context '#body' do
     context 'body is blank' do
-      before do
-        @custom_report.body = nil
-      end
-
-      it 'should be invalid' do
-        expect(@custom_report).to be_invalid
-      end
+      before { @custom_report.body = nil }
+      it { should be_invalid }
     end
   end
 
@@ -145,9 +127,7 @@ describe CustomReport do
         @report_data = @custom_report.data_set(@custom_report.category)
       end
 
-      it 'should have custom_report data' do
-        expect(@report_data).to be
-      end
+      it { should be }
 
       it 'should contain the person' do
         expect(@report_data[0].flatten[1]['first_name'])
