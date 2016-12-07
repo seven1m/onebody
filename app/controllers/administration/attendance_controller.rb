@@ -23,6 +23,11 @@ class Administration::AttendanceController < ApplicationController
       @rel.where!(group_id: @group.id)
       params[:sort] ||= 'attendance_records.last_name,attendance_records.first_name'
     end
+    if params[:ids]
+      @groups = Group.find(params[:ids])
+      @rel.where!(group_id: @groups.map(&:id))
+      params[:sort] ||= 'attendance_records.last_name,attendance_records.first_name'
+    end
     if params[:person_name]
       @rel.where!("concat(attendance_records.first_name, ' ', attendance_records.last_name) like ?", "%#{params[:person_name]}%")
     end

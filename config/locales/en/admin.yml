@@ -10,6 +10,13 @@ en:
     attendance:
       heading: "Attendance (30 days)"
       button: "Attendance"
+      add_group:
+        button: 'Add Group'
+        search:
+          heading: "Filter by Group"
+      groups_list:
+        update:
+          button: 'Update'
 
     box:
       updates:
