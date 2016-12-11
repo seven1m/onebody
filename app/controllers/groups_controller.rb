@@ -125,7 +125,7 @@ class GroupsController < ApplicationController
     @groups.order!(:name)
     @hidden_groups = @groups.where(hidden: true)
     @groups.where!(approved: true) unless @logged_in.admin?(:manage_groups)
-    @groups.where!(hidden: false) unless @logged_in.admin?(:manage_groups) and params[:include_hidden]
+    @groups.where!(hidden: false) unless params[:include_hidden]
     @groups = @groups.page(params[:page])
     respond_to do |format|
       format.html { render action: 'search' }
