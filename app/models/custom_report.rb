@@ -12,7 +12,7 @@ class CustomReport < ActiveRecord::Base
   validates :category,
             allow_nil: false,
             inclusion: { in: %w(1 2 3) }
-  validates :filters, format: /:/, allow_blank: true
+  validates :filters, format: { with: /\A:\z/ }, allow_blank: true
   validate :filter_content
 
   def filter_content
