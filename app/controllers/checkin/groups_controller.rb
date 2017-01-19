@@ -2,7 +2,7 @@ class Checkin::GroupsController < ApplicationController
 
   def index
     @groups = {}
-    date = params[:date] ? Date.parse(params[:date]) : Date.today
+    date = params[:date] ? Date.parse(params[:date]) : Date.current
     CheckinTime.for_date(date, params[:campus]).each do |time|
       @groups[time.time_to_s] = time.all_group_times.order('group_times.sequence')
                                                     .includes(:group, :checkin_folder)
