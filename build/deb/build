@@ -4,6 +4,8 @@ set -e
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
+OS=$1
+
 mkdir -p /tmp/pkgr-cache
 
 # clone onebody
@@ -21,10 +23,6 @@ sed -i "1iruby '$RUBY_VERSION'" Gemfile
 bundle config --local build.nokogiri "--use-system-libraries --with-xml2-include=/usr/include/libxml2"
 bundle config --local build.nokogumbo "--use-system-libraries --with-xml2-include=/usr/include/libxml2"
 
-# I kept having gems time out during bundle install, so I set up Geminabox as a proxy.
-# Uncomment this line to use the local gem source instead of rubygems.
-#sed -i "s/source 'https:\/\/rubygems.org'/source 'http:\/\/127.0.0.1:9292'/" Gemfile
-
 # build the package!
-/opt/pkgr/bin/pkgr package . --name=onebody --version=$ONEBODY_VERSION
-mv *.deb /out
+pkgr package . --name=onebody --version=$ONEBODY_VERSION --force_os=$OS --debug --verbose
+mv *.deb /out/$OS
