@@ -8,8 +8,35 @@ For general upgrade instructions, see the wiki [here](https://github.com/churchi
 
 ### Changes
 
+* Chore: update Rails
+* Chore: use Ruby 2.3.1
+* Feature: Add Czech translation
+* Feature: Add alias/known-by field
+* Feature: Setting for disabling stream for homepage
+* Feature: add 'Family' link to left nav bar, profile submenu
+* Feature: add setting to require a password of certian length and require a strong password
+* Feature: allow showing attendance for more than one group
+* Feature: basic support for custom fields
+* Feature: send message to subset of group (separate private message for each member selected)
 * Fix: Allow more style attributes in HTML emails and don't strip formatting from emails when they are delivered
 * Fix: Show correct size user photo when viewing sent message
+* Fix: add validation for country code length
+* Fix: admin email upon submitted changes wasn't sending
+* Fix: allow some extra tags in html email
+* Fix: bug getting current day for check-in
+* Fix: bug with incoming email -- don't error if an email address is nil
+* Fix: don't allow redirecting to other hosts
+* Fix: don't collapse sidebar nav groups
+* Fix: don't show map header on family page if address is hidden
+* Fix: encoding errors during csv import
+* Fix: incoming email from mailgun -- don't verify authenticity of post
+* Fix: map tiles when on SSL
+* Fix: profile update emails
+* Fix: remove custom reporting feature as it had many security issues
+* Fix: send individual emails for prayer requests
+* Fix: show save button when changing document folder
+* Fix: tab selection in Safari
+* Fix: url to next page in timeline
 
 ## 3.5.0
 
