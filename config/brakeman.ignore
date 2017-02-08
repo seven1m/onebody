@@ -1,0 +1,266 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "01e7ba8435eb8a80bdfa2409e5b4a5c65a6259837fe05fd3fe066dc77d8f2b3d",
+      "check_name": "SendFile",
+      "message": "Parameter value used in file name",
+      "file": "app/controllers/generated_files_controller.rb",
+      "line": 7,
+      "link": "http://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "send_file(@logged_in.generated_files.where(:job_id => params[:id]).first.file.path, :type => @logged_in.generated_files.where(:job_id => params[:id]).first.file.content_type, :filename => @logged_in.generated_files.where(:job_id => params[:id]).first.file_file_name)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "GeneratedFilesController",
+        "method": "show"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": "user cannot control this attribute"
+    },
+    {
+      "warning_type": "Cross Site Scripting",
+      "warning_code": 4,
+      "fingerprint": "0b82d1c8380141719e23d14c6db282904aa9de9aa6f1113c1fba799a63b8d997",
+      "check_name": "LinkToHref",
+      "message": "Unsafe parameter value in link_to href",
+      "file": "app/helpers/application_helper.rb",
+      "line": 140,
+      "link": "http://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to(label, url_for({ :controller => params[:controller], :action => params[:action], :id => params[:id], :sort => sort_params(sort) }.merge(params.reject do\n (not keep_params.include?(k))\n end)))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ApplicationHelper",
+        "method": "sortable_column_heading"
+      },
+      "user_input": "params",
+      "confidence": "Medium",
+      "note": "This will not allow an arbitrary URL, but only a path within the site"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "501759c277bba58f4dda2843d2d68b7aa50a01f158e1b083e17d1164d63f4ec8",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/family.rb",
+      "line": 243,
+      "link": "http://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "connection.select_all(\"select families.id, families.name, families.latitude, families.longitude from families left outer join people on people.family_id = families.id where people.visible = #{Family.connection.quoted_true} and families.visible = #{Family.connection.quoted_true} and families.deleted = #{Family.connection.quoted_false} #{if Person.logged_in.admin?(:view_hidden_attributes) then\n  \"\"\nelse\n  \"and people.share_address = #{Family.connection.quoted_true} \"\nend}and people.status = #{Person.statuses[:active]} and families.site_id = #{Site.current.id} and coalesce(families.latitude, 0.0) != 0.0 and coalesce(families.longitude, 0.0) != 0.0 group by families.id, families.name, families.latitude, families.longitude\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Family",
+        "method": "Family.mappable_details"
+      },
+      "user_input": "Family.connection.quoted_true",
+      "confidence": "High",
+      "note": "This is hand-crafted SQL, but there is no vector for a user to insert unescaped SQL here"
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 70,
+      "fingerprint": "70a609906c4aea00e3763c3a8b56ceeb47bc09fb7a917f44a174d8bd9b9c1911",
+      "check_name": "MassAssignment",
+      "message": "Parameters should be whitelisted for mass assignment",
+      "file": "app/controllers/setups_controller.rb",
+      "line": 19,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.permit!",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SetupsController",
+        "method": "create"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "note": "Setup is not an AR model and handles all params safely"
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "7637c0d5992735738d0298e8d6b46f1b71cc9d6744cf4029d7f4851e1262df16",
+      "check_name": "FileAccess",
+      "message": "Model attribute used in file name",
+      "file": "app/controllers/attachments_controller.rb",
+      "line": 21,
+      "link": "http://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "File.read(Attachment.find(params[:id]).file.path)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "AttachmentsController",
+        "method": "get"
+      },
+      "user_input": "Attachment.find(params[:id]).file.path",
+      "confidence": "Medium",
+      "note": "user cannot control this attribute"
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "7f07808c6016d5fc3b06da3309f9757d6924c564f9541be3bdb43f3c856f3c19",
+      "check_name": "SendFile",
+      "message": "Model attribute used in file name",
+      "file": "app/controllers/documents_controller.rb",
+      "line": 85,
+      "link": "http://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "send_file(Document.find(params[:id]).file.path, :disposition => (params[:inline] ? (\"inline\") : (\"attachment\")), :filename => Document.find(params[:id]).file_file_name, :type => Document.find(params[:id]).file.content_type)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "DocumentsController",
+        "method": "download"
+      },
+      "user_input": "Document.find(params[:id]).file.path",
+      "confidence": "Medium",
+      "note": "user cannot control this attribute"
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "a9e89aa90e82df280ba148b9f95a37bf400b9f6217558e8d32152cb6177484d0",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/families_controller.rb",
+      "line": 77,
+      "link": "http://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to((URI.parse(params[:redirect_to]).path or FamilyUpdater.new(params).family))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "FamiliesController",
+        "method": "update"
+      },
+      "user_input": "FamilyUpdater.new(params).family",
+      "confidence": "High",
+      "note": "parsing the uri and returning only the path is safe here"
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "adff842bfbf070bdfc2475c4e86276a273dbfb28e67f4211b3af21c590b3d3bb",
+      "check_name": "FileAccess",
+      "message": "Model attribute used in file name",
+      "file": "app/controllers/attachments_controller.rb",
+      "line": 8,
+      "link": "http://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "File.read(Attachment.find(params[:id]).file.path)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "AttachmentsController",
+        "method": "show"
+      },
+      "user_input": "Attachment.find(params[:id]).file.path",
+      "confidence": "Medium",
+      "note": "user cannot control this attribute"
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "b5d13c0613582459fe77413302486ee55ebdcc2c0ff9ab7f81d3364cae922164",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/application_controller.rb",
+      "line": 52,
+      "link": "http://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to((\"http://\" + Site.where(:secondary_host => request.host, :active => true).first.host))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ApplicationController",
+        "method": "get_site"
+      },
+      "user_input": "Site.where(:secondary_host => request.host, :active => true).first.host",
+      "confidence": "Weak",
+      "note": "user cannot control this attribute"
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "cf108b6a00dfe04d31a34bf2032d8ae1f8ac95acf4b1806b22e672d6a172d724",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/news_controller.rb",
+      "line": 44,
+      "link": "http://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(Setting.get(:url, :news))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "NewsController",
+        "method": "show"
+      },
+      "user_input": "Setting.get(:url, :news)",
+      "confidence": "High",
+      "note": "this setting is configured by the site admin and is by design"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "d14884d0439e630e121172ea099cd5702a1ae739ed9b35d0d657c6afec5bf84e",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/controllers/checkin/people_controller.rb",
+      "line": 10,
+      "link": "http://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Person.joins(:family).where(\"families.id in (#{Search.new_from_params(:family_name => params[:q]).query(nil, \"family\").map(&:id).join(\",\")}) and people.deleted = ?\", false)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Checkin::PeopleController",
+        "method": "index"
+      },
+      "user_input": "Search.new_from_params(:family_name => params[:q]).query(nil, \"family\")",
+      "confidence": "High",
+      "note": "There is no vector of attack here. IDs come from the database and are joined with comma only."
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "ef7cf0530efa0f21b737c22d0771848d376b8f2dd87b6d33831d97eca6a3bfdd",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/news_controller.rb",
+      "line": 25,
+      "link": "http://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(Setting.get(:url, :news))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "NewsController",
+        "method": "index"
+      },
+      "user_input": "Setting.get(:url, :news)",
+      "confidence": "High",
+      "note": "this setting is configured by the site admin and is by design"
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "ef7cf0530efa0f21b737c22d0771848d376b8f2dd87b6d33831d97eca6a3bfdd",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/news_controller.rb",
+      "line": 13,
+      "link": "http://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(Setting.get(:url, :news))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "NewsController",
+        "method": "index"
+      },
+      "user_input": "Setting.get(:url, :news)",
+      "confidence": "High",
+      "note": "this setting is configured by the site admin and is by design"
+    }
+  ],
+  "updated": "2017-02-07 15:35:34 -0600",
+  "brakeman_version": "3.5.0"
+}
