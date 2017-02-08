@@ -84,7 +84,7 @@ class Person < ActiveRecord::Base
             uniqueness: { scope: :site_id },
             allow_nil: true
   validates :website, :business_website,
-            format: { with: %r{\Ahttps?\://.+} },
+            format: { with: %r{\Ahttps?\://.+\z} },
             allow_nil: true,
             allow_blank: true
   validates :email, :alternate_email, :business_email,
@@ -92,7 +92,7 @@ class Person < ActiveRecord::Base
             allow_nil: true,
             allow_blank: true
   validates :facebook_url,
-            format: { with: %r{\Ahttps?\://www\.facebook\.com/.+} },
+            format: { with: %r{\Ahttps?\://www\.facebook\.com/.+\z} },
             allow_nil: true,
             allow_blank: true
   validates :business_category,
