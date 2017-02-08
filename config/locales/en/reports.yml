@@ -1,40 +1,6 @@
 en:
   reports:
 
-    custom_reports:
-      button:
-        add: "Add New"
-        edit: "Edit"
-        delete: "Delete"
-        show: "View"
-      index:
-        title: "Custom Reports"
-        box_title: "Custom Reports"
-      new:
-        title: "New Custom Report"
-      edit:
-        title: "Edit Custom Report"
-      show:
-        title: "Custom Report"
-      fields:
-        title: "Title"
-        header: "Report Header"
-        body: "Report Body"
-        footer: "Report Footer"
-        filters: "Filters"
-        category: "Category"
-        category:
-          people: "People"
-          groups: "Groups and People"
-          family: "Family and People"
-      validation:
-        filters: "For multiple filters, ensure you have your separators defined correctly."
-      create:
-        notice: "Custom Report was successfully created."
-      destroy:
-        notice: "Custom Report was successfully destroyed."
-      update:
-        notice: "Custom Report was successfully updated."
     from_date: "From Date"
     group: "Group"
     group_select: "Select a Group..."

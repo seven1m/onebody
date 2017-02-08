@@ -18,34 +18,3 @@
                   = link_to report[:title], dossier_report_path(report: id)
                 %td.actions
                   = link_to t('admin.report.launch'), dossier_report_path(report: id), class: 'label label-info'
-
-
-.row
-  .col-xs-12
-    .box
-      .box-header
-        %h4.box-title= t('reports.custom_reports.index.box_title')
-      .box-body.table-responsive.nopadding
-        %table.table.table-hover
-          %tr
-            - @custom_reports.each do |report|
-              %tr
-                %td
-                  = link_to report.title, custom_report_path(report)
-                %td.actions
-                  = link_to custom_report_path(report), class: 'btn btn-xs btn-info' do
-                    = icon 'fa fa-info'
-                    = t('reports.custom_reports.button.show')
-                  - if @logged_in.admin?(:manage_reports)
-                    = link_to edit_custom_report_path(report), class: 'btn btn-xs btn-primary' do
-                      = icon 'fa fa-pencil'
-                      = t('reports.custom_reports.button.edit')
-                    = link_to report, data: { method: 'delete', confirm: t('are_you_sure') }, class: 'btn btn-xs btn-danger' do
-                      = icon 'fa fa-trash-o'
-                      = t('reports.custom_reports.button.delete')
-        - if @logged_in.admin?(:manage_reports)  
-          %tr
-            %td
-              = link_to new_custom_report_path, class: 'btn btn-success' do
-                = icon 'fa fa-plus-circle'
-                = t('reports.custom_reports.button.add')
