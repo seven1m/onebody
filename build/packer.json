@@ -20,7 +20,7 @@
       "instance_type": "t2.micro",
       "region": "us-west-1",
       "ami_regions": ["us-east-1"],
-      "source_ami": "ami-5c120b19",
+      "source_ami": "ami-79df8219",
       "ssh_username": "ubuntu"
     },
     {
