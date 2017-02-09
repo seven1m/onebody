@@ -4,7 +4,7 @@ This is not meant to be a detailed account of everything changed in releases, bu
 
 For general upgrade instructions, see the wiki [here](https://github.com/churchio/onebody/wiki/Manual-Installation#how-to-upgrade). Any release-specific upgrade notes below should be applied *after* the general instructions in the wiki (unless otherwise noted).
 
-## 3.6.0 (unreleased)
+## 3.6.0 (2017-02-08)
 
 ### Changes
 
@@ -38,7 +38,7 @@ For general upgrade instructions, see the wiki [here](https://github.com/churchi
 * Fix: tab selection in Safari
 * Fix: url to next page in timeline
 
-## 3.5.0
+## 3.5.0 (2016-03-19)
 
 ### Upgrade Notes
 
@@ -78,7 +78,7 @@ We've changed back to using `bundle install --deployment` (sorry).
 * Remove Docker config
 
 
-## 3.4.0
+## 3.4.0 (2015-03-31)
 
 ### Upgrade Notes
 
@@ -132,7 +132,7 @@ To make this work, `rm -rf /var/www/onebody/vendor/bundle` and then run `bundle 
 * Add site id to documents to support multiple sites
 
 
-## 3.3.0
+## 3.3.0 (2015-01-18)
 
 ### Changes
 
@@ -158,7 +158,7 @@ To make this work, `rm -rf /var/www/onebody/vendor/bundle` and then run `bundle 
 * Add setting to enable business directory
 
 
-## 3.2.0
+## 3.2.0 (2014-09-25)
 
 ### Upgrade Notes
 
@@ -202,14 +202,14 @@ To make this work, `rm -rf /var/www/onebody/vendor/bundle` and then run `bundle 
 * fix bug with Google Analytics and Safari
 
 
-## 3.1.1
+## 3.1.1 (2014-08-18)
 
 ### Changes
 
 * Fix bug installing in Docker
 
 
-## 3.1.0
+## 3.1.0 (2014-08-18)
 
 ### Changes
 
@@ -228,7 +228,7 @@ To make this work, `rm -rf /var/www/onebody/vendor/bundle` and then run `bundle 
 * Improve Group browsing experience.
 
 
-## 3.0.0
+## 3.0.0 (2014-07-25)
 
 ### Changes
 
@@ -248,7 +248,7 @@ To make this work, `rm -rf /var/www/onebody/vendor/bundle` and then run `bundle 
 * Fix form controls on admin attendance report.
 
 
-## 3.0.0 beta 2
+## 3.0.0 beta 2 (2014-07-09)
 
 ### Changes
 
@@ -262,7 +262,7 @@ To make this work, `rm -rf /var/www/onebody/vendor/bundle` and then run `bundle 
 * Production installation instructions
 
 
-## 3.0.0 beta 1
+## 3.0.0 beta 1 (2014-07-09)
 
 ### Changes
 
