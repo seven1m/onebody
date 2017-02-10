@@ -107,19 +107,6 @@ ActiveRecord::Schema.define(version: 20161027001942) do
     t.string   "campus",       limit: 255
   end
 
-  create_table "chms_syncs", force: :cascade do |t|
-    t.integer  "site_id",              limit: 4
-    t.integer  "person_id",            limit: 4
-    t.datetime "last_started"
-    t.datetime "last_completed"
-    t.string   "remote_url",           limit: 255
-    t.string   "remote_user",          limit: 255
-    t.string   "remote_password_hash", limit: 255
-    t.string   "chms_name",            limit: 255
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
-  end
-
   create_table "comments", force: :cascade do |t|
     t.integer  "verse_id",         limit: 4
     t.integer  "person_id",        limit: 4
