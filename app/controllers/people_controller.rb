@@ -33,7 +33,7 @@ class PeopleController < ApplicationController
       if @person == @logged_in
         @family_people = @person.family.people.undeleted.where.not(id: @person.id)
       else
-        @family_people = @person.family.visible_people.reject { |p| p.id == @person.id }
+        @family_people = @person.family ? @person.family.visible_people.reject { |p| p.id == @person.id } : []
       end
       @albums = @person.albums.order(created_at: :desc)
       @friends = @person.friends.minimal
