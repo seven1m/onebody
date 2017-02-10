@@ -130,8 +130,6 @@ GEM
       thread_safe (~> 0.3, >= 0.3.1)
     diff-lcs (1.2.5)
     docile (1.1.5)
-    domain_name (0.5.24)
-      unf (>= 0.0.5, < 1.0.0)
     doorkeeper (3.0.1)
       railties (>= 3.2)
     dossier (2.13.1)
@@ -498,4 +496,4 @@ DEPENDENCIES
   with_advisory_lock
 
 BUNDLED WITH
-   1.13.5
+   1.14.3
