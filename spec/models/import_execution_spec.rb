@@ -49,6 +49,56 @@ describe ImportExecution do
       expect(import.completed_at).to be
     end
 
+    context 'given custom attributes' do
+      let(:string_field) { FactoryGirl.create(:custom_field, name: 'foo',  format: 'string') }
+      let(:date_field)   { FactoryGirl.create(:custom_field, name: 'date', format: 'date') }
+      let(:bool_field)   { FactoryGirl.create(:custom_field, name: 'bool', format: 'boolean') }
+
+      let(:import) do
+        FactoryGirl.create(
+          :import,
+          status: 'active',
+          match_strategy: 'by_id_only',
+          mappings: {
+            'id'    => 'id',
+            'first' => 'first_name',
+            'foo'   => string_field.slug,
+            'date'  => date_field.slug,
+            'bool'  => bool_field.slug
+          }
+        )
+      end
+
+      let!(:person) { FactoryGirl.create(:person) }
+      let!(:row) { create_row(id: person.id, first: 'Changed', foo: 'bar', date: '2017-01-01', bool: '1') }
+
+      it 'updates custom fields' do
+        expect {
+          subject.execute
+        }.to change {
+          person.reload.fields
+        }.from(
+          {}
+        ).to(
+          string_field.id => 'bar',
+          date_field.id   => '2017-01-01',
+          bool_field.id   => '1'
+        )
+      end
+
+      it 'records changes' do
+        expect(row.attribute_changes).to be_nil
+        subject.execute
+        expect(row.reload.updated_person?).to eq(true)
+        expect(row.attribute_changes['person']).to eq(
+          'first_name'       => ['John', 'Changed'],
+          string_field.slug  => [nil, 'bar'],
+          date_field.slug    => [nil, '2017-01-01'],
+          bool_field.slug    => [nil, '1']
+        )
+      end
+    end
+
     context 'given dangerous attribute mappings' do
       let(:import) do
         FactoryGirl.create(

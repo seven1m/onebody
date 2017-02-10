@@ -29,4 +29,37 @@ describe Concerns::Person::Fields do
       expect(field_value.value).to eq('baz')
     end
   end
+
+  describe '#field_changes and #fields_changed?' do
+    before do
+      subject.reload
+    end
+
+    context 'when no changes are made' do
+      specify '#field_changes returns an empty hash' do
+        expect(subject.field_changes).to eq({})
+      end
+
+      specify '#fields_changed? returns false' do
+        expect(subject.fields_changed?).to eq(false)
+      end
+    end
+
+    context 'when changes are made' do
+      before do
+        subject.fields = { field1.id => 'bar', field2.id.to_s => 'baz' }
+      end
+
+      specify '#field_changes returns a hash of changes' do
+        expect(subject.field_changes).to eq(
+          field1.id => ['foo', 'bar'],
+          field2.id => [nil, 'baz']
+        )
+      end
+
+      specify '#fields_changed? returns true' do
+        expect(subject.fields_changed?).to eq(true)
+      end
+    end
+  end
 end

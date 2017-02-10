@@ -82,6 +82,7 @@ class ImportExecution
       person.attributes = attributes
       person.restore_attributes([:email]) if person.email_changed?
     end
+    person.fields = attributes['fields']
   end
 
   def create_new_person(row)
@@ -124,6 +125,10 @@ class ImportExecution
     row.attribute_changes ||= {}
     unless row.person.new_record?
       row.attribute_changes[:person] = row.person.send(changes_method).reject { |k| k == 'updated_at' }
+      fields = CustomField.all.index_by(&:id)
+      row.person.field_changes.each do |id, change|
+        row.attribute_changes[:person][fields[id].slug] = change
+      end
     end
     unless row.family.new_record?
       row.attribute_changes[:family] = row.family.send(changes_method).reject { |k| k == 'updated_at' }

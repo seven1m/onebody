@@ -79,21 +79,21 @@ module Concerns
       module ClassMethods
         def to_csv
           CSV.generate do |csv|
-            custom_fields = CustomField.pluck(:id, :name)
+            custom_fields = CustomField.all
             csv << EXPORT_COLS[:person] + \
                    EXPORT_COLS[:family].map { |c| "family_#{c}" } + \
-                   custom_fields.map { |id, name| "field#{id}_#{name}" }
+                   custom_fields.map(&:slug)
             ::Person.undeleted.includes(:family, :custom_field_values).find_each do |person|
               next unless person.family
               csv << EXPORT_COLS[:person].map { |c| person.send(c) } + \
                      EXPORT_COLS[:family].map { |c| person.family.send(c) } + \
-                     custom_fields.map { |id, _name| person.fields[id] }
+                     custom_fields.map { |f| person.fields[f.id] }
             end
           end
         end
 
         def to_xml
-          custom_fields = CustomField.pluck(:id, :name)
+          custom_fields = CustomField.all
           builder = Builder::XmlMarkup.new
           builder.families do |families|
             Family.undeleted.includes(people: :custom_field_values).find_each do |family|
@@ -107,8 +107,8 @@ module Concerns
                       EXPORT_COLS[:person].each do |col|
                         p.tag!(col, person.attributes[col])
                       end
-                      custom_fields.each do |id, name|
-                        p.tag!("field#{id}_#{name}", person.fields[id])
+                      custom_fields.each do |field|
+                        p.tag!(field.slug, person.fields[field.id])
                       end
                     end
                   end
