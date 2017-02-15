@@ -124,7 +124,8 @@ class Updater
   end
 
   def show_verification_link?
-    changes[:person].try(:[], :status) && person.able_to_sign_in?
+    person.able_to_sign_in? &&
+      (changes[:person].try(:[], :email) || changes[:person].try(:[], :status))
   end
 
   private
