@@ -28,6 +28,8 @@ en:
         anniversary: "Wedding Anniversary"
         social: "Social"
         about: "About"
+        created: "Profile Created"
+        edited: "Last Edited"
       showing_hidden_attribute:
         tooltip: "This detail is visible to you because you are an admin with 'View Hidden Properties' enabled."
 
