@@ -30,6 +30,7 @@ en:
         about: "About"
         created: "Profile Created"
         edited: "Last Edited"
+        last_seen: "Last Signed In"
       showing_hidden_attribute:
         tooltip: "This detail is visible to you because you are an admin with 'View Hidden Properties' enabled."
 

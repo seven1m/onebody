@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161027001942) do
+ActiveRecord::Schema.define(version: 20170218043110) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -524,6 +524,7 @@ ActiveRecord::Schema.define(version: 20161027001942) do
     t.string   "uid",                      limit: 255
     t.integer  "status",                   limit: 4
     t.string   "alias",                    limit: 255
+    t.datetime "last_seen_at"
   end
 
   add_index "people", ["admin_id"], name: "index_admin_id_on_people", using: :btree

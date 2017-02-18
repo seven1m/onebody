@@ -692,7 +692,7 @@ describe Person do
     end
   end
 
-  context '#generate_directory_pdf' do
+  describe '#generate_directory_pdf' do
     let(:person) do
       FactoryGirl.create(
         :person,
@@ -704,6 +704,60 @@ describe Person do
     it 'generates a pdf' do
       data = person.generate_directory_pdf.to_s
       expect(data).to match(/\A%PDF\-1\.3/)
+    end
+  end
+
+  describe '#update_last_seen_at' do
+    context 'if it was already updated recently' do
+      let(:person) do
+        FactoryGirl.create(
+          :person,
+          last_seen_at: 10.minutes.ago
+        )
+      end
+
+      before do
+        allow(person).to receive(:update_column)
+        person.update_last_seen_at
+      end
+
+      it 'does nothing' do
+        expect(person).not_to have_received(:update_column)
+      end
+    end
+
+    context 'it is currently nil' do
+      let(:person) do
+        FactoryGirl.create(
+          :person,
+          last_seen_at: nil
+        )
+      end
+
+      before do
+        person.update_last_seen_at
+      end
+
+      it 'updates to the current time' do
+        expect(person.reload.last_seen_at).to be_within(1).of(Time.current)
+      end
+    end
+
+    context 'it was updated a long time ago' do
+      let(:person) do
+        FactoryGirl.create(
+          :person,
+          last_seen_at: 2.hours.ago
+        )
+      end
+
+      before do
+        person.update_last_seen_at
+      end
+
+      it 'updates to the current time' do
+        expect(person.reload.last_seen_at).to be_within(1).of(Time.current)
+      end
     end
   end
 end

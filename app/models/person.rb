@@ -17,6 +17,7 @@ class Person < ActiveRecord::Base
   include Concerns::Person::Sharing
   include Concerns::Person::Streamable
   include Concerns::Person::TwitterUsername
+  include Concerns::Person::LastSeenAt
   include Concerns::DateWriter
 
   acts_as_list scope: :family

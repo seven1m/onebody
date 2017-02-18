@@ -25,6 +25,7 @@ class ApplicationController < ActionController::Base
 
   before_action :feature_enabled?
   before_action :authenticate_user
+  before_action :update_last_seen_at
   before_action :setup_pusher
 
   helper_method :params_without_action
@@ -131,6 +132,10 @@ class ApplicationController < ActionController::Base
         @logged_in_from_api_key = true
       end
     end
+  end
+
+  def update_last_seen_at
+    @logged_in.update_last_seen_at if @logged_in
   end
 
   def check_full_access
