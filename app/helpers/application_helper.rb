@@ -208,4 +208,12 @@ module ApplicationHelper
       end
     end
   end
+
+  def time_to_s(time, format, if_nil = '')
+    if time
+      time.to_s(format)
+    else
+      if_nil
+    end
+  end
 end

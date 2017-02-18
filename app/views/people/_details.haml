@@ -5,13 +5,13 @@
   - if @logged_in.admin?(:edit_profiles)
     %tr
       %td= t('people.show.details.created')
-      %td{ title: @person.created_at.to_s(:full) }= @person.created_at.to_s(:date)
+      %td{ title: time_to_s(@person.created_at, :full) }= time_to_s(@person.created_at, :date)
     %tr
       %td= t('people.show.details.edited')
-      %td{ title: @person.updated_at.to_s(:full) }= @person.updated_at.to_s(:date)
+      %td{ title: time_to_s(@person.updated_at, :full) }= time_to_s(@person.updated_at, :date)
     %tr
       %td= t('people.show.details.last_seen')
-      %td{ title: @person.last_seen_at.to_s(:full) }= @person.last_seen_at.to_s(:date)
+      %td{ title: time_to_s(@person.last_seen_at, :full) }= time_to_s(@person.last_seen_at, :date)
   = show_attribute(:website) do
     %tr
       %td= t('people.show.details.website')
