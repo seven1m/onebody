@@ -1,8 +1,12 @@
-# Release Notes
+# Change Log
 
-This is not meant to be a detailed account of everything changed in releases, but will give a general idea of what to expect. Also included are instructions for upgrading from previous versions.
+This is not meant to be a detailed account of everything changed in each release,
+but will give a general idea of what to expect. Also included are instructions for upgrading from previous versions.
 
-For general upgrade instructions, see the wiki [here](https://github.com/churchio/onebody/wiki/Manual-Installation#how-to-upgrade). Any release-specific upgrade notes below should be applied *after* the general instructions in the wiki (unless otherwise noted).
+For general upgrade instructions, see the wiki
+[here](https://github.com/churchio/onebody/wiki/Manual-Installation#how-to-upgrade).
+Any release-specific upgrade notes below should be applied *after* the general instructions in the wiki
+(unless otherwise noted).
 
 ## 3.7.0 (Unreleased)
 
