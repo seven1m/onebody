@@ -5,10 +5,10 @@ set -e
 rm -rf out
 
 mkdir -p out/ubuntu-14.04
-docker build -t ubuntu-14.04-deb -f Dockerfile.ubuntu-14.04 . && docker run -i -t --rm -v $PWD/out:/out ubuntu-14.04-deb
+docker build -t ubuntu-14.04-deb -f Dockerfile.ubuntu-14.04 . && docker run -i --rm -v $PWD/out:/out ubuntu-14.04-deb
 
 mkdir -p out/ubuntu-16.04
-docker build -t ubuntu-16.04-deb -f Dockerfile.ubuntu-16.04 . && docker run -i -t --rm -v $PWD/out:/out ubuntu-16.04-deb
+docker build -t ubuntu-16.04-deb -f Dockerfile.ubuntu-16.04 . && docker run -i --rm -v $PWD/out:/out ubuntu-16.04-deb
 
 mkdir -p out/debian-8
-docker build -t debian-8-deb -f Dockerfile.debian-8 . && docker run -i -t --rm -v $PWD/out:/out debian-8-deb
+docker build -t debian-8-deb -f Dockerfile.debian-8 . && docker run -i --rm -v $PWD/out:/out debian-8-deb
