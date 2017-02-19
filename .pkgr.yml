@@ -1,7 +1,7 @@
 name: onebody
 homepage: https://church.io/onebody
 description:  private member portal for churches, built with Ruby on Rails
-changelog: RELEASES.md
+changelog: CHANGELOG.md
 license: AGPL
 dependencies:
   - mysql-server
