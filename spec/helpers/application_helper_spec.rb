@@ -65,14 +65,14 @@ describe ApplicationHelper, type: :helper do
   describe 'sortable_column_heading' do
     attr_accessor :params
 
-    it 'should generate a link to the correct url' do
+    it 'generates a link to the correct url' do
       @params = {controller: 'administration/deleted_people', action: 'index'}
       expect(sortable_column_heading("id", "people.id")).to match(/\/admin\/deleted_people/)
       @params = {controller: 'administration/attendance', action: 'index'}
       expect(sortable_column_heading("group", "groups.name")).to match(/\/admin\/attendance/)
     end
 
-    it 'should prepend sort arg and trail existing ones off' do
+    it 'prepends sort arg and trails existing ones off' do
       @params = {controller: 'administration/attendance', action: 'index'}
       expect(sortable_column_heading("group", "groups.name")).to match(/\/admin\/attendance\?sort=groups\.name/)
       @params = {controller: 'administration/attendance', action: 'index', sort: 'groups.name'}
@@ -81,7 +81,7 @@ describe ApplicationHelper, type: :helper do
       expect(sortable_column_heading("group", "groups.name")).to match(/\/admin\/attendance\?sort=groups\.name%2Cattendance_records\.attended_at/)
     end
 
-    it 'should preserve other args' do
+    it 'preserves other args' do
       @params = {controller: 'administration/attendance', action: 'index', page: 1}
       expect(sortable_column_heading("group", "groups.name", [:page])).to match(/\/admin\/attendance\?page=1&amp;sort=groups\.name/)
     end

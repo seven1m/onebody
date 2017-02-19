@@ -22,8 +22,8 @@
           %th= t('search.column.business')
           %th= t('search.column.category')
         - else
-          %th= t('search.column.name')
-          %th= t('search.column.family')
+          %th= sortable_column_heading t('search.column.name'), alternate_sort_param('people.first_name', 'people.last_name'), :all
+          %th= sortable_column_heading t('search.column.family'), alternate_sort_param('families.name', 'families.last_name'), :all
         - if show_birthdays?
           %th= t('search.column.birthday')
         %th

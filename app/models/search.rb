@@ -15,7 +15,8 @@ class Search
                 :select_person,
                 :select_family,
                 :group_category,
-                :group_select_option
+                :group_select_option,
+                :sort
 
   def initialize(params = {})
     source = params.delete(:source) || :person
@@ -78,7 +79,7 @@ class Search
     not_deleted!
     business!
     testimony!
-    order_by_name!
+    order_by_params! || order_by_name!
     parental_consent!
     visible!
     name!
@@ -116,6 +117,23 @@ class Search
   def testimony!
     return unless testimony
     where!("coalesce(people.testimony, '') != ''")
+  end
+
+  SORT_PARAM_WHITELIST = %w(
+    people.first_name
+    people.last_name
+    families.name
+    families.last_name
+  )
+
+  def order_by_params!
+    return if sort.blank?
+    params = sort.split(',').map do |param|
+      param_without_hyphen = param.sub(/\A\-/, '')
+      return false unless SORT_PARAM_WHITELIST.include?(param_without_hyphen)
+      "#{param_without_hyphen} #{param.start_with?('-') ? 'desc' : 'asc'}"
+    end
+    order!(*params)
   end
 
   def order_by_name!

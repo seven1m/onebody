@@ -1,7 +1,6 @@
 require_relative '../rails_helper'
 
 describe Search do
-
   before do
     @user = FactoryGirl.create(:person)
     Person.logged_in = @user
@@ -298,6 +297,81 @@ describe Search do
 
     it 'should return only businesses' do
       expect(@search.results).to eq([@business])
+    end
+  end
+
+  context 'given a sort param' do
+    subject { Search.new }
+
+    before do
+      allow(subject).to receive(:order!)
+    end
+
+    context 'people.last_name' do
+      before do
+        subject.sort = 'people.last_name'
+        subject.results
+      end
+
+      it 'sorts by it' do
+        expect(subject).to have_received(:order!).with('people.last_name asc')
+      end
+    end
+
+    context '-people.last_name' do
+      before do
+        subject.sort = '-people.last_name'
+        subject.results
+      end
+
+      it 'sorts by it in descending order' do
+        expect(subject).to have_received(:order!).with('people.last_name desc')
+      end
+    end
+
+    context 'people.first_name' do
+      before do
+        subject.sort = 'people.first_name'
+        subject.results
+      end
+
+      it 'sorts by it' do
+        expect(subject).to have_received(:order!).with('people.first_name asc')
+      end
+    end
+
+    context 'families.name' do
+      before do
+        subject.sort = 'families.name'
+        subject.results
+      end
+
+      it 'sorts by it' do
+        expect(subject).to have_received(:order!).with('families.name asc')
+      end
+    end
+
+    context 'people.first_name,families.name' do
+      before do
+        subject.sort = 'people.first_name,-families.name'
+        subject.results
+      end
+
+      it 'sorts by it' do
+        expect(subject).to have_received(:order!).with('people.first_name asc', 'families.name desc')
+      end
+    end
+
+    context 'something unrecognized' do
+      before do
+        subject.sort = 'foo,people.first_name'
+        subject.results
+      end
+
+      it 'does not sort by it' do
+        expect(subject).to have_received(:order!).once
+        expect(subject).to have_received(:order!).with('LOWER(people.last_name), LOWER(people.first_name)')
+      end
     end
   end
 end

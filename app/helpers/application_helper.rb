@@ -134,7 +134,7 @@ module ApplicationHelper
       id:         params[:id],
       sort:       sort_params(sort)
     }.merge(
-      params.reject { |k| !keep_params.include?(k) }
+      keep_params == :all ? params.except(:controller, :action, :sort) : params.reject { |k| !keep_params.include?(k) }
     )
     url = url_for(options)
     link_to label, url
@@ -143,6 +143,16 @@ module ApplicationHelper
   def sort_params(sort)
     old_params = params[:sort].to_s.split(',')
     (sort.split(',') + old_params).uniq.join(',')
+  end
+
+  def alternate_sort_param(*alternates)
+    current = params[:sort].to_s.split(',').first
+    return alternates.first unless current.present?
+    current_index = alternates.index(current)
+    return alternates.first unless current_index
+    next_index = current_index + 1
+    return alternates.first if next_index >= alternates.size
+    alternates[next_index]
   end
 
   def date_format
