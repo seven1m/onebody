@@ -1,7 +1,4 @@
 %table.table
-  %tr.row-with-avatar
-    %td= link_to avatar_tag(@family), @family
-    %td= link_to t('people.show.details.family', family: @family.try(:name)), @family
   - if @logged_in.admin?(:edit_profiles)
     %tr
       %td= t('people.show.details.created')

@@ -45,6 +45,8 @@
           = render partial: 'details'
 
   .col-lg-4.col-sm-6
+    = render 'family_box'
+
     - if @person.testimony.present?
       .box.box-solid.box-success.testimony
         .box-header

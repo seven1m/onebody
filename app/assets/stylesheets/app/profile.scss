@@ -50,3 +50,24 @@
     }
   }
 }
+
+.family-box {
+  text-align: center !important;
+  .box-header {
+    padding: 5px 0;
+    .box-title {
+      float: none;
+    }
+  }
+  .box-body {
+    padding-top: 0;
+  }
+  .person {
+    display: inline-block;
+    margin: 0 5px 5px 5px;
+    text-align: center;
+    img {
+      margin-bottom: 5px;
+    }
+  }
+}

@@ -27,11 +27,13 @@ class PeopleController < ApplicationController
       render action: 'show_limited'
     elsif @person and @logged_in.can_read?(@person)
       @family = @person.family
+      if @family.nil?
+        @family_people = []
+      end
       if @person == @logged_in
-        # TODO eager load family here
-        @family_people = (@person.family.try(:people) || []).reject(&:deleted)
+        @family_people = @person.family.people.undeleted.where.not(id: @person.id)
       else
-        @family_people = @person.family.try(:visible_people) || []
+        @family_people = @person.family ? @person.family.visible_people.reject { |p| p.id == @person.id } : []
       end
       @albums = @person.albums.order(created_at: :desc)
       @friends = @person.friends.minimal
