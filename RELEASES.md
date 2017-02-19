@@ -4,6 +4,17 @@ This is not meant to be a detailed account of everything changed in releases, bu
 
 For general upgrade instructions, see the wiki [here](https://github.com/churchio/onebody/wiki/Manual-Installation#how-to-upgrade). Any release-specific upgrade notes below should be applied *after* the general instructions in the wiki (unless otherwise noted).
 
+## 3.7.0 (Unreleased)
+
+### Changes
+
+* Feature: Allow importing of custom fields
+* Feature: Allow sorting directory by first, last, family name, etc.
+* Feature: Record and show last signed in date on profile
+* Feature: Show when the profile was created/edited
+* Fix: Also show the user setup (send login invite via email) note when changing user's email
+* Fix: horizontal scroll on mobile with menu open
+
 ## 3.6.0 (2017-02-08)
 
 ### Changes
