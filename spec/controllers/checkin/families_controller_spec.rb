@@ -68,6 +68,7 @@ describe Checkin::FamiliesController, type: :controller do
         expect(Family.last.name).to eq('Tim Morgan')
         expect(Family.last.people.map(&:child?)).to eq([false])
         expect(Family.last.people.map(&:name)).to eq(['Tim Morgan'])
+        expect(Family.last.people.map(&:status)).to eq(['pending'])
       end
     end
 
@@ -91,6 +92,7 @@ describe Checkin::FamiliesController, type: :controller do
         expect(Family.last.name).to eq('Tim & Jennie Morgan')
         expect(Family.last.people.map(&:child?)).to eq([false, false])
         expect(Family.last.people.map(&:name)).to eq(['Tim Morgan', 'Jennie Morgan'])
+        expect(Family.last.people.map(&:status)).to eq(['pending', 'pending'])
       end
     end
 
@@ -142,6 +144,7 @@ describe Checkin::FamiliesController, type: :controller do
         expect(Family.last.name).to eq('Tim & Jennie Morgan')
         expect(Family.last.people.map(&:child?)).to eq([false, false, true, true])
         expect(Family.last.people.map(&:name)).to eq(['Tim Morgan', 'Jennie Morgan', 'Mac Morgan', 'Kai Morgan'])
+        expect(Family.last.people.map(&:status)).to eq(['pending'] * 4)
       end
     end
 

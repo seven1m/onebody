@@ -8,7 +8,7 @@ class FamilyFormPresenter
 
   def create
     @family = Family.new(family_params)
-    @family.people.each(&:set_child)
+    @family.people.each { |p| p.set_child; p.status = :pending }
     @family.name = @family.suggested_name
     @family.last_name = @family.suggested_last_name
     validate_params
