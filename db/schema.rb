@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170218043110) do
+ActiveRecord::Schema.define(version: 20170219172604) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -522,7 +522,7 @@ ActiveRecord::Schema.define(version: 20170218043110) do
     t.integer  "last_seen_group_id",       limit: 4
     t.string   "provider",                 limit: 255
     t.string   "uid",                      limit: 255
-    t.integer  "status",                   limit: 4
+    t.integer  "status",                   limit: 4,     default: 0
     t.string   "alias",                    limit: 255
     t.datetime "last_seen_at"
   end
