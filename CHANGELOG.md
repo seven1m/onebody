@@ -10,6 +10,19 @@ Any release-specific upgrade notes below should be applied *after* the general i
 
 ## 3.7.0 (Unreleased)
 
+### Upgrade Notes
+
+Imports were not being properly scoped by site id before, and now they are. You will need to manually fix any
+imports to point to the proper site. For most people, the following should work:
+
+```
+onebody console # or rails console
+[1] pry(main)> Import.unscoped.update_all('site_id = 1')
+  SQL (0.7ms)  UPDATE `imports` SET site_id = 1
+=> 23
+[2] pry(main)> exit
+```
+
 ### Changes
 
 * Feature: Allow groups to have more than one leader
@@ -19,10 +32,11 @@ Any release-specific upgrade notes below should be applied *after* the general i
 * Feature: Show family avatars on profile page
 * Feature: Show when the profile was created/edited
 * Fix: Also show the user setup (send login invite via email) note when changing user's email
+* Fix: Background image in check-in kiosk
+* Fix: Horizontal scroll on mobile with menu open
+* Fix: Scope imports by site id
 * Fix: Set default status to inactive
 * Fix: Set people in new family to pending (check-in)
-* Fix: background image in check-in kiosk
-* Fix: horizontal scroll on mobile with menu open
 
 ## 3.6.0 (2017-02-08)
 

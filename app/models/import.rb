@@ -5,6 +5,8 @@ class Import < ActiveRecord::Base
   validates :person, :filename, :status, presence: true
   validates :importable_type, inclusion: %w(Person)
 
+  scope_by_site_id
+
   enum status: {
     pending:     0,
     parsing:     1,
