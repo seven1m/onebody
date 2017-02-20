@@ -46,6 +46,8 @@ class MembershipsController < ApplicationController
       update_email
     elsif params[:promote] && @logged_in.can_update?(@group)
       update_admin
+    elsif params[:leader] && @logged_in.can_update?(@group)
+      update_leader
     else
       render text: t('not_authorized'), layout: true, status: 401
     end
@@ -70,8 +72,13 @@ class MembershipsController < ApplicationController
   def update_admin
     @membership = @group.memberships.find(params[:id])
     @membership.update_attribute(:admin, params[:promote] == 'true')
-    flash[:notice] = t('groups.user_settings_saved')
-    redirect_to :back
+    render template: 'memberships/update_admin.js.erb'
+  end
+
+  def update_leader
+    @membership = @group.memberships.find(params[:id])
+    @membership.update_attribute(:leader, params[:leader] == 'true')
+    render template: 'memberships/update_leader.js.erb'
   end
 
   # leave group

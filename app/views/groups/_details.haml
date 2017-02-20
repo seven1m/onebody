@@ -7,14 +7,14 @@
     %tr
       %td= t('groups.show.details.created_by')
       %td= link_to(@group.creator.name, @group.creator)
-  - if @group.leader
+  - if (leaders = @group.leaders.to_a).any?
     %tr
-      %td= t('groups.show.details.leader')
-      %td= link_to(@group.leader.name, @group.leader)
-  - if @group.admins.any? and @group.admins.to_a != [@group.leader]
+      %td= t('groups.show.details.leader', count: leaders.size)
+      %td= safe_join(leaders.map { |p| link_to(p.try(:name), p) }, ', ')
+  - if (admins = @group.admins.to_a).any? && admins != leaders
     %tr
       %td= t('groups.show.details.admins')
-      %td= @group.admins.map { |p| link_to(p.try(:name), p) }.join(', ').html_safe
+      %td= safe_join(admins.map { |p| link_to(p.try(:name), p) }, ', ')
   %tr
     %td= t('groups.show.details.member_count_label')
     %td

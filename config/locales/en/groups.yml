@@ -55,9 +55,12 @@ en:
 
     show:
       details:
+        admin: "admin"
         created_at: "created"
         created_by: "created by"
-        leader: "leader"
+        leader:
+          one: "leader"
+          other: "leaders"
         admins: "admins"
         meets: "meets"
         location: "location"

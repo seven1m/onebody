@@ -52,7 +52,8 @@
               - else
                 %th= t('.details.created_at')
               - if @logged_in.can_update?(@group)
-                %th
+                %th= t('.details.admin')
+                %th= t('.details.leader')
           %tbody#memberships
             - @memberships.includes(:person).order('people.last_name', 'people.first_name').each do |membership|
               - if person = membership.person

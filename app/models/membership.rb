@@ -13,6 +13,7 @@ class Membership < ActiveRecord::Base
 
   scope :order_by_birthday, -> { order('ifnull(month(people.birthday), 99)') }
   scope :order_by_name,     -> { order('people.first_name, people.last_name') }
+  scope :leaders,           -> { where(leader: true) }
 
   def family; person.family; end
 

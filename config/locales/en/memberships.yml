@@ -5,9 +5,11 @@ en:
     index:
       heading: "People in %{group}"
       details:
+        admin: "Admin"
         name: "Name"
         birthday: "Birthday"
         created_at: "Added"
+        leader: "Leader"
         manual:
           tooltip: "This person was added manually."
       remove:
@@ -26,6 +28,9 @@ en:
 
     promote: "Promote member to admin"
     demote: "Demote admin to regular member"
+
+    leader_add: "Make this group member a leader"
+    leader_remove: "Make this group leader a regular member"
 
     group_pending_approval: "This group is pending approval. You may not add people to it yet."
 

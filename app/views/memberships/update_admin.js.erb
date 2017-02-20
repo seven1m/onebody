@@ -1,0 +1,2 @@
+$('<%= "##{dom_id(@membership)}_admin_promote" %>').toggle(<%= (!@membership.admin?).inspect %>)
+$('<%= "##{dom_id(@membership)}_admin_demote" %>').toggle(<%= @membership.admin?.inspect %>)

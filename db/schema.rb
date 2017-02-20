@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170219172604) do
+ActiveRecord::Schema.define(version: 20170220010113) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -281,7 +281,6 @@ ActiveRecord::Schema.define(version: 20170219172604) do
     t.boolean  "private",                                 default: false
     t.string   "address",                   limit: 255
     t.boolean  "members_send",                            default: true
-    t.integer  "leader_id",                 limit: 4
     t.datetime "updated_at"
     t.boolean  "hidden",                                  default: false
     t.boolean  "approved",                                default: false
@@ -384,6 +383,7 @@ ActiveRecord::Schema.define(version: 20170219172604) do
     t.boolean  "auto",                             default: false
     t.datetime "created_at"
     t.text     "roles",              limit: 65535
+    t.boolean  "leader",                           default: false
   end
 
   add_index "memberships", ["group_id"], name: "index_memberships_on_group_id", using: :btree

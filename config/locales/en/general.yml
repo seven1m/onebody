@@ -122,7 +122,6 @@ en:
         category: "Category"
         description: "Description"
         other_notes: "Other Notes"
-        leader_id: "Leader"
         creator: "Creator"
         meets: "Meets When"
         location: "Location and Address"

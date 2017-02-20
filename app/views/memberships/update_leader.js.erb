@@ -1,0 +1,2 @@
+$('<%= "##{dom_id(@membership)}_leader_true" %>').toggle(<%= (!@membership.leader?).inspect %>)
+$('<%= "##{dom_id(@membership)}_leader_false" %>').toggle(<%= @membership.leader?.inspect %>)

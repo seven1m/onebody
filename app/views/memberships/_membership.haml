@@ -11,6 +11,8 @@
         == #{person.last_name}, #{person.first_name}
       - else
         = person.name
+    - if @logged_in.can_update?(@group)
+      = manually_added_person_in_linked_group_alert_icon(@group, membership)
   - if params[:birthdays]
     %td
       = person.birthday.to_s(:date_without_year) if person.birthday
@@ -18,12 +20,13 @@
     %td
       = membership.created_at.to_s(:date) if membership.created_at
   - if @logged_in.can_update?(@group)
-    %td.actions
-      - if (@group.linked? or @group.parents_of?) and not membership.auto?
-        = icon 'fa fa-exclamation-circle text-gray', title: t('memberships.index.details.manual.tooltip')
-      - if membership.admin?
-        = link_to group_membership_path(@group, membership, promote: false), data: { method: :put, confirm: t('are_you_sure') }, class: 'btn btn-warning btn-xs', title: t('memberships.demote') do
-          = icon 'fa fa-toggle-down'
-      - else
-        = link_to group_membership_path(@group, membership, promote: true), data: { method: :put, confirm: t('are_you_sure') }, class: 'btn btn-info btn-xs', title: t('memberships.promote') do
-          = icon 'fa fa-toggle-up'
+    %td
+      = link_to group_membership_path(@group, membership, promote: false), data: { method: :put, remote: true }, id: "#{dom_id(membership)}_admin_demote", title: t('memberships.demote'), style: membership.admin? ? '' : 'display:none' do
+        = icon 'fa fa-fw fa-check-square-o'
+      = link_to group_membership_path(@group, membership, promote: true), data: { method: :put, remote: true }, id: "#{dom_id(membership)}_admin_promote", title: t('memberships.promote'), style: membership.admin? ? 'display:none' : '' do
+        = icon 'fa fa-fw fa-square-o'
+    %td
+      = link_to group_membership_path(@group, membership, leader: false), data: { method: :put, remote: true }, id: "#{dom_id(membership)}_leader_false", title: t('memberships.leader_remove'), style: membership.leader? ? '' : 'display:none' do
+        = icon 'fa fa-fw fa-check-square-o'
+      = link_to group_membership_path(@group, membership, leader: true), data: { method: :put, remote: true }, id: "#{dom_id(membership)}_leader_true", title: t('memberships.leader_add'), style: membership.leader? ? 'display:none' : '' do
+        = icon 'fa fa-fw fa-square-o'
