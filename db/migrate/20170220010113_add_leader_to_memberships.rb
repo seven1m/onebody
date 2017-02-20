@@ -6,7 +6,8 @@ class AddLeaderToMemberships < ActiveRecord::Migration
 
     Site.each do
       Group.find_each do |group|
-        next unless (leader = group.leader)
+        next unless (leader_id = group.leader_id)
+        next unless (leader = Person.find_by(id: leader_id))
         membership = group.memberships.where(person_id: leader.id).first_or_initialize
         membership.leader = true
         membership.save(validate: false)
@@ -25,7 +26,7 @@ class AddLeaderToMemberships < ActiveRecord::Migration
       Group.find_each do |group|
         leader = group.memberships.leaders.first.try(:person)
         next unless leader
-        group.leader = leader
+        group.leader_id = leader.id
         group.save(validate: false)
       end
     end
