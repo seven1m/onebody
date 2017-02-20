@@ -25,7 +25,8 @@
               = icon 'fa fa-eye-slash'
               = t('groups.hidden.label')
         %td
-          = link_to(group.leader.try(:name), group.leader) if group.leader
+          - if (leaders = group.leaders.to_a).any?
+            = safe_join(leaders.map { |p| link_to(p.try(:name), p) }, ', ')
         %td
           = group.memberships.count
       - if group.description.present?

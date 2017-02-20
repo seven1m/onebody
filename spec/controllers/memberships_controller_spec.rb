@@ -220,8 +220,8 @@ describe MembershipsController, type: :controller do
           expect(membership.reload.admin).to eq(true)
         end
 
-        it 'redirects back' do
-          expect(response).to be_redirect
+        it 'renders the js template' do
+          expect(response).to render_template('update_admin.js.erb')
         end
       end
 
@@ -260,8 +260,8 @@ describe MembershipsController, type: :controller do
           expect(membership.reload.admin).to eq(false)
         end
 
-        it 'redirects back' do
-          expect(response).to be_redirect
+        it 'renders the js template' do
+          expect(response).to render_template('update_admin.js.erb')
         end
       end
     end

@@ -157,7 +157,7 @@ en:
 
     table:
       group_name: "Group"
-      leader: "Leader"
+      leader: "Leaders"
       member_count: "Members"
       email_enabled: "Email enabled"
 
