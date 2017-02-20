@@ -7,6 +7,14 @@ class Import < ActiveRecord::Base
 
   scope_by_site_id
 
+  scope :with_row_counts, -> {
+    select(
+      '*, ' \
+      '(select count(*) from import_rows where site_id = imports.site_id and import_id = imports.id) as row_count, ' \
+      '(select count(*) from import_rows where site_id = imports.site_id and import_id = imports.id and errored = 1) as row_error_count'
+    )
+  }
+
   enum status: {
     pending:     0,
     parsing:     1,

@@ -2,7 +2,7 @@ class Administration::ImportsController < ApplicationController
   before_filter :only_admins
 
   def index
-    @imports = Import.order(created_at: :desc).includes(:rows, :person).page(params[:page])
+    @imports = Import.order(created_at: :desc).includes(:person).with_row_counts.page(params[:page])
   end
 
   def show

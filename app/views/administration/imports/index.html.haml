@@ -20,8 +20,8 @@
           %td= link_to import.created_at.to_s(:full), import
           %td= link_to import.person.try(:name), import.person
           %td= t(import.status, scope: 'administration.imports.status') # notest
-          %td= import.rows.count
-          %td= import.rows.errored.count
+          %td= import.row_count
+          %td= import.row_error_count
           %td.actions
             = link_to import, class: 'btn btn-info btn-xs' do
               = icon 'fa fa-eye'

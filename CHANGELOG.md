@@ -33,6 +33,7 @@ onebody console # or rails console
 * Feature: Show when the profile was created/edited
 * Fix: Also show the user setup (send login invite via email) note when changing user's email
 * Fix: Background image in check-in kiosk
+* Fix: Eliminate N+1 query when listing imports
 * Fix: Horizontal scroll on mobile with menu open
 * Fix: Scope imports by site id
 * Fix: Set default status to inactive
