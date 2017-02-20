@@ -12,11 +12,15 @@ Any release-specific upgrade notes below should be applied *after* the general i
 
 ### Changes
 
+* Feature: Allow groups to have more than one leader
 * Feature: Allow importing of custom fields
 * Feature: Allow sorting directory by first, last, family name, etc.
 * Feature: Record and show last signed in date on profile
+* Feature: Show family avatars on profile page
 * Feature: Show when the profile was created/edited
 * Fix: Also show the user setup (send login invite via email) note when changing user's email
+* Fix: Set default status to inactive
+* Fix: Set people in new family to pending (check-in)
 * Fix: horizontal scroll on mobile with menu open
 
 ## 3.6.0 (2017-02-08)
