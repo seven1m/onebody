@@ -72,6 +72,9 @@ de:
     add_template: "Add Template"
     already_admin: "%{name} is already an admin."
     api: API
+    api_clients:
+      title: "API Clients Dashboard"
+      list: "Clients"
     api_login_details: "Your API login details"
     customization:
       heading: Customization

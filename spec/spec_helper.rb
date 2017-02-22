@@ -2,6 +2,7 @@ require 'coveralls'
 Coveralls.wear!
 
 require 'webmock/rspec'
+require 'support/request_helpers'
 
 RSpec.configure do |config|
   config.order = 'random'
@@ -15,4 +16,6 @@ RSpec.configure do |config|
   config.mock_with :rspec do |mocks|
     mocks.verify_partial_doubles = true
   end
+
+  config.include Requests::JsonHelpers, type: :request
 end

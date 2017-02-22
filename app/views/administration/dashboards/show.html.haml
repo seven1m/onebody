@@ -192,3 +192,19 @@
                     = icon 'fa fa-download'
                     CSV
     .clearfix
+
+- if @logged_in.admin?
+  .collapsable-heading
+    %h2= t('admin.api_clients.list')
+    .floating-boxes.normalize-heights
+      .col-md-3
+        .box.box-warning.normalize-height
+          .box-header
+            %h3.box-title= t('admin.api_clients.list')
+          .box-body
+            %p
+              = t('admin.api_clients.intro')
+            %p
+              = link_to administration_api_clients_path, class: 'btn btn-info' do
+                = icon 'fa fa-mobile'
+                = t('admin.api_clients.list')

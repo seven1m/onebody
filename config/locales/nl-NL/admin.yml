@@ -72,6 +72,9 @@ nl-NL:
     add_template: "Rechtengroep toevoegen"
     already_admin: "%{name} is al een beheerder."
     api: API
+    api_clients:
+      title: "API Clients Dashboard"
+      list: "Clients"
     api_login_details: "Je API inloggegevens"
     customization:
       heading: Instellingen

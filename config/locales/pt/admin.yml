@@ -72,6 +72,9 @@ pt:
     add_template: "Adicionar Modelo"
     already_admin: "%{name} já é um administrador."
     api: API
+    api_clients:
+      title: "API Clients Dashboard"
+      list: "Clients"
     api_login_details: "Seus detalhes de acesso da API"
     customization:
       heading: Customização

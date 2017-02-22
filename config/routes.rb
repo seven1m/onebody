@@ -1,5 +1,8 @@
 OneBody::Application.routes.draw do
 
+  use_doorkeeper do
+    skip_controllers :applications, :authorized_applications
+  end
   root to: redirect('/stream')
 
   resource :account do
@@ -174,8 +177,12 @@ OneBody::Application.routes.draw do
 
   get '/admin' => 'administration/dashboards#show'
   get '/admin/reports' => 'administration/reports#index'
+  # get '/admin/api' => 'administration/api#index'
 
   namespace :administration, path: :admin do
+    resources :api_clients do
+
+    end
     resources :emails do
       collection do
         put :batch
@@ -222,6 +229,22 @@ OneBody::Application.routes.draw do
     resource :print
     resource :printer
     resources :families, :people, :groups
+  end
+
+  namespace :api do
+    namespace :v2 do
+      jsonapi_resources :people
+      jsonapi_resources :families
+      jsonapi_resources :groups
+      jsonapi_resources :messages
+      jsonapi_resources :attachments
+      jsonapi_resources :attendance_records
+      jsonapi_resources :comments
+      jsonapi_resources :verses
+      jsonapi_resources :news_items
+      jsonapi_resources :checkin_times
+      jsonapi_resources :pages
+    end
   end
 
   post '/pusher/auth_printer'    => 'pusher#auth_printer'
