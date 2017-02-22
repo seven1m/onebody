@@ -34,7 +34,7 @@ class StreamsController < ApplicationController
           html: html_for_json,
           items: @stream_items,
           count: @count,
-          next: timeline_has_more?(@stream_items) ? next_timeline_url(@stream_items.current_page + 1) : nil
+          next: timeline_has_more?(@stream_items) ? next_timeline_path(@stream_items.current_page + 1) : nil
         }
       end
     end
