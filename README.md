@@ -59,7 +59,7 @@ Check out [Using Vagrant](https://github.com/churchio/onebody/wiki/Using-Vagrant
 
 ### Manual Development Setup on Mac or Linux
 
-1. Install Ruby 2.2.2 or higher (we recommend you use [rbenv](https://github.com/sstephenson/rbenv) or [RVM](https://rvm.io/)).
+1. Install Ruby 2.3.3 (we recommend you use [rbenv](https://github.com/sstephenson/rbenv) or [RVM](https://rvm.io/)).
 1. Install MySQL.
 1. Install Git.
 1. Install ImageMagick.
@@ -78,7 +78,7 @@ Now visit the site running in development mode at http://localhost:3000.
 
 ### Manual Development Setup on Windows
 
-1. Download the Ruby 2.2 package from http://railsinstaller.org and install.
+1. Download the Ruby 2.3 package from http://railsinstaller.org and install.
 1. Download MariaDB stable from https://downloads.mariadb.org and install. Take note of what you enter for the root password.
 1. Download Git from https://git-scm.com/download/win and install.
 1. Download ImageMagick from http://imagemagick.org/script/binary-releases.php#windows and install.
