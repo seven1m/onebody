@@ -3,7 +3,7 @@ env:
 - DB=mysql
 language: ruby
 rvm:
-- 2.2
+- 2.3.3
 before_install:
 - 'echo -e ''test:\n  adapter: mysql2\n  database: onebody_test\n  username: travis\n  encoding:
   utf8'' > config/database.yml.mysql'

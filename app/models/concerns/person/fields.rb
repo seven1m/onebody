@@ -31,7 +31,7 @@ module Concerns
         end
       end
 
-      def reload
+      def reload(*)
         @fields = nil
         @fields_before = nil
         super
