@@ -25,7 +25,7 @@ onebody console # or rails console
 
 ### Changes
 
-* Chore: Upgrade to Ruby 2.3.3
+* Chore: Upgrade to Ruby 2.3.3 and Rails to 4.2.8
 * Feature: Allow groups to have more than one leader
 * Feature: Allow importing of custom fields
 * Feature: Allow sorting directory by first, last, family name, etc.
