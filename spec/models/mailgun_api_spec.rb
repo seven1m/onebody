@@ -79,7 +79,7 @@ describe MailgunApi do
 
   context 'forbidden error during get' do
     before do
-      stub_request(:get, 'https://api:key@api.mailgun.net/v2/routes')
+      stub_request(:get, 'https://api.mailgun.net/v2/routes')
         .to_return(status: 401)
     end
 
@@ -94,7 +94,7 @@ describe MailgunApi do
     before do
       allow(subject).to receive(:show_routes)
         .and_return('items' => [])
-      stub_request(:post, 'https://api:key@api.mailgun.net/v2/routes')
+      stub_request(:post, 'https://api.mailgun.net/v2/routes')
         .to_return(status: 401)
     end
 
