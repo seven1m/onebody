@@ -7,6 +7,7 @@ dependencies:
   - mysql-server
   - libxml2
   - imagemagick
+  - cron
 compile_cache_dir: /tmp/pkgr-cache
 after_install: build/deb/script/post-install
 store_cache: true
