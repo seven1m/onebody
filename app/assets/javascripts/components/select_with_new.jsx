@@ -17,7 +17,7 @@ class SelectWithNew extends React.Component {
 
   renderInput() {
     return (
-      <div className="input-group">
+      <div className="input-group" style={{ width: '100%' }}>
         <input
           id={this.id}
           name={this.props.name}
