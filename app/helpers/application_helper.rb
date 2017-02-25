@@ -65,6 +65,7 @@ module ApplicationHelper
   end
 
   def format_phone(phone, mobile = false)
+    return '' if phone.blank?
     format = Setting.get(:formats, mobile ? :mobile_phone : :phone)
     return phone if format.blank?
     groupings = format.scan(/d+/).map(&:length)
