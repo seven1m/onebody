@@ -45,7 +45,7 @@ RSpec.configure do |config|
       'state_code'   => 'NY',
       'country'      => 'United States',
       'country_code' => 'US',
-      'precision' => 'RANGE_INTERPOLATED'
+      'precision'    => 'RANGE_INTERPOLATED'
     }])
   end
 

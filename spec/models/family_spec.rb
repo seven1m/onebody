@@ -234,8 +234,21 @@ describe Family do
         Geocoder::Lookup::Test.add_stub(
           '650 S. Peoria, Tulsa, OK, 74120, US', [
             {
-              'latitude'     => 36.151305,
-              'longitude'    => -95.975393,
+              'latitude'     => 1,
+              'longitude'    => 2,
+              'address'      => 'Tulsa, OK, USA',
+              'state'        => 'Oklahoma',
+              'state_code'   => 'OK',
+              'country'      => 'United States',
+              'country_code' => 'US'
+            }
+          ]
+        )
+        Geocoder::Lookup::Test.add_stub(
+          '100 N. Main, Bixby, OK, 74008, US', [
+            {
+              'latitude'     => 3,
+              'longitude'    => 4,
               'address'      => 'Tulsa, OK, USA',
               'state'        => 'Oklahoma',
               'state_code'   => 'OK',
@@ -248,8 +261,8 @@ describe Family do
 
       it 'sets latitude and longitude' do
         expect(family.reload.attributes).to include(
-          'latitude'  => within(0.00001).of(36.151305),
-          'longitude' => within(0.00001).of(-95.975393)
+          'latitude'  => within(0.0001).of(1),
+          'longitude' => within(0.0001).of(2)
         )
       end
 
@@ -268,6 +281,24 @@ describe Family do
         end
       end
 
+      context 'address is changed' do
+        before do
+          family # create family
+          family.address1 = '100 N. Main'
+          family.city = 'Bixby'
+          family.state = 'OK'
+          family.zip = '74008'
+          family.save!
+        end
+
+        it 'changes the latitude and longitude' do
+          expect(family.reload.attributes).to include(
+            'latitude'  => within(0.0001).of(3),
+            'longitude' => within(0.0001).of(4)
+          )
+        end
+      end
+
       context 'unrelated attribute is changed' do
         before do
           family # create family
@@ -278,8 +309,8 @@ describe Family do
 
         it 'does not change the latitude or longitude' do
           expect(family.reload.attributes).to include(
-            'latitude'  => within(0.00001).of(36.151305),
-            'longitude' => within(0.00001).of(-95.975393)
+            'latitude'  => within(0.0001).of(1),
+            'longitude' => within(0.0001).of(2)
           )
         end
       end
