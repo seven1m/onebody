@@ -12,7 +12,6 @@ class Person < ActiveRecord::Base
   include Concerns::Person::Import
   include Concerns::Person::Memberships
   include Concerns::Person::Password
-  include Concerns::Person::PdfGen
   include Concerns::Person::Relationships
   include Concerns::Person::Sharing
   include Concerns::Person::Streamable

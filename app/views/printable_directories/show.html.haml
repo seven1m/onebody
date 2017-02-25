@@ -1,0 +1,19 @@
+- @title = t('printable_directories.heading')
+
+#directory-loading
+  = icon 'fa fa-spinner fa-spin fa-4x'
+  %br
+  = t('printable_directories.generating')
+
+#directory-loaded{ style: 'display:none' }
+  = t('printable_directories.finished')
+
+- content_for(:js) do
+  :javascript
+    $.ajax({
+      url: location.href + '.js',
+      type: 'GET',
+      dataType: 'script',
+      contentType: 'application/javascript'
+    });
+

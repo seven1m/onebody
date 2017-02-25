@@ -1,0 +1,13 @@
+<% if @file.file.present? %>
+  $('#directory-loading').hide();
+  $('#directory-loaded').show();
+  location.href = location.href.replace(/\.js/, '');
+<% else %>
+  setTimeout(function() {
+    $.ajax({
+      url: location.href + '.js',
+      type: 'GET',
+      dataType: 'script'
+    });
+  }, 1000)
+<% end %>

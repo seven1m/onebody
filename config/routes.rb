@@ -135,7 +135,9 @@ OneBody::Application.routes.draw do
     get 'search', on: :collection
   end
 
-  resource :setup, :session, :search, :printable_directory
+  resource :setup, :session, :search
+
+  resources :printable_directories
 
   resource :stream do
     resources :people, controller: 'stream_people'

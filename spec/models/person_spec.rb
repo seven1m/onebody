@@ -692,21 +692,6 @@ describe Person do
     end
   end
 
-  describe '#generate_directory_pdf' do
-    let(:person) do
-      FactoryGirl.create(
-        :person,
-        mobile_phone: '1234567890',
-        status: :active
-      )
-    end
-
-    it 'generates a pdf' do
-      data = person.generate_directory_pdf.to_s
-      expect(data).to match(/\A%PDF\-1\.3/)
-    end
-  end
-
   describe '#update_last_seen_at' do
     context 'if it was already updated recently' do
       let(:person) do

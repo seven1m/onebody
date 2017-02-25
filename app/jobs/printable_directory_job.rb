@@ -1,10 +1,14 @@
 class PrintableDirectoryJob < ActiveJob::Base
   queue_as :directory
 
-  def perform(site, person_id, with_pictures = false)
+  def perform(site, person_id, file_id, with_pictures = false)
     ActiveRecord::Base.connection_pool.with_connection do
       Site.with_current(site) do
-        Person.find(person_id).generate_and_email_directory_pdf(with_pictures)
+        person = Person.find(person_id)
+        file = person.generated_files.find(file_id)
+        data = PrintableDirectory.new(person, pictures: with_pictures).render
+        file.file = StringIO.new(data)
+        file.save
       end
     end
   end

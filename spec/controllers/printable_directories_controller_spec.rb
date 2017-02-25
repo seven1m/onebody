@@ -13,12 +13,13 @@ describe PrintableDirectoriesController, type: :controller do
       expect(PrintableDirectoryJob).to have_received(:perform_later).with(
         Site.current,
         user.id,
+        Integer,
         false
       )
     end
 
-    it 'renders the create template' do
-      expect(response).to render_template(:create)
+    it 'redirects to the show action' do
+      expect(response).to redirect_to(printable_directory_path(GeneratedFile.last))
     end
   end
 end
