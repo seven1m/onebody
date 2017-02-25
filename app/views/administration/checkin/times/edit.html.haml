@@ -12,7 +12,7 @@
         .form-group
           = form.text_field :the_datetime, value: @time.to_s, size: 15, class: 'form-control', placeholder: t('checkin.times.single.datetime')
       .form-group
-        = form.select :campus, options_for_select([[t('checkin.times.edit.campus.new'), '!']] + CheckinTime.campuses, @time.campus), {}, class: 'form-control can-create'
+        = react_component 'SelectWithNew', name: 'checkin_time[campus]', value: @time.campus, options: checkin_time_campuses, className: 'form-control'
       .form-group
         = form.button t('checkin.times.edit.save.button'), class: 'btn btn-success'
         .pull-right

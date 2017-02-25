@@ -28,7 +28,7 @@ module GroupsHelper
   end
 
   def group_categories
-    [[t('groups.edit.category.new'), '!']] + Group.categories.keys
+    [[t('groups.edit.category.new'), '!']] + Group.categories.keys.map { |k| [k, k] }
   end
 
   def must_request_group_join?(group)

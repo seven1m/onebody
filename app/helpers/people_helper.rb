@@ -40,11 +40,11 @@ module PeopleHelper
   end
 
   def business_categories
-    [[t('people.edit.business_category.new'), '!']] + Person.business_categories
+    [[t('people.edit.business_category.new'), '!']] + Person.business_categories.map { |c| [c, c] }
   end
 
   def custom_types
-    [[t('people.edit.custom_type.new'), '!']] + Person.custom_types
+    [[t('people.edit.custom_type.new'), '!']] + Person.custom_types.map { |t| [t, t] }
   end
 
   def has_type?(person)

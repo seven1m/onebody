@@ -13,7 +13,7 @@
       %th= t('groups.batch.approval_required_to_join')
     - @groups.each do |group|
       %tr.group{:id => "group#{group.id}"}
-        %td= select_tag "groups[#{group.id}][category]", options_for_select(group_categories, group.category), class: 'can-create'
+        %td= react_component 'SelectWithNew', name: "groups[#{group.id}][category]", value: group.category, options: group_categories
         %td= text_field_tag "groups[#{group.id}][name]", group.name
         %td= text_field_tag "groups[#{group.id}][address]", group.address
         %td
@@ -33,9 +33,8 @@
   %p
     = submit_tag t('save_changes'), class: 'btn btn-success'
     %span#loading{:style => "display:none;"}
-      = image_tag 'spinner_small.gif', alt: t('saving') + '...', class: 'icon'
+      = icon 'fa fa-spinner fa-spin'
       = t('saving')
-      \...
 
 - content_for :js do
   :javascript
