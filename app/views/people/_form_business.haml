@@ -2,7 +2,7 @@
 
 .form-group
   = form.label :business_category
-  = form.select :business_category, business_categories, { include_blank: true }, class: 'form-control can-create', data: { 'custom-select-prompt' => t('people.edit.business_category.create_prompt') }
+  = react_component 'SelectWithNew', name: 'person[business_category]', value: @person.business_category, options: business_categories, className: 'form-control', includeBlank: true
 
 .form-group
   = form.label :business_name

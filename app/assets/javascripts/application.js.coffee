@@ -12,6 +12,9 @@
 #= require leaflet.markercluster
 #= require bootstrap-filestyle
 #= require_directory ./app
+#= require react
+#= require react_ujs
+#= require components
 
 $('[data-toggle^="#"], [data-toggle^="."]').each (i, elm) ->
   elm = $(elm)
