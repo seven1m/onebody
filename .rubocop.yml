@@ -22,3 +22,9 @@ Style/MultilineOperationIndentation:
 
 Style/ClassAndModuleChildren:
   Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/EmptyMethod:
+  EnforcedStyle: expanded
