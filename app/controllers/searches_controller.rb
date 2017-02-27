@@ -26,11 +26,7 @@ class SearchesController < ApplicationController
     end
     respond_to do |format|
       format.html do
-        if @people.length == 1 and (params[:name] or params[:quick_name])
-          redirect_to person_path(id: @people.first)
-        else
-          render action: 'create'
-        end
+        render action: 'create'
       end
       format.js do
         if params[:auto_complete]
