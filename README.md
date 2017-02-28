@@ -26,10 +26,9 @@ We ❤️ contributors! Just check out [all these people](https://github.com/org
 To help fix a bug, first make sure it has a logged [issue](https://github.com/churchio/onebody/issues) (if not, create one), then:
 
 1. Fork this repo on GitHub and clone your fork to your computer.
-2. Set up the software on your computer by following the directions in the next section.
-3. Fix the bug!
-4. Run the test suite (see the "Tests" section lower in this file) to make sure you didn't break something. (This is kind of optional, since Travis CI will run the test suite when you create your Pull Request anyway.)
-4. Submit a Pull Request to get your bug fix merged!
+1. Set up the software on your computer by following the directions in the next section.
+1. Fix the bug!
+1. Submit a Pull Request to get your bug fix merged!
 
 If you'd like to add an awesome new feature, please join our [Slack chat](https://slackin-churchio.herokuapp.com/) to talk about what you want to do. We'd like to give you some guidance on approach, coding style, tests, etc.
 
@@ -43,13 +42,13 @@ If you're a developer and want to get everything running locally, this is the ea
 Operating System: Windows, Mac, or Linux
 
 1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads). It's free and it runs on Windows, Mac, and Linux.
-2. Install [Vagrant](http://www.vagrantup.com/downloads) on your host machine.
-3. Install [Git](http://git-scm.com/downloads).
+1. Install [Vagrant](http://www.vagrantup.com/downloads) on your host machine.
+1. Install [Git](http://git-scm.com/downloads).
    * If you're on Mac, you can use [GitHub for Mac](https://mac.github.com/).
    * If you're on Windows, you can use [GitHub for Windows](https://windows.github.com/).
-4. Clone the repository to your host machine: `git clone git://github.com/churchio/onebody.git` (If you forked the project, clone from your own fork.)
-5. In your terminal, change to the project directory: `cd onebody`
-6. Run vagrant: `vagrant up`
+1. Clone the repository to your host machine: `git clone git://github.com/churchio/onebody.git` (If you forked the project, clone from your own fork.)
+1. In your terminal, change to the project directory: `cd onebody`
+1. Run vagrant: `vagrant up`
 
 Now visit the site running in development mode at http://localhost:8080.
 
