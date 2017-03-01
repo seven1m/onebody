@@ -3,70 +3,70 @@
 # example:
 # script/inbox -e production localhost username password
 
-PID_PATH = File.dirname(__FILE__) + '/../tmp/pids/inbox.pid'
+PID_PATH = '/tmp/onebody_mail.pid'
 MAX_PID_LIFE = 30 * 60 # 30 mins
 
-require 'time'
-if File.exist?(PID_PATH)
-  if Time.now - File.stat(PID_PATH).mtime > MAX_PID_LIFE
-    Process.kill('KILL', File.read(PID_PATH).strip.to_i) rescue nil
-    File.delete(PID_PATH)
-  else
-    exit
-  end
-end
-
-File.open(PID_PATH, 'w') { |f| f.write(Process.pid.to_s) }
-
 require 'optparse'
-options = {}
-parser = OptionParser.new do |opts|
-  connectors = Dir[File.join(File.dirname(__FILE__), '../lib/connectors/*.rb')].to_a.map { |f| File.split(f).last.split('.').first }.select { |c| !%w(base test example).include? c }
-  opts.banner = "Usage: script/inbox [options] host username password"
-  opts.on("-e", '--environment production', "specify environment (development, production)") do |val|
-    options[:environment] = val
-  end
-end
-parser.parse!
-
-host, username, password = ARGV
-
-if not (host and username and password)
-  puts parser.help
-  File.delete(PID_PATH)
-  exit
-end
-
-ENV["RAILS_ENV"] = options[:environment]
-
+require 'time'
 require 'net/pop'
 
-Net::POP3.start(host, nil, username, password) do |pop|
-  unless pop.mails.empty?
-    require File.dirname(__FILE__) + '/../config/environment'
-    logger = Rails.logger
-    logger.info "Running Mail Importer..."
-    pop.mails.each do |email|
-      begin
-        logger.info "receiving mail..." 
-        Notifier.receive(email.pop)
-      rescue Exception => e
-        logger.error "Error receiving email at " + Time.now.to_s + "::: " + e.message + "\n----\n" + e.backtrace.to_s
-        backtrace = e.backtrace.is_a?(Array) ? e.backtrace.join("\n") : e.backtrace.to_s
-        logger.error(backtrace)
-        Notifier.simple_message(
-          Setting.get(:contact, :bug_notification_email),
-          '[OneBody] Email Error',
-          e.message + "\n\n" + backtrace,
-          'no-reply@localhost'
-        ).deliver_now
-      ensure
-        email.delete
-      end
+begin
+  if File.exist?(PID_PATH)
+    if Time.now - File.stat(PID_PATH).mtime > MAX_PID_LIFE
+      Process.kill('KILL', File.read(PID_PATH).strip.to_i) rescue nil
+      File.delete(PID_PATH)
+    else
+      exit
     end
-    logger.info "Finished Mail Importer." 
   end
+
+  File.open(PID_PATH, 'w') { |f| f.write(Process.pid.to_s) }
+
+  options = {}
+  parser = OptionParser.new do |opts|
+    opts.banner = "Usage: script/inbox [options] host username password"
+    opts.on("-e", '--environment production', "specify environment (development, production)") do |val|
+      options[:environment] = val
+    end
+  end
+  parser.parse!
+
+  host, username, password = ARGV
+
+  if not (host and username and password)
+    puts parser.help
+    File.delete(PID_PATH)
+    exit
+  end
+
+  ENV["RAILS_ENV"] = options[:environment]
+
+  Net::POP3.start(host, nil, username, password) do |pop|
+    unless pop.mails.empty?
+      require File.expand_path('../../config/environment', __FILE__)
+      logger = Rails.logger
+      logger.info "Running Mail Importer..."
+      pop.mails.each do |email|
+        begin
+          logger.info "receiving mail..."
+          Notifier.receive(email.pop)
+        rescue Exception => e
+          logger.error "Error receiving email at " + Time.now.to_s + "::: " + e.message + "\n----\n" + e.backtrace.to_s
+          backtrace = e.backtrace.is_a?(Array) ? e.backtrace.join("\n") : e.backtrace.to_s
+          logger.error(backtrace)
+          Notifier.simple_message(
+            Setting.get(:contact, :bug_notification_email),
+            '[OneBody] Email Error',
+            e.message + "\n\n" + backtrace,
+            'no-reply@localhost'
+          ).deliver_now
+        ensure
+          email.delete
+        end
+      end
+      logger.info "Finished Mail Importer."
+    end
+  end
+ensure
+  File.delete(PID_PATH) if File.exist?(PID_PATH)
 end
-
-File.delete(PID_PATH)
-
