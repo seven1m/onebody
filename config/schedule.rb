@@ -9,20 +9,24 @@ set :environment, 'production'
 # check out the troubleshooting section at http://rvm.beginrescueend.com/rvm/install/ for help
 set :job_template, "bash -l -c ':job'"
 
-if File.exist?("#{Dir.pwd}/config/email.yml")
-  config = YAML.load_file("#{Dir.pwd}/config/email.yml")
+root_path = File.expand_path('../../', __FILE__)
+email_config_path = File.expand_path('../email.yml', __FILE__)
+inbox_cmd = ENV['APP_HOME'] == '/opt/onebody' ? 'onebody run script/inbox' : "#{root_path}/script/inbox"
+runner_cmd = ENV['APP_HOME'] == '/opt/onebody' ? 'onebody run rails runner' : "cd #{root_path} && bin/rails runner"
+
+if File.exist?(email_config_path)
+  config = YAML.load_file(email_config_path)
   if config.is_a?(Hash) && config[@environment] && (settings = config[@environment]['pop'])
     every 1.minute do
-      command "#{Dir.pwd}/script/inbox -e #{@environment} " \
-              "\"#{settings['host']}\" \"#{settings['username']}\" \"#{settings['password']}\""
+      command "#{inbox_cmd} -e #{@environment} #{settings['host'].inspect} #{settings['username'].inspect} #{settings['password'].inspect}"
     end
   end
 end
 
 every 1.hour, at: 19 do
-  runner 'Site.each { NewsItem.update_from_feed }'
+  command "#{runner_cmd} 'Site.each { NewsItem.update_from_feed }'"
 end
 
 every 1.day, at: '3:49 am' do
-  runner 'Site.each { Group.update_memberships; GeneratedFile.stale.destroy_all }'
+  command "#{runner_cmd} 'Site.each { Group.update_memberships; GeneratedFile.stale.destroy_all }'"
 end
