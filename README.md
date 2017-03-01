@@ -29,7 +29,7 @@ To help fix a bug, first make sure it has a logged [issue](https://github.com/ch
 
 If you'd like to add an awesome new feature, please join our [Slack chat](https://slackin-churchio.herokuapp.com/) to talk about what you want to do. We'd like to give you some guidance on approach, coding style, tests, etc.
 
-[FAQs for Contributors](https://github.com/churchio/onebody/wiki/FAQs-for-Contributors)
+[FAQs for Contributors](https://github.com/churchio/onebody/wiki/FAQs-for-Contributors) ·
 [Code of Conduct](https://github.com/churchio/onebody/blob/master/CONDUCT.md)
 
 ### Development Setup Using Vagrant
