@@ -24,9 +24,9 @@ if File.exist?(email_config_path)
 end
 
 every 1.hour, at: 19 do
-  command "#{runner_cmd} 'Site.each { NewsItem.update_from_feed }'"
+  command "#{runner_cmd} -e #{@environment} 'Site.each { NewsItem.update_from_feed }'"
 end
 
 every 1.day, at: '3:49 am' do
-  command "#{runner_cmd} 'Site.each { Group.update_memberships; GeneratedFile.stale.destroy_all }'"
+  command "#{runner_cmd} -e #{@environment} 'Site.each { Group.update_memberships; GeneratedFile.stale.destroy_all }'"
 end
