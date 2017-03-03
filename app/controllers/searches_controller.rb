@@ -26,7 +26,11 @@ class SearchesController < ApplicationController
     end
     respond_to do |format|
       format.html do
-        render action: 'create'
+        if @people.any? && @people.first.name == params[:name] && params[:direct]
+          redirect_to @people.first
+        else
+          render action: 'create'
+        end
       end
       format.js do
         if params[:auto_complete]
