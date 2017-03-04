@@ -199,6 +199,10 @@ module ApplicationHelper
     truncate(text, options.reverse_merge(separator: ' ', omission: '…'))
   end
 
+  def truncate_html(html, length:)
+    HTML_Truncator.truncate(html, length)
+  end
+
   def analytics_js
     if params[:controller] == 'administration/settings'
       # workaround for Safari bug (see https://github.com/churchio/onebody/issues/262)
