@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170220010113) do
+ActiveRecord::Schema.define(version: 20170304163946) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -219,7 +219,7 @@ ActiveRecord::Schema.define(version: 20170220010113) do
     t.string   "country",              limit: 2
   end
 
-  add_index "families", ["last_name", "name"], name: "index_family_names", using: :btree
+  add_index "families", ["last_name", "name"], name: "index_family_names", length: {"last_name"=>191, "name"=>191}, using: :btree
   add_index "families", ["legacy_id"], name: "index_families_on_legacy_id", using: :btree
 
   create_table "friendship_requests", force: :cascade do |t|
@@ -437,7 +437,7 @@ ActiveRecord::Schema.define(version: 20170220010113) do
   end
 
   add_index "pages", ["parent_id"], name: "index_pages_on_parent_id", using: :btree
-  add_index "pages", ["path"], name: "index_pages_on_path", using: :btree
+  add_index "pages", ["path"], name: "index_pages_on_path", length: {"path"=>191}, using: :btree
 
   create_table "people", force: :cascade do |t|
     t.integer  "legacy_id",                limit: 4
@@ -529,7 +529,7 @@ ActiveRecord::Schema.define(version: 20170220010113) do
 
   add_index "people", ["admin_id"], name: "index_admin_id_on_people", using: :btree
   add_index "people", ["business_category"], name: "index_business_category_on_people", using: :btree
-  add_index "people", ["email"], name: "index_people_on_email", using: :btree
+  add_index "people", ["email"], name: "index_people_on_email", length: {"email"=>191}, using: :btree
   add_index "people", ["family_id"], name: "index_people_on_family_id", using: :btree
   add_index "people", ["legacy_id"], name: "index_people_on_legacy_id", using: :btree
   add_index "people", ["site_id", "feed_code"], name: "index_people_on_site_id_and_feed_code", using: :btree
@@ -648,7 +648,7 @@ ActiveRecord::Schema.define(version: 20170220010113) do
     t.datetime "created_at"
   end
 
-  add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", using: :btree
+  add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", length: {"session_id"=>191}, using: :btree
 
   create_table "settings", force: :cascade do |t|
     t.string   "section",     limit: 100
@@ -694,7 +694,7 @@ ActiveRecord::Schema.define(version: 20170220010113) do
     t.string   "email_host",            limit: 255
   end
 
-  add_index "sites", ["host"], name: "index_sites_on_host", using: :btree
+  add_index "sites", ["host"], name: "index_sites_on_host", length: {"host"=>191}, using: :btree
 
   create_table "stream_items", force: :cascade do |t|
     t.integer  "site_id",              limit: 4
@@ -716,7 +716,7 @@ ActiveRecord::Schema.define(version: 20170220010113) do
   add_index "stream_items", ["created_at"], name: "index_stream_items_on_created_at", using: :btree
   add_index "stream_items", ["group_id"], name: "index_stream_items_on_group_id", using: :btree
   add_index "stream_items", ["person_id"], name: "index_stream_items_on_person_id", using: :btree
-  add_index "stream_items", ["streamable_type", "streamable_id"], name: "index_stream_items_on_streamable_type_and_streamable_id", using: :btree
+  add_index "stream_items", ["streamable_type", "streamable_id"], name: "index_stream_items_on_streamable_type_and_streamable_id", length: {"streamable_type"=>191, "streamable_id"=>nil}, using: :btree
 
   create_table "sync_items", force: :cascade do |t|
     t.integer "site_id",        limit: 4
@@ -731,7 +731,7 @@ ActiveRecord::Schema.define(version: 20170220010113) do
   end
 
   add_index "sync_items", ["sync_id"], name: "index_sync_id_on_sync_items", using: :btree
-  add_index "sync_items", ["syncable_type", "syncable_id"], name: "index_syncable_on_sync_items", using: :btree
+  add_index "sync_items", ["syncable_type", "syncable_id"], name: "index_syncable_on_sync_items", length: {"syncable_type"=>191, "syncable_id"=>nil}, using: :btree
 
   create_table "syncs", force: :cascade do |t|
     t.integer  "site_id",       limit: 4
@@ -753,7 +753,7 @@ ActiveRecord::Schema.define(version: 20170220010113) do
   end
 
   add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
-  add_index "taggings", ["taggable_id", "taggable_type"], name: "index_taggings_on_taggable_id_and_taggable_type", using: :btree
+  add_index "taggings", ["taggable_id", "taggable_type"], name: "index_taggings_on_taggable_id_and_taggable_type", length: {"taggable_id"=>nil, "taggable_type"=>191}, using: :btree
 
   create_table "tags", force: :cascade do |t|
     t.string   "name",       limit: 50

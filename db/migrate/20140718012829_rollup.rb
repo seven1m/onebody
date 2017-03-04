@@ -124,7 +124,6 @@ class Rollup < ActiveRecord::Migration
     t.integer  "legacy_id"
     t.string   "name"
     t.string   "last_name"
-    t.string   "suffix",               limit: 25
     t.string   "address1"
     t.string   "address2"
     t.string   "city"
