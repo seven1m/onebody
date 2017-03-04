@@ -9,7 +9,7 @@ class Signup
   attr_accessor *PARAMS
   attr_accessor :family, :person
 
-  validates :email, :first_name, :last_name, :birthday, :mobile_phone, presence: true
+  validates :email, :first_name, :last_name, :birthday, presence: true
   validate :validate_adult
   validate :validate_not_a_bot
   validate :validate_sign_up_allowed
