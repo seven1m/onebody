@@ -75,7 +75,7 @@ onebody config | grep PORT=6000    &>/dev/null && onebody config:set PORT=3000
 if [[ -e /etc/onebody/database.yml ]]; then
   if ! grep "utf8mb4" /etc/onebody/database.yml &>/dev/null; then
     echo "Switching database encoding to utf8mb4 by updating /etc/onebody/database.yml"
-    cat /opt/onebody/config/database.yml | ruby -e "puts STDIN.read.strip.gsub(/^  encoding: utf8(\\n|\\W|$)/, %(  encoding: utf8mb4\\n  collation: utf8mb4_unicode_ci\\n))" > /opt/onebody/config/database.yml
+    sed -i 's/encoding: utf8$/encoding: utf8mb4\n  collation: utf8mb4_unicode_ci/' /opt/onebody/config/database.yml
   fi
 else
   echo "Building /etc/onebody/database.yml"
