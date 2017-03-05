@@ -72,9 +72,14 @@ function create_service() {
 onebody config | grep SERVE_ASSETS &>/dev/null || onebody config:set SERVE_ASSETS=true
 onebody config | grep PORT=6000    &>/dev/null && onebody config:set PORT=3000
 
-if [[ ! -e /etc/onebody/database.yml ]]; then
+if [[ -e /etc/onebody/database.yml ]]; then
+  if ! grep "utf8mb4" /etc/onebody/database.yml &>/dev/null; then
+    echo "Switching database encoding to utf8mb4 by updating /etc/onebody/database.yml"
+    sed -i 's/encoding: utf8$/encoding: utf8mb4\n  collation: utf8mb4_unicode_ci/' /opt/onebody/config/database.yml
+  fi
+else
   echo "Building /etc/onebody/database.yml"
-  echo -e "production:\n  adapter: mysql2\n  database: onebody\n  host: localhost\n  username: onebody\n  password: onebody\n  encoding: utf8" > /opt/onebody/config/database.yml
+  echo -e "production:\n  adapter: mysql2\n  database: onebody\n  host: localhost\n  username: onebody\n  password: onebody\n  encoding: utf8mb4\n  collation: utf8mb4_unicode_ci" > /opt/onebody/config/database.yml
   ln -sf /opt/onebody/config/database.yml /etc/onebody/database.yml
   chown onebody:onebody /etc/onebody/database.yml
 fi

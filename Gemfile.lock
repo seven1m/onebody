@@ -194,6 +194,8 @@ GEM
     hashie (3.5.4)
     highline (1.7.8)
     hitimes (1.2.4)
+    html_truncator (0.4.1)
+      nokogiri (~> 1.5)
     httparty (0.14.0)
       multi_xml (>= 0.5.2)
     httpclient (2.8.3)
@@ -408,7 +410,6 @@ GEM
     timers (4.0.4)
       hitimes
     tins (1.13.2)
-    truncate_html (0.9.3)
     ttfunk (1.4.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
@@ -462,6 +463,7 @@ DEPENDENCIES
   guard-rspec
   haml
   highline
+  html_truncator
   httparty
   jquery-rails
   load_and_authorize_resource
@@ -496,7 +498,6 @@ DEPENDENCIES
   test_after_commit
   thin
   timecop
-  truncate_html
   tzinfo-data
   uglifier
   webmock

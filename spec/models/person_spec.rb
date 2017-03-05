@@ -11,73 +11,83 @@ describe Person do
 
     before { @person = FactoryGirl.create(:person) }
 
-    it 'should not allow bad email' do
+    it 'does not allow bad email' do
       BAD_EMAIL_ADDRESSES.each do |address|
         should_not allow_value(address).for(:email)
       end
     end
 
-    it 'should allow good email' do
+    it 'allows good email' do
       GOOD_EMAIL_ADDRESSES.each do |address|
-        should allow_value(address).for(:email)
+        allow_value(address).for(:email)
       end
     end
 
-    it 'should not allow bad business_email' do
+    it 'does not allow bad business_email' do
       BAD_EMAIL_ADDRESSES.each do |address|
         should_not allow_value(address).for(:business_email)
       end
     end
 
-    it 'should allow good business_email' do
+    it 'allows good business_email' do
       GOOD_EMAIL_ADDRESSES.each do |address|
-        should allow_value(address).for(:business_email)
+        allow_value(address).for(:business_email)
       end
     end
 
-    it 'should not allow bad alternate_email' do
+    it 'does not allow bad alternate_email' do
       BAD_EMAIL_ADDRESSES.each do |address|
         should_not allow_value(address).for(:alternate_email)
       end
     end
 
-    it 'should allow good alternate_email' do
+    it 'allows good alternate_email' do
       GOOD_EMAIL_ADDRESSES.each do |address|
-        should allow_value(address).for(:alternate_email)
+        allow_value(address).for(:alternate_email)
       end
     end
 
-    it 'should not allow bad website' do
+    it 'does not allow bad website' do
       BAD_WEB_ADDRESSES.each do |address|
         should_not allow_value(address).for(:website)
       end
     end
 
-    it 'should allow good website' do
+    it 'allows good website' do
       GOOD_WEB_ADDRESSES.each do |address|
-        should allow_value(address).for(:website)
+        allow_value(address).for(:website)
       end
     end
 
-    it 'should not allow bad business_website' do
+    it 'does not allow bad business_website' do
       BAD_WEB_ADDRESSES.each do |address|
         should_not allow_value(address).for(:business_website)
       end
     end
 
-    it 'should allow good business_website' do
+    it 'allows good business_website' do
       GOOD_WEB_ADDRESSES.each do |address|
         should allow_value(address).for(:business_website)
       end
     end
+
+    it 'allows good facebook_url' do
+      should allow_value('https://www.facebook.com/seven1m').for(:facebook_url)
+    end
+
+    it 'does not allow bad facebook_url' do
+      should_not allow_value('http://notfacebook.com/foo').for(:facebook_url)
+    end
   end
 
-  it 'should allow good facebook_url' do
-    should allow_value('https://www.facebook.com/seven1m').for(:facebook_url)
-  end
-
-  it 'should not allow bad facebook_url' do
-    should_not allow_value('http://notfacebook.com/foo').for(:facebook_url)
+  it 'accepts emoji in the name fields' do
+    person = FactoryGirl.create(
+      :person,
+      first_name: '😄😂😇😌😙😝🤓😏😟😣😤😐😧😳😢😓🤔🤢🤕👺',
+      last_name: '😄😂😇😌😙😝🤓😏😟😣😤😐😧😳😢😓🤔🤢🤕👺'
+    )
+    expect(person.reload.first_name).to eq('😄😂😇😌😙😝🤓😏😟😣😤😐😧😳😢😓🤔🤢🤕👺')
+    expect(person.last_name).to eq('😄😂😇😌😙😝🤓😏😟😣😤😐😧😳😢😓🤔🤢🤕👺')
   end
 
   context 'Email Address Sharing' do

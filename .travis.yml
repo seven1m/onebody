@@ -6,7 +6,7 @@ rvm:
 - 2.3.3
 before_install:
 - 'echo -e ''test:\n  adapter: mysql2\n  database: onebody_test\n  username: travis\n  encoding:
-  utf8'' > config/database.yml.mysql'
+  utf8mb4'' > config/database.yml.mysql'
 - 'echo -e ''test:\n  adapter: postgresql\n  database: onebody_test\n  username: postgres\n  encoding:
   unicode'' > config/database.yml.pg'
 - 'sed -i "s/#gem ''pg''/gem ''pg''/" Gemfile'
