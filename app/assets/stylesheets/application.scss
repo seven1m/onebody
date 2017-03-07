@@ -161,13 +161,13 @@ th.actions, td.actions {
   transition: height 2s;
 }
 
-.btn span.fa {    			
-  opacity: 0;				
+.btn span.fa {
+  opacity: 0;
   color: white;
 }
 
-.btn.active span.fa {				
- opacity: 1;				
+.btn.active span.fa {
+ opacity: 1;
 }
 
 .user-header {
@@ -180,6 +180,9 @@ th.actions, td.actions {
 }
 
 .user-menu {
+  max-width: 300px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   .user-header {
     width: 100%;
   }
