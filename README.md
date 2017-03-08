@@ -13,7 +13,7 @@ Visit our website at [church.io](http://church.io) or browse through our [screen
 
 ## Contributing to the Project
 
-[![Build](http://img.shields.io/travis/churchio/onebody.svg)](https://travis-ci.org/churchio/onebody)
+[![Build Status](https://travis-ci.org/churchio/onebody.svg?branch=master)](https://travis-ci.org/churchio/onebody)
 
 [![Stories Ready](https://badge.waffle.io/churchio/onebody.svg?label=ready&title=stories+ready)](http://waffle.io/churchio/onebody)
 [![Stories in Progress](https://badge.waffle.io/churchio/onebody.svg?label=in+progress&title=stories+in+progress)](http://waffle.io/churchio/onebody)
