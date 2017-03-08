@@ -12,26 +12,34 @@ Any release-specific upgrade notes below should be applied *after* the general i
 
 ### Upgrade Notes
 
-Imports were not being properly scoped by site id before, and now they are. You will need to manually fix any
-imports to point to the proper site. For most people, the following should work:
+1.  The encoding used for string/text columns in the database has changed. The migration to update the encoding
+    can take quite awhile, especially if you have a lot of data in your database. Also be sure to **make a
+    backup of your database** (see https://github.com/churchio/onebody/wiki/Backups for help).
 
-```
-onebody console # or rails console
-[1] pry(main)> Import.unscoped.update_all('site_id = 1')
-  SQL (0.7ms)  UPDATE `imports` SET site_id = 1
-=> 23
-[2] pry(main)> exit
-```
+2.  Imports were not being properly scoped by site id before, and now they are. You will need to manually fix any
+    imports to point to the proper site. For most people, the following should work:
+
+    ```
+    onebody console # or rails console
+    [1] pry(main)> Import.unscoped.update_all('site_id = 1')
+      SQL (0.7ms)  UPDATE `imports` SET site_id = 1
+    => 23
+    [2] pry(main)> exit
+    ```
 
 ### Changes
 
 * Chore: Upgrade to Ruby 2.3.3 and Rails to 4.2.8
+* Chore: Rewrite printed directory
 * Feature: Allow groups to have more than one leader
 * Feature: Allow importing of custom fields
 * Feature: Allow sorting directory by first, last, family name, etc.
 * Feature: Record and show last signed in date on profile
 * Feature: Show family avatars on profile page
 * Feature: Show when the profile was created/edited
+* Feature: Better custom select component (group categories, etc.)
+* Feature: Generate PDF directory and present on page instead of emailing
+* Feature: Only automatic redirect to profile on search if direct=true is passed
 * Fix: Also show the user setup (send login invite via email) note when changing user's email
 * Fix: Background image in check-in kiosk
 * Fix: Eliminate N+1 query when listing imports
@@ -39,6 +47,11 @@ onebody console # or rails console
 * Fix: Scope imports by site id
 * Fix: Set default status to inactive
 * Fix: Set people in new family to pending (check-in)
+* Fix: "load more" button on timeline
+* Fix: Email "inbox" script wasn't working when running as deb package
+* Fix: Make mobile phone optional when signing up
+* Fix: Switch atabase encoding so we now support emoji everywhere
+* Fix: Layout was broken when logged in user had a really long name
 
 ## 3.6.0 (2017-02-08)
 
