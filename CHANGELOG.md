@@ -8,7 +8,7 @@ For general upgrade instructions, see the wiki
 Any release-specific upgrade notes below should be applied *after* the general instructions in the wiki
 (unless otherwise noted).
 
-## 3.7.0 (Unreleased)
+## 3.7.0 (2017-03-07)
 
 ### Upgrade Notes
 
