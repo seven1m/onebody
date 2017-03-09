@@ -8,6 +8,13 @@ For general upgrade instructions, see the wiki
 Any release-specific upgrade notes below should be applied *after* the general instructions in the wiki
 (unless otherwise noted).
 
+## 3.8.0 (Unreleased)
+
+### Changes
+
+* Chore: Make text columns for messages bigger
+
+
 ## 3.7.0 (2017-03-07)
 
 ### Upgrade Notes
@@ -53,6 +60,7 @@ Any release-specific upgrade notes below should be applied *after* the general i
 * Fix: Switch atabase encoding so we now support emoji everywhere
 * Fix: Layout was broken when logged in user had a really long name
 
+
 ## 3.6.0 (2017-02-08)
 
 ### Changes
@@ -86,6 +94,7 @@ Any release-specific upgrade notes below should be applied *after* the general i
 * Fix: show save button when changing document folder
 * Fix: tab selection in Safari
 * Fix: url to next page in timeline
+
 
 ## 3.5.0 (2016-03-19)
 
@@ -218,7 +227,6 @@ To make this work, `rm -rf /var/www/onebody/vendor/bundle` and then run `bundle 
     2. Run the following rake task to set your country on all existing family records:
 
             RAILS_ENV=production bundle exec rake onebody:set_country
-
 
 ### Changes
 
