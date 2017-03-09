@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170304163946) do
+ActiveRecord::Schema.define(version: 20170309034010) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -397,11 +397,11 @@ ActiveRecord::Schema.define(version: 20170304163946) do
     t.datetime "updated_at"
     t.integer  "parent_id",    limit: 4
     t.string   "subject",      limit: 255
-    t.text     "body",         limit: 65535
-    t.boolean  "share_email",                default: false
+    t.boolean  "share_email",                   default: false
+    t.text     "body",         limit: 16777215
     t.integer  "code",         limit: 4
     t.integer  "site_id",      limit: 4
-    t.text     "html_body",    limit: 65535
+    t.text     "html_body",    limit: 16777215
   end
 
   add_index "messages", ["created_at"], name: "index_messages_on_created_at", using: :btree

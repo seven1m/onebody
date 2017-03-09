@@ -193,8 +193,8 @@ class FixEncodings < ActiveRecord::Migration
     ],
     'messages' => [
       ['subject', 'string', 255],
-      ['body', 'text', 65_535],
-      ['html_body', 'text', 65_535]
+      ['body', 'mediumtext', 16_777_215],
+      ['html_body', 'mediumtext', 16_777_215]
     ],
     'news_items' => [
       ['title', 'string', 255],
@@ -411,12 +411,10 @@ class FixEncodings < ActiveRecord::Migration
     end
     COLUMNS.each do |table, columns|
       columns.each do |(name, ruby_type, length, options)|
-        type = if ruby_type == 'text'
-                 'text'
-               elsif ruby_type == 'string'
+        type = if ruby_type == 'string'
                  "varchar(#{length})"
                else
-                 raise 'bad type'
+                 ruby_type
                end
         null = options && options[:null] == false ? 'NOT NULL' : ''
         default = options && options[:default] ? "DEFAULT '#{options[:default]}'" : ''
