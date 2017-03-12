@@ -14,36 +14,45 @@
 %p
   = @document.description
 
-.col-md-6.document-preview-col
-  = link_to download_document_path(@document, inline: true) do
-    - if @document.preview.present?
-      = image_tag(@document.preview.url, class: 'thumbnail')
-    - else
-      = icon document_icon_class(@document) + ' icon-huge'
+- if @document.file_content_type == 'video/mp4'
+  .col-md-12.document-preview-col
+    %video{ src: @document.file.url, controls: true, style: 'width:100%' }
+  .clearfix
 
-.col-md-6
-  %table.table
-    %tr
-      %td= t('.table.filename')
-      %td= @document.file_file_name
-    %tr
-      %td= t('.table.content_type')
-      %td= @document.file.content_type
-    %tr
-      %td= t('.table.size')
-      %td= number_to_human_size @document.file.size
-    %tr
-      %td= t('.table.updated_at')
-      %td= @document.updated_at.to_s(:full)
-  .page-controls
-    - if @logged_in.admin?(:manage_documents)
-      .pull-right
-        = link_to edit_document_path(@document), class: 'btn btn-info' do
-          = icon 'fa fa-pencil'
-          = t('.edit.button')
-        = link_to @document, data: { method: :delete, confirm: t('are_you_sure') }, class: 'btn btn-delete' do
-          = icon 'fa fa-trash-o'
-          = t('.delete.button')
-    = link_to download_document_path(@document), class: 'btn btn-success' do
-      = icon 'fa fa-download'
-      = t('.download.button')
+- else
+  .col-md-6.document-preview-col
+    - if @document.file_content_type == 'video/mp4'
+      %video{ src: @document.file.url, controls: true, style: 'width:100%' }
+    - else
+      = link_to download_document_path(@document, inline: true) do
+        - if @document.preview.present?
+          = image_tag(@document.preview.url, class: 'thumbnail')
+        - else
+          = icon document_icon_class(@document) + ' icon-huge'
+
+  .col-md-6
+    %table.table
+      %tr
+        %td= t('.table.filename')
+        %td= @document.file_file_name
+      %tr
+        %td= t('.table.content_type')
+        %td= @document.file.content_type
+      %tr
+        %td= t('.table.size')
+        %td= number_to_human_size @document.file.size
+      %tr
+        %td= t('.table.updated_at')
+        %td= @document.updated_at.to_s(:full)
+    .page-controls
+      - if @logged_in.admin?(:manage_documents)
+        .pull-right
+          = link_to edit_document_path(@document), class: 'btn btn-info' do
+            = icon 'fa fa-pencil'
+            = t('.edit.button')
+          = link_to @document, data: { method: :delete, confirm: t('are_you_sure') }, class: 'btn btn-delete' do
+            = icon 'fa fa-trash-o'
+            = t('.delete.button')
+      = link_to download_document_path(@document), class: 'btn btn-success' do
+        = icon 'fa fa-download'
+        = t('.download.button')
