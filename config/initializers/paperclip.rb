@@ -19,4 +19,4 @@ PAPERCLIP_FILE_OPTIONS = {
   url:  "/system/:rails_env/:class/:attachment/:id/:fingerprint.:extension"
 }
 
-PAPERCLIP_FILE_MAX_SIZE = 25.megabytes
+PAPERCLIP_FILE_MAX_SIZE = 75.megabytes
