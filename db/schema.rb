@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170309034010) do
+ActiveRecord::Schema.define(version: 20170315033421) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -699,7 +699,7 @@ ActiveRecord::Schema.define(version: 20170309034010) do
   create_table "stream_items", force: :cascade do |t|
     t.integer  "site_id",              limit: 4
     t.string   "title",                limit: 500
-    t.text     "body",                 limit: 65535
+    t.text     "body",                 limit: 16777215
     t.text     "context",              limit: 65535
     t.integer  "person_id",            limit: 4
     t.integer  "group_id",             limit: 4
@@ -708,7 +708,7 @@ ActiveRecord::Schema.define(version: 20170309034010) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "shared"
-    t.boolean  "text",                               default: false
+    t.boolean  "text",                                  default: false
     t.boolean  "is_public"
     t.integer  "stream_item_group_id", limit: 4
   end
