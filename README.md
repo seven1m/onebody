@@ -84,6 +84,7 @@ Now visit the site running in development mode at http://localhost:3000.
 1. `mysql -uroot -pROOT_PASSWORD -e "grant all on onebody_dev.* to onebody@localhost identified by 'onebody';"`
 1. `mysql -uroot -pROOT_PASSWORD -e "grant all on onebody_test.* to onebody@localhost identified by 'onebody';"`
 1. `cp config/database.yml{.mysql-example,}`
+1. `cp config/database.yml config/dossier.yml`
 1. `gem install bundler`
 1. `bundle install`
 1. `cp config/secrets.yml{.example,} && vim config/secrets.yml` and add a random secret token to both the "development" and "test" sections (you can use `rake secret` to generate a new random secret).
