@@ -10,22 +10,22 @@ class MailgunApi
     fail KeyMissing if @key.blank?
   end
 
-  def show_routes(skip: 0, limit: 1)
+  def show_routes(skip: 0, limit: 100)
     get(
       'https://api.mailgun.net/v2/routes',
-      basic_auth: {
-        username: 'api',
-        password: @key
-      },
-      params: {
-        skip: skip,
-        limit: limit
-      }
+      params: { skip: skip, limit: limit }
+    )
+  end
+
+  def domains(skip: 0, limit: 100)
+    get(
+      'https://api.mailgun.net/v2/domains',
+      params: { skip: skip, limit: limit }
     )
   end
 
   def create_catch_all
-    routes = show_routes(limit: 100)
+    routes = show_routes
     if routes.to_s == 'Forbidden'
       { 'message' => 'apikey' }
     else
@@ -34,7 +34,6 @@ class MailgunApi
       else
         post(
           'https://api.mailgun.net/v2/routes',
-          basic_auth: { username: 'api', password: @key },
           body: build_data
         )
         true
@@ -44,14 +43,20 @@ class MailgunApi
 
   private
 
-  def get(*args)
-    response = self.class.get(*args)
+  def get(url, options)
+    options = options.merge(
+      basic_auth: { username: 'api', password: @key },
+    )
+    response = self.class.get(url, options)
     fail Forbidden if response.code == 401
     response
   end
 
-  def post(*args)
-    response = self.class.post(*args)
+  def post(url, options)
+    options = options.merge(
+      basic_auth: { username: 'api', password: @key },
+    )
+    response = self.class.post(url, options)
     fail Forbidden if response.code == 401
     response
   end
