@@ -20,7 +20,6 @@ describe MailgunApi do
 
       expect(subject).to receive(:post).with(
         'https://api.mailgun.net/v2/routes',
-        basic_auth: { username: 'api', password: 'key' },
         body: @body
       )
       result = subject.create_catch_all
@@ -44,7 +43,6 @@ describe MailgunApi do
 
       expect(subject).to receive(:post).with(
         'https://api.mailgun.net/v2/routes',
-        basic_auth: { username: 'api', password: 'key' },
         body: @body.merge(expression: "match_recipient('.*@mg.example.com')")
       )
       result = subject.create_catch_all
