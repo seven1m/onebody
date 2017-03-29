@@ -135,7 +135,7 @@ OneBody::Application.routes.draw do
     get 'search', on: :collection
   end
 
-  resource :setup, :session, :search
+  resource :setup, :email_setup, :session, :search
 
   resources :printable_directories
 

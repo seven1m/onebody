@@ -1,5 +1,4 @@
 class SetupsController < ApplicationController
-
   skip_before_filter :authenticate_user
   before_filter :check_setup_requirements
 
@@ -29,11 +28,10 @@ class SetupsController < ApplicationController
 
   private
 
-    def check_setup_requirements
-      if Person.count > 0
-        render text: t('not_authorized'), layout: true
-        return false
-      end
+  def check_setup_requirements
+    if Person.count > 0
+      render text: t('not_authorized'), layout: true
+      return false
     end
-
+  end
 end

@@ -3,6 +3,10 @@ class EmailSetup
     @key = key
   end
 
+  def domains
+    api.domains
+  end
+
   def save!
     create_catch_all
     write_config
