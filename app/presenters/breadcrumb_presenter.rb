@@ -136,7 +136,7 @@ class BreadcrumbPresenter
   end
 
   def admin_crumb
-    if @controller =~ /^administration\// or @controller == 'pages'
+    if @controller =~ /^administration\// or @controller == 'pages' or @controller == 'email_setups'
       crumbs << ['fa fa-gear', t('nav.admin'), admin_path]
     end
     if @controller == 'administration/admins' and @assigns['admin']

@@ -34,6 +34,18 @@ $('[data-toggle^="#"], [data-toggle^="."]').each (i, elm) ->
       toggle(elm.val() == elm.data('toggle-value'))
     toggle(elm.val() == elm.data('toggle-value'))
 
+$(document).on 'click', '[data-select-group] [data-select]', (e) ->
+  elm = $(this)
+  parent = elm.parents('[data-select-group]')
+  [on_class, off_class] = parent.data('select-class').split('/')
+  all = parent.find('[data-select]')
+  all.removeClass(on_class).addClass(off_class)
+  elm.addClass(on_class)
+  all_selectors = ($(e).data('select') for e in all)
+  selector = elm.data('select')
+  $(s).hide() for s in all_selectors
+  $(selector).show()
+
 if csrf_token = $('meta[name="csrf-token"]').attr('content')
   $(document).ajaxSend (_, xhr) ->
     xhr.setRequestHeader('X-CSRF-Token', csrf_token)

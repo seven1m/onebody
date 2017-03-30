@@ -8,6 +8,10 @@ class EmailSetupsController < ApplicationController
   def edit
   end
 
+  def create
+    render text: 'create', layout: false
+  end
+
   private
 
   def only_admins

@@ -12,6 +12,14 @@
     %p= link_to t('admin.dashboard.version_alert.download_button'),
                 'https://github.com/churchio/onebody/wiki/Installation#how-to-upgrade'
 
+- unless OneBody.email_configured?
+  .alert.alert-warning
+    = icon 'fa fa-warning'
+    %p= t('admin.dashboard.email_config_alert.intro_html',
+          version: OneBody.latest_version,
+          url: "https://github.com/churchio/onebody/releases/tag/#{OneBody.latest_version}")
+    %p= link_to t('admin.dashboard.email_config_alert.button'), edit_email_setup_path
+
 .collapsable-heading
   %h2= t('admin.actionables.heading')
 

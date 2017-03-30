@@ -4,3 +4,22 @@ en:
 
     edit:
       heading: "Setup Email"
+      config_options:
+        mailgun: Mailgun (recommended)
+        manual: Manual
+      mailgun:
+        heading: Let Mailgun handle my email.
+        intro_html: |
+          <p>Mailgun is a quick and easy way to set up sending and receiving email with OneBody. For most churches with low volume, Mailgun is free.</p>
+          <ol>
+            <li>Create an account for your church at <a href="https://www.mailgun.com" target="_new">mailgun.com</a>.</li>
+            <li>Activate your account and enter a credit card.</li>
+            <li>Scroll down and copy the "Public API Key" and paste it here.</li>
+            <li>Copy the "Secret API Key" and paste it here.</li>
+          </ol>
+        public_api_key: Public API Key
+        secret_api_key: Secret API Key
+        submit: Continue...
+      manual:
+        heading: I want to run my own email server.
+        intro_html: If you want to run your own email server, please follow the directions on our wiki page <a href="https://github.com/churchio/onebody/wiki/Postfix-Email-Setup" target="_new">here</a>.

@@ -1,1 +1,25 @@
 - @title = t('.heading')
+
+.btn-group{ role: 'group', 'data-select-group' => true, 'data-select-class' => 'btn-info/btn-default' }
+  %button.btn.btn-info{ 'data-select' => '#mailgun-email' } Mailgun
+  %button.btn.btn-default{ 'data-select' => '#manual-email' } Manual
+
+#mailgun-email.push-down
+  .row
+    .col-md-6
+      %h3= t('.mailgun.heading')
+      %p= t('.mailgun.intro_html')
+    .col-md-6
+      = form_tag email_setup_path, class: 'form' do
+        .form-group
+          = label_tag :public_api_key, t('.mailgun.public_api_key')
+          = text_field_tag :public_api_key, '', class: 'form-control'
+        .form-group
+          = label_tag :secret_api_key, t('.mailgun.secret_api_key')
+          = text_field_tag :secret_api_key, '', class: 'form-control'
+        .form-group
+          = button_tag t('.mailgun.submit'), class: 'btn btn-success'
+
+#manual-email.push-down{ style: 'display:none' }
+  %h3= t('.manual.heading')
+  %p= t('.manual.intro_html')
