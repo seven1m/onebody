@@ -135,7 +135,7 @@ OneBody::Application.routes.draw do
     get 'search', on: :collection
   end
 
-  resource :setup, :email_setup, :session, :search
+  resource :setup, :session, :search
 
   resources :printable_directories
 
@@ -217,6 +217,7 @@ OneBody::Application.routes.draw do
       resources :cards, :auths, :labels
     end
     resources :custom_fields
+    resource :email_setup
   end
 
   resource :checkin, controller: 'checkin/checkins'

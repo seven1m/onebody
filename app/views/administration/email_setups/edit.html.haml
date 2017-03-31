@@ -1,0 +1,10 @@
+- @title = t('.heading')
+
+%p= t('.domain.intro')
+
+= form_tag administration_email_setup_path, class: 'form', method: 'put' do
+  .form-group
+    = label_tag :domain, t('.domain.label')
+    = select_tag :domain, options_for_select([''] + @domains.map { |d| d['name'] }), class: 'form-control'
+  .form-group
+    = button_tag t('.submit'), class: 'btn btn-success'

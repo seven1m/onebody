@@ -10,7 +10,7 @@
       %h3= t('.mailgun.heading')
       %p= t('.mailgun.intro_html')
     .col-md-6
-      = form_tag email_setup_path, class: 'form' do
+      = form_tag administration_email_setup_path, class: 'form' do
         .form-group
           = label_tag :public_api_key, t('.mailgun.public_api_key')
           = text_field_tag :public_api_key, '', class: 'form-control'

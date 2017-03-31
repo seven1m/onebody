@@ -21,7 +21,7 @@ class MailgunApi
     get(
       'https://api.mailgun.net/v2/domains',
       params: { skip: skip, limit: limit }
-    )
+    )['items']
   end
 
   def create_catch_all
