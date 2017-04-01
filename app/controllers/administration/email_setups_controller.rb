@@ -17,11 +17,9 @@ class Administration::EmailSetupsController < ApplicationController
   end
 
   def create
-    public_api_key = params[:public_api_key]
     secret_api_key = params[:secret_api_key]
-    if public_api_key.present? && secret_api_key.present?
+    if secret_api_key.present?
       session[:mailgun] = {
-        public_api_key: public_api_key,
         secret_api_key: secret_api_key
       }
       redirect_to action: :edit

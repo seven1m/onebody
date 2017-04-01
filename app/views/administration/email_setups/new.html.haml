@@ -12,9 +12,6 @@
     .col-md-6
       = form_tag administration_email_setup_path, class: 'form' do
         .form-group
-          = label_tag :public_api_key, t('.mailgun.public_api_key')
-          = text_field_tag :public_api_key, '', class: 'form-control'
-        .form-group
           = label_tag :secret_api_key, t('.mailgun.secret_api_key')
           = text_field_tag :secret_api_key, '', class: 'form-control'
         .form-group
