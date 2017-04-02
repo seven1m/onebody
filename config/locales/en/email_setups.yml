@@ -3,6 +3,12 @@ en:
 
     email_setups:
 
+      show:
+        heading: "Email Setup"
+        intro_html: "OneBody is configured to use <code>%{domain}</code> for email."
+        reconfigure:
+          button: "Reconfigure Email"
+
       new:
         heading: "Setup Email"
         config_options:
@@ -29,3 +35,5 @@ en:
           intro: "Choose your domain below or create a new one:"
           label: "Domain"
         submit: "Save Settings"
+        success: "Email configuration has been saved."
+        failure: "There was an error."
