@@ -13,7 +13,7 @@ module EmailConfigInfo
   end
 
   def smtp_config
-    return unless File.exist?(email_config_path)
+    return {} unless File.exist?(email_config_path)
     YAML.load_file(email_config_path).fetch(Rails.env.to_s, {}).fetch('smtp', {})
   end
 
