@@ -1,0 +1,6 @@
+%h1= @event.name
+
+= react_component 'EventRegistrations.Registrant', |
+  event: @event.to_react, |
+  registration: @registration.to_react, |
+  registrant: @registrant.to_react

@@ -1,0 +1,7 @@
+Continue your registration for <%= @verification.event.name %> by clicking the link below:
+
+<%=raw "#{Setting.get(:url, :site)}account/verify_code?id=#{@verification.id}&code=#{@verification.code}" %>
+
+<%=raw t('notifier.email_verification.footer',
+         name: Setting.get(:name, :community),
+         phone: Setting.get(:contact, :community_office_phone)) %>

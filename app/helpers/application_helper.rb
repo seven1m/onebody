@@ -231,4 +231,8 @@ module ApplicationHelper
       if_nil
     end
   end
+
+  def markdown_to_html(markdown)
+    Kramdown::Document.new(html_escape(markdown)).to_html
+  end
 end

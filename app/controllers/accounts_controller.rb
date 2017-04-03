@@ -109,7 +109,12 @@ class AccountsController < ApplicationController
   private
 
   def redirect_for_verification
-    if @verification.people.count > 1
+    if @verification.event
+      (first_name, last_name) = @verification.name.split(/\s+/, 2)
+      person = @verification.people.first || Person.create!(first_name: first_name, last_name: last_name)
+      session[:registration_logged_in_id] = person.id
+      redirect_to new_event_registration_path(@verification.event)
+    elsif @verification.people.count > 1
       session[:select_from_people] = @verification.people.to_a
       redirect_to select_account_path
     else

@@ -43,6 +43,7 @@ class Person < ActiveRecord::Base
   has_many :attendance_records
   has_many :generated_files
   has_many :tasks, ->(my) { where('tasks.group_scope is true or tasks.person_id = ? ', my.id) }, through: :groups
+  has_many :registrations
   belongs_to :site
   belongs_to :last_seen_stream_item, class_name: 'StreamItem'
   belongs_to :last_seen_group, class_name: 'Group'

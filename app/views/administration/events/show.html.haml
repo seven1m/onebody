@@ -1,0 +1,17 @@
+- @title = @event.name
+
+%p= @event.description
+
+%h3 Registrations
+
+- if @event.registrations.any?
+  %table.table
+    %thead
+      %tr
+        %th Name
+    %tbody
+      - @event.registrations.includes(:person).each do |registration|
+        %tr
+          %td= registration.name
+- else
+  %p There are no registrations yet.

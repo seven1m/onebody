@@ -250,6 +250,10 @@ en:
         title: Manage Reports
         about: "Create, Edit and Delete Custom Reports."
         order: 19
+      manage_event_registration:
+        title: Manage Event Registration
+        about: "Create and manage events that allow registration."
+        order: 20
     rest_api_information: To use the REST API with Ruby, you might do this
     settings:
       heading: "Site Settings"
@@ -470,6 +474,9 @@ en:
         Documents:
           name: "Documents"
           description: "If enabled, admins can upload files in a general area where users can browse and download them."
+        Event Registration:
+          name: "Event Registration"
+          description: "If enabled, admins can create and manage events that allow registration."
         Business Directory:
           name: "Business Directory"
           description: If enabled, users can add business information to be listed in a church business directory.

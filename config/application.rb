@@ -54,6 +54,7 @@ module OneBody
       editor.js
       editor.css
       print.css
+      event_registrations.css
     )
 
     config.generators do |g|

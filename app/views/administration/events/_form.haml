@@ -1,0 +1,16 @@
+= form_for [:administration, @event] do |form|
+  = error_messages_for(form)
+  .form-group
+    = form.label :name
+    = form.text_field :name, class: 'form-control'
+  .form-group
+    = form.label :description
+    = form.text_area :description, rows: 20, cols: 80, class: 'form-control'
+  .form-group
+    = form.label :registration_starts_at
+    = form.text_field :registration_starts_at, class: 'form-control'
+  .form-group
+    = form.label :registration_ends_at
+    = form.text_field :registration_ends_at, class: 'form-control'
+  .form-group
+    = form.button t('save'), class: 'btn btn-success'

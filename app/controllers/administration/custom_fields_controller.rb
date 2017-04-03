@@ -2,15 +2,15 @@ class Administration::CustomFieldsController < ApplicationController
   before_filter :only_admins
 
   def index
-    @fields = CustomField.order(:name)
+    @fields = CustomField.for_people.order(:name)
   end
 
   def new
-    @field = CustomField.new
+    @field = CustomField.for_people.new
   end
 
   def create
-    @field = CustomField.create(field_params)
+    @field = CustomField.for_people.create(field_params)
     if @field.valid?
       redirect_to action: :index
     else
@@ -19,11 +19,11 @@ class Administration::CustomFieldsController < ApplicationController
   end
 
   def edit
-    @field = CustomField.find(params[:id])
+    @field = CustomField.for_people.find(params[:id])
   end
 
   def update
-    @field = CustomField.find(params[:id])
+    @field = CustomField.for_people.find(params[:id])
     if @field.update(field_params)
       redirect_to action: :index
     else
@@ -32,7 +32,7 @@ class Administration::CustomFieldsController < ApplicationController
   end
 
   def destroy
-    @field = CustomField.find(params[:id])
+    @field = CustomField.for_people.find(params[:id])
     @field.destroy
     redirect_to action: :index
   end

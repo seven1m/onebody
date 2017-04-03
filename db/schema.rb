@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170315033421) do
+ActiveRecord::Schema.define(version: 20170403020224) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -131,12 +131,20 @@ ActiveRecord::Schema.define(version: 20170315033421) do
   end
 
   create_table "custom_fields", force: :cascade do |t|
-    t.integer  "site_id",    limit: 4
-    t.string   "name",       limit: 50
-    t.string   "format",     limit: 10
+    t.integer  "site_id",           limit: 4
+    t.string   "name",              limit: 50
+    t.string   "format",            limit: 10
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "kind",              limit: 255
+    t.string   "customizable_type", limit: 255
+    t.integer  "customizable_id",   limit: 4
+    t.text     "options",           limit: 65535
+    t.boolean  "required",                        default: false
+    t.integer  "ordering",          limit: 4
   end
+
+  add_index "custom_fields", ["kind"], name: "index_custom_fields_on_kind", using: :btree
 
   create_table "custom_reports", force: :cascade do |t|
     t.integer "site_id",  limit: 4
@@ -147,6 +155,24 @@ ActiveRecord::Schema.define(version: 20170315033421) do
     t.text    "footer",   limit: 65535
     t.string  "filters",  limit: 255
   end
+
+  create_table "discount_rules", force: :cascade do |t|
+    t.integer  "site_id",                 limit: 4
+    t.integer  "event_id",                limit: 4
+    t.string   "name",                    limit: 255
+    t.string   "kind",                    limit: 255
+    t.integer  "if_registrant_type_id",   limit: 4
+    t.integer  "then_registrant_type_id", limit: 4
+    t.decimal  "discount_fixed",                      precision: 10
+    t.float    "discount_percent",        limit: 24
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
+  end
+
+  add_index "discount_rules", ["event_id"], name: "index_discount_rules_on_event_id", using: :btree
+  add_index "discount_rules", ["if_registrant_type_id"], name: "index_discount_rules_on_if_registrant_type_id", using: :btree
+  add_index "discount_rules", ["site_id"], name: "index_discount_rules_on_site_id", using: :btree
+  add_index "discount_rules", ["then_registrant_type_id"], name: "index_discount_rules_on_then_registrant_type_id", using: :btree
 
   create_table "document_folder_groups", force: :cascade do |t|
     t.integer  "document_folder_id", limit: 4
@@ -188,6 +214,36 @@ ActiveRecord::Schema.define(version: 20170315033421) do
     t.integer  "preview_file_size",    limit: 4
     t.datetime "preview_updated_at"
   end
+
+  create_table "event_extras", force: :cascade do |t|
+    t.integer  "site_id",     limit: 4
+    t.integer  "event_id",    limit: 4
+    t.string   "kind",        limit: 255
+    t.string   "name",        limit: 255
+    t.text     "description", limit: 65535
+    t.decimal  "cost",                      precision: 10
+    t.integer  "available",   limit: 4
+    t.integer  "limit_per",   limit: 4
+    t.integer  "ordering",    limit: 4
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+  end
+
+  add_index "event_extras", ["event_id"], name: "index_event_extras_on_event_id", using: :btree
+  add_index "event_extras", ["site_id"], name: "index_event_extras_on_site_id", using: :btree
+
+  create_table "events", force: :cascade do |t|
+    t.integer  "site_id",                limit: 4
+    t.string   "name",                   limit: 255
+    t.text     "description",            limit: 65535
+    t.datetime "registration_starts_at"
+    t.datetime "registration_ends_at"
+    t.integer  "visibility",             limit: 4,     default: 1
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
+  end
+
+  add_index "events", ["site_id"], name: "index_events_on_site_id", using: :btree
 
   create_table "families", force: :cascade do |t|
     t.integer  "legacy_id",            limit: 4
@@ -603,6 +659,80 @@ ActiveRecord::Schema.define(version: 20170315033421) do
     t.datetime "photo_updated_at"
   end
 
+  create_table "registrant_releases", force: :cascade do |t|
+    t.string   "name",               limit: 255
+    t.text     "description",        limit: 65535
+    t.string   "url",                limit: 255
+    t.integer  "event_id",           limit: 4
+    t.integer  "registrant_type_id", limit: 4
+    t.boolean  "required",                         default: true
+    t.integer  "ordering",           limit: 4
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+  end
+
+  add_index "registrant_releases", ["event_id"], name: "index_registrant_releases_on_event_id", using: :btree
+  add_index "registrant_releases", ["registrant_type_id"], name: "index_registrant_releases_on_registrant_type_id", using: :btree
+
+  create_table "registrant_types", force: :cascade do |t|
+    t.integer  "site_id",     limit: 4
+    t.integer  "event_id",    limit: 4
+    t.string   "name",        limit: 255
+    t.text     "description", limit: 65535
+    t.decimal  "base_cost",                 precision: 10
+    t.boolean  "required",                                 default: false
+    t.integer  "ordering",    limit: 4
+    t.integer  "flags",       limit: 4,                    default: 0,     null: false
+    t.datetime "created_at",                                               null: false
+    t.datetime "updated_at",                                               null: false
+  end
+
+  add_index "registrant_types", ["event_id"], name: "index_registrant_types_on_event_id", using: :btree
+  add_index "registrant_types", ["site_id"], name: "index_registrant_types_on_site_id", using: :btree
+
+  create_table "registrants", force: :cascade do |t|
+    t.integer  "site_id",            limit: 4
+    t.integer  "registration_id",    limit: 4
+    t.integer  "person_id",          limit: 4
+    t.integer  "registrant_type_id", limit: 4
+    t.string   "first_name",         limit: 255
+    t.string   "last_name",          limit: 255
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
+
+  add_index "registrants", ["person_id"], name: "index_registrants_on_person_id", using: :btree
+  add_index "registrants", ["registration_id"], name: "index_registrants_on_registration_id", using: :btree
+  add_index "registrants", ["site_id"], name: "index_registrants_on_site_id", using: :btree
+
+  create_table "registration_extras", force: :cascade do |t|
+    t.integer  "site_id",     limit: 4
+    t.string   "object_type", limit: 255
+    t.integer  "object_id",   limit: 4
+    t.integer  "count",       limit: 4
+    t.decimal  "total_cost",              precision: 10
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+  end
+
+  add_index "registration_extras", ["object_id"], name: "index_registration_extras_on_object_id", using: :btree
+  add_index "registration_extras", ["object_type"], name: "index_registration_extras_on_object_type", using: :btree
+  add_index "registration_extras", ["site_id"], name: "index_registration_extras_on_site_id", using: :btree
+
+  create_table "registrations", force: :cascade do |t|
+    t.integer  "site_id",    limit: 4
+    t.integer  "event_id",   limit: 4
+    t.integer  "person_id",  limit: 4
+    t.integer  "status",     limit: 4,                default: 0
+    t.decimal  "total_cost",           precision: 10
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+  end
+
+  add_index "registrations", ["event_id"], name: "index_registrations_on_event_id", using: :btree
+  add_index "registrations", ["person_id"], name: "index_registrations_on_person_id", using: :btree
+  add_index "registrations", ["site_id"], name: "index_registrations_on_site_id", using: :btree
+
   create_table "relationships", force: :cascade do |t|
     t.integer  "person_id",  limit: 4
     t.integer  "related_id", limit: 4
@@ -807,6 +937,8 @@ ActiveRecord::Schema.define(version: 20170315033421) do
     t.datetime "updated_at"
     t.integer  "site_id",      limit: 4
     t.string   "carrier",      limit: 100
+    t.integer  "event_id",     limit: 4
+    t.string   "name",         limit: 255
   end
 
   create_table "verses", force: :cascade do |t|

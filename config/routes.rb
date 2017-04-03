@@ -203,7 +203,7 @@ OneBody::Application.routes.draw do
     resources :imports do
       patch :execute, on: :member
     end
-    resources :updates, :admins, :membership_requests
+    resources :updates, :admins, :membership_requests, :events
     namespace :checkin do
       root to: 'dashboards#show'
       resource :dashboard
@@ -225,6 +225,12 @@ OneBody::Application.routes.draw do
     resource :print
     resource :printer
     resources :families, :people, :groups
+  end
+
+  resources :events do
+    resources :registrations, shallow: true do
+      resources :registrants
+    end
   end
 
   post '/pusher/auth_printer'    => 'pusher#auth_printer'

@@ -1,0 +1,38 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "font-awesome";
+
+html, body {
+  background-color: #eee;
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Abel', Helvetica, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Teko', Helvetica, sans-serif;
+  margin-bottom: 15px;
+}
+
+p {
+  margin-bottom: 25px;
+}
+
+.full-height {
+  height: 100%;
+}
+
+main {
+  margin: 50px;
+  padding: 25px;
+  font-size: 16pt;
+  background-color: #fff;
+  border-radius: 5px;
+  min-height: 80%;
+  box-shadow: 0px 3px 3px 3px rgba(#000, 0.1);
+}
+
+.form-control-spaced {
+  margin-bottom: 5px;
+}

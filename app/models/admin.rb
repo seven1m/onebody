@@ -85,6 +85,7 @@ class Admin < ActiveRecord::Base
     manage_documents
     run_reports
     manage_reports
+    manage_event_registration
   )
 
   Dir["#{Rails.root}/plugins/**/config/privileges.rb"].each do |path|

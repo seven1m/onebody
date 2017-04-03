@@ -122,6 +122,14 @@ class Notifier < ActionMailer::Base
     )
   end
 
+  def email_verification_for_event_registration(verification)
+    @verification = verification
+    mail(
+      to:      verification.email,
+      subject: 'Continue with Event Registration'
+    )
+  end
+
   def mobile_verification(verification)
     @verification = verification
     mail(

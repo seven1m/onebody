@@ -4,6 +4,7 @@ class Verification < ActiveRecord::Base
   MAX_CODE = 999999
 
   belongs_to :site
+  belongs_to :event
 
   scope_by_site_id
 
@@ -18,13 +19,14 @@ class Verification < ActiveRecord::Base
   blank_to_nil :mobile_phone, :email
 
   def validate_people
-    unless people.any?
+    unless people.any? || event
       field = mobile_phone ? :mobile_phone : :email
       errors.add(field, :invalid)
     end
   end
 
   def validate_people_able_to_sign_in
+    return if event
     return if people.none?
     return if people.any?(&:able_to_sign_in?)
     errors.add(:base, :unauthorized)
@@ -68,7 +70,9 @@ class Verification < ActiveRecord::Base
 
   def send_verification_email
     if verified.nil?
-      if mobile_phone
+      if event
+        Notifier.email_verification_for_event_registration(self).deliver_now
+      elsif mobile_phone
         Notifier.mobile_verification(self).deliver_now
       else
         Notifier.email_verification(self).deliver_now
@@ -79,12 +83,12 @@ class Verification < ActiveRecord::Base
   end
 
   def check(param)
-    pending? and param.to_i == code
+    pending? && param.to_i == code && (people.any? || event) && true
   end
 
   def check!(param)
     return false unless pending?
-    self.verified = (param.to_i == code and people.any?)
+    self.verified = check(param)
     save!
     self.verified
   end

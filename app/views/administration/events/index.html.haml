@@ -1,0 +1,33 @@
+- @title = 'Events'
+
+- if @events.any?
+  %table.table
+    %thead
+      %tr
+        %th Name
+        %th Visibility
+        %th Status
+        %th
+    %tbody
+      - @events.each do |event|
+        %tr
+          %td= link_to event.name, administration_event_path(event)
+          %td= event.visibility
+          %td
+            - if event.open?
+              open
+            - else
+              closed
+          %td.actions
+            = link_to edit_administration_event_path(event), class: 'btn btn-small btn-info' do
+              = icon 'fa fa-pencil'
+              Edit
+            = link_to administration_event_path(event), data: { method: 'delete', confirm: t('are_you_sure') }, class: 'btn btn-small btn-delete' do
+              = icon 'fa fa-trash-o'
+              Edit
+
+- else
+  %p You do not have any events yet. Click below to add one.
+
+  %p
+    = link_to 'Add Event', new_administration_event_path, class: 'btn btn-success'

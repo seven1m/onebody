@@ -1,0 +1,18 @@
+%h1 Register for #{@event.name}
+
+%p= markdown_to_html(@event.description).html_safe
+
+.row.well.text-center
+  .col-md-4.col-md-offset-4
+    = form_tag event_registrations_path(@event), method: 'post' do
+      - if current_user
+        = button_tag "Let's Go!", class: 'btn btn-success btn-lg'
+      - else
+        .form-group
+          %label Your Email:
+          = text_field_tag :email, '', class: 'form-control'
+        .form-group
+          %label Your Name:
+          = text_field_tag :name, '', class: 'form-control'
+        .form-group
+          = button_tag 'Get Started!', class: 'btn btn-success btn-lg'

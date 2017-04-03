@@ -1,0 +1,36 @@
+!!!
+%html.lockscreen.full-height
+  %head
+    %meta{charset: "UTF-8"}
+    %title
+      CHURCH.IO
+      - if @title.present?
+        == | #{@title}
+    %meta{content: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no", name: "viewport"}
+    = yield(:meta)
+    = stylesheet_link_tag 'application'
+    = stylesheet_link_tag 'event_registrations'
+    = yield(:css)
+    = csrf_meta_tags
+    = render partial: 'layouts/favicons'
+    %link{ href: "//fonts.googleapis.com/css?family=Teko|Abel", rel: "stylesheet" }
+    /[if lt IE 9]
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    = yield(:head)
+  %body
+    .row.full-height
+      .col-md-offset-2.col-md-8.full-height
+        %main
+          = yield
+    - content_for :js do
+      :javascript
+        $(function() {
+          $(".center").center();
+          $(window).resize(function() {
+            $(".center").center();
+          });
+        });
+    = javascript_include_tag 'application'
+    = yield(:js)
+    = analytics_js

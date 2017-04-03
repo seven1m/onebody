@@ -101,6 +101,9 @@ Features:
   Small Group Size:
     format: string
     value: 75
+  Event Registration:
+    format: boolean
+    value: false
 Services:
   Analytics:
     format: string
