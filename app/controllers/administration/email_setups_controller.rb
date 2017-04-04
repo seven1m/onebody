@@ -23,7 +23,7 @@ class Administration::EmailSetupsController < ApplicationController
   end
 
   def edit
-    if session[:mailgun]
+    if session[:mailgun_key]
       @domains = EmailSetup.new(session[:mailgun_key]).domains
     else
       redirect_to action: :new
