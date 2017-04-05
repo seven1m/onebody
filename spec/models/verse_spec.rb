@@ -56,4 +56,21 @@ describe Verse do
     end
   end
 
+  describe '#fetch' do
+    let(:payload) do
+      {
+        'reference' => 'John 3:16',
+        'text'      => 'For God so loved the world, that he gave his one and only Son, that whoever believes in him should not perish, but have eternal life.'
+      }
+    end
+
+    before do
+      stub_request(:get, "http://bible-api.com/John%203:16?translation=web")
+        .to_return(body: payload.to_json)
+    end
+
+    it 'sends a request to bible-api.com' do
+      expect(Verse.fetch('John 3:16')).to match(payload)
+    end
+  end
 end

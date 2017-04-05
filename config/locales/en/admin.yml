@@ -334,6 +334,9 @@ en:
         Language:
           name: Language
           description: "Language for interface elements. <a href='%{url}' target='_blank'>You can help!</a>"
+        Bible Translation:
+          name: Bible Translation
+          description: "When fetching verses from <a href='https://bible-api.com'>bible-api.com</a>, request this translation."
         Time Zone:
           name: Time Zone
           description: Set to properly display dates and times on the site.

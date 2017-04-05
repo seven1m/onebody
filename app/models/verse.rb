@@ -154,7 +154,7 @@ class Verse < ActiveRecord::Base
     end
 
     def fetch(ref)
-      url = API_URL + URI.escape(ref)
+      url = "#{API_URL}#{URI.escape(ref)}?translation=#{Setting.get(:system, :bible_translation).presence || 'web'}"
       begin
         JSON.parse(Net::HTTP.get(URI.parse(url)))
       rescue JSON::ParserError, SocketError

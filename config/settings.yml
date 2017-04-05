@@ -153,6 +153,9 @@ System:
   Language:
     format: string
     value: en
+  Bible Translation:
+    format: string
+    value: web
   Default Country:
     format: string
     value: US
