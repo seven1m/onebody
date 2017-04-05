@@ -4,9 +4,9 @@ describe MailgunApi do
   before do
     @body = {
       priority: 0,
-      description: 'Catch All Route - Created By OneBody',
+      description: 'Route all email to OneBody',
       expression: "match_recipient('.*@example.com')",
-      action: ["forward('http://example.com/emails.mime')", 'stop()']
+      action: ["forward(\"http://example.com/emails.mime\")", 'stop()']
     }
   end
 
@@ -22,20 +22,12 @@ describe MailgunApi do
         'https://api.mailgun.net/v2/routes',
         body: @body
       )
-      result = subject.create_catch_all
+      result = subject.create_catch_all('example.com')
       expect(result).to eq(true)
     end
   end
 
   context 'with alternate email host' do
-    before do
-      Site.current.email_host = 'mg.example.com'
-    end
-
-    after do
-      Site.current.email_host = nil
-    end
-
     it 'sends an api request to mailgun' do
       expect(subject).to receive(:show_routes).and_return(
         'total_count' => 0, 'items' => []
@@ -45,13 +37,14 @@ describe MailgunApi do
         'https://api.mailgun.net/v2/routes',
         body: @body.merge(expression: "match_recipient('.*@mg.example.com')")
       )
-      result = subject.create_catch_all
+      result = subject.create_catch_all('mg.example.com')
       expect(result).to eq(true)
     end
   end
 
   context 'route already exists' do
-    it 'does not create a route on mailgun and raises an error' do
+    it 'deletes the existing route and creates a new one' do
+      stub_request(:delete, "https://api.mailgun.net/v2/routes/53d9c28a125730632f288aa1")
       expect(subject).to receive(:show_routes).and_return(
         'total_count' => 1,
         'items' => [
@@ -67,11 +60,11 @@ describe MailgunApi do
           }
         ]
       )
-
-      expect(subject.class).not_to receive(:post)
-      expect {
-        subject.create_catch_all
-      }.to raise_error(MailgunApi::RouteAlreadyExists)
+      expect(subject).to receive(:post).with(
+        'https://api.mailgun.net/v2/routes',
+        body: @body
+      )
+      subject.create_catch_all('example.com')
     end
   end
 
@@ -83,7 +76,7 @@ describe MailgunApi do
 
     it 'raises an error' do
       expect {
-        subject.create_catch_all
+        subject.create_catch_all('example.com')
       }.to raise_error(MailgunApi::Forbidden)
     end
   end
@@ -98,7 +91,7 @@ describe MailgunApi do
 
     it 'raises an error' do
       expect {
-        subject.create_catch_all
+        subject.create_catch_all('example.com')
       }.to raise_error(MailgunApi::Forbidden)
     end
   end
