@@ -1,13 +1,12 @@
 class MailgunApi
   include HTTParty
 
-  class RouteAlreadyExists < StandardError; end
   class Forbidden < StandardError; end
   class KeyMissing < StandardError; end
 
   def initialize(key)
     @key = key
-    fail KeyMissing if @key.blank?
+    raise KeyMissing if @key.blank?
   end
 
   def show_routes(skip: 0, limit: 100)
@@ -24,20 +23,19 @@ class MailgunApi
     )['items']
   end
 
-  def create_catch_all
+  def create_catch_all(domain)
     routes = show_routes
     if routes.to_s == 'Forbidden'
-      { 'message' => 'apikey' }
+      raise Forbidden
     else
-      if matching_routes(routes).any?
-        fail RouteAlreadyExists
-      else
-        post(
-          'https://api.mailgun.net/v2/routes',
-          body: build_data
-        )
-        true
+      onebody_routes(routes).each do |route_to_delete|
+        delete("https://api.mailgun.net/v2/routes/#{route_to_delete['id']}")
       end
+      post(
+        'https://api.mailgun.net/v2/routes',
+        body: build_data(domain)
+      )
+      true
     end
   end
 
@@ -48,7 +46,7 @@ class MailgunApi
       basic_auth: { username: 'api', password: @key },
     )
     response = self.class.get(url, options)
-    fail Forbidden if response.code == 401
+    raise Forbidden if response.code == 401
     response
   end
 
@@ -57,25 +55,31 @@ class MailgunApi
       basic_auth: { username: 'api', password: @key },
     )
     response = self.class.post(url, options)
-    fail Forbidden if response.code == 401
+    raise Forbidden if response.code == 401
     response
   end
 
-  def matching_routes(routes)
-    match = []
-    routes['items'].each do |item|
-      next if item['description'] != 'Catch All Route - Created By OneBody'
-      next if item['expression'] != "match_recipient('.*@#{Site.current.email_host}')"
-      match << item
+  def delete(url, options = {})
+    options = options.merge(
+      basic_auth: { username: 'api', password: @key },
+    )
+    response = self.class.delete(url, options)
+    raise Forbidden if response.code == 401
+    response
+  end
+
+  def onebody_routes(routes)
+    routes['items'].select do |item|
+      ['Route all email to OneBody', 'Catch All Route - Created By OneBody'].include?(item['description'])
     end
   end
 
-  def build_data
+  def build_data(domain)
     {
       priority: 0,
-      description: 'Catch All Route - Created By OneBody',
-      expression: "match_recipient('.*@#{Site.current.email_host}')",
-      action: ["forward('http://#{Site.current.host}/emails.mime')", 'stop()']
+      description: 'Route all email to OneBody',
+      expression: "match_recipient('.*@#{domain}')",
+      action: ["forward(\"http://#{Site.current.host}/emails.mime\")", 'stop()']
     }
   end
 end

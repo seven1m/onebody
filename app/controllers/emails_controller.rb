@@ -8,23 +8,6 @@ class EmailsController < ApplicationController
     render nothing: true
   end
 
-  def create_route
-    return if request.get?
-    begin
-      MailgunApi.new(params[:api_key]).create_catch_all
-    rescue MailgunApi::KeyMissing
-      flash[:error] = t('emails.mailgun.apikey_notfound')
-    rescue MailgunApi::Forbidden
-      flash[:error] = t('emails.mailgun.route_error')
-    rescue MailgunApi::RouteAlreadyExists
-      flash[:notice] = t('emails.mailgun.route_found')
-      redirect_to admin_path
-    else
-      flash[:notice] = t('emails.mailgun.route_created')
-      redirect_to admin_path
-    end
-  end
-
   private
 
   def ensure_admin

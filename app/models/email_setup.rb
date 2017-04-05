@@ -13,6 +13,7 @@ class EmailSetup
     return false unless domain
     create_catch_all
     write_config
+    set_email_host
   end
 
   private
@@ -26,9 +27,7 @@ class EmailSetup
   end
 
   def create_catch_all
-    api.create_catch_all
-  rescue MailgunApi::RouteAlreadyExists
-    :noop
+    api.create_catch_all(domain)
   end
 
   def write_config
@@ -50,5 +49,9 @@ class EmailSetup
         }
       }
     }
+  end
+
+  def set_email_host
+    Site.current.update!(email_host: domain)
   end
 end

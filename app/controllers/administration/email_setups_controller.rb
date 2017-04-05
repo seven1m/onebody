@@ -3,7 +3,8 @@ class Administration::EmailSetupsController < ApplicationController
 
   def show
     if OneBody.email_configured?
-      @domain = OneBody.smtp_config['address']
+      @smtp_server = OneBody.smtp_config['address']
+      @email_host = Site.current.email_host
     else
       redirect_to new_administration_email_setup_path
     end

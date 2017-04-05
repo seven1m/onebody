@@ -1,5 +1,5 @@
 - @title = t('.heading')
 
-%p= t('.intro_html', domain: @domain)
+%p= t('.intro_html', smtp_server: @smtp_server, email_host: @email_host)
 
 %p= link_to t('.reconfigure.button'), new_administration_email_setup_path, class: 'btn btn-warning'

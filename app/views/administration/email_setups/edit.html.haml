@@ -2,6 +2,13 @@
 
 %p= t('.domain.intro')
 
+- unless @domains.map { |d| d['name'] }.include?(Site.current.host)
+  .alert.alert-warning
+    %h4
+      = icon 'fa fa-warning'
+      = t('.domain_missing.heading')
+    = t('.domain_missing.message_html', domain: Site.current.host)
+
 = form_tag administration_email_setup_path, class: 'form', method: 'put' do
   .form-group
     = label_tag :domain, t('.domain.label')

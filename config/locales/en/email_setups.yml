@@ -5,7 +5,7 @@ en:
 
       show:
         heading: "Email Setup"
-        intro_html: "OneBody is configured to use <code>%{domain}</code> for email."
+        intro_html: "OneBody is configured to send and receive email at <code>%{email_host}</code> using <code>%{smtp_server}</code>."
         reconfigure:
           button: "Reconfigure Email"
 
@@ -34,6 +34,17 @@ en:
         domain:
           intro: "Choose your domain below or create a new one:"
           label: "Domain"
-        submit: "Save Settings"
+        domain_missing:
+          heading: "Domain doesn't match"
+          message_html: |
+            <p>
+              Your Mailgun account doesn't have the domain <code>%{domain}</code> configured yet.
+              You should log into Mailgun and add this domain first. Then reload this page.
+            </p>
+            <p>
+              <em>Proceed with one of the domains below only if you know what you are doing.</em>
+            </p>
+
+        submit: "Use this domain"
         success: "Email configuration has been saved."
         failure: "There was an error."
