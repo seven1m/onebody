@@ -12,7 +12,10 @@ Any release-specific upgrade notes below should be applied *after* the general i
 
 ### Changes
 
-* Chore: Make text columns for messages bigger
+* Chore: Increase max file size for documents and attachments from 25mb to 75mb
+* Chore: Make database text columns for messages bigger
+* Feature: Setup email send/receive through Mailgun via an admin screen
+* Feature: Show video player on document page when file is an mp4
 
 
 ## 3.7.0 (2017-03-07)
