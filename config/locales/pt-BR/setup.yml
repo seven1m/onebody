@@ -1,0 +1,17 @@
+---
+pt-BR:
+  setup:
+    admin_account: "Conta de Administrador"
+    complete_html: "Ótimo! Você configourou o básico. Siga para <a href='%{url}'>Área Administrativa</a> quando vocÊ estiver pronto para customizar o site da sua comunidade."
+    congratulations: "Parabéns! OneBody está em execução. Agora é a hora de adicionar um usuário administrador e realizar outras configurações..."
+    do_right_away: "Você deve fazer isto agora mesmo, especialmente se o seu servidor está disponível na internet."
+    domain_name_note: "Insira um domínio para este site, sem o prefixo \"www\", como por exemplo: \"exemplo.com\" ou \"membros.exemplo.com\""
+    heading: "Configuração de Primeiro Uso"
+    more_accounts_later: "(Você conseguirá criar mais contas administrativas mais tarde.)"
+    domain_name: "Nome de Domínio"
+    first_name: "Primeiro Nome"
+    last_name: Sobrenome
+    email: "Endereço de Email"
+    password: Senha
+    password_confirmation: "Confirmar Senha"
+    submit_button_html: "Salvar Alterações"

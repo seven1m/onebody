@@ -10,7 +10,7 @@
     - @fields.each do |field|
       %tr
         %td= field.name
-        %td= t('admin.custom_fields.formats')[field.format.to_sym]
+        %td= options_from_i18n('admin.custom_fields.formats').invert[field.format.to_sym]
         %td.actions
           = link_to edit_administration_custom_field_path(field), class: 'btn btn-info btn-xs' do
             = icon 'fa fa-pencil'

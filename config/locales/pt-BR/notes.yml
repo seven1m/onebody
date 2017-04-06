@@ -1,0 +1,16 @@
+---
+pt-BR:
+  notes:
+    index:
+      heading: Notas
+    new:
+      heading: "Nova Nota"
+      button: Nova
+    edit:
+      heading: "Editar Nota"
+      button: Editar
+    delete:
+      button: Excluir
+    posted: "postado %{when}"
+    save: "Gravar Nota"
+    saved: "Nota gravada"

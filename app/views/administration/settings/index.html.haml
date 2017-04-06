@@ -85,7 +85,7 @@
         .col-sm-offset-2.col-sm-10
           = button_tag t('save_changes'), class: 'btn btn-success'
     .tab-pane#theme
-      = setting_row('Appearance', 'Theme', options: t('admin.settings.Appearance.Theme.options').invert)
+      = setting_row('Appearance', 'Theme', options: options_from_i18n('admin.settings.Appearance.Theme.options'))
       %div.btn-group.col-sm-4.col-sm-offset-2{ id: 'site-colors', 'data-toggle' => 'buttons'}
         %label{ class: 'btn style-blue'}
           %input{ type: 'radio', name: 'site_color', autocomplete: 'off', value: 'skin-blue'}

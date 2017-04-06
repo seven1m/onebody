@@ -1,0 +1,18 @@
+---
+pt-BR:
+  session:
+    form:
+      header: Acessar
+      placeholder:
+        email: "Endereço de Email"
+        password: Senha
+      remember_me: "Lembrar de mim"
+    account_not_activated_html: "Sua conta ainda não foi ativada. <a href='/pages/help'>Clique aqui</a> para iniciar."
+    email_found: "O endereço de email foi encontrado, porém você precisa verificá-lo antes de poder acessar o site."
+    email_not_found: "O endereço de email não foi encontrado no nosso sistema. Por favor tente outro email."
+    forgot_password_button: "Eu esqueci"
+    password_doesnt_match: "A senha que você inseriu não confere com os nossos registros. Por favor, tente novamente."
+    max_sign_in_attempts: "Desculpe, mas você excedeu o limite máximo de tentativas de acesso em um período de 15 minutos. Você poderá tentar novamente em 15 minutos."
+    sign_in_button: Acessar.
+    sign_up_button: "Criar uma conta."
+    sign_out: Sair

@@ -1,0 +1,116 @@
+---
+pt-BR:
+  administration:
+    imports:
+      new:
+        heading: "Importar Dados"
+        people:
+          heading: "Importar Pessoas"
+        form:
+          submit: "Enviar Arquivo"
+        browse:
+          button: "Selecionar Arquivo CSV"
+      created: criado
+      edit:
+        form:
+          create_as_active: "Crie novas pessoas ativas (com permissões de acesso)"
+          dont_preview: "Pular Visualização"
+          match_strategy: "Como nós devemos tentar combinar pessoas existentes?"
+          overwrite_changed_emails_html: "Sobrescrever o endereço de email alterado não importando qual. Clique <a href='%{url}' target='_blank'>aqui</a> para maiores informações."
+        table:
+          attribute: "Atributo no banco de dados"
+          column: "Coluna do arquivo"
+          example: "Exemplo de dados"
+        delete:
+          button: "Remover Importação"
+        save:
+          button: "Salvar e continuar"
+      errored:
+        message: "Nós não podemos processar o seu arquivo CSV. Segue o erro:"
+        new:
+          button: "Tente novamente"
+      index:
+        table:
+          filename: "Nome do arquivo"
+          created_at: Criado
+          errored: Erros
+          person: "Criado Por"
+          rows: Linhas
+          status: Estado
+      match_strategies:
+        by_id_only: "pelo ID somente"
+        by_name: "pelo nome (use o ID se presente)"
+        by_contact_info: "pela informação de contato, como endereço ou telefone (use ID se presente)"
+        by_name_or_contact_info: "pelo nome ou informação de contato (use ID se presente)"
+      matched_by:
+        default: "não encontrado"
+        matched_person_by_id: "pelo ID"
+        matched_person_by_name: "pelo nome"
+        matched_person_by_contact_info: "pela informação de contato"
+        matched_family_by_id: "pelo ID"
+        matched_family_by_name: "por nome"
+        matched_family_by_contact_info: "pela informação de contato"
+        matched_person_by_legacy_id: "por legacy ID"
+        matched_family_by_legacy_id: "por legacy ID"
+      parsing:
+        message: "Por favor espere enquanto nós analisamos o seu arquivo."
+      show:
+        create_as_active:
+          ? "true"
+          : sim
+          ? "false"
+          : não
+        match_strategies:
+          by_id_only: id
+          by_name: nome
+          by_contact_info: "informação de contato"
+          by_name_or_contact_info: "nome ou informação de contato"
+        stats:
+          heading: "Atualizar Estado"
+        table:
+          completed_at: Completado
+          create_as_active: "Criar como ativo"
+          created_at: Enviado
+          creates: Criar
+          errored: "Ocorreu um erro"
+          families: Famílias
+          family_id: "ID da Família"
+          family_matched: "Família Combinada"
+          family_name: "Nome da Família"
+          family_status: "Estado da Família"
+          filename: "Nome do arquivo"
+          match_strategy: "Corresponder por"
+          new: novo
+          no_change: "Sem Mudanças"
+          people: Pessoas
+          person: Por
+          person_first_name: "Primeiro Nome"
+          person_id: ID
+          person_last_name: "Último Nome"
+          person_matched: "Pessoa Combinada"
+          person_status: "Status da Pessoa"
+          rows: Linhas
+          updates: Atualizações
+        edit:
+          button: "Editar Importação"
+        execute:
+          button: "Importar Dados Agora!"
+        delete:
+          button: "Remover Importação"
+        errors_table:
+          name: Attribute
+          value: Value
+          error: Error
+          blank_value: (blank)
+      status:
+        pending: Pendente
+        parsing: "Analisando Arquivo de Dados"
+        parsed: Analisado
+        previewing: "Construindo Visualização"
+        previewed: "Visualizar Mudanças"
+        active: Ativo
+        complete: Completo
+        errored: "Com erros"
+      status_heading: "Status de Importação: %{status}"
+      unchanged: "não alterado"
+      updated: atualizado

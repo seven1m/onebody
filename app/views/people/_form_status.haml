@@ -1,6 +1,6 @@
 .form-group
   = form.label :status
-  = form.select :status, t('people.edit.statuses').invert, {}, class: 'form-control'
+  = form.select :status, options_from_i18n('people.edit.statuses'), {}, class: 'form-control'
 - if @person.adult_or_consent?
   .callout.callout-info.status-help#status-inactive{ style: 'display:none' }
     = t('people.edit.status_help.inactive')

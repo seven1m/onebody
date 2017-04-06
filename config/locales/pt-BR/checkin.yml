@@ -1,0 +1,165 @@
+---
+pt-BR:
+  checkin:
+    heading: Check-in
+    search:
+      label: "Digite o nome parcial ou completo:"
+      button: Buscar
+      clear: limpar
+      none_found: "nenhuma família encontrada"
+    add_family:
+      button: "Adicionar Família"
+    attendance:
+      button: Presença
+    setup:
+      heading: Configuração
+    assigned_cards:
+      button: "Cartões Atribuídos"
+    scan:
+      unknown_card: "cartão não encontrado"
+    cards:
+      heading: "Cartões de Check-in Atribuídos"
+      table:
+        id: ID
+        legacy_id: "ID Legado"
+        family: Família
+        barcode: "Código de Barras"
+        assigned_at: Atribuído
+      export:
+        button: "Exportar para um Arquivo"
+      none: "nenhum registro para exibir"
+    groups:
+      movement_help_html: |
+          <p>
+          Para mover um grupo de check-in para dentro ou fora de uma pasta, primeiro expanda a pasta depois clique em
+          <i class="up"></i> ou  <i class="down"></i>.
+          </p>
+          <p>
+          Para mover um grupo para o topo ou para o fim,
+          segure <span class="highlight">shift</span> enquanto clica com o botão esquerdo do mouse
+          <i class="up"></i> ou <i class="down"></i>.
+          </p>
+      heading: "Check-in em Grupos"
+      index:
+        heading: "%{time} no %{campus}"
+        add_folder:
+          button: "Adicionar Pasta"
+          heading: "Adicionar uma pasta"
+          name: "Nome a pasta"
+        add_group:
+          heading: "Adicionar um destino (grupo)"
+          search: "Buscar pelo nome"
+          select_folder:
+            label: "Selecionar pasta"
+            none: (nenhum)
+          button: "Adicionar Grupo"
+        table:
+          name: Nome
+          label_id: "Rótulo (etiqueta)"
+          print_extra_nametag: "Etiqueta de Nome Adicional"
+          section: Seção
+      section:
+        new: "[nova seção]"
+      table:
+        group: Grupo
+    labels:
+      button: "Configurações de rótulo"
+      edit:
+        heading: "Editar Rótulo de Check-in"
+      delete:
+        notice: "Rótulo deletado"
+      heading: "Etiquetas de Check-in"
+      new:
+        button: "Novo Rótulo"
+        heading: "Editar Etiquetas de Check-in"
+      table:
+        name: Nome
+        description: Descrição
+        updated_at: Atualizado
+    times:
+      button: "Configuração de Horários"
+      heading: "Horários de Check-in"
+      intro: "Adicione, edite e exclua horários disponíveis de check-in aqui."
+      table:
+        time: Hora
+        campus: Campus
+        groups:
+          heading: Destinos
+          count:
+            one: "1 destino"
+            other: "%{count} destinos"
+      edit:
+        button: editar
+        campus:
+          new: "[novo campus]"
+        delete:
+          button: deletar
+        heading: "Editar Horário de Check-in"
+        save:
+          button: "Salvar Alterações"
+      groups:
+        button: grupos
+      recurring:
+        heading: "Horários Recorrentes"
+        new:
+          button: "Novo Horário Recorrente"
+        weekday: "Dia da Semana"
+        time: Horário
+        campus: Campus
+        add:
+          button: Adicionar
+      single:
+        heading: "Horários e Datas Individuais"
+        new:
+          button: "Novo Horário Individual"
+        datetime: "Data & Hora"
+        campus: Campus
+        add:
+          button: Adicionar
+    family:
+      new:
+        heading: "Nova Família"
+        first_name: Nome
+        last_name: Sobrenome
+        birthday: "Data de Nascimento"
+        medical_notes: "Anotações Médicas (opcional)"
+        parents: Pais
+        children: Crianças/Outros
+        barcode: "Ler Cartão"
+        ignore_spelling_errors: "Ignoras erros suspeitos de ortografia."
+        save: "Salvar Família"
+        cancel: cancelar
+        success:
+          heading: "Família Salva"
+          return: Voltar
+          view: "Visualizar/Editar Família"
+          barcode: "Número atribuído:"
+          not_checked_in: "Esta família ainda não fez o check-in — instrua o responsável\n\
+              eles precisam agora realizar o check-in em uma das estações. \n"
+      saved: "Família salva."
+      errors: "Houveram erros ao salvar esta família."
+      error:
+        no_birthdays: "Você precisa inserir a data de nascimento para cada criança."
+        no_people: "Você precisa inserir pelo menos uma pessoa."
+        no_parents: "Você precisa inserir pelo menos um pai ou mãe."
+        no_barcode: "Por favor, passe o campo no final do cartão no leitor."
+    interface:
+      add_guest:
+        heading: "Adicionar um convidado"
+        intro: "Informe o nome completo do seu convidado no cambo abaixo"
+        button: "Adicionar um convidado"
+        save: Salvar
+      barcode:
+        placeholder: "Passe o Seu Cartão"
+      cancel:
+        button: cancelar
+      heading: "Check in"
+      not_attending: "não comparecendo"
+      print:
+        heading: "Depois de fazer suas seleções..."
+        button: "Imprimir Etiquetas"
+      run_setup:
+        intro: "Você precisa primeiramente configurar os horários e destinos de check-in"
+        button: Configuração
+      same_as_last_week:
+        button: "Escolher o mesmo da semana passada"

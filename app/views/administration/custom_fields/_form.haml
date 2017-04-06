@@ -5,6 +5,6 @@
     = form.text_field :name, class: 'form-control'
   .form-group
     = form.label :format
-    = form.select :format, t('admin.custom_fields.formats').invert, {}, class: 'form-control'
+    = form.select :format, options_from_i18n('admin.custom_fields.formats'), {}, class: 'form-control'
   .form-group
     = form.button t('save'), class: 'btn btn-success'

@@ -1,0 +1,166 @@
+---
+pt-BR:
+  people:
+    account_frozen:
+      callout: "Esta conta está congelada. Mudanças não podem ser feitas até que ela seja normalizada."
+    new:
+      heading: "Nova Pessoa na família %{family}"
+      heading_without_family: "Nova Pessoa"
+      no_family_warning_html: "Você irá criar uma nova pessoa e um <strong>novo registro de família</strong>\n\
+          Se você deseja adicionar uma pessoa a uma família existente, primeiro acesse a página da família e adicione a pessoa nela. \n"
+    edit:
+      about: Sobre
+      basics: Básico
+      child:
+        enabled: Criança
+        disabled: Adulto
+      child_hint: "Se nenhuma data de nascimento for especificada, você necessita indicar se este é uma criança ou um adulto."
+      description_hint: "Algumas palavras sobre você — algumas pessoas colocam a profissão aqui."
+      family_photo: "Foto da Família"
+      person_type: Funções
+      person_type_hint: "Estes não controlam acesso - somente designação."
+      photo: "Foto do Perfil"
+      header: "Editar Perfil"
+      business: Negócios
+      business_category:
+        new: "[criar uma nova categoria]"
+        create_prompt: "Digite a categoria do seu negócio:"
+      custom_type:
+        new: "[criar função]"
+        create_prompt: "Digite o nome da função:"
+      facebook_url:
+        placeholder: "https://www.facebook.com/nomedousuario"
+      required_field: requerido
+      twitter:
+        placeholder: "@nomedousuario"
+      primary_emailer:
+        intro_html: "Você está compartilhando um endereço de email com %{person}.\n\
+            Se os emails do seu grupo estão sendo rejeitados, considere marcar a opção abaixo para ter certeza que\n\
+            os seus email estão <strong>sempre</strong> conectados com a sua conta\n\
+            &ndash; <strong>not %{person}</strong>. (Nota: Se você e %{person} enviam emails para o grupo,\n\
+            então será melhor utilizar endereços de email diferentes.) \n"
+      email_hint: " (este é o seu endereço de email principal utilizado para o login e receber emails)"
+      no_family_error: "Essa pessoa não pode ser editada, pois ela não pertence a família."
+      status: Estado
+      status_help:
+        inactive: "Pessoas inativas não podem acessar e estão visíveis apenas para administradores."
+        pending: "Pessoas com pendências podem acessar e visualizar informações limitadas dos membros."
+        active: "Pessoas ativas podem acessar e fazer uso total do site."
+        not_an_adult: "Crianças não podem acessar, então configurar o estado aqui afeta apenas a visibilidade delas para os outros."
+      statuses:
+        inactive: Inativo
+        pending: Pendente
+        active: Ativo
+    move:
+      heading: "Adicionar na família %{family}"
+      description_html: "Encontre pessoas para adicionar na família <a href='%{url}'>%{family}</a>, e clique no botão Adicionar..."
+      button: "Mover para a Família"
+      success_message: "%{person} foi adicionado(a) na família %{family}."
+    roles:
+      elder: Ancião
+      deacon: Diácono
+      staff: Funcionário
+      member: Membro
+    email:
+      heading: "Configurações de Email"
+      primary:
+        heading: "Email Principal"
+        description_html: |
+            <p>Esse é o seu e-mail principal utilizado para efetuar a autenticação e receber e-mails. Atenção:</p>
+            <ul>
+              <li>Esse é o e-mail que você vai utilizar para se autenticar.</li>
+              <li>Todos os e-mails privados e de grupo serão enviados para esse e-mail.</li>
+            </ul>
+      alternate:
+        heading: "Email Alternativo"
+        description_html: |
+            <p>Se você tem outro endereço que deseja utilizar para enviar e-mail para os grupos, você pode preencher aqui. Atenção:</p>
+            <ul>
+              <li>Esse e-mail poderá ser visto apenas pelos administradores.</li>
+              <li>Você não poderá utilizar esse e-mail como autenticação.</li>
+            </ul>
+      groups:
+        heading: "Email do Grupo"
+    groups:
+      members: membros
+      messages: mensagens
+      join:
+        button: "Encontre e participe de um grupo"
+      heading: Grupos
+      see_all: "ver todos..."
+    business:
+      services_provided_by: "Serviços fornecidos por %{person}"
+      address: Endereço
+      email: Email
+      phone: Telefone
+      website: Website
+    testimony:
+      box_heading: Testemunho
+      heading: "Testemunho de %{person}"
+      view_profile: "Visualizar Perfil"
+      view_full: "ler mais"
+      find_more: "Ler outros testemunhos"
+    updates:
+      pending_callout: "Este perfil possui atualizações pendentes."
+    advanced: Avançado
+    can_sign_in: Cadastre-se
+    cant_delete_yourself: "Você não pode se excluir."
+    cant_delete: "Você não pode excluir esta pessoa."
+    changes_must_be_reviewed_html: "Alterações devem ser <strong>revisadas pela equipe</strong> . Para solicitar alterações informe abaixo e click em 'Enviar Alterações'."
+    changes_submitted: "Alterações submetidas."
+    child: Criança/Adulto
+    deleted_html: "Esta pessoa foi excluída. Você pode restaurar um registro <a href='%{url}'>aqui</a>."
+    family: Família
+    family_legacy_external_id: "Legado da Família / ID Externo"
+    find_a_group_html: "Encontre um grupo <a href='%{url}'>aqui</a>."
+    friend_not_found: "Amigo não encontrado"
+    friendship_accepted: "Amizade aceita"
+    friendship_manage: "Você somente pode gerenciar as suas amizades."
+    friendship_must_specify: "Precisa especificar accept=true ou reject=true"
+    friendship_rejected: "Amizade declinada."
+    full_access: "Acesso total"
+    if_you_wish_to_be_listed_business_dir_html: "Se você quiser ser listado no <a href='%{url}'>Diretório de Negócios</a>, insira o nome do seu negócio, descrição e outros detalhes abaixo."
+    if_you_wish_to_remove_something_html: "Se você deseja remover algo, a fim de evitar que outras pessoas vejam, entre na página de <a href='%{url}'>Privacidade</a> e oculte-a."
+    legacy_external_id: "Legado/ID Externo"
+    limited_access: "Sua conta está com um acesso limitado; Estamos exibindo para você uma resumo do perfil da página."
+    limited_access_denied: "A sua conta atualmente possui acessos limitados."
+    no_family_for_this_person: "Essa pessoa não pertence a nenhuma família. Não será possível entrar e não ficará visível para os outros usuários."
+    not_deleted: "Pessoa não foi excluída."
+    not_found: "Pessoa não encontrada."
+    pending_approval: "aprovação pendente"
+    people: Pessoas
+    person:
+      one: "1 Pessoa"
+      other: "%{count} Pessoas"
+    person_isnt_any_groups: "%{person} não está em nenhum grupo neste momento."
+    share_your_personal_testimony: "Compartilhe o seu testemunho pessoal — como você conheceu a Jesus Cristo e como ele mudou a sua vida."
+    show_hidden_groups: "Exibir Grupos Ocultos"
+    tell_us_about_yourself: "Fala um pouco sobre você. Como é a sua personalidade? Como o seu melhor amigo descreveria você?"
+    this_event_doesnt_have_pictures: "Este evento ainda não possui nenhuma foto."
+    this_profile_is_hidden: "Este perfil está oculto"
+    update_to_profile_is: "Uma atualização para este perfil é"
+    visible_on_printed_directory: "Visível no Diretório Impresso"
+    visible_to_everyone: "Visível para todos"
+    you_arent_in_any_groups: "Você ainda não faz parte de nenhum grupo."
+    title_html: "%{name}<span class='discreet'>, %{description}</span>"
+    verification_email:
+      heading: "Completar Configuração do Usuário"
+      intro: "Antes deste usuário poder acessar, ele precisa completar a configuração clicando no link fornecido no email. Clique abaixo para enviar o email para ele."
+      button: "Enviar uma senha de configuração para este usuário."
+    show:
+      details:
+        family: "Família %{family}"
+        website: Website
+        email: Email
+        mobile_phone: "Telefone Celular"
+        home_phone: "Telefone Residencial"
+        work_phone: "Telefone de Trabalho"
+        address: "Endereço Residencial"
+        birthday: "Data de Nascimento"
+        anniversary: "Aniversário de Casamento"
+        social: Social
+      showing_hidden_attribute:
+        tooltip: "Isso é visível para você porque você é um administrador com privilégios de 'Visualização de Propriedades Ocultas' habilitado."
+    checkin:
+      heading: "Notas de Check-in"
+      intro: "Essas são notas mostradas nas telas de check-in e (opcionalmente) nos rótulos de check-in impressos com objetivo de alertar os trabalhadores."

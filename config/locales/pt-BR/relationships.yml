@@ -1,0 +1,55 @@
+---
+pt-BR:
+  relationships:
+    heading: "Relacionamento para %{person}"
+    reciprocate:
+      button: Retribuir
+      failure: "Um relacionamento recíproco com %{name} não pode ser criado automaticamente."
+    add_relationship:
+      intro: "Adicionar um relacionamento:"
+      button: "Adicionar um relacionamento:"
+    family:
+      create:
+        intro: "Alguns relacionamentos são sugeridos abaixo. Faça qualquer ajuste necessário e então clique no botão \"Criar\"."
+        button: "Criar Relacionamentos de Família"
+      heading: "Relacionamentos de Família de %{family}"
+      button: "Relacionamentos de Família"
+    inward:
+      heading: "Relacionamento íntimo/familiar"
+    names:
+      aunt: Tia
+      brother: Irmão(ã)
+      brother_in_law: Cunhado
+      cousin: Primo(a)
+      daughter: Filha
+      daughter_in_law: Nora
+      father: Pai
+      father_in_law: Sogro
+      granddaughter: Neta
+      grandfather: Avô
+      grandmother: Avó
+      grandson: Neto
+      husband: Marido
+      mother: Mãe
+      mother_in_law: Sogra
+      nephew: Sobrinho
+      niece: Sobrinha
+      sister: Irmã
+      sister_in_law: Cunhada
+      son: Filho
+      son_in_law: Genro
+      stepbrother: "Meio irmão"
+      stepdaughter: Enteada
+      stepfather: Padrastro
+      stepmother: Madrasta
+      stepsister: "Irmã por parte de pai ou mãe"
+      stepson: Enteado
+      uncle: Tio
+      wife: Esposa
+      other_name: Outros
+    no_person_selected: "Nenhuma pessoa selecionada."
+    relationship: Relacionamento
+    relationship_type: "Tipo:"
+    toggle_individual: "Visualizar Relacionamentos Individuais"
+    other_name:
+      placeholder: "Tipo de Relacionamento"

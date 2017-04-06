@@ -11,7 +11,7 @@ module SearchesHelper
   end
 
   def types_for_select
-    t('search.form.types').invert.to_a +
+    options_from_i18n('search.form.types').to_a +
     (Setting.get(:features, :custom_person_type) ? Person.custom_types : [])
   end
 

@@ -14,6 +14,7 @@ Any release-specific upgrade notes below should be applied *after* the general i
 
 * Chore: Increase max file size for documents and attachments from 25mb to 75mb
 * Chore: Make database text columns for messages bigger
+* Chore: Rename 'Português' (pt) to 'Português (Brasil)' (pt-BR)
 * Feature: Allow specifying the translation to use when fetching bible verses
 * Feature: Setup email send/receive through Mailgun via an admin screen
 * Feature: Show video player on document page when file is an mp4

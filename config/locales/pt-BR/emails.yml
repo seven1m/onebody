@@ -1,0 +1,13 @@
+---
+pt-BR:
+  emails:
+    mailgun:
+      api_key: "Sua Chave da API Mailgun"
+      heading: "Crie  uma rota catchall do Mailgun"
+      intro_html: "Por favor visite <a href='%{url}' target='_blank'>a wiki</a> para informações sobre como configurar o email."
+      route_found: "Essa rota já existe."
+      route_created: "A rota foi criada com sucesso."
+      apikey_notfound: "Por favor, insira uma chave válida da API Mailgun."
+      route_error: "Houve um erro ao tentar criar uma rota."
+      submit:
+        button: "Criar Rota."

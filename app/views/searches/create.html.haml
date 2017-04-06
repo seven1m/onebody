@@ -30,7 +30,7 @@
             = select_tag 'anniversary[day]', options_for_select(1..31, @search.anniversary(:day)), include_blank: true, class: 'form-control inline'
           .form-group
             = label_tag 'gender', t('search.form.gender')
-            = select_tag 'gender', options_for_select(t('search.form.genders').invert, @search.gender), include_blank: true, class: 'form-control'
+            = select_tag 'gender', options_for_select(options_from_i18n('search.form.genders'), @search.gender), include_blank: true, class: 'form-control'
           .form-group
             = label_tag 'address_city', t('search.form.city')
             = text_field_tag 'address[city]', @search.address(:city), class: 'form-control'
