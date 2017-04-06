@@ -9,7 +9,8 @@
 #
 module EmailConfigInfo
   def email_configured?
-    smtp_config['address'].present?
+    config = smtp_config
+    config['address'].present? && config['user_name'] != 'SMTP_LOGIN_GOES_HERE'
   end
 
   def smtp_config
