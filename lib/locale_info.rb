@@ -1,5 +1,13 @@
-module OneBody
-
+# Mix this module into the main application module to provide
+# information about locales.
+#
+# In config/application.rb:
+#
+#     module OneBody
+#       extend LocaleInfo
+#     end
+#
+module LocaleInfo
   def set_locale
     I18n.locale = Setting.get(:system, :language)
   end
@@ -18,7 +26,4 @@ module OneBody
     Time::DATE_FORMATS.merge!(formats)
     Date::DATE_FORMATS.merge!(formats)
   end
-
-  module_function :set_locale, :set_time_zone, :set_local_formats
-
 end
