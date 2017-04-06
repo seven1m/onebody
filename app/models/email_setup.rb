@@ -14,6 +14,7 @@ class EmailSetup
     create_catch_all
     write_config
     set_email_host
+    OneBody.load_email_config
   end
 
   private

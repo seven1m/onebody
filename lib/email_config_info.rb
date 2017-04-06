@@ -21,4 +21,12 @@ module EmailConfigInfo
   def email_config_path
     Rails.root.join('config/email.yml')
   end
+
+  def load_email_config
+    config = smtp_config
+    return unless config.any?
+    config.symbolize_keys!
+    config[:authentication] = config[:authentication].to_sym if config[:authentication]
+    ActionMailer::Base.smtp_settings = config
+  end
 end
