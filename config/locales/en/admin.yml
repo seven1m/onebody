@@ -73,11 +73,17 @@ en:
       heading: "Admin Dashboard"
       sub_title: "OneBody %{version}"
       version_alert:
+        heading: "Outdated Version"
         intro_html: "A newer version of OneBody is available: <a href='%{url}'>%{version}</a>"
         download_button: "How to Upgrade"
       email_config_alert:
-        intro_html: "Email sending and receiving is not set up yet."
+        heading: "Email Not Configured"
+        intro: "Email sending and receiving is not set up yet."
         button: "Configure Email"
+      tls_config_alert:
+        heading: "Site Not Secure"
+        intro: "TLS (SSL) is not set up, so this site is not secure. Users' sessions can be hijacked and their passwords snooped by bad guys."
+        button: "Learn More"
 
     deleted_people:
       tabs:
