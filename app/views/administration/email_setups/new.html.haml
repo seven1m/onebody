@@ -1,5 +1,7 @@
 - @title = t('.heading')
 
+= tls_warning(email_setup: true)
+
 .btn-group{ role: 'group', 'data-select-group' => true, 'data-select-class' => 'btn-info/btn-default' }
   %button.btn.btn-info{ 'data-select' => '#mailgun-email' } Mailgun
   %button.btn.btn-default{ 'data-select' => '#manual-email' } Manual

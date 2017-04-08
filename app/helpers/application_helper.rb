@@ -212,17 +212,17 @@ module ApplicationHelper
   end
 
   # this is an ugly hack for Rails 4 because I18n.exception_handler isn't working with the t() helper
-  #def t(*args)
-  #  if Rails.env.production?
-  #    super
-  #  else
-  #    super.tap do |result|
-  #      if result =~ /"(translation missing: .*)"/
-  #        raise $1
-  #      end
-  #    end
-  #  end
-  #end
+  def t(*args)
+    if Rails.env.production?
+      super
+    else
+      super.tap do |result|
+        if result =~ /"(translation missing: .*)"/
+          raise $1
+        end
+      end
+    end
+  end
 
   def time_to_s(time, format, if_nil = '')
     if time
@@ -239,5 +239,10 @@ module ApplicationHelper
     result = I18n.t(key).invert
     OneBody.set_locale
     result
+  end
+
+  def tls_warning(email_setup: false)
+    return if request.scheme == 'https'
+    render partial: 'layouts/tls_warning', locals: { email_setup: email_setup }
   end
 end

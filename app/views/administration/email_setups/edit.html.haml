@@ -1,5 +1,7 @@
 - @title = t('.heading')
 
+= tls_warning(email_setup: true)
+
 %p= t('.domain.intro')
 
 - unless @domains.map { |d| d['name'] }.include?(Site.current.host)

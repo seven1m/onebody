@@ -83,6 +83,7 @@ en:
       tls_config_alert:
         heading: "Site Not Secure"
         intro: "TLS (SSL) is not set up, so this site is not secure. Users' sessions can be hijacked and their passwords snooped by bad guys."
+        email_setup_note: "Email incoming from Mailgun will also be transfered without encryption. Please secure your site before configuring email."
         button: "Learn More"
 
     deleted_people:

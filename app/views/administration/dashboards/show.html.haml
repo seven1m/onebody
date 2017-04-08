@@ -3,6 +3,8 @@
 - content_for :sub_title do
   = t('admin.dashboard.sub_title', version: OneBody.current_version)
 
+= tls_warning
+
 - unless OneBody.up_to_date?
   .alert.alert-info
     %h4
@@ -21,14 +23,6 @@
       = t('admin.dashboard.email_config_alert.heading')
     %p= t('admin.dashboard.email_config_alert.intro')
     %p= link_to t('admin.dashboard.email_config_alert.button'), administration_email_setup_path
-
-- unless request.scheme == 'https'
-  .alert.alert-warning
-    %h4
-      = icon 'fa fa-warning'
-      = t('admin.dashboard.tls_config_alert.heading')
-    %p= t('admin.dashboard.tls_config_alert.intro')
-    %p= link_to t('admin.dashboard.tls_config_alert.button'), 'https://github.com/churchio/onebody/wiki/SSL-Setup'
 
 .collapsable-heading
   %h2= t('admin.actionables.heading')

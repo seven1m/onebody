@@ -1,0 +1,9 @@
+.alert.alert-danger
+  %h4
+    = icon 'fa fa-exclamation-circle'
+    = t('admin.dashboard.tls_config_alert.heading')
+  %p= t('admin.dashboard.tls_config_alert.intro')
+  - if email_setup
+    %p
+      %strong= t('admin.dashboard.tls_config_alert.email_setup_note')
+  %p= link_to t('admin.dashboard.tls_config_alert.button'), 'https://github.com/churchio/onebody/wiki/SSL-Setup'
