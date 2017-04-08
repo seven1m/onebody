@@ -1,6 +1,7 @@
 class EmailSetup
-  def initialize(key)
+  def initialize(key:, scheme:)
     @key = key
+    @scheme = scheme
   end
 
   attr_accessor :domain
@@ -24,7 +25,7 @@ class EmailSetup
   end
 
   def api
-    @api ||= MailgunApi.new(@key)
+    @api ||= MailgunApi.new(key: @key, scheme: @scheme)
   end
 
   def create_catch_all

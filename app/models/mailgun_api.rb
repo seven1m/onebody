@@ -4,8 +4,9 @@ class MailgunApi
   class Forbidden < StandardError; end
   class KeyMissing < StandardError; end
 
-  def initialize(key)
+  def initialize(key:, scheme:)
     @key = key
+    @scheme = scheme
     raise KeyMissing if @key.blank?
   end
 
@@ -79,7 +80,7 @@ class MailgunApi
       priority: 0,
       description: 'Route all email to OneBody',
       expression: "match_recipient('.*@#{domain}')",
-      action: ["forward(\"http://#{Site.current.host}/emails.mime\")", 'stop()']
+      action: ["forward(\"#{@scheme}://#{Site.current.host}/emails.mime\")", 'stop()']
     }
   end
 end

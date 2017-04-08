@@ -6,11 +6,11 @@ describe MailgunApi do
       priority: 0,
       description: 'Route all email to OneBody',
       expression: "match_recipient('.*@example.com')",
-      action: ["forward(\"http://example.com/emails.mime\")", 'stop()']
+      action: ["forward(\"https://example.com/emails.mime\")", 'stop()']
     }
   end
 
-  subject { described_class.new('key') }
+  subject { described_class.new(key: 'key', scheme: 'https') }
 
   context 'without email host' do
     it 'sends an api request to mailgun' do
@@ -52,7 +52,7 @@ describe MailgunApi do
             'description' => 'Catch All Route - Created By OneBody',
             'created_at'  => 'Thu, 31 Jul 2014 04:14:02 GMT',
             'actions'     => [
-              "forward('http://example.com/emails.mime')", 'stop()'
+              "forward('https://example.com/emails.mime')", 'stop()'
             ],
             'priority'    => 0,
             'expression'  => "match_recipient('.*@example.com')",

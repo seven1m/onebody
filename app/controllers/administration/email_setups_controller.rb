@@ -25,7 +25,7 @@ class Administration::EmailSetupsController < ApplicationController
 
   def edit
     if session[:mailgun_key]
-      @domains = EmailSetup.new(session[:mailgun_key]).domains
+      @domains = email_setup.domains
     else
       redirect_to action: :new
     end
@@ -33,9 +33,8 @@ class Administration::EmailSetupsController < ApplicationController
 
   def update
     if params[:domain].present?
-      setup = EmailSetup.new(session[:mailgun_key])
-      setup.domain = params[:domain]
-      if setup.save!
+      email_setup.domain = params[:domain]
+      if email_setup.save!
         redirect_to action: :show, notice: t('administration.email_setups.edit.success')
       else
         redirect_to action: :edit, notice: t('administration.email_setups.edit.failure')
@@ -46,6 +45,10 @@ class Administration::EmailSetupsController < ApplicationController
   end
 
   private
+
+  def email_setup
+    @email_setup ||= EmailSetup.new(key: session[:mailgun_key], scheme: request.scheme)
+  end
 
   def only_admins
     return if @logged_in.super_admin?
