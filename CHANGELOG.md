@@ -17,7 +17,7 @@ Any release-specific upgrade notes below should be applied *after* the general i
 
 2.  The default nginx config now sets `client_max_body_size 80m;` to match increased document sizes of 75mb.
 
-Make both of these changes to your nginx config so that it looks like this:
+Make both of these changes to your nginx config (`/etc/nginx/sites-available/onebody`) so that it looks like this:
 
 ```
 upstream onebody {

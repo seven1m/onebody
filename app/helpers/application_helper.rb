@@ -245,8 +245,15 @@ module ApplicationHelper
     (request.headers['HTTP_X_FORWARDED_PROTO'] || request.scheme) == 'https'
   end
 
+  def connection_is_proxied_but_protocol_unknown?
+    request.headers['HTTP_X_FORWARDED_FOR'] && request.headers['HTTP_X_FORWARDED_PROTO'].nil?
+  end
+
   def tls_warning(email_setup: false)
     return if connection_secured?
-    render partial: 'layouts/tls_warning', locals: { email_setup: email_setup }
+    render partial: 'layouts/tls_warning', locals: {
+      email_setup: email_setup,
+      proxy_missing_protocol_header: connection_is_proxied_but_protocol_unknown?
+    }
   end
 end
