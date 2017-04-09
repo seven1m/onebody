@@ -241,8 +241,12 @@ module ApplicationHelper
     result
   end
 
+  def connection_secured?
+    (request.headers['HTTP_X_FORWARDED_PROTO'] || request.scheme) == 'https'
+  end
+
   def tls_warning(email_setup: false)
-    return if request.scheme == 'https'
+    return if connection_secured?
     render partial: 'layouts/tls_warning', locals: { email_setup: email_setup }
   end
 end
