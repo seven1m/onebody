@@ -10,13 +10,45 @@ Any release-specific upgrade notes below should be applied *after* the general i
 
 ## 3.8.0 (Unreleased)
 
+### Upgrade Notes
+
+1.  OneBody now looks for the `X-Forwarded-Proto` header to determine if the connection is secure.
+    Your existing nginx config will need `proxy_set_header X-Forwarded-Proto $scheme;` added.
+
+2.  The default nginx config now sets `client_max_body_size 80m;` to match increased document sizes of 75mb.
+
+Make both of these changes to your nginx config so that it looks like this:
+
+```
+upstream onebody {
+    # -snip-
+}
+
+server {
+    listen 80;
+    client_max_body_size 80m;                                     # <---- change this line to 80m
+
+    location / {
+        proxy_pass http://onebody;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header X-Forwarded-Proto $scheme;               # <---- add this line
+    }
+}
+```
+
+Be sure to restart nginx with `systemctl restart nginx`
+
+
 ### Changes
 
 * Chore: Increase max file size for documents and attachments from 25mb to 75mb
+* Chore: Increase request body size in nginx config
 * Chore: Make database text columns for messages bigger
 * Chore: Rename 'Português' (pt) to 'Português (Brasil)' (pt-BR)
 * Feature: Allow specifying the translation to use when fetching bible verses
 * Feature: Setup email send/receive through Mailgun via an admin screen
+* Feature: Show alerts for email config and TLS config on admin dashboard
 * Feature: Show video player on document page when file is an mp4
 
 
