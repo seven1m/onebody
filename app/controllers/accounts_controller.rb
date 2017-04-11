@@ -32,12 +32,18 @@ class AccountsController < ApplicationController
       @signup = Signup.new(params[:signup])
       if @signup.save
         if @signup.approval_sent?
-          render text: t('accounts.pending_approval'), layout: true
+          render_message(
+            t('accounts.pending_approval'),
+            callout: 'info'
+          )
         elsif @signup.verification_sent?
           if @signup.found_existing?
             flash.now[:notice] = t('accounts.create.existing_account.by_email')
           end
-          render text: t('accounts.verification_email_sent'), layout: true
+          render_message(
+            t('accounts.verification_email_sent'),
+            callout: 'info'
+          )
         elsif @signup.can_verify_mobile?
           flash[:notice] = t('accounts.create.existing_account.by_mobile')
           redirect_to new_account_path(phone: @signup.mobile_phone)
@@ -49,13 +55,16 @@ class AccountsController < ApplicationController
       @verification = Verification.new(verification_params)
       if @verification.save
         if params[:phone]
-          flash[:notice] = t('accounts.verification_message_sent')
+          flash.now[:notice] = t('accounts.verification_message_sent')
           render action: 'verify_code'
         elsif params[:via_admin]
           flash[:warning] = t('accounts.verification.email.via_admin')
           redirect_to @verification.people.first
         else
-          render text: t('accounts.verification_email_sent'), layout: true
+          render_message(
+            t('accounts.verification_email_sent'),
+            callout: 'info'
+          )
         end
       else
         new
@@ -70,12 +79,19 @@ class AccountsController < ApplicationController
   def verify_code
     @verification = Verification.find(params[:id])
     if not @verification.pending?
-      render text: t('accounts.verification.not_pending', url: new_account_path(forgot: true)), layout: true
+      render_message(
+        t('accounts.verification.not_pending', url: new_account_path(forgot: true)),
+        callout: 'warning'
+      )
     elsif request.post?
       if @verification.check!(params[:code])
         redirect_for_verification
       else
-        render text: t('accounts.wrong_code_html'), layout: true, status: :bad_request
+        render_message(
+          t('accounts.wrong_code_html'),
+          callout: 'warning',
+          status: :bad_request,
+        )
       end
     end
   end
@@ -102,7 +118,11 @@ class AccountsController < ApplicationController
         redirect_to edit_person_account_path(@person)
       end
     else
-      render text: t('Page_no_longer_valid'), layout: true, status: :gone
+      render_message(
+        t('Page_no_longer_valid'),
+        callout: 'warning',
+        status: :gone
+      )
     end
   end
 

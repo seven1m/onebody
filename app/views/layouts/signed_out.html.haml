@@ -37,6 +37,15 @@
         - if @title
           %h2= @title
         = content
+      - elsif @narrow
+        .row
+          .col-md-6.col-md-offset-3
+            = flash_messages unless content =~ /class=.flash/
+            - if title = yield(:title).presence
+              = title
+            - elsif @title and not @hide_title
+              %h2= @title
+            = content
       - else
         = flash_messages unless content =~ /class=.flash/
         - if title = yield(:title).presence

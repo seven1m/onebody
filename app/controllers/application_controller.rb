@@ -224,4 +224,14 @@ class ApplicationController < ActionController::Base
     Pusher.host   = Setting.get(:pusher, :api_host)
     Pusher.port   = Setting.get(:pusher, :api_port).to_i
   end
+
+  def render_message(message, layout: true, callout: nil, status: 200)
+    @narrow = true
+    if callout
+      message = view_context.content_tag(:div, class: "callout callout-#{callout}") do
+        message.html_safe
+      end
+    end
+    render text: message, layout: layout, status: status
+  end
 end
