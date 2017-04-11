@@ -10,7 +10,7 @@ en:
         by_mobile: "We found an existing account with this mobile phone number."
 
     forgot:
-      heading: "Recover Account"
+      heading: "Verify your account and set a password"
 
     verification:
       not_pending: "This verification link is no longer valid. Please <a href='%{url}'>try again</a>."

@@ -35,5 +35,6 @@
         %button.btn.bg-olive.btn-block{type: 'submit'}
           = icon 'fa fa-sign-in'
           = t('session.sign_in_button')
-        = link_to t('session.sign_up_button'), new_account_path, class: 'btn btn-info btn-block'
+        - if Setting.get(:features, :sign_up)
+          = link_to t('session.sign_up_button'), new_account_path, class: 'btn btn-info btn-block'
         = link_to t('session.forgot_password_button'), new_account_path(forgot: true), class: 'btn btn-warning btn-block'
