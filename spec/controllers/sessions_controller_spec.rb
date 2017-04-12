@@ -103,6 +103,13 @@ describe SessionsController, type: :controller do
         expect(response).to redirect_to('/foo')
       end
     end
+
+    context 'given from param without a leading slash' do
+      it 'does not redirect off-site' do
+        post :create, email: @person.email, password: 'secret', from: 'badguy.com'
+        expect(response).to redirect_to('/badguy.com')
+      end
+    end
   end
 
   describe '#create_from_external_provider' do

@@ -180,9 +180,10 @@ class ApplicationController < ActionController::Base
 
   def safe_redirect_path(url)
     uri = URI.parse(url)
-    uri.path.tap do |path|
-      path << '?' + uri.query if uri.query
-    end
+    path = uri.path
+    path << '?' + uri.query if uri.query
+    path = "/#{path}" unless path.start_with?('/')
+    path
   end
 
   def add_errors_to_flash(record)
