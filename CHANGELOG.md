@@ -50,6 +50,9 @@ Be sure to restart nginx with `systemctl restart nginx`
 * Feature: Setup email send/receive through Mailgun via an admin screen
 * Feature: Show alerts for email config and TLS config on admin dashboard
 * Feature: Show video player on document page when file is an mp4
+* Feature: Improve experience for verifying account
+* Fix: Date picker format on sharable attendance page
+* Fix: Don't allow redirecting off site after signing in
 
 
 ## 3.7.0 (2017-03-07)
