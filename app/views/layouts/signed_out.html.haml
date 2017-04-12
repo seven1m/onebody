@@ -26,7 +26,7 @@
           event_queue.push(e);
         }
       }, false);
-  %body{ class: @body_class || setting(:appearance, :theme) }
+  %body{ class: @body_class || setting(:appearance, :theme), data: { 'datepicker-format' => datepicker_format } }
     %header.main-header
       = link_to setting(:name, :site), root_path, class: 'logo'
       %nav.navbar.navbar-static-top{role: "navigation"}
