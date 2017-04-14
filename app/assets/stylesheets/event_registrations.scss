@@ -3,11 +3,11 @@
 @import "font-awesome";
 
 html, body {
-  background-color: #eee;
   height: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Abel', Helvetica, sans-serif;
+  background-color: transparent;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -35,4 +35,10 @@ main {
 
 .form-control-spaced {
   margin-bottom: 5px;
+}
+
+.middle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

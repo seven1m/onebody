@@ -21,7 +21,7 @@
   %body
     .row.full-height
       .col-md-offset-2.col-md-8.full-height
-        %main
+        %main{ class: @main_class }
           = yield
     - content_for :js do
       :javascript
