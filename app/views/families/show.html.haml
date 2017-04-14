@@ -49,11 +49,11 @@
                 %i.fa.fa-lock
             %td.actions
               - if @logged_in.can_update?(person)
-                = link_to edit_person_path(person), class: 'btn bg-gray btn-xs text-yellow' do
+                = link_to edit_person_path(person), class: 'btn btn-info btn-xs' do
                   = icon 'fa fa-pencil'
               - if @logged_in.can_delete?(person)
-                = link_to person, data: { method: 'delete', confirm: t('are_you_sure') },  class: 'btn bg-gray btn-xs text-red' do
-                  = icon 'fa fa-minus-circle'
+                = link_to person, data: { method: 'delete', confirm: t('are_you_sure') },  class: 'btn btn-delete btn-xs text-red' do
+                  = icon 'fa fa-trash-o'
 
     - if @logged_in.can_update?(@family)
       .page-controls

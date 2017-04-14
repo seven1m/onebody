@@ -124,7 +124,7 @@ module PeopleHelper
     else
       t('save_changes')
     end
-    button_tag label, class: 'btn btn-primary'
+    button_tag label, class: 'btn btn-success'
   end
 
   def has_social_networks?(person)

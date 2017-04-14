@@ -1,8 +1,8 @@
 en:
   families:
     add:
-      new: "New Person"
-      existing: "Move Person"
+      new: "New person"
+      existing: "Move a person to this family"
 
     new:
       heading: "New Family"
@@ -10,7 +10,7 @@ en:
         notice: "The family was created. Now, add people to this family using the 'New Person' button below..."
 
     edit:
-      heading: "Edit Family"
+      heading: "Edit family"
       name_example_html: "<em>John Doe</em> or <em>John &amp; Jane Doe</em>"
       name_suggestion_html: "Suggested: <strong>%{name}</strong>"
       name_suggestion_button: "Change"
@@ -20,12 +20,12 @@ en:
       saved: "Family changes saved."
 
     delete:
-      button: "Delete Family"
+      button: "Delete family"
       cannot_delete_your_own: "You cannot delete your own family."
 
     show:
       heading: "%{family} Family"
-      edit_link: "Edit Family"
+      edit_link: "Edit family"
       suggested_name_html:
         one: "%{first} is the only adult in this family. Consider <a href='%{url}'>changing the family name</a> to “<strong>%{name}</strong>.”"
         other: "%{first} and %{second} are the first two adults in this family. Consider <a href='%{url}'>changing the family name</a> to “<strong>%{name}</strong>.”"

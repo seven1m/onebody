@@ -160,7 +160,7 @@ class StreamItemDecorator < Draper::Decorator
       h.link_to(
         label,
         path,
-        class: "btn btn-primary btn-xs #{options[:class]}",
+        class: "btn btn-default btn-xs #{options[:class]}",
         data: options[:data]
       )
     end
