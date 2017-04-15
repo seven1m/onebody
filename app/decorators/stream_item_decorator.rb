@@ -94,7 +94,11 @@ class StreamItemDecorator < Draper::Decorator
       when 'Verse'
         I18n.t('stream.header.verse', who: who, title: h.link_to(title, path)).html_safe
       when 'NewsItem'
-        I18n.t('stream.header.news', who: who, title: h.link_to(title, path)).html_safe
+        if person
+          I18n.t('stream.header.news', who: who, title: h.link_to(title, path)).html_safe
+        else
+          h.link_to(title, path)
+        end
       when 'Message'
         I18n.t('stream.header.message', who: who, group: h.link_to(group.name, group)).html_safe
       when 'Person'
