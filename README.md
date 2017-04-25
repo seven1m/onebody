@@ -7,7 +7,7 @@
 
 OneBody is open-source, web-based social networking, email list, online directory, and lightweight document management software for churches.
 
-This software has been in production use at churches for over nine years. Every feature is built by actual church members to meet the need of their own church.
+This software has been in production use at churches for over ten years. Every feature is built by actual church members to meet the need of their own church.
 
 Visit our website at [church.io](http://church.io) to learn more.
 
