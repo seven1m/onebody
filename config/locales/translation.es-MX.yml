@@ -2,58 +2,84 @@
 # IF YOU UPDATE IT, YOUR CHANGES WILL BE LOST AT THE NEXT SYNC.
 #
 # To update this file, use this translation interface:
-# http://translation.io/seven1m/onebody/da
+# http://translation.io/seven1m/onebody/es-MX
 #
 ---
-da:
+es-MX:
+  verses:
+    search:
+      error: 
+    heading: 
+    new:
+      heading: 
+    about_tags: 
+    about_this_verse: 
+    add_this_verse_to_my_list: 
+    add_verse: 
+    search_verse: 
+    add_your_favorite_verse: 
+    comment_count:
+      one: 
+      few: 
+      many: 
+    disclaimer: 
+    example_verse: 
+    intro: 
+    no_verses_yet: 
+    not_found: 
+    people_who_like_this_verse: 
+    remove_this_verse: 
+    saved_by_count:
+      one: 
+      other: 
   date:
     day_names:
-    - søndag
-    - mandag
-    - tirsdag
-    - onsdag
-    - torsdag
-    - fredag
-    - lørdag
+    - domingo
+    - lunes
+    - martes
+    - miércoles
+    - jueves
+    - viernes
+    - sábado
     abbr_day_names:
-    - søn
-    - man
-    - tir
-    - ons
-    - tor
-    - fre
-    - lør
+    - dom
+    - lun
+    - mar
+    - mié
+    - jue
+    - vie
+    - sáb
     month_names:
     - 
-    - januar
-    - februar
-    - marts
-    - april
-    - maj
-    - juni
-    - juli
-    - august
-    - september
-    - oktober
-    - november
-    - december
+    - enero
+    - febrero
+    - marzo
+    - abril
+    - mayo
+    - junio
+    - julio
+    - agosto
+    - septiembre
+    - octubre
+    - noviembre
+    - diciembre
     abbr_month_names:
     - 
-    - jan
+    - ene
     - feb
     - mar
-    - apr
-    - maj
+    - abr
+    - may
     - jun
     - jul
-    - aug
+    - ago
     - sep
-    - okt
+    - oct
     - nov
-    - dec
+    - dic
   time:
-    am: 
-    pm: 
+    am: am
+    pm: pm
   number:
     human:
       storage_units:
@@ -67,42 +93,44 @@ da:
           tb: TB
       decimal_units:
         units:
-          thousand: Tusind
-          million: Million
-          billion: Milliard
-          trillion: Billion
-          quadrillion: Billiard
+          thousand: mil
+          million: millón
+          billion: mil millones
+          trillion: billón
+          quadrillion: mil billones
   errors:
     format: "%{attribute} %{message}"
     messages:
-      inclusion: er ikke på listen
-      exclusion: er reserveret
-      invalid: er ikke gyldig
-      confirmation: stemmer ikke overens med bekræftelse
-      accepted: skal accepteres
-      empty: må ikke udelades
-      blank: skal udfyldes
-      present: skal være tom
+      inclusion: no está incluido en la lista
+      exclusion: está reservado
+      invalid: es inválido
+      confirmation: no coincide
+      accepted: debe ser aceptado
+      empty: no puede estar vacío
+      blank: no puede estar en blanco
+      present: debe estar en blanco
       too_long:
-        one: 
-        other: 
+        one: es demasiado largo (máximo 1 caracter)
+        other: es demasiado largo (máximo %{count} caracteres)
       too_short:
-        one: 
-        other: 
+        one: es demasiado corto (mínimo 1 caracter)
+        other: es demasiado corto (mínimo %{count} caracteres)
       wrong_length:
-        one: 
-        other: 
-      not_a_number: er ikke et tal
-      not_an_integer: er ikke et heltal
-      greater_than: skal være større end %{count}
-      greater_than_or_equal_to: skal være større end, eller lig med, %{count}
-      equal_to: skal være %{count}
-      less_than: skal være mindre end %{count}
-      less_than_or_equal_to: skal være mindre end, eller lig med, %{count}
-      other_than: skal være forskellig fra %{count}
-      odd: skal være et ulige tal
-      even: skal være et lige tal
-      taken: er allerede brugt
+        one: longitud errónea (debe ser de 1 caracter)
+        other: longitud errónea (debe ser de %{count} caracteres)
+      not_a_number: no es un número
+      not_an_integer: debe ser un entero
+      greater_than: debe ser mayor que %{count}
+      greater_than_or_equal_to: debe ser mayor o igual que %{count}
+      equal_to: debe ser igual a %{count}
+      less_than: debe ser menor que %{count}
+      less_than_or_equal_to: debe ser menor o igual que %{count}
+      other_than: debe ser diferente a %{count}
+      odd: debe ser un número non
+      even: debe ser un número par
+      taken: ya ha sido tomado
+      password:
+        password_strength: 
       in_between: 
       spoofed_media_type: 
       not_a_date: 
@@ -110,8 +138,6 @@ da:
       after_or_equal_to: 
       before: 
       before_or_equal_to: 
-      password:
-        password_strength: 
   activerecord:
     errors:
       messages:
@@ -148,6 +174,12 @@ da:
             campus:
               blank: 
               exclusion: 
+        custom_field:
+          attributes:
+            name:
+              blank: 
+            format:
+              inclusion: 
         document:
           attributes:
             file:
@@ -402,12 +434,6 @@ da:
             text:
               blank: 
               too_long: 
-        custom_field:
-          attributes:
-            name:
-              blank: 
-            format:
-              inclusion: 
     attributes:
       album:
         name: 
@@ -417,6 +443,9 @@ da:
         description: 
         xml: 
         xml_file: 
+      custom_field:
+        name: 
+        format: 
       document:
         name: 
         description: 
@@ -461,7 +490,6 @@ da:
         category: 
         description: 
         other_notes: 
-        leader_id: 
         creator: 
         meets: 
         location: 
@@ -494,59 +522,56 @@ da:
         person_id: 
         duedate: 
         completed: 
-      custom_field:
-        name: 
-        format: 
   datetime:
     distance_in_words:
-      half_a_minute: et halvt minut
+      half_a_minute: medio minuto
       less_than_x_seconds:
-        one: mindre end et sekund
-        other: mindre end %{count} sekunder
+        one: menos de 1 segundo
+        other: menos de %{count} segundos
       x_seconds:
-        one: et sekund
-        other: "%{count} sekunder"
+        one: 1 segundo
+        other: "%{count} segundos"
       less_than_x_minutes:
-        one: mindre end et minut
-        other: mindre end %{count} minutter
+        one: menos de 1 minuto
+        other: menos de %{count} minutos
       x_minutes:
-        one: et minut
-        other: "%{count} minutter"
+        one: 1 minuto
+        other: "%{count} minutos"
       about_x_hours:
-        one: cirka en time
-        other: cirka %{count} timer
+        one: cerca de 1 hora
+        other: cerca de %{count} horas
       x_days:
-        one: en dag
-        other: "%{count} dage"
+        one: 1 día
+        other: "%{count} días"
       about_x_months:
-        one: cirka en måned
-        other: cirka %{count} måneder
+        one: cerca de 1 mes
+        other: cerca de %{count} meses
       x_months:
-        one: en måned
-        other: "%{count} måneder"
+        one: 1 mes
+        other: "%{count} meses"
       about_x_years:
-        one: cirka et år
-        other: cirka %{count} år
+        one: cerca de 1 año
+        other: cerca de %{count} años
       over_x_years:
-        one: mere end et år
-        other: mere end %{count} år
+        one: más de 1 año
+        other: más de %{count} años
       almost_x_years:
-        one: næsten et år
-        other: næsten %{count} år
+        one: casi 1 año
+        other: casi %{count} años
     prompts:
-      year: År
-      month: Måned
-      day: Dag
-      hour: Time
-      minute: Minut
-      second: Sekund
+      year: Año
+      month: Mes
+      day: Día
+      hour: Hora
+      minute: Minuto
+      second: Segundos
   helpers:
     select:
-      prompt: Vælg...
+      prompt: Por favor selecciona
     submit:
-      create: Opret %{model}
-      update: Opdater %{model}
-      submit: Gem %{model}
+      create: Crear %{model}
+      update: Actualizar %{model}
+      submit: Guardar %{model}
   flash:
     actions:
       create:
@@ -557,20 +582,21 @@ da:
         notice: 
         alert: 
   will_paginate:
-    previous_label: "← forrige"
-    next_label: næste →
+    previous_label: "← Atrás"
+    next_label: Siguiente →
     page_gap: "&hellip;"
     page_entries_info:
       single_page:
-        zero: 
-        one: 
-        other: 
+        zero: No se encontraron %{model}
+        one: Mostrando 1 %{model}
+        other: Mostrando en total %{count} %{model}
       single_page_html:
-        zero: 
-        one: 
-        other: 
-      multi_page: Viser %{model} %{from} - %{to} af ialt %{count}
-      multi_page_html: 
+        zero: No se encontraron %{model}
+        one: Mostrando <b>1</b> %{model}
+        other: Mostrando en <b>total&nbsp;%{count}</b> %{model}
+      multi_page: Mostrando %{model} %{from} - %{to} de %{count} en total
+      multi_page_html: Mostrando %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> de <b>%{count}</b>
+        en total
   accounts:
     create:
       heading: 
@@ -670,18 +696,30 @@ da:
       cards_assigned: 
       dashboard_button: 
       button: 
+    custom_fields:
+      button: 
+      heading: 
+      intro: 
+      new:
+        heading: 
+      edit:
+        heading: 
+      formats:
+        string: 
+        number: 
+        boolean: 
+        date: 
     dashboard:
       heading: 
       sub_title: 
       version_alert:
+        heading: 
         intro_html: 
         download_button: 
-        heading: 
       email_config_alert:
-        intro_html: 
-        button: 
         heading: 
         intro: 
+        button: 
       tls_config_alert:
         heading: 
         intro: 
@@ -915,6 +953,9 @@ da:
         Language:
           name: 
           description: 
+        Bible Translation:
+          name: 
+          description: 
         Time Zone:
           name: 
           description: 
@@ -922,9 +963,6 @@ da:
           name: 
           description: 
         Map Zoom Level:
-          name: 
-          description: 
-        Bible Translation:
           name: 
           description: 
       Appearance:
@@ -1018,6 +1056,9 @@ da:
         Sign Up Approval Email:
           name: 
           description: 
+        Stream:
+          name: 
+          description: 
         Friends:
           name: 
           description: 
@@ -1055,9 +1096,6 @@ da:
           name: 
           description: 
         Small Group Size:
-          name: 
-          description: 
-        Stream:
           name: 
           description: 
       Privacy:
@@ -1158,19 +1196,6 @@ da:
       updated: 
     username: 
     your_key: 
-    custom_fields:
-      button: 
-      heading: 
-      intro: 
-      new:
-        heading: 
-      edit:
-        heading: 
-      formats:
-        string: 
-        number: 
-        boolean: 
-        date: 
   albums:
     index:
       heading: 
@@ -1437,6 +1462,36 @@ da:
           family_deleted: 
           family_not_found: 
           updated_at: 
+    email_setups:
+      show:
+        heading: 
+        intro_html: 
+        reconfigure:
+          button: 
+      new:
+        heading: 
+        config_options:
+          mailgun: 
+          manual: 
+        mailgun:
+          heading: 
+          intro_html: 
+          secret_api_key: 
+          submit: 
+        manual:
+          heading: 
+          intro_html: 
+      edit:
+        heading: 
+        domain:
+          intro: 
+          label: 
+        domain_missing:
+          heading: 
+          message_html: 
+        submit: 
+        success: 
+        failure: 
     imports:
       new:
         browse:
@@ -1548,36 +1603,6 @@ da:
       status_heading: 
       unchanged: 
       updated: 
-    email_setups:
-      show:
-        heading: 
-        intro_html: 
-        reconfigure:
-          button: 
-      new:
-        heading: 
-        config_options:
-          mailgun: 
-          manual: 
-        mailgun:
-          heading: 
-          intro_html: 
-          secret_api_key: 
-          submit: 
-        manual:
-          heading: 
-          intro_html: 
-      edit:
-        heading: 
-        domain:
-          intro: 
-          label: 
-        domain_missing:
-          heading: 
-          message_html: 
-        submit: 
-        success: 
-        failure: 
   documents:
     index:
       heading: 
@@ -1855,6 +1880,7 @@ da:
       button: 
     show:
       details:
+        admin: 
         created_at: 
         created_by: 
         leader:
@@ -1877,7 +1903,6 @@ da:
           other: 
         attendance:
           button: 
-        admin: 
       controls:
         join: 
         join_pending: 
@@ -2056,13 +2081,13 @@ da:
     index:
       heading: 
       details:
+        admin: 
         name: 
         birthday: 
         created_at: 
+        leader: 
         manual:
           tooltip: 
-        admin: 
-        leader: 
       remove:
         button: 
     add:
@@ -2073,6 +2098,8 @@ da:
       linked_group_warning_html: 
     promote: 
     demote: 
+    leader_add: 
+    leader_remove: 
     group_pending_approval: 
     requests:
       heading: 
@@ -2083,8 +2110,6 @@ da:
         button: 
       ignore:
         button: 
-    leader_add: 
-    leader_remove: 
   messages:
     new:
       button: 
@@ -2093,6 +2118,8 @@ da:
       description_html: 
     group:
       heading: 
+      description_html: 
+    subset:
       description_html: 
     sent_at_html: 
     sent_to_html: 
@@ -2133,8 +2160,6 @@ da:
     subject: 
     to_show_the_entire_message: 
     unknown_type: 
-    subset:
-      description_html: 
     send_to_subset: 
     filter: 
     more: 
@@ -2350,6 +2375,7 @@ da:
       facebook_url:
         placeholder: 
       family_photo: 
+      fields: 
       header: 
       no_family_error: 
       person_type: 
@@ -2370,7 +2396,6 @@ da:
         inactive: 
         pending: 
         active: 
-      fields: 
     move:
       heading: 
       description_html: 
@@ -2471,226 +2496,165 @@ da:
     ready_filename: 
     uploading_filename: 
   pictures:
-    none: Endnu ingen billeder
+    none: 
     new:
-      heading: Nyt billede
+      heading: 
       existing_album:
-        intro: Tilføj et eller flere billeder til et eksisterende album...
+        intro: 
       new_album:
-        intro: Eller opret et nyt album...
-        button: Nyt album
-    show_original: Vis original
+        intro: 
+        button: 
+    show_original: 
     create_an_album:
-      notice: Først, opret et album...
-    click_to_enlarge: Klik for at forstørre
-    comment_on_this_picture: Kommenter på dette billeder
-    failed: "%{fail} blev ikke gemt grundet en fejl"
-    picture_uploaded_by: Billede uploaded %{when} af
-    rotate_left: Roter til venstre
-    rotate_right: Roter til højre
-    saved: "%{success} billede(r) gemt"
-    set_as_cover: Brug som cover
-    upload: Upload!
+      notice: 
+    click_to_enlarge: 
+    comment_on_this_picture: 
+    failed: 
+    picture_uploaded_by: 
+    rotate_left: 
+    rotate_right: 
+    saved: 
+    set_as_cover: 
+    upload: 
   prayer_requests:
-    by: af %{person}
-    name: Prayer Request in %{group}
+    by: 
+    name: 
     index:
-      heading: Prayer Requests
+      heading: 
     show:
-      heading: Prayer Request
+      heading: 
     new:
-      heading: New Prayer Request
-      button: New Prayer Request
+      heading: 
+      button: 
     edit:
-      heading: Edit Prayer Request
-      button: Edit Request
+      heading: 
+      button: 
     delete:
-      button: Delete Request
+      button: 
     request:
-      heading: Request
+      heading: 
     answer:
-      heading: Svar
-      description: Remember to come back and fill this section so your group can have
-        a record of answered prayers.
-      on_date: Answered on %{date}
-    save: Save Prayer Request
-    not_found: Prayer Request not found
+      heading: 
+      description: 
+      on_date: 
+    save: 
+    not_found: 
     error:
-      no_edit: You cannot edit this prayer request.
-      no_delete: You cannot delete this prayer request.
-      no_post: You cannot post a prayer request in this group because you are not
-        a member.
-    send_email: Send as email to group members.
+      no_edit: 
+      no_delete: 
+      no_post: 
+    send_email: 
   printable_directories:
-    heading: 
     already_sent: 
-    click_to_have_custom_pdf_via_email: 
-    created_for: 
-    email_custom_directory: 
-    include_family_pictures: 
-    not_allowed: 
-    were_are_building_custom_pdf: 
-    will_take_longer: 
     filename: 
     finished: 
     generate_custom_directory: 
     generating: 
+    heading: 
+    include_family_pictures: 
     intro: 
+    not_allowed: 
+    were_are_building_custom_pdf: 
+    will_take_longer: 
     pdf:
       heading: 
       cover_page_sub_heading: 
       created_for: 
   privacies:
     tabs:
-      sharing: Sharing
-      children: Børn
+      sharing: 
+      children: 
     sharing:
-      intro_html: You can change the privacy settings for your family here. Items
-        with a checkmark are visible to other members who sign into this website.
-        Click the <i class='fa fa-plus-circle'></i> to set privacy for groups (optional).
-        To understand how we use the personal information of you and your family,
-        please read our <a href='%{url}'>Privacy Policy</a>.
+      intro_html: 
     children:
-      intro: Control which of your children below have access to this website.
-    scroll_notice: You may need to scroll left and right to see all the options here.
-    activity: Aktivitet
-    address: Adresse
-    agreement_saved: Agreement saved.
-    anniversary: Anniversary
-    as_a_parent_agree_html: I, as a parent or legal gaurdian of %{name}, hereby agree
-      that I have read this site's <a href="%{url}">Privacy Policy</a>, that the personal
-      information of %{name} may be displayed for other users of the web site (as
-      determined by the privacy settings on this page), and that %{name} may, if able,
-      utilize this website as a normal user (including profile customization, and
-      communication via private message, groups, etc.).
-    birthday: Fødselsdag
-    child_profile_has_parental_consent: This child's profile has parental consent
-      from %{name}.
-    child_under_age_you_have_not_consent: This child is under the age of %{years},
-      and you have not given consent to 1) allow their information to be displayed,
-      and 2) allow them to sign into and use this web site.
-    click_the_agree: Click the 'I Agree' button.
-    email: E-mail
-    family_hidden: This family is currently hidden from all pages on this site!
-    family_privacy: Familie
-    fax: Fax
-    group_privacy: Group Privacy
-    hide_your_activity: 'Hide your activity if you do not want friends and/or fellow
-      group members to see your public messages, notes, verses, etc. on their home
-      page. Note: private messages are never displayed, regardless of this setting.'
-    home_phone: Fastnet telefon
-    i_agree: Jeg accepterer
-    mobile_phone: Mobiltelefon
-    please_read_our_privacy_policy_html: Please read our <a href="%{url}">Privacy
-      Policy</a> for details regarding the use of your personal information.
-    people_can_still_send_html: You can still receive email through the site, without
-      revealing your email address on the Web.
-    privacy: Privathed
-    read_privacy_policy_html: Read our <a href="%{url}">Privacy Policy</a>.
-    read_safeguarding_children_html: Read our page about <a href="%{url}">Safeguarding
-      Children</a>.
-    read_statement_below: Read the statement below and agree to it by checking the
-      corresponding checkbox.
-    saved: Indstillinger gemt
-    sharing_with_html: Deler med <a href="%{url}">%{name}</a>
-    to_show_on_this_site: 'To show %{name} on this site, please:'
-    visible: Visible
-    visible_note: Setting a profile to be invisible will cause you to not appear in
-      any directory searches. You can still join groups and receive group email and
-      email from site administrators though.
-    work_phone: Work Phone
-    you_may_share_items: 'You may share items with fellow members of the following
-      groups:'
-    you_must_check_agreement_statement: You must check the box indicating you agree
-      to the statement below.
+      intro: 
+    scroll_notice: 
+    activity: 
+    address: 
+    agreement_saved: 
+    anniversary: 
+    as_a_parent_agree_html: 
+    birthday: 
+    child_profile_has_parental_consent: 
+    child_under_age_you_have_not_consent: 
+    click_the_agree: 
+    email: 
+    family_hidden: 
+    family_privacy: 
+    fax: 
+    group_privacy: 
+    hide_your_activity: 
+    home_phone: 
+    i_agree: 
+    mobile_phone: 
+    please_read_our_privacy_policy_html: 
+    people_can_still_send_html: 
+    privacy: 
+    read_privacy_policy_html: 
+    read_safeguarding_children_html: 
+    read_statement_below: 
+    saved: 
+    sharing_with_html: 
+    to_show_on_this_site: 
+    visible: 
+    visible_note: 
+    work_phone: 
+    you_may_share_items: 
+    you_must_check_agreement_statement: 
   relationships:
-    heading: Relationships for %{person}
+    heading: 
     reciprocate:
-      button: Reciprocate
-      failure: A reciprocal relationship to %{name} cannot be automatically created.
+      button: 
+      failure: 
     add_relationship:
-      intro: 'Add a relationship:'
-      button: Add Relationship
+      intro: 
+      button: 
     family:
       create:
-        intro: Some relationships are suggested below. Make any necessary adjustments,
-          then click the Create button.
-        button: Create Family Relationships
-      heading: Family Relationships for %{family}
-      button: Family Relationships
+        intro: 
+        button: 
+      heading: 
+      button: 
     inward:
-      heading: Inward Relationships
+      heading: 
     names:
-      aunt: Aunt
-      brother: Brother
-      brother_in_law: Brother-in-law
-      cousin: Cousin
-      daughter: Daughter
-      daughter_in_law: Svigerdfatter
-      father: Far
-      father_in_law: Svigerfar
-      granddaughter: Barnebarn
-      grandfather: Bedstefar
-      grandmother: Bedstemor
-      grandson: Barnebarn
-      husband: Mand
-      mother: Mor
-      mother_in_law: Svigermor
-      nephew: Nevø
-      niece: Niece
-      other_name: Other
-      sister: Søster
-      sister_in_law: Sister-in-law
-      son: Søn
-      son_in_law: Son-in-law
-      stepbrother: Stedbror
-      stepdaughter: Steddatter
-      stepfather: Stedfar
-      stepmother: Stedmor
-      stepsister: Stedsøster
-      stepson: Stedsøn
-      uncle: Onkel
-      wife: Kone
+      aunt: 
+      brother: 
+      brother_in_law: 
+      cousin: 
+      daughter: 
+      daughter_in_law: 
+      father: 
+      father_in_law: 
+      granddaughter: 
+      grandfather: 
+      grandmother: 
+      grandson: 
+      husband: 
+      mother: 
+      mother_in_law: 
+      nephew: 
+      niece: 
+      other_name: 
+      sister: 
+      sister_in_law: 
+      son: 
+      son_in_law: 
+      stepbrother: 
+      stepdaughter: 
+      stepfather: 
+      stepmother: 
+      stepsister: 
+      stepson: 
+      uncle: 
+      wife: 
     other_name:
-      placeholder: Relationship Type
-    no_person_selected: No person selected.
-    relationship: Forhold
-    relationship_type: 'Type:'
-    toggle_individual: View Individual Relationships
+      placeholder: 
+    no_person_selected: 
+    relationship: 
+    relationship_type: 
+    toggle_individual: 
   reports:
-    custom_reports:
-      button:
-        add: 
-        edit: 
-        delete: 
-        show: 
-      index:
-        title: 
-        box_title: 
-      new:
-        title: 
-      edit:
-        title: 
-      show:
-        title: 
-      fields:
-        title: 
-        header: 
-        body: 
-        footer: 
-        filters: 
-        category:
-          people: 
-          groups: 
-          family: 
-      validation:
-        filters: 
-      create:
-        notice: 
-      destroy:
-        notice: 
-      update:
-        notice: 
     from_date: 
     group: 
     group_select: 
@@ -2733,179 +2697,166 @@ da:
     type: 
   search:
     column:
-      name: Navn
-      family: Familie
-      business: Business
-      category: Kategori
-      birthday: Fødselsdag
-      testimony: Testimony
-    no_family: "(ingen familie)"
+      name: 
+      family: 
+      business: 
+      category: 
+      birthday: 
+      testimony: 
+    no_family: 
     form:
-      name: Søg efter navn
-      advanced: Avanceret søgning
-      birthday: Fødselsdag
-      anniversary: Wedding Anniversary
-      gender: Køn
+      name: 
+      advanced: 
+      birthday: 
+      anniversary: 
+      gender: 
       genders:
-        Male: Mand
-        Female: Kvinde
-      city: By
-      state: Stat
-      zip: Postnummer
-      phone: Phone Number
-      email: Email Address
-      type: Medlemstype
-      group_membership: Group Membership
-      in_group: includes
-      not_in_group: does not include
-      group_membership_text: Group with category
+        Male: 
+        Female: 
+      city: 
+      state: 
+      zip: 
+      phone: 
+      email: 
+      type: 
+      group_membership: 
+      in_group: 
+      not_in_group: 
+      group_membership_text: 
       types:
-        member: Medlem
-        staff: Ansat
-        deacon: Deacon
-        elder: Ældste
+        member: 
+        staff: 
+        deacon: 
+        elder: 
     results:
-      testimony_read_more: vis
-    add_selected: Tilføj det valgte
-    business_category: Forretningskategori
-    deacon: Deacon
-    elder: Ældste
-    female: Kvinde
-    heading: "%{name} Directory"
-    male: mand
-    member: Medlem
-    results_not_shown: Nogle resultater blev ikke vist - vær mere specifik.
-    not_showing_hidden_people: "(viser ikke skjulte personer)"
+      testimony_read_more: 
+    add_selected: 
+    business_category: 
+    deacon: 
+    elder: 
+    female: 
+    heading: 
+    male: 
+    member: 
+    results_not_shown: 
+    not_showing_hidden_people: 
     people_found:
-      one: 1 person fundet
-      other: "%{count} personer fundet"
-    search: Directory Search
-    search_by_name: Søg efter navn
-    show_hidden: Vis skjulte
-    staff: Ansatte
-    directory_map: Directory Map
+      one: 
+      other: 
+    search: 
+    search_by_name: 
+    show_hidden: 
+    staff: 
+    directory_map: 
   session:
     form:
-      header: Log ind
+      header: 
       placeholder:
-        email: E-mail adresse
-        password: Kodeord
-      remember_me: Husk mig
-    account_not_activated_html: Your account hasn't been activated yet. <a href='/pages/help'>Click
-      here</a> to get started.
-    email_found: That email address was found, but you must verify it before you can
-      sign in.
-    email_not_found: That email address cannot be found in our system. Please try
-      another email.
-    forgot_password_button: Glemt kodeord.
-    password_doesnt_match: The password you entered does not match our records. Please
-      try again.
-    max_sign_in_attempts: We're sorry, but you have exceeded the maximum number of
-      sign in attempts within a 15 minute period. You may try again in 15 minutes.
-    sign_in_button: Log mig ind
-    sign_up_button: Opret en bruger
-    sign_out: Log ud
+        email: 
+        password: 
+      remember_me: 
+    account_not_activated_html: 
+    email_found: 
+    email_not_found: 
+    forgot_password_button: 
+    password_doesnt_match: 
+    max_sign_in_attempts: 
+    sign_in_button: 
+    sign_up_button: 
+    sign_out: 
   setup:
-    admin_account: Admin bruger
-    complete_html: Sådan! Du har konfigureret de basiske. Smut over til <a href='%{url}'>Admin
-      sektionen</a> når du er klar til at tilpasse din kirkes side.
-    congratulations: Tillykke! OneBody kører som det skal nu. Nu er det tid til at
-      oprette en administrator bruger, og indstille nogle af indstillingerne...
-    do_right_away: Du burde gøre dette med det samme, især hvis serveren er tilgængelig
-      til det åbne internet.
-    domain_name_note: 'Indtast domænet for dette site, uden "www", eks: "example.com"
-      eller "members.example.com".'
-    heading: Førstegangs opsætning
-    more_accounts_later: "(Du vil have mulighed for at oprette flere admin brugere
-      senere.)"
-    domain_name: Domænenavn
-    first_name: Fornavn
-    last_name: Efternavn
-    email: E-mail adresse
-    password: Kodeord
-    password_confirmation: Bekræft kodeord
-    submit_button_html: Gem ændringer
+    admin_account: 
+    complete_html: 
+    congratulations: 
+    do_right_away: 
+    domain_name_note: 
+    heading: 
+    more_accounts_later: 
+    domain_name: 
+    first_name: 
+    last_name: 
+    email: 
+    password: 
+    password_confirmation: 
+    submit_button_html: 
   stream:
-    title: Hjem
-    sub_title: "(ting delt med mig)"
-    none: Der er endnu ikke noget at se her.
+    title: 
+    sub_title: 
+    none: 
     header:
-      noone: system
-      message: "%{who} sendte en besked til %{group}"
-      news: "%{who} delte %{title}"
-      note: "%{who} tilføjede en note"
-      person: "%{who} er blevet tilføjet til kirken"
+      noone: 
+      message: 
+      news: 
+      note: 
+      person: 
       picture:
-        one: "%{who} delte et billede i %{album}"
-        other: "%{who} delte nogle billeder i %{album}"
+        one: 
+        other: 
       picture_in_group:
-        one: "%{who} delte et billede i gruppen %{group}"
-        other: "%{who} delte nogle billeder i gruppen %{group}"
-      prayer_request: "%{who} har bedt om forbøn i gruppen %{group}"
-      site: "%{site}"
-      verse: "%{who} delte %{title}"
+        one: 
+        other: 
+      prayer_request: 
+      site: 
+      verse: 
     body:
       picture:
-        alt: klik for at forstørre
+        alt: 
       person:
-        button: Sig hej til %{person}!
+        button: 
       site:
-        description: Social hjemmeside for %{site} er oprettet!
+        description: 
       stream_item_group:
         person:
           description:
-            one: 1 more person was added...
-            other: "%{count} more people were added..."
+            one: 
+            other: 
     footer:
       button_label:
-        default: Read more
-        album: Vis alle
-        note: Læs mere
-        verse: Læs mere
-        stream_item_group: Show all
-    load_more: Indlæs mere...
+        default: 
+        album: 
+        note: 
+        verse: 
+        stream_item_group: 
+    load_more: 
     share:
       heading:
-        friends: Del med venner
-        everyone: Del med alle
+        friends: 
+        everyone: 
       intro:
-        friends_and_group_members: Ting du deler her vil blive set af dine venner
-          og gruppemedlemmer når de logger ind.
-        friends_only: Ting du deler her vil blive set af dine venner når de logger
-          ind.
-        group_members_only: Ting du deler her vil blive set af de andre gruppemedlemmer
-          når de logger ind.
-        everyone: Del noget spændende med resten af fællesskabet...
+        friends_and_group_members: 
+        friends_only: 
+        group_members_only: 
+        everyone: 
       button:
-        note: note
-        picture: billede
-        verse: bibelvers
-        message: Gruppebesked
-        news: Del en nyhed
+        note: 
+        picture: 
+        verse: 
+        message: 
+        news: 
       sharing_with_html:
-        one: deler med <a href='%{url}'>1 person</a>
-        other: deler med <a href='%{url}'>%{count} personer</a>
+        one: 
+        other: 
     people:
-      heading: Deler med venner
-      intro: These are the people who see what you share on the site.
-      intro_none: Ingen at vise
+      heading: 
+      intro: 
+      intro_none: 
       column:
-        name: navn
-        family_name: Familienavn
-        reason: Begrundelse
+        name: 
+        family_name: 
+        reason: 
       reason:
-        family_html: din <a href='%{url}'>familie</a>
-        friend_html: din <a href='%{url}'>ven</a>
+        family_html: 
+        friend_html: 
         groups_html:
-          one: 'in this group with you: %{groups}'
-          other: 'in these groups with you: %{groups}'
-    feed: Feed
+          one: 
+          other: 
+    feed: 
   tags:
-    add_tags: Tilføj tags (kommasepareret)
-    confirm_delete: Er du sikker på at du vil slette dette tag?
-    no_tags_yet: endnu ingen tags
-    tag: Tag
-    tags: Tags
+    add_tags: 
+    confirm_delete: 
+    no_tags_yet: 
+    tag: 
+    tags: 
   tasks:
     index:
       heading: 
@@ -2926,32 +2877,3 @@ da:
     go_to_group: 
     deleted: 
     members: 
-  verses:
-    heading: Vers
-    new:
-      heading: Find et vers eller en passage
-    about_tags: Tags kan gruppere vers sammen efter emne, tidsperiode, etc.
-    about_this_verse: omkring dette vers. Del hvad det betyder for dig, eller hvordan
-      det har hjulpet dig
-    add_this_verse_to_my_list: Tilføj dette vers til min liste.
-    add_verse: Tilføj vers
-    search_verse: Search Verse
-    add_your_favorite_verse: Tilføj dit ynglingsvers
-    comment_count:
-      one: "<a href='%{url}'>1 kommentar</a> af %{by}"
-      few: 
-      many: 
-    disclaimer: Scripture quotations marked 'WEB' are taken from the World English
-      Bible, a Modern English update of the American Standard Version of the Holy
-      Bible. WEB is in the public domain. Copy and publish it freely.
-    example_verse: vers eller passage som John. 3:16 eller Rom. 12:1-2
-    intro: Del dit ynglings bibelvers med %{community}.
-    no_verses_yet: Endnu ingen vers!
-    not_found: Verset blev ikke fundet, fik du skrevet det rigtige skriftsted?
-    people_who_like_this_verse: Folk der kan lide dette vers
-    remove_this_verse: Fjern dette vers fra min liste
-    saved_by_count:
-      one: gemt af 1 person
-      other: gemt af %{count} personer
-    search:
-      error: Verse not found. Did you type the reference correctly?
