@@ -720,8 +720,17 @@ de:
       version_alert:
         intro_html: 'A newer version of OneBody is available: <a href=''%{url}''>%{version}</a>'
         download_button: How to Upgrade
+        heading: 
       email_config_alert:
         intro_html: 
+        button: 
+        heading: 
+        intro: 
+      tls_config_alert:
+        heading: 
+        intro: 
+        email_setup_note: 
+        proxy_missing_protocol_header_note_html: 
         button: 
     deleted_people:
       tabs:
