@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe PageHlper, type: :helper do
+describe PagesHelper, type: :helper do
   describe 'render_page_content' do
     before do
       Page.find('system/unauthorized').update_attributes!(body: 'safe<script>notsafe</script>')
