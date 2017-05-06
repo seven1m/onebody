@@ -1,17 +1,11 @@
 module PagesHelper
-
-  def breadcrumbs_for(page)
-    if parent = page.parent and not parent.system?
-      link_to(parent.title, page_path(parent)) + sanitize(' &raquo;')
-    end
+  def render_page_content(path)
+    page = Page.where(path: path, published: true).first
+    return unless page
+    sanitize_html(page.body)
   end
 
-  def home_path
-    if @logged_in and @logged_in.admin?(:edit_pages)
-      page_path(Page.where(path: "home").first)
-    else
-      root_path
-    end
+  def help_path(name = nil)
+    page_for_public_path("help/#{name}")
   end
-
 end

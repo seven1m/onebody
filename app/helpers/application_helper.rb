@@ -54,16 +54,6 @@ module ApplicationHelper
     @logged_in && @person && @logged_in == @person
   end
 
-  def help_path(name = nil)
-    page_for_public_path("help/#{name}")
-  end
-
-  def render_page_content(path)
-    page = Page.where(path: path, published: true).first
-    return unless page
-    sanitize_html(page.body)
-  end
-
   def format_phone(phone, mobile = false)
     return '' if phone.blank?
     format = Setting.get(:formats, mobile ? :mobile_phone : :phone)
