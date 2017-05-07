@@ -1,8 +1,0 @@
----
-fr:
-  tags:
-    add_tags: "Ajouter des étiquettes (séparé par des espaces)"
-    confirm_delete: "Êtes-vous certain(e) de vouloir effacer cette étiquette ?"
-    no_tags_yet: "Pas d'étiquette"
-    tag: Étiquette
-    tags: Étiquettes

@@ -1,8 +1,0 @@
----
-es-419:
-  tags:
-    add_tags: "Añadir Etiquetas (separadas por espacios)"
-    confirm_delete: "¿Seguro que quieres eliminar esta etiqueta?"
-    no_tags_yet: "Sin etiquetas aún"
-    tag: Etiqueta
-    tags: Etiquetas

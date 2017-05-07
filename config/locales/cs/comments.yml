@@ -1,9 +1,0 @@
-cs:
-  comments:
-    add_a_comment: Add a comment
-    deleted: Comment deleted.
-    none_yet: none yet
-    not_authorized: You are not authorized to delete this comment.
-    object_not_found: That %{name} was not found.
-    save: Save Comment
-    saved: Comment saved.

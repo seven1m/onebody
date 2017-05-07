@@ -1,7 +1,0 @@
-en:
-  tags: 
-    add_tags: "Add Tags (space separated)"
-    confirm_delete: "Are you sure you want to delete this tag?"
-    no_tags_yet: "no tags yet"
-    tag: "Tag"
-    tags: "Tags"

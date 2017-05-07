@@ -1,0 +1,2106 @@
+---
+zh-CN:
+  accounts:
+    create:
+      heading: 创建帐号
+      button: 创建帐号
+      existing_account:
+        by_email: 该邮箱地址已注册。
+        by_mobile: 该手机号码已注册。
+    forgot:
+      heading: 找回帐号
+    verification:
+      not_pending: 该验证链接已过期，请<a href='%{url}'>点击此处重试</a>。
+      email:
+        via_admin: 已向该用户发送了验证邮件。
+    birthday: 生日
+    call_office: 拨打 %{phone}
+    call_office_message: 上班时间请拨打办公电话。
+    check_code: 检查验证码
+    description: 描述信息
+    enter_code: 输入验证码
+    enter_your_email: 输入您的邮箱地址，然后点击下面的按钮。如果我们这里有您的邮箱，我们会发送邮件到您那里以便您验证自己并登录网站。
+    fill_required_fields: 请将必填内容填写完整。
+    gender: 性别
+    I_am_this_person: 这就是我。
+    email_address: 邮箱地址
+    first_name: 名
+    last_name: 姓
+    leave_blank: 如果您不希望修改密码，请将此处留空。
+    must_set_email_pass: 您必须输入您的个人邮箱和密码才能继续。
+    password: 密码
+    password_confirm: 密码（请再次输入以确认）
+    pending_approval: 您的帐号正处于待批状态，通过后您会收到电子邮件通知。
+    please_select_your_name: 请从以下列表中选择您的名字
+    select_your_carrier: 请选择您的手机运营商
+    set_your_email: 您必须设置好您的个人邮箱与个人密码才能进行下一步。
+    set_your_email_may_be_different: 请输入您的个人邮箱和本网站新的登录密码以完成注册。
+    this_site_doesnt_allow_signup: 该网站尚不允许注册，您必须验证您已有的帐号或者联系 %{office_phone}。
+    type_your_email: 请输入您的邮箱地址
+    type_your_mobile: 请输入您的手机号码
+    verification_email_sent: 验证邮件已发送给您，请检查邮件并根据其中的说明操作（邮件可能会有几分钟的延迟）。
+    verification_max_attempts_reached: 您把今天的验证机会用完啦…
+    verification_message_sent: 验证信息已发送，请查看您的手机并将收到的验证码输入于此。
+    verify: 验证帐号
+    verify_email: 验证邮箱
+    verify_code_intro: 请输入您手机上收到的验证码。
+    verify_by_email: 通过邮件验证。
+    verify_by_email_message: 我们给您发送了邮件，您只要点击里面的链接就可以用来重置密码了。
+    verify_by_phone: 通过手机验证。
+    verify_by_phone_description_html: 请输入您的手机号码，选择您的运营商，然后点击以下按钮。如果我们有您手机号码的记录，我们会发送一条短信给您用于验证。<strong>也许会有短信费用发生。</strong>
+    verify_by_phone_message: 我们已向您的手机发送了验证码，请在此处输入您收到的验证码，然后就完成了。
+    verify_mobile: 验证手机号码
+    verify_who_you_are: 请选择一种方式来登录您已有的账户。
+    wrong_code_html: 您输入的验证码有误，<a href='/account/new?phone=true'>点击此处重试</a>。
+  admin:
+    box:
+      updates:
+        text:
+          other: 个人信息更新
+      changed_emails:
+        text:
+          other: 已变更的邮箱
+      groups_pending_approval:
+        text:
+          other: 待审核的小组
+      membership_requests:
+        text:
+          other: 小组成员资格申请
+      deleted_people:
+        text:
+          other: 已删除的人员
+      import_errors:
+        text:
+          other: Import Errors
+    dashboard:
+      heading: 管理员中心
+      sub_title: OneBody %{version}
+      version_alert:
+        intro_html: 新版OneBody已就位： <a href='%{url}'>%{version}</a>
+        download_button: 如何更新
+    deleted_people:
+      tabs:
+        people: 已删除人员
+        families: 空的团契
+      heading: 已删除的人员
+      empty_families:
+        intro: The following active families have no people in them and probably should
+          be deleted.
+        delete:
+          button: Delete Selected Families
+        none: none
+      none: none
+      purge:
+        button: Purge
+      purge_family_when_empty: and purge family when empty
+      search_results:
+        intro: The results of your search are displayed below.
+      undelete:
+        button: Undelete Selected People
+      family_deleted: 已删除
+    membership_requests:
+      count:
+        other: "%{count} requests"
+    active: active
+    admin_added: "%{name} added."
+    admin_count:
+      other: "%{count} Administrators"
+    admin_removed: Admin removed.
+    admin_template_description: Templates allow you to have predefined permission
+      sets for use with more than one administrator.
+    admins:
+      heading: Administration
+      intro: You can give any user administration privileges and the access they need
+        to do perform their role in the community.
+      button: Manage Admins
+    add_individual: Add an individual.
+    add_person: 添加人员
+    add_selected: Add Selected
+    add_template: Add Template
+    already_admin: "%{name} is already an admin."
+    api: API
+    api_login_details: Your API login details
+    customization:
+      heading: Customization
+      intro: Customize your community site by adjusting settings and personalizing
+        content.
+    display: display
+    enable: Enable
+    enable_api_confirmation: Are you sure you want to enable your API key?
+    emails:
+      intro_html: |
+        <p>When a user changes their email address online, a flag is set, and subsequent CSV imports are prevented from overwriting that user's email address.</p>
+        <p>If you regularly import your people data from an external system, you should only have to <strong>update the user's email address in your database of record</strong> to match their address here. Then, next time you import your database, OneBody will clear the "email changed" flag for you and they will be removed from this list.</p>
+        <p>You can use this page as a To-Do list &ndash; a list of email address changes you need to make to your database of record.</p>
+        <p>Below are users whose flags are set. You may clear the flag here manually if needed.</p>
+      changed_addresses: Changed Email Addresses
+      clear_flags: Clear Flags
+      no_records: There are currently no records with the changed email address flag
+        set.
+      table:
+        id: ID
+        legacy_id: Legacy ID
+        first_name: 名
+        last_name: 姓
+        email: 电子邮箱
+    generate: Generate
+    group_administrators: 小组管理员
+    group_administrators_description: Each group can designate people who can administer
+      that particular group, regardless of their status on this page.
+    group_administrators_help: To add/remove a person as a group administrator, click
+      "edit" next to the group and promote an existing group member.
+    group_membership_requests: Group Membership Requests
+    import_export: 导入／导出
+    invalidate_confirmation: Are you sure you want to invalidate this key and create
+      a new one?
+    key: Key
+    manage_group_administrators: Manage Group Administrators
+    must_be_superadmin: You must be a super administrator to modify settings.
+    new_admin_template: Create a new admin template.
+    new_api_or: a new API key or
+    no_api_key: You do not yet have an API key.
+    no_more_admins: No more admins are allowed.
+    pages: Pages
+    privileges:
+      view_hidden_profiles:
+        title: View Hidden Profiles
+        about: View hidden people in the database, e.g. children and others marked
+          as invisible.
+        order: 1
+      view_hidden_properties:
+        title: View Hidden Properties
+        about: View hidden phone numbers, email addresses, and other private information.
+        order: 2
+      edit_profiles:
+        title: 编辑简介
+        about: Edit name, phone numbers, email, password, and anything else associated
+          with a user's profile.
+        order: 3
+      manage_access:
+        title: Manage Access
+        about: Manage site administrators. ('Manage Groups' must be selected to manage
+          group administrators.)
+        order: 4
+      manage_attendance:
+        title: Manage Attendance
+        about: View, edit, and export attendance.
+        order: 5
+      manage_comments:
+        title: 管理评论
+        about: Ability to delete any site comments.
+        order: 6
+      manage_groups:
+        title: 管理小组
+        about: View, edit, delete any group (even if hidden or private).
+        order: 8
+      manage_news:
+        title: Manage News
+        about: View, edit, delete all news.
+        order: 9
+      manage_pictures:
+        title: Manage Pictures
+        about: View, edit, delete any pictures and albums.
+        order: 11
+      manage_updates:
+        title: Manage Updates
+        about: View, edit, delete pending profile updates made by users.
+        order: 14
+      manage_sync:
+        title: Manage Sync
+        about: View and track synchronizations made with UpdateAgent.
+        order: 15
+      import_data:
+        title: Import Data
+        about: Import data from CSV or by using UpdateAgent.
+        order: 16
+      export_data:
+        title: Export Data
+        about: Export all site data to XML or CSV.
+        order: 17
+      assign_checkin_cards:
+        title: Assign Checkin Cards
+        about: Assign card numbers to families.
+        order: checkin1
+      manage_checkin:
+        title: Manage Checkin
+        about: Manage all aspects of checkin, including setup and configuration.
+        order: checkin2
+      manage_documents:
+        title: Manage Documents
+        about: Add, edit and delete documents.
+      run_reports:
+        title: Run Reports
+        about: Access the Reporting Dashboard.
+        order: 18
+      manage_reports:
+        title: Manage Reports
+        about: Create, Edit and Delete Custom Reports.
+        order: 19
+    rest_api_information: To use the REST API with Ruby, you might do this
+    settings:
+      heading: Site Settings
+      Contact:
+        Tech Support Email:
+          name: Tech Support Email
+          description: Users will be directed to send an email here if they need technical
+            help with the site.
+        Community Address:
+          name: Community Address
+          description: Visible on Terms of Use
+        Community Office Phone:
+          name: Community Office Phone
+          description: Phone number for the office
+        Community Email:
+          name: Community Email
+          description: Users will be directed to send an email here if they want general/policy
+            information about your community.
+        Bug Notification Email:
+          name: Bug Notification Email
+          description: Automated software bug reports are sent to this email address.
+        Send Email Changes To:
+          name: Send Email Changes To
+          description: Email sent when someone changes their email address (can be
+            blank for no email)
+        Send Updates To:
+          name: Send Updates To
+          description: Email sent when someone updates their profile (can be blank
+            for no email)
+        Send Attendance Submissions To:
+          name: Send Attendance Submissions To
+          description: Email sent when someone submits attendance for a group
+      Services:
+        Yahoo:
+          name: 雅虎
+          description: Your Yahoo API key - https://developer.yahoo.com/wsregapp/index.php
+        Analytics:
+          name: Analytics
+          description: If you use Google Analytics or some other JavaScript-based
+            stats service, put the code here. It will be inserted at the bottom of
+            every page.
+      Name:
+        Community:
+          name: Community Name
+          description: The name of your church or community, e.g. "One Church" or
+            "First Baptist of Fresno."
+        Site:
+          name: Site Name
+          description: The name of this site, displayed at the top, e.g. "My Church
+            Family" or "One Church Central."
+      URL:
+        News Feed:
+          name: News Feed
+          description: URL for external community news feed in RSS or Atom format
+            (news will be imported periodically)
+        Visitor:
+          name: 访客
+          description: URL for main website (visitors will be pointed here if they
+            happen across the member site.)
+      System:
+        Suffixes:
+          name: Suffixes
+          description: Name suffixes, one per line.
+        Adult Age:
+          name: Adult Age
+          description: Age at which a person is considered old enough to use the site
+            and be seen by others in the directory.
+        Language:
+          name: Language
+          description: Language for interface elements. <a href='%{url}' target='_blank'>You
+            can help!</a>
+        Time Zone:
+          name: Time Zone
+          description: Set to properly display dates and times on the site.
+        Default Country:
+          name: 默认国家
+          description: Select the default country for new family records.
+        Map Zoom Level:
+          name: Map Zoom Level
+          description: Select the zoom level to use on the maps displayed on the site.
+      Appearance:
+        Public Theme:
+          name: Public Theme
+          description: Name of selected theme for the public CMS site.
+        Theme:
+          name: 主题
+          description: Name of selected theme for site.
+        Show Subheading:
+          name: Show Subheading
+          description: Under the site title/logo, display the site address and slogan.
+        Info Tab First:
+          name: Info Tab First
+          description: If enabled, move the Info tab on profiles to the far left and
+            have it open by default.
+      Formats:
+        Full Date and Time:
+          name: Full Date and Time
+          description: Format for displaying date and time.
+        Time:
+          name: 时间
+          description: Format for displaying time.
+        Date:
+          name: 日期
+          description: Format for displaying date.
+        Phone:
+          name: Phone (Landline)
+          description: Format for displaying standard (landline) phone numbers.
+        Date Without Year:
+          name: Date Without Year
+          description: Format for displaying date without a year, e.g. birthdays.
+        Mobile Phone:
+          name: 手机号码
+          description: Format for displaying mobile phone numbers.
+      Features:
+        Custom Person Type:
+          name: Custom Person Type
+          description: If enabled, admins can specify a custom type along the lines
+            of Elder, Deacon, etc.
+        Community Google Calendar:
+          name: Community Google Calendar
+          description: The URL for the community Google Calendar.  Can be either the
+            public or private address, but the calendar itself will need to be shared
+            publicly in order to be included in the indivdual ("my calendar") feature.
+        Updates Must Be Approved:
+          name: Updates Must Be Approved
+          description: If enabled, all changes to a user's "basic" information (phone,
+            address, etc.) will await approval from an admin before being applied.
+        Sign Up:
+          name: 注册
+          description: If enabled, potential members can create their own login account
+            on the site. It is highly recommended that you also enter an approval
+            email address in the next field so that you can review signups before
+            allowing login.
+        SSL:
+          name: SSL
+          description: If you have SSL setup, you may turn on this feature, which
+            will make the login page encrypted. If not, some advanced JavaScript hashing
+            is enabled to make sure the users' passwords aren't being sent in plaintext.
+        Notes:
+          name: 笔记
+          description: Enable Note sharing.
+        Pictures:
+          name: 图片
+          description: Enable Picture sharing.
+        Banner Message:
+          name: Banner Message
+          description: Message to display across top of all pages on site (HTML),
+            like an alert
+        Multisite:
+          name: Multisite
+          description: When enabled, this instance can handle multiple sites, based
+            on domain name.
+        Groups:
+          name: 小组
+          description: Enable Groups.
+        News by Users:
+          name: News by Users
+          description: Allow user submitted news content. (Requires 'News Page' to
+            be enabled above.)
+        Custom Person Fields:
+          name: Custom Person Fields
+          description: Add custom field names, one per line. Including the word "date"
+            (or "Date") makes a date field. Append an asterisk (*) to make the field
+            visible and editable by users.
+        Edit Legacy Ids:
+          name: Edit Legacy ID
+          description: Allow admins to see and edit the legacy_id field.
+        Sign Up Approval Email:
+          name: Sign Up Approval Email
+          description: Where to send pending sign up requests (must be admin; leave
+            blank to auto-approve).
+        Friends:
+          name: Friends
+          description: Enable mutual friendships (confirmed via email)
+        Sidebar Group Heading:
+          name: Sidebar Group Heading
+          description: Heading to show above people in mutual groups (see above setting)
+        Reporting:
+          name: Reporting
+          description: Requires MongoDB to be setup and running.
+        Sidebar Group Category:
+          name: Sidebar Group Category
+          description: People in mutual groups of this category will be displayed
+            on the user's profile sidebar.
+        Content Management System:
+          name: Content Management System
+          description: Enable "Pages" - Use OneBody to host your website.
+        News Page:
+          name: News Page
+          description: Enable community news page. News items can be submitted by
+            admins and/or pulled from an RSS feed (see External Services, News Feed
+            setting).
+        Verses:
+          name: 圣经章节
+          description: Enable Verse sharing.
+        Recipes:
+          name: Recipes
+          description: Enable Recipe sharing.
+        Service:
+          name: Service
+          description: If enabled, admin users can track indviduals' service in areas
+            of the community.
+        Notify on Photo Change:
+          name: Notify on Photo Change
+          description: If enabled, admins will be notified whenever a user changes
+            their personal or family photos.
+        Checkin:
+          name: 签到
+          description: If enabled, users can check-in to designated classes.
+        Documents:
+          name: 文档
+          description: If enabled, admins can upload files in a general area where
+            users can browse and download them.
+        Small Group Size:
+          name: Max size of a "small group"
+          description: People in groups with this many members or fewer are considered
+            in a "small group" together, and can easily share content with one another
+            via the homepage.
+        Business Directory:
+          name: Business Directory
+          description: If enabled, users can add business information to be listed
+            in a church business directory.
+      Privacy:
+        Hide Contact Details in Messages:
+          name: Hide Contact Details in Messages
+          description: If enabled, attempts are made to hide phone numbers and email
+            addresses inside messages when viewed online.
+        Share Anniversary by Default:
+          name: Share Anniversary
+          description: If enabled, new users will have their anniversary shared with
+            other site members.
+        Share Email by Default:
+          name: Share Email
+          description: If enabled, new users will have their email address shared
+            with other site members.
+        Allow Unencrypted Logins:
+          name: Allow Unencrypted Logins
+          description: Logins are secured with public/private RSA encryption using
+            JavaScript. Check this box to allow fallback for mobile phones and other
+            browsers that are having trouble signing in.
+        Share Home Phone by Default:
+          name: Share Home Phone
+          description: If enabled, new users will have their home phone shared with
+            other site members.
+        Allow Picture Comments:
+          name: Allow Picture Comments
+          description: If enabled, users will be allowed to post comments on pictures.
+        Share Work Phone by Default:
+          name: Share Work Phone
+          description: If enabled, new users will have their work phones shared with
+            other site members.
+        Share Fax by Default:
+          name: Share Fax
+          description: If enabled, new users will have their fax shared with other
+            site members.
+        Max Sign in Attempts:
+          name: Maximum Failed Sign in Attempts
+          description: Number of signin failures in a 15-minute period before account
+            is locked out. (Account is automatically unlocked after 15 minutes.)
+        Share Mobile Phone by Default:
+          name: Share Mobile Phone
+          description: If enabled, new users will have their mobile phones shared
+            with other site members.
+        Share Address by Default:
+          name: Share Address
+          description: If enabled, new users will have their home address shared with
+            other site members.
+        Share Birthday by Default:
+          name: Share Birthday
+          description: If enabled, new users will have their birthday shared with
+            other site members.
+      contact_automated_email_about: These email addresses are sent email when certain
+        things happen on the site. You can set them all to the same address or to
+        different ones, depending on separation of duties in your community.
+      contact_community_info_about: Enter contact information for your church or community
+        office, where people can contact administrative staff.
+      contact_heading: Contact
+      disabled: Disabled
+      enabled: Enabled
+      features_heading: Features
+      formats_heading: Formats
+      formats_date_about_html: Enter your own date and time formats to match your
+        part of the world. See <a href="https://www.manystrands.com/wp-content/uploads/2013/01/strftime-cheat-sheet.pdf"
+        target="_new">here</a> for formatting options.
+      formats_phone_about: Specify phone formatting with 'd', e.g. ddd-ddd-dddd or
+        (dd) dddd-dddd, depending on your locale.
+      locale_heading: Locale
+      membership_management_heading: 成员
+      name_heading: 名字
+      one_per_line: "(one per line)"
+      privacy_defaults: Default Privacy Settings
+      privacy_defaults_about: When a member's account is first created, the following
+        privacy settings are applied to their information. (Members can still choose
+        to show or hide any of their information at any time, regardless of the settings
+        below.)
+      privacy_heading: 隐私
+      reload: Reload Settings
+      reload_message: If you have made modifications to the system from the command
+        line, you may need to reload all settings to see the changes take effect.
+      save: Save Settings
+      services_heading: External Services
+      settings: 设置
+      sharing_about: OneBody is best when members participate by adding their own
+        content. Enable content sharing with these settings.
+      sharing_communications_about: Share information with your members easily.
+      sharing_heading: 分享
+      host:
+        name: Host/Domain Name
+        description: The domain name where this site is accessible on the web, e.g.
+          example.com or members.mychurch.com (do not include http:// on the front)
+      Email:
+        Host:
+          name: Email Host Name
+          description: A subdomain, e.g. mg.example.com, to use if your domain is
+            already serving email. Defaults to the domain name.
+      mailgun: Create Catch All Route on Mailgun
+      mailgun_message: Use this to create a catch all route on your host/domain with
+        mailgun to receive email messages.
+      small_group_sharing:
+        disable: disable sharing among small groups
+        all: share with all groups, regardless of size
+      Pusher:
+        App ID:
+          name: App ID
+          description: The application ID provided by Pusher.
+        App Key:
+          name: App Key
+          description: The application key provided by Pusher.
+        Secret:
+          name: Secret
+          description: The secret provided by Pusher.
+        API Scheme:
+          name: API Scheme
+        API Host:
+          name: API Host
+        API Port:
+          name: API Port
+        WS Host:
+          name: WS Host
+        WS Port:
+          name: WS Port
+        WSS Port:
+          name: WSS Port
+    super_admin: Super Admin
+    super_admin_about: Super Admins have full control over the site, with all available
+      privileges. Be careful who you give this to — it could be dangerous!
+    template: Template
+    templates: Templates
+    updates:
+      apply: Apply
+      child: Is this a child?
+      child_alert: You must specify whether the person is a Child (under %{years})
+        or not to complete this update.
+      child_select_options:
+        You must select one: ''
+        'true': true
+        'false': false
+      diff:
+        person: Person
+        property: Property
+        before: Before
+        after: After
+        created_at: Submitted
+      mark_complete: Mark Complete
+      mark_incomplete: Mark Incomplete
+      person_deleted: person deleted
+      profile_updates: Profile Updates
+      toggle:
+        pending: Pending
+        complete: Complete
+      updated: updated
+    username: Username
+    your_key: your key
+    attendance:
+      heading: Attendance (30 days)
+      button: 出席记录
+    checkin:
+      heading: 签到（两天内）
+      cards_assigned: 签到卡片已分配
+      button: 签到管理中心
+      dashboard_button: Check-in Admin
+    report:
+      back: Back to Report Dash
+      button: Reporting Dashboard
+      heading: 报告
+      intro: Access the Reporting Dashboard for pre-defined reports and ad-hoc reporting
+        tools.
+      launch: Launch
+      list: Reports
+      title: Reporting Dashboard
+    actionables:
+      heading: Actionables
+    administration:
+      heading: Administration & Settings
+    charts:
+      no_data: no data yet
+    gatherings:
+      heading: Gatherings
+    facebook:
+      heading: Facebook
+      intro_html: Allow people to sign in using Facebook. You'll need to first set
+        up a Facebook "app", then plug in the app id and secret below.
+    pusher:
+      heading: Pusher
+      intro_html: Pusher is a service that facilitates real-time communication. Right
+        now, OneBody uses Pusher only for remote Check-in printing, which you may
+        not need. You can sign up for a free Pusher account at <a href='https://pusher.com'>pusher.com</a>
+        or use the open source software <a href='https://github.com/stevegraham/slanger'>Slanger</a>
+        on your own server.
+  attendance:
+    heading_html: Attendance in %{group} for %{when}
+    heading_without_group: Attendance for %{when}
+    heading_without_date: Attendance in %{group}
+    medical_notes: 'Medical notes:'
+    can_pickup_people: Can Pick Up
+    cannot_pickup_people: Cannot Pick Up
+    share:
+      heading: Share Form
+      intro_html: |
+        <p>Share a link to this form that will allow anyone to submit attendance for this group without signing in.</p>
+        <p>This feature can be used for class check-in.</p>
+      button: Share this Form
+    add:
+      heading: Add Someone
+      intro: 'Add someone to the attendance history.
+
+'
+      footer_html: 'If this is someone who attends often, it is better to add them
+        as a group member <a href="%{url}">here</a>.
+
+'
+    add_visitor: Add a visitor.
+    adult: Adult
+    attendance: Attendance
+    class_time: Class Time
+    clear_search: clear
+    date: Date
+    export: Export to File
+    email:
+      subject: Attendance Submission for %{group}
+      intro_with_submitter: "%{person} has submitted attendance for the group %{group}."
+      intro_anonymous: Attendance has been submitted (anonymously) for the group %{group}.
+      notes: 'Below are notes included with the submission:'
+    group: Group
+    group_missing: group missing
+    id: ID
+    name: Name
+    name_unknown: name unknown
+    next_date: next date
+    no_records: 没有可显示的记录
+    not_enabled: Attendance tracking is not enabled for this goup.
+    notes:
+      label: Notes
+      help: Use this field to send notes to the administrator.
+    prev_date: prev date
+    recorded_time: Recorded Time
+    records:
+      other: "%{count} records"
+    save: Submit Attendance
+    saved: Attendance submitted.
+    submit_notes: 提交笔记
+    Search: 搜索
+    search_person: 按姓名查找
+    wrong_date_format: Could not recognize date. Please try again.
+  administration:
+    deleted_people:
+      index:
+        table:
+          id: ID
+          legacy_id: Legacy ID
+          last_name: 姓
+          first_name: 名
+          family_id: Family ID
+          legacy_family_id: Legacy Family ID
+          family_name: 团契名称
+          family_deleted: 团契已删除
+          family_not_found: 无相关内容
+          updated_at: 最后更新于
+  Changes_saved: 变更已保存。
+  Delete: 删除
+  From: 来自
+  Help: 帮助
+  No_action_to_show: No action responded to show
+  No_more_records: 没有更多的内容了。
+  Page_no_longer_valid: This page is no longer valid.
+  There_was_an_error: 出错了。
+  There_were_errors: 出现了一些错误。
+  To: 发送给
+  are_you_sure: 您确定吗？
+  by: 由
+  changes_saved: 变更已保存。
+  click_here: 点击此处
+  Comments: 评论
+  delete: 删除
+  edit: 编辑
+  feature_unavailable: 此项功能尚未开通。
+  for: for
+  multiple_files: Your web browser may support multiple file uploads — try selecting
+    multiple files using the Ctrl key (Windows) or Command key (Mac) on your keyboard.
+  name: 名字
+  none: none
+  not_authorized: You are not authorized.
+  'true': true
+  only_admins: 只有管理员才能使用这里的功能。
+  person: Person
+  phone: 电话
+  req_notes: 笔记
+  save: 保存
+  saving: 正在保存
+  save_changes: 保存更改
+  show_all: 显示全部
+  submit_changes: Submit Changes
+  you_made_a_change_page: Looks like you made a change to something on this page.
+    Click OK to discard your edits and leave this page.
+  activemodel:
+    errors:
+      models:
+        signup:
+          attributes:
+            base:
+              disabled: 已关闭注册。
+              spam: Sign up was completed by a robot.
+            first_name:
+              blank: 名字不能为空。
+            last_name:
+              blank: 姓氏不能为空。
+            email:
+              blank: 电子邮件不能为空。
+            gender:
+              blank: 性别不能为空。
+            birthday:
+              blank: 出生日期不能为空。
+              too_young: 由于您年龄太小而不能使用本服务。
+            mobile_phone:
+              blank: 手机号码不能为空。
+  activerecord:
+    attributes:
+      album:
+        name: 名字
+        description: 描述信息
+      family:
+        name: Name
+        last_name: Last Name
+        home_phone: Home Phone
+        address1: Address Line 1
+        address2: Address Line 2 (optional)
+        city: City
+        state: State
+        zip: Zip
+        country: Country
+      person:
+        first_name: First Name
+        last_name: Last Name
+        email: Email
+        facebook_url: Facebook URL
+        twitter: Twitter Username
+        anniversary: Wedding Anniversary
+        birthday: Birthday
+        custom_type: Custom Role
+        fax: Fax
+        gender: Gender
+        mobile_phone: Mobile Phone
+        suffix: Suffix
+        work_phone: Work Phone
+        primary_emailer: Primary email account holder
+        status: Status
+      group:
+        name: Name
+        category: Category
+        description: Description
+        other_notes: Other Notes
+        leader_id: Leader
+        creator: Creator
+        meets: Meets When
+        location: Location and Address
+        direction: Direction
+        email: Email
+        prayer: Prayer Requests
+        pictures: Picture Sharing
+        attendance: 出席记录
+        gcal_private_link: Google Calendar Private Link
+        approval_required_to_join: Approval required for people to join group
+        private: Private Group
+        members_send: 小组成员可以发布消息
+        link_code: External Link Code
+        parents_of: Child Group
+        hidden: Hidden (Archived) Group
+        membership_mode: Select how group members should be added to this group
+        has_tasks: Tasks
+      prayer_request:
+        answer: Answer
+        answered_at: Date Answered
+        person_id: Person needing prayer
+        request: Request
+      note:
+        title: Title
+        body: Body
+      document:
+        name: 名字
+        description: 描述信息
+        file: File
+        folder_id: Folder
+        files: Files
+      document_folder:
+        name: Name
+        description: Description
+        folder_id: Parent Folder
+        hidden: Hide/Archive this folder
+        groups: Only share with these groups
+      task:
+        name: Task
+        description: Description
+        person: Assigned to
+        person_id: Assigned to
+        duedate: Due on
+        completed: Completed
+      checkin_label:
+        name: Name
+        description: Description
+        xml: Label XML
+        xml_file: Label XML File
+    errors:
+      models:
+        admin:
+          attributes:
+            template_name:
+              taken: There is another template with this name. Please choose another
+                name.
+        album:
+          attributes:
+            name:
+              blank: The album must have a name.
+              taken: There is another album with this name. Please choose another
+                name.
+            owner:
+              blank: The album must have an owner.
+        attendance_record:
+          attributes:
+            attended_at:
+              blank: The attendance record must specify a date and time.
+            group_id:
+              blank: The attendance record must be associated with a group.
+        family:
+          attributes:
+            name:
+              blank: The family must have a name.
+            last_name:
+              blank: The family must have a last name.
+            alternate_barcode_id:
+              invalid: This family card (alternate barcode id) contains letters or
+                symbols (only numbers are allowed).
+              taken: This family card (alternate barcode id) is already taken by another
+                family.
+              too_long: This family card (alternate barcode id) is too long (cannot
+                be more than 50 digits).
+              too_short: This family card (alternate barcode id) is too short (must
+                be 5 digits).
+            barcode_id:
+              invalid: This family card (barcode id) contains letters or symbols (only
+                numbers are allowed).
+              taken: This family card (barcode id) is already taken by another family.
+              too_long: This family card (barcode id) is too long (cannot be more
+                than 50 digits).
+              too_short: This family card (barcode id) is too short (must be 5 digits).
+            photo:
+              too_large: The photo must be less than %{size} megabytes.
+              wrong_type: The photo file type must be JPG, GIF, or PNG.
+        friendship:
+          attributes:
+            friend_id:
+              blank: This friendship must be associated with a person.
+              taken: This friendship already exists.
+            person_id:
+              blank: This friendship must be associated with a person.
+        friendship_request:
+          attributes:
+            from_id:
+              blank: This friendship request must be associated with a person.
+            person:
+              invalid_address: The person must have a valid email address.
+              refused: The person does not accept friend requests.
+            person_id:
+              blank: This friendship request must be associated with a person.
+              taken: This friendship request already exits.
+        group:
+          attributes:
+            address:
+              invalid: The group address is not a valid email address.
+              taken: There is another group with this email address. Please choose
+                another address.
+              too_long: The group email address is too long.
+              too_short: The group email address is too short.
+            category:
+              blank: The group must specify a category.
+            name:
+              blank: The group must have a name.
+              taken: There is another group with this name. Please choose another
+                name.
+            parents_of:
+              points_to_self: This group cannot link to itself.
+            photo:
+              too_large: The photo must be less than %{size} megabytes.
+              wrong_type: The photo file type must be JPG, GIF, or PNG.
+            attendance:
+              invalid: Attendance must be enabled for any group in use by Check-in.
+        membership:
+          attributes:
+            group_id:
+              taken: This person is already a member of this group.
+        membership_request:
+          attributes:
+            group_id:
+              taken: This person has already requested membership in this group.
+        message:
+          attributes:
+            body:
+              blank: The message must have a body.
+              too_short: The message body is too short.
+            person_id:
+              blank: This message must be associated with a person.
+            subject:
+              blank: The message must have a subject.
+              too_short: The message subject is too short.
+            to_person_id:
+              invalid: The recipient of this message does not have an email address.
+                The message cannot be sent.
+            base:
+              taken: This message has already been sent. Try changing the subject
+                or body if you wish to send another email.
+        note:
+          attributes:
+            body:
+              blank: The note is blank.
+        page:
+          attributes:
+            body:
+              blank: The page must have a body.
+            path:
+              taken: There is another page with this path.
+            slug:
+              blank: The page must have a slug.
+              exclusion: The page slug cannot be "admin", "edit", or "new"
+              invalid: The page slug can only contain lowercase letters and underscore.
+            title:
+              blank: The page must have a title.
+        person:
+          attributes:
+            alternate_email:
+              invalid: The alternate email address is not formatted correctly (something@example.com).
+              taken: There is another person with the same alternate email.
+            business_email:
+              invalid: The business email address is not formatted correctly (something@example.com).
+            business_website:
+              invalid: The business website URL is not formatted correctly (are you
+                missing 'http://' at the beginning?)
+            business_category:
+              exclusion: You must enter a category for your business.
+            child:
+              inclusion: You must enter a birthday or specify whether this person
+                is a child.
+            email:
+              invalid: The email address is not formatted correctly (something@example.com).
+              taken: There is another person with the same email address.
+            feed_code:
+              taken: The same feed code exists on another person record.
+            first_name:
+              blank: The person must have a first name.
+            gender:
+              inclusion: Gender must be either 'Male' or 'Female'.
+            last_name:
+              blank: The person must have a last name.
+            password:
+              confirmation: The passwords do not match.
+              too_short: The password is too short.
+            website:
+              invalid: The website URL is not formatted correctly (are you missing
+                'http://' at the beginning?)
+            photo:
+              too_large: The photo must be less than %{size} megabytes.
+              wrong_type: The photo file type must be JPG, GIF, or PNG.
+            anniversary:
+              not_a_date: Please enter a valid date for the anniversary.
+            birthday:
+              not_a_date: Please enter a valid date for the birthday.
+            description:
+              too_long: Description must be less than 25 characters.  A word or two.
+                :)
+            facebook_url:
+              invalid: Facebook URL is invalid.
+            twitter:
+              invalid: Twitter username is invalid.
+              too_long: Twitter username is too long.
+        picture:
+          attributes:
+            album_id:
+              blank: This picture must be associated with an album.
+            photo:
+              too_large: The photo must be less than %{size} megabytes.
+              wrong_type: The photo file type must be JPG, GIF, or PNG.
+        picture_uploader:
+          attributes:
+            album:
+              blank: You must select an album.
+        prayer_request:
+          attributes:
+            group_id:
+              blank: The prayer request must be associated with a group.
+            person_id:
+              blank: The prayer request must be associated with a person.
+            request:
+              blank: The prayer request cannot be blank.
+        recipe:
+          attributes:
+            directions:
+              blank: The recipe must have directions.
+            ingredients:
+              blank: The recipe must have ingredients.
+            title:
+              blank: The recipe must have a title.
+        relationship:
+          attributes:
+            name:
+              blank: You must specify the relationship type.
+              inclusion: This relationship is not valid.
+              taken: This relationship already exists.
+            other_name:
+              blank: You must specify the relationship type.
+              taken: This relationship already exists.
+            person:
+              blank: The relationship must be associated with a person.
+            related:
+              blank: The relationship must be associated with a second person.
+        report:
+          attributes:
+            definition:
+              invalid: The report definition is invalid.
+            name:
+              blank: The report must have a name.
+              taken: There is another report with this name. Please choose another
+                name.
+        site:
+          attributes:
+            host:
+              blank: The host must be specified.
+              taken: There is another site with the same host.
+              invalid: Do not include "http://" or "www." in the hostname.
+            name:
+              blank: The site must have a name.
+              taken: There is another site with the same name.
+        tag:
+          attributes:
+            name:
+              blank: The tag must have a name.
+              exclusion: The tag name is invalid.
+              taken: There is another tag with the same name.
+        verification:
+          attributes:
+            email:
+              invalid: That email address could not be found in our system. If you
+                have another address, try again.
+            carrier:
+              inclusion: You must select a mobile carrier.
+            mobile_phone:
+              invalid: That mobile number could not be found in our system. You may
+                try again.
+            base:
+              unauthorized: There is a problem with your record preventing you from
+                signing in.
+        verse:
+          attributes:
+            reference:
+              blank: The verse must have a reference.
+            text:
+              blank: The passage could not be found. Did you type the reference correctly?
+              too_long: The passage is too long. Try to specify a shorter passage.
+        document:
+          attributes:
+            file:
+              blank: You must upload a file.
+            name:
+              blank: You must enter a name.
+              too_long: Please enter a shorter name.
+            description:
+              too_long: Please enter a shorter description.
+        document_folder:
+          attributes:
+            name:
+              blank: You must enter a name.
+              too_long: Please enter a shorter name.
+            description:
+              too_long: Please enter a shorter description.
+            folder_id:
+              invalid: You cannot specify this folder as the parent folder.
+            parent_folder_ids:
+              too_long: This folder is nested too deep. Please place it somewhere
+                else.
+        news_item:
+          attributes:
+            title:
+              blank: You must enter a title for this news post.
+            body:
+              blank: You must enter text for this news post.
+        custom_report:
+          attributes:
+            title:
+              blank: The title cannot be blank.
+              too_long: The maximum description is 50 characters.
+            body:
+              blank: The Report Body cannot be blank.
+            filters:
+              invalid: Filters must contain a colon, in the form field:value.
+            category:
+              inclusion: Select a valid category value.
+        checkin_label:
+          attributes:
+            name:
+              blank: You must enter a name.
+            xml:
+              blank: You must paste the label XML.
+        checkin_time:
+          attributes:
+            campus:
+              blank: You must select a campus.
+              exclusion: You must select a campus.
+  application:
+    api_access: You must be a super administrator to use the API.
+    no_default_site: No Default site found.
+    no_site_configured: 'There is no site configured at this address: %{host}'
+    settings_reloaded: Settings reloaded.
+    settings_saved: Settings saved.
+    template_created: Template created.
+  people_count:
+    other: "%{count} people"
+  footer:
+    help: Help using this site
+    privacy_policy: 隐私政策
+    powered_by: Powered by CHURCH.IO OneBody
+  date_format:
+    DD: 日
+    MM: 月
+    YYYY: 年
+  new: new
+  generated_files:
+    building: Building your file...
+    complete_heading: 完成！
+    complete_message: Your file is complete and ready to download.
+    failure_heading: We're sorry...
+    failure_message: There seems to have been an error while generating your file.
+  import:
+    changes:
+      count:
+        other: "%{count} changes"
+      show_button: 显示
+    results:
+      name: 名字
+      first_name: 名
+      last_name: 姓
+      status: 状态
+    apply_settings_to_imports: 'Apply the following settings to all imports:'
+    attempt_match_existing_people: Attempt to match existing people by name if no
+      IDs are included.
+    completed_records: Completed Records
+    error: 错误
+    error_updating: Error updating record.
+    error_updating_message_html: There was at least one error while attempting to
+      update records in the database. Please correct the errors, then return to the
+      <a href="%{url}">Pending Updates</a> interface to complete the process.
+    errored_records: Errored Records
+    for_list_of_available_attributes: for a list of available attributes (not all
+      attributes are required).
+    hint_excel_docs: 'Hint: Excel documents can be exported as CSV from the File →
+      Save As menu.'
+    import_data: Import Data...
+    import_people: Import People
+    import_results: Import Results
+    import_selected_people: Import Selected People
+    no_records_were_found: No records were found to import.
+    only_first_records_will_be_imported_html: Only the first %{count} records will
+      be imported. For larger files, you must divide records into multiple files,
+      or use the <a href="http://wiki.github.com/churchio/onebody/updateagent">UpdateAgent</a>
+      to import a large batch at once.
+    people: Import People
+    record: 记录
+    record_updated: 记录已更新。
+    records: Records
+    select_csv_file: Select a Comma Separated Values (CSV) file to import with attribute
+      names as the header row.
+    the_changes_will_be_made: The following changes will be made. Only selected records
+      will be created/updated.
+    the_import_is_complete: The import is complete
+    visibility_access: Visibility/Access
+    with_errors: with errors
+  memberships:
+    index:
+      heading: People in %{group}
+      details:
+        name: Name
+        birthday: Birthday
+        created_at: Added
+        manual:
+          tooltip: This person was added manually.
+      remove:
+        button: Remove Selected
+    add:
+      description: Add someone to this group.
+      name_placeholder: Type all or part of someone's name
+      heading: Add Someone
+      parents_of_warning_html: |
+        This is a group automatically linked with parents of people in %{group}.
+        If you add someone manually, that person won't be managed automatically.
+      linked_group_warning_html: |
+        This group is linked with class code <strong>%{code}</strong>.
+        If you add someone manually, that person won't be managed automatically.
+    promote: Promote member to admin
+    demote: Demote admin to regular member
+    group_pending_approval: This group is pending approval. You may not add people
+      to it yet.
+    requests:
+      heading: Requests to join this group
+      select_some: Select one or more above and choose an action.
+      accept:
+        button: 接受
+      ignore:
+        button: 忽略
+      name: 名字
+      created_at: Requested
+  messages:
+    new:
+      button: New Message
+    private:
+      heading: Private Message
+      description_html: This will send a <em>private</em> email to %{person}.
+    group:
+      heading: Group Message
+      description_html: This will send an email to every member of %{group}.
+    sent_at_html: sent %{when} by %{who}
+    sent_to_html: 给 %{who}
+    read_more: Read More
+    delete:
+      button: 删除
+    in_reply_to_html: in reply to %{message}
+    replies:
+      heading: Replies
+    reply_all:
+      button: Reply to this message (send to entire group)
+    email:
+      reply_to_sender: Hit "Reply" to send a message to %{person}.
+      reply_to_group: Hit "Reply to All" to send a message to the group %{group},
+        or send to %{address}.
+      group_link: 'Group page: %{url}'
+      reply_link: 'To reply, go to: %{url}'
+      disable_group_email: |-
+        To stop email from this group:
+        %{url}
+      disable_all_email: |-
+        To stop these emails, go to your privacy page:
+        %{url}
+    do_not_reply: DO NOT REPLY
+    ago: ago
+    attachment_optional: Attachment (optional)
+    attachments: Attachments
+    file_missing: file missing
+    flag_cleared: Flag(s) cleared.
+    from: From
+    in: in
+    messages_in_html: Messages in <a href="%{url}">%{name}</a>
+    missing_param: Missing the message param.
+    no_email_for_person: Sorry. We don't have an email address on file for %{name}.
+    not_authorized_delete: You are not authorized to delete this message.
+    not_found: Message not found.
+    posted_by: posted by
+    send_message: Send Message
+    sent: Your message has been sent.
+    show_quoted_content: show quoted content
+    some_quoted_text_is_hidden: Some quoted text in this message is hidden;
+    subject: Subject
+    to_show_the_entire_message: to show the entire message.
+    unknown_type: 未知的消息类型
+  nav:
+    hello: "%{person}，您好！"
+    admin: 管理员
+    admin_sub:
+      admins: 管理员
+    albums: 相册
+    business_profile: 职业
+    checkin: 签到
+    checkin_sub:
+      times: 时代
+      labels: Labels
+    directory: 目录
+    directory_sub:
+      business: 行业类别
+      printed: 已打印的目录
+      advanced: 高级搜索
+      new_person: 新建人物
+    documents: 文档
+    groups: 小组
+    groups_sub:
+      edit: 编辑小组
+      new: 新建小组
+      new_count:
+        other: "%{count} 个新的"
+    home: 首页
+    home_sub:
+      new_count:
+        other: "%{count} 个新的"
+    imports: Imports
+    messages: 消息
+    news: 新闻
+    notes: 笔记
+    pages: Pages
+    prayer_requests: 代祷请求
+    profile: 个人资料
+    profile_sub:
+      edit: 编辑个人资料
+      email: 电子邮件
+      password: 密码
+      privacy: 隐私政策
+      relationships: 人际关系
+      show: 查看个人资料
+    report: 报告
+    verses: 圣经章节
+    tasks: 任务
+    tasks_sub:
+      assigned_count:
+        other: "%{count} 分配"
+  news:
+    heading: 新闻
+    edit:
+      heading: Edit News Post
+    edit_button: 编辑
+    delete_button: 删除
+    body_description: 'Share your announcement, information, or news here:'
+    deleted: News deleted.
+    if_you_have_something_to_share_html: If you have something newsworthy to share,
+      <a href='%{url}'>submit it here</a>.
+    news_feed: News Feed
+    no_news_is_available: No news is available at this time.
+    save_news: Save News
+    saved: News saved.
+    submit_news: Submit News
+    subscribe:
+      button: 订阅
+      description: Get news updates in your feed reader.
+    title_description: 'Give your post a concise title:'
+    welcome_to_the_place: Welcome to the place for community news.
+  notes:
+    index:
+      heading: Notes
+    new:
+      heading: New Note
+      button: New
+    edit:
+      heading: Edit Note
+      button: 编辑
+    delete:
+      button: 删除
+    posted: posted %{when}
+    save: Save Note
+    saved: Note saved
+  notifier:
+    email_update:
+      subject: "%{person} 修改了电子邮件"
+      intro: "%{person} 个人修改了电子邮件。"
+      email_label: 电子邮件
+    email_verification:
+      subject: 验证邮箱
+      intro: "此消息用于验证您在\n%{site} 的邮箱地址，验证通过后您可用此邮箱地址登录网站。 \n"
+      instruction: "请点击以下链接以验证您的电子邮件： \n"
+      footer: "如果您无法点击以上链接，\n您可以复制链接内容到浏览器地址栏中打开。\n\n如果您不知道为何会收到此消息，您可以联系\n%{name}
+        %{phone}。 \n"
+    friend_request:
+      subject: 来自 %{person} 的好友请求
+      intro: "%{person} 希望成为您在 %{site} 上的朋友。 "
+      instruction: "您需要登录到以下地址来接受或取消： \n"
+    membership_request:
+      subject: "%{person}申请加入小组"
+      intro: "%{person} 正在申请加入 %{group} 小组。 \n"
+      instruction: "您需要登录到以下地址来接受或取消： \n"
+    mobile_verification:
+      subject: 验证手机号码
+      label: 验证码：
+    pending_sign_up:
+      subject: 等待中的注册请求
+      intro: "%{person} 刚刚在 %{site} 上注册了一个账号。 "
+      instruction_first: "如果您允许其创建账号，\n请点击以下地址将其激活： \n"
+      instruction_last: "选择适当的选项然后保存。\n\n请确保点击了“发送验证邮件”。 \n"
+    photo_update:
+      family_subject: 团契照片已修改
+      person_subject: 照片已修改
+      intro: "%{person} 已修改了他们的照片。 "
+    prayer_request:
+      subject: 来自 %{group} 的代祷请求
+      intro: "%{person} 在 %{group} 中发起了一新的代祷请求。 \n"
+    printed_directory:
+      subject: "%{site}目录"
+      intro: "%{person} 你好，附件是来自 %{site} 上你的个人目录。 \n"
+    profile_update:
+      subject: "%{person} 更新了其个人资料"
+      intro: "来自 %{family} 的 %{person} 更新了个人资料 \n"
+      label:
+        new: 新的
+        old: 旧的
+    rejection:
+      cannot_read:
+        subject: 此消息尚未发送： %{subject}
+        body: "您主题为 \"%{subject}\" 的消息尚未发送。\n\n我们对此表示歉意，因系统无法识别您的消息\n此消息内容既非纯文本也非HTML文档。\n\n请将您的邮件客户端设置为纯文本模式后再试一次，\n或者，\n您可以登录到以下地址来发送消息：
+          \n\n%{url} \n"
+      multiple_people:
+        subject: 此消息尚未发送： %{subject}
+        body: "您主题为 \"%{subject}\" 的消息尚未发送。 \n\n我们对此表示歉意，因为系统无法判断您是哪一位。\n你所在的团契中有多人使用了同一邮箱地址。\n请登录以下地址来发送消息：\n\n%{url}\n\n或者您可以从以上地址登录，找到邮件设置，\n将“主要邮件拥有者”这一选项勾上。
+          \n"
+      unknown_person:
+        subject: 此消息尚未发送： %{subject}
+        body: "您主题为 \"%{subject}\" 的消息尚未发送。 \n\n我们对此表示歉意，因为系统无法识别你的邮箱地址，\n该邮箱不属于本网站的用户。\n\n请使用您用于登录\n%{url}\n\n的邮件地址来发送消息。
+          \n"
+      invalid:
+        subject: 此消息尚未发送： %{subject}
+        body: "您主题为 \"%{subject}\" 的消息尚未发送。 \n\n我们对此表示歉意，出于以下原因\n系统无法保存你的消息：\n\n%{errors}\n\n请转发本消息至
+          %{support} 以获得支持。 \n"
+      no_recipients:
+        subject: 此消息尚未发送： %{subject}
+        body: "您主题为 \"%{subject}\" 的消息尚未发送到任何小组。\n\n我们对此表示歉意，在 TO 和 CC 中\n系统无法找到任何有效小组地址。\n\n请检查您是否输入了正确的小组邮件地址，\n以及您是否有权限向该小组发送邮件。\n\n您也可以登录到以下地址来发送消息：\n\n%{url}
+          \n"
+    message_id: 消息 ID
+    not_allowed_to_post: 您未被允许在此列表中发表内容
+  pages:
+    index:
+      heading: 页面
+      intro: 以下是本站使用的页面与内容，您可以根据您的需要进行修改定制。
+      name: 名字
+      description: 描述信息
+      edit_button: 编辑
+    descriptions:
+      help: 用来展示给需要帮助来登录的用户。
+      bad_status: 此页面在用户已存在但不允许登录时显示。
+      privacy_policy: 关于本站如何收集与使用信息的页面。
+      safeguarding_children: 关于本站如何保护儿童与他们的信息的页面。
+      unauthorized: 此页面用于告诉用户如何访问本站。
+      checkin: 一些显示于签到管理页面顶端的帮助信息。
+    body: 正文
+    edit_page: 编辑页面
+    not_found: 页面未找到。
+    saved: 页面已保存。
+    title: 标题
+    view_page: 查看页面。
+  people:
+    account_frozen:
+      callout: 该帐户已被冻结，在解冻之前无法更改信息。
+    new:
+      heading: "%{family}家庭中的新成员"
+      heading_without_family: 新成员
+      no_family_warning_html: "您将要创建一个新的成员角色和一项 <strong>新的家庭记录</strong>。\n如果您是想在一个已有的家庭中创建一个成员的话，请前往该家庭的主页并在那里增加成员。
+        \n"
+    edit:
+      about: 关于
+      basics: 基本信息
+      child:
+        enabled: 孩童
+        disabled: 成人
+      child_hint: 如果不写明生日，您至少需要注明这是个孩童还是成人。
+      description_hint: 简单介绍一下你自己（有的人喜欢把自己的职位填到这里）。
+      family_photo: 家庭照片
+      person_type: 角色
+      person_type_hint: These do not control access — only designation.
+      photo: Profile Photo
+      header: 编辑简介
+      business: 职业
+      business_category:
+        new: "［创建一个新目录］"
+        create_prompt: 输入您的行业类别
+      custom_type:
+        new: "［创建角色］"
+        create_prompt: 输入角色的名字
+      facebook_url:
+        placeholder: https://www.facebook.com/username
+      required_field: required
+      twitter:
+        placeholder: "@username"
+      primary_emailer:
+        intro_html: |
+          You're sharing an email address with %{person}.
+          If your group emails are being rejected, consider checking the box below to ensure that
+          emails from your address are <strong>always</strong> connected with your account
+          &ndash; <strong>not %{person}</strong>. (Note: if both you and %{person} send group emails,
+          then it would be better to use different email addresses.)
+      email_hint: " （这是您用来登录网站和收取信息的主邮箱）"
+      no_family_error: This person cannot be edited because they do not belong to
+        a family.
+      status: Status
+      status_help:
+        inactive: Inactive people cannot sign in and are not visible to anyone on
+          the site except administrators.
+        pending: Pending people can sign in and look up limited contact info for members.
+        active: Active people can sign in and make full use of the site.
+        not_an_adult: Children cannot sign in, so setting the status here only affects
+          their visiblity to others.
+      statuses:
+        inactive: Inactive
+        pending: Pending
+        active: Active
+    move:
+      heading: Add to %{family} family
+      description_html: Find someone to add to the <a href='%{url}'>%{family}</a>
+        family, then click the Add button...
+      button: Move to Family
+      success_message: "%{person} has been added to the %{family} family."
+    roles:
+      elder: Elder
+      deacon: Deacon
+      staff: Staff
+      member: 成员
+    email:
+      heading: 电子邮箱设置
+      primary:
+        heading: Primary Email
+        description_html: |
+          <p>This is your main email address used for login and receiving emails. Please note:</p>
+          <ul>
+            <li>This is the email address you must use to sign in.</li>
+            <li>All your group and private emails will be sent to this email address.</li>
+          </ul>
+      alternate:
+        heading: Alternate Email
+        description_html: |
+          <p>If you have another email (perhaps a work address) you wish to utilize to send email to groups, you may enter it here. Please note:</p>
+          <ul>
+            <li>This email address will not be visible to anyone except administrators.</li>
+            <li>You will not be able to use this address to sign into the site.</li>
+          </ul>
+      groups:
+        heading: Group Email
+    groups:
+      members: 成员
+      messages: 消息
+      join:
+        button: 查找和加入群组
+      heading: 群组
+      see_all: 查看全部...
+    business:
+      services_provided_by: Services provided by %{person}
+      address: 地址
+      email: 电子邮箱
+      phone: 电话号码
+      website: 网址
+    testimony:
+      box_heading: Testimony
+      heading: Testimony of %{person}
+      view_profile: View Profile
+      view_full: read more
+      find_more: Read other testimonies
+    updates:
+      pending_callout: Updates to this profile are pending.
+    advanced: Advanced
+    can_sign_in: Can Sign In
+    cant_delete_yourself: You cannot delete yourself.
+    cant_delete: 您无法删除此人。
+    changes_must_be_reviewed_html: Changes to the details below must be <strong>reviewed
+      by staff</strong>. To request changes, enter the details below and click 'Submit
+      Changes.'
+    changes_submitted: Changes submitted.
+    child: 儿童／成人
+    deleted_html: 这个人已经被删除。 你可以在<a href='%{url}'>这里</a>恢复记录。
+    family: 家庭
+    family_legacy_external_id: Family Legacy/External ID
+    find_a_group_html: 在<a href='%{url}'>这里</a>查找群组
+    friend_not_found: Friend not found.
+    friendship_accepted: Friendship accepted.
+    friendship_manage: You may not manage friendships for anyone but yourself.
+    friendship_must_specify: Must specify accept=true or reject=true
+    friendship_rejected: Friendship declined.
+    full_access: Full Access
+    if_you_wish_to_be_listed_business_dir_html: If you wish to be listed in the <a
+      href='%{url}'>Business Directory</a>, enter your business name, description,
+      and other details below.
+    if_you_wish_to_remove_something_html: If you wish to remove something in order
+      to keep others from seeing it, instead go to the <a href='%{url}'>Privacy</a>
+      page and hide it.
+    legacy_external_id: Legacy/External ID
+    limited_access: Your account currently has limited access; We're showing you an
+      abbreviated profile page as a result.
+    limited_access_denied: Your account currently has limited access.
+    no_family_for_this_person: This person does not belong to a family. They will
+      be unable to sign in and will not be visible to others on the site.
+    not_deleted: Person not deleted.
+    not_found: Person not found.
+    pending_approval: pending approval
+    people: People
+    person:
+      other: "%{count} People"
+    person_isnt_any_groups: "%{person} 当前不在任何群组中"
+    share_your_personal_testimony: Share your personal testimony — how you came to
+      know Jesus Christ and how he has changed your life.
+    show_hidden_groups: 显示隐藏群组
+    tell_us_about_yourself: Tell us about yourself. What's your personality like?
+      What would your best friend say about you?
+    this_event_doesnt_have_pictures: This event doesn't have any pictures yet.
+    this_profile_is_hidden: This profile is hidden
+    update_to_profile_is: An update to this profile is
+    visible_on_printed_directory: Visible on Printed Directory
+    visible_to_everyone: Visible to everyone
+    you_arent_in_any_groups: You aren't in any groups yet.
+    title_html: "%{name}<span class='discreet'>， %{description}</span>"
+    verification_email:
+      heading: 完成用户设置
+      intro: Before this user can sign in, they must complete setup by clicking a
+        link in their email. Click below to send them the email.
+      button: Send a password setup email to this user.
+    show:
+      details:
+        family: "%{family}家庭"
+        website: 网站
+        email: 电子邮件
+        mobile_phone: 手机号码
+        home_phone: 家庭电话
+        work_phone: 办公电话
+        address: 家庭地址
+        birthday: 生日
+        anniversary: 结婚纪念日
+        social: 社交
+      showing_hidden_attribute:
+        tooltip: This detail is visible to you because you are an admin with 'View
+          Hidden Properties' enabled.
+    checkin:
+      heading: Check-in Notes
+      intro: These are notes that are displayed on check-in screens and (optionally)
+        on printed check-in labels in order to alert workers.
+  photos:
+    object_not_found: Object not found.
+    browse: 选择照片
+    remove: 移除照片
+    unavailable: Photo unavailable.
+    upload:
+      button: Upload
+      error: Your photo could not be saved.
+      wrong_type: The photo file type must be JPG, GIF, or PNG.
+    ready_filename: Ready to upload %{filename}
+    uploading_filename: 正在上传%{filename}
+  pictures:
+    none: 还没有图片
+    new:
+      heading: 发新图
+      existing_album:
+        intro: 向已存在的相册中增加图片
+      new_album:
+        intro: 或者创建一个新相册
+        button: 新建相册
+    show_original: 显示原图
+    create_an_album:
+      notice: 首先来创建一个新相册
+    click_to_enlarge: 点击以放大
+    comment_on_this_picture: 评论图片
+    failed: "%{fail}出错了，保存失败"
+    picture_uploaded_by: 上传自%{when}，由
+    rotate_left: 向左旋转
+    rotate_right: 向右旋转
+    saved: "%{success}图片已保存"
+    set_as_cover: 设置为封面
+    upload: 上传！
+  prayer_requests:
+    by: 来自 %{person}
+    name: 来自 %{group} 的代祷请求
+    index:
+      heading: 代祷请求
+    show:
+      heading: 代祷请求
+    new:
+      heading: 新的代祷请求
+      button: 新的代祷请求
+    edit:
+      heading: 编辑代祷请求
+      button: 编辑请求
+    delete:
+      button: 删除申请
+    request:
+      heading: 申请
+    answer:
+      heading: 回应
+      description: 请记得返回来填好这里的内容以便你的小组可以记录已回应的代祷请求。
+      on_date: 在 %{date} 得到了回应
+    save: 保存代祷请求
+    not_found: 代祷请求未找到
+    error:
+      no_edit: 您无法编辑这一代祷请求。
+      no_delete: 您无法删除这一代祷请求。
+      no_post: 因您不是该小组成员，所以您无法在此处发起代祷请求。
+    send_email: 用电子邮件的形式发送给小组成员。
+  printable_directories:
+    heading: 已打印的目录
+    already_sent: 刚才已有一份目录发送给了您，请检查您的邮件（也可以看看垃圾邮件箱）。
+    click_to_have_custom_pdf_via_email: 点击以下按钮将定制的目录PDF文件发送到你的邮箱。
+    created_for: 特别地在%{date}为%{name}而创建
+    email_custom_directory: 将我定制的目录发到我的邮箱
+    include_family_pictures: 包含家庭图片
+    not_allowed: 很多抱歉，您未被允许打印该目录。
+    were_are_building_custom_pdf: 我们正在为您创建PDF，这会耗费一些时间，但不会超过几分钟。当文件准备妥当后，我们会立即将其发送给您。现在您可以继续浏览本站的内容（您可以放心地离开本页面）。
+    will_take_longer: "(will take a little longer)"
+  privacies:
+    tabs:
+      sharing: 分享
+      children: 孩童
+    sharing:
+      intro_html: 你可以在这里修改你的团契的隐私设置。打勾的选项对登录的用户可见。点击<i class='fa fa-plus-circle'></i>来设置小组的隐私（可选）。阅读<a
+        href='%{url}'>隐私政策</a>以了解我们如何使用您和您家人的个人信息。
+    children:
+      intro: 控制你的孩子对本网站的访问权限。
+    scroll_notice: 你可能需要左右滚动网页以看到所有的选项。
+    activity: 活动
+    address: 地址
+    agreement_saved: 协议已保存。
+    anniversary: 周年
+    as_a_parent_agree_html: 我作为%{name}的法定监管人，在这里声明我已阅读了<a href="%{url}">隐私政策</a>，同意将
+      %{name}的个人信息在本网站上向他人显示（具体由隐私设置中的选项确定），并且%{name}可以以一个普通用户的身份使用本网站（包括个人信息修改以及他人通过私信、小组等方式联系）。
+    birthday: 生日
+    child_profile_has_parental_consent: 这个孩子的个人信息有来自%{name}的家长授权。
+    child_under_age_you_have_not_consent: 这个孩子小于%{years}岁，并且您未允许以下两点：1）将他的信息展示出来，2）登录和使用本网站。
+    click_the_agree: 点击“我同意”按钮。
+    email: 电子邮件
+    family_hidden: 这个家庭暂时对网站上的所有人保密！
+    family_privacy: 家庭
+    fax: 传真
+    group_privacy: 群组隐私
+    hide_your_activity: 如果你不想让你的朋友或小组成员看到你的公开消息、笔记、圣经章节等信息，你可以将你的动态隐藏起来。注意：不论这里是如何设置的，私信是永远不会被公开的。
+    home_phone: 家庭电话
+    i_agree: 我同意
+    mobile_phone: 手机号码
+    please_read_our_privacy_policy_html: 对于我们如何使用您的个人信息，请阅读<a href="%{url}">隐私政策</a>以了解详情。
+    people_can_still_send_html: 您可以在不公开您的电子邮箱地址的情况下仍然从本站收到邮件信息。
+    privacy: 隐私
+    read_privacy_policy_html: 查看我们的<a href="%{url}">隐私政策</a>。
+    read_safeguarding_children_html: Read our page about <a href="%{url}">Safeguarding
+      Children</a>.
+    read_statement_below: 阅读以下声明并勾选选项以示同意。
+    saved: 设置已保存。
+    sharing_with_html: 分享给<a href="%{url}">%{name}</a>
+    to_show_on_this_site: 'To show %{name} on this site, please:'
+    visible: 可见
+    visible_note: 将个人信息设置为对他人不可见会使得任何目录搜索无法找到你。在这之后你仍然可以加入小组和收到小组信息与管理员信息。
+    work_phone: 办公电话
+    you_may_share_items: 您可以与以下小组的成员分享信息：
+    you_must_check_agreement_statement: 您心须勾选以表示您同意以下声明。
+  relationships:
+    heading: Relationships for %{person}
+    reciprocate:
+      button: Reciprocate
+      failure: A reciprocal relationship to %{name} cannot be automatically created.
+    add_relationship:
+      intro: 'Add a relationship:'
+      button: Add Relationship
+    family:
+      create:
+        intro: Some relationships are suggested below. Make any necessary adjustments,
+          then click the Create button.
+        button: Create Family Relationships
+      heading: Family Relationships for %{family}
+      button: Family Relationships
+    inward:
+      heading: Inward Relationships
+    names:
+      aunt: 阿姨
+      brother: 兄弟
+      brother_in_law: Brother-in-law
+      cousin: Cousin
+      daughter: 女儿
+      daughter_in_law: Daughter-in-law
+      father: 父亲
+      father_in_law: Father-in-law
+      granddaughter: 孙女
+      grandfather: 祖父
+      grandmother: 祖母
+      grandson: 孙子
+      husband: 丈夫
+      mother: 母亲
+      mother_in_law: Mother-in-law
+      nephew: Nephew
+      niece: Niece
+      sister: 姐妹
+      sister_in_law: Sister-in-law
+      son: 儿子
+      son_in_law: Son-in-law
+      stepbrother: Stepbrother
+      stepdaughter: Stepdaughter
+      stepfather: 继父
+      stepmother: 继母
+      stepsister: Stepsister
+      stepson: Stepson
+      uncle: Uncle
+      wife: 妻子
+      other_name: 其他
+    no_person_selected: No person selected.
+    relationship: 关系
+    relationship_type: 类型：
+    toggle_individual: View Individual Relationships
+    other_name:
+      placeholder: Relationship Type
+  reports:
+    custom_reports:
+      button:
+        add: 新增
+        edit: 编辑
+        delete: 删除
+        show: 查看
+      index:
+        title: 订制的报告
+        box_title: 订制的报告
+      new:
+        title: 新建订制报告
+      edit:
+        title: 编辑订制报告
+      show:
+        title: 订制报告
+      fields:
+        title: 标题
+        header: 报告标题
+        body: 报告正文
+        footer: 报告页脚
+        filters: 过滤器
+        category:
+          people: 人员
+          groups: 群组与人员
+          family: 家庭与人员
+      validation:
+        filters: 对于使用了多个过滤条件的情况，请确保您已正确设置了分隔符。
+      create:
+        notice: 已成功创建订制报告。
+      destroy:
+        notice: Custom Report was successfully destroyed.
+      update:
+        notice: 已成功更新订制报告。
+    from_date: 开始日期
+    group: 群组
+    group_select: 选择一个群组
+    name: 名字
+    records:
+      other: "%{count} 条记录"
+    reports:
+      attendance_totals:
+        title: 出席次数
+        columns:
+          group: 群组
+          attended_at: 出席时间为
+          count: 总出席人数
+      group_contact_details:
+        title: 群组联系方式详情
+        title_for_group: "%{group} 的群组联系方式详情"
+        columns:
+          first_name: 名
+          last_name: 姓
+          email_address: 邮箱地址
+          mobile_phone: 手机号码
+          home_phone: 家庭电话
+          address: 地址
+        address: 地址
+      weekly_attendance:
+        title: 每周出席次数
+        title_for_group: "%{group} 的每周出席率"
+        columns:
+          person_id: ID
+          first_name: 名
+          last_name: 姓
+          group: 群组
+          attended: 已参加
+        attended:
+          'yes': 是
+          'no': 否
+    submit: 提交
+    thru_date: 在
+    type: 类型
+  search:
+    column:
+      name: 名字
+      family: 团契
+      business: 行业
+      category: 目录
+      birthday: 生日
+      testimony: 见证
+    no_family: "（无团契）"
+    form:
+      name: 按姓名查找
+      advanced: 高级搜索
+      birthday: 生日
+      anniversary: 结婚纪念日
+      gender: 性别
+      genders:
+        Male: 男
+        Female: 女
+      city: 城市
+      state: 州
+      zip: 邮编
+      phone: 手机号码
+      email: 邮箱地址
+      type: 成员类型
+      group_membership: 小组成员资格
+      in_group: 包括
+      not_in_group: 不包括
+      group_membership_text: 群组分类
+      types:
+        member: 成员
+        staff: 员工
+        deacon: 执事
+        elder: 长老
+    results:
+      testimony_read_more: 显示
+    add_selected: 增加选项
+    business_category: 行业类别
+    deacon: 执事
+    elder: 长老
+    female: 女
+    male: 男
+    heading: "%{name} 目录"
+    member: 成员
+    results_not_shown: 一些结果并未显示——请描述得更精确一点
+    not_showing_hidden_people: "（未显示隐藏的人员）"
+    people_found:
+      other: 找到%{count}人
+    search: 目录搜索
+    search_by_name: 用名字搜索
+    show_hidden: 显示隐藏项目
+    staff: 员工
+    directory_map: 目录地图
+  session:
+    form:
+      header: 登录
+      placeholder:
+        email: 邮箱地址
+        password: 密码
+      remember_me: 记住我
+    account_not_activated_html: 您的帐户尚未激活，<a href='/pages/help'>点击此处</a>以继续。
+    email_found: 邮件地址已找到，但您需要验证以后才能登录。
+    email_not_found: 系统中无法找到该邮件地址，请尝试别的邮件地址。
+    forgot_password_button: 忘了……
+    password_doesnt_match: 您输入的密码有误，请重试。
+    max_sign_in_attempts: 很抱歉，您在15分钟内输入的错误密码次数超限，请在15分钱后再次尝试。
+    sign_in_button: 登录
+    sign_up_button: 创建一个新的帐户。
+    sign_out: 签退
+  setup:
+    admin_account: 管理员账户
+    complete_html: 真棒！您已经设置好了基本项。请准备前往<a href='%{url}'>管理</a>来个性化您的网站吧。
+    congratulations: 恭喜！OneBody 已成功开始运行。接下来需要增加一个管理员并对网站做一些配置。
+    do_right_away: 您应该立马做好这些，如果您的服务器在公网上的话那就更应该马上做完哦
+    domain_name_note: 把您的网站域名填到这里，“www”不需要写，只要写上像是 “example.com” 或 "members.example.com"
+      这样的地址就行了。
+    heading: 第一次安装配置
+    more_accounts_later: "（稍后您可以创建更多的管理员帐号。）"
+    domain_name: 网站域名
+    first_name: 名
+    last_name: 姓
+    email: 邮箱地址
+    password: 密码
+    password_confirmation: 确认密码
+    submit_button_html: 保存变更
+  stream:
+    title: 主页
+    sub_title: "（与我分享的内容）"
+    none: 尚无内容。
+    header:
+      noone: 系统
+      message: "%{who} 向 %{group} 小组发送了一条消息。"
+      news: "%{who}发表了%{title}"
+      note: "%{who} 发表了一条笔记"
+      person: "%{who} 被添加到了社区中"
+      picture:
+        other: "%{who}在%{album}中分享了一些照片"
+      picture_in_group:
+        other: "%{who} 在 %{group} 小组中分享了一些图片"
+      prayer_request: "%{who} 在 %{group} 小组中发起了代祷请求。"
+      site: "%{site}"
+      verse: "%{who}分享了%{title}"
+    body:
+      picture:
+        alt: 点击以放大
+      person:
+        button: 向%{person}打个招呼！
+      site:
+        description: "%{site} 社区网站已创建！"
+      stream_item_group:
+        person:
+          description:
+            other: 加入了 %{count} 位新成员
+    footer:
+      button_label:
+        default: 阅读更多内容
+        album: 全部显示
+        note: 阅读更多内容
+        verse: 阅读更多内容
+        person: ''
+        site: ''
+        stream_item_group: 显示全部
+    load_more: 加载更多…
+    share:
+      heading:
+        friends: 分享给朋友
+        everyone: 分享给所有人
+      intro:
+        friends_and_group_members: 您的朋友及同一小组的成员会在登录后看到您在此处分享的内容会。
+        friends_only: 你的朋友会在登录后看到你分享的内容。
+        group_members_only: 你小组的成员会在登录后看到你分享的内容。
+        everyone: 与整个社区的朋友分享一些有趣的东西吧…
+      button:
+        note: 笔记
+        picture: 图片
+        verse: 圣经章节
+        message: 群消息
+        news: 分享一条新闻
+      sharing_with_html:
+        other: 正在与<a href='%{url}'>%{count}人</a>分享
+    people:
+      heading: 分享给朋友
+      intro: 这里是所有能看到你分享内容的人。
+      intro_none: 还没有人哦。
+      column:
+        name: 名字
+        family_name: 团契名称
+        reason: 给我个理由
+      reason:
+        family_html: 您的<a href='%{url}'>团契</a>
+        friend_html: 你的<a href='%{url}'>朋友</a>
+        groups_html:
+          other: 您参与的小组：%{groups}
+    feed: Feed
+  tags:
+    add_tags: 增加标签（用空格区分）
+    confirm_delete: 确定删除此标签？
+    no_tags_yet: 还没有标签
+    tag: 标签
+    tags: 标签
+  tasks:
+    index:
+      heading: 任务
+      group_heading: "%{group} 组的任务"
+      comment_count:
+        other: "%{count} 条评论"
+    new:
+      heading: 新任务
+      button: 新任务
+    edit:
+      heading: 编辑任务
+    show:
+      heading: 任务：%{task}
+      edit: 编辑任务
+    heading: 任务
+    save: 保存任务
+    go_to_group: 到小组去
+    deleted: 任务已删除
+  verses:
+    heading: 圣经章节
+    new:
+      heading: 查找圣经章节或段落
+    about_tags: 标签可以根据主题、作者、时间或其他类别对圣经章节进行分组
+    about_this_verse: 关于这节经文。分享你对经文的理解以及经文对你的帮助。
+    add_this_verse_to_my_list: 将这节经文加入我的列表
+    add_verse: 增加圣经章节
+    search_verse: Search Verse
+    add_your_favorite_verse: 增加你最喜欢的圣经章节：
+    comment_count:
+      other: 一条来自%{by}的<a href='%{url}'>评论</a>
+    disclaimer: 标有“WEB”圣经经文均取自《世界英语圣经》，一本由美国标准版本圣经更新而来的现代英译版本。 WEB不受版权限制，您可以自由地复制和发布。
+    example_verse: 像约翰福音 3:16 或罗马书 12:1-2 这样的经文
+    intro: 把你最喜欢的圣经章节分享给%{community}.
+    no_verses_yet: 还没有任何圣经章节。
+    not_found: 未找到您要找的经文。您是否输入了正确的索引？
+    people_who_like_this_verse: 喜欢这个圣经章节的人还有
+    remove_this_verse: "将这段经文从我的列表中删去\b\b"
+    saved_by_count:
+      other: 已被%{count}人保存
+    search:
+      error: Verse not found. Did you type the reference correctly?
