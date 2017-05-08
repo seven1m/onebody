@@ -1,0 +1,3276 @@
+---
+nl-NL:
+  date:
+    day_names:
+    - zondag
+    - maandag
+    - dinsdag
+    - woensdag
+    - donderdag
+    - vrijdag
+    - zaterdag
+    abbr_day_names:
+    - zo
+    - ma
+    - di
+    - wo
+    - do
+    - vr
+    - za
+    month_names:
+    - 
+    - januari
+    - februari
+    - maart
+    - april
+    - mei
+    - juni
+    - juli
+    - augustus
+    - september
+    - oktober
+    - november
+    - december
+    abbr_month_names:
+    - 
+    - jan
+    - feb
+    - mrt
+    - apr
+    - mei
+    - jun
+    - jul
+    - aug
+    - sep
+    - okt
+    - nov
+    - dec
+  time:
+    am: "'s ochtends"
+    pm: "'s middags"
+  number:
+    human:
+      storage_units:
+        units:
+          byte:
+            one: byte
+            other: bytes
+          kb: kB
+          mb: MB
+          gb: GB
+          tb: TB
+      decimal_units:
+        units:
+          thousand: duizend
+          million: miljoen
+          billion: miljard
+          trillion: biljoen
+          quadrillion: biljard
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      inclusion: is niet in de lijst opgenomen
+      exclusion: is niet beschikbaar
+      invalid: is ongeldig
+      confirmation: komt niet overeen met %{attribute}
+      accepted: moet worden geaccepteerd
+      empty: moet opgegeven zijn
+      blank: moet opgegeven zijn
+      present: moet leeg zijn
+      too_long:
+        one: is te lang (maximaal %{count} teken)
+        other: is te lang (maximaal %{count} tekens)
+      too_short:
+        one: is te kort (minimaal %{count} teken)
+        other: is te kort (minimaal %{count} tekens)
+      wrong_length:
+        one: heeft onjuiste lengte (moet %{count} teken lang zijn)
+        other: heeft onjuiste lengte (moet %{count} tekens lang zijn)
+      not_a_number: is geen getal
+      not_an_integer: moet een geheel getal zijn
+      greater_than: moet groter zijn dan %{count}
+      greater_than_or_equal_to: moet groter dan of gelijk zijn aan %{count}
+      equal_to: moet gelijk zijn aan %{count}
+      less_than: moet minder zijn dan %{count}
+      less_than_or_equal_to: moet minder dan of gelijk zijn aan %{count}
+      other_than: moet anders zijn dan %{count}
+      odd: moet oneven zijn
+      even: moet even zijn
+      taken: is al in gebruik
+      in_between: 
+      spoofed_media_type: 
+      not_a_date: 
+      after: 
+      after_or_equal_to: 
+      before: 
+      before_or_equal_to: 
+      password:
+        password_strength: 
+  activerecord:
+    errors:
+      messages:
+        record_invalid: 
+        restrict_dependent_destroy:
+          one: 
+          many: 
+      models:
+        admin:
+          attributes:
+            template_name:
+              taken: Er bestaat al een rechtengroep met deze naam. Kies een andere
+                naam.
+        album:
+          attributes:
+            name:
+              blank: De naam van het album is verplicht.
+              taken: Er bestaat al een album met deze naam. Kies een andere naam.
+            owner:
+              blank: Er moet een beheerder zijn voor dit album.
+        attendance_record:
+          attributes:
+            attended_at:
+              blank: Geef en datum en tijd op voor het bezoek.
+            group_id:
+              blank: De bezoekers moeten geregistreerd worden op de gewenste groep.
+        checkin_label:
+          attributes:
+            name:
+              blank: You must enter a name.
+            xml:
+              blank: You must paste the label XML.
+        checkin_time:
+          attributes:
+            campus:
+              blank: You must select a campus.
+              exclusion: You must select a campus.
+        document:
+          attributes:
+            file:
+              blank: Bestand is verplicht
+            name:
+              blank: Naam is verplicht
+              too_long: De naam is te lang. Vul een kortere naam in.
+            description:
+              too_long: De omschrijving is te lang. Vul een kortere omschrijving in.
+        document_folder:
+          attributes:
+            name:
+              blank: De naam is verplicht
+              too_long: De naam is te lang. Vul een kortere naam in.
+            description:
+              too_long: De omschrijving is te lang. Vul een kortere omschrijving in.
+            folder_id:
+              invalid: Je kunt deze map niet als bovenliggende map aanmaken.
+            parent_folder_ids:
+              too_long: Je kunt deze map niet aanmaken op zo een laag niveau. Plaatst
+                de map in een bovenliggende map.
+        custom_report:
+          attributes:
+            title:
+              blank: The title cannot be blank.
+              too_long: The maximum description is 50 characters.
+            body:
+              blank: The Report Body cannot be blank.
+            filters:
+              invalid: Filters must contain a colon, in the form field:value.
+            category:
+              inclusion: Select a valid category value.
+        family:
+          attributes:
+            name:
+              blank: Familienaam is verplicht
+            last_name:
+              blank: Achternaam is verplicht
+            alternate_barcode_id:
+              invalid: De barcode van deze familie kaart bevat letters of symbolen.
+                Alleen nummers zijn toegestaan.
+              taken: De barcode is al in gebruik door een andere familie.
+              too_long: De barcode heeft een maximum van 50 karakters.
+              too_short: Deze familie kaart (barcode) is te kort (moet 5 karakters
+                zijn).
+            barcode_id:
+              invalid: De barcode bevat letters of speciale tekens. Alleen nummers
+                zijn toegestaan.
+              taken: De barcode is al in gebruik door en andere familie.
+              too_long: De barcode heeft een maximum van 50 karakters.
+              too_short: Deze familie kaart (barcode) is te kort (moet 5 karakters
+                zijn).
+            photo:
+              too_large: De afbeelding is te groot. De maximale grootte is %{size}
+                mb.
+              wrong_type: De foto kan niet worden geupload. Je kunt JPG, GIF of PNG
+                bestanden gebruiken.
+            country:
+              wrong_length: 
+        friendship:
+          attributes:
+            friend_id:
+              blank: De vriendschap moet gekoppeld zijn aan een persoon.
+              taken: De vriendschap bestaat al.
+            person_id:
+              blank: De vriendschap moet gekoppeld zijn aan een persoon.
+        friendship_request:
+          attributes:
+            from_id:
+              blank: Het vriendschapsverzoek gekoppeld zijn aan een persoon.
+            person:
+              invalid_address: E-mail adres is verplicht
+              refused: Deze persoon accepteert geen vriendschapsverzoeken.
+            person_id:
+              blank: Het vriendschapsverzoek gekoppeld zijn aan een persoon.
+              taken: Dit vriendschapsverzoek is al eerder verstuurd.
+        group:
+          attributes:
+            address:
+              invalid: Het e-mail adres van de groep is niet geldig.
+              taken: Er bestaat al een andere groep met dit e-mail adres. Kies een
+                ander e-mail adres.
+              too_long: Het e-mail adres is te lang.
+              too_short: Het e-mail adres is te kort.
+            attendance:
+              invalid: Attendance must be enabled for any group in use by Check-in.
+            category:
+              blank: Categorie is verplicht
+            name:
+              blank: Naam is verplicht
+              taken: Er bestaat al een andere groep met deze naam. Kies een andere
+                naam.
+            parents_of:
+              points_to_self: De groep kan niet zichzelf linken.
+            photo:
+              too_large: De afbeelding is te groot. De maximale grootte is %{size}
+                mb.
+              wrong_type: De foto kan niet worden geupload. Je kunt JPG, GIF of PNG
+                bestanden gebruiken.
+        membership:
+          attributes:
+            group_id:
+              taken: Deze persoon is al lid van de groep.
+        membership_request:
+          attributes:
+            group_id:
+              taken: Deze persoon heeft al een verzoek ingediend.
+        message:
+          attributes:
+            base:
+              taken: Dit bericht is al verstuurd. Pas het onderwerp of de tekst aan
+                om de e-mail toch te versturen.
+            body:
+              blank: Inhoud is verplicht
+              too_short: De inhoud is te kort.
+            person_id:
+              blank: Dit bericht moet gekoppeld zijn aan een persoon.
+            subject:
+              blank: Onderwerp is verplicht
+              too_short: Het onderwerp is te kort.
+            to_person_id:
+              invalid: Het bericht kan niet worden verstuurd. De ontvangers van dit
+                berichten hebben geen geldig e-mail adres.
+        news_item:
+          attributes:
+            title:
+              blank: Titel is verplicht
+            body:
+              blank: Omschrijving is verplicht
+        note:
+          attributes:
+            body:
+              blank: Omschrijving is verplicht
+        page:
+          attributes:
+            body:
+              blank: Inhoud is verplicht
+            path:
+              taken: Er bestaat al een pagina op deze URL.
+            slug:
+              blank: Titel is verplicht
+              exclusion: De pagina titel mag niet de woorden "beheer", "wijzig" of
+                "nieuw" bevatten.
+              invalid: De url kan alleen kleine letters en underscores bevatten.
+            title:
+              blank: Titel is verplicht
+        person:
+          attributes:
+            alternate_email:
+              invalid: 'Het e-mail adres is onjuist. Voorbeeld: naam@voorbeeld.nl'
+              taken: Er bestaat al een persoon met dit e-mail adres.
+            anniversary:
+              not_a_date: Vul een geldige datum in als jubileum.
+            birthday:
+              not_a_date: Vul een geldige datum is als verjaardag.
+            business_email:
+              invalid: 'Het zakelijke e-mail adres is onjuist. Voorbeeld: naam@voorbeeld.nl'
+            business_website:
+              invalid: 'Het zakelijke webadres is onjuist. Voorbeeld: http://www.zakelijkwebadres.nl'
+            business_category:
+              exclusion: Categorie is verplicht
+            child:
+              inclusion: Specificeer of deze persoon een minderjarige is of vul een
+                een geboortedatum in.
+            description:
+              too_long: De omschrijving is de lang. Gebruik max. 25 karakters.
+            email:
+              invalid: 'Het e-mail adres is onjuist. Voorbeeld: naam@voorbeeld.nl'
+              taken: Er bestaat al een persoon met dit e-mail adres.
+            facebook_url:
+              invalid: Facebook URL is onjuist.
+            feed_code:
+              taken: De feed code bestaat al voor een ander persoon.
+            first_name:
+              blank: Voornaam is verplicht
+            gender:
+              inclusion: Geslacht is verplicht (Man of vrouw)
+            last_name:
+              blank: Achternaam is verplicht
+            password:
+              confirmation: Het wachtwoord is onjuist.
+              too_short: Het wachtwoord is te kort.
+            photo:
+              too_large: De afbeelding is te groot. De maximale grootte is %{size}
+                mb.
+              wrong_type: De foto kan niet worden geupload. Je kunt JPG, GIF of PNG
+                bestanden gebruiken.
+            twitter:
+              invalid: Twitter gebruikersnaam is onjuist.
+              too_long: Twitter gebruikersnaam is te lang.
+            website:
+              invalid: 'Het webadres is onjuist. Voorbeeld: http://www.zakelijkwebadres.nl'
+        picture:
+          attributes:
+            album_id:
+              blank: De afbeelding moet gekoppeld zijn aan een album.
+            photo:
+              too_large: De afbeelding is te groot. De maximale grootte is %{size}
+                mb.
+              wrong_type: De foto kan niet worden geupload. Je kunt JPG, GIF of PNG
+                bestanden gebruiken.
+        picture_uploader:
+          attributes:
+            album:
+              blank: Selecteer een album.
+        prayer_request:
+          attributes:
+            group_id:
+              blank: Het gebedsverzoek moet gekoppeld zijn aan een groep.
+            person_id:
+              blank: Het gebedsverzoek moet gekoppeld zijn aan een persoon.
+            request:
+              blank: Verzoek is verplicht
+        recipe:
+          attributes:
+            directions:
+              blank: The recipe must have directions.
+            ingredients:
+              blank: The recipe must have ingredients.
+            title:
+              blank: The recipe must have a title.
+        relationship:
+          attributes:
+            name:
+              blank: Relatietype is verplicht
+              inclusion: Deze relatie is niet geldig.
+              taken: De relatie bestaat al.
+            other_name:
+              blank: Relatietype is verplicht
+              taken: De relatie bestaat al.
+            person:
+              blank: The relationship must be associated with a person.
+            related:
+              blank: The relationship must be associated with a second person.
+        report:
+          attributes:
+            definition:
+              invalid: De rapportdefinitie is ongeldig.
+            name:
+              blank: Naam is verplicht
+              taken: Er bestaat al een rapport met deze naam. Kies een andere naam.
+        site:
+          attributes:
+            host:
+              blank: De specificatie van de host is vereist.
+              taken: Er bestaat al een site met dezelfde host.
+              invalid: Plaatst de hostnaam zonder 'http://' of 'www'.
+            name:
+              blank: Naam is verplicht
+              taken: Er bestaat al een site met dezelfde naam.
+        tag:
+          attributes:
+            name:
+              blank: De naam van het label is verplicht
+              exclusion: De naam van het label is ongeldig.
+              taken: Er bestaat al een label met deze naam.
+        verification:
+          attributes:
+            email:
+              invalid: Je e-mail adres is niet gevonden. Probeer een ander e-mail
+                adres.
+            carrier:
+              inclusion: Mobiele provider is veplicht
+            mobile_phone:
+              invalid: Je mobiele nummer is niet gevonden. Probeer een ander nummer.
+            base:
+              unauthorized: Sorry.. Er is iets mis met je account. Neem contact op
+                met de beheerder.
+        verse:
+          attributes:
+            reference:
+              blank: Een verwijzing is verplicht
+            text:
+              blank: De bijbeltekst is niet gevonden. Heb je het goed ingevuld?
+              too_long: Het bijbeltekst is te lang. Probeer specifieker te zijn en
+                selecteer een korter gedeelte.
+        custom_field:
+          attributes:
+            name:
+              blank: 
+            format:
+              inclusion: 
+    attributes:
+      album:
+        name: Naam
+        description: Omschrijving
+      checkin_label:
+        name: Name
+        description: Description
+        xml: Label XML
+        xml_file: Label XML File
+      document:
+        name: Naam
+        description: Omschrijving
+        file: Bestand
+        files: Files
+        folder_id: Map
+      document_folder:
+        name: Naam
+        description: Omschrijving
+        folder_id: Bovenliggende map
+        hidden: Hide/Archive this folder
+        groups: Only share with these groups
+      family:
+        address1: Adres
+        address2: Adresregel 2 (optioneel)
+        city: Woonplaats
+        country: Land
+        home_phone: Telefoon
+        last_name: Achternaam
+        name: Naam
+        state: Provincie
+        zip: Postcode
+      person:
+        anniversary: Jubileum
+        alias: 
+        birthday: Verjaardag
+        custom_type: Rollen
+        email: E-mail
+        facebook_url: Facebook URL
+        fax: Fax
+        first_name: Voornaam
+        gender: Geslacht
+        last_name: Achternaam
+        mobile_phone: Mobiele telefoon
+        primary_emailer: Primair e-mail adres
+        status: Status
+        suffix: Achtervoegsel
+        twitter: Twitter gebruikersnaam
+        work_phone: Telefoon werk
+      group:
+        name: Naam
+        category: Categorie
+        description: Omschrijving
+        other_notes: Notities
+        leader_id: Groepsleider
+        creator: Aangemaakt door
+        meets: Komt bijeen op
+        location: Locatie en adres
+        direction: Routebeschrijving
+        email: E-mail
+        prayer: Gebedsverzoeken
+        pictures: Afbeelding delen
+        attendance: Bezoekers registratie
+        gcal_private_link: Google kalender prive link
+        approval_required_to_join: Goedkeuring vereist om deel te nemen
+        private: Prive groep
+        members_send: Groepsleden kunnen berichten plaatsten
+        membership_mode: Selecteer hoe personen toegevoegd kunnen worden aan deze
+          groep
+        link_code: Externe link
+        parents_of: Groep van
+        hidden: Verborgen groepen
+        has_tasks: Taken
+      note:
+        title: Titel
+        body: Inhoud
+      prayer_request:
+        answer: Getuigenis
+        answered_at: Datum
+        person_id: Persoon heeft een gebedsverzoek
+        request: Verzoek
+      task:
+        name: Taak
+        description: Omschrijving
+        person: Toegewezen aan
+        person_id: Toegewezen aan
+        duedate: Deadline
+        completed: Voltooid
+      custom_field:
+        name: 
+        format: 
+  datetime:
+    distance_in_words:
+      half_a_minute: een halve minuut
+      less_than_x_seconds:
+        one: minder dan een seconde
+        other: minder dan %{count} seconden
+      x_seconds:
+        one: 1 seconde
+        other: "%{count} seconden"
+      less_than_x_minutes:
+        one: minder dan een minuut
+        other: minder dan %{count} minuten
+      x_minutes:
+        one: 1 minuut
+        other: "%{count} minuten"
+      about_x_hours:
+        one: ongeveer een uur
+        other: ongeveer %{count} uur
+      x_days:
+        one: 1 dag
+        other: "%{count} dagen"
+      about_x_months:
+        one: ongeveer een maand
+        other: ongeveer %{count} maanden
+      x_months:
+        one: 1 maand
+        other: "%{count} maanden"
+      about_x_years:
+        one: ongeveer een jaar
+        other: ongeveer %{count} jaar
+      over_x_years:
+        one: meer dan een jaar
+        other: meer dan %{count} jaar
+      almost_x_years:
+        one: bijna een jaar
+        other: bijna %{count} jaar
+    prompts:
+      year: jaar
+      month: maand
+      day: dag
+      hour: uur
+      minute: minuut
+      second: seconde
+  helpers:
+    select:
+      prompt: Maak een keuze
+    submit:
+      create: "%{model} toevoegen"
+      update: "%{model} bijwerken"
+      submit: "%{model} opslaan"
+  flash:
+    actions:
+      create:
+        notice: 
+      update:
+        notice: 
+      destroy:
+        notice: 
+        alert: 
+  will_paginate:
+    previous_label: "&#8592; Vorige"
+    next_label: Volgende &#8594;
+    page_gap: "&hellip;"
+    page_entries_info:
+      single_page:
+        zero: Geen %{model} gevonden
+        one: 1 %{model}
+        other: Alle %{count} %{model}
+      single_page_html:
+        zero: Geen %{model} gevonden
+        one: "<b>1</b> %{model}"
+        other: "<b>Alle&nbsp;%{count}</b> %{model}"
+      multi_page: "%{from} - %{to} van de in totaal %{count} %{model}"
+      multi_page_html: "<b>%{from}&nbsp;-&nbsp;%{to}</b> van de in totaal <b>%{count}</b>
+        %{model}"
+  accounts:
+    create:
+      heading: Account aanvragen
+      button: Account aanvragen
+      existing_account:
+        by_email: Er is een account gevonden met dit e-mail adres.
+        by_mobile: Er is een account gevonden met dit mobiele nummer.
+    forgot:
+      heading: Herstel account
+    verification:
+      not_pending: De verificatie link is niet meer geldig. <a href='%{url}'>Probeer
+        het opnieuw.</a>
+      email:
+        via_admin: Er is een verificatie e-mail verstuurd naar deze persoon.
+    birthday: Verjaardag
+    call_office: Bel %{phone}
+    call_office_message: Neem contact op met de organisatie tijdens werktijden.
+    check_code: Controleer code
+    description: Omschrijving
+    enter_code: Vul de code in
+    enter_your_email: Vul je e-mail adres in en klik op onderstaand knop. Indien we
+      je e-mail adres in het bestand hebben ontvang je een e-mail. Via deze verificatie
+      e-mail krijg je toegang tot de site.
+    fill_required_fields: Vul alle verplichte velden in
+    gender: Geslacht
+    I_am_this_person: Ik ben deze persoon.
+    email_address: E-mail adres
+    first_name: Voornaam
+    last_name: Achternaam
+    leave_blank: Laat deze velden leeg als je je wachtwoord niet wilt wijzigen.
+    must_set_email_pass: Je bent verplicht om je e-mail adres en wachtwoord op te
+      geven.
+    password: Wachtwoord
+    password_confirm: Wachtwoord (herhaling)
+    pending_approval: Je account is aangevraagd. Je ontvangt z.s.m. een e-mail na
+      goedkeuring.
+    please_select_your_name: Selecteer je naam uit onderstaande lijst
+    select_your_carrier: Selecteer je mobiele provider
+    set_your_email: Je bent verplicht om je e-mail adres en wachtwoord op te geven.
+    set_your_email_may_be_different: Vul je e-mail adres en nieuwe wachtwoord in om
+      je registratie te voltooien.
+    this_site_doesnt_allow_signup: 'Via deze site kunt u geen account aanmaken. Eem
+      contact op met de organisatie om accountgegevens te ontvangen. Telefoonnummer:
+      %{office_phone}'
+    type_your_email: Vul je e-mail adres hier in
+    type_your_mobile: Vul je mobiele nummer in
+    verification_email_sent: De verificatie e-mail is onderweg, het kan enkele minuten
+      duren totdat je de e-mail ontvangt. Volg de instructies in de e-mail om toegang
+      te rijgen tot de site.
+    verification_max_attempts_reached: Je hebt vandaag het maximum verificatie aanvragen
+      overschreven.
+    verification_message_sent: Het verificatie bericht is verstuurd naar je mobiele
+      telefoon. Vul de code in die je hebt ontvangen.
+    verify: Verifieer je account
+    verify_email: Verifieer je e-mail
+    verify_code_intro: Vul de code in die je hebt ontvangen.
+    verify_by_email: Verifieer via e-mail
+    verify_by_email_message: Er wordt een e-mail naar e verstuurd. Klik op de link
+      in de e-mail om een nieuw wachtwoord op te geven.
+    verify_by_phone: Verifieer via mobiel
+    verify_by_phone_description_html: Vul je mobiele nummer en provider in en klik
+      op de onderstaande knop. Indien we je mobiele nummer in het bestand hebben ontvang
+      je een tekstbericht. Via dit tekstbericht krijg je toegang tot de site. <strong>
+      Mobiele gebruikskosten worden berekend. </strong>
+    verify_by_phone_message: Er wordt een tekstbericht verstuurd. Vul de code in die
+      je hebt ontvangen.
+    verify_mobile: Verifieer via mobiel
+    verify_who_you_are: Kies uit één van de volgende opties om in te loggen met je
+      bestaande account.
+    wrong_code_html: Je hebt de verkeerder code ingevuld. <a href='/account/new?phone=true'>Probeer
+      het opnieuw. </a>
+  admin:
+    actionables:
+      heading: Actionables
+    administration:
+      heading: Administration & Settings
+    attendance:
+      heading: Bezoekersregistratie
+      button: Bezoekersregistratie
+      add_group:
+        button: 
+        search:
+          heading: 
+      groups_list:
+        update:
+          button: 
+    box:
+      updates:
+        text:
+          one: Profiel wijziging
+          other: Profiel wijzigingen
+      changed_emails:
+        text:
+          one: E-mail wijziging
+          other: E-mail wijzigingen
+      import_errors:
+        text:
+          one: Import Error
+          other: Import Errors
+      groups_pending_approval:
+        text:
+          one: Groep wacht op goedkeuring
+          other: Groepen wachten op goedkeuring
+      membership_requests:
+        text:
+          one: Persoon wacht op goedkeuring
+          other: Personen wachten op goedkeuring
+      deleted_people:
+        text:
+          one: Persoon verwijderd
+          other: Personen verwijderd
+    charts:
+      no_data: no data yet
+    checkin:
+      heading: Check-in systeem
+      cards_assigned: Check-in kaarten toegewezen.
+      dashboard_button: Check-in Admin
+      button: Check-in dashboard
+    dashboard:
+      heading: Dashboard
+      sub_title: OneBody %{version}
+      version_alert:
+        intro_html: 'A newer version of OneBody is available: <a href=''%{url}''>%{version}</a>'
+        download_button: How to Upgrade
+        heading: 
+      email_config_alert:
+        intro_html: 
+        button: 
+        heading: 
+        intro: 
+      tls_config_alert:
+        heading: 
+        intro: 
+        email_setup_note: 
+        proxy_missing_protocol_header_note_html: 
+        button: 
+    deleted_people:
+      tabs:
+        people: personen verwijderd
+        families: Verwijder families
+      family_deleted: Verwijderd.
+      heading: personen verwijderd
+      empty_families:
+        intro: Onder de volgende actieve families zijn geen familieleden aanwezig.
+          Overweeg om deze families te verwijderen.
+        delete:
+          button: Verwijder families
+        none: Geen resultaten
+      none: Geen resultaten
+      purge:
+        button: Opschonen
+      purge_family_when_empty: en families opschonen zonder familieleden
+      search_results:
+        intro: Je zoekresultaat wordt hieronder weergegeven.
+      undelete:
+        button: Verwijderen ongedaan maken
+    facebook:
+      heading: Facebook
+      intro_html: Allow people to sign in using Facebook. You'll need to first set
+        up a Facebook "app", then plug in the app id and secret below.
+    gatherings:
+      heading: Gatherings
+    membership_requests:
+      count:
+        one: "%{count} verzoek"
+        other: "%{count} verzoeken"
+    pusher:
+      heading: Pusher
+      intro_html: Pusher is a service that facilitates real-time communication. Right
+        now, OneBody uses Pusher only for remote Check-in printing, which you may
+        not need. You can sign up for a free Pusher account at <a href='https://pusher.com'>pusher.com</a>
+        or use the open source software <a href='https://github.com/stevegraham/slanger'>Slanger</a>
+        on your own server.
+    report:
+      back: Back to Report Dash
+      button: Reporting Dashboard
+      heading: Reporting
+      intro: Access the Reporting Dashboard for pre-defined reports and ad-hoc reporting
+        tools.
+      launch: Launch
+      list: Reports
+      title: Reporting Dashboard
+    active: actief
+    admin_added: "%{name} is toegevoegd."
+    admin_count:
+      one: "%{count} beheerder"
+      other: "%{count} beheerders"
+    admin_removed: Beheerder verwijderd.
+    admin_template_description: Je kunt rechtengroepen aanmaken zodat je meerdere
+      personen kunt koppelen aan een set van specifieke rechten.
+    admins:
+      heading: Beheer
+      intro: Je kunt elke persoon de gewenste beheersrechten geven zodat zij goed
+        kunnen functioneren in hun rol.
+      button: Beheer beheerders
+    add_individual: Voeg een persoon toe.
+    add_person: Persoon toevoegen
+    add_selected: Toevoegen
+    add_template: Rechtengroep toevoegen
+    already_admin: "%{name} is al een beheerder."
+    api: API
+    api_login_details: Je API inloggegevens
+    customization:
+      heading: Instellingen
+      intro: Pas je site aan door instellingen te wijzigingen en specifieke inrichtingen
+        toe te voegen.
+    display: Tonen
+    enable: Activeren
+    enable_api_confirmation: Weet je zeker dat je je API key wilt activeren?
+    emails:
+      intro_html: |
+        <p><em>Dit onderdeel is alleen van belang als je gebruikt maken van de UpdateAgent. Zoniet kun je de data hieronder verwijderen of negeren.</em></p>
+        <p>When a user changes their email address online, a flag is set, and subsequent syncs cannot change the email address back until the flag is cleared. To clear the flag, simply set the user's email address in your external database to be the same as below, and then run your sync process (or wait for it to run at its next scheduled time).</p>
+        <p>Alternatively, you can clear the flag manually here to allow your sync process to overwrite the value (but beware you may confuse your users if you do so).</p>
+      changed_addresses: E-mail adressen gewijzigd
+      clear_flags: Verwijder flags
+      no_records: Er zijn momenteel geen resultaten.
+      table:
+        id: ID
+        legacy_id: ID
+        first_name: Voornaam
+        last_name: Achternaam
+        email: E-mail
+    generate: Genereren
+    group_administrators: Beheerders van groepen
+    group_administrators_description: Elke groep kan een beheerder aanwijzen die de
+      groep beheert ongeacht de status in dit onderdeel.
+    group_administrators_help: Klik op edit om een persoon toe te voegen of te verwijderen
+      als beheerder van een groep.
+    group_membership_requests: Personen die wachten op goedkeuring
+    import_export: Import/Export
+    invalidate_confirmation: Weet je zeker dat je deze key wilt deactiveren en een
+      nieuwe wilt aanmaken?
+    key: Key
+    manage_group_administrators: Beheer groepsbeheerders
+    must_be_superadmin: Je bent niet bevoegd om deze instelling aan te passen.
+    new_admin_template: Maak een nieuwe rechtengroep.
+    new_api_or: a nieuwe API key of
+    no_api_key: Je hebt nog geen API key.
+    no_more_admins: Er kunnen niet meer beheerders aangemaakt worden.
+    pages: Pagina's
+    privileges:
+      view_hidden_profiles:
+        title: Toon verborgen personen
+        about: Bekijk verborgen personen in het bestand, zoals telefoonnummers, e-mail
+          adressen en persoonlijke informatie.
+        order: 1
+      view_hidden_properties:
+        title: Toon verborgen opties
+        about: Toon verborgen telefoonnummers, e-mail adressen en andere prive informatie.
+        order: 2
+      edit_profiles:
+        title: Wijzig profielen
+        about: Wijzig namen, telefoonnummers, e-mailadressen, wachtwoorden en alle
+          andere profiel gegevens.
+        order: 3
+      manage_access:
+        title: Beheer toegang
+        about: Het wijzigen van rechten voor groepen en personen (Het recht 'Beheer
+          groepen' is hierbij een vereiste)
+        order: 4
+      manage_attendance:
+        title: Bekijk bezoekersregistratie
+        about: Bekijk, wijzig en exporteer de bezoekersaantalen van de verschillende
+          groepen.
+        order: 5
+      manage_comments:
+        title: Beheer reacties
+        about: Verwijder reacties op de site.
+        order: 6
+      manage_groups:
+        title: Beheer groepen
+        about: Bekijk, wijzigen en verwijder groepen (ook verborgen groepen).
+        order: 8
+      manage_news:
+        title: Beheer nieuwsberichten
+        about: Bekijk, wijzig en verwijder nieuwsberichten.
+        order: 9
+      manage_pictures:
+        title: Beheer afbeeldingen
+        about: Bekijk, wijzig en verwijderen afbeeldingen en albums.
+        order: 11
+      manage_updates:
+        title: Beheer updates
+        about: Bekijk, wijzig en verwijder profiel updates die zijn aangevraagd.
+        order: 14
+      manage_sync:
+        title: Beheer synchronisaties
+        about: Bekijk en controleer synchronisatie die uitgevoerd zijn door de UpdateAgent
+        order: 15
+      import_data:
+        title: Importeren
+        about: Importeer data via een CSV bestand of via de UpdateAgent
+        order: 16
+      export_data:
+        title: Exporteren
+        about: Exporteer alle mogelijke data naar XML of CSV.
+        order: 17
+      assign_checkin_cards:
+        title: Check-in kaarten toewijzen
+        about: Kaarten toewijzen aan personen en families.
+        order: Check-in 1
+      manage_checkin:
+        title: Beheer check-in systeem
+        about: Beheer alle onderdelen van de check-in, inclusief de installatie en
+          configuratie.
+        order: Check-in 1
+      manage_documents:
+        title: Beheer documenten
+        about: Toevoegen, wijzigen en verwijderen van documenten.
+      run_reports:
+        title: Run Reports
+        about: Access the Reporting Dashboard.
+        order: 18
+      manage_reports:
+        title: Manage Reports
+        about: Create, Edit and Delete Custom Reports.
+        order: 19
+    rest_api_information: Om de REST API met Ruby te gebruiken, kun je dit doen
+    settings:
+      heading: Instellingen
+      Contact:
+        Tech Support Email:
+          name: E-mail adres technisch support
+          description: Voor technisch support worden gebruikers doogestuurd naar dit
+            e-mail adres.
+        Community Address:
+          name: Adres
+          description: Zichtbaar in de algemene voorwaarden.
+        Community Office Phone:
+          name: Telefoon kantoor
+          description: Telefoon kantoor
+        Community Email:
+          name: E-mail adres
+          description: Voor algemene vragen worden gebruikers doorgestuurd naar dit
+            e-mail adres.
+        Bug Notification Email:
+          name: E-mail adres foutmeldingen
+          description: Foutmeldingen worden automatisch verstuurd naar dit e-mail
+            adres.
+        Send Email Changes To:
+          name: E-mail wijzigingen
+          description: E-mail wijzigingen worden verstuurd naar dit e-mail adres.
+            (Dit veld mag leeg zijn.)
+        Send Updates To:
+          name: Profiel wijzigingen
+          description: Profiel wijzigen worden verstuurd naar dit e-mail adres. (Dit
+            veld mag leeg zijn.)
+        Send Attendance Submissions To:
+          name: Send Attendance Submissions To
+          description: Email sent when someone submits attendance for a group
+      Pusher:
+        App ID:
+          name: App ID
+          description: The application ID provided by Pusher.
+        App Key:
+          name: App Key
+          description: The application key provided by Pusher.
+        Secret:
+          name: Secret
+          description: The secret provided by Pusher.
+        API Scheme:
+          name: API Scheme
+        API Host:
+          name: API Host
+        API Port:
+          name: API Port
+        WS Host:
+          name: WS Host
+        WS Port:
+          name: WS Port
+        WSS Port:
+          name: WSS Port
+      Services:
+        Yahoo:
+          name: Yahoo
+          description: |-
+            Je Yahoo API Key -
+            https://developer.yahoo.com/wsregapp/index.php
+        Analytics:
+          name: Google analytics
+          description: Om de koppeling met Google analytics te maken kun je hier de
+            code plaatsten. De code wordt geplaatst op elke pagina.
+      Name:
+        Community:
+          name: Naam organisatie
+          description: De naam van de organisatie, kerk of stichting.
+        Site:
+          name: Naam site
+          description: De naam van de site wordt getoond bovenaan de site.
+      URL:
+        News Feed:
+          name: Nieuwsfeed
+          description: Nieuws kan periodiek geïmporteerd worden vanaf een ander platform
+            via een RSS feed.
+        Visitor:
+          name: Gasten
+          description: URL van de algemene site. Gasten worden doorgestuurd naar deze
+            site.
+      System:
+        Suffixes:
+          name: Achtervoegsels
+          description: Achtervoegsels kunnen gebruikt worden als bijv. vader en zoon
+            dezelfde naam hebben. Voeg 1 achtervoegsels per regel toe.
+        Adult Age:
+          name: Volwassen leeftijd
+          description: De leeftijd waarop een persoon oud genoeg is om de site te
+            gebruiken en andere profielen te bekijken.
+        Language:
+          name: Taal
+          description: De taal waarin de site getoond moet worden.
+        Time Zone:
+          name: Tijdszone
+          description: Vul in om de juiste datum en tijd te tonen.
+        Default Country:
+          name: Land
+          description: Selecteer het standaard land dat voorgevuld moet zijn bij het
+            aanmaken van een nieuwe familie.
+        Map Zoom Level:
+          name: Map Zoom Level
+          description: Select the zoom level to use on the maps displayed on the site.
+        Bible Translation:
+          name: 
+          description: 
+      Appearance:
+        Public Theme:
+          name: Thema
+          description: Selecteer een thema voor de site.
+        Theme:
+          name: Thema
+          description: Selecteer een thema voor de site.
+          options:
+            skin-blue: 
+            skin-blue-light: 
+            skin-yellow: 
+            skin-yellow-light: 
+            skin-green: 
+            skin-green-light: 
+            skin-purple: 
+            skin-purple-light: 
+            skin-red: 
+            skin-red-light: 
+            skin-black: 
+            skin-black-light: 
+        Show Subheading:
+          name: Toon subheading
+          description: Toon het adres en de slogan van de organisatie onder het logo
+            van de site.
+        Info Tab First:
+          name: Info tab eerst
+          description: Info tabblad van profielen tonen aan de linkerkant zodat deze
+            standaard geopend is.
+      Formats:
+        Full Date and Time:
+          name: Datum en tijd
+          description: Vul de datum en tijdsnotatie in.
+        Time:
+          name: Tijd
+          description: Vul de tijdsnotatie in.
+        Date:
+          name: Datum
+          description: Vul de datumnotatie in.
+        Phone:
+          name: Telefoon(landnummer)
+          description: Vul de juiste notatie in van het landnummer en telefoonnummer.
+        Date Without Year:
+          name: Datum zonder jaar
+          description: Vul de juiste notatie in. Deze notatie wordt gebruikt voor
+            verjaardagen.
+        Mobile Phone:
+          name: Mobiele telefoon
+          description: Vul de juiste notatie in van het mobiele telefoonnummer.
+      Features:
+        Custom Person Type:
+          name: Vrije velden persoon
+          description: 'Beheerders kunnen voor Rollen vrije velden aanmaken. Bijvoorbeeld:
+            voorganger, administratief medewerker.'
+        Community Google Calendar:
+          name: Google kalender
+          description: Geef hier de URL op voor de Google kalender. De kalender moet
+            publiek gedeeld zijn.
+        Updates Must Be Approved:
+          name: Profielwijziging goedkeuren
+          description: Alle profielwijzigingen (adres, telefoon) moeten eerst goedgekeurd
+            worden door beheerders.
+        Notify on Photo Change:
+          name: Notificatie bij wijzigingen foto
+          description: Beheerder worden geïnformeerd bij profielfoto wijzigingen.
+        Sign Up:
+          name: Inloggen
+          description: Personen (onbekend) kunnen zelf een account aanmaken op de
+            site. Zorg ervoor dat je gebruik maakt van onderstaande instellingen.
+            Hierdoor moet de aanvraag eerst worden goedgekeurd door een beheer voordat
+            de persoon kan inloggen.
+        SSL:
+          name: SSL
+          description: If you have SSL setup, you may turn on this feature, which
+            will make the login page encrypted. If not, some advanced JavaScript hashing
+            is enabled to make sure the users' passwords aren't being sent in plaintext.
+        Notes:
+          name: Notities
+          description: Activeer het delen van notities
+        Pictures:
+          name: Afbeeldingen
+          description: Het delen van afbeeldingen door alle leden.
+        Banner Message:
+          name: Bericht in de banner
+          description: Dit bericht wordt bovenin de site getoond (HTML). Je kunt dit
+            gebruiken voor bijvoorbeeld een belangrijke mededeling of de bijbeltekst
+            van de dag.
+        Multisite:
+          name: Beheer meerdere sites
+          description: Bij activeren kan het plaform meerdere site beheren gebaseerd
+            op de domein naam.
+        Groups:
+          name: Groepen
+          description: Activeer groepen.
+        News by Users:
+          name: Nieuwsberichten door gebruikers
+          description: Gebruikers kunnen zelf nieuwsberichten indienen. (Functionaliteit
+            'nieuws pagina's' is vereist.)
+        Custom Person Fields:
+          name: Vrije velden
+          description: Voeg 1 vrij veld toe per regel. Wanneer je "date" gebruikt
+            wordt die een datum veld. Velden die je markeert met een (*) kunnen gebruikers
+            bekijken en wijzigen.
+        Edit Legacy Ids:
+          name: Wijzig ID's
+          description: Beheerders hebben de mogelijkheid om ID's van families en personen
+            aan te passen.
+        Sign Up Approval Email:
+          name: Account aanvragen
+          description: Account aanvragen voor toegang tot de site komen binnen op
+            dit e-mail adres.
+        Friends:
+          name: Vrienden
+          description: Gebruikers kunnen vrienden worden op de site. (Accepteren van
+            een vriendschapsverzoek is altijd vereist.)
+        Sidebar Group Heading:
+          name: Zijbalk groepen
+          description: Toon personen in groepen (zie instellingen 'zijbalk groepen')
+        Reporting:
+          name: Rapporten
+          description: MongoDB is vereist voor installatie en gebruik.
+        Sidebar Group Category:
+          name: Zoeken op categorie in groepen
+          description: People in mutual groups of this category will be displayed
+            on the user's profile sidebar.
+        Content Management System:
+          name: Content Management System
+          description: Activeer "pagina's".
+        News Page:
+          name: Nieuwspagina
+          description: Activeer de nieuwspagina voor deze organisatie. Nieuwsitems
+            kunnen worden ingediend door beheerders of opgehaald worden via een RSS
+            feed.
+        Verses:
+          name: Bijbelteksten
+          description: Het delen van bijbelteksten door alle leden.
+        Recipes:
+          name: Recepten
+          description: Enable Recipe sharing.
+        Service:
+          name: Service
+          description: If enabled, admin users can track indviduals' service in areas
+            of the community.
+        Checkin:
+          name: Check-in systeem
+          description: Personen kunnen inchecken bij toegewezen groepen.
+        Documents:
+          name: Documenten
+          description: Beheerders kunnen bestanden delen op de site zodat leden de
+            bestanden kunnen bekijken en downloaden
+        Business Directory:
+          name: Business Directory
+          description: If enabled, users can add business information to be listed
+            in a church business directory.
+        Small Group Size:
+          name: Maximale grootte van een 'kleine groep'
+          description: People in groups with this many members or fewer are considered
+            in a "small group" together, and can easily share content with one another
+            via the homepage.
+        Stream:
+          name: 
+          description: 
+      Privacy:
+        Hide Contact Details in Messages:
+          name: Verberg contactgegevens in berichten
+          description: If enabled, attempts are made to hide phone numbers and email
+            addresses inside messages when viewed online.
+        Share Anniversary by Default:
+          name: Jubileum
+          description: Het jubileum is zichtbaar voor andere leden.
+        Share Email by Default:
+          name: E-mail adres
+          description: Het e-mail adres is zichtbaar voor andere leden.
+        Allow Unencrypted Logins:
+          name: Niet gehashte logingegevens toestaan
+          description: Logins are secured with public/private RSA encryption using
+            JavaScript. Check this box to allow fallback for mobile phones and other
+            browsers that are having trouble signing in.
+        Share Home Phone by Default:
+          name: Telefoon
+          description: Het telefoonnummer is zichtbaar voor andere leden.
+        Allow Picture Comments:
+          name: Reacties op afbeeldingen
+          description: Leden kunnen reacties geven op afbeeldingen en album.
+        Share Work Phone by Default:
+          name: Telefoon werk
+          description: Het telefoonnummer is zichtbaar voor andere leden.
+        Share Fax by Default:
+          name: Fax
+          description: Het faxnummer is zichtbaar voor andere leden.
+        Max Sign in Attempts:
+          name: Aantal inlogpogingen
+          description: Nummer van het aantal inlogpogingen die worden toegestaan.
+            Daarna wordt het account voor 15 minuten geblokkeerd.
+        Share Mobile Phone by Default:
+          name: Mobiele telefoon
+          description: Het telefoonnummer is zichtbaar voor andere leden.
+        Share Address by Default:
+          name: Adresgegevens
+          description: De adresgegevens zijn zichtbaar voor andere leden.
+        Share Birthday by Default:
+          name: Verjaardag
+          description: De verjaardag is zichtbaar voor andere leden.
+      host:
+        name: Domeinnaam
+        description: De domeinnaam waarop de site bereikbaar is. Bijvoorbeeld www.leden.1kerk.nl
+          (Voeg in dit veld geen http:// toe )
+      Email:
+        Host:
+          name: E-mail adres host name
+          description: A subdomain, e.g. mg.example.com, to use if your domain is
+            already serving email. Defaults to the domain name.
+      contact_automated_email_about: These email addresses are sent email when certain
+        things happen on the site. You can set them all to the same address or to
+        different ones, depending on separation of duties in your community.
+      contact_community_info_about: 'Vul hier contactinformatie in van je organisatie. '
+      contact_heading: Contact
+      disabled: Gedeactiveerd.
+      enabled: Geactiveerd
+      features_heading: Functionaliteiten
+      formats_heading: Notaties
+      formats_date_about_html: Vul de datum- en tijdnotaties in voor je eigen land.
+        <a href="/date_formatting_options.txt" target="_new">Klik hier </a> voor een
+        instructie.
+      formats_phone_about: 'Specificeer de notatie van de tijd met de ''d''. Bijvoorbeeld:
+        (ddd)-dddddd'
+      locale_heading: Lokaal
+      mailgun: Instellen Catch all route
+      mailgun_message: Klik op de onderstaande knop om een 'catch all route' in te
+        stellen op je Mailgun account.
+      membership_management_heading: Leden
+      name_heading: Naam
+      one_per_line: "(1 per regel)"
+      privacy_defaults: Standaard privacy instelingen.
+      privacy_defaults_about: When a member's account is first created, the following
+        privacy settings are applied to their information. (Members can still choose
+        to show or hide any of their information at any time, regardless of the settings
+        below.)
+      privacy_heading: Privacy
+      reload: Ververs instellingen
+      reload_message: Ververs de pagina om het resultaat te zien als je wijzigen hebt
+        doorgevoerd via de command line.
+      save: Instellingen opslaan
+      services_heading: Koppelingen
+      theme_heading: 
+      settings: Instellingen
+      sharing_about: De site functioneert het beste als leden hun eigen content toevoegen.
+        Activeer het delen van informatie hieronder.
+      sharing_communications_about: Deel gemakkelijk informatie met elkaar.
+      sharing_heading: Delen
+      small_group_sharing:
+        disable: disable sharing among small groups
+        all: Delen met alle groepen, ongeacht grootte.
+    super_admin: Superuser
+    super_admin_about: Super users hebben alle mogelijke rechten op de site en kunnen
+      alle gegevens bekijken. Ga hier zorgvuldig mee om.
+    template: Rechtengroep
+    templates: Rechtengroepen
+    updates:
+      apply: Doorvoeren
+      child: Is dit een kind?
+      child_alert: De update kan niet worden voltooid. Specificeer of deze persoon
+        een minderjarige is (jonger dan %{years}).
+      diff:
+        person: Persoon
+        property: Eigenschap
+        before: Voor
+        after: Na
+        created_at: Ingediend.
+      mark_complete: Markeer als voltooid
+      mark_incomplete: Markeer al onvoltooid
+      person_deleted: Persoon is verwijderd.
+      profile_updates: Profiel wijzigingen
+      toggle:
+        pending: In afwachting
+        complete: Voltooid
+      updated: Geupdate.
+      child_select_options:
+        You must select one: ''
+        'true': true
+        'false': false
+    username: Gebruikersnaam
+    your_key: key
+    custom_fields:
+      button: 
+      heading: 
+      intro: 
+      new:
+        heading: 
+      edit:
+        heading: 
+      formats:
+        string: 
+        number: 
+        boolean: 
+        date: 
+  albums:
+    index:
+      heading: Albums
+    table:
+      name: Naam
+      picture_count: Afbeeldingen
+      created_at: Aangemaakt
+    new:
+      heading: Nieuw album
+      button: Nieuw album
+    edit:
+      heading: Wijzig album
+      button: Wijzig album
+    delete:
+      button: Verwijder album
+    sharing:
+      heading: Wie mag dit album bekijken?
+    none: Er zijn nog geen albums
+    is_public:
+      enabled: Alle leden
+      disabled_group: Alle leden in deze groep
+      disabled_profile: Profiel - toon het album <a href='%{url}'> aan deze personen.</a>
+    cannot_add_pictures_to_group: Je bent niet bevoegd om afbeelding toe te voegen
+      aan deze groep.
+    click_to_view: Klik om te bekijken
+    description: Omschrijving
+    edit_picture: Wijzig album
+    save: Album opslaan
+    saved: Album opgeslagen.
+  attachments:
+    heading: Bestanden
+    new:
+      button: Nieuw bestand
+    deleted: Bijlage verwijderd.
+    file: Bestand
+    file_deleted: Het bestand is verwijderd.
+    file_not_found: Het bestand is niet gevonden.
+    not_found: Geen resultaten.
+    saved: Bijlage opgeslagen.
+    unknown_type: Onbekend bestand.
+    upload_attachment: Upload bijlage
+    upload_file: Bestand uploaden
+  attendance:
+    heading_html: Bezoekers voor %{group} op %{when}
+    heading_without_group: Bezoekers op %{when}
+    heading_without_date: Attendance in %{group}
+    medical_notes: Medische opmerkingen
+    can_pickup_people: Kan ophalen
+    cannot_pickup_people: Kan niet ophalen
+    share:
+      heading: Share Form
+      intro_html: |
+        <p>Share a link to this form that will allow anyone to submit attendance for this group without signing in.</p>
+        <p>This feature can be used for class check-in.</p>
+      button: Share this Form
+    add:
+      heading: Add Someone
+      intro: 'Add someone to the attendance history.
+
+'
+      footer_html: 'If this is someone who attends often, it is better to add them
+        as a group member <a href="%{url}">here</a>.
+
+'
+    add_visitor: Voeg een gast toe
+    adult: Volwassene
+    attendance: Bezoekers
+    class_time: Tijd
+    clear_search: Verwijder
+    date: Datum
+    export: Exporteren
+    email:
+      subject: Attendance Submission for %{group}
+      intro_with_submitter: "%{person} has submitted attendance for the group %{group}."
+      intro_anonymous: Attendance has been submitted (anonymously) for the group %{group}.
+      notes: 'Below are notes included with the submission:'
+    group: Groep
+    group_missing: groep ontbreekt
+    id: ID
+    name: Naam
+    name_unknown: Naam onbekend
+    next_date: Volgende datum
+    no_records: Geen resultaten
+    not_enabled: Het registreren van bezoekers is niet geactiveerd voor deze groep.
+    notes:
+      label: Notes
+      help: Use this field to send notes to the administrator.
+    order_by_last: 
+    prev_date: vorige datum
+    recorded_time: Opgenomen tijd
+    records:
+      one: 1 regel
+      other: "%{count} regels"
+    save: Bezoekersregistratie opslaan.
+    saved: Bezoekersregistratie opgeslagen.
+    submit_notes: Submit Notes
+    Search: Zoeken
+    search_person: Zoeken op naam
+    wrong_date_format: Datum niet herkend. Probeer het nog eens.
+  checkin:
+    heading: Check-in systeem
+    search:
+      label: 'Zoeken op naam:'
+      button: Zoeken
+      clear: Verwijder
+      none_found: Geen resultaten.
+    add_family:
+      button: Familie toevoegen
+    attendance:
+      button: Bezoekers
+    setup:
+      heading: Installatie
+    assigned_cards:
+      button: Toegewezen kaarten
+    scan:
+      unknown_card: card not found
+    cards:
+      heading: Toegewezen kaarten
+      table:
+        id: ID
+        legacy_id: ID
+        family: Familie
+        barcode: Barcode
+        assigned_at: Toegewezen
+      export:
+        button: Exporteren
+      none: Geen resultaten
+    groups:
+      movement_help_html: |
+        <p>
+          To move a check-in group into or out of a folder, first expand the folder, then click the
+          <i class="up"></i> or <i class="down"></i> button.
+        </p>
+        <p>
+          To jump a group all the way to the top or bottom,
+          hold <span class="highlight">shift</span> while clicking
+          <i class="up"></i> or <i class="down"></i>.
+        </p>
+      heading: Check-in groepen
+      index:
+        heading: "%{time} op %{campus}"
+        add_folder:
+          button: Voeg een map toe.
+          heading: Voeg een map toe.
+          name: Mapnaam
+        add_group:
+          heading: Bestemming toevoegen (groep)
+          search: Zoeken op naam
+          select_folder:
+            label: Selecteer map
+            none: "(none)"
+          button: Groep toevoegen
+        table:
+          name: Name
+          label_id: Label (Nametag)
+          print_extra_nametag: Extra naamkaart
+          section: Afdeling
+      section:
+        new: "[nieuwe afdeling]"
+      table:
+        group: Groep
+    labels:
+      button: Labels Setup
+      edit:
+        heading: Edit Check-in Label
+      delete:
+        notice: Label deleted.
+      heading: Check-in Labels
+      new:
+        button: Nieuw label
+        heading: Edit Check-in Label
+      table:
+        name: Name
+        description: Beschrijving
+        updated_at: Updated
+    times:
+      button: Installatie
+      heading: Check-in tijden
+      intro: Je kunt hier check-in tijden toevoegen, wijzigen en verwijderen.
+      table:
+        time: Tijd
+        campus: Campus
+        groups:
+          heading: Bestemmingen
+          count:
+            one: 1 bestemming
+            other: "%{count} bestemmingen"
+      edit:
+        button: Wijzig
+        campus:
+          new: "[nieuw campus]"
+        delete:
+          button: verwijder
+        heading: Wijzig check-in tijd
+        save:
+          button: Wijzigingen opslaan
+      groups:
+        button: groups
+      recurring:
+        heading: Tijden herhalen
+        new:
+          button: Nieuwe tijd (herhaling)
+        weekday: Werkdag
+        time: Tijd
+        campus: Campus
+        add:
+          button: Toevoegen
+      single:
+        heading: Losse dagen en tijden
+        new:
+          button: Nieuwe tijd (los)
+        datetime: Datum en tijd
+        campus: Campus
+        add:
+          button: Toevoegen
+    family:
+      new:
+        heading: Nieuwe familie
+        first_name: Voornaam
+        last_name: Achternaam
+        birthday: Verjaardag
+        medical_notes: Medische opmerkingen
+        parents: Ouders
+        children: Kinderen/anderen
+        barcode: Scan kaart
+        ignore_spelling_errors: Negeer spellingsfouten
+        save: Familie opslaan
+        cancel: Annuleren
+        success:
+          heading: Familie opgeslagen
+          return: Terugkeren
+          view: Bekijk/wijzig familie
+          barcode: 'Toegewezen nummer:'
+          not_checked_in: |
+            Deze familie is nog niet ingecheckt. Instrueer de kaarthouder.
+            De familie moet inchecken bij een van de check-in systemen.
+      saved: Familie opgeslagen
+      errors: Sorry.. Er is een fout opgetreden bij het opslaan van deze familie.
+      error:
+        no_birthdays: Geboortedatum is verplicht
+        no_people: Minimaal 1 persoon is vereist.
+        no_parents: 1 volwassene is verplicht
+        no_barcode: Scan de barcode
+    interface:
+      add_guest:
+        heading: Voeg een gast toe.
+        intro: Type de volledige naam van je gast in het veld hieronder.
+        button: Voeg een gast toe.
+        save: Opslaan
+      barcode:
+        placeholder: Scan Your Card
+      cancel:
+        button: cancel
+      heading: Check In
+      not_attending: not attending
+      print:
+        heading: After making your selections...
+        button: Print Tags
+      run_setup:
+        intro: You must first set up your check-in times and destinations.
+        button: Setup
+      same_as_last_week:
+        button: Choose same as last week
+  comments:
+    add_a_comment: Reactie plaatsten
+    deleted: Reactie verwijderd.
+    none_yet: Geen resultaten
+    not_authorized: Je bent niet bevoegd om deze reactie te verwijderen.
+    object_not_found: De %{name} is niet gevonden.
+    save: Reactie plaatsten
+    saved: Reactie geplaatst.
+  administration:
+    deleted_people:
+      index:
+        table:
+          id: ID
+          legacy_id: ID
+          last_name: Achternaam
+          first_name: Voornaam
+          family_id: Familie ID
+          legacy_family_id: ID
+          family_name: Familienaam
+          family_deleted: Familie verwijderd.
+          family_not_found: Geen resultaten
+          updated_at: Laatste update
+    imports:
+      new:
+        browse:
+          button: 
+        form:
+          submit: 
+        heading: 
+        people:
+          heading: 
+      created: 
+      edit:
+        form:
+          create_as_active: 
+          dont_preview: 
+          match_strategy: 
+          overwrite_changed_emails_html: 
+        table:
+          attribute: 
+          column: 
+          example: 
+        delete:
+          button: 
+        save:
+          button: 
+      errored:
+        message: 
+        new:
+          button: 
+      index:
+        table:
+          filename: 
+          created_at: 
+          errored: 
+          person: 
+          rows: 
+          status: 
+      match_strategies:
+        by_id_only: 
+        by_name: 
+        by_contact_info: 
+        by_name_or_contact_info: 
+      matched_by:
+        default: 
+        matched_person_by_id: 
+        matched_person_by_legacy_id: 
+        matched_person_by_name: 
+        matched_person_by_contact_info: 
+        matched_family_by_id: 
+        matched_family_by_legacy_id: 
+        matched_family_by_name: 
+        matched_family_by_contact_info: 
+      parsing:
+        message: 
+      show:
+        create_as_active:
+          'true': 
+          'false': 
+        match_strategies:
+          by_id_only: 
+          by_name: 
+          by_contact_info: 
+          by_name_or_contact_info: 
+        stats:
+          heading: 
+        table:
+          completed_at: 
+          create_as_active: 
+          created_at: 
+          creates: 
+          errored: 
+          families: 
+          family_id: 
+          family_matched: 
+          family_name: 
+          family_status: 
+          filename: 
+          match_strategy: 
+          new: 
+          no_change: 
+          people: 
+          person: 
+          person_first_name: 
+          person_id: 
+          person_last_name: 
+          person_matched: 
+          person_status: 
+          rows: 
+          updates: 
+        edit:
+          button: 
+        execute:
+          button: 
+        delete:
+          button: 
+        errors_table:
+          name: 
+          value: 
+          error: 
+          blank_value: 
+      status:
+        pending: 
+        parsing: 
+        parsed: 
+        previewing: 
+        previewed: 
+        active: 
+        complete: 
+        errored: 
+      status_heading: 
+      unchanged: 
+      updated: 
+    email_setups:
+      show:
+        heading: 
+        intro_html: 
+        reconfigure:
+          button: 
+      new:
+        heading: 
+        config_options:
+          mailgun: 
+          manual: 
+        mailgun:
+          heading: 
+          intro_html: 
+          secret_api_key: 
+          submit: 
+        manual:
+          heading: 
+          intro_html: 
+      edit:
+        heading: 
+        domain:
+          intro: 
+          label: 
+        domain_missing:
+          heading: 
+          message_html: 
+        submit: 
+        success: 
+        failure: 
+  documents:
+    index:
+      heading: Documenten
+      intro: Hier vindt je documenten die de kerk beschikbaar stelt. De documenten
+        zijn onderverdeeld in mappen zodat je gemakkelijk een document kunt zoeken
+        en downloaden. Je kunt zelf ook documenten toevoegen.
+      table:
+        name: Naam
+        description: Omschrijving
+        updated_at: Geupdate.
+        size: Grootte
+        item_count: "%{count} documenten"
+      edit_folder:
+        button: Wijzig deze map
+      delete_folder:
+        button: Delete this folder
+      new_folder:
+        button: Nieuwe map
+      new_document:
+        button: Nieuw document
+      hidden_folders:
+        label:
+          one: 1 hidden folder
+          other: "%{count} hidden folders"
+      restricted_folders:
+        label:
+          one: 1 restricted (group) folder
+          other: "%{count} restricted (group) folders"
+      no_file: No file chosen
+    show:
+      table:
+        filename: Bestandsnaam
+        content_type: Content type
+        size: Grootte
+        updated_at: Geupdate.
+      download:
+        button: Download bestand
+      edit:
+        button: Wijzig
+      delete:
+        button: Verwijderen
+    new:
+      heading: Nieuw document
+      select:
+        button: Select File(s)
+    new_folder:
+      heading: Nieuwe map
+    create:
+      notice:
+        one: Your document has been created.
+        other: Your documents have been created.
+      failure:
+        one: 'Your document could not be saved: %{filenames}'
+        other: 'Your documents could not be saved: %{filenames}'
+    create_folder:
+      notice: De map is aangemaakt.
+    edit:
+      heading: Wijzig %{document}
+    edit_folder:
+      heading: Wijzig %{folder}
+    update:
+      notice: Het document is opgeslagen.
+    update_folder:
+      notice: De map is opgeslagen.
+    delete:
+      notice: Het document is verwijderd.
+    delete_folder:
+      confirmation: Weet je zeker dat je deze map wilt verwijderen inclusief alle
+        inhoud?
+      notice: De map en in de inhoud is verwijderd.
+    hidden_folder:
+      alert: This folder is hidden from regular users.
+      tooltip: verborgen
+    hidden_folder_due_to_parent:
+      alert: Deze map is verborgen voor reguliere gebruikers, omdat het in een verborgen
+        folder zit.
+    hidden_document:
+      alert: This document is hidden from regular users.
+      tooltip: hidden
+    hidden_document_due_to_parent:
+      alert: This document is hidden from regular users because it is inside a hidden
+        folder.
+    groups:
+      add:
+        heading: Share with groups (optional)
+        search_button: Zoek op naam.
+        add_button: Add Group
+      link: link
+    restricted_folder:
+      alert_html: 'This folder is only visible to the following groups: %{groups}'
+      tooltip: restricted
+    restricted_document:
+      alert_html: 'This document is only visible to the following groups: %{groups}'
+      tooltip: restricted
+  emails:
+    mailgun:
+      api_key: 
+      heading: 
+      intro_html: 
+      route_found: 
+      route_created: 
+      apikey_notfound: 
+      route_error: 
+      submit:
+        button: 
+  families:
+    add:
+      new: Nieuwe persoon
+      existing: Verplaatst persoon
+    new:
+      heading: Nieuwe familie
+      created:
+        notice: De familie is aangemaakt. Voeg familieleden toe aan deze familie door
+          de knop 'Nieuwe persoon' te gebruiken.
+    edit:
+      heading: Wijzig familie
+      name_example_html: "<em>Rianne van Diepen</em> of <em>Rianne & Stephan van Diepen</em>"
+      name_suggestion_html: 'Voorstel: <strong>%{name}</strong>'
+      name_suggestion_button: Wijzig
+      city_st_zip: Plaats en postcode
+      photo: Familie foto
+      save: Familie opslaan
+      saved: De wijzigingen zijn opgeslagen.
+    delete:
+      button: Verwijder familie
+      cannot_delete_your_own: Je bent niet bevoegd om je eigen familie te verwijderen.
+    show:
+      heading: Familie %{family}
+      edit_link: Wijzig familie
+      suggested_name_html:
+        one: '%{first} is momenteel de enige volwassene in deze familie. Overweeg<a
+          href=''%{url}''> om de familienaam te wijzigen</a> naar "<strong>%{name}</strong>".'
+        other: '%{first} en %{second} zijn de eerste twee volwassene in deze familie.
+          Overweeg<a href=''%{url}''> om de familienaam te wijzigen</a> naar "<strong>%{name}</strong>".'
+      table:
+        home_phone: Telefoon
+        address: Adres
+        map: 
+        anniversary: Trouwdatum
+    name:
+      same_last_name: "%{adult1_fname} & %{adult2_fname} %{adult1_lname}"
+      different_last_names: "%{adult1_name} & %{adult2_name}"
+    not_found: Geen resultaten
+    updates:
+      pending_callout: Wijziging voor deze familie wachten op goedkeuring.
+  friends:
+    index:
+      nobody_yet: Geen resultaten
+    accept: Accepteer vriendschap
+    add_friend_are_you_sure: Er wordt een vriendschapsverzoek verstuurd naar deze
+      persoon. Weet je zeker dat je dit verzoek wilt versturen?
+    add_to_friends: Toevoegen aan vrienden
+    add_to_friends_pending: Verstuurde vriendschapsverzoeken
+    decline: Weiger vriendschap
+    friends: Vrienden
+    pending_requests: Te accepteren vriendschapsverzoeken
+    people_requested: Je hebt van de volgende personen een vriendschapsverzoek ontvangen.
+    personal_friends: Vrienden van %{name}
+    remove_from_friends: Verwijder uit vrienden
+    request_sent: Een vriendschapsverzoek is verstuurd naar %{name}.
+    search_in_the_directory: Zoek naar vrienden in de ledenlijst
+    you_have_pending_requests: Je hebt vriendschapsverzoeken ontvangen.
+    friends_list_button: Toon vrienden
+  Changes_saved: Wijzigingen opgeslagen.
+  Delete: Verwijderen
+  From: Van
+  Help: Help
+  No_action_to_show: Geen acties
+  No_more_records: Geen resultaten.
+  Page_no_longer_valid: Deze pagina is niet meer geldig.
+  There_was_an_error: Sorry.. Er is een fout opgetreden.
+  There_were_errors: Sorry.. Er is een fout opgetreden.
+  To: Voor
+  are_you_sure: Weet je het zeker?
+  by: door
+  changes_saved: Wijzigingen opgeslagen.
+  click_here: Klik hier
+  Comments: Reactie
+  delete: Verwijderen
+  edit: Wijzig
+  feature_unavailable: De functionaliteit is niet beschikbaar.
+  for: voor
+  multiple_files: Misschien ondersteund je browser het batch uploaden van bestanden.
+    Probeer het uit door meerdere bestanden te selecteren met de Ctrl toets.
+  name: Naam
+  new: new
+  none: Geen
+  not_authorized: Je bent niet bevoegd.
+  only_admins: Je bent niet bevoegd om dit onderdeel te gebruiken.
+  person: Persoon
+  phone: Telefoon
+  req_notes: Notities
+  save: Opslaan
+  saving: Opgeslagen
+  save_changes: Wijzigingen opslaan
+  show_all: Toon alles
+  submit_changes: Wijzigingen indienen
+  you_made_a_change_page: Er zijn wijzigingen gedaan op deze pagina. Sla je wijzigingen
+    op voordat je deze pagina verlaat.
+  date_format:
+    DD: DD
+    MM: MM
+    YYYY: JJJJ
+  activemodel:
+    errors:
+      models:
+        signup:
+          attributes:
+            base:
+              disabled: Account aanvragen is uitgeschakeld.
+              spam: Account aanvragen is voltooid.
+            first_name:
+              blank: Voornaam is verplicht
+            last_name:
+              blank: Achternaam is verplicht
+            email:
+              blank: E-mail is verplicht
+            gender:
+              blank: Geslacht is verplicht
+            birthday:
+              blank: Verjaardag is verpicht
+              too_young: Je bent te jong om een account aan te maken.
+            mobile_phone:
+              blank: Mobiele telefoon is verplicht
+  application:
+    api_access: Je bent niet bevoegd om de API te gebruiken.
+    no_default_site: Geen default site gevonden.
+    no_site_configured: 'Er is geen site geconfigureerd op dit adres: %{host}'
+    settings_reloaded: Instellingen ververst.
+    settings_saved: Instellingen opgeslagen.
+    template_created: Rechtengroep aangemaakt.
+  people_count:
+    one: 1 persoon
+    other: "%{count} personen"
+  footer:
+    help: Geef tips door voor het gebruik van de site.
+    privacy_policy: Privacy Policy
+    powered_by: Aangedreven door CHURCH.IO OneBody
+    churchio_onebody: 
+  generated_files:
+    building: Bestand genereren..
+    complete_heading: Klaar!
+    complete_message: Je bestand is compleet en klaar om te downloaden.
+    failure_heading: Sorry... Er is een fout opgetreden.
+    failure_message: Sorry.. Er is een fout opgetreden tijdens het genereren van je
+      bestand.
+  groups:
+    heading: Groepen
+    new_list:
+      heading: Nieuw groepen
+    created: Groep aangemaakt.
+    created_pending_approval: Je groep is aangemaakt en wacht op goedkeuring.
+    saved: De wijzigingen zijn opgeslagen.
+    deleted: De groep is verwijderd.
+    delete:
+      heading: Groep verwijderen
+      intro: Weet je zeker dat je deze groep wilt verwijderen met alle bijbehorende
+        content (berichten, gebedsverzoeken foto's etc.)?
+      button: Groep verwijderen
+    hide:
+      heading: Archiveer deze groep
+      intro: 'Archiveer deze groep zodat deze niet meer zichtbaar is voor leden. '
+      button: Groep archiveren
+      unhide_button: Archiveren ongedaan maken
+    your_groups: Jouw groepen
+    groups_of:
+      s: "%{name} Groepen"
+      no_s: "%{name}'s groepen"
+    hidden:
+      callout: Deze groep is gearchiveerd.
+      label: Verborgen
+    hidden_groups:
+      heading: Verborgen groepen
+      description: Alleen beheerders kunnen deze lijst inzien.
+    linked_group: Deze groep wordt beheert door werknemers.
+    private:
+      callout: Deze groep is prive. Berichten die hier geplaatst worden kunnen alleen
+        worden bekeken door groepsleden e beheerders.
+      label: Prive
+    email_off: E-mail uitschakelen
+    email_on: E-mail inschakelen
+    browse:
+      heading: Zoek op categorie
+      select_category: Selecteer een categorie
+      all: Toon alles
+    create:
+      heading: Maak een nieuwe groep aan
+      description: Kun je niet de juiste groep vinden? Maak gemakkelijk en nieuwe
+        groep aan.
+      button: Groep aanmaken
+    show:
+      details:
+        created_at: Groep aangemaakt.
+        created_by: aangemaakt door
+        leader: Groepsleider
+        admins: Beheerders
+        meets: ontmoet elkaar
+        location: locatie
+        directions: directions
+        member_count_label: groepsleden
+        member_count:
+          one: 1 persoon
+          other: "%{count} personen"
+        birthdays_this_month_html:
+          one: "<a href='%{url}'>1</a> is jarig deze maand!"
+          other: "<a href='%{url}'>%{count}</a> zijn jarig deze maand!"
+        attachments: bestanden
+        attachment_count:
+          one: 1 bestand
+          other: "%{count} bestanden"
+        attendance:
+          button: Registreer bezoekers
+        admin: 
+      controls:
+        join: Deelnemen aan de groep
+        join_pending: Deelnemen aan de groep (wacht op goedkeuring)
+        leave: Verlaat de groep
+        message: Stuur bericht
+        prayer_request: Gebedsverzoek
+      linked:
+        tooltip: Deze groep is gekoppeld aan code %{code}
+      parents_of:
+        tooltip: Deze groep is een groep/subgroep van %{group}
+    stream:
+      none:
+        heading: Geen updates
+        message: Updates die in deze groep gedaan worden verschijnen hieronder.
+    new:
+      heading: Nieuwe groep
+    edit:
+      heading: Wijzig groep
+      required_field: required
+      tabs:
+        details: Details
+        meets: Bijeenkomsten
+        features: Functionaliteiten
+        security: Beveiliging
+        advanced: Geavanceerd
+      advanced:
+        description: De onderstaande instellingen zijn voor geavanceerde gebruikers.
+        membership_mode:
+          options:
+            manual: Leden handmatig toevoegen (standaard)
+            link_code: Leden automatisch toevoegen via een externe link
+            parents_of: Subgroep koppelen aan hoofdgroep
+            adults: Alle leden (volwassene) toevoegen aan deze groep
+      files:
+        description: De bestanden zijn zichtbaar voor alle groepsleden.
+        delete_button: Verwijderen
+      meets:
+        help: 'Voorbeeld: elke woensdag 19.00 uur'
+      location:
+        help: 'Vul hier een geldig adres is zodat er een interactieve kaart kan worden
+          getoond op de groepspagina. Voorbeeld: Aalsmeer, Vlasakkerlaan 3'
+      directions:
+        help: Vul hier een routebeschrijving in.
+      address:
+        help: Je kunt hier een uniek e-mail adres opgeven zodat groepsberichten worden
+          verstuurd vanaf dit adres.
+      calendar:
+        help: Plaatst hier Google Calendar link om je kalender te tonen op de groepspagina.
+      category:
+        new: "[Nieuwe categorie]"
+        help: Plaats de groep in een categorie zodat deze gemakkelijk te vinden is.
+      description:
+        help: Geef een korte beschrijving van de groep.
+      approval_required_to_join:
+        help: Toestemming om groepslid te worden is vereist. Het verzoek wordt verstuurd
+          naar de beheerder van de groep.
+      private_group:
+        help: De omschrijving, groepsleden en andere groepsinformatie zijn niet zichtbaar
+          voor niet-groepsleden. Alleen de titel van de groep is zichtbaar. Zorg ervoor
+          dat ook de instelling 'Goedkeuring voor deelnemen aan de groep' staat aangevinkt.
+      members_send:
+        help: Alle groepsleden kunnen elkaar berichten sturen.
+      attendance_disabled:
+        help: Attendance must be enabled for any group used by Check-in.
+      class_link_code:
+        help_html: "<p>Geef een link op om te koppelen met externe pakketten. <a href='https://github.com/churchio/onebody/wiki/HowGroupMembershipWorks'>Klik
+          hier</a> voor meer informatie.</p>\nKlik op <strong>wijzigingen opslaan</strong>
+          om de groepsleden elke nacht te updaten. \n"
+      parents_of:
+        help_html: |
+          <p>Leden van deze groep worden automatisch lid van de andere hoofd- en subgroepen. </p>
+          <p>Klik op <strong>Opslaan</strong> om de groepleden direct te updaten. </p>
+      enable_calendar: Activeer kalender
+    table:
+      group_name: Groep
+      leader: Groepsleider
+      member_count: Groepsleden
+      email_enabled: E-mail geactiveerd
+    search:
+      heading: Zoek op naam
+      results_heading: Zoekresultaat
+      name_placeholder: Groepsnaam
+      submit: Zoeken
+    batch:
+      heading: Wijzig groepen (batch)
+      category: Categorie
+      name: Naam
+      address: E-mail prefix
+      members_send: Groepsleden kunnen berichten plaatsten
+      private: Prive
+      hidden: Verborgen
+      class_link_code: Link Code(s)
+      approval_required_to_join: Goedkeuring vereist
+      errors: Sorry.. Er zijn fouten opgetreden tijdens het opslaan van de wijzigingen.
+        De foutregels zijn hieronder gemarkeerd.
+    files:
+      heading:
+        name: Naam
+        size: Grootte
+        created_at: Geupload
+    pending_approval:
+      this_group: Deze groep wacht op goedkeuring.
+      description:
+        one: 'De volgende groep wacht op goedkeuring:'
+        other: 'De volgende groepen wachten op goedkeuring:'
+      count:
+        one: "%{count} groep ter goedkeuring"
+        other: "%{count} groepen ter goedkeuring"
+    approve:
+      button: Goedkeuren
+    membership_requests:
+      count:
+        one: "%{count} persoon die wacht op goedkeuring"
+        other: "%{count} personen die wachten op goedkeuring"
+    not_found: Geen resultaten
+    no_groups_found: Geen resultaten
+    join:
+      confirm: Weet je het zeker? De aanvraag zal worden verstuurd naar de beheerder(s)
+        van de groep.
+      request_sent: De aanvraag om deel te nemen aan de groep is verzonden naar de
+        beheerders.
+    last_admin_remove: "%{name} is nog de enige beheerder en de groep en kan daarom
+      niet verwijderd worden."
+    user_settings_saved: Instellingen opgeslagen.
+    email_settings_changed: De e-mail instellingen voor de groep zijn gewijzigd.
+    limited:
+      intro: Je bent geen lid van deze groep. Klik hieronder om je verzoek in te dienen.
+    box:
+      messages:
+        text:
+          one: Bericht
+          other: Berichten
+        new_link: Nieuw bericht
+      prayer_requests:
+        text:
+          one: Gebedsverzoek
+          other: Gebedsverzoeken
+        new_link: Nieuw
+      pictures:
+        text:
+          one: Afbeelding
+          other: Afbeeldingen
+        new_link: Nieuwe afbeelding
+      tasks:
+        text:
+          one: Taak
+          other: Taken
+        new_link: Nieuwe taak
+    show_hidden:
+      button: Toon verborgen groepen (%{count})
+  import:
+    changes:
+      count:
+        one: 1 wijziging
+        other: "%{count} wijzigingen"
+      show_button: Bekijken
+    results:
+      name: Naam
+      first_name: Voornaam
+      last_name: Achternaam
+      status: Status
+    apply_settings_to_imports: 'Op de imports kun je de volgende instellingen toepassen:'
+    attempt_match_existing_people: Probeer te koppelen via de naam van de persoon
+      als er gen ID aanwezig is.
+    completed_records: Regels voltooid
+    error: Sorry.. Er is een fout opgetreden.
+    error_updating: Sorry.. Er is een fout opgetreden.
+    error_updating_message_html: Er is een fout opgetreden tijdens het updaten bij
+      minstens 1 regel. Corrigeer de regels en ga terug naar <a href="%{url}"> Updates  </a>
+      om het proces te voltooien.
+    errored_records: Sorry.. Er is een fout opgetreden.
+    for_list_of_available_attributes: voor een lijst van alle beschikbare eigenschappen
+      (niet alle eigenschappen zijn verplicht).
+    hint_excel_docs: Tip! Je kunt een excel document opslaan als CSV bestand via Bestand
+      > Opslaan als.
+    import_data: Importeren
+    import_people: Personen importeren
+    import_results: Import resultaten
+    import_selected_people: Importeer de geselecteerde personen
+    no_records_were_found: Er zijn geen regels gevonden om te importeren.
+    only_first_records_will_be_imported_html: Alleen de eerste %{count} regels worden
+      geïmporteerd. Indien het bestand groter is kun je het opsplitsen in meerdere
+      bestanden. Voor grotere batch uploads kun je de <a href="http://wiki.github.com/churchio/onebody/updateagent">UpdateAgent</a>
+      gebruiken.
+    people: Personen importen
+    record: Regel
+    record_updated: Regels geupdate.
+    records: Regels
+    select_csv_file: 'Selecteer een CSV (Comma Separated Values) bestand om te impoteren.
+      De namen van de kolommen dienen in de eerste regel te staan. '
+    the_changes_will_be_made: De volgende wijzigingen zijn gevonden. Alleen de regels
+      die zijn geselecteerd worden geupdate.
+    the_import_is_complete: De import is voltooid.
+    visibility_access: Zichtbaarheid/Toegang
+    with_errors: met fouten
+  maps:
+    notice: "&copy; <a href='https://www.openstreetmap.org'>OpenStreetMap</a> contributors"
+  memberships:
+    index:
+      heading: Groepsleden in de groep %{group}
+      details:
+        name: Naam
+        birthday: Verjaardag
+        created_at: Toegevoegd.
+        manual:
+          tooltip: Deze persoon is handmatig toegevoegd.
+        admin: 
+        leader: 
+      remove:
+        button: Verwijderen
+    add:
+      heading: Persoon toevoegen
+      description: Voeg een persoon toe aan deze groep.
+      name_placeholder: Type de naam of een deel van de naam
+      parents_of_warning_html: |
+        This is a group automatically linked with parents of people in %{group}.
+        If you add someone manually, that person won't be managed automatically.
+      linked_group_warning_html: |
+        Deze groep is gekoppeld aan code <strong>%{code}</strong>
+        Indien je een persoon handmatig toevoegen wordt deze niet automatisch beheert.
+    promote: Upgrade de persoon naar beheerder.
+    demote: Downgrade de beheerder
+    group_pending_approval: De groep is aangemaakt en wacht op goedkeuring. Je kunt
+      nog geen personen toevoegen aan deze groep.
+    requests:
+      heading: Deelnemen aan de groep
+      select_some: Selecteer een van de bovenstaande opties en kies een actie.
+      name: Naam
+      created_at: Aangevraagd
+      accept:
+        button: Accepteer
+      ignore:
+        button: Negeer
+    leader_add: 
+    leader_remove: 
+  messages:
+    new:
+      button: Nieuw bericht
+    private:
+      heading: Prive bericht
+      description_html: Je verstuurd een <em>prive</em> bericht naar %{person}.
+    group:
+      heading: Goepsbericht
+      description_html: Deze e-mail wordt verstuurd naar de gehele groep %{group}.
+    sent_at_html: Verstuurd %{when} door %{who}
+    sent_to_html: naar %{who}
+    read_more: Lees meer
+    delete:
+      button: Verwijderen
+    in_reply_to_html: Reactie  op %{message}
+    replies:
+      heading: Reacties
+    reply_all:
+      button: Reageer op deze e-mail (wordt verstuurd naar gehele groep)
+      subset: 
+    email:
+      reply_to_sender: Hit "Reply" to send a message to %{person}.
+      reply_to_group: Hit "Reply to All" to send a message to the group %{group},
+        or send to %{address}.
+      group_link: 'Group page: %{url}'
+      reply_link: 'To reply, go to: %{url}'
+      disable_group_email: |-
+        To stop email from this group:
+        %{url}
+      disable_all_email: |-
+        To stop these emails, go to your privacy page:
+        %{url}
+    do_not_reply: DO NOT REPLY
+    ago: geleden
+    attachment_optional: Bijlage
+    attachments: Bijlages
+    file_missing: Geen bestand gekozen
+    flag_cleared: Markering verwijderd.
+    from: Van
+    in: in
+    messages_in_html: Berichten in <a href="%{url}">%{name}</a>
+    missing_param: Er is een fout opgetreden. Zorg ervoor dat alle velden ingevuld
+      zijn.
+    no_email_for_person: |-
+      Sorry..
+      Er is geen e-mail adres bekend van %{name}.
+    not_authorized_delete: Je bent niet bevoegd om dit bericht te verwijderen.
+    not_found: Geen resultaat.
+    posted_by: geplaatst door
+    send_message: Verstuur bericht
+    sent: Het bericht is verstuurd.
+    show_quoted_content: toon bericht
+    some_quoted_text_is_hidden: Sommige tekst is niet zichtbaar in dit bericht;
+    subject: Onderwerp
+    to_show_the_entire_message: Toon het gehele bericht.
+    unknown_type: Onbekend type bericht.
+    subset:
+      description_html: 
+    send_to_subset: 
+    filter: 
+    more: 
+    subset_warning: 
+  nav:
+    hello: Hoi %{person}
+    admin: Beheer
+    admin_sub:
+      admins: Beheerders
+    albums: Albums
+    business_profile: Zakelijk
+    checkin: Check-in systeem
+    checkin_sub:
+      times: Tijden
+      labels: Labels
+    directory: Ledenlijst
+    directory_sub:
+      business: Bedrijven
+      printed: Printen
+      advanced: Uitgebreid zoeken
+      new_person: Nieuwe persoon
+    documents: Documenten
+    groups: Groepen
+    groups_sub:
+      edit: Wijzig groep
+      new: Nieuwe groep
+      new_count:
+        one: 1 nieuw
+        other: "%{count} nieuw"
+    home: Home
+    home_sub:
+      new_count:
+        one: 1 nieuw
+        other: "%{count} nieuw"
+    imports: Imports
+    messages: Berichten
+    news: Nieuws
+    notes: Notities
+    pages: Pagina's
+    prayer_requests: Gebedsverzoeken
+    profile: Mijn profiel
+    profile_sub:
+      edit: Wijzig profiel
+      email: E-mail
+      password: Wachtwoord
+      privacy: Privacy
+      family: 
+      relationships: Relaties
+      show: Bekijk profiel
+    report: Reporting
+    verses: Bijbelteksten
+    tasks: Taken
+    tasks_sub:
+      assigned_count:
+        one: 1 toegewezen
+        other: "%{count} toegewezen"
+  news:
+    heading: Nieuws
+    edit:
+      heading: Wijzig nieuwbericht
+    edit_button: Wijzig
+    delete_button: Verwijder
+    body_description: 'Nieuwsbericht:'
+    deleted: Nieuwsbericht verwijderd.
+    if_you_have_something_to_share_html: "<a href='%{url}'>Klik hier</a> om een nieuwsbericht
+      te plaatsten."
+    news_feed: Nieuws
+    no_news_is_available: Er zijn geen nieuw nieuwsberichten.
+    save_news: Opslaan
+    saved: Nieuw opgeslagen.
+    submit_news: Nieuws indienen
+    subscribe:
+      button: Abonneren
+      description: Ontvang nieuws updates.
+    title_description: 'Titel:'
+    welcome_to_the_place: Bekijk hier de nieuwsberichten.
+  notes:
+    index:
+      heading: Notities
+    new:
+      heading: Nieuwe notitie
+      button: Nieuw
+    edit:
+      heading: Wijzig notitie
+      button: Wijzig
+    delete:
+      button: Verwijder
+    posted: geplaatst %{when}
+    save: Notitie opslaan
+    saved: Notitie opgeslagen
+  notifier:
+    email_update:
+      subject: "%{person} heeft zijn/haar e-mail adres aangepast."
+      intro: "%{person} heeft zijn/haar e-mail adres aangepast."
+      email_label: E-mail
+    email_verification:
+      subject: Verifieer je e-mail
+      intro: |
+        Via dit bericht kun je je e-mail adres verifiëren
+        zodat je kunt inloggen op de site van%{site}.
+      instruction: 'Klik op onderstaande link om je e-mail adres te verifiëren:
+
+'
+      footer: |
+        Werkt bovenstaande link niet. Kopier en plak
+        de link in je adresbalk
+
+        Als je vragen hebt over deze e-mail kun je contact opnemen met
+        %{name} via %{phone}.
+    friend_request:
+      subject: Vriendschapsverzoek van %{person}
+      intro: "%{person} heeft je een vriendschapsverzoek verstuurd voor %{site}.\n"
+      instruction: 'Log eerst in om het verzoek te accepteren/weigeren.
+
+'
+    membership_request:
+      subject: Verzoek om deel te nemen aan de groep van %{person}
+      intro: "%{person} wil graag deelnemen aan de groep %{group}.\n"
+      instruction: 'Log eerst in om het verzoek te accepteren/weigeren.
+
+'
+    mobile_verification:
+      subject: Verifieer via mobiel
+      label: 'Verificatie code:'
+    pending_sign_up:
+      subject: Accountaanvraag in afwachting
+      intro: "%{person} heeft een account aangevraagd voor %{site}.\n"
+      instruction_first: |
+        If you approve of this account creation, activate the account at
+        this address:
+      instruction_last: |
+        Check all the appropriate boxes in the "Visibility" tab and save.
+
+        Be sure to also click to "send verification email" to the user.
+    photo_update:
+      family_subject: Familie foto gewijzigd.
+      person_subject: Foto gewijzigd.
+      intro: "%{person} heeft zijn/haar foto aangepast.\n"
+    prayer_request:
+      subject: Gebedsverzoek van %{group}
+      intro: "%{person}heeft een nieuw gebedsverzoek ingediend bij de groep %{group}\n"
+    printed_directory:
+      subject: Ledenlijst %{site}
+      intro: 'Hoi %{person}. Bijgevoegd vindt je je aangevraagde ledenlijst van de
+        %{site}.
+
+'
+    profile_update:
+      subject: Profiel wijziging van %{person}
+      intro: "%{person}(%{family}) heeft een profielwijziging ingediend.\n"
+      label:
+        new: Nieuw
+        old: Oud
+    rejection:
+      cannot_read:
+        subject: 'Bericht niet verstuurd: %{subject}'
+        body: |
+          Het bericht "%{subject}" is niet verstuurd.
+
+          Excuses voor het ongemak. Het systeem kan je bericht niet lezen
+          omdat de opmaak geen tekst of HTML is.
+
+          Verstuur je bericht met standaard tekst en probeer
+          het opnieuw. Je kunt ook je bericht vesturen vanaf de site. Klik op de link
+          om in te loggen:
+
+          %{url}
+      multiple_people:
+        subject: 'Bericht niet verstuurd: %{subject}'
+        body: |
+          Het bericht "%{subject}" is niet verstuurd.
+
+          Excuses voor het ongemak. Het systeem kan niet acherhalen wie je bent
+          omdat er meerdere personen in je familie zijn met hetzelfde e-mail adres.
+          Je kunt je bericht versturen vanaf de site. Klik op de link om in te loggen:
+
+          %{url}
+
+          Of log in
+          en selecteer bij email instellingen de primaire email account gebruiker.
+      unknown_person:
+        subject: 'Bericht niet verstuurd: %{subject}'
+        body: |
+          Het bericht "%{subject}" is niet verstuurd.
+
+          Excuses voor het ongemak. Het systeem herkent je
+          e-mail adres niet.
+
+          Verstuur het bericht vanaf het e-mailadres waarmee je ook inlogt op de site of
+          Log in op de site om alsnog je bericht te versturen.
+
+          %{url}
+      invalid:
+        subject: 'Bericht niet verstuurd: %{subject}'
+        body: |
+          Het bericht %{subject} is niet verstuurd.
+
+          Excuses voor het ongemak. Het systeem kan het bericht niet opslaan
+          om de volgende redenen:
+
+          %{errors}
+
+          Stuur dit bericht door naar de supportafdeling: %{support}
+      no_recipients:
+        subject: 'Bericht niet verstuurd: %{subject}'
+        body: |
+          Het bericht %{subject} is niet verstuurd.
+
+          Excuses voor het ongemak. Het systeem vindt geen geldige
+          e-mailadressen.
+
+          Controleer of het e-mailadres van de groep juist is en dat je
+          toestemming hebt om deze groep te mailen.
+
+          Je kunt ook inloggen op de volgende URL om je bericht te verzenden:
+
+          %{url}
+    message_id: ID
+    not_allowed_to_post: Het is niet toegestaan om een bericht te versturen.
+  pages:
+    index:
+      heading: Pagina's
+      intro: Hieronder vindt je contentpagina's die worden gebruikt op de site. Klik
+        op 'wijzig' om je eigen content erin te plaatsten.
+      name: Naam
+      description: Soort pagina
+      edit_button: Wijzig
+    descriptions:
+      help: Help - hulp bij het inloggen
+      bad_status: Getoond wanneer het account is in het bestand maar geen recht geeft
+        om in te loggen.
+      privacy_policy: Document - Privacy Policy
+      safeguarding_children: Document - Omgang met informatie van kinderen
+      unauthorized: Help - niet bevoegd om in te loggen
+      checkin: Instructie - Check-in systeem
+    body: Inhoud
+    edit_page: Wijzig pagina
+    not_found: Geen resultaten
+    saved: Pagina opgeslagen
+    title: Titel
+    view_page: Bekijk pagina
+  people:
+    account_frozen:
+      callout: Account geblokkeerd. Wijzigingen zijn niet mogelijk tot deze gedeblokkeerd
+        wordt.
+    new:
+      heading: Nieuw persoon in familie %{family}
+      heading_without_family: Nieuwe persoon
+      no_family_warning_html: |
+        Je gaat nu een <strong>nieuwe persoon en familie </strong>toevoegen.
+        Als je een persoon wilt toevoegen aan een bestaande familie voeg deze dan toe via de pagina van de familie.
+    title_html: "%{name}<span class='discreet'>, %{description}</span>"
+    show:
+      details:
+        family: Familie %{family}
+        website: Website
+        email: E-mail
+        mobile_phone: Mobiele telefoon
+        home_phone: Telefoon
+        work_phone: Telefoon werk
+        address: Adres
+        map: 
+        birthday: Verjaardag
+        anniversary: Trouwdatum
+        social: Social
+        about: 
+        created: 
+        edited: 
+        last_seen: 
+      showing_hidden_attribute:
+        tooltip: This detail is visible to you because you are an admin with 'View
+          Hidden Properties' enabled.
+    edit:
+      about: Over
+      basics: Basis
+      business: Bedrijf
+      business_category:
+        new: "[maak een nieuwe categorie aan]"
+        create_prompt: 'Vul de categorie van je bedrijf in:'
+      child:
+        enabled: Kind
+        disabled: Volwassene
+      child_hint: Als er geen geboortedatum is opgegeven, moet er aangegeven worden
+        of het hier gaat om een minderjarige of volwassene.
+      custom_type:
+        new: "[rol aanmaken]"
+        create_prompt: 'Vul de naam van de rol in:'
+      description_hint: Omschrijf jezelf in een woord of twee  — bijvoorbeeld je beroep.
+      email_hint: " (this is your main email address used for login and receiving
+        emails)"
+      facebook_url:
+        placeholder: http://www.facebook.com/username
+      family_photo: Familie foto
+      header: Profiel wijzigen
+      no_family_error: This person cannot be edited because they do not belong to
+        a family.
+      person_type: Rollen
+      person_type_hint: Dit stelt geen toegang in — enkel de benaming.
+      photo: Profiel foto
+      primary_emailer:
+        intro_html: |
+          Je deelt een e-mail adres met %{person}.
+          Controleer onderstaande instelling als groepsberichten worden geweigerd.
+          Zorg ervoor dat dit e-mail adres <strong>altijd</strong> gekoppeld is aan je account.
+          As jij en %{person} beiden groepsberichten versturen
+          is het beter om verschillende e-mail adressen te gebruiken.
+      required_field: verplicht
+      twitter:
+        placeholder: "@gebruikersnaam"
+      status: Status
+      status_help:
+        inactive: Inactive people cannot sign in and are not visible to anyone on
+          the site except administrators.
+        pending: Pending people can sign in and look up limited contact info for members.
+        active: Active people can sign in and make full use of the site.
+        not_an_adult: Children cannot sign in, so setting the status here only affects
+          their visiblity to others.
+      statuses:
+        inactive: Inactive
+        pending: Pending
+        active: Active
+      fields: 
+    move:
+      heading: Voeg toe aan %{family}
+      description_html: Zoek een persoon om toe te voegen aan <a href='%{url}'>%{family}</a>
+        en klik op Toevoegen...
+      button: Verplaats naar familie
+      success_message: "%{person} is toegevoegd aan %{family}."
+    roles:
+      elder: Oudste
+      deacon: Diaken
+      staff: Staff
+      member: Lid
+    email:
+      heading: E-mail instellingen
+      primary:
+        heading: Primair e-mail adres
+        description_html: |
+          <p>Dit is je primaire e-mail adres dat gebruikt wordt voor het inloggen en het ontvangen van e-mail. Let op:</p>
+          <ul>
+          <li>Dit e-mail adres is nodig om in te loggen</li>
+          <li>Alle groep- en prive e-mails worden naar dit e- mail adres verzonden</li>
+          </ul>
+      alternate:
+        heading: Alternatief e-mail adres
+        description_html: |
+          <p>Geef hier een tweede e-mail adres op om vanuit dit e-mail adres e-mails te versturen naar groepen.  Let op:</p>
+          <ul>
+          <li>Dit e-mail adres is voor niemand zichtbaar behalve beheerders</li>
+          <li>Je kunt met dit e-mail adres niet inloggen op de site.</li>
+          </ul>
+      groups:
+        heading: E-mail communicatie groepen
+    groups:
+      heading: Groepen
+      members: leden
+      messages: berichten
+      join:
+        button: Zoek en wordt lid van een groep
+      see_all: Toon alle groepen
+    business:
+      services_provided_by: Diensten geleverd door %{person}
+      address: Adres
+      email: E-mail
+      phone: Telefoon
+      website: Website
+    checkin:
+      heading: Check-in Notes
+      intro: These are notes that are displayed on check-in screens and (optionally)
+        on printed check-in labels in order to alert workers.
+    testimony:
+      box_heading: Getuigenis
+      heading: Getuigenis van %{person}
+      view_profile: Bekijk profiel
+      view_full: Lees meer
+      find_more: Lees andere getuigenissen
+    updates:
+      pending_callout: Wijzigingen voor dit profiel wachten op goedkeuring.
+    verification_email:
+      heading: Je aanmelding is bijna voltooid
+      intro: Before this user can sign in, they must complete setup by clicking a
+        link in their email. Click below to send them the email.
+      button: Reset wachtwoord e-mail versturen
+    advanced: Geavanceerd
+    can_sign_in: Inloggen
+    cant_delete_yourself: Je bent niet bevoegd om je account te verwijderen.
+    cant_delete: Je bent niet bevoegd om deze persoon te verwijderen.
+    changes_must_be_reviewed_html: Wijziging in deze gegevens moeten worden <strong>goedgekeurd</strong>.
+      Vul de wijzigingen in en klik op 'indienen'.
+    changes_submitted: Wijzigingen ingediend
+    child: Kind/Volwassene
+    deleted_html: Deze persoon is verwijderd. Je kunt <a href='%{url}'>hier</a> het
+      verwijderen ongedaan maken.
+    family: Familie
+    family_legacy_external_id: ID
+    find_a_group_html: Vind <a href='%{url}'>hier</a> een groep
+    friend_not_found: Geen resultaten
+    friendship_accepted: Vriendschap geaccepteerd.
+    friendship_manage: Je kunt alleen voor jezelf vriendschappen beheren.
+    friendship_must_specify: Must specify accept=true or reject=true
+    friendship_rejected: Vriendschap afgewezen.
+    full_access: Volledige toegang
+    if_you_wish_to_be_listed_business_dir_html: Als je wilt dat je bedrijf getoond
+      wordt op de <a href='%{url}'>site</a> kun je hieronder je bedrijfsnaam, beschrijven
+      en andere details opgeven.
+    if_you_wish_to_remove_something_html: If you wish to remove something in order
+      to keep others from seeing it, instead go to the <a href='%{url}'>Privacy</a>
+      page and hide it.
+    legacy_external_id: ID
+    limited_access: Je account heeft beperkte toegang; de profiel pagina's worden
+      beknopt getoond.
+    limited_access_denied: Je account heeft momenteel beperkte toegang.
+    no_family_for_this_person: Deze persoon is geen onderdeel van deze familie. Het
+      is niet mogelijk voor deze persoon om in te loggen en is niet zichtbaar voor
+      andere leden.
+    not_deleted: De persoon is niet verwijderd.
+    not_found: Geen resultaten
+    pending_approval: wacht op goedkeuring
+    people: Personen
+    person:
+      one: 1 persoon
+      other: "%{count} personen"
+    person_isnt_any_groups: "%{person} is momenteel geen lid van een groep."
+    share_your_personal_testimony: Deel je getuigenis.
+    show_hidden_groups: Toon verborgen groepen
+    tell_us_about_yourself: Vertel over jezelf. Wat voor een persoon ben jij? Wat
+      zouden goede vrienden over je vertellen?
+    this_event_doesnt_have_pictures: Aan dit evenement zijn nog geen foto's toegevoegd.
+    this_profile_is_hidden: Dit profiel is verborgen.
+    update_to_profile_is: Een update van het profiel
+    visible_on_printed_directory: Zichtbaar in ledenlijst printen
+    visible_to_everyone: Zichtbaar voor alle leden
+    you_arent_in_any_groups: Je bent nog geen lid van groepen.
+  photos:
+    object_not_found: Geen resultaten.
+    browse: Foto toevoegen
+    remove: Verwijder foto
+    unavailable: Foto niet beschikbaar.
+    upload:
+      button: Upload
+      error: Je foto kan niet worden opgeslagen.
+      wrong_type: De foto kan niet worden geupload. Je kunt JPG, GIF of PNG bestanden
+        gebruiken.
+    ready_filename: Klaar om %{filename} te uploaden
+    uploading_filename: Uploaden %{filename}
+  pictures:
+    none: Geen foto's gevonden
+    new:
+      heading: Nieuwe foto
+      existing_album:
+        intro: Voeg één of meerdere foto's toe aan dit album,
+      new_album:
+        intro: of maak een nieuw album.
+        button: Nieuw album
+    show_original: Toon orginele foto
+    create_an_album:
+      notice: Maak een album aan.
+    click_to_enlarge: klik om te vergroten
+    comment_on_this_picture: Reageer op deze foto
+    failed: "%{fail} foto's zijn niet opgeslagen omdat er een fout is opgetreden."
+    picture_uploaded_by: Foto toegevoegd op %{when} door
+    rotate_left: Roteer linksom
+    rotate_right: Roteer rechtsom
+    saved: "%{success} foto's opgeslagen"
+    set_as_cover: Toon als omslag
+    upload: Uploaden
+  prayer_requests:
+    by: door %{person}
+    name: Gebedsverzoek van %{group}
+    index:
+      heading: Gebedsverzoeken
+    show:
+      heading: Gebedsverzoek
+    new:
+      heading: Nieuw gebedsverzoek
+      button: Nieuw gebedsverzoek
+    edit:
+      heading: Wijzig gebedsverzoek
+      button: Wijzig gebedsverzoek
+    delete:
+      button: Verwijder gebedsverzoek
+    request:
+      heading: Gebedsverzoek
+    answer:
+      heading: Getuigenis
+      description: Vergeet niet om hier later terug te komen om nog iets te delen
+        over gebedspunt.
+      on_date: verstuurd op %{date}
+    save: Gebedsverzoek opslaan
+    not_found: Geen resultaten
+    error:
+      no_edit: Je bent niet bevoegd om dit gebedsverzoek te wijzigen.
+      no_delete: Je bent niet bevoegd om dit gebedsverzoek te verwijderen.
+      no_post: Je kunt geen gebedsverzoek indienen bij deze groep omdat je geen groepslid
+        bent.
+    send_email: Verstuur als e-mail naar alle groepsleden.
+  printable_directories:
+    heading: Printen
+    already_sent: De ledenlijst is kort geleden nog verzonden. Controleer je email
+      (kijk voor de zekerheid ook eens in spam).
+    click_to_have_custom_pdf_via_email: Klik onderstaande knop om een geselecteerde
+      ledenlijst als PDF naar je mail te verzenden.
+    created_for: Aangemaakt voor %{name} op %{date}
+    email_custom_directory: Email mijn geselecteerde ledenlijst
+    include_family_pictures: voeg familie foto toe
+    not_allowed: Sorry maar het is niet toegestaan deze ledenlijst te printen.
+    were_are_building_custom_pdf: De PDF wordt gegenereerd. Dit kan enkele minuten
+      duren. Zodra de PDF klaar is wordt hij naar je gemaild. Voel je vrij ondertussen
+      verder van de site gebruik te maken.
+    will_take_longer: "(kan nog even duren)"
+    filename: 
+    finished: 
+    generate_custom_directory: 
+    generating: 
+    intro: 
+    pdf:
+      heading: 
+      cover_page_sub_heading: 
+      created_for: 
+  privacies:
+    tabs:
+      sharing: Delen
+      children: Kinderen
+    sharing:
+      intro_html: Je kunt hier de privacy instellingen beheren van je  familie. Onderdelen
+        die aan staan zijn zichtbaar voor alle andere leden die hier inloggen. Klik
+        hier<i class='fa fa-plus-circle'></i> om de privacy instellingen aan te passen
+        voor groepen. We gaan uiterst secuur om met persoonlijke informatie. Lees
+        hier <a href='%{url}'> de Privacy policy </a>.
+    children:
+      intro: Geef aan wie van uw kinderen toegang hebben tot de site.
+    scroll_notice: Scroll opzij om alle instellingen te bekijken.
+    activity: Activiteiten
+    address: Adres
+    agreement_saved: Overeenkomst opgeslagen.
+    anniversary: Jubileum
+    as_a_parent_agree_html: Ik, als ouder of verzorger van %{name}, verklaar hierbij
+      dat ik de <a href="%{url}">Privacy Policy</a> heb gelezen, dat alle persoonlijke
+      informatie van %{name} getoond kan worden aan andere leden van deze site (zoals
+      ingesteld in de privacy instellingen) en dat %{name} de site als lid kan gebruiken
+      (Inclusief profiel, communicatie, groepen en prive berichten)..
+    birthday: Verjaardag
+    child_profile_has_parental_consent: Dit kind heeft toestemming van %{name} om
+      het profiel te gebruiken.
+    child_under_age_you_have_not_consent: Deze persoon is jonger dan %{years} jaar
+      dient toestemming te krijgen van 2 ouders/verzorgers om het profiel te gebruiken.
+      Geef de persoon toestemming om de site te kunnen gebruiken.
+    click_the_agree: Klik op de 'ik ga akkoord' knop.
+    email: E-mail
+    family_hidden: Deze familie is verborgen voor alle pagina's op de site!
+    family_privacy: Familie
+    fax: Fax
+    group_privacy: Groep privacy
+    hide_your_activity: 'Verberg je activiteiten als niet je wilt dat dat leden en/of
+      groepsleden jou publieke berichten, notities of versen, ect. kunnen bekijken.
+      Opmerking: Prive berichten worden nooit weergeven tenzij anders aangegeven.'
+    home_phone: Telefoon
+    i_agree: Akkoord
+    mobile_phone: Mobiele telefoon
+    please_read_our_privacy_policy_html: Lees in het <a href="%{url}">Privacy beleid</a>  hoe
+      er wordt omgegaan met je persoonlijke informatie.
+    people_can_still_send_html: Het is mogelijk email te ontvangen van deze site,
+      zonder het email adres op internet te publiceren.
+    privacy: Privacy
+    read_privacy_policy_html: Lees ons <a href="%{url}">Privacy beleid</a>.
+    read_safeguarding_children_html: Leed onze pagina over <a href="%{url}">Minderjarigen
+      beschermen</a>.
+    read_statement_below: Lees de verklaring hieronder en ga ermee akkoord door het
+      vinkje aan te zetten.
+    saved: Instellingen opgeslagen.
+    sharing_with_html: Delen met <a href="%{url}">%{name}</a>
+    to_show_on_this_site: 'Om %{name} te tonen op deze site:'
+    visible: Zichtbaar
+    visible_note: Als een profiel onzichtbaar is zal het niet in ledenlijst zoekopdrachten
+      voorkomen. Het is nog steeds mogelijk lid van groepen te worden en email van
+      groepen en beheerders te ontvangen.
+    work_phone: Telefoon werk
+    you_may_share_items: 'Je kunt delen met de volgende leden/groepen:'
+    you_must_check_agreement_statement: Selecteer het vinkje om aan te geven dat je
+      akkoord gaat.
+  relationships:
+    heading: Relaties van %{person}
+    reciprocate:
+      button: Wederzijds
+      failure: Een wederzijdse relatie met %{name} kon niet automatisch gemaakt worden.
+    add_relationship:
+      intro: 'Voeg relatie toe:'
+      button: Relatie toevoegen
+    family:
+      create:
+        intro: Enkele relatie suggesties vind je hieronder. Maak nodige aanpassingen
+          en klik dan op Aanmaken.
+        button: Familie relaties aanmaken
+      heading: Familie relaties voor %{family}
+      button: Familie relaties
+    inward:
+      heading: Inkomende relaties
+    names:
+      aunt: Tante
+      brother: Broer
+      brother_in_law: Zwager
+      cousin: Neef/Nicht
+      daughter: Dochter
+      daughter_in_law: Schoondochter
+      father: Vader
+      father_in_law: Schoonvader
+      granddaughter: Kleindochter
+      grandfather: Grootvader
+      grandmother: Grootmoeder
+      grandson: Kleinzoon
+      husband: Man
+      mother: Moeder
+      mother_in_law: Schoonmoeder
+      nephew: Neef
+      niece: Nicht
+      other_name: Other
+      sister: Zus
+      sister_in_law: Schoonzus
+      son: Zoon
+      son_in_law: Schoonzoon
+      stepbrother: Stiefbroer
+      stepdaughter: Stiefdochter
+      stepfather: Stiefvader
+      stepmother: Stiefmoeder
+      stepsister: Stiefzus
+      stepson: Stiefzoon
+      uncle: Oom
+      wife: Vrouw
+    other_name:
+      placeholder: Relationship Type
+    no_person_selected: Geen persoon geselecteerd.
+    relationship: Relatie
+    relationship_type: 'Type:'
+    toggle_individual: Toon individuele relaties
+  reports:
+    custom_reports:
+      button:
+        add: 
+        edit: 
+        delete: 
+        show: 
+      index:
+        title: 
+        box_title: 
+      new:
+        title: 
+      edit:
+        title: 
+      show:
+        title: 
+      fields:
+        title: 
+        header: 
+        body: 
+        footer: 
+        filters: 
+        category:
+          people: 
+          groups: 
+          family: 
+      validation:
+        filters: 
+      create:
+        notice: 
+      destroy:
+        notice: 
+      update:
+        notice: 
+    from_date: 
+    group: 
+    group_select: 
+    name: 
+    records:
+      one: 
+      other: 
+    reports:
+      attendance_totals:
+        title: 
+        columns:
+          group: 
+          attended_at: 
+          count: 
+      group_contact_details:
+        title: 
+        title_for_group: 
+        columns:
+          first_name: 
+          last_name: 
+          email_address: 
+          mobile_phone: 
+          home_phone: 
+          address: 
+        address: 
+      weekly_attendance:
+        title: 
+        title_for_group: 
+        columns:
+          person_id: 
+          first_name: 
+          last_name: 
+          group: 
+          attended: 
+        attended:
+          'yes': 
+          'no': 
+    submit: 
+    thru_date: 
+    type: 
+  search:
+    column:
+      name: Naam
+      family: Familie
+      business: Bedrijf
+      category: Categorie
+      birthday: Verjaardag
+      testimony: Getuigenis
+    no_family: "(geen familie)"
+    form:
+      name: Zoeken op naam
+      advanced: Uitgebreid zoeken
+      birthday: Verjaardag
+      anniversary: Trouwdatum
+      gender: Geslacht
+      genders:
+        Male: Man
+        Female: Vrouw
+      city: Woonplaats
+      state: Provincie
+      zip: Postcode
+      phone: Telefoon
+      email: E-mail adres
+      type: Lidmaatschap
+      group_membership: Group Membership
+      in_group: includes
+      not_in_group: does not include
+      group_membership_text: Group with category
+      types:
+        member: Lid
+        staff: Staff
+        deacon: Diaken
+        elder: Oudste
+    results:
+      testimony_read_more: tonen
+    add_selected: Toevoegen
+    business_category: Business categorie
+    deacon: Diaken
+    elder: Oudste
+    female: Vrouw
+    heading: Ledenlijst %{name}
+    male: Man
+    member: Lid
+    results_not_shown: Niet alle resultaten worden getoond, geef een specifiekere
+      zoekopdracht.
+    not_showing_hidden_people: "(verborgen personen worden niet getoond)"
+    people_found:
+      one: 1 persoon gevonden
+      other: "%{count} personen gevonden"
+    search: Zoeken
+    search_by_name: Zoek op naam
+    show_hidden: Toon verborgen personen
+    staff: Werknemer
+    directory_map: Directory Map
+  session:
+    form:
+      header: Inloggen
+      placeholder:
+        email: E-mail adres
+        password: Wachtwoord
+      remember_me: Onthouden
+    account_not_activated_html: Je account is nog niet geactiveerd. <a href='/pages/help'>
+      Klik hier </a> voor uitleg.
+    email_found: Je e-mail adres is gevonden, verifieer deze zodat je kunt inloggen.
+    email_not_found: Je e-mail adres is niet gevonden. Probeer een ander e-mail adres.
+    forgot_password_button: Wachtwoord vergeten
+    password_doesnt_match: Het wachtwoord is onjuist. Probeer het opnieuw.
+    max_sign_in_attempts: |-
+      Sorry..
+      Je hebt meerdere keren een verkeerd wachtwoord opgegeven. Probeer het over 15 minuten nogmaals.
+    sign_in_button: Inloggen
+    sign_up_button: Account aanvragen
+    sign_out: UItloggen
+  setup:
+    admin_account: Admin account
+    complete_html: Yes! De basis is geconfigureerd. Ga nu naar de <a href='%{url}'>Admin
+      sectie</a> om de site verder aan te passen.
+    congratulations: Gefeliciteerd! Alles werkt. Nu is het tijd om een beheerder aan
+      te maken en wat instellingen te wijzigen...
+    do_right_away: Het beste is om dit meteen te doen, vooral als deze server via
+      internet beschikbaar is.
+    domain_name_note: 'Voer het domein van deze site in, zonder "www" ervoor. Zoals:
+      "voorbeeld.nl" of "leden.voorbeeld.nl"'
+    heading: Eerste Installatie
+    more_accounts_later: "(Er is later mogelijkheid meer beheerder accounts toe te
+      voegen.)"
+    domain_name: Domeinnaam
+    first_name: Voornaam
+    last_name: Achternaam
+    email: E-mail adres
+    password: Wachtwoord
+    password_confirmation: Wachtwoord bevestigen
+    submit_button_html: Wijzigingen opslaan
+  stream:
+    title: Home
+    sub_title: Tijdslijn
+    none: Er is nog niets om hier te tonen.
+    header:
+      noone: systeem
+      message: "%{who} heeft een bericht gestuurd naar %{group}"
+      news: "%{who} plaatste %{title}"
+      note: "%{who} plaatste een notitie"
+      person: "%{who} is lid geworden van de gemeenschap"
+      picture:
+        one: "%{who} heeft een afbeelding gedeeld uit %{album}"
+        other: "%{who} heeft afbeeldingen gedeeld uit %{album}"
+      picture_in_group:
+        one: "%{who} heeft een afbeelding gedeeld in de groep %{group}"
+        other: "%{who} heeft afbeeldingen gedeeld in de groep %{group}"
+      prayer_request: "%{who} heeft een gebedsverzoek ingediend in de groep %{group}"
+      site: "%{site}"
+      verse: "%{who} heeft een bijbeltekst gedeeld %{title}"
+    body:
+      picture:
+        alt: klik om te vergroten
+      person:
+        button: Verwelkom %{person}!
+      site:
+        description: Community site voor %{site} aangemaakt!
+      stream_item_group:
+        person:
+          description:
+            one: 1 more person was added...
+            other: "%{count} more people were added..."
+    footer:
+      button_label:
+        default: Read more
+        album: Toon alles
+        note: Lees meer
+        verse: Lees meer
+        stream_item_group: Show all
+        person: ''
+        site: ''
+    load_more: meer laden...
+    share:
+      heading:
+        friends: Delen met vrienden
+        everyone: Delen met alle leden
+      intro:
+        friends_and_group_members: Deel foto's, bijbelteksten of stuur een groepbericht
+          naar vrienden of groepsleden.
+        friends_only: Wat je hier deelt is zichtbaar voor vrienden.
+        group_members_only: Wat je hier deelt is zichtbaar voor groepsleden.
+        everyone: Deel een weetje, nieuws of een mededeling met de leden van jou kerk.
+      button:
+        note: notitie
+        picture: foto
+        verse: bijbeltekst
+        message: groep bericht
+        news: deel een nieuws bericht
+      sharing_with_html:
+        one: delen met <a href='%{url}'>1 persoon</a>
+        other: delen met <a href='%{url}'>%{count} personen</a>
+    people:
+      heading: Delen met vrienden
+      intro: Deze mensen zien wat je deelt op de site.
+      intro_none: Niemand om te tonen.
+      column:
+        name: Naam
+        family_name: Familienaam
+        reason: Reden
+      reason:
+        family_html: je <a href='%{url}'>familie</a>
+        friend_html: je <a href='%{url}'>vriend</a>
+        groups_html:
+          one: 'in deze groep met jou samen: %{groups}'
+          other: 'in deze groepen met jou samen: %{groups}'
+    feed: Nieuwsfeed
+  tags:
+    add_tags: Tags toevoegen (spatie gescheiden)
+    confirm_delete: Weet je zeker dat je deze tag wilt verwijderen?
+    no_tags_yet: nog geen tags
+    tag: Tag
+    tags: Tags
+  tasks:
+    index:
+      heading: Taken
+      group_heading: Taken voor %{group}
+      comment_count:
+        one: 1 reactie
+        other: "%{count} reacties"
+    new:
+      heading: Nieuwe taak
+      button: Nieuwe taak
+    edit:
+      heading: Wijzig taak
+    show:
+      heading: 'Taak: %{task}'
+      edit: Wijzig taak
+    heading: Taak
+    save: Taak opslaan
+    go_to_group: Ga naar groep
+    deleted: Taak verwijderd.
+    members: 
+  verses:
+    heading: Bijbelteksten
+    new:
+      heading: Zoek een bijbeltekst
+    about_tags: Tags kunnen bijbelteksten groeperen op onderwerp, auteur etc.
+    about_this_verse: Over deze bijbeltekst. Wat betekent deze tekst voor jou of wat
+      heeft het voor je betekend?
+    add_this_verse_to_my_list: Voeg deze bijbeltekst toe aan mijn lijst
+    add_verse: Bijbeltekst toevoegen
+    search_verse: Search Verse
+    add_your_favorite_verse: 'Favoriete bijbeltekst toevoegen:'
+    comment_count:
+      one: "<a href='%{url}'>1 reactie</a> by %{by}"
+      few: 
+      many: 
+      other: "<a href='%{url}'>1 reactie</a> by %{by}"
+    disclaimer: Bijbelteksten met 'WEB' komen uit de World English Bible, een vertaling
+      in modern engels gebaseerd op de American Standard Version van de Bijbel. 'WEB'
+      is in het publieke domein. Voel je vrij te kopieren en delen.
+    example_verse: Bijbelgedeelten zoals John 3:16 of Romans 12:1-2
+    intro: Deel je favoriete bijbeltekst met %{community}.
+    no_verses_yet: Geen resultaten.
+    not_found: Bijbeltekst niet gevonden. Heb je het goed ingevuld?
+    people_who_like_this_verse: Leden die deze bijbeltekst leuk vinden
+    remove_this_verse: Verwijder deze bijbeltekst van mijn lijst
+    saved_by_count:
+      one: opgeslagen door 1 lid
+      other: opgeslagen door %{count} leden
+    search:
+      error: Verse not found. Did you type the reference correctly?
+  'true': true

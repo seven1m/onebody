@@ -1,0 +1,2933 @@
+---
+af-ZA:
+  date:
+    day_names:
+    - Sondag
+    - Maandag
+    - Dinsdag
+    - Woensdag
+    - Donderdag
+    - Vrydag
+    - Saterdag
+    abbr_day_names:
+    - Son
+    - Maan
+    - Dins
+    - Woe
+    - Don
+    - Vry
+    - Sat
+    month_names:
+    - 
+    - Januarie
+    - Februarie
+    - Maart
+    - April
+    - Mai
+    - Junie
+    - Julie
+    - Augustus
+    - September
+    - Oktober
+    - November
+    - Desember
+    abbr_month_names:
+    - 
+    - Jan
+    - Feb
+    - Mar
+    - Apr
+    - Mei
+    - Jun
+    - Jul
+    - Aug
+    - Sep
+    - Okt
+    - Nov
+    - Des
+  time:
+    am: vm
+    pm: nm
+  number:
+    human:
+      storage_units:
+        units:
+          byte:
+            one: Byte
+            other: Bytes
+          kb: KB
+          mb: MB
+          gb: GB
+          tb: TB
+      decimal_units:
+        units:
+          thousand: duisend
+          million: miljoen
+          billion: miljard
+          trillion: biljoen
+          quadrillion: kwadriljon
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      inclusion: is nie by die lys ingesluit nie
+      exclusion: is bespreek
+      invalid: is ongeldig
+      confirmation: pas nie by bevestiging nie
+      accepted: moet aanvaar word
+      empty: mag nie leeg wees nie
+      blank: mag nie leeg wees nie
+      present: 
+      too_long:
+        one: is te lank (maksimum is 1 karakter)
+        other: is te lank (maksimum is %{count} karakters)
+      too_short:
+        one: is te kort (minimum is 1 karakter)
+        other: is te kort (minimum is %{count} karakters)
+      wrong_length:
+        one: is die verkeerde lengte (moet 1 karakter wees)
+        other: is die verkeerde lengte (moet %{count} karakters wees)
+      not_a_number: is nie n getal nie
+      not_an_integer: moet n integer wees
+      greater_than: moet meer wees as %{count}
+      greater_than_or_equal_to: moet meer of gelykstaande wees aan %{count}
+      equal_to: moet gelyk wees aan %{count}
+      less_than: moet minder wees as %{count}
+      less_than_or_equal_to: moet minder of gelykstaande wees aan %{count}
+      other_than: 
+      odd: moet onewe wees
+      even: moet gelykstaande wees
+      taken: is reeds geneem
+      in_between: 
+      spoofed_media_type: 
+      not_a_date: 
+      after: 
+      after_or_equal_to: 
+      before: 
+      before_or_equal_to: 
+      password:
+        password_strength: 
+  activerecord:
+    errors:
+      messages:
+        record_invalid: 
+        restrict_dependent_destroy:
+          one: 
+          many: 
+      models:
+        admin:
+          attributes:
+            template_name:
+              taken: 
+        album:
+          attributes:
+            name:
+              blank: 
+              taken: 
+            owner:
+              blank: 
+        attendance_record:
+          attributes:
+            attended_at:
+              blank: 
+            group_id:
+              blank: 
+        checkin_label:
+          attributes:
+            name:
+              blank: 
+            xml:
+              blank: 
+        checkin_time:
+          attributes:
+            campus:
+              blank: 
+              exclusion: 
+        document:
+          attributes:
+            file:
+              blank: 
+            name:
+              blank: 
+              too_long: 
+            description:
+              too_long: 
+        document_folder:
+          attributes:
+            name:
+              blank: 
+              too_long: 
+            description:
+              too_long: 
+            folder_id:
+              invalid: 
+            parent_folder_ids:
+              too_long: 
+        custom_report:
+          attributes:
+            title:
+              blank: 
+              too_long: 
+            body:
+              blank: 
+            filters:
+              invalid: 
+            category:
+              inclusion: 
+        family:
+          attributes:
+            name:
+              blank: 
+            last_name:
+              blank: 
+            alternate_barcode_id:
+              invalid: 
+              taken: 
+              too_long: 
+              too_short: 
+            barcode_id:
+              invalid: 
+              taken: 
+              too_long: 
+              too_short: 
+            photo:
+              too_large: 
+              wrong_type: 
+            country:
+              wrong_length: 
+        friendship:
+          attributes:
+            friend_id:
+              blank: 
+              taken: 
+            person_id:
+              blank: 
+        friendship_request:
+          attributes:
+            from_id:
+              blank: 
+            person:
+              invalid_address: 
+              refused: 
+            person_id:
+              blank: 
+              taken: 
+        group:
+          attributes:
+            address:
+              invalid: 
+              taken: 
+              too_long: 
+              too_short: 
+            attendance:
+              invalid: 
+            category:
+              blank: 
+            name:
+              blank: 
+              taken: 
+            parents_of:
+              points_to_self: 
+            photo:
+              too_large: 
+              wrong_type: 
+        membership:
+          attributes:
+            group_id:
+              taken: 
+        membership_request:
+          attributes:
+            group_id:
+              taken: 
+        message:
+          attributes:
+            base:
+              taken: 
+            body:
+              blank: 
+              too_short: 
+            person_id:
+              blank: 
+            subject:
+              blank: 
+              too_short: 
+            to_person_id:
+              invalid: 
+        news_item:
+          attributes:
+            title:
+              blank: 
+            body:
+              blank: 
+        note:
+          attributes:
+            body:
+              blank: 
+        page:
+          attributes:
+            body:
+              blank: 
+            path:
+              taken: 
+            slug:
+              blank: 
+              exclusion: 
+              invalid: 
+            title:
+              blank: 
+        person:
+          attributes:
+            alternate_email:
+              invalid: 
+              taken: 
+            anniversary:
+              not_a_date: 
+            birthday:
+              not_a_date: 
+            business_email:
+              invalid: 
+            business_website:
+              invalid: 
+            business_category:
+              exclusion: 
+            child:
+              inclusion: 
+            description:
+              too_long: 
+            email:
+              invalid: 
+              taken: 
+            facebook_url:
+              invalid: 
+            feed_code:
+              taken: 
+            first_name:
+              blank: 
+            gender:
+              inclusion: 
+            last_name:
+              blank: 
+            password:
+              confirmation: 
+              too_short: 
+            photo:
+              too_large: 
+              wrong_type: 
+            twitter:
+              invalid: 
+              too_long: 
+            website:
+              invalid: 
+        picture:
+          attributes:
+            album_id:
+              blank: 
+            photo:
+              too_large: 
+              wrong_type: 
+        picture_uploader:
+          attributes:
+            album:
+              blank: 
+        prayer_request:
+          attributes:
+            group_id:
+              blank: 
+            person_id:
+              blank: 
+            request:
+              blank: 
+        recipe:
+          attributes:
+            directions:
+              blank: 
+            ingredients:
+              blank: 
+            title:
+              blank: 
+        relationship:
+          attributes:
+            name:
+              blank: 
+              inclusion: 
+              taken: 
+            other_name:
+              blank: 
+              taken: 
+            person:
+              blank: 
+            related:
+              blank: 
+        report:
+          attributes:
+            definition:
+              invalid: 
+            name:
+              blank: 
+              taken: 
+        site:
+          attributes:
+            host:
+              blank: 
+              taken: 
+              invalid: 
+            name:
+              blank: 
+              taken: 
+        tag:
+          attributes:
+            name:
+              blank: 
+              exclusion: 
+              taken: 
+        verification:
+          attributes:
+            email:
+              invalid: 
+            carrier:
+              inclusion: 
+            mobile_phone:
+              invalid: 
+            base:
+              unauthorized: 
+        verse:
+          attributes:
+            reference:
+              blank: 
+            text:
+              blank: 
+              too_long: 
+        custom_field:
+          attributes:
+            name:
+              blank: 
+            format:
+              inclusion: 
+    attributes:
+      album:
+        name: 
+        description: 
+      checkin_label:
+        name: 
+        description: 
+        xml: 
+        xml_file: 
+      document:
+        name: 
+        description: 
+        file: 
+        files: 
+        folder_id: 
+      document_folder:
+        name: 
+        description: 
+        folder_id: 
+        hidden: 
+        groups: 
+      family:
+        address1: 
+        address2: 
+        city: 
+        country: 
+        home_phone: 
+        last_name: 
+        name: 
+        state: 
+        zip: 
+      person:
+        anniversary: 
+        alias: 
+        birthday: 
+        custom_type: 
+        email: 
+        facebook_url: 
+        fax: 
+        first_name: 
+        gender: 
+        last_name: 
+        mobile_phone: 
+        primary_emailer: 
+        status: 
+        suffix: 
+        twitter: 
+        work_phone: 
+      group:
+        name: 
+        category: 
+        description: 
+        other_notes: 
+        leader_id: 
+        creator: 
+        meets: 
+        location: 
+        direction: 
+        email: 
+        prayer: 
+        pictures: 
+        attendance: 
+        gcal_private_link: 
+        approval_required_to_join: 
+        private: 
+        members_send: 
+        membership_mode: 
+        link_code: 
+        parents_of: 
+        hidden: 
+        has_tasks: 
+      note:
+        title: 
+        body: 
+      prayer_request:
+        answer: 
+        answered_at: 
+        person_id: 
+        request: 
+      task:
+        name: 
+        description: 
+        person: 
+        person_id: 
+        duedate: 
+        completed: 
+      custom_field:
+        name: 
+        format: 
+  datetime:
+    distance_in_words:
+      half_a_minute: halfminuut
+      less_than_x_seconds:
+        one: minder as 1 second
+        other: minder as %{count} sekondes
+      x_seconds:
+        one: 1 sekonde
+        other: "%{count} sekondes"
+      less_than_x_minutes:
+        one: minder as n minuut
+        other: minder as %{count} minute
+      x_minutes:
+        one: 1 minuut
+        other: "%{count} minute"
+      about_x_hours:
+        one: ongeveer 1 uur
+        other: ongeveer %{count} ure
+      x_days:
+        one: 1 dag
+        other: "%{count} days"
+      about_x_months:
+        one: ongeveer 1 maand
+        other: ongeveer %{count} maande
+      x_months:
+        one: 1 maand
+        other: "%{count} maande"
+      about_x_years:
+        one: ongeveer 1 jaar
+        other: ongeveer %{count} jaar
+      over_x_years:
+        one: meer as 1 jaar
+        other: meer as %{count} jaar
+      almost_x_years:
+        one: sowat 1 jaar
+        other: sowat %{count} jaar
+    prompts:
+      year: Jaar
+      month: Maand
+      day: Dag
+      hour: Uur
+      minute: Minuut
+      second: Sekondes
+  helpers:
+    select:
+      prompt: Kies asseblief
+    submit:
+      create: Skep %{model}
+      update: Dateer %{model} op
+      submit: Stoor %{model}
+  flash:
+    actions:
+      create:
+        notice: 
+      update:
+        notice: 
+      destroy:
+        notice: 
+        alert: 
+  will_paginate:
+    previous_label: 
+    next_label: 
+    page_gap: 
+    page_entries_info:
+      single_page:
+        zero: 
+        one: 
+        other: 
+      single_page_html:
+        zero: 
+        one: 
+        other: 
+      multi_page: 
+      multi_page_html: 
+  accounts:
+    create:
+      heading: 
+      button: 
+      existing_account:
+        by_email: 
+        by_mobile: 
+    forgot:
+      heading: 
+    verification:
+      not_pending: 
+      email:
+        via_admin: 
+    birthday: 
+    call_office: 
+    call_office_message: 
+    check_code: 
+    description: 
+    enter_code: 
+    enter_your_email: 
+    fill_required_fields: 
+    gender: 
+    I_am_this_person: 
+    email_address: 
+    first_name: 
+    last_name: 
+    leave_blank: 
+    must_set_email_pass: 
+    password: 
+    password_confirm: 
+    pending_approval: 
+    please_select_your_name: 
+    select_your_carrier: 
+    set_your_email: 
+    set_your_email_may_be_different: 
+    this_site_doesnt_allow_signup: 
+    type_your_email: 
+    type_your_mobile: 
+    verification_email_sent: 
+    verification_max_attempts_reached: 
+    verification_message_sent: 
+    verify: 
+    verify_email: 
+    verify_code_intro: 
+    verify_by_email: 
+    verify_by_email_message: 
+    verify_by_phone: 
+    verify_by_phone_description_html: 
+    verify_by_phone_message: 
+    verify_mobile: 
+    verify_who_you_are: 
+    wrong_code_html: 
+  admin:
+    actionables:
+      heading: 
+    administration:
+      heading: 
+    attendance:
+      heading: 
+      button: 
+      add_group:
+        button: 
+        search:
+          heading: 
+      groups_list:
+        update:
+          button: 
+    box:
+      updates:
+        text:
+          one: 
+          other: 
+      changed_emails:
+        text:
+          one: 
+          other: 
+      import_errors:
+        text:
+          one: 
+          other: 
+      groups_pending_approval:
+        text:
+          one: 
+          other: 
+      membership_requests:
+        text:
+          one: 
+          other: 
+      deleted_people:
+        text:
+          one: 
+          other: 
+    charts:
+      no_data: 
+    checkin:
+      heading: 
+      cards_assigned: 
+      dashboard_button: 
+      button: 
+    dashboard:
+      heading: 
+      sub_title: 
+      version_alert:
+        intro_html: 
+        download_button: 
+        heading: 
+      email_config_alert:
+        intro_html: 
+        button: 
+        heading: 
+        intro: 
+      tls_config_alert:
+        heading: 
+        intro: 
+        email_setup_note: 
+        proxy_missing_protocol_header_note_html: 
+        button: 
+    deleted_people:
+      tabs:
+        people: 
+        families: 
+      family_deleted: 
+      heading: 
+      empty_families:
+        intro: 
+        delete:
+          button: 
+        none: 
+      none: 
+      purge:
+        button: 
+      purge_family_when_empty: 
+      search_results:
+        intro: 
+      undelete:
+        button: 
+    facebook:
+      heading: 
+      intro_html: 
+    gatherings:
+      heading: 
+    membership_requests:
+      count:
+        one: 
+        other: 
+    pusher:
+      heading: 
+      intro_html: 
+    report:
+      back: 
+      button: 
+      heading: 
+      intro: 
+      launch: 
+      list: 
+      title: 
+    active: 
+    admin_added: 
+    admin_count:
+      one: 
+      other: 
+    admin_removed: 
+    admin_template_description: 
+    admins:
+      heading: 
+      intro: 
+      button: 
+    add_individual: 
+    add_person: 
+    add_selected: 
+    add_template: 
+    already_admin: 
+    api: 
+    api_login_details: 
+    customization:
+      heading: 
+      intro: 
+    display: 
+    enable: 
+    enable_api_confirmation: 
+    emails:
+      intro_html: 
+      changed_addresses: 
+      clear_flags: 
+      no_records: 
+      table:
+        id: 
+        legacy_id: 
+        first_name: 
+        last_name: 
+        email: 
+    generate: 
+    group_administrators: 
+    group_administrators_description: 
+    group_administrators_help: 
+    group_membership_requests: 
+    import_export: 
+    invalidate_confirmation: 
+    key: 
+    manage_group_administrators: 
+    must_be_superadmin: 
+    new_admin_template: 
+    new_api_or: 
+    no_api_key: 
+    no_more_admins: 
+    pages: 
+    privileges:
+      view_hidden_profiles:
+        title: 
+        about: 
+      view_hidden_properties:
+        title: 
+        about: 
+      edit_profiles:
+        title: 
+        about: 
+      manage_access:
+        title: 
+        about: 
+      manage_attendance:
+        title: 
+        about: 
+      manage_comments:
+        title: 
+        about: 
+      manage_groups:
+        title: 
+        about: 
+      manage_news:
+        title: 
+        about: 
+      manage_pictures:
+        title: 
+        about: 
+      manage_updates:
+        title: 
+        about: 
+      manage_sync:
+        title: 
+        about: 
+      import_data:
+        title: 
+        about: 
+      export_data:
+        title: 
+        about: 
+      assign_checkin_cards:
+        title: 
+        about: 
+        order: 
+      manage_checkin:
+        title: 
+        about: 
+        order: 
+      manage_documents:
+        title: 
+        about: 
+      run_reports:
+        title: 
+        about: 
+      manage_reports:
+        title: 
+        about: 
+    rest_api_information: 
+    settings:
+      heading: 
+      Contact:
+        Tech Support Email:
+          name: 
+          description: 
+        Community Address:
+          name: 
+          description: 
+        Community Office Phone:
+          name: 
+          description: 
+        Community Email:
+          name: 
+          description: 
+        Bug Notification Email:
+          name: 
+          description: 
+        Send Email Changes To:
+          name: 
+          description: 
+        Send Updates To:
+          name: 
+          description: 
+        Send Attendance Submissions To:
+          name: 
+          description: 
+      Pusher:
+        App ID:
+          name: 
+          description: 
+        App Key:
+          name: 
+          description: 
+        Secret:
+          name: 
+          description: 
+        API Scheme:
+          name: 
+        API Host:
+          name: 
+        API Port:
+          name: 
+        WS Host:
+          name: 
+        WS Port:
+          name: 
+        WSS Port:
+          name: 
+      Services:
+        Yahoo:
+          name: 
+          description: 
+        Analytics:
+          name: 
+          description: 
+      Name:
+        Community:
+          name: 
+          description: 
+        Site:
+          name: 
+          description: 
+      URL:
+        News Feed:
+          name: 
+          description: 
+        Visitor:
+          name: 
+          description: 
+      System:
+        Suffixes:
+          name: 
+          description: 
+        Adult Age:
+          name: 
+          description: 
+        Language:
+          name: 
+          description: 
+        Time Zone:
+          name: 
+          description: 
+        Default Country:
+          name: 
+          description: 
+        Map Zoom Level:
+          name: 
+          description: 
+        Bible Translation:
+          name: 
+          description: 
+      Appearance:
+        Public Theme:
+          name: 
+          description: 
+        Theme:
+          name: 
+          description: 
+          options:
+            skin-blue: 
+            skin-blue-light: 
+            skin-yellow: 
+            skin-yellow-light: 
+            skin-green: 
+            skin-green-light: 
+            skin-purple: 
+            skin-purple-light: 
+            skin-red: 
+            skin-red-light: 
+            skin-black: 
+            skin-black-light: 
+        Show Subheading:
+          name: 
+          description: 
+        Info Tab First:
+          name: 
+          description: 
+      Formats:
+        Full Date and Time:
+          name: 
+          description: 
+        Time:
+          name: 
+          description: 
+        Date:
+          name: 
+          description: 
+        Phone:
+          name: 
+          description: 
+        Date Without Year:
+          name: 
+          description: 
+        Mobile Phone:
+          name: 
+          description: 
+      Features:
+        Custom Person Type:
+          name: 
+          description: 
+        Community Google Calendar:
+          name: 
+          description: 
+        Updates Must Be Approved:
+          name: 
+          description: 
+        Notify on Photo Change:
+          name: 
+          description: 
+        Sign Up:
+          name: 
+          description: 
+        SSL:
+          name: 
+          description: 
+        Notes:
+          name: 
+          description: 
+        Pictures:
+          name: 
+          description: 
+        Banner Message:
+          name: 
+          description: 
+        Multisite:
+          name: 
+          description: 
+        Groups:
+          name: 
+          description: 
+        News by Users:
+          name: 
+          description: 
+        Custom Person Fields:
+          name: 
+          description: 
+        Edit Legacy Ids:
+          name: 
+          description: 
+        Sign Up Approval Email:
+          name: 
+          description: 
+        Friends:
+          name: 
+          description: 
+        Sidebar Group Heading:
+          name: 
+          description: 
+        Reporting:
+          name: 
+          description: 
+        Sidebar Group Category:
+          name: 
+          description: 
+        Content Management System:
+          name: 
+          description: 
+        News Page:
+          name: 
+          description: 
+        Verses:
+          name: 
+          description: 
+        Recipes:
+          name: 
+          description: 
+        Service:
+          name: 
+          description: 
+        Checkin:
+          name: 
+          description: 
+        Documents:
+          name: 
+          description: 
+        Business Directory:
+          name: 
+          description: 
+        Small Group Size:
+          name: 
+          description: 
+        Stream:
+          name: 
+          description: 
+      Privacy:
+        Hide Contact Details in Messages:
+          name: 
+          description: 
+        Share Anniversary by Default:
+          name: 
+          description: 
+        Share Email by Default:
+          name: 
+          description: 
+        Allow Unencrypted Logins:
+          name: 
+          description: 
+        Share Home Phone by Default:
+          name: 
+          description: 
+        Allow Picture Comments:
+          name: 
+          description: 
+        Share Work Phone by Default:
+          name: 
+          description: 
+        Share Fax by Default:
+          name: 
+          description: 
+        Max Sign in Attempts:
+          name: 
+          description: 
+        Share Mobile Phone by Default:
+          name: 
+          description: 
+        Share Address by Default:
+          name: 
+          description: 
+        Share Birthday by Default:
+          name: 
+          description: 
+      host:
+        name: 
+        description: 
+      Email:
+        Host:
+          name: 
+          description: 
+      contact_automated_email_about: 
+      contact_community_info_about: 
+      contact_heading: 
+      disabled: 
+      enabled: 
+      features_heading: 
+      formats_heading: 
+      formats_date_about_html: 
+      formats_phone_about: 
+      locale_heading: 
+      mailgun: 
+      mailgun_message: 
+      membership_management_heading: 
+      name_heading: 
+      one_per_line: 
+      privacy_defaults: 
+      privacy_defaults_about: 
+      privacy_heading: 
+      reload: 
+      reload_message: 
+      save: 
+      services_heading: 
+      theme_heading: 
+      settings: 
+      sharing_about: 
+      sharing_communications_about: 
+      sharing_heading: 
+      small_group_sharing:
+        disable: 
+        all: 
+    super_admin: 
+    super_admin_about: 
+    template: 
+    templates: 
+    updates:
+      apply: 
+      child: 
+      child_alert: 
+      diff:
+        person: 
+        property: 
+        before: 
+        after: 
+        created_at: 
+      mark_complete: 
+      mark_incomplete: 
+      person_deleted: 
+      profile_updates: 
+      toggle:
+        pending: 
+        complete: 
+      updated: 
+    username: 
+    your_key: 
+    custom_fields:
+      button: 
+      heading: 
+      intro: 
+      new:
+        heading: 
+      edit:
+        heading: 
+      formats:
+        string: 
+        number: 
+        boolean: 
+        date: 
+  albums:
+    index:
+      heading: 
+    table:
+      name: 
+      picture_count: 
+      created_at: 
+    new:
+      heading: 
+      button: 
+    edit:
+      heading: 
+      button: 
+    delete:
+      button: 
+    sharing:
+      heading: 
+    none: 
+    is_public:
+      enabled: 
+      disabled_group: 
+      disabled_profile: 
+    cannot_add_pictures_to_group: 
+    click_to_view: 
+    description: 
+    edit_picture: 
+    save: 
+    saved: 
+  attachments:
+    heading: 
+    new:
+      button: 
+    deleted: 
+    file: 
+    file_deleted: 
+    file_not_found: 
+    not_found: 
+    saved: 
+    unknown_type: 
+    upload_attachment: 
+    upload_file: 
+  attendance:
+    heading_html: 
+    heading_without_group: 
+    heading_without_date: 
+    medical_notes: 
+    can_pickup_people: 
+    cannot_pickup_people: 
+    share:
+      heading: 
+      intro_html: 
+      button: 
+    add:
+      heading: 
+      intro: 
+      footer_html: 
+    add_visitor: 
+    adult: 
+    attendance: 
+    class_time: 
+    clear_search: 
+    date: 
+    export: 
+    email:
+      subject: 
+      intro_with_submitter: 
+      intro_anonymous: 
+      notes: 
+    group: 
+    group_missing: 
+    id: 
+    name: 
+    name_unknown: 
+    next_date: 
+    no_records: 
+    not_enabled: 
+    notes:
+      label: 
+      help: 
+    order_by_last: 
+    prev_date: 
+    recorded_time: 
+    records:
+      one: 
+      other: 
+    save: 
+    saved: 
+    submit_notes: 
+    Search: 
+    search_person: 
+    wrong_date_format: 
+  checkin:
+    heading: 
+    search:
+      label: 
+      button: 
+      clear: 
+      none_found: 
+    add_family:
+      button: 
+    attendance:
+      button: 
+    setup:
+      heading: 
+    assigned_cards:
+      button: 
+    scan:
+      unknown_card: 
+    cards:
+      heading: 
+      table:
+        id: 
+        legacy_id: 
+        family: 
+        barcode: 
+        assigned_at: 
+      export:
+        button: 
+      none: 
+    groups:
+      movement_help_html: 
+      heading: 
+      index:
+        heading: 
+        add_folder:
+          button: 
+          heading: 
+          name: 
+        add_group:
+          heading: 
+          search: 
+          select_folder:
+            label: 
+            none: 
+          button: 
+        table:
+          name: 
+          label_id: 
+          print_extra_nametag: 
+          section: 
+      section:
+        new: 
+      table:
+        group: 
+    labels:
+      button: 
+      edit:
+        heading: 
+      delete:
+        notice: 
+      heading: 
+      new:
+        button: 
+        heading: 
+      table:
+        name: 
+        description: 
+        updated_at: 
+    times:
+      button: 
+      heading: 
+      intro: 
+      table:
+        time: 
+        campus: 
+        groups:
+          heading: 
+          count:
+            one: 
+            other: 
+      edit:
+        button: 
+        campus:
+          new: 
+        delete:
+          button: 
+        heading: 
+        save:
+          button: 
+      groups:
+        button: 
+      recurring:
+        heading: 
+        new:
+          button: 
+        weekday: 
+        time: 
+        campus: 
+        add:
+          button: 
+      single:
+        heading: 
+        new:
+          button: 
+        datetime: 
+        campus: 
+        add:
+          button: 
+    family:
+      new:
+        heading: 
+        first_name: 
+        last_name: 
+        birthday: 
+        medical_notes: 
+        parents: 
+        children: 
+        barcode: 
+        ignore_spelling_errors: 
+        save: 
+        cancel: 
+        success:
+          heading: 
+          return: 
+          view: 
+          barcode: 
+          not_checked_in: 
+      saved: 
+      errors: 
+      error:
+        no_birthdays: 
+        no_people: 
+        no_parents: 
+        no_barcode: 
+    interface:
+      add_guest:
+        heading: 
+        intro: 
+        button: 
+        save: 
+      barcode:
+        placeholder: 
+      cancel:
+        button: 
+      heading: 
+      not_attending: 
+      print:
+        heading: 
+        button: 
+      run_setup:
+        intro: 
+        button: 
+      same_as_last_week:
+        button: 
+  comments:
+    add_a_comment: 
+    deleted: 
+    none_yet: 
+    not_authorized: 
+    object_not_found: 
+    save: 
+    saved: 
+  administration:
+    deleted_people:
+      index:
+        table:
+          id: 
+          legacy_id: 
+          last_name: 
+          first_name: 
+          family_id: 
+          legacy_family_id: 
+          family_name: 
+          family_deleted: 
+          family_not_found: 
+          updated_at: 
+    imports:
+      new:
+        browse:
+          button: 
+        form:
+          submit: 
+        heading: 
+        people:
+          heading: 
+      created: 
+      edit:
+        form:
+          create_as_active: 
+          dont_preview: 
+          match_strategy: 
+          overwrite_changed_emails_html: 
+        table:
+          attribute: 
+          column: 
+          example: 
+        delete:
+          button: 
+        save:
+          button: 
+      errored:
+        message: 
+        new:
+          button: 
+      index:
+        table:
+          filename: 
+          created_at: 
+          errored: 
+          person: 
+          rows: 
+          status: 
+      match_strategies:
+        by_id_only: 
+        by_name: 
+        by_contact_info: 
+        by_name_or_contact_info: 
+      matched_by:
+        default: 
+        matched_person_by_id: 
+        matched_person_by_legacy_id: 
+        matched_person_by_name: 
+        matched_person_by_contact_info: 
+        matched_family_by_id: 
+        matched_family_by_legacy_id: 
+        matched_family_by_name: 
+        matched_family_by_contact_info: 
+      parsing:
+        message: 
+      show:
+        create_as_active:
+          'true': 
+          'false': 
+        match_strategies:
+          by_id_only: 
+          by_name: 
+          by_contact_info: 
+          by_name_or_contact_info: 
+        stats:
+          heading: 
+        table:
+          completed_at: 
+          create_as_active: 
+          created_at: 
+          creates: 
+          errored: 
+          families: 
+          family_id: 
+          family_matched: 
+          family_name: 
+          family_status: 
+          filename: 
+          match_strategy: 
+          new: 
+          no_change: 
+          people: 
+          person: 
+          person_first_name: 
+          person_id: 
+          person_last_name: 
+          person_matched: 
+          person_status: 
+          rows: 
+          updates: 
+        edit:
+          button: 
+        execute:
+          button: 
+        delete:
+          button: 
+        errors_table:
+          name: 
+          value: 
+          error: 
+          blank_value: 
+      status:
+        pending: 
+        parsing: 
+        parsed: 
+        previewing: 
+        previewed: 
+        active: 
+        complete: 
+        errored: 
+      status_heading: 
+      unchanged: 
+      updated: 
+    email_setups:
+      show:
+        heading: 
+        intro_html: 
+        reconfigure:
+          button: 
+      new:
+        heading: 
+        config_options:
+          mailgun: 
+          manual: 
+        mailgun:
+          heading: 
+          intro_html: 
+          secret_api_key: 
+          submit: 
+        manual:
+          heading: 
+          intro_html: 
+      edit:
+        heading: 
+        domain:
+          intro: 
+          label: 
+        domain_missing:
+          heading: 
+          message_html: 
+        submit: 
+        success: 
+        failure: 
+  documents:
+    index:
+      heading: 
+      intro: 
+      table:
+        name: 
+        description: 
+        updated_at: 
+        size: 
+        item_count: 
+      edit_folder:
+        button: 
+      delete_folder:
+        button: 
+      new_folder:
+        button: 
+      new_document:
+        button: 
+      hidden_folders:
+        label:
+          one: 
+          other: 
+      restricted_folders:
+        label:
+          one: 
+          other: 
+      no_file: 
+    show:
+      table:
+        filename: 
+        content_type: 
+        size: 
+        updated_at: 
+      download:
+        button: 
+      edit:
+        button: 
+      delete:
+        button: 
+    new:
+      heading: 
+      select:
+        button: 
+    new_folder:
+      heading: 
+    create:
+      notice:
+        one: 
+        other: 
+      failure:
+        one: 
+        other: 
+    create_folder:
+      notice: 
+    edit:
+      heading: 
+    edit_folder:
+      heading: 
+    update:
+      notice: 
+    update_folder:
+      notice: 
+    delete:
+      notice: 
+    delete_folder:
+      confirmation: 
+      notice: 
+    hidden_folder:
+      alert: 
+      tooltip: 
+    hidden_folder_due_to_parent:
+      alert: 
+    hidden_document:
+      alert: 
+      tooltip: 
+    hidden_document_due_to_parent:
+      alert: 
+    groups:
+      add:
+        heading: 
+        search_button: 
+        add_button: 
+      link: 
+    restricted_folder:
+      alert_html: 
+      tooltip: 
+    restricted_document:
+      alert_html: 
+      tooltip: 
+  emails:
+    mailgun:
+      api_key: 
+      heading: 
+      intro_html: 
+      route_found: 
+      route_created: 
+      apikey_notfound: 
+      route_error: 
+      submit:
+        button: 
+  families:
+    add:
+      new: 
+      existing: 
+    new:
+      heading: 
+      created:
+        notice: 
+    edit:
+      heading: 
+      name_example_html: 
+      name_suggestion_html: 
+      name_suggestion_button: 
+      city_st_zip: 
+      photo: 
+      save: 
+      saved: 
+    delete:
+      button: 
+      cannot_delete_your_own: 
+    show:
+      heading: 
+      edit_link: 
+      suggested_name_html:
+        one: 
+        other: 
+      table:
+        home_phone: 
+        address: 
+        map: 
+        anniversary: 
+    name:
+      same_last_name: 
+      different_last_names: 
+    not_found: 
+    updates:
+      pending_callout: 
+  friends:
+    index:
+      nobody_yet: 
+    accept: 
+    add_friend_are_you_sure: 
+    add_to_friends: 
+    add_to_friends_pending: 
+    decline: 
+    friends: 
+    pending_requests: 
+    people_requested: 
+    personal_friends: 
+    remove_from_friends: 
+    request_sent: 
+    search_in_the_directory: 
+    you_have_pending_requests: 
+    friends_list_button: 
+  Changes_saved: 
+  Delete: 
+  From: 
+  Help: 
+  No_action_to_show: 
+  No_more_records: 
+  Page_no_longer_valid: 
+  There_was_an_error: 
+  There_were_errors: 
+  To: 
+  are_you_sure: 
+  by: 
+  changes_saved: 
+  click_here: 
+  Comments: 
+  delete: 
+  edit: 
+  feature_unavailable: 
+  for: 
+  multiple_files: 
+  name: 
+  new: 
+  none: 
+  not_authorized: 
+  only_admins: 
+  person: 
+  phone: 
+  req_notes: 
+  save: 
+  saving: 
+  save_changes: 
+  show_all: 
+  submit_changes: 
+  you_made_a_change_page: 
+  date_format:
+    DD: 
+    MM: 
+    YYYY: 
+  activemodel:
+    errors:
+      models:
+        signup:
+          attributes:
+            base:
+              disabled: 
+              spam: 
+            first_name:
+              blank: 
+            last_name:
+              blank: 
+            email:
+              blank: 
+            gender:
+              blank: 
+            birthday:
+              blank: 
+              too_young: 
+            mobile_phone:
+              blank: 
+  application:
+    api_access: 
+    no_default_site: 
+    no_site_configured: 
+    settings_reloaded: 
+    settings_saved: 
+    template_created: 
+  people_count:
+    one: 
+    other: 
+  footer:
+    help: 
+    privacy_policy: 
+    powered_by: 
+    churchio_onebody: 
+  generated_files:
+    building: 
+    complete_heading: 
+    complete_message: 
+    failure_heading: 
+    failure_message: 
+  groups:
+    heading: 
+    new_list:
+      heading: 
+    created: 
+    created_pending_approval: 
+    saved: 
+    deleted: 
+    delete:
+      heading: 
+      intro: 
+      button: 
+    hide:
+      heading: 
+      intro: 
+      button: 
+      unhide_button: 
+    your_groups: 
+    groups_of:
+      s: 
+      no_s: 
+    hidden:
+      callout: 
+      label: 
+    hidden_groups:
+      heading: 
+      description: 
+    linked_group: 
+    private:
+      callout: 
+      label: 
+    email_off: 
+    email_on: 
+    browse:
+      heading: 
+      select_category: 
+      all: 
+    create:
+      heading: 
+      description: 
+      button: 
+    show:
+      details:
+        created_at: 
+        created_by: 
+        leader:
+          one: 
+          other: 
+        admins: 
+        meets: 
+        location: 
+        directions: 
+        member_count_label: 
+        member_count:
+          one: 
+          other: 
+        birthdays_this_month_html:
+          one: 
+          other: 
+        attachments: 
+        attachment_count:
+          one: 
+          other: 
+        attendance:
+          button: 
+        admin: 
+      controls:
+        join: 
+        join_pending: 
+        leave: 
+        message: 
+        prayer_request: 
+      linked:
+        tooltip: 
+      parents_of:
+        tooltip: 
+    stream:
+      none:
+        heading: 
+        message: 
+    new:
+      heading: 
+    edit:
+      heading: 
+      required_field: 
+      tabs:
+        details: 
+        meets: 
+        features: 
+        security: 
+        advanced: 
+      advanced:
+        description: 
+        membership_mode:
+          options:
+            manual: 
+            link_code: 
+            parents_of: 
+            adults: 
+      files:
+        description: 
+        delete_button: 
+      meets:
+        help: 
+      location:
+        help: 
+      directions:
+        help: 
+      address:
+        help: 
+      calendar:
+        help: 
+      category:
+        new: 
+        help: 
+      description:
+        help: 
+      approval_required_to_join:
+        help: 
+      private_group:
+        help: 
+      members_send:
+        help: 
+      attendance_disabled:
+        help: 
+      class_link_code:
+        help_html: 
+      parents_of:
+        help_html: 
+      enable_calendar: 
+    table:
+      group_name: 
+      leader: 
+      member_count: 
+      email_enabled: 
+    search:
+      heading: 
+      results_heading: 
+      name_placeholder: 
+      submit: 
+    batch:
+      heading: 
+      category: 
+      name: 
+      address: 
+      members_send: 
+      private: 
+      hidden: 
+      class_link_code: 
+      approval_required_to_join: 
+      errors: 
+    files:
+      heading:
+        name: 
+        size: 
+        created_at: 
+    pending_approval:
+      this_group: 
+      description:
+        one: 
+        other: 
+      count:
+        one: 
+        other: 
+    approve:
+      button: 
+    membership_requests:
+      count:
+        one: 
+        other: 
+    not_found: 
+    no_groups_found: 
+    join:
+      confirm: 
+      request_sent: 
+    last_admin_remove: 
+    user_settings_saved: 
+    email_settings_changed: 
+    limited:
+      intro: 
+    box:
+      messages:
+        text:
+          one: 
+          other: 
+        new_link: 
+      prayer_requests:
+        text:
+          one: 
+          other: 
+        new_link: 
+      pictures:
+        text:
+          one: 
+          other: 
+        new_link: 
+      tasks:
+        text:
+          one: 
+          other: 
+        new_link: 
+    show_hidden:
+      button: 
+  import:
+    changes:
+      count:
+        one: 
+        other: 
+      show_button: 
+    results:
+      name: 
+      first_name: 
+      last_name: 
+      status: 
+    apply_settings_to_imports: 
+    attempt_match_existing_people: 
+    completed_records: 
+    error: 
+    error_updating: 
+    error_updating_message_html: 
+    errored_records: 
+    for_list_of_available_attributes: 
+    hint_excel_docs: 
+    import_data: 
+    import_people: 
+    import_results: 
+    import_selected_people: 
+    no_records_were_found: 
+    only_first_records_will_be_imported_html: 
+    people: 
+    record: 
+    record_updated: 
+    records: 
+    select_csv_file: 
+    the_changes_will_be_made: 
+    the_import_is_complete: 
+    visibility_access: 
+    with_errors: 
+  maps:
+    notice: 
+  memberships:
+    index:
+      heading: 
+      details:
+        name: 
+        birthday: 
+        created_at: 
+        manual:
+          tooltip: 
+        admin: 
+        leader: 
+      remove:
+        button: 
+    add:
+      heading: 
+      description: 
+      name_placeholder: 
+      parents_of_warning_html: 
+      linked_group_warning_html: 
+    promote: 
+    demote: 
+    group_pending_approval: 
+    requests:
+      heading: 
+      select_some: 
+      name: 
+      created_at: 
+      accept:
+        button: 
+      ignore:
+        button: 
+    leader_add: 
+    leader_remove: 
+  messages:
+    new:
+      button: 
+    private:
+      heading: 
+      description_html: 
+    group:
+      heading: 
+      description_html: 
+    sent_at_html: 
+    sent_to_html: 
+    read_more: 
+    delete:
+      button: 
+    in_reply_to_html: 
+    replies:
+      heading: 
+    reply_all:
+      button: 
+      subset: 
+    email:
+      reply_to_sender: 
+      reply_to_group: 
+      group_link: 
+      reply_link: 
+      disable_group_email: 
+      disable_all_email: 
+    do_not_reply: 
+    ago: 
+    attachment_optional: 
+    attachments: 
+    file_missing: 
+    flag_cleared: 
+    from: 
+    in: 
+    messages_in_html: 
+    missing_param: 
+    no_email_for_person: 
+    not_authorized_delete: 
+    not_found: 
+    posted_by: 
+    send_message: 
+    sent: 
+    show_quoted_content: 
+    some_quoted_text_is_hidden: 
+    subject: 
+    to_show_the_entire_message: 
+    unknown_type: 
+    subset:
+      description_html: 
+    send_to_subset: 
+    filter: 
+    more: 
+    subset_warning: 
+  nav:
+    hello: 
+    admin: 
+    admin_sub:
+      admins: 
+    albums: 
+    business_profile: 
+    checkin: 
+    checkin_sub:
+      times: 
+      labels: 
+    directory: 
+    directory_sub:
+      business: 
+      printed: 
+      advanced: 
+      new_person: 
+    documents: 
+    groups: 
+    groups_sub:
+      edit: 
+      new: 
+      new_count:
+        one: 
+        other: 
+    home: 
+    home_sub:
+      new_count:
+        one: 
+        other: 
+    imports: 
+    messages: 
+    news: 
+    notes: 
+    pages: 
+    prayer_requests: 
+    profile: 
+    profile_sub:
+      edit: 
+      email: 
+      password: 
+      privacy: 
+      family: 
+      relationships: 
+      show: 
+    report: 
+    verses: 
+    tasks: 
+    tasks_sub:
+      assigned_count:
+        one: 
+        other: 
+  news:
+    heading: 
+    edit:
+      heading: 
+    edit_button: 
+    delete_button: 
+    body_description: 
+    deleted: 
+    if_you_have_something_to_share_html: 
+    news_feed: 
+    no_news_is_available: 
+    save_news: 
+    saved: 
+    submit_news: 
+    subscribe:
+      button: 
+      description: 
+    title_description: 
+    welcome_to_the_place: 
+  notes:
+    index:
+      heading: 
+    new:
+      heading: 
+      button: 
+    edit:
+      heading: 
+      button: 
+    delete:
+      button: 
+    posted: 
+    save: 
+    saved: 
+  notifier:
+    email_update:
+      subject: 
+      intro: 
+      email_label: 
+    email_verification:
+      subject: 
+      intro: 
+      instruction: 
+      footer: 
+    friend_request:
+      subject: 
+      intro: 
+      instruction: 
+    membership_request:
+      subject: 
+      intro: 
+      instruction: 
+    mobile_verification:
+      subject: 
+      label: 
+    pending_sign_up:
+      subject: 
+      intro: 
+      instruction_first: 
+      instruction_last: 
+    photo_update:
+      family_subject: 
+      person_subject: 
+      intro: 
+    prayer_request:
+      subject: 
+      intro: 
+    printed_directory:
+      subject: 
+      intro: 
+    profile_update:
+      subject: 
+      intro: 
+      label:
+        new: 
+        old: 
+    rejection:
+      cannot_read:
+        subject: 
+        body: 
+      multiple_people:
+        subject: 
+        body: 
+      unknown_person:
+        subject: 
+        body: 
+      invalid:
+        subject: 
+        body: 
+      no_recipients:
+        subject: 
+        body: 
+    message_id: 
+    not_allowed_to_post: 
+  pages:
+    index:
+      heading: 
+      intro: 
+      name: 
+      description: 
+      edit_button: 
+    descriptions:
+      help: 
+      bad_status: 
+      privacy_policy: 
+      safeguarding_children: 
+      unauthorized: 
+      checkin: 
+    body: 
+    edit_page: 
+    not_found: 
+    saved: 
+    title: 
+    view_page: 
+  people:
+    account_frozen:
+      callout: 
+    new:
+      heading: 
+      heading_without_family: 
+      no_family_warning_html: 
+    title_html: 
+    show:
+      details:
+        family: 
+        website: 
+        email: 
+        mobile_phone: 
+        home_phone: 
+        work_phone: 
+        address: 
+        map: 
+        birthday: 
+        anniversary: 
+        social: 
+        about: 
+        created: 
+        edited: 
+        last_seen: 
+      showing_hidden_attribute:
+        tooltip: 
+    edit:
+      about: 
+      basics: 
+      business: 
+      business_category:
+        new: 
+        create_prompt: 
+      child:
+        enabled: 
+        disabled: 
+      child_hint: 
+      custom_type:
+        new: 
+        create_prompt: 
+      description_hint: 
+      email_hint: 
+      facebook_url:
+        placeholder: 
+      family_photo: 
+      header: 
+      no_family_error: 
+      person_type: 
+      person_type_hint: 
+      photo: 
+      primary_emailer:
+        intro_html: 
+      required_field: 
+      twitter:
+        placeholder: 
+      status: 
+      status_help:
+        inactive: 
+        pending: 
+        active: 
+        not_an_adult: 
+      statuses:
+        inactive: 
+        pending: 
+        active: 
+      fields: 
+    move:
+      heading: 
+      description_html: 
+      button: 
+      success_message: 
+    roles:
+      elder: 
+      deacon: 
+      staff: 
+      member: 
+    email:
+      heading: 
+      primary:
+        heading: 
+        description_html: 
+      alternate:
+        heading: 
+        description_html: 
+      groups:
+        heading: 
+    groups:
+      heading: 
+      members: 
+      messages: 
+      join:
+        button: 
+      see_all: 
+    business:
+      services_provided_by: 
+      address: 
+      email: 
+      phone: 
+      website: 
+    checkin:
+      heading: 
+      intro: 
+    testimony:
+      box_heading: 
+      heading: 
+      view_profile: 
+      view_full: 
+      find_more: 
+    updates:
+      pending_callout: 
+    verification_email:
+      heading: 
+      intro: 
+      button: 
+    advanced: 
+    can_sign_in: 
+    cant_delete_yourself: 
+    cant_delete: 
+    changes_must_be_reviewed_html: 
+    changes_submitted: 
+    child: 
+    deleted_html: 
+    family: 
+    family_legacy_external_id: 
+    find_a_group_html: 
+    friend_not_found: 
+    friendship_accepted: 
+    friendship_manage: 
+    friendship_must_specify: 
+    friendship_rejected: 
+    full_access: 
+    if_you_wish_to_be_listed_business_dir_html: 
+    if_you_wish_to_remove_something_html: 
+    legacy_external_id: 
+    limited_access: 
+    limited_access_denied: 
+    no_family_for_this_person: 
+    not_deleted: 
+    not_found: 
+    pending_approval: 
+    people: 
+    person:
+      one: 
+      other: 
+    person_isnt_any_groups: 
+    share_your_personal_testimony: 
+    show_hidden_groups: 
+    tell_us_about_yourself: 
+    this_event_doesnt_have_pictures: 
+    this_profile_is_hidden: 
+    update_to_profile_is: 
+    visible_on_printed_directory: 
+    visible_to_everyone: 
+    you_arent_in_any_groups: 
+  photos:
+    object_not_found: 
+    browse: 
+    remove: 
+    unavailable: 
+    upload:
+      button: 
+      error: 
+      wrong_type: 
+    ready_filename: 
+    uploading_filename: 
+  pictures:
+    none: 
+    new:
+      heading: 
+      existing_album:
+        intro: 
+      new_album:
+        intro: 
+        button: 
+    show_original: 
+    create_an_album:
+      notice: 
+    click_to_enlarge: 
+    comment_on_this_picture: 
+    failed: 
+    picture_uploaded_by: 
+    rotate_left: 
+    rotate_right: 
+    saved: 
+    set_as_cover: 
+    upload: 
+  prayer_requests:
+    by: 
+    name: 
+    index:
+      heading: 
+    show:
+      heading: 
+    new:
+      heading: 
+      button: 
+    edit:
+      heading: 
+      button: 
+    delete:
+      button: 
+    request:
+      heading: 
+    answer:
+      heading: 
+      description: 
+      on_date: 
+    save: 
+    not_found: 
+    error:
+      no_edit: 
+      no_delete: 
+      no_post: 
+    send_email: 
+  printable_directories:
+    heading: 
+    already_sent: 
+    click_to_have_custom_pdf_via_email: 
+    created_for: 
+    email_custom_directory: 
+    include_family_pictures: 
+    not_allowed: 
+    were_are_building_custom_pdf: 
+    will_take_longer: 
+    filename: 
+    finished: 
+    generate_custom_directory: 
+    generating: 
+    intro: 
+    pdf:
+      heading: 
+      cover_page_sub_heading: 
+      created_for: 
+  privacies:
+    tabs:
+      sharing: 
+      children: 
+    sharing:
+      intro_html: 
+    children:
+      intro: 
+    scroll_notice: 
+    activity: 
+    address: 
+    agreement_saved: 
+    anniversary: 
+    as_a_parent_agree_html: 
+    birthday: 
+    child_profile_has_parental_consent: 
+    child_under_age_you_have_not_consent: 
+    click_the_agree: 
+    email: 
+    family_hidden: 
+    family_privacy: 
+    fax: 
+    group_privacy: 
+    hide_your_activity: 
+    home_phone: 
+    i_agree: 
+    mobile_phone: 
+    please_read_our_privacy_policy_html: 
+    people_can_still_send_html: 
+    privacy: 
+    read_privacy_policy_html: 
+    read_safeguarding_children_html: 
+    read_statement_below: 
+    saved: 
+    sharing_with_html: 
+    to_show_on_this_site: 
+    visible: 
+    visible_note: 
+    work_phone: 
+    you_may_share_items: 
+    you_must_check_agreement_statement: 
+  relationships:
+    heading: Verwantskappe vir %{person}
+    reciprocate:
+      button: Resiproseer
+      failure: A wedersydse verwantskap tot %{name} kan nie outomaties geskep word
+        nie.
+    add_relationship:
+      intro: 'Voeg ''n verwantskap by:'
+      button: Voeg Verwantskap by
+    family:
+      create:
+        intro: "'n Paar verwantskappe is hier onder voorgestel. Maak die nodige verstellings,
+          en kliek dan die Skep knoppie."
+        button: Skep Familie Verwantskappe
+      heading: Familie Verwantskappe vir %{family}
+      button: Familie Verwantskappe
+    inward:
+      heading: Inwaartse Verwantskappe
+    names:
+      aunt: Tannie
+      brother: Broer
+      brother_in_law: Swaer
+      cousin: Neef of Nig
+      daughter: Dogter
+      daughter_in_law: Skoondogter
+      father: Pa
+      father_in_law: Skoonpa
+      granddaughter: Kleindogter
+      grandfather: Oupa
+      grandmother: Ouma
+      grandson: Kleinseun
+      husband: Man
+      mother: Ma
+      mother_in_law: Skoonma
+      nephew: Broerskind/Susterskind
+      niece: Broerskind/Susterskind
+      other_name: Ander
+      sister: Suster
+      sister_in_law: Skoonsuster
+      son: Seun
+      son_in_law: Skoonseun
+      stepbrother: Stiefbroer
+      stepdaughter: Stiefdogter
+      stepfather: Stiefpa
+      stepmother: Stiefma
+      stepsister: Stiefsuster
+      stepson: Stiefseun
+      uncle: Oom
+      wife: Vrou
+    other_name:
+      placeholder: Verwantskap Tipe
+    no_person_selected: Geen persoon geselekteer.
+    relationship: Verwantskap
+    relationship_type: 'Tipe:'
+    toggle_individual: Besigtig Individuele Verwantskappe
+  reports:
+    custom_reports:
+      button:
+        add: 
+        edit: 
+        delete: 
+        show: 
+      index:
+        title: 
+        box_title: 
+      new:
+        title: 
+      edit:
+        title: 
+      show:
+        title: 
+      fields:
+        title: 
+        header: 
+        body: 
+        footer: 
+        filters: 
+        category:
+          people: 
+          groups: 
+          family: 
+      validation:
+        filters: 
+      create:
+        notice: 
+      destroy:
+        notice: 
+      update:
+        notice: 
+    from_date: 
+    group: 
+    group_select: 
+    name: 
+    records:
+      one: 
+      other: 
+    reports:
+      attendance_totals:
+        title: 
+        columns:
+          group: 
+          attended_at: 
+          count: 
+      group_contact_details:
+        title: 
+        title_for_group: 
+        columns:
+          first_name: 
+          last_name: 
+          email_address: 
+          mobile_phone: 
+          home_phone: 
+          address: 
+        address: 
+      weekly_attendance:
+        title: 
+        title_for_group: 
+        columns:
+          person_id: 
+          first_name: 
+          last_name: 
+          group: 
+          attended: 
+        attended:
+          'yes': 
+          'no': 
+    submit: 
+    thru_date: 
+    type: 
+  search:
+    column:
+      name: Naam
+      family: Gesin
+      business: Besigheid
+      category: Kategorie
+      birthday: Verjaarsdag
+      testimony: Getuienis
+    no_family: "(geen gesin)"
+    form:
+      name: Soek deur naam
+      advanced: Gevorderde Soek
+      birthday: Verjaarsdag
+      anniversary: Huweliksherdenking
+      gender: Geslag
+      genders:
+        Male: Manlik
+        Female: Vroulik
+      city: Stad
+      state: Provinsie
+      zip: Poskode
+      phone: Telefoonnommer
+      email: E-pos Adres
+      type: Lidmaadskap Tipe
+      group_membership: Groepslidmaadskap
+      in_group: sluit in
+      not_in_group: sluit nie in nie
+      group_membership_text: groep met kategorie
+      types:
+        member: Lid
+        staff: Personeel
+        deacon: Diaken
+        elder: Ouderling
+    results:
+      testimony_read_more: wys
+    add_selected: Voeg Keuse by
+    business_category: Besigheids Kategorie
+    deacon: Diaken
+    elder: Ouderling
+    female: Vroulik
+    heading: "%{name} Gids"
+    male: Manlik
+    member: Lid
+    results_not_shown: Sommige resultate nie getoon - wees meer spesifiek.
+    not_showing_hidden_people: "(toon nie versteekte mense nie)"
+    people_found:
+      one: 1 persoon gevind
+      other: "%{count} persone gevind"
+    search: Gids Soek
+    search_by_name: Soek deur naam
+    show_hidden: Toon Versteekte
+    staff: Personeel
+    directory_map: Gidskaart
+  session:
+    form:
+      header: Teken in
+      placeholder:
+        email: E-pos Adres
+        password: Wagwoord
+      remember_me: Onthou my
+    account_not_activated_html: Jou rekening is nog geaktifeer nie. <a href='/pages/help'>Kliek
+      hier</a> om te begin.
+    email_found: Daardie e-pos adres is gevind, maar jy moet dit bevestig voor jy
+      kan inteken.
+    email_not_found: Daardie e-pos adres kan nie gevind word in ons stelsel nie. Probeer
+      asseblief 'n ander e-pos adres.
+    forgot_password_button: Ek het vergeet.
+    password_doesnt_match: Die wagwoord wat jy ingesleutel het stem nie met ons rekords
+      ooreen nie. Probeer asseblief weer.
+    max_sign_in_attempts: Ons is jammer, maar jy het die maksimum toelaatbare inteken
+      probeerslae in 'n 15 minute periode oorskry. Jy mag in 15 minute weer probeer.
+    sign_in_button: Teken my in.
+    sign_up_button: Skep 'n rekening.
+    sign_out: Teken uit
+  setup:
+    admin_account: Admin Rekening
+    complete_html: Goed so! Jy het die basiese beginsels ingestel. Gaan na die <a
+      href='%{url}'>Admin gedeelte</a> wanneer jy reg is om jou gemeenskapswerf aan
+      te pas.
+    congratulations: Geluk! OneBody werk nou. Dit is nou tyd om 'n admin gebruiker
+      by te voeg en ander instellings op te stel...
+    do_right_away: Jy moet dit dadelik doen, veral as jou bediener beskikbaar is op
+      die publieke Web.
+    domain_name_note: 'Sleutel die domein vir hierdie werf in, sonder die voorste
+      "www", soos: "voorbeeld.com" of "lede.voorbeeld.com".'
+    heading: Eerste Opstelling
+    more_accounts_later: "(Jy sal later meer admin rekeninge kan skep.)"
+    domain_name: Domein Naam
+    first_name: Voornaam
+    last_name: Van
+    email: E-pos Adres
+    password: Wagwoord
+    password_confirmation: Bevestig Wagwoord
+    submit_button_html: Stoor Veranderinge
+  stream:
+    title: Tuis
+    sub_title: "(dinge wat met my gedeel is)"
+    none: Nog niks om hier te wys nie.
+    header:
+      noone: stelsel
+      message: "%{who} het 'n boodskap gestuur an %{group}"
+      news: "%{who} het %{title} gepos"
+      note: "%{who} het 'n nuwe nota gepos"
+      person: "%{who} is tot die gemeenskap bygevoeg"
+      picture:
+        one: "%{who} het 'n foto gedeel in %{album}"
+        other: "%{who} het 'n paar fotos gedeel in %{album}"
+      picture_in_group:
+        one: "%{who} het 'n foto gedeel in die %{group} groep"
+        other: "%{who} het 'n paar fotos gedeel in die %{group} groep"
+      prayer_request: "%{who} het 'n gebedsversoek gerig in die %{group} groep"
+      site: "%{site}"
+      verse: "%{who} het %{title} gedeel"
+    body:
+      picture:
+        alt: kliek om te vergroot
+      person:
+        button: Sê hallo vir %{person}!
+      site:
+        description: Gemeenskapswerf was geskep vir %{site}!
+      stream_item_group:
+        person:
+          description:
+            one: 1 verdere persoon was bygevoeg...
+            other: "%{count} verdere persone was bygevoeg..."
+    footer:
+      button_label:
+        default: Lees meer
+        album: Wys alles
+        note: Lees meer
+        verse: Lees meer
+        stream_item_group: Wys alles
+        person: ''
+        site: ''
+    load_more: load more...
+    share:
+      heading:
+        friends: Deel met Vriende
+        everyone: Deel met Almal
+      intro:
+        friends_and_group_members: Dinge wat jy hier deel sal gesien word deur jou
+          vriende en mede groepslede wanneer hulle aanteken.
+        friends_only: Dinge wat jy hier deel sal gesien word deur jou vriende wanneer
+          hulle aanteken.
+        group_members_only: Dinge wat jy hier deel sal gesien word deur jou mede groepslede
+          wanneer hulle aanteken.
+        everyone: Deel iets opwindend met die hele gemeenskap...
+      button:
+        note: nota
+        picture: foto
+        verse: bybelvers
+        message: groepsboodskap
+        news: deel 'n nuwe inskrywing
+      sharing_with_html:
+        one: gedeel met <a href='%{url}'>1 persoon</a>
+        other: gedeel met <a href='%{url}'>%{count} persone</a>
+    people:
+      heading: Gedeel met Vriende
+      intro: Hierdie persone sien wat jy op die werf deel.
+      intro_none: Niemand om te wys nie.
+      column:
+        name: Naam
+        family_name: Van
+        reason: Rede
+      reason:
+        family_html: jou <a href='%{url}'>gesin</a>
+        friend_html: jou <a href='%{url}'>vriend</a>
+        groups_html:
+          one: 'saam met jou in hierdie groep: %{groups}'
+          other: 'sam met jou in hierdie groepe: %{groups}'
+    feed: Feed
+  tags:
+    add_tags: Voeg etikette by (spasies tussenin)
+    confirm_delete: Is jy seker jy wil hierdie etiket verwyder?
+    no_tags_yet: nog geen etikette nie
+    tag: Etiket
+    tags: Etikette
+  tasks:
+    index:
+      heading: 
+      group_heading: 
+      comment_count:
+        one: 
+        other: 
+    new:
+      heading: 
+      button: 
+    edit:
+      heading: 
+    show:
+      heading: 
+      edit: 
+    heading: 
+    save: 
+    go_to_group: 
+    deleted: 
+    members: 
+  verses:
+    heading: Verse
+    new:
+      heading: Vind 'n Vers of Gedeelte
+    about_tags: Merkers kan verse groepeer volgens onderwerp, outeur, periode, of
+      watookal
+    about_this_verse: oor die vers. Deel wat dit vir jou beteken en hoe dit jou gehelp
+      het.
+    add_this_verse_to_my_list: Voeg hierdie vers by my lys.
+    add_verse: Voeg vers by
+    search_verse: Soek Vers
+    add_your_favorite_verse: 'Voeg jou gunsteling vers by:'
+    comment_count:
+      one: "<a href='%{url}'>1 opmerking</a> deur %{by}"
+      few: 
+      many: 
+      other: "<a href='%{url}'>1 opmerking</a> deur %{by}"
+    disclaimer: Aanhalings uit die Skrif wat gemerk is as 'WEB' is vanuit die "World
+      English Bible" geneem, 'n moderne engelse weergawe van die "American Standard
+      Version of the Holy Bible". WEB is in die openbare domein. Kopieer en publiseer
+      dit vrylik.
+    example_verse: vers of gedeelte soos Johannes 3:16 of Romeine 12:1-2
+    intro: Deel jou gunsteling Bybelverse met  %{community}.
+    no_verses_yet: Nog geen verse nie!
+    not_found: Daardie vers kon nie gevind word nie. Het jy die verwysing reg ingevoer?
+    people_who_like_this_verse: Persone wat van hierdie vers hou
+    remove_this_verse: Verwyder hierdie vers van my lys.
+    saved_by_count:
+      one: gestoor deur 1 persoon
+      other: gestoor deur %{count} persone
+    search:
+      error: Verse not found. Did you type the reference correctly?

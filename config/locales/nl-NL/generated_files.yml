@@ -1,8 +1,0 @@
----
-nl-NL:
-  generated_files:
-    building: "Bestand genereren.."
-    complete_heading: Klaar!
-    complete_message: "Je bestand is compleet en klaar om te downloaden."
-    failure_heading: "Sorry... Er is een fout opgetreden."
-    failure_message: "Sorry.. Er is een fout opgetreden tijdens het genereren van je bestand."

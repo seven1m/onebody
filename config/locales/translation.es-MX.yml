@@ -1,0 +1,3321 @@
+---
+es-MX:
+  verses:
+    search:
+      error: Versículo no encontrado. ¿Escribió la referencia correctamente?
+    heading: Versiculos
+    new:
+      heading: Encontrar un versículo o pasaje
+    about_tags: Las etiquetas pueden agrupar versiculos por tema, autor, período de
+      tiempo, o lo que sea.
+    about_this_verse: sobre este versiculo. Comparte lo que significa para usted o
+      cómo le ha ayudado.
+    add_this_verse_to_my_list: Añadir este verso a mi lista.
+    add_verse: Añadir Verso
+    search_verse: Buscar Versículo
+    add_your_favorite_verse: 'Añadir su verso preferido:'
+    comment_count:
+      one: "<a href='%{url} '> 1 comentario </a> %{by}"
+      few: "<a href='%{url} '> %{count} comentarios </a> %{by}"
+      many: "<a href='%{url} '> %{count} comentarios </a> %{by} y <a href='%{url}'>
+        %{extra_count} más </a>"
+    disclaimer: Las citas bíblicas marcadas 'WEB' son tomadas de la Biblia Mundial
+      de Inglés, una actualización moderna Inglés de la American Standard Version
+      de la Biblia. WEB es de dominio público. Copiar y publicar libremente.
+    example_verse: versiculo o pasaje como Juan 3:16 o Romanos 12:1-2
+    intro: Comparte sus versiculos favoritos de la Biblia con %{community}.
+    no_verses_yet: No hay versiculos todavía!
+    not_found: Ese versículo no se encontró. Si no ha escrito correctamente la referencia?
+    people_who_like_this_verse: Los que les gusta este versículo
+    remove_this_verse: Eliminar este versículo de mi lista.
+    saved_by_count:
+      one: guardada por 1 persona
+      other: guardado por %{count} personas
+  date:
+    day_names:
+    - domingo
+    - lunes
+    - martes
+    - miércoles
+    - jueves
+    - viernes
+    - sábado
+    abbr_day_names:
+    - dom
+    - lun
+    - mar
+    - mié
+    - jue
+    - vie
+    - sáb
+    month_names:
+    - 
+    - enero
+    - febrero
+    - marzo
+    - abril
+    - mayo
+    - junio
+    - julio
+    - agosto
+    - septiembre
+    - octubre
+    - noviembre
+    - diciembre
+    abbr_month_names:
+    - 
+    - ene
+    - feb
+    - mar
+    - abr
+    - may
+    - jun
+    - jul
+    - ago
+    - sep
+    - oct
+    - nov
+    - dic
+  time:
+    am: am
+    pm: pm
+  number:
+    human:
+      storage_units:
+        units:
+          byte:
+            one: Byte
+            other: Bytes
+          kb: KB
+          mb: MB
+          gb: GB
+          tb: TB
+      decimal_units:
+        units:
+          thousand: mil
+          million: millón
+          billion: mil millones
+          trillion: billón
+          quadrillion: mil billones
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      inclusion: no está incluido en la lista
+      exclusion: está reservado
+      invalid: es inválido
+      confirmation: No coincide con %{attribute}
+      accepted: tiene que ser aceptado
+      empty: no puede estar vacío
+      blank: no puede estar en blanco
+      present: debe estar en blanco
+      too_long:
+        one: es demasiado largo (máximo 1 caracter)
+        other: es demasiado largo (máximo %{count} caracteres)
+      too_short:
+        one: es demasiado corto (mínimo 1 caracter)
+        other: es demasiado corto (mínimo %{count} caracteres)
+      wrong_length:
+        one: longitud errónea (debe ser de 1 caracter)
+        other: longitud errónea (debe ser de %{count} caracteres)
+      not_a_number: no es un número
+      not_an_integer: debe ser un entero
+      greater_than: debe ser mayor que %{count}
+      greater_than_or_equal_to: debe ser mayor o igual que %{count}
+      equal_to: debe ser igual a %{date}
+      less_than: debe ser menor que %{count}
+      less_than_or_equal_to: debe ser menor o igual que %{count}
+      other_than: debe ser diferente a %{count}
+      odd: debe ser un número non
+      even: debe ser un número par
+      taken: ya ha sido tomado
+      password:
+        password_strength: es demasiado debil
+      in_between: debe estar entre %{min} y %{max}
+      spoofed_media_type: tiene contenidos que no son lo que, según se afirma
+      not_a_date: No es una fecha
+      after: debe ser después de %{date}
+      after_or_equal_to: debe ser posterior o igual a %{date}
+      before: debe ser antes de %{date}
+      before_or_equal_to: Debe ser antes o igual a %{date}
+  activerecord:
+    errors:
+      messages:
+        record_invalid: 'Error en la validación: %{errors}'
+        restrict_dependent_destroy:
+          one: No se puede eliminar el registro porque %{record} depende de ello
+          many: 'No se puede eliminar el registro porque depende de %{record} '
+      models:
+        admin:
+          attributes:
+            template_name:
+              taken: Hay otra plantilla con este nombre. Elija otro nombre.
+        album:
+          attributes:
+            name:
+              blank: El álbum tiene que tener nombre.
+              taken: Hay otro álbum con este nombre. Elija otro nombre.
+            owner:
+              blank: El álbum tiene que tener propietario.
+        attendance_record:
+          attributes:
+            attended_at:
+              blank: El registro de asistencia debe especificar una fecha y hora.
+            group_id:
+              blank: El registro de asistencia debe estar asociado con un grupo.
+        checkin_label:
+          attributes:
+            name:
+              blank: Debe ingresar un nombre.
+            xml:
+              blank: Debe pegar/copiar la etiqueta XML.
+        checkin_time:
+          attributes:
+            campus:
+              blank: Debe seleccionar un local.
+              exclusion: Debe seleccionar un local.
+        custom_field:
+          attributes:
+            name:
+              blank: Debe ingresar un nombre de campo.
+            format:
+              inclusion: Debe seleccionar un formato válido.
+        document:
+          attributes:
+            file:
+              blank: Tiene que cargar un archivo.
+            name:
+              blank: Debe ingresar un nombre.
+              too_long: Por favor, ingresa una descripción más corta.
+            description:
+              too_long: Por favor, ingresa una descripción más corta.
+        document_folder:
+          attributes:
+            name:
+              blank: Tiene que ingresar un nombre.
+              too_long: Por favor, ingresa un nombre más corto.
+            description:
+              too_long: Por favor, ingresa una descripción más corta.
+            folder_id:
+              invalid: No se puede especificar esta carpeta como la carpeta principal.
+            parent_folder_ids:
+              too_long: Esta carpeta está anidado demasiado profundo. Por favor, coloque
+                en otro lugar.
+        custom_report:
+          attributes:
+            title:
+              blank: El título no puede quedar en blanco.
+              too_long: La descripción máxima es de 50 caracteres.
+            body:
+              blank: La area del informe no puede estar en blanco.
+            filters:
+              invalid: 'Los filtros tienen que contener un colon, en el campo de formulario:
+                valor.'
+            category:
+              inclusion: Seleccionar un valor categoría válida.
+        family:
+          attributes:
+            name:
+              blank: La familia tiene que tener nombre.
+            last_name:
+              blank: La familia debe tener un apellido.
+            alternate_barcode_id:
+              invalid: Esta tarjeta de familia (código de barras ID) contiene letras
+                o símbolos (sólo se permiten números).
+              taken: Esta tarjeta de familia (código de barras ID) ya está en uso
+                por otra familia.
+              too_long: Esta tarjeta familiar (código de barras ID) es demasiado larga
+                (no puede tener más de 50 dígitos).
+              too_short: Esta tarjeta familiar (código de barras ID) es demasiado
+                corta (debe ser de 5 dígitos).
+            barcode_id:
+              invalid: Esta tarjeta familiar (código de barras ID) contiene letras
+                o símbolos (solo se permiten números).
+              taken: Esta tarjeta de familia (código de barras ID) ya está en uso
+                por otra familia.
+              too_long: Esta tarjeta familiar (código de barras ID) es demasiado larga
+                (no puede tener más de 50 dígitos).
+              too_short: Esta tarjeta familiar (código de barras ID) es demasiado
+                corta (debe ser de 5 dígitos).
+            photo:
+              too_large: La foto debe ser menos de %{size} megabytes.
+              wrong_type: El tipo de archivo (foto) debe ser JPG, GIF o PNG.
+            country:
+              wrong_length: El código de país debe tener 2 caracteres.
+        friendship:
+          attributes:
+            friend_id:
+              blank: Esta amistad debe estar asociada con una persona.
+              taken: Esta amistad ya existe.
+            person_id:
+              blank: Esta amistad debe estar asociada con una persona.
+        friendship_request:
+          attributes:
+            from_id:
+              blank: Esta amistad debe estar asociada con una persona.
+            person:
+              invalid_address: La persona debe tener una dirección de correo electrónico
+                válida.
+              refused: La persona no acepta solicitudes de amistad.
+            person_id:
+              blank: Esta amistad debe estar asociada con una persona.
+              taken: Esta solicitud de amistad ya existe.
+        group:
+          attributes:
+            address:
+              invalid: La dirección de grupo no es una dirección válida de correo
+                electrónico.
+              taken: Hay otro grupo con esta dirección de correo electrónico. Por
+                favor, elija otra titulo de correo.
+              too_long: La dirección de correo electrónico del grupo es demasiado
+                larga.
+              too_short: La dirección de correo electrónico del grupo es demasiado
+                corta.
+            attendance:
+              invalid: La asistencia debe estar permitida por cualquier grupo en uso
+                por Check-in.
+            category:
+              blank: El grupo debe especificar una categoría.
+            name:
+              blank: El grupo tiene que tener un nombre.
+              taken: Hay otro grupo con este nombre. Elija otro nombre.
+            parents_of:
+              points_to_self: Este grupo no puede vincularse a sí mismo.
+            photo:
+              too_large: La foto debe ser menos de %{size} megabytes.
+              wrong_type: El tipo de archivo (foto) debe ser JPG, GIF o PNG.
+        membership:
+          attributes:
+            group_id:
+              taken: Esta persona ya es miembro de este grupo.
+        membership_request:
+          attributes:
+            group_id:
+              taken: Esta persona ya ha solicitado ser miembro de este grupo.
+        message:
+          attributes:
+            base:
+              taken: Este mensaje ya ha sido enviado. Cambia el tema o el cuerpo del
+                mensaje si desea enviar otro correo electrónico.
+            body:
+              blank: El mensaje debe tener un cuerpo.
+              too_short: El cuerpo del mensaje es demasiado corto.
+            person_id:
+              blank: Este mensaje tiene que estar asociado con una persona.
+            subject:
+              blank: El mensaje debe tener un titulo.
+              too_short: El asunto del mensaje es demasiado corto.
+            to_person_id:
+              invalid: El destinatario de este mensaje no tiene una dirección de correo
+                electrónico. No se puede enviar el mensaje.
+        news_item:
+          attributes:
+            title:
+              blank: Debe ingresar un título para esta publicación de noticias.
+            body:
+              blank: Debe ingresar texto para esta publicación de noticias.
+        note:
+          attributes:
+            body:
+              blank: La nota está en blanco.
+        page:
+          attributes:
+            body:
+              blank: La página tiene que tener un cuerpo.
+            path:
+              taken: Hay otra página con esta ruta.
+            slug:
+              blank: La página debe tener un slug.
+              exclusion: La página slug no puede ser "admin", "editar" o "nuevo"
+              invalid: El slug de página sólo puede contener letras minúsculas y sub-rayos.
+            title:
+              blank: La página tiene que tener un título.
+        person:
+          attributes:
+            alternate_email:
+              invalid: La dirección de correo electrónico alternativa no tiene el
+                formato correcto (alguien@organizacion.com).
+              taken: Hay otra persona con el mismo correo electrónico alternativo.
+            anniversary:
+              not_a_date: Ingrese una fecha válida para el aniversario.
+            birthday:
+              not_a_date: Ingresa una fecha válida para el cumpleaños.
+            business_email:
+              invalid: La dirección de correo electrónico comercial no está formateada
+                correctamente (alguien@organizacion.com).
+            business_website:
+              invalid: 'El enlace del dirección del sitio web no está formateada correctamente
+                (¿le falta ''http: //'' al principio?)'
+            business_category:
+              exclusion: Debe ingresar una categoría para su negocio.
+            child:
+              inclusion: Tiene que ingresar una fecha de cumpleaños o especificar
+                si esta persona es un niño.
+            description:
+              too_long: La descripción tiene que tener menos de 25 caracteres. Solo
+                una palabra o dos. :)
+            email:
+              invalid: La dirección de correo electrónico no está formateada correctamente
+                (alguien@organizacion.com).
+              taken: Hay otra persona con la misma dirección de correo electrónico.
+            facebook_url:
+              invalid: El enlace de Facebook no es válida.
+            feed_code:
+              taken: El mismo código de alimentación existe en el record de otra persona.
+            first_name:
+              blank: La persona tiene que tener un primer nombre.
+            gender:
+              inclusion: El género debe ser 'Masculino' o 'Femenino'.
+            last_name:
+              blank: La persona tiene que tener un apellido.
+            password:
+              confirmation: Las contraseñas no son los mismos.
+              too_short: La contraseña es demasiado corta.
+            photo:
+              too_large: La foto debe ser menos de %{size} megabytes.
+              wrong_type: El tipo de archivo (foto) debe ser JPG, GIF o PNG.
+            twitter:
+              invalid: El nombre de usuario de Twitter no es válido.
+              too_long: El nombre de usuario de Twitter es demasiado largo.
+            website:
+              invalid: 'El enlace del dirección del sitio web no está formateada correctamente
+                (¿le falta ''http: //'' al principio?)'
+        picture:
+          attributes:
+            album_id:
+              blank: Esta imagen debe estar asociada a un álbum.
+            photo:
+              too_large: La foto debe ser menos de %{size} megabytes.
+              wrong_type: El tipo de archivo (foto) debe ser JPG, GIF o PNG.
+        picture_uploader:
+          attributes:
+            album:
+              blank: Tiene que seleccionar un álbum.
+        prayer_request:
+          attributes:
+            group_id:
+              blank: La petición de oración debe estar asociada con un grupo.
+            person_id:
+              blank: La petición de oración debe estar asociada con una persona.
+            request:
+              blank: La petición de oración no puede estar en blanco.
+        recipe:
+          attributes:
+            directions:
+              blank: La receta debe tener direcciones.
+            ingredients:
+              blank: La receta debe tener ingredientes.
+            title:
+              blank: La receta debe tener un título.
+        relationship:
+          attributes:
+            name:
+              blank: Debe especificar el tipo de relación.
+              inclusion: Esta relación no es válida.
+              taken: Esta relación ya existe.
+            other_name:
+              blank: Debe especificar el tipo de relación.
+              taken: Esta relación ya existe.
+            person:
+              blank: La relación debe estar asociada con una persona.
+            related:
+              blank: La relación debe estar asociada con una segunda persona.
+        report:
+          attributes:
+            definition:
+              invalid: La definición del informe no es válida.
+            name:
+              blank: El informe debe tener un nombre.
+              taken: Hay otro informe con este nombre. Elija otro nombre.
+        site:
+          attributes:
+            host:
+              blank: Se debe especificar el host.
+              taken: Hay otro sitio con el mismo host.
+              invalid: 'No incluya "http: //" o "www." En el nombre de host.'
+            name:
+              blank: El sitio debe tener un nombre.
+              taken: Hay otro sitio con el mismo nombre.
+        tag:
+          attributes:
+            name:
+              blank: La etiqueta debe tener un nombre.
+              exclusion: El nombre de etiqueta no es válido.
+              taken: Hay otra etiqueta con el mismo nombre.
+        verification:
+          attributes:
+            email:
+              invalid: Esa dirección de correo electrónico no se pudo encontrar en
+                nuestro sistema. Si tiene otra dirección, vuelva a intentarlo.
+            carrier:
+              inclusion: Debe seleccionar un operador de telefonía móvil.
+            mobile_phone:
+              invalid: El numero teléfono móvil no se encuentra. Puede intentar de
+                nuevo.
+            base:
+              unauthorized: Hay un problema con su registro que le impide iniciar
+                la sesión.
+        verse:
+          attributes:
+            reference:
+              blank: El versículo debe tener una referencia.
+            text:
+              blank: No se pudo encontrar el pasaje. ¿Escribió la referencia correctamente?
+              too_long: El pasaje es demasiado largo. Especifica un pasaje más corto.
+    attributes:
+      album:
+        name: Nombre
+        description: Descripción
+      checkin_label:
+        name: Nombre
+        description: Descripción
+        xml: Etiqueta XML
+        xml_file: Etiqueta del archivo XML
+      custom_field:
+        name: Nombre
+        format: Formato
+      document:
+        name: Nombre
+        description: Descripción
+        file: Archivo
+        files: Archivos
+        folder_id: Carpeta
+      document_folder:
+        name: Nombre
+        description: Descripción
+        folder_id: Carpeta principal
+        hidden: Ocultar / archivar esta carpeta
+        groups: Solo compartir con estos grupos
+      family:
+        address1: Dirección Línea 1
+        address2: Línea de dirección 2 (opcional)
+        city: Ciudad
+        country: País
+        home_phone: Teléfono de casa
+        last_name: Apellido
+        name: Nombre
+        state: Estado
+        zip: Codigo
+      person:
+        anniversary: Aniversario de boda
+        alias: Conocido Por
+        birthday: Cumpleaños
+        custom_type: El papel de encargo
+        email: Correo electrónico.
+        facebook_url: Enlace de Face(book)
+        fax: Fax
+        first_name: Primer Nombre
+        gender: Género
+        last_name: Apellido
+        mobile_phone: Teléfono móvil
+        primary_emailer: " Principal del correo electrónico"
+        status: Estatus
+        suffix: Sufijo
+        twitter: Nombre de usuario de Twitter
+        work_phone: Teléfono del trabajo
+      group:
+        name: Nombre
+        category: Categoría
+        description: Descripción
+        other_notes: Otras notas
+        creator: Creador
+        meets: Cuando se reúne
+        location: Ubicación y dirección
+        direction: Dirección
+        email: Correo electrónico.
+        prayer: Peticiones de Oración
+        pictures: Intercambio de imágenes
+        attendance: Seguimiento de asistencia
+        gcal_private_link: Enlace privado de Google Calendar
+        approval_required_to_join: Se requiere aprobación para que las personas se
+          unan al grupo
+        private: Grupo privado
+        members_send: Los miembros del grupo pueden publicar mensajes
+        membership_mode: Seleccione cómo los miembros del grupo deben añadirse a este
+          grupo
+        link_code: Código de enlace externo
+        parents_of: Grupo Niño
+        hidden: Grupo Oculto (Archivado)
+        has_tasks: Tareas
+      note:
+        title: Título
+        body: Cuerpo
+      prayer_request:
+        answer: Respuesta
+        answered_at: Fecha Contestado
+        person_id: Persona que necesita oración
+        request: Peticiones de Oración
+      task:
+        name: Tarea
+        description: Descripción
+        person: Asignado a
+        person_id: Asignado a
+        duedate: Debido a la fecha
+        completed: Terminado
+  datetime:
+    distance_in_words:
+      half_a_minute: medio minuto
+      less_than_x_seconds:
+        one: menos de 1 segundo
+        other: menos de %{count} segundos
+      x_seconds:
+        one: 1 segundo
+        other: "%{count} segundos"
+      less_than_x_minutes:
+        one: menos de 1 minuto
+        other: menos de %{count} minutos
+      x_minutes:
+        one: 1 minuto
+        other: "%{count} minutos"
+      about_x_hours:
+        one: cerca de 1 hora
+        other: cerca de %{count} horas
+      x_days:
+        one: 1 día
+        other: "%{count} días"
+      about_x_months:
+        one: cerca de 1 mes
+        other: cerca de %{count} meses
+      x_months:
+        one: 1 mes
+        other: "%{count} meses"
+      about_x_years:
+        one: cerca de 1 año
+        other: cerca de %{count} años
+      over_x_years:
+        one: más de 1 año
+        other: más de %{count} años
+      almost_x_years:
+        one: casi 1 año
+        other: casi %{count} años
+    prompts:
+      year: Año
+      month: Mes
+      day: Día
+      hour: Hora
+      minute: Minuto
+      second: Segundos
+  helpers:
+    select:
+      prompt: Por favor selecciona
+    submit:
+      create: Crear %{model}
+      update: Actualizar %{model}
+      submit: Guardar %{model}
+  flash:
+    actions:
+      create:
+        notice: "%{resource_name} se ha creado correctamente."
+      update:
+        notice: "%{resource_name} se ha actualizado correctamente."
+      destroy:
+        notice: "%{resource_name} fue destruido con éxito."
+        alert: "%{resource_name} no podía ser destruida."
+  will_paginate:
+    previous_label: "← Atrás"
+    next_label: Siguiente →
+    page_gap: "&hellip;"
+    page_entries_info:
+      single_page:
+        zero: No se encontraron %{model}
+        one: Mostrando 1 %{model}
+        other: Mostrando en total %{count} %{model}
+      single_page_html:
+        zero: No se encontró %{model}
+        one: Mostrando <b>1</b> %{model}
+        other: Mostrando en <b>total&nbsp;%{count}</b> %{model}
+      multi_page: Mostrando %{model} %{from} - %{to} de %{count} en total
+      multi_page_html: Mostrando %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> de <b>%{count}</b>
+        en total
+  accounts:
+    create:
+      heading: Crear una cuenta
+      button: Crear una cuenta
+      existing_account:
+        by_email: Encontramos una cuenta existente con esta dirección de correo electrónico.
+        by_mobile: Encontramos una cuenta existente con este número de teléfono móvil.
+    forgot:
+      heading: Verifique su cuenta y establezca una contraseña
+    verification:
+      not_pending: Este enlace de verificación ya no es válida. Por favor, <a href='%{url}
+        '> inténtelo de nuevo </a>.
+      email:
+        via_admin: Un mensaje de verificación ha sido enviada a este usuario.
+    birthday: Cumpleaños
+    call_office: Llamar a %{phone}
+    call_office_message: Llame a la oficina durante el horario laboral.
+    check_code: 'Verifica el Código '
+    description: Descripción
+    enter_code: Ingrese el código
+    enter_your_email: Ingresa su dirección de correo electrónico, a continuación,
+      haga clic en el botón de abajo. Si tenemos la dirección registrada, un correo
+      electrónico será enviado al correo lo cual le permite verificar y tenga acceso
+      a este sitio.
+    fill_required_fields: Por favor, rellene todos los campos obligatorios.
+    gender: Género
+    I_am_this_person: Soy esta persona.
+    email_address: Dirección de correo electrónico
+    first_name: Primer Nombre
+    last_name: Apellido
+    leave_blank: Deje estos campos en blanco si no desea cambiar su contraseña.
+    must_set_email_pass: Debe ingresar su dirección personal de correo electrónico
+      y contraseña para continuar.
+    password: Contraseña
+    password_confirm: Contraseña (una vez más para confirmar)
+    pending_approval: Su cuenta está pendiente de aprobación. Recibirá un correo electrónico
+      una vez que haya sido aprobado.
+    please_select_your_name: Por favor, seleccione su nombre de la lista abajo
+    select_your_carrier: Seleccione su proveedor de servicios móviles
+    set_your_email: Debe ingresar su dirección personal de correo electrónico y contraseña
+      para continuar.
+    set_your_email_may_be_different: Debe ingresar su dirección personal de correo
+      electrónico y contraseña NUEVA para continuar.
+    this_site_doesnt_allow_signup: Este sitio no permite a las personas registrarse.
+      Al contrario, debe verificar la información de su cuenta ya existente o ponerse
+      en contacto con %{office_phone}.
+    type_your_email: Escriba su dirección de correo electrónico aquí
+    type_your_mobile: Escriba su número de teléfono móvil aquí
+    verification_email_sent: Un mensaje de verificación ha sido enviada a usted. Por
+      favor, consultar su correo electrónico y siga las instrucciones del mensaje
+      que recibe. (Es posible que tenga que esperar uno o dos minutos para el correo
+      electrónico llega.)
+    verification_max_attempts_reached: Se ha superado el límite diario de intentos
+      de verificación.
+    verification_message_sent: El mensaje de verificación ha sido enviada. Por favor,
+      compruebe su teléfono e introduzca el código que llega.
+    verify: Verificar su cuenta
+    verify_email: Verifica su correo electrónico
+    verify_code_intro: Por favor, ingresa el código enviado a su teléfono móvil.
+    verify_by_email: Verificar por correo electrónico.
+    verify_by_email_message: Le enviamos un correo electrónico, hacer clic en el enlace
+      dentro, y ya está. Utilice esta opción para restablecer su contraseña.
+    verify_by_phone: Verificar por teléfono móvil.
+    verify_by_phone_description_html: Introduzca su número de teléfono móvil, seleccione
+      la compañía operadora, a continuación, haga clic en el botón de abajo. Si tenemos
+      el número en nuestros archivos, un mensaje de texto será enviado a su correo
+      lo que le permite verificar y tenga acceso a este sitio. Se pueden aplicar <strong>
+      tarifas de mensajes de texto. </ strong>
+    verify_by_phone_message: Le enviamos un mensaje de texto, escribe el código que
+      contiene, y ya está.
+    verify_mobile: Verifica su numero móvil
+    verify_who_you_are: Por favor seleccione una de las siguientes opciones para iniciar
+      la sesión en su cuenta existente.
+    wrong_code_html: Ha introducido un código incorrecto. <a href='/account/new?phone=true'>
+      Inténtelo de nuevo. </a>
+  admin:
+    actionables:
+      heading: Accionables
+    administration:
+      heading: Administración y configuración
+    attendance:
+      heading: Asistencia (30 días)
+      button: Asistencia
+      add_group:
+        button: Añadir grupo
+        search:
+          heading: Filtrar por Grupo
+      groups_list:
+        update:
+          button: Actualizar
+    box:
+      updates:
+        text:
+          one: Actualización del perfil
+          other: Actualizaciones de perfil
+      changed_emails:
+        text:
+          one: Correo electrónico modificado
+          other: Correos electrónicos modificados.
+      import_errors:
+        text:
+          one: Error de importación
+          other: Errores de importación
+      groups_pending_approval:
+        text:
+          one: Grupo pendiente de aprobación
+          other: Grupos pendientes de aprobación
+      membership_requests:
+        text:
+          one: Solicitud de Membresía al Grupo
+          other: Solicitudes de Membresía al Grupo
+      deleted_people:
+        text:
+          one: Persona eliminada
+          other: Personas eliminadas
+    charts:
+      no_data: Sin datos todavía
+    checkin:
+      heading: Registración (48 horas)
+      cards_assigned: Tarjetas de registro asignadas
+      dashboard_button: Admin de registro
+      button: Quiosco de Registración
+    custom_fields:
+      button: Campos Personalizados
+      heading: Campos Personalizados
+      intro: |
+        Los campos personalizados le permiten configurar la base de datos según las necesidades de su comunidad.
+        Añada campos aquí para realizar un seguimiento de los datos que necesita.
+      new:
+        heading: Nuevo campo personalizado
+      edit:
+        heading: Editar campo personalizado
+      formats:
+        string: Texto
+        number: Número
+        boolean: Si/No
+        date: Fecha
+    dashboard:
+      heading: Panel de administración
+      sub_title: OneBody %{version}
+      version_alert:
+        heading: Versión desactualizada
+        intro_html: 'Una versión más reciente de OneBody está disponible: <a href=''%{url}
+          ''> %{version} </a>'
+        download_button: Cómo actualizar
+      email_config_alert:
+        heading: Correo electrónico no configurado
+        intro: El envío de correo electrónico y receptor no está configurado todavía.
+        button: Configurar el correo electrónico
+      tls_config_alert:
+        heading: Sitio no seguro
+        intro: TLS (SSL) no está configurado, por lo que este sitio no es seguro.
+          Las sesiones de los usuarios pueden ser secuestradas y sus contraseñas sacados
+          por los malos.
+        email_setup_note: El correo electrónico entrando de Mailgun también se transferirá
+          sin cifrado. Protege tu sitio antes de configurar el correo electrónico.
+        proxy_missing_protocol_header_note_html: Si su conexión está realmente protegida,
+          puede que tenga que actualizar su configuración de proxy nginx según las
+          instrucciones <a href='https://github.com/churchio/onebody/blob/master/CHANGELOG.md#380-unreleased'>
+          aquí </a>.
+        button: Aprende más
+    deleted_people:
+      tabs:
+        people: Personas eliminadas
+        families: Familias Vacías
+      family_deleted: Eliminada
+      heading: Personas eliminadas
+      empty_families:
+        intro: Las siguientes familias activas no tienen gente en ellas y probablemente
+          deberían ser eliminadas.
+        delete:
+          button: Eliminar familias seleccionadas
+        none: Ninguna
+      none: Ninguna
+      purge:
+        button: Purga
+      purge_family_when_empty: Y purga la familia cuando está vacía
+      search_results:
+        intro: A continuación se muestran los resultados de su búsqueda.
+      undelete:
+        button: Anular la eliminación de personas seleccionadas
+    facebook:
+      heading: Face(book)
+      intro_html: Si quiere permitir a las personas iniciar su sesión con Facebook.
+        Deberá configurar primero una "aplicación" de Facebook y, a continuación,
+        conectar el ID de aplicación y el secreto a continuación.
+    gatherings:
+      heading: Reuniones
+    membership_requests:
+      count:
+        one: "%{count} solicitud"
+        other: "%{count} solicitudes"
+    pusher:
+      heading: Pusher
+      intro_html: 'Pusher es un servicio que facilita la comunicación en tiempo real.
+        En este momento, OneBody utiliza Pusher sólo para la impresión remota de Check-in,
+        que quiza no se necesita. Puede registrarse en una cuenta gratuita de Pusher
+        en <a href=''https://pusher.com''> pusher.com </a> o usar el software de código
+        abierto <a href = ''https: //github.com/ Stevegraham / slanger ''> Slanger
+        </a> en su propio servidor.'
+    report:
+      back: Regresar al Panel de Informes
+      button: Panel de informes
+      heading: Informando
+      intro: Acceda al Panel de informes para informes predefinidos y otras herramientas
+        de generación de informes.
+      launch: Lanzamiento
+      list: Informes
+      title: Panel de informes
+    active: activo
+    admin_added: "%{name} añadido."
+    admin_count:
+      one: "%{count} Administrador"
+      other: "%{count} Administradores"
+    admin_removed: Administrador quitado.
+    admin_template_description: Las plantillas le permiten tener conjuntos de permisos
+      predefinidos para usar con más de un administrador.
+    admins:
+      heading: Administración
+      intro: Puede conceder a cualquier usuario privilegios de administración y el
+        acceso que necesitan para realizar su función en la comunidad.
+      button: Administrar administradores
+    add_individual: Añadir un individuo.
+    add_person: Añadir una persona
+    add_selected: Añadir seleccionado(s)
+    add_template: Añadir plantilla
+    already_admin: "%{name} ya es un administrador."
+    api: API
+    api_login_details: Sus datos de acceso API
+    customization:
+      heading: Personalización
+      intro: Personaliza el sitio de tu comunidad ajustando la configuración y personalizando
+        el contenido.
+    display: Muestra
+    enable: Habilitar
+    enable_api_confirmation: "¿Estás seguro de que quiere habilitar su clave de API?"
+    emails:
+      intro_html: |
+        <P> Cuando un usuario cambia su dirección de correo electrónico en línea, se establece un indicador y se impide que las importaciones CSV subsiguientes sobrescriban la dirección de correo electrónico del usuario. </ P>
+        <P> Si importa regularmente sus datos de personas desde un sistema externo, sólo debe actualizar la dirección de correo electrónico del usuario en su base de datos de registro para que coincida con su dirección aquí. Luego, la próxima vez que importe su base de datos, OneBody borrará el indicador de "cambio de correo electrónico" para usted y se eliminarán de esta lista. </ P>
+        <P> Puede utilizar esta página como lista de tareas pendientes & ndash; Una lista de cambios de dirección de correo electrónico que debe realizar en su base de datos de registro. </ P>
+        <P> A continuación se muestran los usuarios cuyos indicadores están definidos. Puede borrar el indicador aquí manualmente si es necesario. </ P>
+      changed_addresses: Correos electrónicos modificados.
+      clear_flags: Banderas de Borrar
+      no_records: Actualmente no hay registros con el conjunto de marcadores de dirección
+        de correo electrónico cambiado.
+      table:
+        id: Identificación
+        legacy_id: ID antigua
+        first_name: Primer Nombre
+        last_name: Apellido
+        email: Correo electrónico.
+    generate: Generar
+    group_administrators: Administradores de grupo
+    group_administrators_description: Cada grupo puede designar a las personas que
+      pueden administrar ese grupo en particular, independientemente de su situación
+      en esta página.
+    group_administrators_help: Para agregar o quitar una persona como administrador
+      de grupo, haga clic en "editar" junto al grupo y promocione un miembro de grupo
+      existente.
+    group_membership_requests: Solicitudes de Membresía al Grupo
+    import_export: Importación y exportación
+    invalidate_confirmation: "¿Estás seguro de que quieres invalidar esta clave y
+      crear una nueva?"
+    key: Clave
+    manage_group_administrators: Administrar administradores del grupo
+    must_be_superadmin: Debe ser un superadministrador para modificar la configuración.
+    new_admin_template: Cree una nueva plantilla de administración.
+    new_api_or: Una nueva clave API o
+    no_api_key: Todavía no tiene una clave API.
+    no_more_admins: No se permiten más administradores.
+    pages: Páginas
+    privileges:
+      view_hidden_profiles:
+        title: Ver perfiles ocultos
+        about: Ver personas ocultas en la base de datos, p. Niños y otros marcados
+          como invisibles.
+      view_hidden_properties:
+        title: Ver propiedades ocultas
+        about: Ver números de teléfono ocultos, direcciones de correo electrónico
+          y otra información privada.
+      edit_profiles:
+        title: Editar perfiles
+        about: Edite nombre, números de teléfono, correo electrónico, contraseña y
+          cualquier otra asunto asociada con el perfil de un usuario.
+      manage_access:
+        title: Administrar acceso
+        about: Administre los administradores del sitio. ("Administrar grupos" debe
+          estar seleccionado para administrar administradores del grupo.)
+      manage_attendance:
+        title: Administrar la asistencia
+        about: Ver, editar y exportar asistencia.
+      manage_comments:
+        title: Administrar Comentarios
+        about: Habilidad de borrar cualquier comentario del sitio.
+      manage_groups:
+        title: Administrar Grupos
+        about: Ver, editar, eliminar cualquier grupo (incluso si está oculto o privado).
+      manage_news:
+        title: Administrar Noticicias
+        about: Ver, editar, borrar todas las noticias.
+      manage_pictures:
+        title: Administrar imágenes
+        about: Ver, editar, eliminar fotos y álbumes.
+      manage_updates:
+        title: Administrar actualizaciones
+        about: Ver, editar, borrar actualizaciones de perfiles en espera de realizar
+          por usuarios.
+      manage_sync:
+        title: Administrar sincronización
+        about: Ver y realizar el seguimiento de las sincronizaciones realizadas con
+          UpdateAgent.
+      import_data:
+        title: Datos de importacion
+        about: Importe datos desde CSV o mediante UpdateAgent.
+      export_data:
+        title: Exportar datos
+        about: Exporte todos los datos del sitio a XML o CSV.
+      assign_checkin_cards:
+        title: Asignar tarjetas Checkin
+        about: Asigne números de tarjeta a las familias.
+        order: Checkin1
+      manage_checkin:
+        title: Administrar el registro (Checkin)
+        about: Administrar todos los aspectos de checkin, incluyendo configuración.
+        order: Checkin2
+      manage_documents:
+        title: Administrar Documentos
+        about: Añadir, editar y eliminar documentos.
+      run_reports:
+        title: Ejecutar informes
+        about: Acceda al Panel de informes.
+      manage_reports:
+        title: Administrar informes
+        about: Crear, editar y eliminar informes personalizados.
+    rest_api_information: Para usar la REST API con Ruby, puede hacer lo siguiente
+    settings:
+      heading: Configuración del sitio
+      Contact:
+        Tech Support Email:
+          name: Correo electrónico de soporte técnico
+          description: Los usuarios serán dirigidos a enviar un correo electrónico
+            aquí si necesitan ayuda técnica con el sitio.
+        Community Address:
+          name: Dirección de la comunidad
+          description: Visible en condiciones de uso
+        Community Office Phone:
+          name: Oficina Comunitaria Teléfono
+          description: Número de teléfono de la oficina
+        Community Email:
+          name: Correo de la comunidad
+          description: Los usuarios serán dirigidos a enviar un correo electrónico
+            aquí si quieren información general / política sobre su comunidad.
+        Bug Notification Email:
+          name: Correo electrónico para notificaciones de errores
+          description: Los informes automatizados de errores de software se envían
+            a esta dirección de correo electrónico.
+        Send Email Changes To:
+          name: Enviar cambios de correo electrónico a
+          description: Correo electrónico enviado cuando alguien cambia su dirección
+            de correo electrónico (puede estar en blanco para ningún correo electrónico)
+        Send Updates To:
+          name: Enviar actualizaciones a
+          description: Correo electrónico enviado cuando alguien actualiza su perfil
+            (puede estar en blanco para no enviar correo electrónico)
+        Send Attendance Submissions To:
+          name: Enviar envíos de asistencia a
+          description: El correo electrónico enviado cuando alguien se somete la asistencia
+            de un grupo
+      Pusher:
+        App ID:
+          name: ID de la aplicación
+          description: El ID de aplicación proporcionado por Pusher.
+        App Key:
+          name: Clave de la aplicación
+          description: La clave de aplicación proporcionada por Pusher.
+        Secret:
+          name: Secreto
+          description: El secreto proporcionado por Pusher.
+        API Scheme:
+          name: Esquema API
+        API Host:
+          name: Host API
+        API Port:
+          name: Host API
+        WS Host:
+          name: Host de WS
+        WS Port:
+          name: Puerto WS
+        WSS Port:
+          name: Puerto WSS
+      Services:
+        Yahoo:
+          name: Yahoo
+          description: Su clave de API de Yahoo - https://developer.yahoo.com/wsregapp/index.php
+        Analytics:
+          name: Analíticas
+          description: Si utiliza Google Analytics o algún otro servicio de estadísticas
+            basado en JavaScript, ponga el código aquí. Se insertará en la parte inferior
+            de cada página.
+      Name:
+        Community:
+          name: Nombre de la comunidad
+          description: El nombre de su iglesia o comunidad, como. "Primera Iglesia"
+            o "Primera Bautista de Fresno".
+        Site:
+          name: Nombre del sitio
+          description: 'El nombre de este sitio, mostrado en la parte superior, como:
+            "Mi Familia de la Iglesia" o "Una Iglesia Central".'
+      URL:
+        News Feed:
+          name: '"Feed " de Noticias '
+          description: Enlace para el "feed" de noticias externas de la comunidad
+            en formato RSS o Atom (las noticias se importarán periódicamente)
+        Visitor:
+          name: Visitante
+          description: Enlace para el sitio web principal (los visitantes se señalarán
+            aquí si ocurren en el sitio del miembro).
+      System:
+        Suffixes:
+          name: Sufijos
+          description: Nombre sufijos, uno por línea.
+        Adult Age:
+          name: Edad adulta
+          description: The edad cuando una persona esta considerada lo suficientemente
+            mayor para usar el sitio y ser vista por otros en el directorio.
+        Language:
+          name: Idioma
+          description: Lenguaje para elementos de interfaz. <a href='%{url} 'target
+            =' _ blank '> Puedes ayudar! </a>
+        Bible Translation:
+          name: Traducción de la Biblia
+          description: Cuando ir a buscar versos de <a href='https://bible-api.com'>
+            bible-api.com </a>, solicitar esta traducción.
+        Time Zone:
+          name: Zona horaria
+          description: Establecer para mostrar correctamente las fechas y horas en
+            el sitio.
+        Default Country:
+          name: País predeterminado
+          description: Seleccione el país predeterminado para los nuevos registros
+            de familia.
+        Map Zoom Level:
+          name: Nivel de zoom del mapa
+          description: Seleccione el nivel de zoom a utilizar en los mapas que se
+            muestran en el sitio.
+      Appearance:
+        Public Theme:
+          name: Tema Público
+          description: Nombre del tema seleccionado para el sitio público de CMS.
+        Theme:
+          name: Tema
+          description: Nombre del tema seleccionado para el sitio.
+          options:
+            skin-blue: Azul
+            skin-blue-light: Azul sobre Claro
+            skin-yellow: Amarillo
+            skin-yellow-light: Amarillo sobre Claro
+            skin-green: Verde
+            skin-green-light: Verde sobre Claro
+            skin-purple: Púrpura
+            skin-purple-light: Púrpura sobre Claro
+            skin-red: Rojo
+            skin-red-light: Rojo sobre Claro
+            skin-black: Negro
+            skin-black-light: Negro sobre Claro
+        Show Subheading:
+          name: Mostrar subtítulos
+          description: Bajo el título / logotipo del sitio, muestre la dirección del
+            sitio y el lema.
+        Info Tab First:
+          name: Pestaña Información Primero
+          description: Si está habilitado, mueva la pestaña Info en los perfiles hacia
+            la izquierda y hágalo abrir por defecto.
+      Formats:
+        Full Date and Time:
+          name: Fecha y hora completas
+          description: Formato para mostrar la fecha y la hora.
+        Time:
+          name: Hora
+          description: Formato para mostrar el tiempo.
+        Date:
+          name: Fecha
+          description: Formato para mostrar la fecha.
+        Phone:
+          name: Teléfono fijo
+          description: Formato para mostrar números telefónicos fijos (estándar como
+            de casa).
+        Date Without Year:
+          name: Fecha Sin Año
+          description: Formato para mostrar la fecha sin un año, como...Cumpleaños
+        Mobile Phone:
+          name: Teléfono móvil
+          description: Formato para mostrar números de teléfono móvil.
+      Features:
+        Custom Person Type:
+          name: Tipo de Personalización de Persona
+          description: Si está habilitado, los administradores pueden especificar
+            un tipo personalizado según la forma de Anciano, Diáconos, etc.
+        Community Google Calendar:
+          name: Google Calendar de la Comunidad
+          description: En enlace del Google Calendar de la comunidad. Puede ser la
+            dirección pública o privada, pero el propio calendario tendrá que ser
+            compartido públicamente para ser incluido en la función individual de
+            ("mis calendarios").
+        Updates Must Be Approved:
+          name: Actualizaciones deben ser aprobadas
+          description: Si está activado, todos los cambios en la información "básica"
+            de un usuario (teléfono, dirección, etc.) requerirán la aprobación de
+            un administrador antes de ser aplicados.
+        Notify on Photo Change:
+          name: Notificar en el cambio de foto
+          description: Si está habilitado, los administradores serán notificados cada
+            vez que un usuario cambie sus fotos personales o familiares.
+        Sign Up:
+          name: Registración
+          description: Si está habilitado, los miembros potenciales pueden crear su
+            propia cuenta de inicio de sesión al sitio. Es altamente recomendable
+            que también ingresa una dirección de correo electrónico de aprobación
+            en el siguiente campo para que pueda revisar las inscripciones antes de
+            permitir el inicio de sesión.
+        SSL:
+          name: SSL
+          description: Si ha configurado SSL, es posible activar esta característica,
+            lo cual hará cifrada la página de inicio al sesión. Si no, se utiliza
+            avanzada JavaScript hashing para asegurarse de que las contraseñas de
+            los usuarios no se enviarán en texto plano.
+        Notes:
+          name: Notas
+          description: Habilitar el uso compartido de notas.
+        Pictures:
+          name: Imágenes
+          description: Habilitar el intercambio de imágenes.
+        Banner Message:
+          name: Mensaje de la bandera
+          description: Mensaje para mostrar en la parte superior de todas las páginas
+            del sitio (HTML), como una alerta
+        Multisite:
+          name: Sitios Multiples
+          description: Cuando está habilitada, esta instancia puede manejar varios
+            sitios, basados ​​en el nombre de dominio.
+        Groups:
+          name: Grupos
+          description: Habilitar grupos.
+        News by Users:
+          name: Noticias por Usuarios
+          description: Permitir contenido de noticias enviado por el usuario. (Requiere
+            que 'Página de Noticias' sea habilitado más arriba).
+        Custom Person Fields:
+          name: Campos Personalizados de Personas
+          description: Agregue nombres de campos personalizados, uno por línea. Incluir
+            la palabra "date" (o "Date") para que sea un campo con formato de fecha.
+            Añada un asterisco (*) para que el campo sea visible y editable por los
+            usuarios.
+        Edit Legacy Ids:
+          name: Editar legacy ID
+          description: Permitir a los administradores ver y editar el campo legacy_id.
+        Sign Up Approval Email:
+          name: Correo de Registración Aprobado
+          description: Dónde enviar solicitudes de registro pendientes (debe ser admin,
+            dejar en blanco para auto-aprobar).
+        Stream:
+          name: Transmitir en vivo
+          description: Habilitar mensajes, noticias y avisos en la página principal
+            del usuario. Des-habilite esta opción para reemplazarlo por el directorio.
+        Friends:
+          name: Amigos
+          description: Habilitar amistades mutuas (confirmadas por correo electrónico)
+        Sidebar Group Heading:
+          name: Encabezado del grupo de la barra lateral
+          description: Encabezamiento encima de la gente en grupos mutuos (véase la
+            configuración anterior)
+        Reporting:
+          name: Informando
+          description: Requiere que MongoDB se configure y se ejecute.
+        Sidebar Group Category:
+          name: Categoría del grupo de la barra lateral
+          description: Las personas de grupos comunes de esta categoría se mostrarán
+            en la barra lateral del perfil del usuario.
+        Content Management System:
+          name: Sistema de administrar contenido
+          description: 'Habilitar "Páginas": utilice OneBody para alojar su sitio
+            web.'
+        News Page:
+          name: Página de noticias
+          description: Habilitar la página de noticias de la comunidad. Los artículos
+            de noticias pueden ser enviados por los administradores y / o sacados
+            de un feed RSS (vea Servicios externos, Configuración del feed de noticias).
+        Verses:
+          name: Versiculos
+          description: Habilitar el intercambio de versos.
+        Recipes:
+          name: Recetas
+          description: Habilitar el intercambio de recetas.
+        Service:
+          name: Servicio
+          description: Si está habilitado, los usuarios admin pueden rastrear el servicio
+            de individuos en áreas de la comunidad.
+        Checkin:
+          name: Registrarse
+          description: Si está habilitado, los usuarios pueden registrarse en las
+            clases designadas.
+        Documents:
+          name: Documentos
+          description: Si está habilitado, los administradores pueden cargar archivos
+            en un área general donde los usuarios pueden navegar y descargarlos.
+        Business Directory:
+          name: Directorio de negocios
+          description: Si está habilitado, los usuarios pueden agregar información
+            comercial para que aparezca en un directorio de negocios de la iglesia.
+        Small Group Size:
+          name: Tamaño máximo de un "grupo pequeño"
+          description: La gente en grupos con esta cantidad de miembros o menos se
+            consideran como "pequeño grupo", y pueden compartir fácilmente información
+            entre sí a través de la página de inicio.
+      Privacy:
+        Hide Contact Details in Messages:
+          name: Ocultar los detalles del contacto en los mensajes
+          description: Si está activado, se intentan ocultar los números de teléfono
+            y las direcciones de correo electrónico dentro de los mensajes cuando
+            se ven en línea.
+        Share Anniversary by Default:
+          name: Aniversario compartido
+          description: Si está habilitado, los nuevos usuarios tendrán su aniversario
+            compartido con otros miembros del sitio.
+        Share Email by Default:
+          name: Compartir Correo electrónico
+          description: Si está habilitado, los nuevos usuarios tendrán su dirección
+            de correo electrónico compartida con otros miembros del sitio.
+        Allow Unencrypted Logins:
+          name: Permitir inicios de sesión sin cifrar
+          description: Los inicios de sesión están protegidos con cifrado RSA público
+            / privado con JavaScript. Marque esta casilla para permitir la sustitución
+            de los teléfonos móviles y otros navegadores que tienen problemas para
+            iniciar sesión.
+        Share Home Phone by Default:
+          name: Compartir Teléfono de la casa
+          description: Si está habilitado, los nuevos usuarios tendrán su teléfono
+            compartido con otros miembros del sitio.
+        Allow Picture Comments:
+          name: Permitir Comentarios en imágenes
+          description: Si está activado, los usuarios podrán publicar comentarios
+            en las imágenes.
+        Share Work Phone by Default:
+          name: Compartir Teléfono de trabajo
+          description: Si está activado, los nuevos usuarios tendrán sus teléfonos
+            de trabajo compartidos con otros miembros del sitio.
+        Share Fax by Default:
+          name: Compartir fax
+          description: Si está habilitado, los nuevos usuarios tendrán su fax compartido
+            con otros miembros del sitio.
+        Max Sign in Attempts:
+          name: Máximo numero de intentos al inicio de sesión
+          description: Número de fallos de inicio al sesión en un período de 15 minutos
+            antes de que se bloquee la cuenta. (La cuenta será bloqueado automáticamente
+            después de 15 minutos.)
+        Share Mobile Phone by Default:
+          name: Compartir teléfono móvil
+          description: Si está activado, los nuevos usuarios tendrán sus teléfonos
+            móviles compartido con otros miembros del sitio.
+        Share Address by Default:
+          name: Compartir Dirección
+          description: Si está habilitado, los nuevos usuarios tendrán su dirección
+            de casa compartida con otros miembros del sitio.
+        Share Birthday by Default:
+          name: Compartir Cumpleaños
+          description: Si está activado, los nuevos usuarios compartirán su cumpleaños
+            con otros miembros del sitio.
+      host:
+        name: Nombre de host / dominio
+        description: 'El nombre de dominio en este sitio es accesible en la web, por
+          ejemplo, ejemplo.com o meimbros.miglesia.com (no incluya http: // en frente)'
+      Email:
+        Host:
+          name: Nombre de host de correo electrónico
+          description: 'Un subdominio, por ejemplo: mg.compania.com, para usar si
+            su dominio ya está sirviendo correo electrónico. El valor predeterminado
+            es el nombre de dominio.'
+      contact_automated_email_about: Estas direcciones de correo electrónico se envían
+        por correo electrónico cuando suceden ciertas cosas en el sitio. Usted puede
+        manarlos todos a la misma dirección o a diversos, dependiendo de la separación
+        de deberes en su comunidad.
+      contact_community_info_about: Ingrese la información de contacto para su iglesia
+        o oficina comunitaria, donde la gente puede contactar al personal administrativo.
+      contact_heading: Contacto
+      disabled: Dishabiliada
+      enabled: Activado
+      features_heading: Caracteristicas
+      formats_heading: Formatos
+      formats_date_about_html: Introduzca su propio formato de fecha y hora para que
+        coincida con su parte del mundo. Consulta <a href="https://www.manystrands.com/wp-content/uploads/2013/01/strftime-cheat-sheet.pdf"
+        target="_new"> aquí </a> para opciones de formato.
+      formats_phone_about: Especificar teléfono formato con 'd', por ejemplo, DDD-DDD-dddd
+        o (dd) dddd-dddd, dependiendo de su lugar.
+      locale_heading: Lugar
+      mailgun: Crear captura de todas las rutas en Mailgun
+      mailgun_message: Utilícelo para crear una ruta captura en su host / dominio
+        con mailgun para recibir mensajes de correo electrónico.
+      membership_management_heading: Miembros
+      name_heading: Nombre
+      one_per_line: "(una por línea)"
+      privacy_defaults: Configuración de privacidad predeterminada
+      privacy_defaults_about: Cuando se crea por primera vez la cuenta de un miembro,
+        se aplican a su información las siguientes configuraciones de privacidad.
+        (Los miembros todavía pueden elegir mostrar u ocultar cualquier información
+        en cualquier momento, independientemente de los ajustes que se indican a continuación).
+      privacy_heading: Seguridad
+      reload: Recargar configuración
+      reload_message: Si ha realizado modificaciones en el sistema desde la línea
+        de comandos, es posible que deba volver a cargar todas las configuraciones
+        para que los cambios surtan efecto.
+      save: Guardar ajustes
+      services_heading: Servicios externos
+      theme_heading: Tema
+      settings: Configuración
+      sharing_about: OneBody es mejor cuando los miembros participan agregando su
+        propio contenido. Habilitar el uso compartido de contenido con esta configuración.
+      sharing_communications_about: Comparta información con sus miembros fácilmente.
+      sharing_heading: Compartiendo
+      small_group_sharing:
+        disable: Deshabilitar compartir entre grupos pequeños
+        all: 
+    super_admin: Super-administrador
+    super_admin_about: Los Super Admins tienen control total sobre el sitio, con todos
+      los privilegios disponibles. Tenga cuidado con a quién le das esto - ¡podría
+      ser peligroso!
+    template: Plantilla
+    templates: Plantillas
+    updates:
+      apply: Actualizar
+      child: Es este un niño?
+      child_alert: Debe especificar si la persona es un Niño (bajo %{years}) o no
+        para completar esta actualización.
+      diff:
+        person: Persona
+        property: Propiedad
+        before: 
+        after: 
+        created_at: Presentada
+      mark_complete: Marca completada
+      mark_incomplete: Marca incompleto
+      person_deleted: Persona borada
+      profile_updates: Actualizaciones de perfil
+      toggle:
+        pending: Pendiente
+        complete: Completar
+      updated: Actualizado
+    username: Nombre de usuario
+    your_key: tu llave
+  albums:
+    index:
+      heading: Álbumes de imágenes
+    table:
+      name: Nombre
+      picture_count: Imágenes
+      created_at: Creado
+    new:
+      heading: Nuevo album
+      button: Nuevo album
+    edit:
+      heading: Editar álbum
+      button: Editar álbum
+    delete:
+      button: Eliminar álbum
+    sharing:
+      heading: "¿Quién debería ver este álbum?"
+    none: Todavía no hay álbumes
+    is_public:
+      enabled: Comunidad - muestra este álbum a todos
+      disabled_group: Compartir este álbum sólo en este grupo.
+      disabled_profile: Perfil - muestra este álbum a <a href='%{url} '> estas personas
+        </a>
+    cannot_add_pictures_to_group: No se puede agregar imágenes en este grupo.
+    click_to_view: click para ver
+    description: Descripción
+    edit_picture: Editar álbum de imágenes
+    save: Guardar álbum
+    saved: Álbum guardado.
+  attachments:
+    heading: Archivos de grupo
+    new:
+      button: Archivo nuevo
+    deleted: Se eliminó el archivo adjunto.
+    file: Archivo
+    file_deleted: Este archivo ha sido eliminado.
+    file_not_found: No se puede encontrar este archivo.
+    not_found: Archivo adjunto no encontrado.
+    saved: Se ha guardado el archivo adjunto.
+    unknown_type: Tipo de archivo adjunto desconocido.
+    upload_attachment: Subir archivo adjunto
+    upload_file: Subir archivo
+  attendance:
+    heading_html: Asistencia en %{group} para %{when}
+    heading_without_group: Asistencia para %{when}
+    heading_without_date: Asistencia en %{group}
+    medical_notes: 'Notas médicas:'
+    can_pickup_people: Puede recoger
+    cannot_pickup_people: No se puede recoger
+    share:
+      heading: Compartir Formulario
+      intro_html: |
+        <P> Comparte un enlace a este formulario que permitirá a cualquier persona enviar asistencia para este grupo sin iniciar sesión. </ P>
+        <P> Esta función se puede utilizar para el check-in de clase. </ P>
+      button: Comparte este Formulario
+    add:
+      heading: Añadir a alguien
+      intro: 'Agregar a alguien al historial de asistencia.
+
+'
+      footer_html: 'Si es alguien que atiende frecuentemente, es mejor agregarlos
+        como un miembro del grupo <a href="%{url} "> aquí </a>.
+
+'
+    add_visitor: Añade un visitante.
+    adult: Adulto
+    attendance: Asistencia
+    class_time: Hora de clase
+    clear_search: borrar
+    date: Fecha
+    export: Exportar a archivo
+    email:
+      subject: Archivo de asistencia para %{group}
+      intro_with_submitter: "%{person} ha enviado asistencia para el grupo %{group}."
+      intro_anonymous: Se ha enviado la asistencia (anónima) para el grupo %{group}.
+      notes: 'A continuación se incluyen las notas incluidas en la solicitud:'
+    group: Grupo
+    group_missing: Falta de grupo
+    id: ID
+    name: Nombre
+    name_unknown: nombre desconocido
+    next_date: próxima cita
+    no_records: No hay registros que mostrar
+    not_enabled: Seguimiento de asistencia no está habilitado para esta Goup.
+    notes:
+      label: Notas
+      help: Utilice este campo para enviar notas al administrador.
+    order_by_last: Ordenar por apellido
+    prev_date: fecha anterior
+    recorded_time: Tiempo grabado
+    records:
+      one: 1 registro
+      other: "%{count} registros"
+    save: 'Enviar asistencia '
+    saved: Asistencia enviada.
+    submit_notes: 'Enviar Notas '
+    Search: Buscar
+    search_person: Buscar por nombre de persona
+    wrong_date_format: No se pudo reconocer la fecha. Vuelve a intentarlo.
+  checkin:
+    heading: Registrarse
+    search:
+      label: 'Escriba todo o parte de un nombre:'
+      button: Buscar
+      clear: borrar
+      none_found: No se encontraron familias
+    add_family:
+      button: Añadir Familia
+    attendance:
+      button: Asistencia
+    setup:
+      heading: Preparar
+    assigned_cards:
+      button: Tarjetas Asignadas
+    scan:
+      unknown_card: Tarjeta no encontrada
+    cards:
+      heading: Tarjetas de registro asignadas
+      table:
+        id: ID
+        legacy_id: ID antigua
+        family: Familia
+        barcode: Código de barras
+        assigned_at: Asignado
+      export:
+        button: Exportar a archivo
+      none: No hay registros que mostrar
+    groups:
+      movement_help_html: |
+        <P>
+          Para mover un grupo de check-in dentro o fuera de una carpeta, expanda primero la carpeta y luego haga clic en
+          <I class = "arriba"> </ i> o <i class = "abajo"> </ i>.
+        </ P>
+        <P>
+          Para saltar un grupo hasta la parte superior o inferior,
+          Mantenga apretada <span class = "highlight"> shift </ span> mientras hace clic
+          <I class = "up"> </ i> o <i class = "down"> </ i>.
+        </ P>
+      heading: Grupos de check-in
+      index:
+        heading: "%{time} a %{campus}"
+        add_folder:
+          button: Agregar carpeta
+          heading: Añadir una carpeta
+          name: Nombre de la carpeta
+        add_group:
+          heading: Agregar un destino (grupo)
+          search: Buscar por nombre
+          select_folder:
+            label: Carpeta Seleccionado
+            none: "(ninguna)"
+          button: Añadir grupo
+        table:
+          name: Nombre
+          label_id: Etiqueta (Nombre)
+          print_extra_nametag: Etiqueta de nombre extra
+          section: Sección
+      section:
+        new: "[nueva sección]"
+      table:
+        group: Grupo
+    labels:
+      button: Configuración de etiquetas
+      edit:
+        heading: Editar etiqueta de registro
+      delete:
+        notice: Etiqueta eliminada.
+      heading: Etiquetas de registro
+      new:
+        button: Nueva etiqueta
+        heading: Editar etiqueta de registro
+      table:
+        name: Nombre
+        description: Descripción
+        updated_at: Actualizado
+    times:
+      button: Configuración de tiempos
+      heading: Horarios de entrada
+      intro: Añada, edite y elimine los horarios de registro disponibles aquí.
+      table:
+        time: Hora
+        campus: Campus
+        groups:
+          heading: Destinos
+          count:
+            one: 1 destino
+            other: "%{count} destinos"
+      edit:
+        button: Editar
+        campus:
+          new: "[Nuevo campus]"
+        delete:
+          button: Borrar
+        heading: Editar hora de registro
+        save:
+          button: Guardar cambios
+      groups:
+        button: Grupos
+      recurring:
+        heading: Tiempos recurrentes
+        new:
+          button: Nuevo Tiempo Recurrente
+        weekday: Día laborable
+        time: Hora
+        campus: Campus
+        add:
+          button: Añadir
+      single:
+        heading: Fechas y horarios únicos
+        new:
+          button: Nueva hora única
+        datetime: Fecha y hora
+        campus: Campus
+        add:
+          button: Añadir
+    family:
+      new:
+        heading: Nueva familia
+        first_name: Primer Nombre
+        last_name: Apellido
+        birthday: Cumpleaños
+        medical_notes: Notas médicas (opcional)
+        parents: Padres
+        children: Niños / Otros
+        barcode: Tarjeta de escanear
+        ignore_spelling_errors: Ignora los errores supuestos de ortografía.
+        save: Guardar familia
+        cancel: cancelar
+        success:
+          heading: " Familia Guardado"
+          return: Entrar
+          view: Ver / Editar Familia
+          barcode: 'Número asignado:'
+          not_checked_in: 'Esta familia no ha sido ingresado--instruye al titular
+            de la tarjeta que ahora debe registrarse en una de las estaciones de pantalla
+            táctil.
+
+'
+      saved: " Familia Guardado"
+      errors: Había errores salvando a esta familia.
+      error:
+        no_birthdays: Tiene que ingresar un cumpleaños para cada niño.
+        no_people: Tiene que ingresar al menos una persona.
+        no_parents: Tiene que ingresar al menos un padre.
+        no_barcode: Por favor, escanee la tarjeta en el campo en la parte inferior
+          del formulario.
+    interface:
+      add_guest:
+        heading: Agregar un invitado
+        intro: Escriba el nombre completo de su invitado en el campo de abajo.
+        button: Agregar un invitado
+        save: 'Guardar '
+      barcode:
+        placeholder: Escanear su tarjeta
+      cancel:
+        button: cancelar
+      heading: Registrarse
+      not_attending: no asistir
+      print:
+        heading: Después de hacer sus selecciones ...
+        button: Imprimir etiquetas
+      run_setup:
+        intro: Primero debe configurar sus horarios y destinos de check-in.
+        button: Preparar
+      same_as_last_week:
+        button: Elige lo mismo que la semana pasada
+  comments:
+    add_a_comment: Añadir un comentario
+    deleted: Comentario borrado.
+    none_yet: ninguna todavia
+    not_authorized: No está autorizado a eliminar este comentario.
+    object_not_found: Esa %{name} no se encontró.
+    save: Guardar comentario
+    saved: Comentario guardado.
+  administration:
+    deleted_people:
+      index:
+        table:
+          id: Identificación
+          legacy_id: ID antigua
+          last_name: Apellido
+          first_name: Primer Nombre
+          family_id: ID de la familia
+          legacy_family_id: ID antigua de la familia
+          family_name: Nombre de la Familia
+          family_deleted: Familia borada
+          family_not_found: No se encontró
+          updated_at: Actualización previa
+    email_setups:
+      show:
+        heading: Configuración del correo electrónico
+        intro_html: OneBody está configurado para enviar y recibir correo electrónico
+          en <code> %{email_host} </ code> utilizando <code> %{smtp_server} </ code>.
+        reconfigure:
+          button: Reconfigurar correo electrónico
+      new:
+        heading: Correo electrónico de configuración
+        config_options:
+          mailgun: Mailgun (recomendado)
+          manual: Manual
+        mailgun:
+          heading: Deja que Mailgun maneje mi correo electrónico.
+          intro_html: |
+            <P> Mailgun es una manera rápida y fácil de configurar el envío y recepción de correo electrónico con OneBody. Para la mayoría de las iglesias con bajo volumen, Mailgun es gratis. </ P>
+            <Ol>
+              <Li> Crea una cuenta para su iglesia en <a href="https://www.mailgun.com" target="_new"> mailgun.com </a>. </ Li>
+              <Li> Active su cuenta e ingrese una tarjeta de crédito. </ Li>
+              <Li> Desplácese hacia abajo y copie la "Clave secreta de la API" y péguela aquí. </ Li>
+            </ Ol>
+          secret_api_key: Clave secreta del API
+          submit: Continuar...
+        manual:
+          heading: Quiero ejecutar mi propio servidor de correo electrónico.
+          intro_html: Si desea ejecutar su propio servidor de correo, siga las instrucciones
+            en nuestra página wiki <a href="https://github.com/churchio/onebody/wiki/Postfix-Email-Setup"
+            target="_new"> aquí </a>.
+      edit:
+        heading: Correo electrónico de configuración
+        domain:
+          intro: 'Elige su dominio abajo o crea uno nuevo:'
+          label: Dominio
+        domain_missing:
+          heading: El dominio no coincide
+          message_html: |
+            <P>
+              Su cuenta Mailgun no tiene el dominio <code> %{domain} </ code> configurado todavía.
+              Debes iniciar sesión en Mailgun y añadir este dominio primero. A continuación, vuelva a cargar esta página.
+            </ P>
+            <P>
+              <Em> Continúe con uno de los dominios abajo sólo si sabe lo que está haciendo. </ Em>
+            </ P>
+        submit: Utilice este dominio
+        success: Un mensaje de verificación ha sido guardado.
+        failure: Hubo un error.
+    imports:
+      new:
+        browse:
+          button: Seleccione Archivo CSV
+        form:
+          submit: Subir archivo
+        heading: Datos de importacion
+        people:
+          heading: Importar personas
+      created: creado
+      edit:
+        form:
+          create_as_active: Hacer que la gente nueva sea activa (capaz de iniciar
+            sesión)
+          dont_preview: Saltar vista previa
+          match_strategy: "¿Cómo debemos encontrar a las personas existentes correspondientes?"
+          overwrite_changed_emails_html: Sobrescribir todas las direcciones de correo
+            electrónico cambiadas sin importa lo qué había. Consulte <a href='%{url}
+            target = '_ blank'> aquí </a> para obtener más información.
+        table:
+          attribute: Atributo en la base de datos
+          column: Columna del archivo
+          example: Ejemplo de datos
+        delete:
+          button: Eliminar importación
+        save:
+          button: Guardar y continuar
+      errored:
+        message: 'No hemos podido procesar su archivo CSV. El error está abajo:'
+        new:
+          button: Inténtalo de nuevo
+      index:
+        table:
+          filename: Nombre del archivo
+          created_at: Creado
+          errored: Errores
+          person: Creado por
+          rows: Filas
+          status: Estatus
+      match_strategies:
+        by_id_only: Por ID solamente
+        by_name: por nombre (uso ID si lo sabe)
+        by_contact_info: por información de contacto como dirección o teléfono (uso
+          ID si lo sabe)
+        by_name_or_contact_info: Por nombre o por información de contacto (use ID
+          si lo sabe)
+      matched_by:
+        default: No se encontró
+        matched_person_by_id: Por ID
+        matched_person_by_legacy_id: Pro ID antigua
+        matched_person_by_name: por nombre
+        matched_person_by_contact_info: Por información del contacto
+        matched_family_by_id: Por ID
+        matched_family_by_legacy_id: Pro ID antigua
+        matched_family_by_name: por nombre
+        matched_family_by_contact_info: Por información del contacto
+      parsing:
+        message: Espere mientras analizamos su archivo.
+      show:
+        create_as_active:
+          'true': sí
+          'false': 'no'
+        match_strategies:
+          by_id_only: 
+          by_name: 
+          by_contact_info: Datos de contacto
+          by_name_or_contact_info: 
+        stats:
+          heading: 
+        table:
+          completed_at: Terminado
+          create_as_active: Crear como activo
+          created_at: Subido
+          creates: Creado por
+          errored: Hubo un error.
+          families: Familias
+          family_id: ID de la familia
+          family_matched: Familia Encontrado
+          family_name: Nombre de la Familia
+          family_status: Familia Estatus
+          filename: Nombre del archivo
+          match_strategy: Coincidir por
+          new: nuevo
+          no_change: Ningún cambio
+          people: Gente
+          person: 'Por '
+          person_first_name: Primer Nombre
+          person_id: ID
+          person_last_name: Apellido
+          person_matched: Persona encontrada
+          person_status: Estatus de Persona
+          rows: Filas
+          updates: Actualizaciones
+        edit:
+          button: Editar importación
+        execute:
+          button: Importar datos ahora!
+        delete:
+          button: Eliminar importación
+        errors_table:
+          name: Atributo
+          value: Valor
+          error: Error
+          blank_value: "(blanco)"
+      status:
+        pending: Pendiente
+        parsing: Archivo de datos de análisis
+        parsed: Analizado
+        previewing: Formando vista previa
+        previewed: Revisar los cambios sugeridos
+        active: Activo
+        complete: Terminado
+        errored: Hubo un error.
+      status_heading: 'Estado de importación: %{status}'
+      unchanged: sin alterar
+      updated: actualizado
+  documents:
+    index:
+      heading: Documentos
+      intro: Este es un lugar para formularios, publicaciones y otros archivos disponibles
+        para los usuarios de este sitio.
+      table:
+        name: Nombre
+        description: Descripción
+        updated_at: Actualizado
+        size: Tamaño
+        item_count: "%{count} elementos"
+      edit_folder:
+        button: Editar esta carpeta
+      delete_folder:
+        button: Eliminar esta carpeta
+      new_folder:
+        button: Nueva carpeta
+      new_document:
+        button: Nuevo documento
+      hidden_folders:
+        label:
+          one: 1 carpeta oculta
+          other: "%{count} carpetas ocultas"
+      restricted_folders:
+        label:
+          one: 1 carpeta restringida (grupo)
+          other: "%{count} carpetas restringidas (grupo)"
+      no_file: Ningún archivo elegido
+    show:
+      table:
+        filename: Nombre del archivo
+        content_type: Tipo de contenido
+        size: Tamaño
+        updated_at: Actualizado
+      download:
+        button: Descargar archivo
+      edit:
+        button: Editar
+      delete:
+        button: Borrar
+    new:
+      heading: Nuevo documento
+      select:
+        button: Selecciona archivos)
+    new_folder:
+      heading: Nueva carpeta
+    create:
+      notice:
+        one: Se ha creado su documento.
+        other: Sus documentos han sido creados.
+      failure:
+        one: 'Su documento no se pudo guardar: %{filenames}'
+        other: 'Sus documentos no se pueden guardar: %{filenames}'
+    create_folder:
+      notice: Se ha creado su carpeta.
+    edit:
+      heading: Editar %{document}
+    edit_folder:
+      heading: Editar %{folder}
+    update:
+      notice: Se ha guardado el documento.
+    update_folder:
+      notice: La carpeta se ha guardado.
+    delete:
+      notice: Este archivo ha sido eliminado.
+    delete_folder:
+      confirmation: "¿Está seguro de que desea eliminar esta carpeta Y TODO DENTRO
+        DE ÉL? No hay deshacer para esto."
+      notice: Se ha eliminado la carpeta y todo su contenido.
+    hidden_folder:
+      alert: Esta carpeta está oculta a los usuarios habituales.
+      tooltip: oculto
+    hidden_folder_due_to_parent:
+      alert: Esta carpeta está oculta a los usuarios habituales porque está dentro
+        de una carpeta oculta.
+    hidden_document:
+      alert: Este documento está oculto de los usuarios habituales.
+      tooltip: oculto
+    hidden_document_due_to_parent:
+      alert: Este documento está oculto de los usuarios regulares porque está dentro
+        de una carpeta oculta.
+    groups:
+      add:
+        heading: Compartir con grupos (opcional)
+        search_button: Buscar por nombre
+        add_button: Añadir grupo
+      link: Enlazar
+    restricted_folder:
+      alert_html: 'Esta carpeta sólo está visible para los siguientes grupos: %{groups}'
+      tooltip: restringido
+    restricted_document:
+      alert_html: 'Este documento sólo es visible para los siguientes grupos: %{groups}'
+      tooltip: restringido
+  emails:
+    mailgun:
+      api_key: Su clave de API de Mailgun
+      heading: Crear una ruta "catchall" de Mailgun
+      intro_html: Visite <a href='%{url} target = '_ blank'> el wiki </a> para obtener
+        ayuda para configurar el correo electrónico.
+      route_found: La ruta ya existe.
+      route_created: Se ha creado la ruta.
+      apikey_notfound: Ingresa una clave de API de Mailgun adecuada.
+      route_error: Se ha producido un error al intentar crear la ruta.
+      submit:
+        button: Crear ruta
+  families:
+    add:
+      new: Persona nueva
+      existing: Mover a una persona a esta familia
+    new:
+      heading: Nueva familia
+      created:
+        notice: La familia fue creada. Ahora, añada gente a esta familia usando el
+          botón "Nueva Persona" que aparece a continuación ...
+    edit:
+      heading: Editar familia
+      name_example_html: "<Em> Fulano de Tal </ em> o <em> Fulano & amp; Fulana </
+        em>"
+      name_suggestion_html: 'Sugerido: <strong> %{name} </ strong>'
+      name_suggestion_button: Cambiar
+      city_st_zip: Ciudad, estado y código postal
+      photo: Foto
+      save: Guardar familia
+      saved: Se han guardado los cambios familiares.
+    delete:
+      button: Eliminar familia
+      cannot_delete_your_own: No puede borrar su propia familia.
+    show:
+      heading: "%{family} Familia"
+      edit_link: Editar familia
+      suggested_name_html:
+        one: '%{first} es el único adulto en esta familia. Considere <a href=''%{url}
+          ''> cambiar el apellido </a> a "<strong> %{name} </ strong>."'
+        other: '%{first} y %{second} son los dos primeros adultos de esta familia.
+          Considere <a href=''%{url} ''> cambiar el apellido </a> a "<strong> %{name}
+          </ strong>."'
+      table:
+        home_phone: Teléfono de casa
+        address: Direccion de casa
+        map: Ver en el mapa
+        anniversary: Aniversario de bodas
+    name:
+      same_last_name: "%{adult1_fname} y %{adult2_fname} %{adult1_lname}"
+      different_last_names: "%{adult1_name} y %{adult2_name}"
+    not_found: Familia no encontrada
+    updates:
+      pending_callout: Las actualizaciones de esta familia están pendientes.
+  friends:
+    index:
+      nobody_yet: Nadie aun
+    accept: Aceptar amigo
+    add_friend_are_you_sure: "¿Está seguro? Se enviará un correo electrónico a esta
+      persona solicitando amistad."
+    add_to_friends: Añadir a amigos
+    add_to_friends_pending: Añadir a Amigos (pendiente)
+    decline: Rechazar amigo
+    friends: Amigos
+    pending_requests: Solicitudes de amigos pendientes
+    people_requested: Las siguientes personas han solicitado ser su amigo(a).
+    personal_friends: Amigos de %{name}
+    remove_from_friends: Quitar de los amigos
+    request_sent: Una solicitud de amistad ha sido enviada a %{name}.
+    search_in_the_directory: Buscar amigos en el directorio
+    you_have_pending_requests: Tiene solicitudes de amistad pendientes.
+    friends_list_button: Ver amigos
+  Changes_saved: Cambios guardados.
+  Delete: Borrar
+  From: De
+  Help: Ayuda
+  No_action_to_show: Ninguna acción respondido a mostrar
+  No_more_records: No hay más registros.
+  Page_no_longer_valid: Esta página ya no es válida.
+  There_was_an_error: Hubo un error.
+  There_were_errors: Hubo errores.
+  To: A
+  are_you_sure: "¿Está seguro?"
+  by: 'Por '
+  changes_saved: Cambios guardados.
+  click_here: Haga clic aquí
+  Comments: comentarios
+  delete: Borrar
+  edit: Editar
+  feature_unavailable: Esta función no está disponible.
+  for: para
+  multiple_files: Su navegador web puede soportar múltiples cargas de archivos - intente
+    seleccionar varios archivos utilizando la tecla Ctrl (Windows) o Comando (Mac)
+    en el teclado.
+  name: Nombre
+  new: nuevo
+  none: Ninguna
+  not_authorized: Usted no está autorizado.
+  only_admins: Debe ser un administrador para utilizar esta sección.
+  person: Persona
+  phone: Teléfono
+  req_notes: Notas
+  save: 'Guardar '
+  saving: Guardando
+  save_changes: Guardar cambios
+  show_all: Mostrar todo
+  submit_changes: Enviar Cambios
+  you_made_a_change_page: 
+  date_format:
+    DD: DD
+    MM: MM
+    YYYY: Año con 4 digitos
+  activemodel:
+    errors:
+      models:
+        signup:
+          attributes:
+            base:
+              disabled: Inscribirse está desactivada.
+              spam: Inscribirse fue completado por un robot.
+            first_name:
+              blank: El primer nombre no puede estar en blanco.
+            last_name:
+              blank: Su apellido no puede quedar en blanco.
+            email:
+              blank: El correo electrónico no puede estar en blanco.
+            gender:
+              blank: Su género no puede estar en blanco.
+            birthday:
+              blank: Cumpleaños no puede estar en blanco.
+              too_young: Eres demasiado joven para inscribirse en este servicio.
+            mobile_phone:
+              blank: El teléfono móvil no puede estar en blanco.
+  application:
+    api_access: Debe ser un superadministrador para usar la API.
+    no_default_site: No Se ha encontrado el sitio predeterminado.
+    no_site_configured: 'No hay ningún sitio configurado en esta dirección: %{host}'
+    settings_reloaded: Configuración recargada.
+    settings_saved: Configuración guardado
+    template_created: Plantilla creada.
+  people_count:
+    one: 1 persona
+    other: "%{count} personas"
+  footer:
+    help: Ayuda con este sitio
+    privacy_policy: Política de privacidad
+    powered_by: Hosted por
+    churchio_onebody: CHURCH.IO OneBody
+  generated_files:
+    building: Creando su archivo ...
+    complete_heading: "¡Hecho!"
+    complete_message: Su archivo está completo y listo para su descarga.
+    failure_heading: Lo sentimos...
+    failure_message: Parece que ha habido un error al generar su archivo.
+  groups:
+    heading: Grupos
+    new_list:
+      heading: Nuevos Grupos
+    created: Grupo creado.
+    created_pending_approval: Su grupo se ha creado y está pendiente de aprobación.
+    saved: Se han guardado los cambios de grupo.
+    deleted: Grupo eliminado.
+    delete:
+      heading: Eliminar este grupo
+      intro: 'Si realmente desea eliminar el grupo y todo su contenido (mensajes,
+        peticiones de oración, imágenes, etc.) para siempre, puede hacerlo a continuación:'
+      button: Eliminar este grupo para siempre
+    hide:
+      heading: Ocultar (Archivar) Este grupo
+      intro: 'Si desea que un grupo desaparezca de todas las páginas del sitio, hágalo
+        clic en el  botón abajo:'
+      button: Ocultar este grupo
+      unhide_button: Mostrar este grupo
+    your_groups: Sus Grupos
+    groups_of:
+      s: "%{name} de Grupos"
+      no_s: Grupos de %{name}
+    hidden:
+      callout: Este grupo está oculto (archivado).
+      label: Oculto
+    hidden_groups:
+      heading: Grupos ocultos
+      description: Sólo los administradores (como usted) verán esta lista.
+    linked_group: Este grupo es mantenido por el personal de la oficina.
+    private:
+      callout: Este grupo es privado. Los mensajes publicados aquí solo pueden ser
+        vistos por los miembros del grupo y los administradores del sitio.
+      label: Privado
+    email_off: Correo electrónico desactivado
+    email_on: Correo electrónico activado
+    browse:
+      heading: Buscar grupos
+      select_category: Mostrar por categoría
+      all: Mostrar todo
+    create:
+      heading: Crear un grupo
+      description: Si no puedes encontrar un grupo, ¡es fácil crear uno!
+      button: Crear un grupo
+    show:
+      details:
+        admin: Admin
+        created_at: creado
+        created_by: creado por
+        leader:
+          one: líder
+          other: líderes
+        admins: Admins
+        meets: se reúne
+        location: ubicación
+        directions: direcciones
+        member_count_label: miembros
+        member_count:
+          one: 1 persona
+          other: "%{count} personas"
+        birthdays_this_month_html:
+          one: "(<a href='%{url} '> 1 </a> con cumpleaños este mes)"
+          other: "(<a href='%{url} '> %{count} </a> con cumpleaños este mes)"
+        attachments: Archivos
+        attachment_count:
+          one: 1 archivo
+          other: "%{count} de archivos"
+        attendance:
+          button: Seguimiento de asistencia
+      controls:
+        join: Unirse al grupo
+        join_pending: Unirse al grupo (pendiente)
+        leave: Salir del grupo
+        message: Enviar mensaje
+        prayer_request: Petición de oración
+      linked:
+        tooltip: Este grupo está vinculado mediante el código %{code}
+      parents_of:
+        tooltip: Este grupo está vinculado a los padres de %{group}
+    stream:
+      none:
+        heading: Ninguna actividad
+        message: Aquí es donde aparecerá la actividad del grupo.
+    new:
+      heading: Nuevo grupo
+    edit:
+      heading: Editar grupo
+      required_field: requerida
+      tabs:
+        details: Detalles
+        meets: Cuando se reúne
+        features: Caracteristicas
+        security: Seguridad
+        advanced: Avanzado
+      advanced:
+        description: Los ajustes siguientes son para usuarios avanzados.
+        membership_mode:
+          options:
+            manual: Agregar miembros manualmente (predeterminado)
+            link_code: Agregar miembros automáticamente por código de enlace externo.
+            parents_of: Enlace a un grupo de niños para obtener los padres de esos
+              niños.
+            adults: Incluya a todos los adultos en esta comunidad.
+      files:
+        description: Los archivos agregados aquí serán visibles para todos los miembros
+          de este grupo.
+        delete_button: Borrar
+      meets:
+        help: Algo así como "Miércoles a las 7pm" o "Como Anunciado"
+      location:
+        help: Si introduce una dirección física, aparecerá un mapa interactivo en
+          la página de su grupo.
+      directions:
+        help: Es posible que desee incluir direcciones de viaje.
+      address:
+        help: Dé a su grupo una dirección de correo electrónico única para que los
+          mensajes se puedan enviar fácilmente.
+      calendar:
+        help: En tu Calendario de Google, en Configuración de calendario, copia el
+          enlace XML "Privado" y pégalo en este cuadro para mostrar tu calendario
+          en la página de grupo.
+      category:
+        new: "[nueva categoría]"
+        help: Haga que su grupo sea fácil de encontrar colocándolo en una categoría
+          apropiada.
+      description:
+        help: Escriba una oración o dos para darle a la gente una idea de por qué
+          se encuentra y de los objetivos de su grupo.
+      approval_required_to_join:
+        help: Si está marcada, se enviará una solicitud de aprobación a los administradores
+          del grupo antes de que alguien pueda unirse.
+      private_group:
+        help: Si está marcada, la descripción del grupo, la lista de miembros y otra
+          información de grupo se ocultarán a los no miembros (sólo se mostrará el
+          título). Le recomendamos que revise también la casilla "Aprobación requerida".
+      members_send:
+        help: Si está marcada, cualquier miembro de este grupo puede enviar un mensaje
+          de correo electrónico a todos los demás miembros del grupo.
+      attendance_disabled:
+        help: La asistencia debe estar habilitada para cualquier grupo utilizado por
+          Check-in.
+      class_link_code:
+        help_html: |
+          <P> Esto es útil para sincronizar con sistemas externos. Separa varios códigos con un espacio. <a href='%{url} 'target =' _ blank '> Vea aquí </a> para obtener más información. </ P>
+          <P> Haga clic en <strong> Guardar </ strong> para actualizar los miembros del grupo inmediatamente. Los miembros del grupo también se actualizarán automáticamente cada noche. </ P>
+      parents_of:
+        help_html: |
+          <P> La membresía se generará automáticamente de los padres de los miembros del grupo seleccionado. </ P>
+          <P> Haga clic en <strong> Guardar </ strong> para actualizar los miembros del grupo inmediatamente. Los miembros del grupo también se actualizarán automáticamente cada noche. </ P>
+      enable_calendar: Habilitar calendario
+    table:
+      group_name: Grupo
+      leader: Líderes
+      member_count: Miembros
+      email_enabled: Correo electrónico habilitado
+    search:
+      heading: Buscar un grupo
+      results_heading: Resultados de búsqueda de grupo
+      name_placeholder: Buscar por nombre
+      submit: Buscar
+    batch:
+      heading: Editar Grupos por lotes
+      category: Categoría
+      name: Nombre
+      address: Prefijo de correo electrónico
+      members_send: Los Miembros Pueden Enviar
+      private: Privado
+      hidden: Oculto
+      class_link_code: Código(s) del enlace
+      approval_required_to_join: Aprobación requerida
+      errors: Hubo uno o más errores al guardar los cambios. Los registros erróneos
+        se resaltan a continuación.
+    files:
+      heading:
+        name: Nombre
+        size: Tamaño
+        created_at: Subido
+    pending_approval:
+      this_group: Este grupo está pendiente de aprobación.
+      description:
+        one: 'El siguiente grupo está pendiente de aprobación:'
+        other: 'Los siguientes grupos están pendientes de aprobación:'
+      count:
+        one: "%{count} grupo para aprobar"
+        other: "%{count} grupos para aprobar"
+    approve:
+      button: Aprobar el Grupo
+    membership_requests:
+      count:
+        one: "%{count} solicitud de membresía"
+        other: "%{count} solicitudes de membresía"
+    not_found: Grupo no encontrado
+    no_groups_found: No se encontraron grupos
+    join:
+      confirm: "¿Está seguro? Se enviará una solicitud al (a los) administrador(es)
+        del grupo."
+      request_sent: Se ha enviado al administrador del grupo una solicitud para unirse
+        a este grupo .
+    last_admin_remove: "%{name} es el último administrador y no se puede eliminar."
+    user_settings_saved: Configuraciones de usuario guardadas.
+    email_settings_changed: Se han cambiado la configuración de correo electrónico
+      del grupo.
+    limited:
+      intro: No puede ver este grupo porque es privado y usted no es miembro. Haga
+        clic abajo para solicitar unirse a este grupo.
+    box:
+      messages:
+        text:
+          one: Mensaje
+          other: Mensajes
+        new_link: Nuevo mensaje
+      prayer_requests:
+        text:
+          one: Petición de oración
+          other: Peticiones de oración
+        new_link: Nueva petición
+      pictures:
+        text:
+          one: Imagen
+          other: Imágenes
+        new_link: Nueva imagen
+      tasks:
+        text:
+          one: Tarea
+          other: Tareas
+        new_link: Nueva tarea
+    show_hidden:
+      button: Mostrar grupos ocultos (%{count})
+  import:
+    changes:
+      count:
+        one: 1 cambio
+        other: "%{count} cambios"
+      show_button: 'mostrar '
+    results:
+      name: Nombre
+      first_name: Primer Nombre
+      last_name: Apellido
+      status: Estatus
+    apply_settings_to_imports: 'Aplique las siguientes configuraciones a todas las
+      importaciones:'
+    attempt_match_existing_people: Intento de coincidir con personas existentes por
+      nombre si no se incluyen identificadores.
+    completed_records: Registros completados
+    error: Error
+    error_updating: Error al actualizar el registro.
+    error_updating_message_html: Hubo al menos un error al intentar actualizar registros
+      en la base de datos. Corrija los errores y vuelva a la interfaz <a href="%{url}
+      "> Actualizaciones pendientes </a> para completar el proceso.
+    errored_records: Registros con errores
+    for_list_of_available_attributes: Para una lista de atributos disponibles (no
+      todos los atributos son necesarios).
+    hint_excel_docs: 'Sugerencia: Los documentos de Excel se pueden exportar como
+      CSV desde el menú Archivo → Guardar como.'
+    import_data: Importar Datos...
+    import_people: Importar personas
+    import_results: Importar Resultados
+    import_selected_people: Importar personas seleccionadas
+    no_records_were_found: No se encontraron registros a importar.
+    only_first_records_will_be_imported_html: Sólo se importarán los primeros registros
+      %{count}. Para archivos más grandes, debe dividir los registros en varios archivos
+      o usar el <a href="http://wiki.github.com/churchio/onebody/updateagent"> UpdateAgent
+      </a> para importar un lote grande a la vez.
+    people: Importar personas
+    record: registro
+    record_updated: Registro actualizado.
+    records: Registros
+    select_csv_file: Seleccione un archivo de valores separados por comas (CSV) para
+      importar los nombres de atributos como la fila de encabezado.
+    the_changes_will_be_made: Se realizarán los siguientes cambios. Sólo  registros
+      seleccionados /actualizados se crearán.
+    the_import_is_complete: La importación se ha terminado
+    visibility_access: Visibilidad / Acceso
+    with_errors: con errores
+  maps:
+    notice: "&dupdo; <a href='https://www.openstreetmap.org'> OpenStreetMap </a> contribuyentes"
+  memberships:
+    index:
+      heading: Gente en %{group}
+      details:
+        admin: Admin
+        name: Nombre
+        birthday: Cumpleaños
+        created_at: 'Agregado
+
+'
+        leader: Líder
+        manual:
+          tooltip: Esta persona fue añadido manualmente.
+      remove:
+        button: Eliminar selección
+    add:
+      heading: Añadir a alguien
+      description: Añadir a alguien a este grupo.
+      name_placeholder: Escriba todo o parte del nombre de una persona
+      parents_of_warning_html: |
+        Se trata de un grupo vinculado de forma automática con los padres de las personas en %{group}.
+        Si agrega manualmente a alguien, esa persona no será gestionado de forma automática.
+      linked_group_warning_html: |
+        Este grupo está vinculado con el código de la clase <strong> %{code} </ strong>.
+        Si agrega manualmente a alguien, esa persona no será gestionado de forma automática.
+    promote: Cambiar miembro a admin
+    demote: Disminuir el miembro de nivel de administración a nivel regular
+    leader_add: Cambiar este miembro del grupo al líder
+    leader_remove: Cambiar este líder del grupo a un miembro regular
+    group_pending_approval: Este grupo está pendiente de aprobación. El usuario no
+      puede agregar personas a ella todavía.
+    requests:
+      heading: Solicita para unirse a este grupo
+      select_some: Seleccione uno o más arriba y elija una acción.
+      name: Nombre
+      created_at: Pedido
+      accept:
+        button: Aceptar
+      ignore:
+        button: Ignorar
+  messages:
+    new:
+      button: Nuevo mensaje
+    private:
+      heading: Mensaje privado
+      description_html: Esto enviará un <em> </ em> de correo electrónico privado
+        a %{person}.
+    group:
+      heading: Mensaje al grupo
+      description_html: Esto enviará un correo electrónico a cada miembro de %{group}.
+    subset:
+      description_html: Esto enviará un correo electrónico sólo a los miembros seleccionados
+        del %{group}.
+    sent_at_html: enviado %{when} por %{who}
+    sent_to_html: a %{who}
+    read_more: Lee mas
+    delete:
+      button: Borrar
+    in_reply_to_html: en respuesta a %{message}
+    replies:
+      heading: Respuestas
+    reply_all:
+      button: Responder a este mensaje (enviar a todo el grupo)
+      subset: Responder a este mensaje (miembros seleccionados)
+    email:
+      reply_to_sender: Pulse "Responder" para enviar un mensaje a %{person}.
+      reply_to_group: Pulse "Responder a todos" para enviar un mensaje al grupo %{group},
+        o envíelo a %{address}.
+      group_link: 'Página del grupo: %{url}'
+      reply_link: 'Para responder, vaya a: %{url}'
+      disable_group_email: |-
+        Para prevenir más correos electrónicos de este grupo:
+        %{url}
+      disable_all_email: |-
+        Para prevenir más correos electrónicos, accede a la página de privacidad:
+        %{url}
+    do_not_reply: NO RESPONDER
+    ago: hace
+    attachment_optional: Adjuntar (opcional)
+    attachments: Archivos adjuntos
+    file_missing: archivo faltante
+    flag_cleared: Bandera(s) borrada(s).
+    from: De
+    in: en
+    messages_in_html: Mensajes en <a href="%{url} "> %{name} </a>
+    missing_param: Falta el parámetro del mensaje.
+    no_email_for_person: Lo siento. No tenemos una dirección de correo electrónico
+      en nuestra sistema por %{name}.
+    not_authorized_delete: No está autorizado para eliminar este mensaje.
+    not_found: Mensaje no encontrado.
+    posted_by: publicado por
+    send_message: Enviar mensaje
+    sent: Su mensaje ha sido enviado.
+    show_quoted_content: Mostrar el contenido citado
+    some_quoted_text_is_hidden: Parte del texto citado en este mensaje está oculto;
+    subject: Tema
+    to_show_the_entire_message: para mostrar el mensaje completo.
+    unknown_type: Desconocido tipo de mensaje.
+    send_to_subset: Sólo envía este mensaje a (otros miembros no verán este mensaje)
+    filter: filtrar
+    more: Más ...
+    subset_warning: Este mensaje será entregado solamente a miembros seleccionados
+  nav:
+    hello: Hola, %{person}
+    admin: Admin
+    admin_sub:
+      admins: Administradores
+    albums: Albumes
+    business_profile: Negocio
+    checkin: Registrarse
+    checkin_sub:
+      times: Hora
+      labels: Etiquetas
+    directory: Directorio
+    directory_sub:
+      business: Directorio de negocios
+      printed: Directorio Impreso
+      advanced: Búsqueda Avanzada
+      new_person: Persona nueva
+    documents: Documentos
+    groups: Grupos
+    groups_sub:
+      edit: Editar grupo
+      new: Nuevo grupo
+      new_count:
+        one: 1 nuevo
+        other: "%{count} nueva"
+    home: Casa
+    home_sub:
+      new_count:
+        one: 1 nuevo
+        other: "%{count} nueva"
+    imports: Importaciones
+    messages: Mensajes
+    news: Noticias
+    notes: Notas
+    pages: Páginas
+    prayer_requests: Peticiones de oración
+    profile: Perfil
+    profile_sub:
+      edit: Editar perfiles
+      email: Correo electrónico.
+      password: Contraseña
+      privacy: Seguridad
+      family: Familia
+      relationships: Relaciones
+      show: Ver perfil
+    report: Informando
+    verses: Versiculos
+    tasks: Tareas
+    tasks_sub:
+      assigned_count:
+        one: 1 asignado
+        other: "%{count} asignado"
+  news:
+    heading: Noticias
+    edit:
+      heading: Editar Noticias Publicados
+    edit_button: Editar
+    delete_button: Borrar
+    body_description: 'Compartir su anuncio, información, noticias o aquí:'
+    deleted: Se eliminaron las noticias.
+    if_you_have_something_to_share_html: Si tiene algo de interés para compartir,
+      <a href='%{url} '> enviarlo aquí </a>.
+    news_feed: '"Feed " de Noticias '
+    no_news_is_available: No hay noticias está disponible en este momento.
+    save_news: Guardar Noticias
+    saved: Noticias Guardado
+    submit_news: Enviar Noticias
+    subscribe:
+      button: Suscribir
+      description: Recibe actualizaciones de noticias en tu lector de feeds.
+    title_description: 'Dar un título concisa:'
+    welcome_to_the_place: Bienvenido al sitio de noticias de la comunidad.
+  notes:
+    index:
+      heading: Notas
+    new:
+      heading: Nota nueva
+      button: Nuevo
+    edit:
+      heading: Editar nota
+      button: Editar
+    delete:
+      button: Borrar
+    posted: Publicado %{when}
+    save: Guardar Nota
+    saved: Nota guardado
+  notifier:
+    email_update:
+      subject: "%{person} Se cambió su correo electrónico"
+      intro: "%{person} ha tenido su correo electrónico cambiado."
+      email_label: Correo electrónico.
+    email_verification:
+      subject: Verifica su correo electrónico
+      intro: |
+        Este mensaje es para verificar su dirección de correo electrónico y acceder a la
+        %{site} página web para que pueda iniciar una sesión.
+      instruction: 'Para verificar su dirección de correo electrónico, haga clic en
+        el siguiente enlace:
+
+'
+      footer: |
+        Si no puede hacer clic en el enlace de arriba, puede ser necesario copiar y pegar
+        en la barra de direcciones del navegador web.
+
+        Si usted no sabe porqué está recibiendo este correo electrónico, puede comunicarse a %{name} por %{phone}.
+    friend_request:
+      subject: Solicitud de Amigo de %{person}
+      intro: "%{person} quiere ser tu amigo en %{site}.\n"
+      instruction: 'Para aceptar o rechazar, inicia sesión en la siguiente enlace:
+
+'
+    membership_request:
+      subject: Solicita de unirse al Grupo de %{person}
+      intro: "%{person} ha solicitado unirse al grupo %{group}.\n"
+      instruction: 'Para aceptar o rechazar, inicia sesión en la siguiente enlace:
+
+'
+    mobile_verification:
+      subject: Verificar teléfono móvil
+      label: 'Código de verificación:'
+    pending_sign_up:
+      subject: Pendiente Registrarse
+      intro: "%{person} se ha registrado para una cuenta en %{site}.\n"
+      instruction_first: |
+        Si se aprueba esta creación de la cuenta, activar la cuenta en
+        esta dirección:
+      instruction_last: |
+        Marque todas las casillas apropiadas en la pestaña de "visibilidad" y guardar.
+
+        También asegúrese de hacer clic a "enviar correo electrónico de verificación" para el usuario.
+    photo_update:
+      family_subject: Foto de familia ha cambiado
+      person_subject: Foto cambiado
+      intro: "%{person} cambiado su foto.\n"
+    prayer_request:
+      subject: Petición de Oración en %{group}
+      intro: "%{person} ha publicado una nueva petición de oración en %{group}.\n"
+    printed_directory:
+      subject: "%{site} Directorio"
+      intro: 'Hola, %{person}. Se adjunta el directorio impreso personalizado de %{site}.
+
+'
+    profile_update:
+      subject: Actualización del perfil de %{person}
+      intro: "%{person} (%{family}) ha presentado una actualización del perfil.\n"
+      label:
+        new: Nuevo
+        old: Antiguo
+    rejection:
+      cannot_read:
+        subject: 'Mensaje no ha sido enviado: %{subject}'
+        body: |
+          Su mensaje con el asunto "%{subject}" no fue entregado.
+
+          Lo sentimos por las molestias. El sistema no puede leer sus mensajes
+          porque no tiene el formato de texto plano o HTML.
+
+          Por favor, configurar su cliente de correo electrónico en texto sin formato (apagar texto enriquecido) y tratar de nuevo, o puede enviar su mensaje desde el sitio web después de la firma en la siguiente enlace: %{url}
+      multiple_people:
+        subject: 'Mensaje no enviado: %{subject}'
+        body: |
+          Su mensaje con el asunto "%{subject}" no fue entregado.
+
+          Lamentamos las molestias. El sistema no puede determinar quién es usted
+          porque más de una persona en su familia comparten la misma dirección de correo electrónico.
+          Inicie sesión en la siguiente enlace y envíe su mensaje desde este sitio web.
+
+          %{url}
+
+          También puede iniciar sesión en la enlace anterior, ir a la configuración de correo electrónico y marque la casilla "Titular principal de la cuenta de correo electrónico".
+      unknown_person:
+        subject: 'Mensaje no enviado: %{subject}'
+        body: |
+          Su mensaje con el asunto "%{subject}" no fue entregado.
+
+          Lo sentimos por las molestias. El sistema no reconoce su dirección de correo electrónico como usuario de este sitio web.
+
+          Por favor, envía utilizando la misma dirección de correo electrónico que utiliza para iniciar sesión en la siguiente enlace, o un ingresar allí y enviar su mensaje desde el sitio web.
+
+          %{url}
+      invalid:
+        subject: 'Error de mensaje: %{subject}'
+        body: |
+          Su mensaje con el asunto "%{subject}" no fue entregado.
+
+          Lamentamos las molestias. El sistema no pudo guardar tu mensaje.
+          Debido a la(s) siguiente(s) razón(es):
+
+          %{errors}
+
+          Por favor envíe este mensaje a soporte: %{support}
+      no_recipients:
+        subject: 'Mensaje no enviado: %{subject}'
+        body: |
+          Su mensaje con el asunto "%{subject}" no se entregó a ningún grupo.
+
+          Lamentamos las molestias. El sistema no pudo encontrar ninguna
+          Grupo en los campos A: o CC:
+
+          Compruebe que ha escrito la dirección de correo electrónico del grupo correctamente y que usted tiene permiso para enviar correo electrónico a este grupo.
+
+          También puede iniciar sesión en la siguiente enlace para enviar su mensaje:
+
+          %{url}
+    message_id: ID de mensaje
+    not_allowed_to_post: no se le permite colocar a esta lista
+  pages:
+    index:
+      heading: Páginas
+      intro: A continuación se presentan las páginas y fragmentos de contenido utilizado
+        en el sitio que se puede usar para personalizar su propia comunidad.
+      name: Nombre
+      description: Descripción
+      edit_button: Editar
+    descriptions:
+      help: La página se muestra a los usuarios quienes buscan ayuda para ingresar.
+      bad_status: Se muestra cuando el usuario está en la base de datos, pero que
+        no tienen permiso para acceder.
+      privacy_policy: Los detalles sobre cómo este sitio recopila y comparte información.
+      safeguarding_children: Los detalles sobre cómo este sitio protege a los niños
+        y su información.
+      unauthorized: La página mostrado a los usuarios que explica cómo acceder al
+        sitio.
+      checkin: Un poco de contenido de ayuda que aparece en la parte superior de la
+        pantalla de administración de registro.
+    body: Cuerpo
+    edit_page: Editar página
+    not_found: Página no encontrada.
+    saved: Página guardada.
+    title: Título
+    view_page: Ver pagina
+  people:
+    account_frozen:
+      callout: Esta cuenta está bloqueada. Los cambios no se pueden hacer hasta que
+        se desbloqueada.
+    new:
+      heading: Nueva Persona en la familia %{family}
+      heading_without_family: Persona nueva
+      no_family_warning_html: |
+        Está al punto de crear una nueva persona y un <strong> nuevo registro familiar </ strong>.
+        Si en cambio, desea agregar una persona a una familia existente, primero vaya a la página de esa familia y agregue la persona allí.
+    title_html: "%{name} <span class = 'discreet'>, %{description} </ span>"
+    show:
+      details:
+        family: "%{family} Familia"
+        website: Sitio web
+        email: Correo electrónico.
+        mobile_phone: Teléfono móvil
+        home_phone: Teléfono de casa
+        work_phone: Teléfono del trabajo
+        address: Direccion de casa
+        map: Ver en el mapa
+        birthday: Cumpleaños
+        anniversary: Aniversario de bodas
+        social: Social
+        about: Acerca de
+        created: Perfil creado
+        edited: Último cambio
+        last_seen: Ultimo vez que se ingresó
+      showing_hidden_attribute:
+        tooltip: Este detalle es visible a usted porque es un administrador con 'Ver
+          propiedades ocultas' habilitado.
+    edit:
+      about: Acerca de
+      basics: Lo basico
+      business: Negocio
+      business_category:
+        new: "[Crear una nueva categoría]"
+        create_prompt: 'Ingrese la categoría para su negocio:'
+      child:
+        enabled: Niño
+        disabled: Adulto
+      child_hint: Si no se especifica la fecha de cumpleaños, tiene que indicar si
+        es niño o adulto.
+      custom_type:
+        new: "[Crear papel]"
+        create_prompt: 'Introduzca el nombre de la función:'
+      description_hint: Unas palabras de sí mismo - algunas personas ingresen su puesto
+        de trabajo aquí.
+      email_hint: " (Esta es su dirección de correo electrónico principal que se utiliza
+        para iniciar una sesión y recibe mensajes de correo electrónico)"
+      facebook_url:
+        placeholder: https://www.facebook.com/nombre
+      family_photo: Foto de familia
+      fields: Campos
+      header: Editar perfil
+      no_family_error: Esta persona no puede ser editado, ya que no pertenecen a una
+        familia.
+      person_type: Roles
+      person_type_hint: Estos no controlan el acceso - Sólo designación.
+      photo: Foto de perfil
+      primary_emailer:
+        intro_html: |
+          Está compartiendo una dirección de e-mail con %{person}.
+          Si se rechazan los mensajes de correo electrónico de grupo, considere marcar la casilla siguiente para asegurarse de que mensajes de correo electrónico desde su dirección se <strong> siempre </ strong> conectados con su cuenta
+          &ndash; <Strong> no %{person} </ strong>. (Nota: si usted y %{person} envian mensajes de correo electrónico de grupo, entonces sería mejor utilizar diferentes direcciones de correo electrónico.)
+      required_field: requerida
+      twitter:
+        placeholder: "@username"
+      status: Estatus
+      status_help:
+        inactive: Las personas inactivas no pueden iniciar sesión y no son visibles
+          para nadie en el sitio, excepto los administradores.
+        pending: Las personas pendientes pueden iniciar sesión y buscar información
+          limitada para contactarse con los miembros.
+        active: Las personas activas pueden iniciar sesión y hacer pleno uso del sitio.
+        not_an_adult: Los niños no pueden entrar, cambiando el estatus aquí sólo afecta
+          su visibilidad a los demás.
+      statuses:
+        inactive: Inactivo
+        pending: Pendiente
+        active: Activo
+    move:
+      heading: Añadir a %{family} familia
+      description_html: Busque a alguien para agregar a la familia <a href='%{url}>
+        %{family} </a>, luego haga clic en el botón Agregar/Añadir ...
+      button: Mover a una persona a esta familia
+      success_message: "%{person} se ha añadido a la familia %{family}."
+    roles:
+      elder: Anciano
+      deacon: Diácono
+      staff: Personal
+      member: Miembro
+    email:
+      heading: Configuración de Correos Electónicos
+      primary:
+        heading: Correo electrónico principal
+        description_html: |
+          <p> Ésta es la dirección de correo electrónico principal utilizada para iniciar sesiones y recibir correos electrónicos. Toma en cuenta: </p>
+          <ul>
+            <li> Esta es la dirección de correo electrónico que debe utilizar para iniciar una sesión. </li>
+            <i> Todos los correos electrónicos del grupo y privados se enviarán a esta dirección de correo electrónico. </li>
+          </ul>
+      alternate:
+        heading: Correo electrónico alternativo
+        description_html: |
+          <p> Si tiene otro correo electrónico (tal vez una dirección de trabajo) que desee utilizar para enviar correo electrónico a grupos, puede ingresarlo aquí. Toma en cuenta: </p>
+          <ul>
+            <li> Esta dirección de correo electrónico no estará visible para nadie, excepto los administradores. </ li>
+            <li> No podrá utilizar esta dirección para iniciar sesión en el sitio. </li>
+          </ul>
+      groups:
+        heading: Correo electrónico del grupo
+    groups:
+      heading: Grupos
+      members: miembros
+      messages: mensajes
+      join:
+        button: Buscar y unirse a un grupo.
+      see_all: ver todo...
+    business:
+      services_provided_by: Los servicios proporcionados por %{person}
+      address: Dirección
+      email: Correo electrónico.
+      phone: Teléfono
+      website: Sitio web
+    checkin:
+      heading: " Notas del Registro de entrada"
+      intro: Estas son las notas que se muestran en las pantallas de registro de entrada
+        y (opcionalmente) en imprimida en las etiquetas de Check-In con el fin de
+        dar alerta a los trabajadores.
+    testimony:
+      box_heading: Testimonio
+      heading: Testimonio de %{person}
+      view_profile: Ver perfil
+      view_full: Lee mas
+      find_more: Lee otros testimonios
+    updates:
+      pending_callout: Las actualizaciones de este perfil están pendientes.
+    verification_email:
+      heading: Termina la Configuración del Usuario
+      intro: Antes de este usuario puede iniciar una sesión, debe completar la configuración
+        haciendo clic en un enlace en su correo electrónico. Haga clic a continuación
+        para enviarlo el correo electrónico.
+      button: Enviar un correo electrónico de configuración de contraseña a este usuario.
+    advanced: Avanzado
+    can_sign_in: Puede ingresar
+    cant_delete_yourself: No se puede eliminar a sí mismo.
+    cant_delete: No se puede eliminar esta persona.
+    changes_must_be_reviewed_html: Los cambios en el formulario abajo deben ser <strong>
+      revisado por el personal </ strong>. Para solicitar cambios, lene el formulario
+      abajo y haga clic en "Enviar cambios".
+    changes_submitted: Los cambios enviados.
+    child: Niño / Adulto
+    deleted_html: Esta persona ha sido eliminada. Puede restaurar el registro <a href='%{url}
+      '> aquí </a>.
+    family: Familia
+    family_legacy_external_id: ID antigua de la familia o externa
+    find_a_group_html: Encuentra un grupo <a href='%{url} '> aquí </a>.
+    friend_not_found: Amigo no encontrado.
+    friendship_accepted: Amistad aceptada.
+    friendship_manage: Usted no puede manejar amistades para cualquier persona menos
+      usted mismo.
+    friendship_must_specify: Debe especificar accept= true o reject = true
+    friendship_rejected: La amistad declinó.
+    full_access: Acceso completo
+    if_you_wish_to_be_listed_business_dir_html: Si desea estar en el <a href='%{url}
+      '> Directorio de empresas </a>, ingrese el nombre de su empresa, la descripción
+      y otros detalles a continuación.
+    if_you_wish_to_remove_something_html: Si desea eliminar algo para evitar que otros
+      lo vean, vaya a la página <a href='%{url} '> Privacidad </a> y ocúltela.
+    legacy_external_id: ID antigua/Externa
+    limited_access: Su cuenta actualmente tiene acceso limitado; Como resultado, le
+      mostraremos una página de perfil abreviada.
+    limited_access_denied: Su cuenta tiene actualmente acceso limitado.
+    no_family_for_this_person: Esta persona no pertenece a una familia. No podrán
+      iniciar sesión y no serán visibles para otros en el sitio.
+    not_deleted: Persona no eliminada.
+    not_found: Persona no encontrada.
+    pending_approval: aprobación pendiente
+    people: Gente
+    person:
+      one: 1 persona
+      other: "%{count} personas"
+    person_isnt_any_groups: "%{person} no está en ningún grupo ahora mismo."
+    share_your_personal_testimony: Comparta su testimonio personal - cómo llegó a
+      conocer a Jesucristo y cómo El ha cambiado su vida.
+    show_hidden_groups: Mostrar grupos ocultos
+    tell_us_about_yourself: Escribe acerca de usted. ¿Cómo es su personalidad? ¿Qué
+      diría su mejor amigo sobre usted?
+    this_event_doesnt_have_pictures: Este evento aún no tiene fotos.
+    this_profile_is_hidden: Este perfil está oculto
+    update_to_profile_is: Una actualización de este perfil es
+    visible_on_printed_directory: Visible en Directorio Impreso
+    visible_to_everyone: Visible a todos
+    you_arent_in_any_groups: No se encuentra en ningún grupo todavía.
+  photos:
+    object_not_found: Objeto no encontrado.
+    browse: Seleccione Foto
+    remove: Borre la foto
+    unavailable: Foto no disponible.
+    upload:
+      button: Subir
+      error: La fotografía no se pudo ser guardado.
+      wrong_type: El tipo de archivo del foto debe ser JPG, GIF o PNG.
+    ready_filename: Listo para cargar %{filename}
+    uploading_filename: Cargando %{filename}
+  pictures:
+    none: No hay fotos todavía
+    new:
+      heading: Nueva imagen
+      existing_album:
+        intro: Añadir una o más fotos a un álbum existente ...
+      new_album:
+        intro: O crear un nuevo álbum ...
+        button: Nuevo album
+    show_original: Mostrar original
+    create_an_album:
+      notice: En primer lugar crear un álbum ...
+    click_to_enlarge: Click para agrandar
+    comment_on_this_picture: Comenta sobre esta foto
+    failed: "%{fail} No salvado debido a errores"
+    picture_uploaded_by: Imagen cargada %{when} por
+    rotate_left: Girar a la izquierda
+    rotate_right: Gira a la derecha
+    saved: "%{success} foto(s) que se grabado"
+    set_as_cover: Establecer como portada
+    upload: "¡Subir!"
+  prayer_requests:
+    by: por %{person}
+    name: Petición de Oración en %{group}
+    index:
+      heading: Peticiones de oraciones
+    show:
+      heading: Petición de oración
+    new:
+      heading: Nueva Solicitud de Oración
+      button: Nueva Solicitud de Oración
+    edit:
+      heading: Modifica la petición de Oración
+      button: Modifica la petición
+    delete:
+      button: Borrar petición
+    request:
+      heading: 'Petición '
+    answer:
+      heading: Respuesta
+      description: Recuerda volver y llenar esta sección para que su grupo puede tener
+        un registro de las oraciones contestadas.
+      on_date: Contestada el %{date}
+    save: Guardar peticion de oración
+    not_found: Peticion de Oración no encontrada
+    error:
+      no_edit: No se puede editar esta petición de oración.
+      no_delete: No se puede eliminar esta petición de oración.
+      no_post: No puede enviar una petición de oración en este grupo, ya que no es
+        un miembro.
+    send_email: Enviar como correo electrónico a los miembros del grupo.
+  printable_directories:
+    already_sent: Parece que un directorio ya fue enviado a usted hace un rato. Por
+      favor, compruebe en sus correos electrónicos (y su carpeta de spam por si acaso...).
+    filename: Directorio.pdf
+    finished: Su directorio personalizado está listo.
+    generate_custom_directory: Generar mi directorio personalizado
+    generating: Generando ...
+    heading: Directorio Impreso
+    include_family_pictures: Incluir fotos de la familia
+    intro: Haga clic en el botón de abajo para generar un archivo PDF de directorio
+      personalizado.
+    not_allowed: No se le permite imprimir el directorio. Lo siento.
+    were_are_building_custom_pdf: Estamos creando su PDF personalizado ahora mismo.
+      Tardará un poco, pero probablemente no más de unos minutos. Una vez que esté
+      listo, se lo enviaremos por correo electrónico. Siéntase en libertad de continuar
+      su visita a este sitio (puede salir de esta página si lo desea).
+    will_take_longer: "(Tardará un poco más)"
+    pdf:
+      heading: "%{community} Directorio"
+      cover_page_sub_heading: Directorio
+      created_for: Creado especialmente para %{name} en %{date}
+  privacies:
+    tabs:
+      sharing: Compartiendo
+      children: Niños
+    sharing:
+      intro_html: Puede cambiar la configuración de privacidad de su familia aquí.
+        Los elementos con una marca de verificación son visibles para los demás miembros
+        que se registren en este sitio web. Haga clic en <i class = 'fa fa-plus-circle'>
+        </ i> para configurar la privacidad de los grupos (opcional). Para entender
+        cómo usamos la información personal de usted y su familia, lea nuestra <a
+        href='%{url} '> Política de Privacidad </a>.
+    children:
+      intro: Controla cuál de sus hijos a continuación tiene acceso a este sitio web.
+    scroll_notice: Puede que tenga que desplazarse hacia la izquierda y la derecha
+      para ver todas las opciones aquí.
+    activity: Actividad
+    address: Dirección
+    agreement_saved: Acuerdo guardado.
+    anniversary: Aniversario
+    as_a_parent_agree_html: Yo, como padre o tutor legal de %{name}, por la presente
+      acepto que he leído la <a href="%{url} "> Política de Privacidad </a>, que la
+      información personal de %{name} puede ser mostrada para Otros usuarios del sitio
+      web (según lo determinado por la configuración de privacidad en esta página),
+      y que %{name} puede, si es posible, utilizar este sitio web como usuario normal
+      (incluida la personalización del perfil y la comunicación a través de mensajes
+      privados, grupos, etc.). ).
+    birthday: Cumpleaños
+    child_profile_has_parental_consent: El perfil de este niño tiene el permiso de
+      los padres de %{name}.
+    child_under_age_you_have_not_consent: 'Este niño tiene menos de %{years}, y usted
+      no ha dado su permiso para: 1) permitir que su información se muestre, y 2)
+      permitirles ingresar y usar este sitio web.'
+    click_the_agree: Haga clic en el botón "Acepto".
+    email: Correo electrónico.
+    family_hidden: "¡Esta familia está actualmente oculta en todas las páginas de
+      este sitio!"
+    family_privacy: Familia
+    fax: Fax
+    group_privacy: Privacidad del grupo
+    hide_your_activity: 'Ocultar su actividad si no quiere que sus amigos y / o compañeros
+      de grupo vean sus mensajes públicos, notas, versículos, etc. en su página de
+      inicio. Nota: los mensajes privados nunca se muestran, independientemente de
+      esta configuración.'
+    home_phone: Teléfono de casa
+    i_agree: Estoy de acuerdo
+    mobile_phone: Teléfono móvil
+    please_read_our_privacy_policy_html: Lea nuestra <a href="%{url} "> Política de
+      privacidad </a> para obtener detalles sobre el uso de su información personal.
+    people_can_still_send_html: Todavía puede recibir correo electrónico a través
+      del sitio, sin revelar su dirección de correo electrónico en la Web.
+    privacy: 'Privacidad '
+    read_privacy_policy_html: Lea nuestra <a href="%{url} "> Política de privacidad
+      </a>.
+    read_safeguarding_children_html: Lea nuestra página sobre <a href="%{url} "> Protección
+      de los niños </a>.
+    read_statement_below: Lea la declaración a continuación y acceda a ella marcando
+      la casilla correspondiente.
+    saved: Configuración guardado
+    sharing_with_html: Compartir con <a href="%{url} "> %{name} </a>
+    to_show_on_this_site: 'Para mostrar %{name} en este sitio, por favor:'
+    visible: Visible
+    visible_note: Si configura un perfil como invisible, no aparecerá en las búsquedas
+      de directorios. Aún así, puede unirse a grupos y recibir correo electrónico
+      y correo electrónico de grupo de los administradores del sitio.
+    work_phone: Teléfono del trabajo
+    you_may_share_items: 'Es posible compartir elementos con los demás miembros de
+      los siguientes grupos:'
+    you_must_check_agreement_statement: Debe marcar la casilla que indica que está
+      de acuerdo con la declaración de abajo.
+  relationships:
+    heading: Las relaciones de %{person}
+    reciprocate:
+      button: Corresponder
+      failure: No se puede crear automáticamente una relación recíproca con %{name}.
+    add_relationship:
+      intro: 'Añadir una relación:'
+      button: Añadir Relación
+    family:
+      create:
+        intro: Algunas relaciones se sugieren a continuación. Hacer los ajustes necesarios,
+          y a continuación, haga clic en el botón Crear.
+        button: Crear relaciones familiares
+      heading: Las relaciones familiares para %{family}
+      button: Relaciones familiares
+    inward:
+      heading: Las relaciones internas
+    names:
+      aunt: Tía
+      brother: Hermano
+      brother_in_law: Cuñado
+      cousin: Prima
+      daughter: Hija
+      daughter_in_law: Hijastra
+      father: Padre
+      father_in_law: Suegro
+      granddaughter: Nieta
+      grandfather: Abuelo
+      grandmother: Abuela
+      grandson: Nieto
+      husband: Marido
+      mother: Madre
+      mother_in_law: Suegra
+      nephew: Sobrino
+      niece: Sobrina
+      other_name: Otro
+      sister: Hermana
+      sister_in_law: Cuñada
+      son: Hijo
+      son_in_law: Yerno
+      stepbrother: Hermanastro
+      stepdaughter: Hijastra
+      stepfather: Padrastro
+      stepmother: Madrastra
+      stepsister: Hermanastra
+      stepson: Hijastro
+      uncle: Tío
+      wife: Esposa
+    other_name:
+      placeholder: Tipo de relación
+    no_person_selected: Ninguna persona seleccionada.
+    relationship: Relación
+    relationship_type: 'Tipo:'
+    toggle_individual: Ver relaciones individuales
+  reports:
+    from_date: Partir de la fecha
+    group: Grupo
+    group_select: Seleccione un grupo ...
+    name: Nombre
+    records:
+      one: 1 registro
+      other: "%{count} registros"
+    reports:
+      attendance_totals:
+        title: Totales de asistencia
+        columns:
+          group: Grupo
+          attended_at: Asistió a
+          count: Total de asistentes
+      group_contact_details:
+        title: Datos de contacto del grupo
+        title_for_group: Detalles de Contacto para Grupos %{group}
+        columns:
+          first_name: Primer Nombre
+          last_name: Apellido
+          email_address: Correo electrónico
+          mobile_phone: Teléfono móvil
+          home_phone: Teléfono de casa
+          address: Dirección
+        address: dirección
+      weekly_attendance:
+        title: Asistencia Semanal
+        title_for_group: Asistencia semanal para %{group}
+        columns:
+          person_id: ID
+          first_name: Primer Nombre
+          last_name: Apellido
+          group: Grupo
+          attended: Asistió
+        attended:
+          'yes': Sí
+          'no': 'No'
+    submit: Enviar
+    thru_date: Hasta la fecha
+    type: Tipo
+  search:
+    column:
+      name: Nombre
+      family: Familia
+      business: Negocio
+      category: Categoría
+      birthday: Cumpleaños
+      testimony: Testimonio
+    no_family: "(sin familia)"
+    form:
+      name: Buscar por nombre
+      advanced: Búsqueda Avanzada
+      birthday: Cumpleaños
+      anniversary: Aniversario de bodas
+      gender: Género
+      genders:
+        Male: Hombre
+        Female: Mujer
+      city: Ciudad
+      state: Estado
+      zip: Codigo
+      phone: Teléfono
+      email: Correo electrónico
+      type: Tipo de membresía
+      group_membership: Membresía de grupo
+      in_group: Incluye
+      not_in_group: no incluye
+      group_membership_text: Grupo con categoría
+      types:
+        member: Miembro
+        staff: Personal
+        deacon: Diácono
+        elder: Anciano
+    results:
+      testimony_read_more: mostra
+    add_selected: Añadir seleccionados
+    business_category: 'Categoría de negocios:'
+    deacon: Diácono
+    elder: Anciano
+    female: Mujer
+    heading: "%{name} Directorio"
+    male: Hombre
+    member: Miembro
+    results_not_shown: Algunos resultados no se muestra - ser más específicos.
+    not_showing_hidden_people: "(No mostrar a la gente ocultos)"
+    people_found:
+      one: 'se encuentre 1 persona '
+      other: "%{count} personas encontraron"
+    search: 'Búsqueda del Directorio '
+    search_by_name: Buscar por nombre
+    show_hidden: Mostrar ocultos
+    staff: Personal
+    directory_map: Mapa del directorio
+  session:
+    form:
+      header: Registrarse
+      placeholder:
+        email: Correo electrónico
+        password: Contraseña
+      remember_me: Recuérdame
+    account_not_activated_html: Su cuenta no se ha activado todavía. <a href='/pages/help'>
+      Haga clic aquí </a> para empezar.
+    email_found: Se encontró el correo electrónico, pero hay que verificar antes de
+      poder iniciar una sesión.
+    email_not_found: Esa dirección de correo electrónico no se puede encontrar en
+      nuestro sistema. Por favor, intente otra correo electrónico.
+    forgot_password_button: Necesida una contraseña
+    password_doesnt_match: La contraseña ingresada no coincide con nuestros registros.
+      Por favor, inténtelo de nuevo.
+    max_sign_in_attempts: Lo sentimos, pero ha excedido el número máximo de intentos
+      de ingresar dentro de un período de 15 minutos. Usted puede intentarlo de nuevo
+      en 15 minutos.
+    sign_in_button: Regístrame.
+    sign_up_button: Crea una cuenta.
+    sign_out: Desconectar
+  setup:
+    admin_account: Cuenta de administrador
+    complete_html: ¡Estupendo! Ha configurado los conceptos básicos. Pasa por la <a
+      href='%{url} "> sección de administración </a> cuando esté listo para personalizar
+      el sitio de la comunidad.
+    congratulations: "¡Felicitaciones! OneBody se está listo. Ahora es el momento
+      de añadir un usuario administrador y establecer algunos otros ajustes ..."
+    do_right_away: Usted debe hacer esto de inmediato, especialmente si el servidor
+      está disponible en la web pública.
+    domain_name_note: 'Ingresa el dominio para este sitio, sin ningún tipo de "www",
+      así: "ejemplo.com" o "miembros.ejemplo.com".'
+    heading: Configuración inicial
+    more_accounts_later: "(Usted pudra crear más cuentas de administrador después)."
+    domain_name: Nombre de dominio
+    first_name: Primer Nombre
+    last_name: Apellido
+    email: Dirección de correo electrónico
+    password: Contraseña
+    password_confirmation: Confirmar contraseña
+    submit_button_html: Guardar cambios
+  stream:
+    title: Casa
+    sub_title: "(Cosas compartido conmigo)"
+    none: Nada que mostrar aquí todavía.
+    header:
+      noone: sistema
+      message: "%{who} envió un mensaje a %{group}"
+      news: "%{who} Publicado %{title}"
+      note: "%{who} publicó una nota"
+      person: "%{who} fue agregado a la comunidad"
+      picture:
+        one: "%{who} compartió una imagen en %{album}"
+        other: "%{who} compartido algunas fotos en %{album}"
+      picture_in_group:
+        one: "%{who} compartió una imagen en el grupo %{group}"
+        other: "%{who} compartió algunas imágenes en el grupo %{group}"
+      prayer_request: "%{who}  solicitó oración en el grupo %{group}"
+      site: "%{site}"
+      verse: 
+    body:
+      picture:
+        alt: Click para agrandar
+      person:
+        button: Saluda a %{person}!
+      site:
+        description: sitio de la comunidad para %{site} fue creado!
+      stream_item_group:
+        person:
+          description:
+            one: se añadió 1 persona más ...
+            other: "%{count} Se agregaron más personas ..."
+    footer:
+      button_label:
+        default: Lee mas
+        album: Muestra todos
+        note: Lee mas
+        verse: Lee mas
+        stream_item_group: Muestra todos
+    load_more: carga más...
+    share:
+      heading:
+        friends: Compartir con amigos
+        everyone: Compartir con todos
+      intro:
+        friends_and_group_members: Las cosas que compartes aquí serán vistas por sus
+          amigos y miembros del grupo cuando se conecten.
+        friends_only: Cosas que compartes aquí serán vistos por sus amigos cuando
+          inician sesiones.
+        group_members_only: Cosas que compartes aquí serán vistos por sus compañeros
+          de grupo cuando inician sesiones.
+        everyone: Compartir algo emocionante con toda la comunidad ...
+      button:
+        note: nota
+        picture: foto
+        verse: versículo de la biblia
+        message: Mensaje al grupo
+        news: compartió un puesto de noticias
+      sharing_with_html:
+        one: Compartiendo con <a href='%{url} '> 1 persona </a>
+        other: compartiendo con <a href='%{url} '> %{count} personas </a>
+    people:
+      heading: Compartir con los amigos
+      intro: Estas son las personas que ven lo que compartes en el sitio.
+      intro_none: Nadie para mostrar.
+      column:
+        name: Nombre
+        family_name: Nombre de la Familia
+        reason: Razón
+      reason:
+        family_html: Su familia <a href='%{url} '> </a>
+        friend_html: "<a href='%{url} '> amigo </a>"
+        groups_html:
+          one: 'en este grupo con usted: %{groups}'
+          other: 'en estos grupos con usted: %{groups}'
+    feed: Alimenta de noticias
+  tags:
+    add_tags: Añadir etiquetas (separadas por espacios)
+    confirm_delete: "¿Está seguro de que quiere eliminar esta etiqueta?"
+    no_tags_yet: sin etiquetas todavía
+    tag: Etiqueta
+    tags: Etiquetas
+  tasks:
+    index:
+      heading: Tareas
+      group_heading: Tareas para %{group}
+      comment_count:
+        one: 1 comentario
+        other: "%{count} comentarios"
+    new:
+      heading: Nueva tarea
+      button: Nueva tarea
+    edit:
+      heading: Editar tarea
+    show:
+      heading: 'Tarea: %{task}'
+      edit: Editar tarea
+    heading: Tarea
+    save: Guardar Tarea
+    go_to_group: Ir al grupo de
+    deleted: Tarea borrada
+    members: Todos los miembros

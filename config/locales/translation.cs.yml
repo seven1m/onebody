@@ -1,0 +1,3023 @@
+---
+cs:
+  accounts:
+    create:
+      heading: Vytvoření účtu
+      button: Vytvoř účet
+      existing_account:
+        by_email: Byl nalezen existující účet se stejnou emailovou adresou.
+        by_mobile: Byl nalezen existující účet s tímto mobilním číslem.
+    forgot:
+      heading: Obnovit účet
+    verification:
+      not_pending: Tento ověřující odkaz již není platný. Prosím, <a href='%{url}'>zkuste
+        to znovu</a>.
+      email:
+        via_admin: Ověřující email byl zaslán uživateli.
+    birthday: Narozeniny
+    call_office: Volejte %{phone}
+    call_office_message: Volejte farní kancelář v úřední hodiny.
+    check_code: Kontrolní kód
+    description: Popis
+    enter_code: Vložit kód
+    enter_your_email: Zadejte e-mailovou adresu a klikněte na tlačítko níže. Bude
+      Vám zaslán e-mail pro ověření a budete se moci přihlásit.
+    fill_required_fields: Vyplňte prosím všechna požadovaná pole.
+    gender: Pohlaví
+    I_am_this_person: Jsem tento uživatel.
+    email_address: Emailová adresa
+    first_name: Křestní jméno
+    last_name: Příjmení
+    leave_blank: Pokud nechcete změnit heslo, ponechte tato pole prázdná.
+    must_set_email_pass: Pro pokračování musíte zadat Vaši emailovou adresu a heslo.
+    password: Heslo
+    password_confirm: Heslo (ještě jednou pro potvrzení)
+    pending_approval: Váš účet čeká na schválení. Jakmile bude schválen, přijde Vám
+      potvrzující e-mail.
+    please_select_your_name: Vyberte prosím jméno ze seznamu níže
+    select_your_carrier: Vyberte svého mobilního operátora
+    set_your_email: Pro pokračování musíte zadat Vaši emailovou adresu a heslo.
+    set_your_email_may_be_different: Pro dokončení registrace zadejte prosím svou
+      osobní e-mailovou adresu a NOVÉ heslo.
+    this_site_doesnt_allow_signup: Tento web neumožňuje samostatnou registraci uživatelů.
+      Místo toho je nutno buď ověřit svůj již existující účet nebo kontaktovat  %{office_phone}.
+    type_your_email: Zde zadejte Vaši e-mailovou adresu
+    type_your_mobile: Zde zadejte Vaš mobil
+    verification_email_sent: Byl Vám zaslán ověřující email. Zkontrolujte svou mailovou
+      schránku a postupujte podle pokynů v přijaté zprávě. (Možná budete muset chvíli
+      počkat, než zpráva na email dorazí.)
+    verification_max_attempts_reached: Překročili jste denní limit pro počet pokusů
+      o ověření.
+    verification_message_sent: Ověřovací SMS byla odeslána. Zkontrolujte prosím svůj
+      telefon a zadejte kód, který jste obdrželi.
+    verify: Ověření účtu
+    verify_email: Ověření emailu
+    verify_code_intro: Prosím, zadejte kód, který jste obdrželi na svém mobilním telefonu.
+    verify_by_email: Ověřit e-mailem.
+    verify_by_email_message: Zašleme Vám e-mail a pro resetování hesla klikněte na
+      odkaz uvnitř.
+    verify_by_phone: Ověřit pomocí mobilního telefonu.
+    verify_by_phone_description_html: Zadejte číslo svého mobilního telefonu, vyberte
+      svého operátora a potom klikněte na tlačítko níže. Máme-li Vaše číslo v systému,
+      bude Vám odeslána textová zpráva umožňující Vaše ověření a získání přístupu
+      k tomuto webu. <strong>Textová zpráva může být zpoplatněna dle ceníku Vašeho
+      operátora.</strong>
+    verify_by_phone_message: Byla Vám zaslána ověřující SMS. Přepište prosím zaslaný
+      kód.
+    verify_mobile: Ověření mobilem
+    verify_who_you_are: 'Pro přihlášení pomocí svého stávajícího účtu vyberte, prosím,
+      jednu z následujících možností:'
+    wrong_code_html: Byl vložen špatný kód. <a href='/account/new?phone=true'>Zkuste
+      znovu</a>
+  admin:
+    actionables:
+      heading: Actionables
+    administration:
+      heading: Administration & Settings
+    attendance:
+      heading: Attendance (30 days)
+      button: Attendance
+    box:
+      updates:
+        text:
+          one: Profile Update
+          few: Profile Updates
+          other: Profile Updates
+      changed_emails:
+        text:
+          one: Changed Email
+          few: Changed Emails
+          other: Changed Emails
+      import_errors:
+        text:
+          one: Import Error
+          few: Import Errors
+          other: Import Errors
+      groups_pending_approval:
+        text:
+          one: Group Pending Approval
+          few: Groups Pending Approval
+          other: Groups Pending Approval
+      membership_requests:
+        text:
+          one: Group Membership Request
+          few: Group Membership Requests
+          other: Group Membership Requests
+      deleted_people:
+        text:
+          one: Deleted Person
+          few: Deleted People
+          other: Deleted People
+    charts:
+      no_data: no data yet
+    checkin:
+      heading: Check-in (48 hours)
+      cards_assigned: Check-In Cards Assigned
+      dashboard_button: Check-in Admin
+      button: Check-in Kiosk
+    dashboard:
+      heading: Admin Dashboard
+      sub_title: OneBody %{version}
+      version_alert:
+        intro_html: 'A newer version of OneBody is available: <a href=''%{url}''>%{version}</a>'
+        download_button: How to Upgrade
+    deleted_people:
+      tabs:
+        people: Deleted People
+        families: Empty Families
+      family_deleted: deleted
+      heading: Deleted People
+      empty_families:
+        intro: The following active families have no people in them and probably should
+          be deleted.
+        delete:
+          button: Delete Selected Families
+        none: none
+      none: none
+      purge:
+        button: Purge
+      purge_family_when_empty: and purge family when empty
+      search_results:
+        intro: The results of your search are displayed below.
+      undelete:
+        button: Undelete Selected People
+    facebook:
+      heading: Facebook
+      intro_html: Allow people to sign in using Facebook. You'll need to first set
+        up a Facebook "app", then plug in the app id and secret below.
+    gatherings:
+      heading: Gatherings
+    membership_requests:
+      count:
+        one: "%{count} request"
+        few: "%{count} requests"
+        other: "%{count} requests"
+    pusher:
+      heading: Pusher
+      intro_html: Pusher is a service that facilitates real-time communication. Right
+        now, OneBody uses Pusher only for remote Check-in printing, which you may
+        not need. You can sign up for a free Pusher account at <a href='https://pusher.com'>pusher.com</a>
+        or use the open source software <a href='https://github.com/stevegraham/slanger'>Slanger</a>
+        on your own server.
+    report:
+      back: Back to Report Dash
+      button: Reporting Dashboard
+      heading: Reporting
+      intro: Access the Reporting Dashboard for pre-defined reports and ad-hoc reporting
+        tools.
+      launch: Launch
+      list: Reports
+      title: Reporting Dashboard
+    active: active
+    admin_added: "%{name} added."
+    admin_count:
+      one: "%{count} Administrator"
+      few: "%{count} Administrators"
+      other: "%{count} Administrators"
+    admin_removed: Admin removed.
+    admin_template_description: Templates allow you to have predefined permission
+      sets for use with more than one administrator.
+    admins:
+      heading: Administration
+      intro: You can give any user administration privileges and the access they need
+        to do perform their role in the community.
+      button: Manage Admins
+    add_individual: Add an individual.
+    add_person: Add Person
+    add_selected: Add Selected
+    add_template: Add Template
+    already_admin: "%{name} is already an admin."
+    api: API
+    api_login_details: Your API login details
+    customization:
+      heading: Customization
+      intro: Customize your community site by adjusting settings and personalizing
+        content.
+    display: display
+    enable: Enable
+    enable_api_confirmation: Are you sure you want to enable your API key?
+    emails:
+      intro_html: |
+        <p>When a user changes their email address online, a flag is set, and subsequent CSV imports are prevented from overwriting that user's email address.</p>
+        <p>If you regularly import your people data from an external system, you should only have to <strong>update the user's email address in your database of record</strong> to match their address here. Then, next time you import your database, OneBody will clear the "email changed" flag for you and they will be removed from this list.</p>
+        <p>You can use this page as a To-Do list &ndash; a list of email address changes you need to make to your database of record.</p>
+        <p>Below are users whose flags are set. You may clear the flag here manually if needed.</p>
+      changed_addresses: Changed Email Addresses
+      clear_flags: Clear Flags
+      no_records: There are currently no records with the changed email address flag
+        set.
+      table:
+        id: ID
+        legacy_id: Legacy ID
+        first_name: First Name
+        last_name: Last Name
+        email: Email
+    generate: Generate
+    group_administrators: Group Administrators
+    group_administrators_description: Each group can designate people who can administer
+      that particular group, regardless of their status on this page.
+    group_administrators_help: To add/remove a person as a group administrator, click
+      "edit" next to the group and promote an existing group member.
+    group_membership_requests: Group Membership Requests
+    import_export: Import/Export
+    invalidate_confirmation: Are you sure you want to invalidate this key and create
+      a new one?
+    key: Key
+    manage_group_administrators: Manage Group Administrators
+    must_be_superadmin: You must be a super administrator to modify settings.
+    new_admin_template: Create a new admin template.
+    new_api_or: a new API key or
+    no_api_key: You do not yet have an API key.
+    no_more_admins: No more admins are allowed.
+    pages: Pages
+    privileges:
+      view_hidden_profiles:
+        title: View Hidden Profiles
+        about: View hidden people in the database, e.g. children and others marked
+          as invisible.
+        order: 1
+      view_hidden_properties:
+        title: View Hidden Properties
+        about: View hidden phone numbers, email addresses, and other private information.
+        order: 2
+      edit_profiles:
+        title: Edit Profiles
+        about: Edit name, phone numbers, email, password, and anything else associated
+          with a user's profile.
+        order: 3
+      manage_access:
+        title: Manage Access
+        about: Manage site administrators. ('Manage Groups' must be selected to manage
+          group administrators.)
+        order: 4
+      manage_attendance:
+        title: Manage Attendance
+        about: View, edit, and export attendance.
+        order: 5
+      manage_comments:
+        title: Manage Comments
+        about: Ability to delete any site comments.
+        order: 6
+      manage_groups:
+        title: Manage Groups
+        about: View, edit, delete any group (even if hidden or private).
+        order: 8
+      manage_news:
+        title: Manage News
+        about: View, edit, delete all news.
+        order: 9
+      manage_pictures:
+        title: Manage Pictures
+        about: View, edit, delete any pictures and albums.
+        order: 11
+      manage_updates:
+        title: Manage Updates
+        about: View, edit, delete pending profile updates made by users.
+        order: 14
+      manage_sync:
+        title: Manage Sync
+        about: View and track synchronizations made with UpdateAgent.
+        order: 15
+      import_data:
+        title: Import Data
+        about: Import data from CSV or by using UpdateAgent.
+        order: 16
+      export_data:
+        title: Export Data
+        about: Export all site data to XML or CSV.
+        order: 17
+      assign_checkin_cards:
+        title: Assign Checkin Cards
+        about: Assign card numbers to families.
+        order: checkin1
+      manage_checkin:
+        title: Manage Checkin
+        about: Manage all aspects of checkin, including setup and configuration.
+        order: checkin2
+      manage_documents:
+        title: Manage Documents
+        about: Add, edit and delete documents.
+      run_reports:
+        title: Run Reports
+        about: Access the Reporting Dashboard.
+        order: 18
+      manage_reports:
+        title: Manage Reports
+        about: Create, Edit and Delete Custom Reports.
+        order: 19
+    rest_api_information: To use the REST API with Ruby, you might do this
+    settings:
+      heading: Site Settings
+      Contact:
+        Tech Support Email:
+          name: Tech Support Email
+          description: Users will be directed to send an email here if they need technical
+            help with the site.
+        Community Address:
+          name: Community Address
+          description: Visible on Terms of Use
+        Community Office Phone:
+          name: Community Office Phone
+          description: Phone number for the office
+        Community Email:
+          name: Community Email
+          description: Users will be directed to send an email here if they want general/policy
+            information about your community.
+        Bug Notification Email:
+          name: Bug Notification Email
+          description: Automated software bug reports are sent to this email address.
+        Send Email Changes To:
+          name: Send Email Changes To
+          description: Email sent when someone changes their email address (can be
+            blank for no email)
+        Send Updates To:
+          name: Send Updates To
+          description: Email sent when someone updates their profile (can be blank
+            for no email)
+        Send Attendance Submissions To:
+          name: Send Attendance Submissions To
+          description: Email sent when someone submits attendance for a group
+      Pusher:
+        App ID:
+          name: App ID
+          description: The application ID provided by Pusher.
+        App Key:
+          name: App Key
+          description: The application key provided by Pusher.
+        Secret:
+          name: Secret
+          description: The secret provided by Pusher.
+        API Scheme:
+          name: API Scheme
+        API Host:
+          name: API Host
+        API Port:
+          name: API Port
+        WS Host:
+          name: WS Host
+        WS Port:
+          name: WS Port
+        WSS Port:
+          name: WSS Port
+      Services:
+        Yahoo:
+          name: Yahoo
+          description: Your Yahoo API key - https://developer.yahoo.com/wsregapp/index.php
+        Analytics:
+          name: Analytics
+          description: If you use Google Analytics or some other JavaScript-based
+            stats service, put the code here. It will be inserted at the bottom of
+            every page.
+      Name:
+        Community:
+          name: Community Name
+          description: The name of your church or community, e.g. "One Church" or
+            "First Baptist of Fresno."
+        Site:
+          name: Site Name
+          description: The name of this site, displayed at the top, e.g. "My Church
+            Family" or "One Church Central."
+      URL:
+        News Feed:
+          name: News Feed
+          description: URL for external community news feed in RSS or Atom format
+            (news will be imported periodically)
+        Visitor:
+          name: Visitor
+          description: URL for main website (visitors will be pointed here if they
+            happen across the member site.)
+      System:
+        Suffixes:
+          name: Suffixes
+          description: Name suffixes, one per line.
+        Adult Age:
+          name: Adult Age
+          description: Age at which a person is considered old enough to use the site
+            and be seen by others in the directory.
+        Language:
+          name: Language
+          description: Language for interface elements. <a href='%{url}' target='_blank'>You
+            can help!</a>
+        Time Zone:
+          name: Time Zone
+          description: Set to properly display dates and times on the site.
+        Default Country:
+          name: Default Country
+          description: Select the default country for new family records.
+        Map Zoom Level:
+          name: Map Zoom Level
+          description: Select the zoom level to use on the maps displayed on the site.
+      Appearance:
+        Public Theme:
+          name: Public Theme
+          description: Name of selected theme for the public CMS site.
+        Theme:
+          name: Theme
+          description: Name of selected theme for site.
+          options:
+            skin-blue: Blue
+            skin-blue-light: Blue On Light
+            skin-yellow: Yellow
+            skin-yellow-light: Yellow On Light
+            skin-green: Green
+            skin-green-light: Green On Light
+            skin-purple: Purple
+            skin-purple-light: Purple On Light
+            skin-red: Red
+            skin-red-light: Red On Light
+            skin-black: Black
+            skin-black-light: Black On Light
+        Show Subheading:
+          name: Show Subheading
+          description: Under the site title/logo, display the site address and slogan.
+        Info Tab First:
+          name: Info Tab First
+          description: If enabled, move the Info tab on profiles to the far left and
+            have it open by default.
+      Formats:
+        Full Date and Time:
+          name: Full Date and Time
+          description: Format for displaying date and time.
+        Time:
+          name: Time
+          description: Format for displaying time.
+        Date:
+          name: Date
+          description: Format for displaying date.
+        Phone:
+          name: Phone (Landline)
+          description: Format for displaying standard (landline) phone numbers.
+        Date Without Year:
+          name: Date Without Year
+          description: Format for displaying date without a year, e.g. birthdays.
+        Mobile Phone:
+          name: Mobile Phone
+          description: Format for displaying mobile phone numbers.
+      Features:
+        Custom Person Type:
+          name: Custom Person Type
+          description: If enabled, admins can specify a custom type along the lines
+            of Elder, Deacon, etc.
+        Community Google Calendar:
+          name: Community Google Calendar
+          description: The URL for the community Google Calendar.  Can be either the
+            public or private address, but the calendar itself will need to be shared
+            publicly in order to be included in the indivdual ("my calendar") feature.
+        Updates Must Be Approved:
+          name: Updates Must Be Approved
+          description: If enabled, all changes to a user's "basic" information (phone,
+            address, etc.) will await approval from an admin before being applied.
+        Notify on Photo Change:
+          name: Notify on Photo Change
+          description: If enabled, admins will be notified whenever a user changes
+            their personal or family photos.
+        Sign Up:
+          name: Sign Up
+          description: If enabled, potential members can create their own login account
+            on the site. It is highly recommended that you also enter an approval
+            email address in the next field so that you can review signups before
+            allowing login.
+        SSL:
+          name: SSL
+          description: If you have SSL setup, you may turn on this feature, which
+            will make the login page encrypted. If not, some advanced JavaScript hashing
+            is enabled to make sure the users' passwords aren't being sent in plaintext.
+        Notes:
+          name: Notes
+          description: Enable Note sharing.
+        Pictures:
+          name: Pictures
+          description: Enable Picture sharing.
+        Banner Message:
+          name: Banner Message
+          description: Message to display across top of all pages on site (HTML),
+            like an alert
+        Multisite:
+          name: Multisite
+          description: When enabled, this instance can handle multiple sites, based
+            on domain name.
+        Groups:
+          name: Groups
+          description: Enable Groups.
+        News by Users:
+          name: News by Users
+          description: Allow user submitted news content. (Requires 'News Page' to
+            be enabled above.)
+        Custom Person Fields:
+          name: Custom Person Fields
+          description: Add custom field names, one per line. Including the word "date"
+            (or "Date") makes a date field. Append an asterisk (*) to make the field
+            visible and editable by users.
+        Edit Legacy Ids:
+          name: Edit Legacy ID
+          description: Allow admins to see and edit the legacy_id field.
+        Sign Up Approval Email:
+          name: Sign Up Approval Email
+          description: Where to send pending sign up requests (must be admin; leave
+            blank to auto-approve).
+        Friends:
+          name: Friends
+          description: Enable mutual friendships (confirmed via email)
+        Sidebar Group Heading:
+          name: Sidebar Group Heading
+          description: Heading to show above people in mutual groups (see above setting)
+        Reporting:
+          name: Reporting
+          description: Requires MongoDB to be setup and running.
+        Sidebar Group Category:
+          name: Sidebar Group Category
+          description: People in mutual groups of this category will be displayed
+            on the user's profile sidebar.
+        Content Management System:
+          name: Content Management System
+          description: Enable "Pages" - Use OneBody to host your website.
+        News Page:
+          name: News Page
+          description: Enable community news page. News items can be submitted by
+            admins and/or pulled from an RSS feed (see External Services, News Feed
+            setting).
+        Verses:
+          name: Verses
+          description: Enable Verse sharing.
+        Recipes:
+          name: Recipes
+          description: Enable Recipe sharing.
+        Service:
+          name: Service
+          description: If enabled, admin users can track indviduals' service in areas
+            of the community.
+        Checkin:
+          name: Check-in
+          description: If enabled, users can check-in to designated classes.
+        Documents:
+          name: Documents
+          description: If enabled, admins can upload files in a general area where
+            users can browse and download them.
+        Business Directory:
+          name: Business Directory
+          description: If enabled, users can add business information to be listed
+            in a church business directory.
+        Small Group Size:
+          name: Max size of a "small group"
+          description: People in groups with this many members or fewer are considered
+            in a "small group" together, and can easily share content with one another
+            via the homepage.
+      Privacy:
+        Hide Contact Details in Messages:
+          name: Hide Contact Details in Messages
+          description: If enabled, attempts are made to hide phone numbers and email
+            addresses inside messages when viewed online.
+        Share Anniversary by Default:
+          name: Share Anniversary
+          description: If enabled, new users will have their anniversary shared with
+            other site members.
+        Share Email by Default:
+          name: Share Email
+          description: If enabled, new users will have their email address shared
+            with other site members.
+        Allow Unencrypted Logins:
+          name: Allow Unencrypted Logins
+          description: Logins are secured with public/private RSA encryption using
+            JavaScript. Check this box to allow fallback for mobile phones and other
+            browsers that are having trouble signing in.
+        Share Home Phone by Default:
+          name: Share Home Phone
+          description: If enabled, new users will have their home phone shared with
+            other site members.
+        Allow Picture Comments:
+          name: Allow Picture Comments
+          description: If enabled, users will be allowed to post comments on pictures.
+        Share Work Phone by Default:
+          name: Share Work Phone
+          description: If enabled, new users will have their work phones shared with
+            other site members.
+        Share Fax by Default:
+          name: Share Fax
+          description: If enabled, new users will have their fax shared with other
+            site members.
+        Max Sign in Attempts:
+          name: Maximum Failed Sign in Attempts
+          description: Number of signin failures in a 15-minute period before account
+            is locked out. (Account is automatically unlocked after 15 minutes.)
+        Share Mobile Phone by Default:
+          name: Share Mobile Phone
+          description: If enabled, new users will have their mobile phones shared
+            with other site members.
+        Share Address by Default:
+          name: Share Address
+          description: If enabled, new users will have their home address shared with
+            other site members.
+        Share Birthday by Default:
+          name: Share Birthday
+          description: If enabled, new users will have their birthday shared with
+            other site members.
+      host:
+        name: Host/Domain Name
+        description: The domain name where this site is accessible on the web, e.g.
+          example.com or members.mychurch.com (do not include http:// on the front)
+      Email:
+        Host:
+          name: Email Host Name
+          description: A subdomain, e.g. mg.example.com, to use if your domain is
+            already serving email. Defaults to the domain name.
+      contact_automated_email_about: These email addresses are sent email when certain
+        things happen on the site. You can set them all to the same address or to
+        different ones, depending on separation of duties in your community.
+      contact_community_info_about: Enter contact information for your church or community
+        office, where people can contact administrative staff.
+      contact_heading: Contact
+      disabled: Disabled
+      enabled: Enabled
+      features_heading: Features
+      formats_heading: Formats
+      formats_date_about_html: Enter your own date and time formats to match your
+        part of the world. See <a href="https://www.manystrands.com/wp-content/uploads/2013/01/strftime-cheat-sheet.pdf"
+        target="_new">here</a> for formatting options.
+      formats_phone_about: Specify phone formatting with 'd', e.g. ddd-ddd-dddd or
+        (dd) dddd-dddd, depending on your locale.
+      locale_heading: Locale
+      mailgun: Create Catch All Route on Mailgun
+      mailgun_message: Use this to create a catch all route on your host/domain with
+        mailgun to receive email messages.
+      membership_management_heading: Members
+      name_heading: Name
+      one_per_line: "(one per line)"
+      privacy_defaults: Default Privacy Settings
+      privacy_defaults_about: When a member's account is first created, the following
+        privacy settings are applied to their information. (Members can still choose
+        to show or hide any of their information at any time, regardless of the settings
+        below.)
+      privacy_heading: Privacy
+      reload: Reload Settings
+      reload_message: If you have made modifications to the system from the command
+        line, you may need to reload all settings to see the changes take effect.
+      save: Save Settings
+      services_heading: External Services
+      theme_heading: Theme
+      settings: Settings
+      sharing_about: OneBody is best when members participate by adding their own
+        content. Enable content sharing with these settings.
+      sharing_communications_about: Share information with your members easily.
+      sharing_heading: Sharing
+      small_group_sharing:
+        disable: disable sharing among small groups
+        all: share with all groups, regardless of size
+    super_admin: Super Admin
+    super_admin_about: Super Admins have full control over the site, with all available
+      privileges. Be careful who you give this to — it could be dangerous!
+    template: Template
+    templates: Templates
+    updates:
+      apply: Apply
+      child: Is this a child?
+      child_alert: You must specify whether the person is a Child (under %{years})
+        or not to complete this update.
+      child_select_options:
+        You must select one: ''
+        true: true
+        false: false
+      diff:
+        person: Person
+        property: Property
+        before: Before
+        after: After
+        created_at: Submitted
+      mark_complete: Mark Complete
+      mark_incomplete: Mark Incomplete
+      person_deleted: person deleted
+      profile_updates: Profile Updates
+      toggle:
+        pending: Pending
+        complete: Complete
+      updated: updated
+    username: Username
+    your_key: your key
+  albums:
+    index:
+      heading: Alba
+    table:
+      name: Jméno
+      picture_count: Obrázky
+      created_at: Vytvořeno
+    new:
+      heading: Nové album
+      button: Nové album
+    edit:
+      heading: Úprava alba
+      button: Upravit album
+    delete:
+      button: Smazat album
+    sharing:
+      heading: Kdo může vidět toto album?
+    none: Zatím žádná alba
+    is_public:
+      enabled: Společenství – ukažte toto album každému
+      disabled_group: Sdílejte album pouze se členy této skupiny.
+      disabled_profile: Profil – ukažte album <a href='%{url}'>těmto lidem</a>
+    cannot_add_pictures_to_group: Není možné přidat obrázky v této skupině.
+    click_to_view: klinout pro zobrazení
+    description: Popis
+    edit_picture: Upravit album
+    save: Uložit album
+    saved: Album bylo uloženo.
+  attachments:
+    heading: Group Files
+    new:
+      button: New File
+    deleted: Attachment deleted.
+    file: File
+    file_deleted: This file has been deleted.
+    file_not_found: This file cannot be found.
+    not_found: Attachment not found.
+    saved: Attachment saved.
+    unknown_type: Unknown attachment type.
+    upload_attachment: Upload Attachment
+    upload_file: Upload File
+  attendance:
+    heading_html: Attendance in %{group} for %{when}
+    heading_without_group: Attendance for %{when}
+    heading_without_date: Attendance in %{group}
+    medical_notes: 'Medical notes:'
+    can_pickup_people: Can Pick Up
+    cannot_pickup_people: Cannot Pick Up
+    share:
+      heading: Share Form
+      intro_html: |
+        <p>Share a link to this form that will allow anyone to submit attendance for this group without signing in.</p>
+        <p>This feature can be used for class check-in.</p>
+      button: Share this Form
+    add:
+      heading: Add Someone
+      intro: 'Add someone to the attendance history.
+
+'
+      footer_html: 'If this is someone who attends often, it is better to add them
+        as a group member <a href="%{url}">here</a>.
+
+'
+    add_visitor: Add a visitor.
+    adult: Adult
+    attendance: Attendance
+    class_time: Class Time
+    clear_search: clear
+    date: Date
+    export: Export to File
+    email:
+      subject: Attendance Submission for %{group}
+      intro_with_submitter: "%{person} has submitted attendance for the group %{group}."
+      intro_anonymous: Attendance has been submitted (anonymously) for the group %{group}.
+      notes: 'Below are notes included with the submission:'
+    group: Group
+    group_missing: group missing
+    id: ID
+    name: Name
+    name_unknown: name unknown
+    next_date: next date
+    no_records: no records to display
+    not_enabled: Attendance tracking is not enabled for this goup.
+    notes:
+      label: Notes
+      help: Use this field to send notes to the administrator.
+    order_by_last: Order by last name
+    prev_date: prev date
+    recorded_time: Recorded Time
+    records:
+      one: 1 record
+      few: "%{count} records"
+      other: "%{count} records"
+    save: Submit Attendance
+    saved: Attendance submitted.
+    submit_notes: Submit Notes
+    Search: Search
+    search_person: Search by Person Name
+    wrong_date_format: Could not recognize date. Please try again.
+  checkin:
+    heading: Check-in
+    search:
+      label: 'Type all or part of a name:'
+      button: Search
+      clear: clear
+      none_found: no families found
+    add_family:
+      button: Add Family
+    attendance:
+      button: Attendance
+    setup:
+      heading: Setup
+    assigned_cards:
+      button: Assigned Cards
+    scan:
+      unknown_card: card not found
+    cards:
+      heading: Assigned Check-in Cards
+      table:
+        id: ID
+        legacy_id: Legacy ID
+        family: Family
+        barcode: Barcode
+        assigned_at: Assigned
+      export:
+        button: Export to File
+      none: no records to display
+    groups:
+      movement_help_html: |
+        <p>
+          To move a check-in group into or out of a folder, first expand the folder, then click the
+          <i class="up"></i> or <i class="down"></i> button.
+        </p>
+        <p>
+          To jump a group all the way to the top or bottom,
+          hold <span class="highlight">shift</span> while clicking
+          <i class="up"></i> or <i class="down"></i>.
+        </p>
+      heading: Check-in Groups
+      index:
+        heading: "%{time} at %{campus}"
+        add_folder:
+          button: Add Folder
+          heading: Add a folder
+          name: Folder Name
+        add_group:
+          heading: Add a destination (group)
+          search: Search by name
+          select_folder:
+            label: Select folder
+            none: "(none)"
+          button: Add Group
+        table:
+          name: Name
+          label_id: Label (Nametag)
+          print_extra_nametag: Extra Nametag
+          section: Section
+      section:
+        new: "[new section]"
+      table:
+        group: Group
+    labels:
+      button: Labels Setup
+      edit:
+        heading: Edit Check-in Label
+      delete:
+        notice: Label deleted.
+      heading: Check-in Labels
+      new:
+        button: New Label
+        heading: Edit Check-in Label
+      table:
+        name: Name
+        description: Description
+        updated_at: Updated
+    times:
+      button: Times Setup
+      heading: Check-in Times
+      intro: Add, edit, and remove available checkin times here.
+      table:
+        time: Time
+        campus: Campus
+        groups:
+          heading: Destinations
+          count:
+            one: 1 destination
+            few: "%{count} destinations"
+            other: "%{count} destinations"
+      edit:
+        button: edit
+        campus:
+          new: "[new campus]"
+        delete:
+          button: delete
+        heading: Edit Check-in Time
+        save:
+          button: Save Changes
+      groups:
+        button: groups
+      recurring:
+        heading: Recurring Times
+        new:
+          button: New Recurring Time
+        weekday: Weekday
+        time: Time
+        campus: Campus
+        add:
+          button: Add
+      single:
+        heading: Single Dates and Times
+        new:
+          button: New Single Time
+        datetime: Date & Time
+        campus: Campus
+        add:
+          button: Add
+    family:
+      new:
+        heading: New Family
+        first_name: First Name
+        last_name: Last Name
+        birthday: Birthday
+        medical_notes: Medical Notes (optional)
+        parents: Parents
+        children: Children/Others
+        barcode: Scan Card
+        ignore_spelling_errors: Ignore suspected spelling errors.
+        save: Save Family
+        cancel: cancel
+        success:
+          heading: Family Saved
+          return: Return
+          view: View/Edit Family
+          barcode: 'Assigned number:'
+          not_checked_in: |
+            This family is not yet checked in—instruct the cardholder
+            they must now check in at one of the touch-screen stations.
+      saved: Family saved.
+      errors: There were errors saving this family.
+      error:
+        no_birthdays: You must enter a birthday for each child.
+        no_people: You must enter at least one person.
+        no_parents: You must enter at least one parent.
+        no_barcode: Please scan the card into the field at the bottom of the form.
+    interface:
+      add_guest:
+        heading: Add a Guest
+        intro: Type the full name of your guest in the field below.
+        button: Add a guest
+        save: Save
+      barcode:
+        placeholder: Scan Your Card
+      cancel:
+        button: cancel
+      heading: Check In
+      not_attending: not attending
+      print:
+        heading: After making your selections...
+        button: Print Tags
+      run_setup:
+        intro: You must first set up your check-in times and destinations.
+        button: Setup
+      same_as_last_week:
+        button: Choose same as last week
+  comments:
+    add_a_comment: Add a comment
+    deleted: Comment deleted.
+    none_yet: none yet
+    not_authorized: You are not authorized to delete this comment.
+    object_not_found: That %{name} was not found.
+    save: Save Comment
+    saved: Comment saved.
+  administration:
+    deleted_people:
+      index:
+        table:
+          id: ID
+          legacy_id: Legacy ID
+          last_name: Last Name
+          first_name: First Name
+          family_id: Family ID
+          legacy_family_id: Legacy Family ID
+          family_name: Family Name
+          family_deleted: Family Deleted
+          family_not_found: not found
+          updated_at: Last Update
+    imports:
+      new:
+        browse:
+          button: Select CSV File
+        form:
+          submit: Upload File
+        heading: Import Data
+        people:
+          heading: Import People
+      created: created
+      edit:
+        form:
+          create_as_active: Make new people active (able to log in)
+          dont_preview: Skip Preview
+          match_strategy: How should we try to match existing people?
+          overwrite_changed_emails_html: Overwrite changed email addresses no matter
+            what. See <a href='%{url}' target='_blank'>here</a> for more information.
+        table:
+          attribute: Attribute in database
+          column: Column from file
+          example: Example data
+        delete:
+          button: Delete Import
+        save:
+          button: Save and continue
+      errored:
+        message: 'We could not process your CSV file. The error is below:'
+        new:
+          button: Try again
+      index:
+        table:
+          filename: Filename
+          created_at: Created
+          errored: Errors
+          person: Created By
+          rows: Rows
+          status: Status
+      match_strategies:
+        by_id_only: by ID only
+        by_name: by name (use ID if present)
+        by_contact_info: by contact info such as address or phone (use ID if present)
+        by_name_or_contact_info: by name or by contact info (use ID if present)
+      matched_by:
+        default: not found
+        matched_person_by_id: by ID
+        matched_person_by_legacy_id: by legacy ID
+        matched_person_by_name: by name
+        matched_person_by_contact_info: by contact info
+        matched_family_by_id: by ID
+        matched_family_by_legacy_id: by legacy ID
+        matched_family_by_name: by name
+        matched_family_by_contact_info: by contact info
+      parsing:
+        message: Please wait while we parse your file.
+      show:
+        create_as_active:
+          'true': 'yes'
+          'false': 'no'
+        match_strategies:
+          by_id_only: id
+          by_name: name
+          by_contact_info: contact info
+          by_name_or_contact_info: name or contact info
+        stats:
+          heading: Update Stats
+        table:
+          completed_at: Completed
+          create_as_active: Create as active
+          created_at: Uploaded
+          creates: Creates
+          errored: Errored
+          families: Families
+          family_id: Family ID
+          family_matched: Family Matched
+          family_name: Family Name
+          family_status: Family Status
+          filename: Filename
+          match_strategy: Match by
+          new: new
+          no_change: No Change
+          people: People
+          person: By
+          person_first_name: First Name
+          person_id: ID
+          person_last_name: Last Name
+          person_matched: Person Matched
+          person_status: Person Status
+          rows: Rows
+          updates: Updates
+        edit:
+          button: Edit Import
+        execute:
+          button: Import Data Now!
+        delete:
+          button: Delete Import
+        errors_table:
+          name: Attribute
+          value: Value
+          error: Error
+          blank_value: "(blank)"
+      status:
+        pending: Pending
+        parsing: Parsing Data File
+        parsed: Parsed
+        previewing: Building Preview
+        previewed: Preview Changes
+        active: Active
+        complete: Complete
+        errored: Errored
+      status_heading: 'Import Status: %{status}'
+      unchanged: unchanged
+      updated: updated
+  documents:
+    index:
+      heading: Documents
+      intro: This is a place for forms, publications, and other files available to
+        users of this site.
+      table:
+        name: Name
+        description: Description
+        updated_at: Updated
+        size: Size
+        item_count: "%{count} items"
+      edit_folder:
+        button: Edit this folder
+      delete_folder:
+        button: Delete this folder
+      new_folder:
+        button: New folder
+      new_document:
+        button: New document
+      hidden_folders:
+        label:
+          one: 1 hidden folder
+          few: "%{count} hidden folders"
+          other: "%{count} hidden folders"
+      restricted_folders:
+        label:
+          one: 1 restricted (group) folder
+          few: "%{count} restricted (group) folders"
+          other: "%{count} restricted (group) folders"
+      no_file: No file chosen
+    show:
+      table:
+        filename: Filename
+        content_type: Content Type
+        size: Size
+        updated_at: Updated
+      download:
+        button: Download File
+      edit:
+        button: Edit
+      delete:
+        button: Delete
+    new:
+      heading: New Document
+      select:
+        button: Select File(s)
+    new_folder:
+      heading: New Folder
+    create:
+      notice:
+        one: Your document has been created.
+        few: Your documents have been created.
+        other: Your documents have been created.
+      failure:
+        one: 'Your document could not be saved: %{filenames}'
+        few: 'Your documents could not be saved: %{filenames}'
+        other: 'Your documents could not be saved: %{filenames}'
+    create_folder:
+      notice: Your folder has been created.
+    edit:
+      heading: Edit %{document}
+    edit_folder:
+      heading: Edit %{folder}
+    update:
+      notice: The Document has been saved.
+    update_folder:
+      notice: The Folder has been saved.
+    delete:
+      notice: The document was deleted.
+    delete_folder:
+      confirmation: Are you sure you want to delete this folder AND EVERYTHING INSIDE
+        IT? There is no undo for this.
+      notice: The folder and all its contents were deleted.
+    hidden_folder:
+      alert: This folder is hidden from regular users.
+      tooltip: hidden
+    hidden_folder_due_to_parent:
+      alert: This folder is hidden from regular users because it is inside a hidden
+        folder.
+    hidden_document:
+      alert: This document is hidden from regular users.
+      tooltip: hidden
+    hidden_document_due_to_parent:
+      alert: This document is hidden from regular users because it is inside a hidden
+        folder.
+    groups:
+      add:
+        heading: Share with groups (optional)
+        search_button: Search by name
+        add_button: Add Group
+      link: link
+    restricted_folder:
+      alert_html: 'This folder is only visible to the following groups: %{groups}'
+      tooltip: restricted
+    restricted_document:
+      alert_html: 'This document is only visible to the following groups: %{groups}'
+      tooltip: restricted
+  emails:
+    mailgun:
+      api_key: Your Mailgun API Key
+      heading: Create a Mailgun catchall route
+      intro_html: Please visit <a href='%{url}' target='_blank'>the wiki</a> for help
+        setting up email.
+      route_found: The route already exists.
+      route_created: The route has been created.
+      apikey_notfound: Please enter a proper Mailgun API key.
+      route_error: There was an error while trying to create the route.
+      submit:
+        button: Create Route
+  families:
+    add:
+      new: Nová osoba
+      existing: Přesunout osobu
+    new:
+      heading: Nová rodina
+      created:
+        notice: Rodina byla vytvořena. Nyní můžete přidávat osoby do této rodiny pomocí
+          tlačítka 'Nová osoba'.
+    edit:
+      heading: Upravit rodinu
+      name_example_html: "<em>Josef Novák</em> nebo <em>Josef &amp; Jana Novákovi</em>"
+      name_suggestion_html: 'Doporučeno: <strong>%{name}</strong>'
+      name_suggestion_button: Použít
+      city_st_zip: Město, kraj a PSČ
+      photo: Fotografie
+      save: Uložit rodinu
+      saved: Změny byly uloženy.
+    delete:
+      button: Smazat rodinu
+      cannot_delete_your_own: Nemůžete smazat vlastní rodinu.
+    show:
+      heading: Rodina %{family}
+      edit_link: Upravit rodinu
+      suggested_name_html:
+        one: "%{first} je jediným dospělým členem této rodiny. Možná chcete <a href='%{url}'>změnit
+          jméno rodiny</a> na “<strong>%{name}</strong>.”"
+        few: "%{first} a %{second} jsou prvními dvěma dospělými členy této rodiny.
+          Možná chcete <a href='%{url}'>změnit jméno rodiny</a> na “<strong>%{name}</strong>.”"
+        other: "%{first} a %{second} jsou prvními dvěma dospělými členy této rodiny.
+          Možná chcete <a href='%{url}'>změnit jméno rodiny</a> na “<strong>%{name}</strong>.”"
+      table:
+        home_phone: Telefon domů
+        address: Adresa
+        map: Zobrazení na mapě
+        anniversary: Výročí sňatku
+    name:
+      same_last_name: "%{adult1_fname} & %{adult2_fname} %{adult1_lname}"
+      husband_last_name: "%{adult1_fname} & %{adult2_fname} %{adult1_lname}ovi"
+      different_last_names: "%{adult1_name} & %{adult2_name}"
+    not_found: Rodina nebyla nalezena
+    updates:
+      pending_callout: Provedené změny v této rodině čekají na schválení.
+  friends:
+    index:
+      nobody_yet: Nobody yet
+    accept: Accept Friend
+    add_friend_are_you_sure: Are you sure? An email will be sent to this person requesting
+      friendship.
+    add_to_friends: Add to Friends
+    add_to_friends_pending: Add to Friends (pending)
+    decline: Decline Friend
+    friends: Friends
+    pending_requests: Pending Friend Requests
+    people_requested: The following people have requested to be your friend.
+    personal_friends: Friends of %{name}
+    remove_from_friends: Remove from Friends
+    request_sent: A friend request has been sent to %{name}.
+    search_in_the_directory: Search for friends in the directory
+    you_have_pending_requests: You have pending friend requests.
+    friends_list_button: View Friends
+  Changes_saved: Changes saved.
+  Delete: Delete
+  From: From
+  Help: Help
+  No_action_to_show: No action responded to show
+  No_more_records: No more records.
+  Page_no_longer_valid: This page is no longer valid.
+  There_was_an_error: There was an error.
+  There_were_errors: There were errors.
+  To: To
+  are_you_sure: Are you sure?
+  by: By
+  changes_saved: Changes saved.
+  click_here: Click here
+  Comments: Comments
+  delete: delete
+  edit: edit
+  feature_unavailable: This feature is unavailable.
+  for: for
+  multiple_files: Your web browser may support multiple file uploads — try selecting
+    multiple files using the Ctrl key (Windows) or Command key (Mac) on your keyboard.
+  name: Name
+  new: new
+  none: none
+  not_authorized: You are not authorized.
+  true: true
+  only_admins: You must be an administrator to use this section.
+  person: Person
+  phone: Phone
+  req_notes: Notes
+  save: Save
+  saving: Saving
+  save_changes: Save Changes
+  show_all: Show All
+  submit_changes: Submit Changes
+  you_made_a_change_page: Looks like you made a change to something on this page.
+    Click OK to discard your edits and leave this page.
+  date_format:
+    DD: DD
+    MM: MM
+    YYYY: YYYY
+  activemodel:
+    errors:
+      models:
+        signup:
+          attributes:
+            base:
+              disabled: Sign up is disabled.
+              spam: Sign up was completed by a robot.
+            first_name:
+              blank: First Name cannot be blank.
+            last_name:
+              blank: Last Name cannot be blank.
+            email:
+              blank: Email cannot be blank.
+            gender:
+              blank: Gender cannot be blank.
+            birthday:
+              blank: Birthday cannot be blank.
+              too_young: You are too young to sign up for this service.
+            mobile_phone:
+              blank: Mobile phone cannot be blank.
+  activerecord:
+    errors:
+      models:
+        admin:
+          attributes:
+            template_name:
+              taken: There is another template with this name. Please choose another
+                name.
+        album:
+          attributes:
+            name:
+              blank: The album must have a name.
+              taken: There is another album with this name. Please choose another
+                name.
+            owner:
+              blank: The album must have an owner.
+        attendance_record:
+          attributes:
+            attended_at:
+              blank: The attendance record must specify a date and time.
+            group_id:
+              blank: The attendance record must be associated with a group.
+        checkin_label:
+          attributes:
+            name:
+              blank: You must enter a name.
+            xml:
+              blank: You must paste the label XML.
+        checkin_time:
+          attributes:
+            campus:
+              blank: You must select a campus.
+              exclusion: You must select a campus.
+        document:
+          attributes:
+            file:
+              blank: You must upload a file.
+            name:
+              blank: You must enter a name.
+              too_long: Please enter a shorter name.
+            description:
+              too_long: Please enter a shorter description.
+        document_folder:
+          attributes:
+            name:
+              blank: You must enter a name.
+              too_long: Please enter a shorter name.
+            description:
+              too_long: Please enter a shorter description.
+            folder_id:
+              invalid: You cannot specify this folder as the parent folder.
+            parent_folder_ids:
+              too_long: This folder is nested too deep. Please place it somewhere
+                else.
+        custom_report:
+          attributes:
+            title:
+              blank: The title cannot be blank.
+              too_long: The maximum description is 50 characters.
+            body:
+              blank: The Report Body cannot be blank.
+            filters:
+              invalid: Filters must contain a colon, in the form field:value.
+            category:
+              inclusion: Select a valid category value.
+        family:
+          attributes:
+            name:
+              blank: The family must have a name.
+            last_name:
+              blank: The family must have a last name.
+            alternate_barcode_id:
+              invalid: This family card (alternate barcode id) contains letters or
+                symbols (only numbers are allowed).
+              taken: This family card (alternate barcode id) is already taken by another
+                family.
+              too_long: This family card (alternate barcode id) is too long (cannot
+                be more than 50 digits).
+              too_short: This family card (alternate barcode id) is too short (must
+                be 5 digits).
+            barcode_id:
+              invalid: This family card (barcode id) contains letters or symbols (only
+                numbers are allowed).
+              taken: This family card (barcode id) is already taken by another family.
+              too_long: This family card (barcode id) is too long (cannot be more
+                than 50 digits).
+              too_short: This family card (barcode id) is too short (must be 5 digits).
+            photo:
+              too_large: The photo must be less than %{size} megabytes.
+              wrong_type: The photo file type must be JPG, GIF, or PNG.
+        friendship:
+          attributes:
+            friend_id:
+              blank: This friendship must be associated with a person.
+              taken: This friendship already exists.
+            person_id:
+              blank: This friendship must be associated with a person.
+        friendship_request:
+          attributes:
+            from_id:
+              blank: This friendship request must be associated with a person.
+            person:
+              invalid_address: The person must have a valid email address.
+              refused: The person does not accept friend requests.
+            person_id:
+              blank: This friendship request must be associated with a person.
+              taken: This friendship request already exits.
+        group:
+          attributes:
+            address:
+              invalid: The group address is not a valid email address.
+              taken: There is another group with this email address. Please choose
+                another address.
+              too_long: The group email address is too long.
+              too_short: The group email address is too short.
+            attendance:
+              invalid: Attendance must be enabled for any group in use by Check-in.
+            category:
+              blank: The group must specify a category.
+            name:
+              blank: The group must have a name.
+              taken: There is another group with this name. Please choose another
+                name.
+            parents_of:
+              points_to_self: This group cannot link to itself.
+            photo:
+              too_large: The photo must be less than %{size} megabytes.
+              wrong_type: The photo file type must be JPG, GIF, or PNG.
+        membership:
+          attributes:
+            group_id:
+              taken: This person is already a member of this group.
+        membership_request:
+          attributes:
+            group_id:
+              taken: This person has already requested membership in this group.
+        message:
+          attributes:
+            base:
+              taken: This message has already been sent. Try changing the subject
+                or body if you wish to send another email.
+            body:
+              blank: The message must have a body.
+              too_short: The message body is too short.
+            person_id:
+              blank: This message must be associated with a person.
+            subject:
+              blank: The message must have a subject.
+              too_short: The message subject is too short.
+            to_person_id:
+              invalid: The recipient of this message does not have an email address.
+                The message cannot be sent.
+        news_item:
+          attributes:
+            title:
+              blank: You must enter a title for this news post.
+            body:
+              blank: You must enter text for this news post.
+        note:
+          attributes:
+            body:
+              blank: The note is blank.
+        page:
+          attributes:
+            body:
+              blank: The page must have a body.
+            path:
+              taken: There is another page with this path.
+            slug:
+              blank: The page must have a slug.
+              exclusion: The page slug cannot be "admin", "edit", or "new"
+              invalid: The page slug can only contain lowercase letters and underscore.
+            title:
+              blank: The page must have a title.
+        person:
+          attributes:
+            alternate_email:
+              invalid: The alternate email address is not formatted correctly (something@example.com).
+              taken: There is another person with the same alternate email.
+            anniversary:
+              not_a_date: Please enter a valid date for the anniversary.
+            birthday:
+              not_a_date: Please enter a valid date for the birthday.
+            business_email:
+              invalid: The business email address is not formatted correctly (something@example.com).
+            business_website:
+              invalid: The business website URL is not formatted correctly (are you
+                missing 'http://' at the beginning?)
+            business_category:
+              exclusion: You must enter a category for your business.
+            child:
+              inclusion: You must enter a birthday or specify whether this person
+                is a child.
+            description:
+              too_long: Description must be less than 25 characters.  A word or two.
+                :)
+            email:
+              invalid: The email address is not formatted correctly (something@example.com).
+              taken: There is another person with the same email address.
+            facebook_url:
+              invalid: Facebook URL is invalid.
+            feed_code:
+              taken: The same feed code exists on another person record.
+            first_name:
+              blank: The person must have a first name.
+            gender:
+              inclusion: Gender must be either 'Male' or 'Female'.
+            last_name:
+              blank: The person must have a last name.
+            password:
+              confirmation: The passwords do not match.
+              too_short: The password is too short.
+            photo:
+              too_large: The photo must be less than %{size} megabytes.
+              wrong_type: The photo file type must be JPG, GIF, or PNG.
+            twitter:
+              invalid: Twitter username is invalid.
+              too_long: Twitter username is too long.
+            website:
+              invalid: The website URL is not formatted correctly (are you missing
+                'http://' at the beginning?)
+        picture:
+          attributes:
+            album_id:
+              blank: This picture must be associated with an album.
+            photo:
+              too_large: The photo must be less than %{size} megabytes.
+              wrong_type: The photo file type must be JPG, GIF, or PNG.
+        picture_uploader:
+          attributes:
+            album:
+              blank: You must select an album.
+        prayer_request:
+          attributes:
+            group_id:
+              blank: The prayer request must be associated with a group.
+            person_id:
+              blank: The prayer request must be associated with a person.
+            request:
+              blank: The prayer request cannot be blank.
+        recipe:
+          attributes:
+            directions:
+              blank: The recipe must have directions.
+            ingredients:
+              blank: The recipe must have ingredients.
+            title:
+              blank: The recipe must have a title.
+        relationship:
+          attributes:
+            name:
+              blank: You must specify the relationship type.
+              inclusion: This relationship is not valid.
+              taken: This relationship already exists.
+            other_name:
+              blank: You must specify the relationship type.
+              taken: This relationship already exists.
+            person:
+              blank: The relationship must be associated with a person.
+            related:
+              blank: The relationship must be associated with a second person.
+        report:
+          attributes:
+            definition:
+              invalid: The report definition is invalid.
+            name:
+              blank: The report must have a name.
+              taken: There is another report with this name. Please choose another
+                name.
+        site:
+          attributes:
+            host:
+              blank: The host must be specified.
+              taken: There is another site with the same host.
+              invalid: Do not include "http://" or "www." in the hostname.
+            name:
+              blank: The site must have a name.
+              taken: There is another site with the same name.
+        tag:
+          attributes:
+            name:
+              blank: The tag must have a name.
+              exclusion: The tag name is invalid.
+              taken: There is another tag with the same name.
+        verification:
+          attributes:
+            email:
+              invalid: That email address could not be found in our system. If you
+                have another address, try again.
+            carrier:
+              inclusion: You must select a mobile carrier.
+            mobile_phone:
+              invalid: That mobile number could not be found in our system. You may
+                try again.
+            base:
+              unauthorized: There is a problem with your record preventing you from
+                signing in.
+        verse:
+          attributes:
+            reference:
+              blank: The verse must have a reference.
+            text:
+              blank: The passage could not be found. Did you type the reference correctly?
+              too_long: The passage is too long. Try to specify a shorter passage.
+    attributes:
+      album:
+        name: Name
+        description: Description
+      checkin_label:
+        name: Name
+        description: Description
+        xml: Label XML
+        xml_file: Label XML File
+      document:
+        name: Name
+        description: Description
+        file: File
+        files: Files
+        folder_id: Folder
+      document_folder:
+        name: Name
+        description: Description
+        folder_id: Parent Folder
+        hidden: Hide/Archive this folder
+        groups: Only share with these groups
+      family:
+        address1: Address Line 1
+        address2: Address Line 2 (optional)
+        city: City
+        country: Country
+        home_phone: Home Phone
+        last_name: Last Name
+        name: Name
+        state: State
+        zip: Zip
+      person:
+        anniversary: Wedding Anniversary
+        alias: Known By
+        birthday: Birthday
+        custom_type: Custom Role
+        email: Email
+        facebook_url: Facebook URL
+        fax: Fax
+        first_name: First Name
+        gender: Gender
+        last_name: Last Name
+        mobile_phone: Mobile Phone
+        primary_emailer: Primary email account holder
+        status: Status
+        suffix: Suffix
+        twitter: Twitter Username
+        work_phone: Work Phone
+      group:
+        name: Name
+        category: Category
+        description: Description
+        other_notes: Other Notes
+        leader_id: Leader
+        creator: Creator
+        meets: Meets When
+        location: Location and Address
+        direction: Direction
+        email: Email
+        prayer: Prayer Requests
+        pictures: Picture Sharing
+        attendance: Attendance Tracking
+        gcal_private_link: Google Calendar Private Link
+        approval_required_to_join: Approval required for people to join group
+        private: Private Group
+        members_send: Group Members Can Post Messages
+        membership_mode: Select how group members should be added to this group
+        link_code: External Link Code
+        parents_of: Child Group
+        hidden: Hidden (Archived) Group
+        has_tasks: Tasks
+      note:
+        title: Title
+        body: Body
+      prayer_request:
+        answer: Answer
+        answered_at: Date Answered
+        person_id: Person needing prayer
+        request: Request
+      task:
+        name: Task
+        description: Description
+        person: Assigned to
+        person_id: Assigned to
+        duedate: Due on
+        completed: Completed
+  application:
+    api_access: You must be a super administrator to use the API.
+    no_default_site: No Default site found.
+    no_site_configured: 'There is no site configured at this address: %{host}'
+    settings_reloaded: Settings reloaded.
+    settings_saved: Settings saved.
+    template_created: Template created.
+  people_count:
+    one: 1 person
+    few: "%{count} people"
+    other: "%{count} people"
+  footer:
+    help: Help using this site
+    privacy_policy: Privacy Policy
+    powered_by: Powered by
+    churchio_onebody: CHURCH.IO OneBody
+  generated_files:
+    building: Building your file...
+    complete_heading: Done!
+    complete_message: Your file is complete and ready to download.
+    failure_heading: We're sorry...
+    failure_message: There seems to have been an error while generating your file.
+  groups:
+    heading: Groups
+    new_list:
+      heading: New Groups
+    created: Group created.
+    created_pending_approval: Your group has been created and is pending approval.
+    saved: Group changes have been saved.
+    deleted: Group deleted.
+    delete:
+      heading: Delete This Group
+      intro: 'If you really want to delete the group and all its contents (messages,
+        prayer requests, pictures, etc.) forever, then you may do so below:'
+      button: Delete this group forever
+    hide:
+      heading: Hide (Archive) This Group
+      intro: 'If you wish for a group to disappear from all pages of the site, hide
+        it by clicking the button below:'
+      button: Hide this group
+      unhide_button: Unhide this group
+    your_groups: Your Groups
+    groups_of:
+      s: "%{name}' Groups"
+      no_s: "%{name}'s Groups"
+    hidden:
+      callout: This group is hidden (archived).
+      label: Hidden
+    hidden_groups:
+      heading: Hidden Groups
+      description: Only administrators (such as yourself) see this list.
+    linked_group: This group is maintained by office staff.
+    private:
+      callout: This group is private. Messages posted here can only be seen by group
+        members and site administrators.
+      label: Private
+    email_off: email off
+    email_on: email on
+    browse:
+      heading: Browse Groups
+      select_category: Show by Category
+      all: Show All
+    create:
+      heading: Create a Group
+      description: If you can't find a group, it's easy to create one!
+      button: Create a Group
+    show:
+      details:
+        created_at: created
+        created_by: created by
+        leader: leader
+        admins: admins
+        meets: meets
+        location: location
+        directions: directions
+        member_count_label: members
+        member_count:
+          one: 1 person
+          few: "%{count} people"
+          other: "%{count} people"
+        birthdays_this_month_html:
+          one: "(<a href='%{url}'>1</a> with a birthday this month)"
+          few: "(<a href='%{url}'>%{count}</a> with birthdays this month)"
+          other: "(<a href='%{url}'>%{count}</a> with birthdays this month)"
+        attachments: files
+        attachment_count:
+          one: 1 file
+          few: "%{count} files"
+          other: "%{count} files"
+        attendance:
+          button: Track Attendance
+      controls:
+        join: Join Group
+        join_pending: Join Group (pending)
+        leave: Leave Group
+        message: Send Message
+        prayer_request: Request Prayer
+      linked:
+        tooltip: This group is linked via code %{code}
+      parents_of:
+        tooltip: This group is linked to parents of %{group}
+    stream:
+      none:
+        heading: No Activity
+        message: This is where group activity will appear.
+    new:
+      heading: New Group
+    edit:
+      heading: Edit Group
+      required_field: required
+      tabs:
+        details: Details
+        meets: Meets
+        features: Features
+        security: Security
+        advanced: Advanced
+      advanced:
+        description: The settings below are for advanced users.
+        membership_mode:
+          options:
+            manual: Add members manually (default)
+            link_code: Add members automatic by external link code.
+            parents_of: Link to a child group to get parents of those children.
+            adults: Include all adults in this community.
+      files:
+        description: Files added here will be visible to all members of this group.
+        delete_button: Delete
+      meets:
+        help: Something like "Wednesdays at 7pm" or "As Announced"
+      location:
+        help: If you enter a physical address, an interactive map will be displayed
+          on your group page.
+      directions:
+        help: You may want to include travel directions.
+      address:
+        help: Give your group a unique email address so messages can be sent easily.
+      calendar:
+        help: In your Google Calendar, in Calendar Settings, copy your "Private" XML
+          Link and paste in this box to display your calendar on the group page.
+      category:
+        new: "[new category]"
+        help: Make your group easy to find by placing it an appropriate category.
+      description:
+        help: Enter a sentence or two to give people an idea of why you meet and of
+          your group's goals.
+      approval_required_to_join:
+        help: If checked, an approval request will be sent to group admins before
+          someone can join.
+      private_group:
+        help: If checked, the group description, membership list, and other group
+          information will be hidden from non-members (only the title will be displayed).
+          We recommend you also check the above 'Approval required' box as well.
+      members_send:
+        help: If checked, any member of this group can send an email message to everyone
+          else in the group.
+      attendance_disabled:
+        help: Attendance must be enabled for any group used by Check-in.
+      class_link_code:
+        help_html: |
+          <p>This is useful for syncing with external systems. Separate multiple codes with a space. <a href='%{url}' target='_blank'>See here</a> for more information.</p>
+          <p>Click <strong>Save</strong> to update group members immediately. Group members will also be updated automatically every night.</p>
+      parents_of:
+        help_html: |
+          <p>Membership will be auto-generated from parents of selected group's members.</p>
+          <p>Click <strong>Save</strong> to update group members immediately. Group members will also be updated automatically every night.</p>
+      enable_calendar: Enable Calendar
+    table:
+      group_name: Group
+      leader: Leader
+      member_count: Members
+      email_enabled: Email enabled
+    search:
+      heading: Search for a Group
+      results_heading: Group Search Results
+      name_placeholder: Search by name
+      submit: Search
+    batch:
+      heading: Batch Edit Groups
+      category: Category
+      name: Name
+      address: Email Prefix
+      members_send: Members Can Send
+      private: Private
+      hidden: Hidden
+      class_link_code: Link Code(s)
+      approval_required_to_join: Approval Required
+      errors: There was one or more errors in saving the changes. Errored records
+        are highlighted below.
+    files:
+      heading:
+        name: Name
+        size: Size
+        created_at: Uploaded
+    pending_approval:
+      this_group: This group is pending approval.
+      description:
+        one: 'The following group is pending approval:'
+        few: 'The following groups are pending approval:'
+        other: 'The following groups are pending approval:'
+      count:
+        one: "%{count} group to approve"
+        few: "%{count} groups to approve"
+        other: "%{count} groups to approve"
+    approve:
+      button: Approve Group
+    membership_requests:
+      count:
+        one: "%{count} membership request"
+        few: "%{count} membership requests"
+        other: "%{count} membership requests"
+    not_found: Group not found
+    no_groups_found: No groups found
+    join:
+      confirm: Are you sure? A request will be sent to the group administrator(s).
+      request_sent: A request to join this group has been sent to the group administrator(s).
+    last_admin_remove: "%{name} is the last admin and cannot be removed."
+    user_settings_saved: User settings saved.
+    email_settings_changed: Your email settings for the group have been changed.
+    limited:
+      intro: You cannot see this group because it is private and you are not a member.
+        Click below to request to join this group.
+    box:
+      messages:
+        text:
+          one: Message
+          few: Messages
+          other: Messages
+        new_link: New Message
+      prayer_requests:
+        text:
+          one: Prayer Request
+          few: Prayer Requests
+          other: Prayer Requests
+        new_link: New Request
+      pictures:
+        text:
+          one: Picture
+          few: Pictures
+          other: Pictures
+        new_link: New Picture
+      tasks:
+        text:
+          one: Task
+          few: Tasks
+          other: Tasks
+        new_link: New Task
+    show_hidden:
+      button: Show Hidden Groups (%{count})
+  import:
+    changes:
+      count:
+        one: 1 change
+        few: "%{count} changes"
+        other: "%{count} changes"
+      show_button: show
+    results:
+      name: Name
+      first_name: First Name
+      last_name: Last Name
+      status: Status
+    apply_settings_to_imports: 'Apply the following settings to all imports:'
+    attempt_match_existing_people: Attempt to match existing people by name if no
+      IDs are included.
+    completed_records: Completed Records
+    error: Error
+    error_updating: Error updating record.
+    error_updating_message_html: There was at least one error while attempting to
+      update records in the database. Please correct the errors, then return to the
+      <a href="%{url}">Pending Updates</a> interface to complete the process.
+    errored_records: Errored Records
+    for_list_of_available_attributes: for a list of available attributes (not all
+      attributes are required).
+    hint_excel_docs: 'Hint: Excel documents can be exported as CSV from the File →
+      Save As menu.'
+    import_data: Import Data...
+    import_people: Import People
+    import_results: Import Results
+    import_selected_people: Import Selected People
+    no_records_were_found: No records were found to import.
+    only_first_records_will_be_imported_html: Only the first %{count} records will
+      be imported. For larger files, you must divide records into multiple files,
+      or use the <a href="http://wiki.github.com/churchio/onebody/updateagent">UpdateAgent</a>
+      to import a large batch at once.
+    people: Import People
+    record: record
+    record_updated: Record updated.
+    records: Records
+    select_csv_file: Select a Comma Separated Values (CSV) file to import with attribute
+      names as the header row.
+    the_changes_will_be_made: The following changes will be made. Only selected records
+      will be created/updated.
+    the_import_is_complete: The import is complete
+    visibility_access: Visibility/Access
+    with_errors: with errors
+  maps:
+    notice: "&copy; <a href='https://www.openstreetmap.org'>OpenStreetMap</a> contributors"
+  memberships:
+    index:
+      heading: Lidé ve skupině %{group}
+      details:
+        name: Jméno
+        birthday: Narozeniny
+        created_at: Přidáno
+        manual:
+          tooltip: Tento uživatel byl přidán ručně..
+      remove:
+        button: Smazat vybrané
+    add:
+      heading: Přidání osoby
+      description: Přidejte někoho do této skupiny.
+      name_placeholder: Zadejte celé jméno nebo jeho část
+      parents_of_warning_html: |
+        Toto je skupina automaticky propojená s rodiči osob ve skupině %{group}.
+        Jestliže zde někoho ručně přidáte, tato osoba nebude automaticky spravována.
+      linked_group_warning_html: |
+        Tato skupina je propojena kódem <strong>%{code}</strong>.
+        Jestliže zde někoho ručně přidáte, tato osoba nebude automaticky spravována.
+    promote: Ustanovit správcem skupiny
+    demote: Učinit správce běžným členem
+    group_pending_approval: Tato skupina čeká na schválení. Zatím do ní nemůžete přidávat
+      členy.
+    requests:
+      heading: Žádosti o vstup do této skupiny
+      select_some: Vyberte jednoho nebo několik z uvedených a proveďte akci.
+      name: Jméno
+      created_at: Zažádáno
+      accept:
+        button: Schválit
+      ignore:
+        button: Ignorovat
+  messages:
+    new:
+      button: Nový vzkaz
+    private:
+      heading: Soukromý vzkaz
+      description_html: Tímto pošlete <em>soukromýprivate</em> e-mail uživateli %{person}.
+    group:
+      heading: Skupinový vzkaz
+      description_html: Takto pošlete e-mail všem členům skupiny %{group}.
+    sent_at_html: odesláno %{when} uživatelem %{who}
+    sent_to_html: osobě %{who}
+    read_more: Přečíst celé
+    delete:
+      button: Smazat
+    in_reply_to_html: odpověď na %{message}
+    replies:
+      heading: Odpovědi
+    reply_all:
+      button: Odpovědět na tento vzkaz (zaslat celé skupině)
+    email:
+      reply_to_sender: Klikněte "Odpovědět", chcete-li poslat vzkaz uživateli %{person}.
+      reply_to_group: Klikněte "Odpovědět všem", chcete-li poslat vzkaz skupině %{group}
+        na adresu %{address}.
+      group_link: 'Stránka skupiny: %{url}'
+      reply_link: 'Chcete-li odpovědět, jděte na: %{url}'
+      disable_group_email: |-
+        Nechcete-li dostávat zprávy z této skupiny:
+        %{url}
+      disable_all_email: |-
+        Nechcete-li dostávat tyto e-maily, jděte na stránku nastavení soukromí:
+        %{url}
+    do_not_reply: NEODPOVÍDAT
+    ago: zpátky
+    attachment_optional: Příloha (volitelně)
+    attachments: Přílohy
+    file_missing: soubor chybí
+    flag_cleared: Štítky byly vytvořeny
+    from: Od
+    in: v
+    messages_in_html: Zprávy ve skupině <a href="%{url}">%{name}</a>
+    missing_param: Chybí parametry zprávy
+    no_email_for_person: Bohužel, není známa e-mailová adresa uživatele %{name}.
+    not_authorized_delete: Nemáte právo smazat tuto zprávu.
+    not_found: Zpráva nebyla nalezena.
+    posted_by: odesláno uživatelem
+    send_message: Odeslat zprávu
+    sent: Zpráva byla odeslána.
+    show_quoted_content: zobrazit citovaný kontext
+    some_quoted_text_is_hidden: Část citovaného textu v této zprávě je skryta;
+    subject: Předmět
+    to_show_the_entire_message: k zobrazení celého vzkazu
+    unknown_type: Neznámý typ vzkazu
+  nav:
+    hello: Dobrý den, %{person}
+    admin: Administrátor
+    admin_sub:
+      admins: Administratoři
+    albums: Alba
+    business_profile: Business
+    checkin: Check-in
+    checkin_sub:
+      times: Times
+      labels: Labels
+    directory: Adresář
+    directory_sub:
+      business: Podnikatelský adresář
+      printed: Tištěný adresář
+      advanced: Pokročilé hledání
+      new_person: Nová osoba
+    documents: Dokumenty
+    groups: Skupiny
+    groups_sub:
+      edit: Upravit skupinu
+      new: Přidat skupinu
+      new_count:
+        one: 1 nová
+        few: "%{count} nové"
+        other: "%{count} nových"
+    home: Úvod
+    home_sub:
+      new_count:
+        one: 1 nový
+        few: "%{count} nové"
+        other: "%{count} nových"
+    imports: Importy
+    messages: Zprávy
+    news: Novinky
+    notes: Poznámky
+    pages: Stránky
+    prayer_requests: Žádosti o modlitbu
+    profile: Profil
+    profile_sub:
+      edit: Upravit profil
+      email: E-mail
+      password: Heslo
+      privacy: Soukromí
+      family: Rodina
+      relationships: Vztahy
+      show: Prohlédnout profil
+    report: Hlášení
+    verses: Verše
+    tasks: Úkoly
+    tasks_sub:
+      assigned_count:
+        one: 1 přidělený
+        few: "%{count} přidělené"
+        other: "%{count} přidělených"
+  news:
+    heading: Zprávy
+    edit:
+      heading: Úprava zprávy
+    edit_button: Upravit
+    delete_button: Smazat
+    body_description: 'Zde sdělte své onámení, informaci nebo zprávu:'
+    deleted: Zpráva byla smazána.
+    if_you_have_something_to_share_html: Chcete-li ostatním sdělit nějakou novinku,
+      <a href='%{url}'>učiňte tak zde</a>.
+    news_feed: News Feed
+    no_news_is_available: Žádné zprávy nejsou dostupnée.
+    save_news: Uložit zprávu
+    saved: Zpráva byla uložena.
+    submit_news: Zadat zprávu
+    subscribe:
+      button: Přihlásit
+      description: Získávejte informace o nových zprávách ve vaší čtečce.
+    title_description: 'Zde zadejte nadpis Vaší zprávy:'
+    welcome_to_the_place: Vítejte. Zde najdete farní zprávy.
+  notes:
+    index:
+      heading: Poznámky
+    new:
+      heading: Nová poznámka
+      button: Nová
+    edit:
+      heading: Úprava poznámky
+      button: Upravit
+    delete:
+      button: Smazat
+    posted: vytvořeno %{when}
+    save: Uložit poznámku
+    saved: Poznámka byla uložena
+  notifier:
+    email_update:
+      subject: "%{person} Changed Email"
+      intro: "%{person} has had their email changed."
+      email_label: Email
+    email_verification:
+      subject: Verify Email
+      intro: |
+        This message is to verify your email address for access to the
+        %{site} website so you can sign in.
+      instruction: 'To verify your email address, please click the link below:
+
+'
+      footer: |
+        If you cannot click the link above, you may need to copy and paste
+        it into the address bar of your web browser.
+
+        If you don't know why you're getting this email, you may contact
+        %{name} at %{phone}.
+    friend_request:
+      subject: Friend Request from %{person}
+      intro: "%{person} wants to be your friend on %{site}.\n"
+      instruction: 'To either accept or decline, please sign in at the following URL:
+
+'
+    membership_request:
+      subject: Request to Join Group from %{person}
+      intro: "%{person} has requested to join the group %{group}.\n"
+      instruction: 'To either accept or decline, please sign in at the following URL:
+
+'
+    mobile_verification:
+      subject: Verify Mobile Phone
+      label: 'Verification code:'
+    pending_sign_up:
+      subject: Pending Sign Up
+      intro: "%{person} has signed up for an account on %{site}.\n"
+      instruction_first: |
+        If you approve of this account creation, activate the account at
+        this address:
+      instruction_last: |
+        Check all the appropriate boxes in the "Visibility" tab and save.
+
+        Be sure to also click to "send verification email" to the user.
+    photo_update:
+      family_subject: Family Photo Changed
+      person_subject: Photo Changed
+      intro: "%{person} changed their photo.\n"
+    prayer_request:
+      subject: Prayer Request in %{group}
+      intro: "%{person} has posted a new prayer request in %{group}.\n"
+    printed_directory:
+      subject: "%{site} Directory"
+      intro: 'Hello, %{person}. Attached is your custom printed directory from %{site}.
+
+'
+    profile_update:
+      subject: Profile Update from %{person}
+      intro: "%{person} (%{family}) has submitted a profile update.\n"
+      label:
+        new: New
+        old: Old
+    rejection:
+      cannot_read:
+        subject: 'Message Not Sent: %{subject}'
+        body: |
+          Your message with subject "%{subject}" was not delivered.
+
+          We are sorry for the inconvenience. The system cannot read your message
+          because it is not formatted as either plain text or HTML.
+
+          Please set your email client to plain text (turn off Rich Text) and try
+          again, or you may send your message from the website after signing
+          into the URL below:
+
+          %{url}
+      multiple_people:
+        subject: 'Message Not Sent: %{subject}'
+        body: |
+          Your message with subject "%{subject}" was not delivered.
+
+          We are sorry for the inconvenience. The system cannot determine who you are
+          because more than one person in your family share the same email address.
+          Please sign in at the following URL and send your message from the website.
+
+          %{url}
+
+          Alternatively, you can sign in at the URL above, go to your email settings
+          and check the box labeled "Primary email account holder."
+      unknown_person:
+        subject: 'Message Not Sent: %{subject}'
+        body: |
+          Your message with subject "%{subject}" was not delivered.
+
+          We are sorry for the inconvenience. The system does not recognize your
+          email address as a user of this website.
+
+          Please send using the same email address you use to sign in at the following
+          URL, or sign in there and send your message from the website.
+
+          %{url}
+      invalid:
+        subject: 'Message Error: %{subject}'
+        body: |
+          Your message with subject "%{subject}" was not delivered.
+
+          We are sorry for the inconvenience. The system could not save your message
+          due to the following reason(s):
+
+          %{errors}
+
+          Please forward this message to support at: %{support}
+      no_recipients:
+        subject: 'Message Not Sent: %{subject}'
+        body: |
+          Your message with subject "%{subject}" was not delivered to any groups.
+
+          We are sorry for the inconvenience. The system could not find any valid
+          group addresses in the TO or CC fields.
+
+          Check that you typed the group email address correctly and that you have
+          permission to send email to this group.
+
+          You can also sign in at the following URL to send your message:
+
+          %{url}
+    message_id: Message ID
+    not_allowed_to_post: you are not allowed to post to this list
+  pages:
+    index:
+      heading: Pages
+      intro: Below are pages and bits of content used on the site that you may wish
+        to customize for your own community.
+      name: Name
+      description: Description
+      edit_button: Edit
+    descriptions:
+      help: Page shown to users looking for help signing in.
+      bad_status: Shown when user is in the database but they do not have permission
+        to sign in.
+      privacy_policy: Details about how this site collects and shares information.
+      safeguarding_children: Details about how this site protects children and their
+        information.
+      unauthorized: Page shown to users explaining how to gain access to the site.
+      checkin: A bit of help content that appears at the top of the checkin admin
+        screen.
+    body: Body
+    edit_page: Edit Page
+    not_found: Page not found.
+    saved: Page saved.
+    title: Title
+    view_page: View Page
+  people:
+    account_frozen:
+      callout: Tento účet je zablokován. Není možné provádět změny dokud nebude opět
+        odblokován.
+    new:
+      heading: Nová osoba v rodině %{family}
+      heading_without_family: Nová osoba
+      no_family_warning_html: |
+        Chystáte se vytvořit novou osobu a zároveň <strong>záznam o nové rodině</strong>.
+        Pokud byste raději přidali člena existující rodiny, jděte na stránku této rodiny a přidejte novou osobu tam.
+    title_html: "%{name}<span class='discreet'>, %{description}</span>"
+    show:
+      details:
+        family: Rodina %{family}
+        website: WWW stránky
+        email: E-mail
+        mobile_phone: Mobilní telefon
+        home_phone: Domácí telefon
+        work_phone: Pracovní telefon
+        address: Adresa
+        map: Zobrazit na mapě
+        birthday: Narozeniny
+        anniversary: Výročí svatby
+        social: Sociální sítě
+        about: Více
+      showing_hidden_attribute:
+        tooltip: This detail is visible to you because you are an admin with 'View
+          Hidden Properties' enabled.
+    edit:
+      about: O mě
+      basics: Základní informace
+      business: Podnikání
+      business_category:
+        new: "[vytvořit nový obor]"
+        create_prompt: 'Zadejte obor vašeho podnikání:'
+      child:
+        enabled: Dítě
+        disabled: Dospělý
+      child_hint: Není-li zadáno datum narození, musíte specifikovat, jde-li o dítě
+        nebo dospělého.
+      custom_type:
+        new: "[vytvořit roli]"
+        create_prompt: 'Zadejte název role:'
+      description_hint: Pár slov o Vás — například zaměstnání.
+      email_hint: " (toto je Vaše hlavní e-mailová adresa, používaná pro přihlašování
+        a přijímání pošty)"
+      facebook_url:
+        placeholder: https://www.facebook.com/username
+      family_photo: Rodinná fotografie
+      header: Upravit profil
+      no_family_error: Tato osoba nemůže být upravována, neboť nepatří k rodině.
+      person_type: Role
+      person_type_hint: Role neovlivňují úroveň přístupu na těchto stránkách.
+      photo: Profilová fotografie
+      primary_emailer:
+        intro_html: |
+          Máte stejnou e-mailovou adresu jako %{person}.
+          Jestliže jsou vaše skupinové e-maily odmítány, zkontrolujte toto pole a ujistěte se, že
+          e-maily z Vaší adresy jsou <strong>vždy</strong> spojeny s vaším účtem &ndash; <strong>nikoliv s %{person}</strong>.
+          (Pokud Vy i %{person} posíláte skupinové e-maily, bylo by lepší použít různé e-mailové adresy.)
+      required_field: povinné
+      twitter:
+        placeholder: "@username"
+      status: Status
+      status_help:
+        inactive: Neaktivní uživatelé se nemohou přihlásit a nejsou viditelní pro
+          nikoho kromě administrátorů.
+        pending: Čekající uživatelé se mohou přihlásit, ale vidí pouze omezené množství
+          informací.
+        active: Aktivní uživatelé se mohou přihlásit a plně využívat tyto stránky.
+        not_an_adult: Děti se nemohou přihlásit. Nastavení tohoto statutu pouze ovlivňuje
+          jejich viditelnost pro ostatní.
+      statuses:
+        inactive: Neaktivní
+        pending: Čekající
+        active: Aktivní
+    move:
+      heading: Přidat k rodině %{family}
+      description_html: Vyhledejte, koho chcete přidat k rodině <a href='%{url}'>%{family}</a>
+        a klikněte na Přidat...
+      button: Přidat k rodině
+      success_message: "%{person} byl(a) přidán(a) do rodiny %{family}."
+    roles:
+      elder: Starší
+      deacon: Jáhen
+      staff: Zaměstnanec
+      member: Člen
+    email:
+      heading: Nastavení e-mailu
+      primary:
+        heading: Primární e-mail
+        description_html: |
+          <p>Toto je Vaše hlavní e-mailová adresa. Upozornění:</p>
+          <ul>
+            <li>Právě tuto adresu musíte používat k přihlašování do systému.</li>
+            <li>Vaše skupinové a soukromé e-maily budou posílány na tuto adresu.</li>
+          </ul>
+      alternate:
+        heading: Alternativní e-mail
+        description_html: |
+          <p>Pokud máte ještě jinou e-mailovou adresu (např. pracovní), kterou chcete používat na posílání skupinových e-mailů, můžete ji zadat zde.</p>
+          <ul>
+            <li>Tato adresa není viditelná pro nikoho kromě administrátorů.</li>
+            <li>Není možné tuto adresu použít na přihlašování do systému.</li>
+          </ul>
+      groups:
+        heading: Skupinový e-mail
+    groups:
+      heading: Skupiny
+      members: členové
+      messages: vzkazy
+      join:
+        button: Vstoupit do nějaké skupiyu.
+      see_all: zobrazit všechny...
+    business:
+      services_provided_by: Služny nabízené uživatelem %{person}
+      address: Adresa
+      email: E-mail
+      phone: Telefon
+      website: WWW stránky
+    checkin:
+      heading: Check-in Notes
+      intro: These are notes that are displayed on check-in screens and (optionally)
+        on printed check-in labels in order to alert workers.
+    testimony:
+      box_heading: Svědectví
+      heading: Svědectví uživatele %{person}
+      view_profile: Zobrazit profil
+      view_full: více
+      find_more: Číst další svědectví
+    updates:
+      pending_callout: Úpravy tohoto profilu čekají na schválení
+    verification_email:
+      heading: Dokončení uživatelského nastavení
+      intro: Než se bude moci tento uživatel přihlásit, musí dokončit nastavení kliknutím
+        na odkaz, který dostane e-mailem. Klikněte zde pro zaslání takového e-mailu.
+      button: Poslat tomuto uživateli e-mail s nastavním hesla.
+    advanced: Pokročilé
+    can_sign_in: Může se přihlásit
+    cant_delete_yourself: Nemůžete smazat vlastního uživatele.
+    cant_delete: Nemůžete smazat tuto osobu.
+    changes_must_be_reviewed_html: Změny těchto údajů musí být <strong>zkontrolovány
+      administrátory</strong>. Chcete-li požádat o změny, vložte upravené údaje zde
+      a klikněte 'Odeslat změny'.
+    changes_submitted: Změny byly odeslány.
+    child: Dítě/Dospělý
+    deleted_html: Tato osoba byla smazána. Záznam můžete obnovit <a href='%{url}'>zde</a>.
+    family: Rodina
+    family_legacy_external_id: Rodinné externí ID
+    find_a_group_html: Vyhledejte skupinu <a href='%{url}'>zde</a>.
+    friend_not_found: Přítel nebyl nalezen.
+    friendship_accepted: Žádost o přátelství byla přijata.
+    friendship_manage: Není možné spravovat přátelství jiných osob.
+    friendship_must_specify: Je nutné přijmout nebo odmítnout.
+    friendship_rejected: Žádost o přátelství byla odmítnuta.
+    full_access: Plný přístup
+    if_you_wish_to_be_listed_business_dir_html: Chcete-li být uveden(a) v <a href='%{url}'>Podnikatelském
+      adresáři</a>, zadejte název firmy, popis a další detaily.
+    if_you_wish_to_remove_something_html: Chcete-li něco schovat, aby to ostatní neviděli,
+      jděte na stránku <a href='%{url}'>Soukromí</a> a skryjte to.
+    legacy_external_id: Externí ID
+    limited_access: Váš účet má omezený přístup, proto vidíte pouze upravenou stránku
+      profilu.
+    limited_access_denied: Váš účet má aktuálně omezený přístup.
+    no_family_for_this_person: Tato osoba nepatří k žádné rodině. Nebude se moci přihlásit
+      a nebude viditelná pro ostatní.
+    not_deleted: Osoba nebyla smazána.
+    not_found: Osoba nebyla nalezena.
+    pending_approval: čeká na schválení
+    people: Lidé
+    person:
+      one: 1 osoba
+      few: "%{count} lidé"
+      other: "%{count} lidí"
+    person_isnt_any_groups: "%{person} není v žádné skupině."
+    share_your_personal_testimony: Sdělte své osobní svědectví — jak jste poznal(a)
+      Ježíše Krista a jak ovlivnil Váš život.
+    show_hidden_groups: Zobrazit skryté skupiny
+    tell_us_about_yourself: Napište něco o sobě. Jaká jste osobnost? Co by o Vás řekl
+      nejlepší přítel?
+    this_event_doesnt_have_pictures: Tato událost zatím nemá žádné obrázky.
+    this_profile_is_hidden: Tento profil je skrytý.
+    update_to_profile_is: Úprava tohoto profilu
+    visible_on_printed_directory: Viditelný v tištěném adresáři
+    visible_to_everyone: Viditelný pro každého
+    you_arent_in_any_groups: Zatím nejste v žádné skupině.
+  photos:
+    object_not_found: Objekt nebyl nalezen.
+    browse: Vybrat fotografii
+    remove: Odstranit fotografii
+    unavailable: Fotografie není dostupná.
+    upload:
+      button: Nahrát
+      error: Nepodařilo se uložit Vaši fotografii.
+      wrong_type: Typ souboru musí být JPG, GIF nebo PNG.
+    ready_filename: Připraveno k nahrání %{filename}
+    uploading_filename: Nahrává se %{filename}
+  pictures:
+    none: Zatím žádné obrázky
+    new:
+      heading: Nový obrázek
+      existing_album:
+        intro: Přidejte fotografie do existujícího alba...
+      new_album:
+        intro: Nebo vytvořte nové album...
+        button: Nové album
+    show_original: Zobrazit originál
+    create_an_album:
+      notice: Nejprve vytvořte album...
+    click_to_enlarge: Kliněte pro zvětšení
+    comment_on_this_picture: Komentujte tento obrázek
+    failed: "%{fail} nebylo uloženo (došlo k chybám)"
+    picture_uploaded_by: Obrázek nahrán %{when} uživatelem
+    rotate_left: Otočit vlevo
+    rotate_right: Otočit vpravo
+    saved: "%{success} obrázků úspěšně uloženo"
+    set_as_cover: Nastavit jako pozadí
+    upload: Nahrát!
+  prayer_requests:
+    by: by %{person}
+    name: Prayer Request in %{group}
+    index:
+      heading: Prayer Requests
+    show:
+      heading: Prayer Request
+    new:
+      heading: New Prayer Request
+      button: New Prayer Request
+    edit:
+      heading: Edit Prayer Request
+      button: Edit Request
+    delete:
+      button: Delete Request
+    request:
+      heading: Request
+    answer:
+      heading: Answer
+      description: Remember to come back and fill this section so your group can have
+        a record of answered prayers.
+      on_date: Answered on %{date}
+    save: Save Prayer Request
+    not_found: Prayer Request not found
+    error:
+      no_edit: You cannot edit this prayer request.
+      no_delete: You cannot delete this prayer request.
+      no_post: You cannot post a prayer request in this group because you are not
+        a member.
+    send_email: Send as email to group members.
+  printable_directories:
+    heading: Printed Directory
+    already_sent: It seems a directory was already sent to you a little while ago.
+      Please check your email (and your spam folder just in case).
+    click_to_have_custom_pdf_via_email: Click the button below to have a custom directory
+      PDF file sent to your email.
+    created_for: Created especially for %{name} on %{date}
+    email_custom_directory: Email my Custom Directory
+    include_family_pictures: include family pictures
+    not_allowed: You are not allowed to print the directory. Sorry.
+    were_are_building_custom_pdf: We're building your custom PDF right now. It will
+      take a little while, but probably not more than a few minutes. Once it is ready,
+      we will email it to you. Feel free to continue your visit to this site (you
+      can leave this page if you want).
+    will_take_longer: "(will take a little longer)"
+  privacies:
+    tabs:
+      sharing: Sharing
+      children: Children
+    sharing:
+      intro_html: You can change the privacy settings for your family here. Items
+        with a checkmark are visible to other members who sign into this website.
+        Click the <i class='fa fa-plus-circle'></i> to set privacy for groups (optional).
+        To understand how we use the personal information of you and your family,
+        please read our <a href='%{url}'>Privacy Policy</a>.
+    children:
+      intro: Control which of your children below have access to this website.
+    scroll_notice: You may need to scroll left and right to see all the options here.
+    activity: Activity
+    address: Address
+    agreement_saved: Agreement saved.
+    anniversary: Anniversary
+    as_a_parent_agree_html: I, as a parent or legal gaurdian of %{name}, hereby agree
+      that I have read this site's <a href="%{url}">Privacy Policy</a>, that the personal
+      information of %{name} may be displayed for other users of the web site (as
+      determined by the privacy settings on this page), and that %{name} may, if able,
+      utilize this website as a normal user (including profile customization, and
+      communication via private message, groups, etc.).
+    birthday: Birthday
+    child_profile_has_parental_consent: This child's profile has parental consent
+      from %{name}.
+    child_under_age_you_have_not_consent: This child is under the age of %{years},
+      and you have not given consent to 1) allow their information to be displayed,
+      and 2) allow them to sign into and use this web site.
+    click_the_agree: Click the 'I Agree' button.
+    email: Email
+    family_hidden: This family is currently hidden from all pages on this site!
+    family_privacy: Family
+    fax: Fax
+    group_privacy: Group Privacy
+    hide_your_activity: 'Hide your activity if you do not want friends and/or fellow
+      group members to see your public messages, notes, verses, etc. on their home
+      page. Note: private messages are never displayed, regardless of this setting.'
+    home_phone: Home Phone
+    i_agree: I Agree
+    mobile_phone: Mobile Phone
+    please_read_our_privacy_policy_html: Please read our <a href="%{url}">Privacy
+      Policy</a> for details regarding the use of your personal information.
+    people_can_still_send_html: You can still receive email through the site, without
+      revealing your email address on the Web.
+    privacy: Privacy
+    read_privacy_policy_html: Read our <a href="%{url}">Privacy Policy</a>.
+    read_safeguarding_children_html: Read our page about <a href="%{url}">Safeguarding
+      Children</a>.
+    read_statement_below: Read the statement below and agree to it by checking the
+      corresponding checkbox.
+    saved: Settings saved.
+    sharing_with_html: Sharing with <a href="%{url}">%{name}</a>
+    to_show_on_this_site: 'To show %{name} on this site, please:'
+    visible: Visible
+    visible_note: Setting a profile to be invisible will cause you to not appear in
+      any directory searches. You can still join groups and receive group email and
+      email from site administrators though.
+    work_phone: Work Phone
+    you_may_share_items: 'You may share items with fellow members of the following
+      groups:'
+    you_must_check_agreement_statement: You must check the box indicating you agree
+      to the statement below.
+  relationships:
+    heading: Vztahy pro osobu %{person}
+    reciprocate:
+      button: Opětovat
+      failure: Opětovaný vztah k %{name} nemůže být vytvořen automaticky.
+    add_relationship:
+      intro: 'Přidání vztahu:'
+      button: Přidat vztah
+    family:
+      create:
+        intro: Některé vztahy jsou navrženy níže. Doplňte potřebné změny a použijte
+          tlačítko Vytvořit.
+        button: Vytvořit ronniné vztahy
+      heading: Rodinné vztahy v rodině %{family}
+      button: Rodinné vztahy
+    inward:
+      heading: Vnitřní vztahy
+    names:
+      aunt: Teta
+      brother: Bratr
+      brother_in_law: Švagr
+      cousin: Bratranec / sestřenice
+      daughter: Dcera
+      daughter_in_law: Snacha
+      father: Otec
+      father_in_law: Tchán
+      granddaughter: Vnučka
+      grandfather: Děda
+      grandmother: Babička
+      grandson: Vnuk
+      husband: Manžel
+      mother: Matka
+      mother_in_law: Tchyně
+      nephew: Synovec
+      niece: Neteř
+      other_name: jiný
+      sister: Sestra
+      sister_in_law: Švagrová
+      son: Syn
+      son_in_law: Zeť
+      stepbrother: Nevlastní bratr
+      stepdaughter: Nevlastní dcera
+      stepfather: Nevlastní otec
+      stepmother: Nevlastní matka
+      stepsister: Nevlastní sestra
+      stepson: Nevlastní syn
+      uncle: Strýc
+      wife: Manželka
+    other_name:
+      placeholder: Typ vztahu
+    no_person_selected: Nebyla vybrána žádná osoba.
+    relationship: Vztah
+    relationship_type: 'Typ:'
+    toggle_individual: Zobrazit individuální vztahy
+  reports:
+    custom_reports:
+      button:
+        add: Add New
+        edit: Edit
+        delete: Delete
+        show: View
+      index:
+        title: Custom Reports
+        box_title: Custom Reports
+      new:
+        title: New Custom Report
+      edit:
+        title: Edit Custom Report
+      show:
+        title: Custom Report
+      fields:
+        title: Title
+        header: Report Header
+        body: Report Body
+        footer: Report Footer
+        filters: Filters
+        category:
+          people: People
+          groups: Groups and People
+          family: Family and People
+      validation:
+        filters: For multiple filters, ensure you have your separators defined correctly.
+      create:
+        notice: Custom Report was successfully created.
+      destroy:
+        notice: Custom Report was successfully destroyed.
+      update:
+        notice: Custom Report was successfully updated.
+    from_date: From Date
+    group: Group
+    group_select: Select a Group...
+    name: Name
+    records:
+      one: 1 record
+      few: "%{count} records"
+      other: "%{count} records"
+    reports:
+      attendance_totals:
+        title: Attendance Totals
+        columns:
+          group: Group
+          attended_at: Attended At
+          count: Total Attendees
+      group_contact_details:
+        title: Group Contact Details
+        title_for_group: Group Contact Details for %{group}
+        columns:
+          first_name: First Name
+          last_name: Last Name
+          email_address: Email Address
+          mobile_phone: Mobile Phone
+          home_phone: Home Phone
+          address: Address
+        address: address
+      weekly_attendance:
+        title: Weekly Attendance
+        title_for_group: Weekly Attendance for %{group}
+        columns:
+          person_id: ID
+          first_name: First Name
+          last_name: Last Name
+          group: Group
+          attended: Attended
+        attended:
+          'yes': 'Yes'
+          'no': 'No'
+    submit: Submit
+    thru_date: Through Date
+    type: Type
+  search:
+    column:
+      name: Jméno
+      family: Rodina
+      business: Podnikání
+      category: Kategorie
+      birthday: Narozeniny
+      testimony: Svědectví
+    no_family: "(žádná rodina)"
+    form:
+      name: Hledat podle jména
+      advanced: Pokročilé vyhledávání
+      birthday: Narozeniny
+      anniversary: Výročí svatby
+      gender: Pohlaví
+      genders:
+        Male: Muž
+        Female: Žena
+      city: Město
+      state: Kraj
+      zip: PCŠ
+      phone: Telefonní číslo
+      email: E-mail
+      type: Typ členství
+      group_membership: Členství ve skupině
+      in_group: obsahuje
+      not_in_group: neobsahuje
+      group_membership_text: Skupina s kategorií
+      types:
+        member: Člen
+        staff: Zaměstnanec
+        deacon: Jáhen
+        elder: Starší
+    results:
+      testimony_read_more: ukaž více
+    add_selected: Přidat vybrané
+    business_category: 'Oblast podnikání:'
+    deacon: Jáhen
+    elder: Starší
+    female: Žena
+    heading: Adresář %{name}
+    male: Muž
+    member: Člen
+    results_not_shown: Některé výsledky nejsou zobrazeny — musíte být více specifičtí.
+    not_showing_hidden_people: "(skrytí nejsou zobrazeni)"
+    people_found:
+      one: 1 osoba nalezena
+      few: "%{count} lidé nalezeni"
+      other: "%{count} lidí nalezeno"
+    search: Prohledat adresář
+    search_by_name: Hledat podle jména
+    show_hidden: Zobrazit i skryté
+    staff: Zaměstnanec
+    directory_map: Zobrazit na mapě
+  session:
+    form:
+      header: Přihlášení
+      placeholder:
+        email: E-mail
+        password: Heslo
+      remember_me: Zapamatuj si mě
+    account_not_activated_html: Váš účet ješte nebyl aktivován. <a href='/pages/help'>Klikněte
+      zde</a> pro více informací.
+    email_found: Zadaná e-mailová adresa existuje, ale musíte ji ověřit před tím,
+      než se přihlásíte.
+    email_not_found: Zadaná e-mailová adresa není uložena v našem systému. Zkuste
+      to s jinou.
+    forgot_password_button: Zapoměl jsem heslo
+    password_doesnt_match: Zadané heslo nesouhlasí s uloženým. Zkuste to znovu.
+    max_sign_in_attempts: Bylo překročeno maximální povolené množství pokusů k přihlášení.
+      Zkuste to znovu za 15 minut.
+    sign_in_button: Přihlásit se
+    sign_up_button: Vytvořit účet
+    sign_out: Odhlásit
+  setup:
+    admin_account: Administrátorský účet
+    complete_html: Skvělé, základ je nakonfigurován! Přejděte do <a href='%{url}'>administrátorské
+      sekce</a> až budete chtít nastavit stránku vašeho společenství.
+    congratulations: Gratulujeme! OneBody teď běží. Nyní je čas pro přidání administrátora
+      a konfiguraci pár dalších nastavení......
+    do_right_away: Měli byste to udělat hned, zvláště pokud je váš server veřejně
+      dostupný z internetu.
+    domain_name_note: 'Vložte název domény vašich stránek, bez úvodního "www", tedy
+      například: "example.com" or "members.example.com".'
+    heading: Počáteční nastavení
+    more_accounts_later: "(Později budete moci přidat více administrároských účtů.)"
+    domain_name: Doména
+    first_name: Křestní jméno
+    last_name: Příjmení
+    email: E-mail
+    password: Heslo
+    password_confirmation: Potvrďte heslo
+    submit_button_html: Uložit změny
+  stream:
+    title: Úvod
+    sub_title: "(sdíleno se mnou)"
+    none: Zatím nic k vidění.
+    header:
+      noone: system
+      message: "%{who} poslal(a) vzkaz skupině %{group}"
+      news: "%{who} zveřejnil(a) %{title}"
+      note: "%{who} napsal(a) poznámku"
+      person: "%{who} byl(a) přidán(a)"
+      picture:
+        one: "%{who} sdílel(a) obrázek v albu %{album}"
+        few: "%{who} sdílel(a) obrázky v albu %{album}"
+        other: "%{who} sdílel(a) obrázky v albu %{album}"
+      picture_in_group:
+        one: "%{who} sdílel(a) obrázek ve skupině %{group}"
+        few: "%{who} sdílel(a) obrázky ve skupině %{group}"
+        other: "%{who} sdílel(a) obrázky ve skupině %{group}"
+      prayer_request: "%{who} požádal(a) o modlitbu ve skupině %{group}"
+      site: "%{site}"
+      verse: "%{who} sdílel(a) biblický verš %{title}"
+    body:
+      picture:
+        alt: klikněte pro zvětšení
+      person:
+        button: Pozdravte uživatele %{person}!
+      site:
+        description: Stránka společenství pro %{site} byla vytvořena!
+      stream_item_group:
+        person:
+          description:
+            one: Ještě jeden uživatel byl přidán...
+            few: "%{count} další uživatelé byli přidáni..."
+            other: "%{count} dalších uživatelů bylo přidáno..."
+    footer:
+      button_label:
+        default: Zobrazit více
+        album: Zobrazit více
+        note: Více o této poznámce
+        verse: Více
+        person: ''
+        site: ''
+        stream_item_group: Zobrazit všechny
+    load_more: Načíst další...
+    share:
+      heading:
+        friends: Sdílet s přáteli
+        everyone: Sdílet se všemi
+      intro:
+        friends_and_group_members: To, co zde sdílíte, uvidí Vaši přátelé a členové
+          Vaší skupiny.
+        friends_only: To, co zde sdílíte, uvidí pouze Vaši přátelé.
+        group_members_only: To, co zde sdílíte, uvidí členové Vaší skupiny.
+        everyone: Sdílejte něco zajímavého se všemi uživateli...
+      button:
+        note: poznámka
+        picture: obrázek
+        verse: biblický verš
+        message: vzkaz skupině
+        news: sdílet zprávu
+      sharing_with_html:
+        one: sdíleno s <a href='%{url}'>jedním uživatelem</a>
+        few: sdíleno s <a href='%{url}'>%{count} lidmi</a>
+        other: sdíleno s <a href='%{url}'>%{count} lidmi</a>
+    people:
+      heading: Sdílení s přáteli
+      intro: Tito lidé vidí to, co sdílíte.
+      intro_none: Nikdo tu není.
+      column:
+        name: Jméno
+        family_name: Příjmení
+        reason: Důvod
+      reason:
+        family_html: Vaše <a href='%{url}'>rodina</a>
+        friend_html: Váš <a href='%{url}'>přítel</a>
+        groups_html:
+          one: 'v této skupině s Vámi: %{groups}'
+          few: 'v těchto skupinách s Vámi: %{groups}'
+          other: 'v těchto skupinách s Vámi: %{groups}'
+    feed: Feed
+  tags:
+    add_tags: Přidejte štítky (odělené mezerami)
+    confirm_delete: Opravdu chcete smazat tento štítek?
+    no_tags_yet: zatím žádné štítky
+    tag: Štítek
+    tags: Štítky
+  tasks:
+    index:
+      heading: Úkoly
+      group_heading: Úkoly pro skupinu %{group}
+      comment_count:
+        one: 1 komentář
+        few: "%{count} komentáře"
+        other: "%{count} komentářů"
+    new:
+      heading: Nový úkol
+      button: Nový úkol
+    edit:
+      heading: Upravit úkol
+    show:
+      heading: 'Úkol: %{task}'
+      edit: Upravit úkol
+    heading: Úkol
+    save: Uložit úkol
+    go_to_group: Jít do skupiny
+    deleted: Úkol byl smazán
+    members: Všichni členové
+  verses:
+    heading: Verses
+    new:
+      heading: Find a Verse or Passage
+    about_tags: Tags can group verses together by topic, author, time period, or whatever.
+    about_this_verse: about this verse. Share what it means to you or how it has helped
+      you.
+    add_this_verse_to_my_list: Add this verse to my list.
+    add_verse: Add Verse
+    search_verse: Search Verse
+    add_your_favorite_verse: 'Add your favorite verse:'
+    comment_count:
+      one: "<a href='%{url}'>1 comment</a> by %{by}"
+      few: "<a href='%{url}'>%{count} comments</a> by %{by}"
+      many: "<a href='%{url}'>%{count} comments</a> by %{by} and <a href='%{url}'>%{extra_count}
+        more</a>"
+    disclaimer: Scripture quotations marked 'WEB' are taken from the World English
+      Bible, a Modern English update of the American Standard Version of the Holy
+      Bible. WEB is in the public domain. Copy and publish it freely.
+    example_verse: verse or passage like John 3:16 or Romans 12:1-2
+    intro: Share your favorite Bible verses with %{community}.
+    no_verses_yet: No verses yet!
+    not_found: That verse could not be found. Did you type the reference correctly?
+    people_who_like_this_verse: People who like this verse
+    remove_this_verse: Remove this verse from my list.
+    saved_by_count:
+      one: saved by 1 person
+      few: saved by %{count} people
+      other: saved by %{count} people
+    search:
+      error: Verse not found. Did you type the reference correctly?

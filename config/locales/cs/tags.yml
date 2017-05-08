@@ -1,7 +1,0 @@
-cs:
-  tags: 
-    add_tags: "Přidejte štítky (odělené mezerami)"
-    confirm_delete: "Opravdu chcete smazat tento štítek?"
-    no_tags_yet: "zatím žádné štítky"
-    tag: "Štítek"
-    tags: "Štítky"
