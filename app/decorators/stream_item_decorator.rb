@@ -116,7 +116,7 @@ class StreamItemDecorator < Draper::Decorator
   def body
     h.content_tag(:div, class: "timeline-body #{streamable_css_class}") do
       if streamable_type == 'Message'
-        h.truncate_html(h.render_message_body(object), length: MAX_BODY_SIZE).html_safe
+        truncate_html(h.render_message_body(object), length: MAX_BODY_SIZE).html_safe
       elsif streamable_type == 'Person' && streamable
         h.link_to streamable, class: 'btn btn-info' do
           I18n.t('stream.body.person.button', person: streamable.name)
@@ -135,7 +135,7 @@ class StreamItemDecorator < Draper::Decorator
           end
         end.html_safe
       elsif object.body
-        h.truncate_html(h.sanitize_html(h.auto_link(object.body)), length: MAX_BODY_SIZE).html_safe
+        truncate_html(h.sanitize_html(h.auto_link(object.body)), length: MAX_BODY_SIZE).html_safe
       elsif streamable_type == 'Album'
         pics = Array(object.context['picture_ids'])
         pics = pics[-MAX_PICTURES..-1] if pics.length > MAX_PICTURES
@@ -192,5 +192,9 @@ class StreamItemDecorator < Draper::Decorator
 
   def new_badge
     h.content_tag(:small, h.t('new'), class: 'badge bg-green')
+  end
+
+  def truncate_html(html, length:)
+    HTML_Truncator.truncate(html, length)
   end
 end
