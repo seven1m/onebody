@@ -157,7 +157,7 @@ describe AccountsController, type: :controller do
             context 'user is a child' do
               before do
                 @count_was = Person.count
-                post :create, {signup: {email: 'rick@example.com', first_name: 'Rick', last_name: 'Smith', birthday: Date.today.to_s}}
+                post :create, {signup: {email: 'rick@example.com', first_name: 'Rick', last_name: 'Smith', birthday: Date.current.to_s}}
               end
 
               it 'should not send email' do

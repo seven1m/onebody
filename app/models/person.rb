@@ -240,7 +240,7 @@ class Person < ActiveRecord::Base
   end
 
   def attendance_today
-    attendance_records.on_date(Date.today).includes(:group).order(:attended_at)
+    attendance_records.on_date(Date.current).includes(:group).order(:attended_at)
   end
 
   alias_method :destroy_for_real, :destroy

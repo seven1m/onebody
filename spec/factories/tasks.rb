@@ -3,7 +3,7 @@ FactoryGirl.define do
     sequence(:name) { |n| "Task #{n}" }
     sequence(:description) { |n| "Description for task #{n}" }
     completed false
-    duedate Date.today
+    duedate Date.current
     person
     group
   end

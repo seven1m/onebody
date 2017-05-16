@@ -3,7 +3,7 @@ class Checkin::FamiliesController < ApplicationController
   def show
     @family = Family.undeleted.find(params[:id])
     @family_people = @family.people.undeleted.order(:position)
-    @attendance_records = AttendanceRecord.find_for_people_and_date(@family_people.map(&:id), Date.today)
+    @attendance_records = AttendanceRecord.find_for_people_and_date(@family_people.map(&:id), Date.current)
                                           .group_by(&:person_id)
   end
 

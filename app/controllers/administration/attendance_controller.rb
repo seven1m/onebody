@@ -13,7 +13,7 @@ class Administration::AttendanceController < ApplicationController
 
   # TODO refactor
   def index
-    @attended_at = params[:attended_at] ? Date.parse_in_locale(params[:attended_at]) : Date.today
+    @attended_at = params[:attended_at] ? Date.parse_in_locale(params[:attended_at]) : Date.current
     @groups = AttendanceRecord.groups_for_date(@attended_at)
     @rel = AttendanceRecord.where("attended_at >= ? and attended_at <= ?", @attended_at.strftime('%Y-%m-%d 0:00'), @attended_at.strftime('%Y-%m-%d 23:59:59'))
     @rel.includes!(:person, :group)
