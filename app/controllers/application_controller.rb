@@ -69,10 +69,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def current_site
-    Site.current
-  end
-
   def current_user
     @logged_in
   end
