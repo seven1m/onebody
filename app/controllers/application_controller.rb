@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
     searches/*
     messages/new messages/create
     streams/show
-  )
+  ).freeze
 
   layout :layout
 
@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
 
   def get_site
     if ENV['ONEBODY_SITE']
-      Site.current = Site.where(id: ENV["ONEBODY_SITE"], active: true).first
+      Site.current = Site.where(id: ENV['ONEBODY_SITE'], active: true).first
     elsif Setting.get(:features, :multisite)
       Site.current = Site.where(host: request.host, active: true).first
     else
@@ -49,11 +49,11 @@ class ApplicationController < ActionController::Base
       OneBody.set_locale
       OneBody.set_time_zone
       OneBody.set_local_formats
-    elsif site = Site.where(secondary_host: request.host, active: true).first
+    elsif (site = Site.where(secondary_host: request.host, active: true).first)
       redirect_to 'http://' + site.host
       return false
     elsif request.host =~ /^www\./
-      redirect_to request.url.sub(/^(https?:\/\/)www\./, '\1')
+      redirect_to request.url.sub(%r{^(https?://)www\.}, '\1')
       return false
     else
       render text: t('application.no_site_configured', host: request.host), status: 404
@@ -64,7 +64,7 @@ class ApplicationController < ActionController::Base
   # used by some anonymous controller actions to see if someone is logged in
   # (without redirecting if they are not)
   def get_user
-    if id = session[:logged_in_id]
+    if (id = session[:logged_in_id])
       Person.logged_in = @logged_in = Person.where(id: id).first
     end
   end
@@ -83,12 +83,12 @@ class ApplicationController < ActionController::Base
     @checkin_logged_in = Person.find(id) if id
     return if @checkin_logged_in && @checkin_logged_in.admin?(:manage_checkin)
     redirect_to new_session_path(for: 'checkin', from: request.fullpath)
-    return false
+    false
   end
 
   def authenticate_user_with_session
-    if id = session[:logged_in_id]
-      unless person = Person.where(id: id).first
+    if (id = session[:logged_in_id])
+      unless (person = Person.where(id: id).first)
         session[:logged_in_id] = nil
         redirect_to new_session_path
         return false
@@ -107,23 +107,23 @@ class ApplicationController < ActionController::Base
       end
     else
       redirect_to new_session_path(from: request.fullpath)
-      return false
+      false
     end
   end
 
   def authenticate_user_with_code_or_session
     Person.logged_in = @logged_in = nil
-    unless params[:code] and Person.logged_in = @logged_in = Person.undeleted.where(feed_code: params[:code], deleted: false).first
+    unless params[:code] && (Person.logged_in = @logged_in = Person.undeleted.where(feed_code: params[:code], deleted: false).first)
       authenticate_user_with_session
     end
   end
 
   def authenticate_user_with_api_key
     authenticate_with_http_basic do |email, api_key|
-      if email.present? and
-        api_key.to_s.length == 50 and
-        person = Person.undeleted.where(email: email, api_key: api_key).first and
-        person.super_admin?
+      if email.present? &&
+          api_key.to_s.length == 50 &&
+          (person = Person.undeleted.where(email: email, api_key: api_key).first) &&
+          person.super_admin?
         Person.logged_in = @logged_in = person
         @logged_in_from_api_key = true
       end
@@ -131,15 +131,15 @@ class ApplicationController < ActionController::Base
   end
 
   def update_last_seen_at
-    @logged_in.update_last_seen_at if @logged_in
+    @logged_in.try(:update_last_seen_at)
   end
 
   def check_full_access
     if @logged_in && @logged_in.pending?
-      unless LIMITED_ACCESS_AVAILABLE_ACTIONS.include?("#{params[:controller]}/#{params[:action]}") or \
+      unless LIMITED_ACCESS_AVAILABLE_ACTIONS.include?("#{params[:controller]}/#{params[:action]}") || \
              LIMITED_ACCESS_AVAILABLE_ACTIONS.include?("#{params[:controller]}/*")
         render text: t('people.limited_access_denied'), layout: true, status: 401
-        return false
+        false
       end
     end
   end
@@ -149,29 +149,29 @@ class ApplicationController < ActionController::Base
     render text: I18n.t('not_authorized'), layout: true, status: :forbidden
   end
 
-  rescue_from 'LoadAndAuthorizeResource::AccessDenied', 'LoadAndAuthorizeResource::ParameterMissing' do |e|
+  rescue_from 'LoadAndAuthorizeResource::AccessDenied', 'LoadAndAuthorizeResource::ParameterMissing' do
     render text: I18n.t('not_authorized'), layout: true, status: :forbidden
   end
 
-  rescue_from 'EmailConnectionError' do |e|
+  rescue_from 'EmailConnectionError' do
     render 'errors/email_connection_error'
   end
 
   def me?
-    @logged_in and @person and @logged_in == @person
+    @logged_in && @person && @logged_in == @person
   end
 
-  def redirect_back(fallback=nil)
+  def redirect_back(fallback = nil)
     if params[:from]
       redirect_to safe_redirect_path(params[:from])
-    elsif request.env["HTTP_REFERER"]
-      redirect_to safe_redirect_path(request.env["HTTP_REFERER"])
+    elsif request.env['HTTP_REFERER']
+      redirect_to safe_redirect_path(request.env['HTTP_REFERER'])
     elsif fallback
       redirect_to fallback
     else
       redirect_to people_path
     end
-    return false # in case you want to halt action
+    false # in case you want to halt action
   end
 
   def safe_redirect_path(url)
@@ -189,7 +189,7 @@ class ApplicationController < ActionController::Base
   def only_admins
     unless @logged_in.admin?
       render text: t('only_admins'), layout: true, status: 401
-      return false
+      false
     end
   end
 
@@ -202,7 +202,7 @@ class ApplicationController < ActionController::Base
   end
 
   def can_export?
-    @logged_in and @logged_in.admin?(:export_data) and Site.current.import_export_enabled?
+    @logged_in && @logged_in.admin?(:export_data) && Site.current.import_export_enabled?
   end
 
   def layout
