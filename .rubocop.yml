@@ -28,3 +28,13 @@ Style/FrozenStringLiteralComment:
 
 Style/EmptyMethod:
   EnforcedStyle: expanded
+
+Style/PercentLiteralDelimiters:
+  # Rubocop recently changed this from () to [] and I'm not ready to go fix it in all the source files.
+  PreferredDelimiters:
+    default: ()
+    '%i': '()'
+    '%I': '()'
+    '%r': '{}'
+    '%w': '()'
+    '%W': '()'
