@@ -25,7 +25,7 @@ class PeopleController < ApplicationController
     end
     if params[:limited] || !@logged_in.active?
       render action: 'show_limited'
-    elsif @person and @logged_in.can_read?(@person)
+    elsif @person && @logged_in.can_read?(@person)
       @family = @person.family
       if @family.nil?
         @family_people = []
@@ -40,7 +40,7 @@ class PeopleController < ApplicationController
       @verses = @person.verses.order(:book, :chapter, :verse)
       @groups = @person.groups.is_public.approved.limit(3).order("(select created_at from stream_items where group_id=groups.id order by created_at desc limit 1) desc")
       @stream_items = StreamItem.shared_with(@logged_in).where(person_id: @person.id).paginate(page: params[:timeline_page], per_page: 5)
-      if params[:business] and @person.business_name.present?
+      if params[:business] && @person.business_name.present?
         render action: 'business'
       else
         respond_to do |format|
@@ -48,7 +48,7 @@ class PeopleController < ApplicationController
           format.xml { render xml: @person.to_xml } if can_export?
         end
       end
-    elsif @person and @person.deleted? and @logged_in.admin?(:edit_profiles)
+    elsif @person && @person.deleted? && @logged_in.admin?(:edit_profiles)
       @deleted_people_url = administration_deleted_people_path('search[id]' => @person.id)
       render text: t('people.deleted_html', url: @deleted_people_url), status: 404, layout: true
     else
@@ -84,7 +84,7 @@ class PeopleController < ApplicationController
       end
       @person.family = @family
       respond_to do |format|
-        if @family.save and @person.save
+        if @family.save && @person.save
           format.html { redirect_to @person.family }
           format.xml  { render xml: @person, status: :created, location: @person }
         else
@@ -117,7 +117,7 @@ class PeopleController < ApplicationController
 
   def update
     @person = Person.find(params[:id])
-    if params[:move_person] and params[:family_id] and @logged_in.admin?(:edit_profiles)
+    if params[:move_person] && params[:family_id] && @logged_in.admin?(:edit_profiles)
       @family = Family.find(params[:family_id])
       @family.people << @person
       flash[:info] = t('people.move.success_message', person: @person.name, family: @family.name)
@@ -160,7 +160,7 @@ class PeopleController < ApplicationController
 
   def batch
     # post from families/show page
-    if params[:family_id] and @logged_in.admin?(:edit_profiles)
+    if params[:family_id] && @logged_in.admin?(:edit_profiles)
       params[:ids].each { |id| Person.find(id).update_attribute(:family_id, params[:family_id]) }
       respond_to do |format|
         format.html { redirect_to family_path(params[:family_id]) }
