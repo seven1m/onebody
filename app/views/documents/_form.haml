@@ -1,6 +1,7 @@
 = form_for @document, multipart: true, id: 'new-document-form' do |form|
   = error_messages_for(form)
   = form.hidden_field :folder_id
+
   %table{ class: 'table', id: 'document_table', style: 'display:none' }
     %tr
       %th
@@ -30,3 +31,14 @@
       = form.select :folder_id, parent_document_folder_options, { include_blank: true }, class: 'form-control', id: 'folder_id'
   .form-group
     = form.button t('save'), class: 'btn btn-success', style: 'display:none', id: 'document-form-submit-button'
+
+  - unless @document.new_record?
+    .edit-document
+      .form-group
+        = form.label :name
+        = form.text_field :name, class: 'form-control'
+      .form-group
+        = form.label :description
+        = form.text_field :description, class: 'form-control'
+      .form-group
+        = form.button t('save'), class: 'btn btn-success'

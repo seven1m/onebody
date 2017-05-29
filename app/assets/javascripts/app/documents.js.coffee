@@ -22,6 +22,7 @@ $('#document_file').change (e) ->
     $('#document_table > tbody > tr:not(:first-child)').empty()
     $('#document_table > tbody:last-child').append( documentUploadTemplate.clone() )
     return
+  $('.edit-document').remove()
   $('#document_table').show()
   $('#select-files-button').hide()
   $('#document-form-submit-button').show()
