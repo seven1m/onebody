@@ -178,13 +178,6 @@ class PeopleController < ApplicationController
     end
   end
 
-  def login
-    if @logged_in.super_admin?
-      session[:logged_in_id] = Person.find(params[:id])
-      redirect_to root_path
-    end
-  end
-
   def update_position
     @family = Family.find(params[:family_id])
     @person = @family.people.find(params[:id])

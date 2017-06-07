@@ -18,7 +18,6 @@ OneBody::Application.routes.draw do
     member do
       get :favs
       get :testimony
-      get :login
     end
     resources :friends do
       collection do
