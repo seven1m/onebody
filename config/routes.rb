@@ -12,9 +12,6 @@ OneBody::Application.routes.draw do
   end
 
   resources :people do
-    collection do
-      post :batch
-    end
     member do
       get :favs
       get :testimony

@@ -158,19 +158,6 @@ class PeopleController < ApplicationController
     end
   end
 
-  def batch
-    # post from families/show page
-    if params[:family_id] && @logged_in.admin?(:edit_profiles)
-      params[:ids].each { |id| Person.find(id).update_attribute(:family_id, params[:family_id]) }
-      respond_to do |format|
-        format.html { redirect_to family_path(params[:family_id]) }
-        format.js   { render js: "location.replace('#{family_path(params[:family_id])}')" }
-      end
-    else
-      render text: t('not_authorized'), layout: true, status: 401
-    end
-  end
-
   def testimony
     @person = Person.find(params[:id])
     unless @logged_in.can_read?(@person)
