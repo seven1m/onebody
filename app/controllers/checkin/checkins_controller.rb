@@ -43,7 +43,7 @@ class Checkin::CheckinsController < ApplicationController
   def ensure_campus_selection
     if params[:campus]
       session[:checkin_campus] = params[:campus]
-    elsif not session[:checkin_campus]
+    elsif !session[:checkin_campus]
       @campuses = CheckinTime.campuses
       if @campuses.none?
         render action: 'run_setup'

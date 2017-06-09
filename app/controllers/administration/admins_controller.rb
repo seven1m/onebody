@@ -4,13 +4,13 @@ class Administration::AdminsController < ApplicationController
   def index
     if params[:groups]
       @group_admins = Membership.where(admin: true).includes(:group, :person) \
-        .map { |m| [m.person, m.group] } \
-        .sort_by { |a| (params[:sort] == 'group' ? a[1] : a[0]).name }
+                                .map { |m| [m.person, m.group] } \
+                                .sort_by { |a| (params[:sort] == 'group' ? a[1] : a[0]).name }
       render action: 'group_admins'
     else
       @order = case params[:order]
                when 'template'
-                 "admins.super_admin, admins.template_name, people.last_name, people.first_name"
+                 'admins.super_admin, admins.template_name, people.last_name, people.first_name'
                else
                  'people.last_name, people.first_name'
                end
@@ -44,21 +44,21 @@ class Administration::AdminsController < ApplicationController
   def create
     flash[:notice] = ''
     params[:ids].to_a.each do |id|
-      if Site.current.max_admins.nil? or Admin.people_count < Site.current.max_admins
+      if Site.current.max_admins.nil? || Admin.people_count < Site.current.max_admins
         person = Person.find(id)
         if person.admin?
-          flash[:notice] += t('admin.already_admin', name: person.name) + " "
+          flash[:notice] += t('admin.already_admin', name: person.name) + ' '
         else
           person.admin = params[:template_id].to_i > 0 ? Admin.find(params[:template_id]) : Admin.create!
           person.save!
           if person.save
-            flash[:notice] += t('admin.admin_added', name: person.name) + " "
+            flash[:notice] += t('admin.admin_added', name: person.name) + ' '
           else
             add_errors_to_flash(person)
           end
         end
       else
-        flash[:notice] += t('admin.no_more_admins') + " "
+        flash[:notice] += t('admin.no_more_admins') + ' '
         break
       end
     end
@@ -91,11 +91,10 @@ class Administration::AdminsController < ApplicationController
 
   private
 
-    def only_admins
-      unless @logged_in.admin?(:manage_access)
-        render text: t('only_admins'), layout: true, status: 401
-        return false
-      end
+  def only_admins
+    unless @logged_in.admin?(:manage_access)
+      render text: t('only_admins'), layout: true, status: 401
+      false
     end
-
+  end
 end

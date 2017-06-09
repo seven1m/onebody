@@ -16,20 +16,18 @@ class PeopleController < ApplicationController
   end
 
   def show
-    if params[:id].to_i == session[:logged_in_id]
-      @person = @logged_in
-    elsif params[:legacy_id]
-      @person = Person.where(legacy_id: params[:id]).includes(:family).first
-    else
-      @person = Person.where(id: params[:id]).includes(:family).first
-    end
+    @person = if params[:id].to_i == session[:logged_in_id]
+                @logged_in
+              elsif params[:legacy_id]
+                Person.where(legacy_id: params[:id]).includes(:family).first
+              else
+                Person.where(id: params[:id]).includes(:family).first
+              end
     if params[:limited] || !@logged_in.active?
       render action: 'show_limited'
     elsif @person && @logged_in.can_read?(@person)
       @family = @person.family
-      if @family.nil?
-        @family_people = []
-      end
+      @family_people = [] if @family.nil?
       if @person == @logged_in
         @family_people = @person.family.people.undeleted.where.not(id: @person.id)
       else
@@ -38,7 +36,7 @@ class PeopleController < ApplicationController
       @albums = @person.albums.order(created_at: :desc)
       @friends = @person.friends.minimal
       @verses = @person.verses.order(:book, :chapter, :verse)
-      @groups = @person.groups.is_public.approved.limit(3).order("(select created_at from stream_items where group_id=groups.id order by created_at desc limit 1) desc")
+      @groups = @person.groups.is_public.approved.limit(3).order('(select created_at from stream_items where group_id=groups.id order by created_at desc limit 1) desc')
       @stream_items = StreamItem.shared_with(@logged_in).where(person_id: @person.id).paginate(page: params[:timeline_page], per_page: 5)
       if params[:business] && @person.business_name.present?
         render action: 'business'
@@ -74,14 +72,14 @@ class PeopleController < ApplicationController
   def create
     if @logged_in.admin?(:edit_profiles)
       @person = Person.new_with_default_sharing(person_params)
-      if (family_id = params[:person][:family_id]).present?
-        @family = Family.find(family_id)
-      else
-        @family = Family.new(family_params.merge(
-          name: @person.name,
-          last_name: @person.last_name
-        ))
-      end
+      @family = if (family_id = params[:person][:family_id]).present?
+                  Family.find(family_id)
+                else
+                  Family.new(family_params.merge(
+                               name: @person.name,
+                               last_name: @person.last_name
+                  ))
+                end
       @person.family = @family
       respond_to do |format|
         if @family.save && @person.save
@@ -89,7 +87,7 @@ class PeopleController < ApplicationController
           format.xml  { render xml: @person, status: :created, location: @person }
         else
           @person.valid? # trigger any error messages
-          format.html { render action: "new" }
+          format.html { render action: 'new' }
           format.xml  { render xml: @person.errors, status: :unprocessable_entity }
         end
       end

@@ -1,14 +1,11 @@
 class PicturesController < ApplicationController
-
-  LoadAndAuthorizeResource::METHOD_TO_ACTION_NAMES.merge!(
-    'next' => 'read',
-    'prev' => 'read',
-  )
+  LoadAndAuthorizeResource::METHOD_TO_ACTION_NAMES['next'] = 'read'
+  LoadAndAuthorizeResource::METHOD_TO_ACTION_NAMES['prev'] = 'read'
 
   load_and_authorize_parent :group, optional: true, only: :create, children: :albums
   load_and_authorize_parent :album, optional: true
   before_filter :find_or_create_album_by_name, only: :create
-  load_and_authorize_resource except: [:index, :new, :create]
+  load_and_authorize_resource except: %i(index new create)
 
   def index
     redirect_to @album
@@ -45,7 +42,7 @@ class PicturesController < ApplicationController
       respond_to do |format|
         format.html do
           flash[:error] = @uploader.errors.values.join('; ')
-          render action: "new"
+          render action: 'new'
         end
         format.json { render json: { status: 'error', errors: @uploader.errors.values } }
       end
@@ -78,5 +75,4 @@ class PicturesController < ApplicationController
       Authority.enforce(:create, album, current_user)
     end
   end
-
 end

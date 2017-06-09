@@ -1,15 +1,14 @@
 class PrayerRequestsController < ApplicationController
-
   load_and_authorize_parent :group, optional: true
   load_and_authorize_resource
 
   def index
     if @logged_in.member_of?(@group)
-      if params[:answered]
-        @reqs = prayer_requests.where("coalesce(answer, '') != ''").order(created_at: :desc).page(params[:page])
-      else
-        @reqs = prayer_requests.order(created_at: :desc).page(params[:page])
-      end
+      @reqs = if params[:answered]
+                prayer_requests.where("coalesce(answer, '') != ''").order(created_at: :desc).page(params[:page])
+              else
+                prayer_requests.order(created_at: :desc).page(params[:page])
+              end
     else
       render text: t('not_authorized'), layout: true, status: :forbidden
     end
@@ -24,9 +23,7 @@ class PrayerRequestsController < ApplicationController
 
   def create
     if @prayer_request.save
-      if params[:send_email]
-        @prayer_request.send_group_email
-      end
+      @prayer_request.send_group_email if params[:send_email]
       redirect_to group_prayer_requests_path(@group)
     else
       render action: 'new'
@@ -38,9 +35,7 @@ class PrayerRequestsController < ApplicationController
 
   def update
     if @prayer_request.update_attributes(prayer_request_params)
-      if params[:send_email]
-        @prayer_request.send_group_email
-      end
+      @prayer_request.send_group_email if params[:send_email]
       redirect_to group_prayer_request_path(@group, @prayer_request)
     else
       render action: 'edit'

@@ -7,11 +7,10 @@ class Administration::MembershipRequestsController < ApplicationController
 
   private
 
-    def only_admins
-      unless @logged_in.admin?(:manage_groups)
-        render text: t('only_admins'), layout: true, status: 401
-        return false
-      end
+  def only_admins
+    unless @logged_in.admin?(:manage_groups)
+      render text: t('only_admins'), layout: true, status: 401
+      false
     end
-
+  end
 end

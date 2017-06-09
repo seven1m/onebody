@@ -15,11 +15,10 @@ class Administration::EmailsController < ApplicationController
 
   private
 
-    def only_admins
-      unless @logged_in.admin?(:manage_updates)
-        render text: t('only_admins'), layout: true, status: 401
-        return false
-      end
+  def only_admins
+    unless @logged_in.admin?(:manage_updates)
+      render text: t('only_admins'), layout: true, status: 401
+      false
     end
-
+  end
 end

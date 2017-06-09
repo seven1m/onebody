@@ -1,12 +1,11 @@
 class FriendsController < ApplicationController
-
   before_filter :person_must_be_user, except: %w(index)
 
   def index
     @person = Person.find(params[:person_id])
     if @logged_in.can_read?(@person)
       @pending = me? ? @person.pending_friendship_requests : []
-      @friendships = @person.friendships.to_a.select { |f| f.friend and @logged_in.can_read?(f.friend) }
+      @friendships = @person.friendships.to_a.select { |f| f.friend && @logged_in.can_read?(f.friend) }
     else
       render text: t('people.not_found'), layout: true, status: 404
     end
@@ -63,11 +62,10 @@ class FriendsController < ApplicationController
 
   private
 
-    def person_must_be_user
-      unless @logged_in.id == params[:person_id].to_i
-        render text: t('people.friendship_manage'), layout: true, status: 401
-        return false
-      end
+  def person_must_be_user
+    unless @logged_in.id == params[:person_id].to_i
+      render text: t('people.friendship_manage'), layout: true, status: 401
+      false
     end
-
+  end
 end

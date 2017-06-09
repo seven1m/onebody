@@ -1,5 +1,4 @@
 class VersesController < ApplicationController
-
   def index
     if params[:person_id]
       @person = Person.find(params[:person_id])
@@ -59,11 +58,11 @@ class VersesController < ApplicationController
     @verse.people.delete @logged_in
     @verse.delete_stream_items(@logged_in)
     expire_fragment(%r{views/people/#{@logged_in.id}_})
-    unless @verse.people.count == 0
-      redirect_to @verse
-    else
+    if @verse.people.count == 0
       @verse.destroy
       redirect_to verses_path
+    else
+      redirect_to @verse
     end
   end
 
@@ -72,12 +71,12 @@ class VersesController < ApplicationController
   def get_verse
     @verse = Verse.find(params[:id])
     if @verse.try(:valid?)
-      if params[:id] !~ /^\d+$/ and @verse.reference != params[:id]
+      if params[:id] !~ /^\d+$/ && @verse.reference != params[:id]
         redirect_to verse_path(@verse.reference)
         return false
       end
       true
-    elsif @verse and @verse.errors.any?
+    elsif @verse && @verse.errors.any?
       add_errors_to_flash(@verse)
       redirect_to verses_path
       false
@@ -85,8 +84,7 @@ class VersesController < ApplicationController
       raise 'verse not found'
     end
   rescue
-      render text: t('verses.not_found'), layout: true, status: 404
-      false
+    render text: t('verses.not_found'), layout: true, status: 404
+    false
   end
-
 end

@@ -1,9 +1,8 @@
 class GroupsController < ApplicationController
-
   def index
     if params[:person_id]
       person_index
-    elsif params[:category] or params[:name]
+    elsif params[:category] || params[:name]
       search_index
     else
       overview_index
@@ -12,7 +11,7 @@ class GroupsController < ApplicationController
 
   def show
     @group = Group.find(params[:id])
-    if not (@group.approved? or @group.admin?(@logged_in))
+    if !(@group.approved? || @group.admin?(@logged_in))
       render text: t('groups.pending_approval.this_group'), layout: true
     elsif @logged_in.can_read?(@group)
       @member_of = @logged_in.member_of?(@group)
@@ -90,13 +89,10 @@ class GroupsController < ApplicationController
         @errors = []
         @groups = Group.order('category, name')
         @groups.each do |group|
-          if vals = params[:groups][group.id.to_s]
-            group.attributes = vals.permit(*group_attributes)
-            if group.changed?
-              unless group.save
-                @errors << [group.id, group.errors.values]
-              end
-            end
+          next unless vals = params[:groups][group.id.to_s]
+          group.attributes = vals.permit(*group_attributes)
+          if group.changed?
+            @errors << [group.id, group.errors.values] unless group.save
           end
         end
       else
@@ -155,8 +151,8 @@ class GroupsController < ApplicationController
   end
 
   def group_attributes
-    base = [:name, :description, :photo, :meets, :location, :directions, :other_notes, :address, :members_send, :private, :category, :blog, :email, :prayer, :attendance, :gcal_private_link, :approval_required_to_join, :pictures, :cm_api_list_id, :has_tasks]
-    base += [:approved, :membership_mode, :link_code, :parents_of, :hidden] if @logged_in.admin?(:manage_groups)
+    base = %i(name description photo meets location directions other_notes address members_send private category blog email prayer attendance gcal_private_link approval_required_to_join pictures cm_api_list_id has_tasks)
+    base += %i(approved membership_mode link_code parents_of hidden) if @logged_in.admin?(:manage_groups)
     base
   end
 

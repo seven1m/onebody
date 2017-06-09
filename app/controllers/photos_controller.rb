@@ -1,11 +1,10 @@
 class PhotosController < ApplicationController
-
   PHOTO_TYPES = {
     'family_id'  => Family,
     'person_id'  => Person,
     'picture_id' => Picture,
     'group_id'   => Group
-  }
+  }.freeze
 
   before_filter :get_object
 
@@ -15,9 +14,9 @@ class PhotosController < ApplicationController
         @object.photo = params[:photo]
         # annoying to users if changing their photo fails due to some other unrelated validation failure
         # this is a total hack
-        if @object.valid? or (errors = @object.errors.select { |a, e| a.to_s =~ /^photo/ }).empty?
+        if @object.valid? || (errors = @object.errors.select { |a, _e| a.to_s =~ /^photo/ }).empty?
           @object.save(validate: false)
-          if @id_key == 'family_id' or @id_key == 'person_id'
+          if @id_key == 'family_id' || @id_key == 'person_id'
             Notifier.photo_update(@object, @id_key == 'family_id') if Setting.get(:features, :notify_on_photo_change)
           end
         else
@@ -63,13 +62,12 @@ class PhotosController < ApplicationController
   def get_object
     # /families/123/photo
     # /families/123/photo/large
-    if id_key = params.keys.select { |k| k =~ /_id$/ }.last and model = PHOTO_TYPES[id_key]
+    if (id_key = params.keys.select { |k| k =~ /_id$/ }.last) && (model = PHOTO_TYPES[id_key])
       @id_key = id_key
       @object = model.find(params[id_key])
     else
       render text: t('photos.object_not_found'), layout: true, status: 404
-      return false
+      false
     end
   end
-
 end

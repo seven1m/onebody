@@ -19,7 +19,7 @@ class DocumentsController < ApplicationController
 
   def show
     @document = Document.find(params[:id])
-    fail ActiveRecord::RecordNotFound unless @logged_in.can_read?(@document)
+    raise ActiveRecord::RecordNotFound unless @logged_in.can_read?(@document)
   end
 
   def new
@@ -80,7 +80,7 @@ class DocumentsController < ApplicationController
 
   def download
     @document = Document.find(params[:id])
-    fail ActiveRecord::RecordNotFound unless @logged_in.can_read?(@document)
+    raise ActiveRecord::RecordNotFound unless @logged_in.can_read?(@document)
     send_file(
       @document.file.path,
       disposition: params[:inline] ? 'inline' : 'attachment',
@@ -128,7 +128,7 @@ class DocumentsController < ApplicationController
     return if params[:folder_id].blank?
     @parent_folder = DocumentFolder.find(params[:folder_id])
     return if @logged_in.admin?(:manage_documents)
-    fail ActiveRecord::RecordNotFound if @parent_folder && !@logged_in.can_read?(@parent_folder)
+    raise ActiveRecord::RecordNotFound if @parent_folder && !@logged_in.can_read?(@parent_folder)
   end
 
   def folder_params

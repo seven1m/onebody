@@ -84,7 +84,7 @@ class Administration::ImportsController < ApplicationController
     unchanged_people
     unchanged_families
     errored
-  )
+  ).freeze
 
   def filter_rows(rows)
     FILTERS.each do |filter|

@@ -37,13 +37,13 @@ class ApplicationController < ActionController::Base
   protected
 
   def get_site
-    if ENV['ONEBODY_SITE']
-      Site.current = Site.where(id: ENV['ONEBODY_SITE'], active: true).first
-    elsif Setting.get(:features, :multisite)
-      Site.current = Site.where(host: request.host, active: true).first
-    else
-      Site.current = Site.where(id: 1).first || raise(t('application.no_default_site'))
-    end
+    Site.current = if ENV['ONEBODY_SITE']
+                     Site.where(id: ENV['ONEBODY_SITE'], active: true).first
+                   elsif Setting.get(:features, :multisite)
+                     Site.where(host: request.host, active: true).first
+                   else
+                     Site.where(id: 1).first || raise(t('application.no_default_site'))
+                   end
     if Site.current
       Setting.reload_if_stale
       OneBody.set_locale
@@ -137,7 +137,7 @@ class ApplicationController < ActionController::Base
   def check_full_access
     if @logged_in && @logged_in.pending?
       unless LIMITED_ACCESS_AVAILABLE_ACTIONS.include?("#{params[:controller]}/#{params[:action]}") || \
-             LIMITED_ACCESS_AVAILABLE_ACTIONS.include?("#{params[:controller]}/*")
+          LIMITED_ACCESS_AVAILABLE_ACTIONS.include?("#{params[:controller]}/*")
         render text: t('people.limited_access_denied'), layout: true, status: 401
         false
       end

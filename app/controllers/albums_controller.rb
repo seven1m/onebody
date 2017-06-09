@@ -1,5 +1,4 @@
 class AlbumsController < ApplicationController
-
   load_and_authorize_parent :group, :person, shallow: true
   load_and_authorize_resource
 
@@ -51,5 +50,4 @@ class AlbumsController < ApplicationController
   def album_params
     params.require(:album).permit(:name, :description, :is_public)
   end
-
 end

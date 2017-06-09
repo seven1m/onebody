@@ -1,5 +1,4 @@
 class PrivaciesController < ApplicationController
-
   before_action :get_person
 
   def edit
@@ -8,13 +7,11 @@ class PrivaciesController < ApplicationController
       render text: t('not_authorized'), layout: true, status: 401
       return
     end
-    unless @family.visible?
-      flash[:warning] = t('privacies.family_hidden')
-    end
+    flash[:warning] = t('privacies.family_hidden') unless @family.visible?
   end
 
   def update
-    if params[:agree] or params[:agree_commit]
+    if params[:agree] || params[:agree_commit]
       update_consent
     else
       update_privacy
@@ -54,7 +51,7 @@ class PrivaciesController < ApplicationController
     else
       params.require(:family).permit(
         :visible,
-        people_attributes: [:id, :visible, :share_address, :share_mobile_phone, :share_home_phone, :share_work_phone, :share_fax, :share_email, :share_birthday, :share_anniversary, :share_activity]
+        people_attributes: %i(id visible share_address share_mobile_phone share_home_phone share_work_phone share_fax share_email share_birthday share_anniversary share_activity)
       )
     end
   end
@@ -63,5 +60,4 @@ class PrivaciesController < ApplicationController
     @person = Person.undeleted.find(params[:person_id])
     @family = @person.family
   end
-
 end

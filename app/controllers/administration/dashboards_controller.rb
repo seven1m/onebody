@@ -1,7 +1,7 @@
 class Administration::DashboardsController < ApplicationController
   before_filter :only_admins
 
-  # TODO refactor into presenter
+  # TODO: refactor into presenter
   def show
     @admin_count = Person.administrators.count
     @update_count = Update.pending.count

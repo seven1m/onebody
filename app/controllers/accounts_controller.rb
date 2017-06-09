@@ -78,7 +78,7 @@ class AccountsController < ApplicationController
 
   def verify_code
     @verification = Verification.find(params[:id])
-    if not @verification.pending?
+    if !@verification.pending?
       render_message(
         t('accounts.verification.not_pending', url: new_account_path(forgot: true)),
         callout: 'warning'
@@ -90,7 +90,7 @@ class AccountsController < ApplicationController
         render_message(
           t('accounts.wrong_code_html'),
           callout: 'warning',
-          status: :bad_request,
+          status: :bad_request
         )
       end
     end
@@ -111,7 +111,7 @@ class AccountsController < ApplicationController
   def select
     if session[:select_from_people]
       @people = session[:select_from_people]
-      if request.post? and @person = @people.detect { |p| p.id == params[:id].to_i }
+      if request.post? && (@person = @people.detect { |p| p.id == params[:id].to_i })
         session[:logged_in_id] = @person.id
         session[:select_from_people] = nil
         flash[:warning] = t('accounts.must_set_email_pass')
@@ -136,9 +136,9 @@ class AccountsController < ApplicationController
       person = @verification.people.first
       session[:logged_in_id] = person.id
       flash[:warning] = if @verification.mobile_phone?
-        t('accounts.set_your_email')
-      else
-        t('accounts.set_your_email_may_be_different')
+                          t('accounts.set_your_email')
+                        else
+                          t('accounts.set_your_email_may_be_different')
       end
       redirect_to edit_person_account_path(person)
     end
@@ -153,9 +153,9 @@ class AccountsController < ApplicationController
   end
 
   def check_ssl
-    unless request.ssl? or !Rails.env.production? or !Setting.get(:features, :ssl)
+    unless request.ssl? || !Rails.env.production? || !Setting.get(:features, :ssl)
       redirect_to protocol: 'https://', from: params[:from]
-      return
+      nil
     end
   end
 end

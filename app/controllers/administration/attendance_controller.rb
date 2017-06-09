@@ -1,5 +1,4 @@
 class Administration::AttendanceController < ApplicationController
-
   before_filter :only_admins
 
   VALID_SORT_COLS = %w(
@@ -9,13 +8,13 @@ class Administration::AttendanceController < ApplicationController
     attendance_records.attended_at
     attendance_records.created_at
     people.child
-  )
+  ).freeze
 
-  # TODO refactor
+  # TODO: refactor
   def index
     @attended_at = params[:attended_at] ? Date.parse_in_locale(params[:attended_at]) : Date.current
     @groups = AttendanceRecord.groups_for_date(@attended_at)
-    @rel = AttendanceRecord.where("attended_at >= ? and attended_at <= ?", @attended_at.strftime('%Y-%m-%d 0:00'), @attended_at.strftime('%Y-%m-%d 23:59:59'))
+    @rel = AttendanceRecord.where('attended_at >= ? and attended_at <= ?', @attended_at.strftime('%Y-%m-%d 0:00'), @attended_at.strftime('%Y-%m-%d 23:59:59'))
     @rel.includes!(:person, :group)
     @rel.references!(:person, :group)
     if params[:group_id].to_i > 0
@@ -64,13 +63,13 @@ class Administration::AttendanceController < ApplicationController
 
   def prev
     @attended_at = Date.parse(params[:attended_at])
-    date = AttendanceRecord.where("attended_at < ?", @attended_at.strftime('%Y/%m/%d 0:00')).maximum(:attended_at)
+    date = AttendanceRecord.where('attended_at < ?', @attended_at.strftime('%Y/%m/%d 0:00')).maximum(:attended_at)
     redirect_to administration_attendance_index_path(attended_at: date)
   end
 
   def next
     @attended_at = Date.parse(params[:attended_at])
-    date = AttendanceRecord.where("attended_at > ?", @attended_at.strftime('%Y/%m/%d 23:59:59')).minimum(:attended_at)
+    date = AttendanceRecord.where('attended_at > ?', @attended_at.strftime('%Y/%m/%d 23:59:59')).minimum(:attended_at)
     redirect_to administration_attendance_index_path(attended_at: date)
   end
 
@@ -81,11 +80,10 @@ class Administration::AttendanceController < ApplicationController
 
   private
 
-    def only_admins
-      unless @logged_in.admin?(:manage_attendance)
-        render text: t('only_admins'), layout: true, status: 401
-        return false
-      end
+  def only_admins
+    unless @logged_in.admin?(:manage_attendance)
+      render text: t('only_admins'), layout: true, status: 401
+      false
     end
-
+  end
 end

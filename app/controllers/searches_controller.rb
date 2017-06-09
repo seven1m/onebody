@@ -1,5 +1,4 @@
 class SearchesController < ApplicationController
-
   MAX_SELECT_PEOPLE = 10
   MAX_SELECT_FAMILIES = 10
 
@@ -14,7 +13,7 @@ class SearchesController < ApplicationController
   end
 
   def create
-    if params[:family_name].present? or params[:family_barcode_id].present?
+    if params[:family_name].present? || params[:family_barcode_id].present?
       if params[:family_name] =~ /^\d+$/
         params[:family_barcode_id] = params.delete(:family_name)
       end
@@ -54,5 +53,4 @@ class SearchesController < ApplicationController
     @family = Family.find(params[:family_id])
     raise StandardError unless @logged_in.can_update?(@family)
   end
-
 end

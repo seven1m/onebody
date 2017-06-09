@@ -31,7 +31,7 @@ class SetupsController < ApplicationController
   def check_setup_requirements
     if Person.count > 0
       render text: t('not_authorized'), layout: true
-      return false
+      false
     end
   end
 end

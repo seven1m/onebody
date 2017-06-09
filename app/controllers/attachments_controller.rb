@@ -17,10 +17,10 @@ class AttachmentsController < ApplicationController
 
   def get
     @attachment = Attachment.find(params[:id])
-    if @attachment.file.exists? and !@attachment.message
+    if @attachment.file.exists? && !@attachment.message
       data = File.read(@attachment.file.path)
-      details = {filename: @attachment.name, type: @attachment.content_type || 'application/octet-stream'}
-      if @attachment.group and (get_user and @logged_in.can_read?(@attachment.group))
+      details = { filename: @attachment.name, type: @attachment.content_type || 'application/octet-stream' }
+      if @attachment.group && (get_user && @logged_in.can_read?(@attachment.group))
         send_data data, details.merge(disposition: 'inline')
       else
         render text: t('attachments.file_not_found'), layout: true, status: 404

@@ -17,10 +17,11 @@ class SessionsController < ApplicationController
   end
 
   def create_from_external_provider
-    auth = request.env["omniauth.auth"]
+    auth = request.env['omniauth.auth']
     @person = Person.where(
-      :provider => auth['provider'],
-      :uid => auth['uid'].to_s).first || Signup.save_with_omniauth(auth)
+      provider: auth['provider'],
+      uid: auth['uid'].to_s
+    ).first || Signup.save_with_omniauth(auth)
     redirect_after_authentication
   end
 
@@ -41,17 +42,17 @@ class SessionsController < ApplicationController
   end
 
   def support_facebook_login
-    !!Setting.get(:facebook, :app_id) and !!Setting.get(:facebook, :app_secret)
+    !!Setting.get(:facebook, :app_id) && !!Setting.get(:facebook, :app_secret)
   end
 
   def setup_omniauth
     provider = params['provider']
-    if provider == "facebook" and support_facebook_login
+    if provider == 'facebook' && support_facebook_login
       env['omniauth.strategy'].options[:client_id] = Setting.get(:facebook, :app_id)
       env['omniauth.strategy'].options[:client_secret] = Setting.get(:facebook, :app_secret)
       env['omniauth.strategy'].options[:scope] = 'email,read_stream'
     end
-    render :text => "Setup complete.", :status => 404
+    render text: 'Setup complete.', status: 404
   end
 
   private

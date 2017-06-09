@@ -1,5 +1,4 @@
 class Administration::Checkin::GroupsController < ApplicationController
-
   before_filter :only_admins
 
   def index
@@ -70,9 +69,9 @@ class Administration::Checkin::GroupsController < ApplicationController
       group = Group.find(id)
       group.update_attribute(:attendance, true)
       opts = if params[:checkin_folder_id].present?
-        { checkin_folder_id: params[:checkin_folder_id] }
-      else
-        { checkin_time_id: @time.id }
+               { checkin_folder_id: params[:checkin_folder_id] }
+             else
+               { checkin_time_id: @time.id }
       end
       # NOTE cannot use first_or_create here due to https://github.com/rails/rails/issues/16668
       group.group_times.create(opts) unless group.group_times.where(opts).any?
@@ -92,7 +91,7 @@ class Administration::Checkin::GroupsController < ApplicationController
   def only_admins
     unless @logged_in.admin?(:manage_checkin)
       render text: 'You must be an administrator to use this section.', layout: true, status: 401
-      return false
+      false
     end
   end
 

@@ -1,5 +1,4 @@
 class NewsController < ApplicationController
-
   skip_before_filter :authenticate_user, only: %w(index)
   before_filter :authenticate_user_with_code_or_session, only: %w(index)
 
@@ -51,7 +50,7 @@ class NewsController < ApplicationController
   end
 
   def new
-    if @logged_in.admin?(:manage_news) or Setting.get(:features, :news_by_users)
+    if @logged_in.admin?(:manage_news) || Setting.get(:features, :news_by_users)
       @news_item = NewsItem.new
     else
       render text: t('not_authorized'), layout: true, status: 401
@@ -59,7 +58,7 @@ class NewsController < ApplicationController
   end
 
   def create
-    if @logged_in.admin?(:manage_news) or Setting.get(:features, :news_by_users)
+    if @logged_in.admin?(:manage_news) || Setting.get(:features, :news_by_users)
       @news_item = NewsItem.new(news_item_params)
       @news_item.person = @logged_in
       @news_item.source = 'user'

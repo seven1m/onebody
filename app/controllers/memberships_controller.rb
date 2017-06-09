@@ -12,7 +12,7 @@ class MembershipsController < ApplicationController
     if params[:email]
       render file: 'memberships/email'
     else
-      fail ActionController::UnknownAction, t('No_action_to_show')
+      raise ActionController::UnknownAction, t('No_action_to_show')
     end
   end
 
@@ -21,11 +21,11 @@ class MembershipsController < ApplicationController
                          .includes(:person)
                          .order(name_order)
                          .paginate(page: params[:page], per_page: 100)
-    if params[:birthdays]
-      @memberships = @memberships.order_by_birthday
-    else
-      @memberships = @memberships.order_by_name
-    end
+    @memberships = if params[:birthdays]
+                     @memberships.order_by_birthday
+                   else
+                     @memberships.order_by_name
+                   end
     @requests = @group.membership_requests
   end
 

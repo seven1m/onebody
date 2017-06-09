@@ -2,14 +2,14 @@ class Checkin::PrintersController < ApplicationController
   layout 'checkin_printer'
 
   def show
-    if (name = cookies[:checkin_printer_name]).present?
-      @printer = session[:checkin_printer] = {
-        id:   name.gsub(/[^a-z0-9]/i, '_').downcase,
-        name: name
-      }
-    else
-      @printer = {}
-    end
+    @printer = if (name = cookies[:checkin_printer_name]).present?
+                 session[:checkin_printer] = {
+                   id:   name.gsub(/[^a-z0-9]/i, '_').downcase,
+                   name: name
+                 }
+               else
+                 {}
+               end
   end
 
   def update
