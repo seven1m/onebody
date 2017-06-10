@@ -1,7 +1,6 @@
 class Verification < ActiveRecord::Base
-
-  MIN_CODE = 100000
-  MAX_CODE = 999999
+  MIN_CODE = 100_000
+  MAX_CODE = 999_999
 
   belongs_to :site
 
@@ -30,13 +29,13 @@ class Verification < ActiveRecord::Base
     errors.add(:base, :unauthorized)
   end
 
-  def criteria(for_verification=false)
+  def criteria(for_verification = false)
     if mobile_phone
-      {mobile_phone: mobile_phone.digits_only}
-    elsif email and for_verification
-      {email: email}
+      { mobile_phone: mobile_phone.digits_only }
+    elsif email && for_verification
+      { email: email }
     elsif email
-      ["email = :email or alternate_email = :email", email: email]
+      ['email = :email or alternate_email = :email', email: email]
     end
   end
 
@@ -79,14 +78,14 @@ class Verification < ActiveRecord::Base
   end
 
   def check(param)
-    pending? and param.to_i == code
+    pending? && param.to_i == code
   end
 
   def check!(param)
     return false unless pending?
-    self.verified = (param.to_i == code and people.any?)
+    self.verified = (param.to_i == code && people.any?)
     save!
-    self.verified
+    verified
   end
 
   def pending?

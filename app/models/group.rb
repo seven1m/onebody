@@ -1,5 +1,4 @@
 class Group < ActiveRecord::Base
-
   include Authority::Abilities
   self.authorizer_name = 'GroupAuthorizer'
 
@@ -32,7 +31,7 @@ class Group < ActiveRecord::Base
   scope :is_private, -> { where(private: true, hidden: false) } # cannot be 'private'
   scope :standard,   -> { where("parents_of is null and (link_code is null or link_code = '')") }
   scope :linked,     -> { where("link_code is not null and link_code != ''") }
-  scope :parents_of, -> { where("parents_of is not null") }
+  scope :parents_of, -> { where('parents_of is not null') }
   scope :checkin_destinations, -> { includes(:group_times).where('group_times.checkin_time_id is not null').order('group_times.ordering') }
 
   scope_by_site_id
@@ -46,17 +45,15 @@ class Group < ActiveRecord::Base
   validates_uniqueness_of :address, allow_nil: true, scope: :site_id
   validates_length_of :address, in: 2..30, allow_nil: true
   validates_uniqueness_of :cm_api_list_id, allow_nil: true, allow_blank: true, scope: :site_id
-  validates_attachment_size :photo, less_than: PAPERCLIP_PHOTO_MAX_SIZE, message: I18n.t('photo.too_large', size: 10, :scope => 'activerecord.errors.models.group.attributes')
-  validates_attachment_content_type :photo, content_type: PAPERCLIP_PHOTO_CONTENT_TYPES, message: I18n.t('photo.wrong_type', :scope => 'activerecord.errors.models.group.attributes')
+  validates_attachment_size :photo, less_than: PAPERCLIP_PHOTO_MAX_SIZE, message: I18n.t('photo.too_large', size: 10, scope: 'activerecord.errors.models.group.attributes')
+  validates_attachment_content_type :photo, content_type: PAPERCLIP_PHOTO_CONTENT_TYPES, message: I18n.t('photo.wrong_type', scope: 'activerecord.errors.models.group.attributes')
 
   validate :validate_self_referencing_parents_of
 
   def validate_self_referencing_parents_of
-    begin
-      errors.add('parents_of', :points_to_self) if not new_record? and parents_of == id
-    rescue
-      puts 'error checking for self-referencing parents_of (OK if you are migrating)'
-    end
+    errors.add('parents_of', :points_to_self) if !new_record? && parents_of == id
+  rescue
+    puts 'error checking for self-referencing parents_of (OK if you are migrating)'
   end
 
   validate :validate_attendance_enabled_for_checkin_destinations
@@ -77,22 +74,22 @@ class Group < ActiveRecord::Base
     "<#{name}>"
   end
 
-  def admin?(person, exclude_global_admins=false)
+  def admin?(person, exclude_global_admins = false)
     if person
       if exclude_global_admins
         admins.include? person
       else
-        person.admin?(:manage_groups) or admins.include? person
+        person.admin?(:manage_groups) || admins.include?(person)
       end
     end
   end
 
   def linked?
-    membership_mode == 'link_code' and link_code.present?
+    membership_mode == 'link_code' && link_code.present?
   end
 
   def parents_of?
-    membership_mode == 'parents_of' and parents_of
+    membership_mode == 'parents_of' && parents_of
   end
 
   include Concerns::Geocode
@@ -176,25 +173,25 @@ class Group < ActiveRecord::Base
   def get_roles_for(person)
     return [] unless link_code.present?
     classes = person.classes.to_s.split(/\s*,\s*/)
-    if data = classes.detect { |c| c.downcase.index(link_code.downcase) == 0 } and data.match(/\[(.+)\]/)
-      $1.gsub(/[^a-z0-9 \-_\(\)\|]+/i, '').split(/\s*\|\s*/)
+    if (data = classes.detect { |c| c.downcase.index(link_code.downcase) == 0 }) && data.match(/\[(.+)\]/)
+      Regexp.last_match(1).gsub(/[^a-z0-9 \-_\(\)\|]+/i, '').split(/\s*\|\s*/)
     else
       []
     end
   end
 
   def can_send?(person)
-    (email? and members_send? and person.member_of?(self) and person.messages_enabled?) or admin?(person)
+    (email? && members_send? && person.member_of?(self) && person.messages_enabled?) || admin?(person)
   end
-  alias_method 'can_post?', 'can_send?'
+  alias can_post? can_send?
 
   def can_share?(person)
-    person.member_of?(self) and \
+    person.member_of?(self) && \
       (
-        (email? and can_post?(person)) or \
-        blog? or \
-        pictures? or \
-        prayer? or
+        (email? && can_post?(person)) || \
+        blog? || \
+        pictures? || \
+        prayer? ||
         has_tasks?
       )
   end
@@ -206,7 +203,7 @@ class Group < ActiveRecord::Base
   def get_people_attendance_records_for_date(date, order_by_last: false)
     records = {}
     people.each { |p| records[p.id] = [p, false] }
-    date = Date.parse(date) if(date.is_a?(String))
+    date = Date.parse(date) if date.is_a?(String)
     attendance_records_for_date(date).each do |record|
       records[record.person.id] = [record.person, record]
     end
@@ -228,7 +225,7 @@ class Group < ActiveRecord::Base
   end
 
   def attendance_dates
-    attendance_records.find_by_sql("select distinct attended_at from attendance_records where group_id = #{id} and site_id = #{Site.current.id} order by attended_at desc").map { |r| r.attended_at }
+    attendance_records.find_by_sql("select distinct attended_at from attendance_records where group_id = #{id} and site_id = #{Site.current.id} order by attended_at desc").map(&:attended_at)
   end
 
   def gcal_url
@@ -244,7 +241,9 @@ class Group < ActiveRecord::Base
   end
 
   def gcal_token
-    gcal_private_link.to_s.match(/private\-([a-z0-9]+)/)[1] rescue ''
+    gcal_private_link.to_s.match(/private\-([a-z0-9]+)/)[1]
+  rescue
+    ''
   end
 
   before_destroy :remove_parent_of_links
@@ -326,7 +325,7 @@ class Group < ActiveRecord::Base
         id
         legacy_id
       )
-    }
+    }.freeze
 
     def to_csv
       CSV.generate do |csv|

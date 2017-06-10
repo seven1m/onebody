@@ -9,21 +9,32 @@ class CheckinFolder < ActiveRecord::Base
 
   default_scope -> { order(:sequence) }
 
-  before_create { parent.update_sequence(self) if parent }
+  before_create { parent&.update_sequence(self) }
 
   validates :name, uniqueness: { scope: :checkin_time }
 
-  def time; checkin_time; end
-  def entries; group_times; end
-  def parent; checkin_time; end
-  def checkin_folder_id; nil; end
+  def time
+    checkin_time
+  end
 
-  def insert(group_time, placement=:top)
-    if placement == :top
-      sequence = 0
-    else
-      sequence = group_times.length + 1
-    end
+  def entries
+    group_times
+  end
+
+  def parent
+    checkin_time
+  end
+
+  def checkin_folder_id
+    nil
+  end
+
+  def insert(group_time, placement = :top)
+    sequence = if placement == :top
+                 0
+               else
+                 group_times.length + 1
+               end
     group_time.update_attributes(checkin_folder: self, checkin_time: nil, sequence: sequence)
     resequence
   end

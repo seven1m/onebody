@@ -1,5 +1,4 @@
 class PrayerRequest < ActiveRecord::Base
-
   include Authority::Abilities
   self.authorizer_name = 'PrayerRequestAuthorizer'
 
@@ -50,7 +49,7 @@ class PrayerRequest < ActiveRecord::Base
 
   def update_stream_items
     return unless streamable?
-    StreamItem.where(streamable_type: "PrayerRequest", streamable_id: id).each do |stream_item|
+    StreamItem.where(streamable_type: 'PrayerRequest', streamable_id: id).each do |stream_item|
       stream_item.body = body
       stream_item.created_at = updated_at if answer_changed?
       stream_item.save

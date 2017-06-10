@@ -6,7 +6,7 @@ module Concerns
 
     included do
       scope :readable_by,
-        -> user { authorizer.readable_by(user, self.all) }
+            ->(user) { authorizer.readable_by(user, all) }
     end
   end
 end

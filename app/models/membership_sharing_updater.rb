@@ -1,5 +1,4 @@
 class MembershipSharingUpdater
-
   def initialize(user, updates)
     @user = user
     @updates = updates
@@ -21,13 +20,10 @@ class MembershipSharingUpdater
   private
 
   def verify_authorization(membership)
-    unless membership.updatable_by?(@user)
-      raise Authority::SecurityViolation.new
-    end
+    raise Authority::SecurityViolation unless membership.updatable_by?(@user)
   end
 
   def shared_at_person_level?(membership, attribute)
     membership.person.attributes[attribute]
   end
-
 end

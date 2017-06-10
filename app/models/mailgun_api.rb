@@ -44,7 +44,7 @@ class MailgunApi
 
   def get(url, options)
     options = options.merge(
-      basic_auth: { username: 'api', password: @key },
+      basic_auth: { username: 'api', password: @key }
     )
     response = self.class.get(url, options)
     raise Forbidden if response.code == 401
@@ -53,7 +53,7 @@ class MailgunApi
 
   def post(url, options)
     options = options.merge(
-      basic_auth: { username: 'api', password: @key },
+      basic_auth: { username: 'api', password: @key }
     )
     response = self.class.post(url, options)
     raise Forbidden if response.code == 401
@@ -62,7 +62,7 @@ class MailgunApi
 
   def delete(url, options = {})
     options = options.merge(
-      basic_auth: { username: 'api', password: @key },
+      basic_auth: { username: 'api', password: @key }
     )
     response = self.class.delete(url, options)
     raise Forbidden if response.code == 401

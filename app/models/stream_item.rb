@@ -6,10 +6,10 @@ class StreamItem < ActiveRecord::Base
   belongs_to :stream_item_group, class_name: 'StreamItem'
 
   has_many :items,
-    -> { order(created_at: :desc) },
-    class_name: 'StreamItem',
-    foreign_key: 'stream_item_group_id',
-    dependent: :nullify
+           -> { order(created_at: :desc) },
+           class_name: 'StreamItem',
+           foreign_key: 'stream_item_group_id',
+           dependent: :nullify
 
   scope :groups, -> { where(streamable_type: 'StreamItemGroup') }
 

@@ -12,7 +12,7 @@ class ParentalConsent
 
   def perform
     return false unless valid?
-    @child.parental_consent = "#{@user.name} (#{@user.id}) #{Time.current.to_s}"
+    @child.parental_consent = "#{@user.name} (#{@user.id}) #{Time.current}"
     @child.save(validate: false)
   end
 
@@ -22,14 +22,14 @@ class ParentalConsent
   end
 
   def authorized?
-    @user.family == @child.family and
-    @user.family and
-    @user.adult? and
-    @user.can_update?(@child.family)
+    @user.family == @child.family &&
+      @user.family &&
+      @user.adult? &&
+      @user.can_update?(@child.family)
   end
 
   def agreed?
-    @agreement == I18n.t('privacies.i_agree') + "."
+    @agreement == I18n.t('privacies.i_agree') + '.'
   end
 
   private
@@ -39,5 +39,4 @@ class ParentalConsent
     @errors.add(:base, I18n.t('not_authorized')) unless authorized?
     @errors.add(:base, I18n.t('privacies.you_must_check_agreement_statement')) unless agreed?
   end
-
 end

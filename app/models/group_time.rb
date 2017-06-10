@@ -7,7 +7,7 @@ class GroupTime < ActiveRecord::Base
 
   scope_by_site_id
 
-  before_create { parent.update_sequence(self) if parent }
+  before_create { parent&.update_sequence(self) }
 
   def parent
     checkin_folder || checkin_time
@@ -17,7 +17,7 @@ class GroupTime < ActiveRecord::Base
     checkin_time || checkin_folder.try(:checkin_time)
   end
 
-  def remove_from_checkin_folder(placement=:above)
+  def remove_from_checkin_folder(placement = :above)
     cf = checkin_folder
     self.checkin_time = checkin_folder.checkin_time
     self.sequence = cf.sequence + (placement == :above ? 0 : 1)

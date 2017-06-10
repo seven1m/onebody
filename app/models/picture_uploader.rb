@@ -28,7 +28,11 @@ class PictureUploader
       else
         @fail += 1
         @errors.add(:picture, pic.original_filename)
-        picture.destroy rescue nil # TODO is this really needed?
+        begin
+          picture.destroy # TODO: is this really needed?
+        rescue
+          nil
+        end
       end
     end
     @fail == 0
@@ -38,12 +42,11 @@ class PictureUploader
     instance_variable_get("@#{attr}".to_sym)
   end
 
-  def self.human_attribute_name(attr, options = {})
+  def self.human_attribute_name(attr, _options = {})
     attr
   end
 
   def self.lookup_ancestors
     [self]
   end
-
 end

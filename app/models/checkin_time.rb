@@ -1,5 +1,4 @@
 class CheckinTime < ActiveRecord::Base
-
   include Concerns::Reorder
 
   has_many :group_times, -> { order('group_times.sequence, group_times.id') }, dependent: :destroy
@@ -9,7 +8,7 @@ class CheckinTime < ActiveRecord::Base
   validates :campus, presence: true, exclusion: ['!']
 
   scope :recurring, -> { where(the_datetime: nil) }
-  scope :today, -> campus { for_date(Time.now, campus) }
+  scope :today, ->(campus) { for_date(Time.now, campus) }
   scope :upcoming_singles, -> {
     where(
       'the_datetime is not null and the_datetime between :from and :to',
@@ -26,9 +25,9 @@ class CheckinTime < ActiveRecord::Base
 
   scope_by_site_id
 
-  def self.for_date(date, campus=nil)
+  def self.for_date(date, campus = nil)
     r = where(
-      "((the_datetime >= ? and the_datetime <= ?) or weekday = ?)",
+      '((the_datetime >= ? and the_datetime <= ?) or weekday = ?)',
       date.beginning_of_day.strftime('%Y-%m-%dT%H:%M:%S'),
       date.end_of_day.strftime('%Y-%m-%dT%H:%M:%S'),
       date.wday
@@ -60,13 +59,17 @@ class CheckinTime < ActiveRecord::Base
         errors.add(:base, 'You cannot specify a specific date and time and a recurring time together.')
       end
     end
-    if not weekday and not the_datetime
+    if !weekday && !the_datetime
       errors.add(:base, 'You must specify either a recurring date and time or a specific date and time.')
     end
   end
 
   def time=(t)
-    if t.present? && t = Time.parse(t) rescue nil
+    if t.present? && t = begin
+                           Time.parse(t)
+                         rescue
+                           nil
+                         end
       write_attribute(:time, t.strftime('%H%M').to_i)
     else
       write_attribute(:time, nil)

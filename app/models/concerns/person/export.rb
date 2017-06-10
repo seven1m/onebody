@@ -1,76 +1,76 @@
 module Concerns
   module Person
-
     module Export
-
-      EXPORT_COLS = {
-        person: %w(
-          family_id
-          position
-          gender
-          first_name
-          last_name
-          mobile_phone
-          work_phone
-          fax
-          birthday
-          email
-          website
-          classes
-          shepherd
-          mail_group
-          about
-          testimony
-          share_mobile_phone
-          share_work_phone
-          share_fax
-          share_email
-          share_birthday
-          share_address
-          share_anniversary
-          share_home_phone
-          business_category
-          business_name
-          business_description
-          business_address
-          business_phone
-          business_email
-          business_website
-          legacy_id
-          suffix
-          anniversary
-          updated_at
-          alternate_email
-          account_frozen
-          messages_enabled
-          visible
-          parental_consent
-          friends_enabled
-          member
-          staff
-          elder
-          deacon
-          status
-          legacy_family_id
-          share_activity
-          child
-          custom_type
-          description
-        ),
-        family: %w(
-          name
-          last_name
-          address1
-          address2
-          city
-          state
-          zip
-          home_phone
-          legacy_id
-          updated_at
-          visible
-        )
-      } unless defined?(EXPORT_COLS)
+      unless defined?(EXPORT_COLS)
+        EXPORT_COLS = {
+          person: %w(
+            family_id
+            position
+            gender
+            first_name
+            last_name
+            mobile_phone
+            work_phone
+            fax
+            birthday
+            email
+            website
+            classes
+            shepherd
+            mail_group
+            about
+            testimony
+            share_mobile_phone
+            share_work_phone
+            share_fax
+            share_email
+            share_birthday
+            share_address
+            share_anniversary
+            share_home_phone
+            business_category
+            business_name
+            business_description
+            business_address
+            business_phone
+            business_email
+            business_website
+            legacy_id
+            suffix
+            anniversary
+            updated_at
+            alternate_email
+            account_frozen
+            messages_enabled
+            visible
+            parental_consent
+            friends_enabled
+            member
+            staff
+            elder
+            deacon
+            status
+            legacy_family_id
+            share_activity
+            child
+            custom_type
+            description
+          ),
+          family: %w(
+            name
+            last_name
+            address1
+            address2
+            city
+            state
+            zip
+            home_phone
+            legacy_id
+            updated_at
+            visible
+          )
+        }.freeze
+      end
 
       def self.included(mod)
         mod.extend(ClassMethods)
@@ -81,13 +81,13 @@ module Concerns
           CSV.generate do |csv|
             custom_fields = CustomField.all
             csv << EXPORT_COLS[:person] + \
-                   EXPORT_COLS[:family].map { |c| "family_#{c}" } + \
-                   custom_fields.map(&:slug)
+              EXPORT_COLS[:family].map { |c| "family_#{c}" } + \
+              custom_fields.map(&:slug)
             ::Person.undeleted.includes(:family, :custom_field_values).find_each do |person|
               next unless person.family
               csv << EXPORT_COLS[:person].map { |c| person.send(c) } + \
-                     EXPORT_COLS[:family].map { |c| person.family.send(c) } + \
-                     custom_fields.map { |f| person.fields[f.id] }
+                EXPORT_COLS[:family].map { |c| person.family.send(c) } + \
+                custom_fields.map { |f| person.fields[f.id] }
             end
           end
         end
@@ -118,7 +118,6 @@ module Concerns
           end
         end
       end
-
     end
   end
 end

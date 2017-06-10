@@ -62,7 +62,7 @@ class Person < ActiveRecord::Base
   scope :can_sign_in,            -> { undeleted.where(status: Person.statuses.values_at(:pending, :active)) }
   scope :administrators,         -> { undeleted.where('admin_id is not null') }
   scope :minimal,                -> { select(MINIMAL_ATTRIBUTES.map { |a| "people.#{a}" }.join(',')) }
-  scope :with_birthday_month,    -> (m) { where('birthday is not null and extract(month from birthday) = ?', m) }
+  scope :with_birthday_month,    ->(m) { where('birthday is not null and extract(month from birthday) = ?', m) }
 
   has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
 
@@ -75,11 +75,11 @@ class Person < ActiveRecord::Base
             confirmation: true,
             if: -> { Person.logged_in }
   validates :password, password_strength: true,
-            if: -> { Setting.get(:privacy, :require_strong_password) }
+                       if: -> { Setting.get(:privacy, :require_strong_password) }
   validates :alternate_email,
-            uniqueness: { scope: [:site_id, :deleted] },
+            uniqueness: { scope: %i(site_id deleted) },
             allow_nil: true,
-            unless: -> (p) { p.deleted? }
+            unless: ->(p) { p.deleted? }
   validates :feed_code,
             uniqueness: { scope: :site_id },
             allow_nil: true
@@ -136,14 +136,14 @@ class Person < ActiveRecord::Base
   sharable_attributes :home_phone, :mobile_phone, :work_phone, :fax,
                       :email, :birthday, :address, :anniversary, :activity
 
-  self.skip_time_zone_conversion_for_attributes = [:birthday, :anniversary]
-  self.digits_only_for_attributes = [:mobile_phone, :work_phone, :fax, :business_phone]
+  self.skip_time_zone_conversion_for_attributes = %i(birthday anniversary)
+  self.digits_only_for_attributes = %i(mobile_phone work_phone fax business_phone)
 
   blank_to_nil :suffix, :can_pick_up, :cannot_pick_up, :classes, :medical_notes
 
   date_writer :birthday, :anniversary
 
-  after_initialize :guess_last_name, if: -> (p) { p.last_name.nil? }
+  after_initialize :guess_last_name, if: ->(p) { p.last_name.nil? }
 
   def guess_last_name
     return unless family
@@ -243,7 +243,7 @@ class Person < ActiveRecord::Base
     attendance_records.on_date(Date.current).includes(:group).order(:attended_at)
   end
 
-  alias_method :destroy_for_real, :destroy
+  alias destroy_for_real destroy
   def destroy
     run_callbacks :destroy do
       update_attribute(:deleted, true)

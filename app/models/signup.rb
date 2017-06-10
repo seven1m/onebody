@@ -4,7 +4,7 @@ class Signup
   include ActiveModel::Naming
   include ActiveModel::Validations
 
-  PARAMS = [:email, :password, :password_confirmation, :first_name, :last_name, :gender, :birthday, :mobile_phone, :a_phone_number]
+  PARAMS = %i(email password password_confirmation first_name last_name gender birthday mobile_phone a_phone_number).freeze
 
   attr_accessor *PARAMS
   attr_accessor :family, :person
@@ -14,7 +14,7 @@ class Signup
   validate :validate_not_a_bot
   validate :validate_sign_up_allowed
 
-  def initialize(params={})
+  def initialize(params = {})
     PARAMS.each do |field|
       instance_variable_set "@#{field}", params[field]
     end
@@ -27,7 +27,7 @@ class Signup
   def save
     return false unless valid?
     return true if validate_existing
-    return false unless create_family and create_person
+    return false unless create_family && create_person
     if sign_up_approval_required?
       deliver_signup_approval
     else
@@ -37,7 +37,7 @@ class Signup
   end
 
   def save!
-    raise ArgumentError.new(errors.values) unless valid?
+    raise ArgumentError, errors.values unless valid?
     save
   end
 
@@ -59,11 +59,11 @@ class Signup
       last_name:   last_name,
       email:       auth['info']['email'],
       family:      family,
-      status:      :pending # FIXME I don't think this is right
+      status:      :pending # FIXME: I don't think this is right
     )
 
     case auth['provider']
-    when "facebook"
+    when 'facebook'
       person.facebook_url = auth['info']['urls'][:Facebook]
     end
 
@@ -159,21 +159,14 @@ class Signup
   def validate_adult
     person = Person.new(birthday: @birthday)
     person.set_child
-    unless person.adult?
-      errors.add(:birthday, :too_young)
-    end
+    errors.add(:birthday, :too_young) unless person.adult?
   end
 
   def validate_sign_up_allowed
-    unless Setting.get(:features, :sign_up)
-      errors.add(:base, :disabled)
-    end
+    errors.add(:base, :disabled) unless Setting.get(:features, :sign_up)
   end
 
   def validate_not_a_bot
-    if @a_phone_number.present?
-      errors.add(:base, :spam)
-    end
+    errors.add(:base, :spam) if @a_phone_number.present?
   end
-
 end

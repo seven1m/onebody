@@ -10,7 +10,7 @@ class Album < ActiveRecord::Base
 
   scope_by_site_id
 
-  validates :name, presence: true, uniqueness: { scope: [:site_id, :owner_type, :owner_id] }
+  validates :name, presence: true, uniqueness: { scope: %i(site_id owner_type owner_id) }
   validates :owner, presence: true
 
   after_update :update_stream_item

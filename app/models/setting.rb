@@ -1,31 +1,34 @@
 class Setting < ActiveRecord::Base
   GLOBAL_SETTINGS = [
     'Contact.Bug Notification Email', 'Features.Multisite', 'Features.SSL'
-  ]
+  ].freeze
 
-  SETTINGS_FILE = Rails.root.join("config/settings.yml")
+  SETTINGS_FILE = Rails.root.join('config/settings.yml')
 
   belongs_to :site
 
   def value
     v = read_attribute(:value)
     case self['format'] # self.format causes a NoMethodError outside the Rails env
-      when 'boolean'
-        !['', '0', 'f', 'false', 'no'].include?(v.to_s)
-      when 'list'
-        v ? v.to_s.split(/\r?\n/) : []
-      else
-        v
+    when 'boolean'
+      !['', '0', 'f', 'false', 'no'].include?(v.to_s)
+    when 'list'
+      v ? v.to_s.split(/\r?\n/) : []
+    else
+      v
     end
   end
 
-  def value?; value; end
+  def value?
+    value
+  end
 
   class << self
-    def get(section, name, default=nil)
+    def get(section, name, default = nil)
       precache_settings unless SETTINGS.any?
       return nil unless SETTINGS.any?
-      section, name = section.to_s, name.to_s
+      section = section.to_s
+      name = name.to_s
       if global?(section, name)
         SETTINGS[0][section][name].try(:value)
       else
@@ -35,7 +38,7 @@ class Setting < ActiveRecord::Base
             Setting.precache_settings(true)
           end
           if SETTINGS[Site.current.id][section]
-            return false if section == 'features' and Site.current.respond_to?("#{name}_enabled?") and not Site.current.send("#{name}_enabled?")
+            return false if section == 'features' && Site.current.respond_to?("#{name}_enabled?") && !Site.current.send("#{name}_enabled?")
             SETTINGS[Site.current.id][section][name].try(:value) || default
           else
             default
@@ -47,7 +50,7 @@ class Setting < ActiveRecord::Base
     end
 
     def global?(section, name)
-      Setting::GLOBAL_SETTINGS.map { |s| s.split('.').map { |p| p.underscore.gsub(' ', '_') } }.include? [section, name]
+      Setting::GLOBAL_SETTINGS.map { |s| s.split('.').map { |p| p.underscore.tr(' ', '_') } }.include? [section, name]
     end
 
     def set(*args)
@@ -63,7 +66,7 @@ class Setting < ActiveRecord::Base
     end
 
     def set_any(site_id, section, name, value)
-      if section.is_a?(Symbol) and name.is_a?(Symbol)
+      if section.is_a?(Symbol) && name.is_a?(Symbol)
         setting = SETTINGS[site_id][section.to_s][name.to_s]
         section = setting.section
         name = setting.name
@@ -76,19 +79,21 @@ class Setting < ActiveRecord::Base
       precache_settings(true)
     end
 
-    def set_global(section, name, value); set(nil, section, name, value); end
+    def set_global(section, name, value)
+      set(nil, section, name, value)
+    end
 
     def reload_if_stale
       precache_settings(true) if cache_stale?
     end
 
     def cache_stale?
-      Site.current.settings_changed_at and \
-      SETTINGS['timestamp'] < Site.current.settings_changed_at
+      Site.current.settings_changed_at && \
+        SETTINGS['timestamp'] < Site.current.settings_changed_at
     end
 
-    def precache_settings(fresh=false)
-      return if SETTINGS.any? and not fresh
+    def precache_settings(fresh = false)
+      return if SETTINGS.any? && !fresh
       return unless table_exists?
       Setting.all.each do |setting|
         site_id = setting.global? ? 0 : setting.site_id
@@ -102,7 +107,7 @@ class Setting < ActiveRecord::Base
       SETTINGS
     end
 
-    def each_setting_from_hash(settings, global=false)
+    def each_setting_from_hash(settings, global = false)
       settings.each do |section_name, section|
         section.each do |setting_name, setting|
           if !!setting['global'] == global
@@ -138,7 +143,7 @@ class Setting < ActiveRecord::Base
     def update_site_from_hash(site, settings)
       settings_in_db = Setting.where(site_id: site.id).to_a
       each_setting_from_hash(settings, false) do |section_name, setting_name, setting|
-        unless settings_in_db.detect { |s| s.section == section_name and s.name == setting_name }
+        unless settings_in_db.detect { |s| s.section == section_name && s.name == setting_name }
           setting['site_id'] = site.id
           settings_in_db << Setting.create!(setting.merge(section: section_name, name: setting_name))
         end
@@ -155,7 +160,7 @@ class Setting < ActiveRecord::Base
     end
 
     def load_settings_hash
-      YAML::load(File.open(SETTINGS_FILE))
+      YAML.safe_load(File.open(SETTINGS_FILE))
     end
   end
 end

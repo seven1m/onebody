@@ -6,21 +6,21 @@ module Concerns
       extend ActiveSupport::Concern
 
       included do
-        after_initialize :guess_child, if: -> p { p.child.nil? and p.birthday.nil? }
-        validates :child, inclusion: [true, false], unless: -> p { p.deleted? }
+        after_initialize :guess_child, if: ->(p) { p.child.nil? && p.birthday.nil? }
+        validates :child, inclusion: [true, false], unless: ->(p) { p.deleted? }
         before_validation :set_child
       end
 
       def guess_child
-        if family
-          self.child = family.people.undeleted.count >= 2
-        else
-          self.child = false
-        end
+        self.child = if family
+                       family.people.undeleted.count >= 2
+                     else
+                       false
+                     end
       end
 
       def set_child
-        return unless birthday and birthday.year != 1900
+        return unless birthday && birthday.year != 1900
         self.child = !at_least?(Setting.get(:system, :adult_age).to_i)
         true # don't return false or validation will fail
       end
@@ -42,7 +42,6 @@ module Concerns
       def adult?
         !child?
       end
-
     end
   end
 end

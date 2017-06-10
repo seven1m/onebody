@@ -14,8 +14,8 @@ module Concerns
       end
 
       def update_relationships_hash
-        rels = relationships.includes(:related).to_a.select do |relationship|
-          !Setting.get(:system, :online_only_relationships).include?(relationship.name_or_other)
+        rels = relationships.includes(:related).to_a.reject do |relationship|
+          Setting.get(:system, :online_only_relationships).include?(relationship.name_or_other)
         end.map do |relationship|
           "#{relationship.related.legacy_id}[#{relationship.name_or_other}]"
         end.sort

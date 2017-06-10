@@ -38,8 +38,6 @@ module Concerns
               end
             end
             false
-          else
-            nil
           end
         end
 

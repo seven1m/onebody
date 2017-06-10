@@ -1,7 +1,7 @@
 class Notifier < ActionMailer::Base
   helper :notifier, :application
 
-  default charset: 'UTF-8', from: -> _ { get_from_address.to_s }
+  default charset: 'UTF-8', from: ->(_) { get_from_address.to_s }
 
   def profile_update(person)
     @person = person
@@ -34,7 +34,7 @@ class Notifier < ActionMailer::Base
     @group = group
     @person = person
     unless (to = group.admins.select { |p| p.email.present? }.map { |p| "#{p.name} <#{p.email}>" }).any?
-      unless (to = Admin.all.select { |a| a.manage_updates? }.map { |a| "#{a.person.name} <#{a.person.email}>" }).any?
+      unless (to = Admin.all.select(&:manage_updates?).map { |a| "#{a.person.name} <#{a.person.email}>" }).any?
         to = Admin.where(super_admin: true).map { |a| a.person.email }
       end
     end
@@ -56,20 +56,22 @@ class Notifier < ActionMailer::Base
     )
   end
 
-  def full_message(to, msg, id_and_code=nil)
+  def full_message(to, msg, id_and_code = nil)
     @to          = to
     @msg         = msg
     @id_and_code = id_and_code
-    h = {'Reply-To' => msg.email_reply_to(to)}
+    h = { 'Reply-To' => msg.email_reply_to(to) }
     if msg.group
-      h.update(
-        'List-ID' => "#{msg.group.name} group on #{Setting.get(:name, :site)} <#{msg.group.address}.#{URI.parse(Setting.get(:url, :site)).host}>",
-        'List-Help' => "<#{Setting.get(:url, :site)}groups/#{msg.group.id}>",
-        'List-Unsubscribe' => msg.disable_group_email_link(to),
-        'List-Post' => (msg.group.can_post?(to) ? "<#{Setting.get(:url, :site)}groups/#{msg.group.id}>" : "NO (#{I18n.t('notifier.not_allowed_to_post')})"),
-        'List-Archive' => "<#{Setting.get(:url, :site)}groups/#{msg.group.id}>"
-      ) unless to.new_record? # allows preview to work
-      if msg.group.address.present? and msg.group.can_post?(msg.person)
+      unless to.new_record? # allows preview to work
+        h.update(
+          'List-ID' => "#{msg.group.name} group on #{Setting.get(:name, :site)} <#{msg.group.address}.#{URI.parse(Setting.get(:url, :site)).host}>",
+          'List-Help' => "<#{Setting.get(:url, :site)}groups/#{msg.group.id}>",
+          'List-Unsubscribe' => msg.disable_group_email_link(to),
+          'List-Post' => (msg.group.can_post?(to) ? "<#{Setting.get(:url, :site)}groups/#{msg.group.id}>" : "NO (#{I18n.t('notifier.not_allowed_to_post')})"),
+          'List-Archive' => "<#{Setting.get(:url, :site)}groups/#{msg.group.id}>"
+        )
+      end
+      if msg.group.address.present? && msg.group.can_post?(msg.person)
         h.update 'CC' => "\"#{msg.group.name}\" <#{msg.group.address + '@' + Site.current.email_host}>"
       end
     end
@@ -82,17 +84,13 @@ class Notifier < ActionMailer::Base
       from:    msg.email_from(to),
       subject: msg.subject
     ) do |format|
-      if msg.body.present?
-        format.text
-      end
-      if msg.html_body.present?
-        format.html
-      end
+      format.text if msg.body.present?
+      format.html if msg.html_body.present?
     end
   end
 
   # used for auto-generated responses
-  def simple_message(t, s, b, f=nil)
+  def simple_message(t, s, b, f = nil)
     headers 'Auto-Submitted' => 'auto-replied'
     mail(
       to:      t,
@@ -159,18 +157,18 @@ class Notifier < ActionMailer::Base
     sent_to = Array(email.cc) + Array(email.to) # has to be reversed (cc first) so that group replies work right
 
     return unless email.from.present?
-    return if email['Auto-Submitted'] and not %w(false no).include?(email['Auto-Submitted'].to_s.downcase)
-    return if email['Return-Path'] and ['<>', ''].include?(email['Return-Path'].to_s)
+    return if email['Auto-Submitted'] && !%w(false no).include?(email['Auto-Submitted'].to_s.downcase)
+    return if email['Return-Path'] && ['<>', ''].include?(email['Return-Path'].to_s)
     return if sent_to.any? { |a| a =~ /no\-?reply|postmaster|mailer\-daemon/i }
     return if email.from.to_s =~ /no\-?reply|postmaster|mailer\-daemon/i
     return if email.subject =~ /^undelivered mail returned to sender|^returned mail|^delivery failure/i
-    return if email.message_id =~ Message::MESSAGE_ID_RE and m = Message.unscoped { Message.where(id: $1).first } and m.code_hash == $2 # just sent, looping back into the receiver
+    return if email.message_id =~ Message::MESSAGE_ID_RE && (m = Message.unscoped { Message.where(id: Regexp.last_match(1)).first }) && m.code_hash == Regexp.last_match(2) # just sent, looping back into the receiver
     return if ProcessedMessage.where(header_message_id: email.message_id).any?
     return unless Site.current = get_site(email)
 
     destinations = sent_to.map do |address|
       address, domain = address.strip.downcase.split('@')
-      next unless address.present? and domain.present?
+      next unless address.present? && domain.present?
       next unless [Site.current.email_host, Site.current.secondary_host].compact.include?(domain)
       Group.where(address: address).first
     end.compact
@@ -189,13 +187,13 @@ class Notifier < ActionMailer::Base
                             subject: email.subject,
                             url: Setting.get(:url, :site))
       end
-      if destinations.any? and return_to = email['Return-Path'] ? email['Return-Path'].to_s : email.from
+      if destinations.any? && (return_to = email['Return-Path'] ? email['Return-Path'].to_s : email.from)
         Notifier.simple_message(return_to, reject_subject, reject_msg).deliver_now
       end
       return
     end
 
-    unless body = get_body(email) and (body[:text] or body[:html])
+    unless (body = get_body(email)) && (body[:text] || body[:html])
       Notifier.simple_message(
         email['Return-Path'] ? email['Return-Path'].to_s : email.from,
         I18n.t('notifier.rejection.cannot_read.subject', subject: email.subject),
@@ -212,7 +210,7 @@ class Notifier < ActionMailer::Base
       message = group_email(group, email, body)
       if @message_sent_to_group
         sent_to_count += 1
-      elsif !message.valid? and message.errors[:base] !~ /already saved|autoreply/
+      elsif !message.valid? && message.errors[:base] !~ /already saved|autoreply/
         Notifier.simple_message(
           email['Return-Path'] ? email['Return-Path'].to_s : email.from,
           I18n.t('notifier.rejection.invalid.subject', subject: email.subject),
@@ -226,7 +224,7 @@ class Notifier < ActionMailer::Base
       end
     end
 
-    if sent_to_count == 0 and return_to = email['Return-Path'] ? email['Return-Path'].to_s : email.from
+    if sent_to_count == 0 && (return_to = email['Return-Path'] ? email['Return-Path'].to_s : email.from)
       # notify the sender that no mail was sent
       Notifier.simple_message(
         return_to,
@@ -241,18 +239,15 @@ class Notifier < ActionMailer::Base
     ProcessedMessage.create(
       header_message_id: email.message_id
     )
-
   end
 
   private
 
   def group_email(group, email, body)
     # if is this looks like a reply, try to link this message to its original based on the subject
-    if email.subject =~ /^re:/i
-      parent = group.messages.where(subject: email.subject.sub(/^re:\s?/i, '')).order('id desc').first
-    else
-      parent = nil
-    end
+    parent = if email.subject =~ /^re:/i
+               group.messages.where(subject: email.subject.sub(/^re:\s?/i, '')).order('id desc').first
+             end
     message = Message.create(
       group: group,
       parent: parent,
@@ -275,13 +270,12 @@ class Notifier < ActionMailer::Base
     if email.has_attachments?
       email.attachments.each do |attachment|
         name = File.split(attachment.filename.to_s).last
-        unless ATTACHMENTS_TO_IGNORE.include? name.downcase
-          message.attachments.create(
-            name:         name,
-            content_type: attachment.content_type.strip,
-            file:         FakeFile.new(attachment.body.to_s, name)
-          )
-        end
+        next if ATTACHMENTS_TO_IGNORE.include? name.downcase
+        message.attachments.create(
+          name:         name,
+          content_type: attachment.content_type.strip,
+          file:         FakeFile.new(attachment.body.to_s, name)
+        )
       end
     end
   end
@@ -310,7 +304,7 @@ class Notifier < ActionMailer::Base
     to_addresses.each do |address|
       next if address.nil?
       site = Site.where(host: address.downcase.split('@').last).first ||
-             Site.where(email_host: address.downcase.split('@').last).first
+        Site.where(email_host: address.downcase.split('@').last).first
       return site if site
     end
     # fallback if address was rewritten
@@ -333,9 +327,9 @@ class Notifier < ActionMailer::Base
       people.first
     else
       get_from_person_by_primary(people) ||
-      get_from_person_by_name(people, email) ||
-      get_from_person_by_group(people, destinations) ||
-      :multiple
+        get_from_person_by_name(people, email) ||
+        get_from_person_by_group(people, destinations) ||
+        :multiple
     end
   end
 
@@ -373,9 +367,9 @@ class Notifier < ActionMailer::Base
       html: email.html_part.try(:decoded)
     }
     type = email.content_type.downcase.split(';').first
-    if body[:text].nil? and type == 'text/plain'
+    if body[:text].nil? && type == 'text/plain'
       body[:text] = email.decoded
-    elsif body[:html].nil? and type == 'text/html'
+    elsif body[:html].nil? && type == 'text/html'
       body[:html] = email.decoded
     end
     body

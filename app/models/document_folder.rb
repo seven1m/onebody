@@ -10,7 +10,7 @@ class DocumentFolder < ActiveRecord::Base
 
   scope :top,    -> { where(folder_id: nil) }
   scope :active, -> { where(hidden: false)  }
-  scope :hidden, -> { where(hidden: true)  }
+  scope :hidden, -> { where(hidden: true) }
 
   scope :restricted, -> {
     joins('left join document_folder_groups dfg on dfg.document_folder_id = document_folders.id')

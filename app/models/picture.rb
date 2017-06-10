@@ -1,5 +1,4 @@
 class Picture < ActiveRecord::Base
-
   include Authority::Abilities
   include Concerns::Ability
   self.authorizer_name = 'PictureAuthorizer'
@@ -21,16 +20,16 @@ class Picture < ActiveRecord::Base
     "Picture #{id}#{album ? ' in Album ' + album.name : nil}"
   end
 
-  VALID_DEGREES = [90, -90, 180]
+  VALID_DEGREES = [90, -90, 180].freeze
 
   class ErrorRotatingPhoto < RuntimeError; end
 
   def rotate(degrees)
-    if !VALID_DEGREES.include?(degrees)
-      raise ErrorRotatingPhoto.new('Invalid degree value.')
+    unless VALID_DEGREES.include?(degrees)
+      raise ErrorRotatingPhoto, 'Invalid degree value.'
     end
     tmp = Tempfile.new(['photo', File.extname(photo.path)])
-    if img = MiniMagick::Image.open(photo.path) and img.valid?
+    if (img = MiniMagick::Image.open(photo.path)) && img.valid?
       img.rotate(degrees)
       img.write(tmp.path)
       self.photo = tmp
@@ -46,14 +45,14 @@ class Picture < ActiveRecord::Base
   # if this is the last picture in the album, return the first
   def next
     album.pictures.order(:id).where('id > ?', id).first ||
-    album.pictures.order(:id).first
+      album.pictures.order(:id).first
   end
 
   # return the previous picture in this album
   # if this is the first picture in the album, return the last
   def prev
     album.pictures.order(:id).where('id < ?', id).last ||
-    album.pictures.order(:id).last
+      album.pictures.order(:id).last
   end
 
   def photo_extension
@@ -65,18 +64,18 @@ class Picture < ActiveRecord::Base
   after_create :create_as_stream_item
 
   def create_as_stream_item
-    return unless person and (photo? or Rails.env.test?)
-    if last_stream_item = StreamItem.where(person_id: person_id).order('id').last \
-      and last_stream_item.streamable == album
+    return unless person && (photo? || Rails.env.test?)
+    if (last_stream_item = StreamItem.where(person_id: person_id).order('id').last) \
+      && last_stream_item.streamable == album
       last_stream_item.context['picture_ids'] << [id, photo.fingerprint, photo_extension]
       last_stream_item.created_at = created_at
       last_stream_item.save!
     else
       StreamItem.create!(
         title:           album.name,
-        context:         {'picture_ids' => [[id, photo.fingerprint, photo_extension]]},
+        context:         { 'picture_ids' => [[id, photo.fingerprint, photo_extension]] },
         person_id:       person_id,
-        group_id:        'Group' === album.owner_type ? album.owner_id : nil,
+        group_id:        album.owner_type === 'Group' ? album.owner_id : nil,
         streamable_type: 'Album',
         streamable_id:   album_id,
         created_at:      created_at,
@@ -89,7 +88,7 @@ class Picture < ActiveRecord::Base
   after_update :update_stream_items
 
   def update_stream_items
-    StreamItem.where(streamable_type: "Album", streamable_id: album_id).each do |stream_item|
+    StreamItem.where(streamable_type: 'Album', streamable_id: album_id).each do |stream_item|
       stream_item.context['picture_ids'].each do |pic|
         if pic[0] == id
           pic[1] = photo.fingerprint
@@ -103,8 +102,8 @@ class Picture < ActiveRecord::Base
   after_destroy :delete_stream_items
 
   def delete_stream_items
-    StreamItem.where(streamable_type: "Album", streamable_id: album_id).each do |stream_item|
-      stream_item.context['picture_ids'].reject! { |pic| pic == self.id or pic.first == self.id }
+    StreamItem.where(streamable_type: 'Album', streamable_id: album_id).each do |stream_item|
+      stream_item.context['picture_ids'].reject! { |pic| pic == id || pic.first == id }
       if stream_item.context['picture_ids'].any?
         stream_item.save!
       else

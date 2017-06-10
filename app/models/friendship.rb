@@ -6,7 +6,7 @@ class Friendship < ActiveRecord::Base
   scope_by_site_id
 
   validates :person, presence: true
-  validates :friend, presence: true, uniqueness: { scope: [:site_id, :person_id] }
+  validates :friend, presence: true, uniqueness: { scope: %i(site_id person_id) }
 
   attr_accessor :skip_mirror
 

@@ -55,15 +55,17 @@ class Site < ActiveRecord::Base
   end
 
   def noreply_email
-    "noreply@#{self.email_host}"
+    "noreply@#{email_host}"
   end
 
   def visible_name
-    settings.where(section: "Name", name: "Site").first.value rescue nil
+    settings.where(section: 'Name', name: 'Site').first.value
+  rescue
+    nil
   end
 
   def enabled?
-    Setting.get(:features, :multisite) or default?
+    Setting.get(:features, :multisite) || default?
   end
 
   after_update :update_url
@@ -101,30 +103,29 @@ class Site < ActiveRecord::Base
       slug = filename.split('.').first
       nav = path != 'system'
       parent = Page.where(path: path).first
-      unless parent.children.where(slug: slug).first
-        page = parent.children.build(
-          slug:       slug,
-          title:      slug.titleize,
-          body:       html,
-          system:     true,
-          navigation: nav,
-          published:  true
-        )
-        page.site_id = self.id
-        page.save!
-      end
+      next if parent.children.where(slug: slug).first
+      page = parent.children.build(
+        slug:       slug,
+        title:      slug.titleize,
+        body:       html,
+        system:     true,
+        navigation: nav,
+        published:  true
+      )
+      page.site_id = id
+      page.save!
     end
     Site.current = was
   end
 
-  alias_method :rails_original_destroy, :destroy
+  alias rails_original_destroy destroy
 
   def destroy
-    fail 'This is such a destructive method that it has been renamed to destroy_for_real for your safety.'
+    raise 'This is such a destructive method that it has been renamed to destroy_for_real for your safety.'
   end
 
   def destroy_for_real
-    fail 'You cannot delete the default site (ID=1).' if default?
+    raise 'You cannot delete the default site (ID=1).' if default?
     rails_original_destroy
   end
 

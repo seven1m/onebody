@@ -64,5 +64,4 @@ class AttendanceBatch
       age:            person['age']
     )
   end
-
 end

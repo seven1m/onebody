@@ -6,8 +6,8 @@ module Concerns
       extend ActiveSupport::Concern
 
       def attributes_for_person(row)
-        attrs = attributes(row).select { |a| a !~ /^family_|^id$|^field\d+/ }
-        attrs.reverse_merge!('status' => 'active') if @import.create_as_active # TODO allow creating as pending
+        attrs = attributes(row).reject { |a| a =~ /^family_|^id$|^field\d+/ }
+        attrs.reverse_merge!('status' => 'active') if @import.create_as_active # TODO: allow creating as pending
         attrs['fields'] = custom_field_values_for_person(row)
         attrs
       end
@@ -15,7 +15,7 @@ module Concerns
       def custom_field_values_for_person(row)
         attributes(row).each_with_object({}) do |(name, value), hash|
           next unless name =~ /^field(\d+)_/
-          id = $1.to_i
+          id = Regexp.last_match(1).to_i
           hash[id] = value
         end
       end
@@ -46,4 +46,3 @@ module Concerns
     end
   end
 end
-

@@ -1,6 +1,6 @@
 class CustomFieldValue < ActiveRecord::Base
   DATE_FORMAT_PATTERN = /\A\d{4}\-\d{2}\-\d{2}\z/
-  DATE_FORMAT = '%Y-%m-%d'
+  DATE_FORMAT = '%Y-%m-%d'.freeze
 
   scope_by_site_id
 

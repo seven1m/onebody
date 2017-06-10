@@ -93,7 +93,7 @@ class Import < ActiveRecord::Base
 
   def status_at_least?(desired)
     number = self.class.statuses[desired.to_s]
-    fail 'unknown status' unless number
+    raise 'unknown status' unless number
     self[:status] >= number
   end
 
@@ -104,7 +104,7 @@ class Import < ActiveRecord::Base
   def preview_async
     return if new_record? || !(matched? || previewing?)
     self.status = :previewing
-    self.save!
+    save!
     ImportPreviewJob.perform_later(Site.current, id)
   end
 
@@ -116,7 +116,7 @@ class Import < ActiveRecord::Base
   def execute_async
     return if new_record? || !(matched? || previewed? || active?)
     self.status = :active
-    self.save!
+    save!
     ImportExecutionJob.perform_later(Site.current, id)
   end
 

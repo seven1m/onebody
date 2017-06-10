@@ -14,16 +14,16 @@ module Concerns
       end
 
       def request_friendship_with(person)
-        if pending = self.pending_friendship_requests.where(from_id: person.id).first
+        if pending = pending_friendship_requests.where(from_id: person.id).first
           pending.accept
           I18n.t('friends.added_as_friend', name: person.name)
-        elsif self.can_request_friendship_with?(person)
+        elsif can_request_friendship_with?(person)
           friendship_requests.where(from_id: person.id, rejected: true).delete_all
           person.friendship_requests.create!(from: self)
           I18n.t('friends.request_sent', name: person.name)
-        elsif self.friendship_waiting_on?(person)
+        elsif friendship_waiting_on?(person)
           I18n.t('friends.already_pending', name: person.name)
-        elsif self.friendship_rejected_by?(person)
+        elsif friendship_rejected_by?(person)
           I18n.t('friends.cannot_request', name: person.name)
         else
           raise I18n.t('friends.unknown_state')
@@ -31,16 +31,16 @@ module Concerns
       end
 
       def can_request_friendship_with?(person)
-        Setting.get(:features, :friends) and
-        person != self and
-        person.family_id != self.family_id and
-        !friend?(person) and
-        active? and
-        person.active? and
-        person.email.present? and
-        person.friends_enabled and
-        !friendship_rejected_by?(person) and
-        !friendship_waiting_on?(person)
+        Setting.get(:features, :friends) &&
+          person != self &&
+          person.family_id != family_id &&
+          !friend?(person) &&
+          active? &&
+          person.active? &&
+          person.email.present? &&
+          person.friends_enabled &&
+          !friendship_rejected_by?(person) &&
+          !friendship_waiting_on?(person)
       end
 
       def friendship_rejected_by?(person)

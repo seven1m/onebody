@@ -18,27 +18,27 @@ class Family < ActiveRecord::Base
   scope :undeleted, -> { where(deleted: false) }
   scope :deleted, -> { where(deleted: true) }
   scope :has_printable_people, -> { where('(select count(*) from people where family_id = families.id and status = ? and deleted = ?) > 0', Person.statuses[:active], false) }
-  scope :by_barcode, -> b { where('barcode_id = ? or alternate_barcode_id = ?', b, b) }
+  scope :by_barcode, ->(b) { where('barcode_id = ? or alternate_barcode_id = ?', b, b) }
 
   validates :name, presence: true
   validates :last_name, presence: true
 
-  validates_uniqueness_of :barcode_id, allow_nil: true, scope: [:site_id, :deleted], unless: Proc.new { |f| f.deleted? }
-  validates_uniqueness_of :alternate_barcode_id, allow_nil: true, scope: [:site_id, :deleted], unless: Proc.new { |f| f.deleted? }
+  validates_uniqueness_of :barcode_id, allow_nil: true, scope: %i(site_id deleted), unless: proc { |f| f.deleted? }
+  validates_uniqueness_of :alternate_barcode_id, allow_nil: true, scope: %i(site_id deleted), unless: proc { |f| f.deleted? }
   validates_length_of :barcode_id, :alternate_barcode_id, in: 5..50, allow_nil: true
   validates_format_of :barcode_id, :alternate_barcode_id, with: /\A\d+\z/, allow_nil: true
   validates_length_of :country, is: 2, allow_nil: true, allow_blank: true
   validates_attachment_size :photo, less_than: PAPERCLIP_PHOTO_MAX_SIZE
   validates_attachment_content_type :photo, content_type: PAPERCLIP_PHOTO_CONTENT_TYPES
 
-  validates_each [:barcode_id, :alternate_barcode_id] do |record, attribute, value|
-    if attribute.to_s == 'barcode_id' and record.barcode_id
+  validates_each %i(barcode_id alternate_barcode_id) do |record, attribute, _value|
+    if attribute.to_s == 'barcode_id' && record.barcode_id
       if record.barcode_id == record.alternate_barcode_id
         record.errors.add(attribute, :taken)
       elsif Family.where(alternate_barcode_id: record.barcode_id).count > 0
         record.errors.add(attribute, :taken)
       end
-    elsif attribute.to_s == 'alternate_barcode_id' and record.alternate_barcode_id
+    elsif attribute.to_s == 'alternate_barcode_id' && record.alternate_barcode_id
       if Family.where(barcode_id: record.alternate_barcode_id).count > 0
         record.errors.add(attribute, :taken)
       end
@@ -65,7 +65,7 @@ class Family < ActiveRecord::Base
   end
 
   def mapable?
-    latitude.to_f != 0.0 and longitude.to_f != 0.0
+    latitude.to_f != 0.0 && longitude.to_f != 0.0
   end
 
   include Concerns::Geocode
@@ -76,11 +76,11 @@ class Family < ActiveRecord::Base
     a = ''
     a << address1.to_s   if address1.present?
     a << ", #{address2}" if address2.present?
-    if city.present? and state.present?
+    if city.present? && state.present?
       a << "\n#{city}, #{state}"
       a << "  #{zip}" if zip.present?
     end
-    return a
+    a
   end
 
   def short_zip
@@ -91,7 +91,7 @@ class Family < ActiveRecord::Base
 
   def parents
     people.undeleted.reorder(:id).select do |person|
-      person.adult? and [1, 2].include?(person.position)
+      person.adult? && [1, 2].include?(person.position)
     end
   end
 
@@ -101,8 +101,8 @@ class Family < ActiveRecord::Base
 
   def visible_people
     people.undeleted.select do |person|
-      !person.deleted? and (
-        Person.logged_in.admin?(:view_hidden_profiles) or
+      !person.deleted? && (
+        Person.logged_in.admin?(:view_hidden_profiles) ||
         person.visible?(self)
       )
     end
@@ -152,7 +152,11 @@ class Family < ActiveRecord::Base
       person_adult = person_index <= 1 && person.adult?
       all_people.each_with_index do |related, related_index|
         related_adult = related_index <= 1 && related.adult?
-        r = relations[person_adult ? :adult : :child][person.gender.to_s.downcase.to_sym][related_adult ? :adult : :child][related.gender.to_s.downcase.to_sym] rescue nil
+        r = begin
+              relations[person_adult ? :adult : :child][person.gender.to_s.downcase.to_sym][related_adult ? :adult : :child][related.gender.to_s.downcase.to_sym]
+            rescue
+              nil
+            end
         relationships[person] << [related, r] if r
       end
     end
@@ -164,15 +168,13 @@ class Family < ActiveRecord::Base
   before_update :mark_barcode_id_changed
   def mark_barcode_id_changed
     return if dont_mark_barcode_id_changed
-    if changed.include?('barcode_id')
-      write_attribute(:barcode_id_changed, true)
-    end
+    write_attribute(:barcode_id_changed, true) if changed.include?('barcode_id')
   end
 
-  # TODO would be better to actually have family-level sharing options
+  # TODO: would be better to actually have family-level sharing options
   def show_attribute_to?(attribute, who)
-    send(attribute).present? and
-    people.undeleted.any? { |p| p.show_attribute_to?(attribute, who) }
+    send(attribute).present? &&
+      people.undeleted.any? { |p| p.show_attribute_to?(attribute, who) }
   end
 
   def anniversary_sharable_with(who)
@@ -184,9 +186,9 @@ class Family < ActiveRecord::Base
 
   def adults
     @adults ||= if new_record?
-      people.select(&:adult?)
-    else
-      people.undeleted.adults
+                  people.select(&:adult?)
+                else
+                  people.undeleted.adults
     end
   end
 
@@ -197,28 +199,30 @@ class Family < ActiveRecord::Base
       (first, second) = adults.take(2)
       if first.last_name == second.last_name
         key = 'families.name.same_last_name'
-      elsif Setting.get(:system, :language) == "cs"
+      elsif Setting.get(:system, :language) == 'cs'
         key = 'families.name.different_last_names'
-        husband, wife = first, second
-        if first.gender == "Female"
-          husband, wife = second, first
+        husband = first
+        wife = second
+        if first.gender == 'Female'
+          husband = second
+          wife = first
         end
         # In Czech, wife's and family name are usualy extensions of husband's name
         if wife.last_name[husband.last_name]
           key = 'families.name.husband_last_name'
-          first, second = husband, wife
+          first = husband
+          second = wife
         end
       else
         key = 'families.name.different_last_names'
       end
       I18n.t(key,
-        adult1_fname: first.first_name,
-        adult1_lname: first.last_name,
-        adult1_name:  first.name,
-        adult2_fname: second.first_name,
-        adult2_lname: second.last_name,
-        adult2_name:  second.name
-       )
+             adult1_fname: first.first_name,
+             adult1_lname: first.last_name,
+             adult1_name:  first.name,
+             adult2_fname: second.first_name,
+             adult2_lname: second.last_name,
+             adult2_name:  second.name)
     end
   end
 
@@ -226,7 +230,7 @@ class Family < ActiveRecord::Base
     adults.first.try(:last_name)
   end
 
-  alias_method :destroy_for_real, :destroy
+  alias destroy_for_real destroy
   def destroy
     people.each(&:destroy)
     update_attribute(:deleted, true)
@@ -241,7 +245,7 @@ class Family < ActiveRecord::Base
       "where people.visible = #{Family.connection.quoted_true} " \
       "and families.visible = #{Family.connection.quoted_true} " \
       "and families.deleted = #{Family.connection.quoted_false} " \
-      "#{(Person.logged_in.admin?(:view_hidden_attributes)) ? "" :
+      "#{Person.logged_in.admin?(:view_hidden_attributes) ? '' :
           "and people.share_address = #{Family.connection.quoted_true} "}" \
       "and people.status = #{Person.statuses[:active]} " \
       "and families.site_id = #{Site.current.id} " \

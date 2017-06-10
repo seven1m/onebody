@@ -15,7 +15,7 @@ module Concerns
     end
 
     def date_from_string(string)
-      if string.is_a?(String) and string.length > 0 and date = Date.parse_in_locale(string).try(:rfc3339)
+      if string.is_a?(String) && !string.empty? && (date = Date.parse_in_locale(string).try(:rfc3339))
         date
       else
         string

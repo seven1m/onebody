@@ -1,5 +1,4 @@
 class Update < ActiveRecord::Base
-
   belongs_to :person
   belongs_to :site
 
@@ -22,7 +21,7 @@ class Update < ActiveRecord::Base
 
   # update_attributes!(apply: true) will call apply!
   attr_accessor :apply
-  after_save { apply! if apply and not complete? }
+  after_save { apply! if apply && !complete? }
 
   after_create :notify_admin
 
@@ -91,7 +90,7 @@ class Update < ActiveRecord::Base
 
   # build a fake diff with :unknown as the source
   def faux_diff_attributes(attrs)
-    return {} unless attrs and attrs.any?
+    return {} unless attrs && attrs.any?
     attrs.each_with_object({}) do |(key, val), hash|
       hash[key] = [:unknown, val]
     end

@@ -165,16 +165,16 @@ class PrintableDirectory
 
   def family_photo(family)
     path = if family.photo.present?
-              family.photo.path(:large)
-            elsif family.people.undeleted.size == 1
-              family.people.undeleted.first.photo.presence.try(:path, :large)
+             family.photo.path(:large)
+           elsif family.people.undeleted.size == 1
+             family.people.undeleted.first.photo.presence.try(:path, :large)
             end
     return unless path && File.exist?(path)
     MiniMagick::Image.new(path)
   end
 
   def family_photo_height(photo)
-    #(image_bounds_width / photo[:height] * photo[:width]).to_i
+    # (image_bounds_width / photo[:height] * photo[:width]).to_i
     (photo[:height] * image_bounds_width / photo[:width]).to_i
   end
 

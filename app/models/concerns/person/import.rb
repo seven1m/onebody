@@ -10,7 +10,7 @@ module Concerns
           (
             Updater::PARAMS[:person].keys.flat_map { |k| expand_importable_column_name(k, ::Person) } +
             Updater::PARAMS[:family].keys.flat_map { |k| expand_importable_column_name("family_#{k}", ::Family) }
-          ).map(&:to_s).uniq + ['id', 'family_id'] + custom_field_names
+          ).map(&:to_s).uniq + %w(id family_id) + custom_field_names
         end
 
         # expand 'share_' into ['share_address', 'share_home_phone', ...]

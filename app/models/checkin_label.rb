@@ -1,5 +1,4 @@
 class CheckinLabel < ActiveRecord::Base
-
   class InvalidCheckinLabelPath < StandardError; end
 
   scope_by_site_id
@@ -10,9 +9,9 @@ class CheckinLabel < ActiveRecord::Base
     if self[:xml] =~ /<file\s+src/i
       doc = Nokogiri::XML(self[:xml])
       filename = doc.css('file')[0]['src']
-      raise InvalidCheckinLabelPath.new('file unavailable') if filename.match(/\.\.|\A\/|\A\\/)
+      raise InvalidCheckinLabelPath, 'file unavailable' if filename =~ /\.\.|\A\/|\A\\/
       path = Rails.root.join('db/checkin/labels', filename)
-      raise InvalidCheckinLabelPath.new('file not found') unless File.exist?(path)
+      raise InvalidCheckinLabelPath, 'file not found' unless File.exist?(path)
       File.read(path, encoding: 'utf-8')
     else
       self[:xml]
@@ -22,5 +21,4 @@ class CheckinLabel < ActiveRecord::Base
   def xml_file=(f)
     self.xml = f.read
   end
-
 end

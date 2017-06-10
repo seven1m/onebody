@@ -1,5 +1,4 @@
 class MembershipBatch
-
   def initialize(group, ids)
     @group = group
     @ids = Array(ids)
@@ -11,7 +10,7 @@ class MembershipBatch
 
   def create
     @ids.map do |id|
-      if person = Person.undeleted.find(id) and not person.member_of?(@group)
+      if (person = Person.undeleted.find(id)) && !person.member_of?(@group)
         @group.memberships.create(person: person)
       end
     end.compact
@@ -24,5 +23,4 @@ class MembershipBatch
       end
     end
   end
-
 end

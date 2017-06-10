@@ -1,5 +1,4 @@
 class Setup
-
   attr_reader :person
   attr_reader :site
 
@@ -40,7 +39,7 @@ class Setup
   def update_person!
     @person.password = @params[:person][:password].presence
     @person.password_confirmation = @params[:person][:password_confirmation].presence
-    unless @person.password and @person.password == @person.password_confirmation
+    unless @person.password && @person.password == @person.password_confirmation
       @person.errors.add :error, I18n.t('accounts.set_password_error')
       return false
     end
@@ -77,5 +76,4 @@ class Setup
   def update_stream_item!
     @site.update_stream_item(@person)
   end
-
 end

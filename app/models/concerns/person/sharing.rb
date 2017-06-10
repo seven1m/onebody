@@ -6,7 +6,7 @@ module Concerns
       extend ActiveSupport::Concern
 
       included do
-        scope :in_group_ids, -> ids { joins(:memberships).where('memberships.group_id in (?)', ids) }
+        scope :in_group_ids, ->(ids) { joins(:memberships).where('memberships.group_id in (?)', ids) }
       end
 
       def in_groups(groups)
@@ -23,7 +23,7 @@ module Concerns
       end
 
       def small_group_people
-        ::Person.in_group_ids(small_groups.pluck(:id)).where('people.id != ?', self.id)
+        ::Person.in_group_ids(small_groups.pluck(:id)).where('people.id != ?', id)
       end
 
       def sharing_with_people
@@ -44,7 +44,7 @@ module Concerns
         {}.tap do |reasons|
           reasons[:family] = person.family if ids[:family_ids].include?(person.id)
           reasons[:friend] = true if ids[:friend_ids].include?(person.id)
-          reasons[:groups] = Group.find(ids[:groupy_ids].select { |id, group_id| id == person.id }.map(&:last))
+          reasons[:groups] = Group.find(ids[:groupy_ids].select { |id, _group_id| id == person.id }.map(&:last))
           reasons.delete(:groups) if reasons[:groups].empty?
         end
       end

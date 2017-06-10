@@ -24,11 +24,11 @@ class Search
       send("#{key}=", val) if respond_to?("#{key}=")
     end
     if source == :person
-      if group_category.present?
-        @scope = Person.eager_load(:family, :groups) # for left outer join for groups
-      else
-        @scope = Person.joins(:family)
-      end
+      @scope = if group_category.present?
+                 Person.eager_load(:family, :groups) # for left outer join for groups
+               else
+                 Person.joins(:family)
+               end
     elsif source == :family
       @scope = Family.includes(:people)
     end
@@ -124,7 +124,7 @@ class Search
     people.last_name
     families.name
     families.last_name
-  )
+  ).freeze
 
   def order_by_params!
     return if sort.blank?
@@ -198,15 +198,19 @@ class Search
 
   def phone!
     return unless Person.logged_in.admin?(:view_hidden_properties)
-    where!('people.mobile_phone = :phone or
-            people.work_phone   = :phone or
-            families.home_phone = :phone', phone: phone.digits_only) if phone.present?
+    if phone.present?
+      where!('people.mobile_phone = :phone or
+              people.work_phone   = :phone or
+              families.home_phone = :phone', phone: phone.digits_only)
+    end
   end
 
   def email!
     return unless Person.logged_in.admin?(:view_hidden_properties)
-    where!('people.email = :email or
-            people.alternate_email = :email', email: email) if email.present?
+    if email.present?
+      where!('people.email = :email or
+              people.alternate_email = :email', email: email)
+    end
   end
 
   def type!
@@ -235,8 +239,8 @@ class Search
 
   def like_match(str, position = :both)
     str.to_s.dup.gsub(/[%_]/) { |x| '\\' + x }.tap do |s|
-      s.insert(0, '%') if [:before, :both].include?(position)
-      s << '%'         if [:after,  :both].include?(position)
+      s.insert(0, '%') if %i(before both).include?(position)
+      s << '%'         if %i(after both).include?(position)
     end
   end
 end

@@ -1,6 +1,9 @@
 class Admin < ActiveRecord::Base
   has_many :people, dependent: :nullify
-  def person; people.first; end # only admin templates have more than one
+  # only admin templates have more than one
+  def person
+    people.first
+  end
 
   belongs_to :site
 
@@ -21,7 +24,7 @@ class Admin < ActiveRecord::Base
   before_save :ensure_flags_is_hash
 
   def ensure_flags_is_hash
-    self.flags = {} if not flags.is_a?(Hash)
+    self.flags = {} unless flags.is_a?(Hash)
   end
 
   cattr_accessor :privileges
@@ -30,10 +33,10 @@ class Admin < ActiveRecord::Base
     # only the privileges available in the locale file, along with title and description
     # and also in the correct sorted order from the locale
     def privileges_for_show
-      I18n.t('admin.privileges').select do |name, priv|
+      I18n.t('admin.privileges').select do |name, _priv|
         privileges.include?(name.to_s)
-      end.sort_by do |name, priv|
-        priv[:order].is_a?(Fixnum) ? '%03d' % priv[:order] : priv[:order].to_s
+      end.sort_by do |_name, priv|
+        priv[:order].is_a?(Integer) ? format('%03d', priv[:order]) : priv[:order].to_s
       end.map do |name, priv|
         priv[:name] = name.to_s
         priv
@@ -61,7 +64,7 @@ class Admin < ActiveRecord::Base
         END
       end
     end
-    alias_method :add_privilege, :add_privileges
+    alias add_privilege add_privileges
   end
 
   add_privileges *%w(

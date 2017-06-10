@@ -42,7 +42,7 @@ class StreamItemGrouper
   end
 
   def initialize(base_item)
-    fail "base_item is nil" if base_item.nil?
+    raise 'base_item is nil' if base_item.nil?
     @base_item = base_item
   end
 

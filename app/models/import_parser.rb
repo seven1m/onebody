@@ -3,7 +3,7 @@ class ImportParser
 
   STRATEGIES = {
     'csv' => Strategies::CSV
-  }
+  }.freeze
 
   def initialize(import:, data:, strategy_name:)
     @import = import
@@ -14,8 +14,8 @@ class ImportParser
   def lookup_strategy(strategy_name)
     strategy_class = STRATEGIES[strategy_name]
     unless strategy_class
-      fail UnknownStrategyError,
-           "strategy #{strategy_name} is not known to the importer"
+      raise UnknownStrategyError,
+            "strategy #{strategy_name} is not known to the importer"
     end
     @strategy = strategy_class.new
   end

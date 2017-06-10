@@ -2,8 +2,7 @@ require 'active_support/concern'
 
 module Concerns
   module Reorder
-
-    def reorder_entry(entry, direction, full_stop=false)
+    def reorder_entry(entry, direction, full_stop = false)
       all = entries.to_a
       index = all.index(entry)
       case direction
@@ -21,7 +20,7 @@ module Concerns
       resequence(all)
     end
 
-    def resequence(all=entries)
+    def resequence(all = entries)
       all.each_with_index { |g, i| g.update_attribute(:sequence, i + 1) }
       reload
     end

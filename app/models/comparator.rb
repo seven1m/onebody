@@ -6,7 +6,9 @@ class Comparator
   end
 
   attr_reader :changes
-  def changed?; @changed; end
+  def changed?
+    @changed
+  end
 
   private
 

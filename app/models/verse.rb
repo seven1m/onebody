@@ -1,4 +1,5 @@
 # coding: utf-8
+
 require 'net/http'
 
 class Verse < ActiveRecord::Base
@@ -13,29 +14,35 @@ class Verse < ActiveRecord::Base
   acts_as_taggable
 
   def admin?(person)
-    self.people.include? person or person.admin?(:manage_verses)
+    people.include?(person) || person.admin?(:manage_verses)
   end
 
   def to_param
-    self.reference
+    reference
   end
 
-  def name; reference; end
+  def name
+    reference
+  end
 
-  def title; reference; end
+  def title
+    reference
+  end
 
-  def body; text; end
+  def body
+    text
+  end
 
   def book_name
     @book_name ||= reference.gsub(/[\d\:\s\-;,]+$/, '')
   end
 
-  API_URL = 'http://bible-api.com/'
+  API_URL = 'http://bible-api.com/'.freeze
 
   def lookup
-    return if reference.nil? or reference.empty?
+    return if reference.nil? || reference.empty?
     self.translation = 'WEB' if translation.nil?
-    if result = self.class.fetch(reference) and result['error'].nil?
+    if (result = self.class.fetch(reference)) && result['error'].nil?
       self.reference = result['reference']
       self.text = result['text']
       update_sortables
@@ -126,16 +133,15 @@ class Verse < ActiveRecord::Base
     '2 John',
     '3 John',
     'Jude',
-    'Revelation',
-  ]
+    'Revelation'
+  ].freeze
 
-  def readable_by?(*args)
+  def readable_by?(*_args)
     true # everyone can see bible verses!
   end
 
   class << self
-
-    def find(reference_or_id, options=nil)
+    def find(reference_or_id, options = nil)
       if reference_or_id.nil?
         nil
       elsif reference_or_id.to_s =~ /^\d+$/
@@ -170,7 +176,7 @@ class Verse < ActiveRecord::Base
   end
 
   # note: this must be called from a controller since this is habtm with people
-  def create_as_stream_item(person, created_at=nil)
+  def create_as_stream_item(person, created_at = nil)
     StreamItem.create!(
       title:           reference,
       body:            text,
