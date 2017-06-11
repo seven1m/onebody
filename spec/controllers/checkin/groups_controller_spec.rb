@@ -21,10 +21,10 @@ describe Checkin::GroupsController, type: :controller do
         'groups' => {
           '09:00 AM' => {
             'Adult Classes' => [
-              [instance_of(Fixnum), 'Check-in Group 2', false, nil, 'Adult Classes']
+              [group2.id, 'Check-in Group 2', false, nil, 'Adult Classes']
             ],
             '' => [
-              [instance_of(Fixnum), 'Check-in Group 1', false, nil, nil]
+              [group1.id, 'Check-in Group 1', false, nil, nil]
             ]
           }
         },
