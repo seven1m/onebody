@@ -9,7 +9,7 @@ describe 'Friend', type: :request do
     Friendship.create!(person: @user, friend: @friend)
   end
 
-  it "has proper links" do
+  it 'has proper links' do
     sign_in_as @user
 
     view_profile @friend

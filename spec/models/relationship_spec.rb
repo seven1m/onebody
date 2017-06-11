@@ -6,7 +6,7 @@ describe Relationship do
     @related = FactoryGirl.create(:person)
   end
 
-  it "should not allow an invalid relationship name" do
+  it 'should not allow an invalid relationship name' do
     relationship = Relationship.new(
       name:    'junk',
       person:  @person,
@@ -16,7 +16,7 @@ describe Relationship do
     expect(relationship.errors[:name]).to be
   end
 
-  it "should allow a valid relationship name" do
+  it 'should allow a valid relationship name' do
     relationship = Relationship.new(
       name:    'uncle',
       person:  @person,
@@ -25,17 +25,17 @@ describe Relationship do
     expect(relationship).to be_valid
   end
 
-  it "should reciprocate certain relationship names" do
+  it 'should reciprocate certain relationship names' do
     relationship = Relationship.create!(
       name:    'mother_in_law',
       person:  @person,
       related: @related
     )
     expect(relationship).to be_can_auto_reciprocate
-    expect(relationship.reciprocal_name).to eq("son_in_law")
+    expect(relationship.reciprocal_name).to eq('son_in_law')
   end
 
-  it "should not reciprocate certain relationship names" do
+  it 'should not reciprocate certain relationship names' do
     relationship = Relationship.create!(
       name:       'other',
       other_name: 'Friend',

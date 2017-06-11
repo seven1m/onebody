@@ -1,7 +1,6 @@
 require_relative '../../../rails_helper'
 
 describe Administration::Checkin::GroupsController, type: :controller do
-
   before(:all) { Setting.set(:features, :checkin, true) }
   after(:all)  { Setting.set(:features, :checkin, false) }
 
@@ -13,7 +12,7 @@ describe Administration::Checkin::GroupsController, type: :controller do
 
     context 'adding to a folder' do
       before do
-        post :create, { ids: [group.id], checkin_folder_id: folder.id, time_id: time.id }, { logged_in_id: user.id }
+        post :create, { ids: [group.id], checkin_folder_id: folder.id, time_id: time.id }, logged_in_id: user.id
         @group_time = folder.group_times.first
       end
 
@@ -30,11 +29,10 @@ describe Administration::Checkin::GroupsController, type: :controller do
         let(:group2) { FactoryGirl.create(:group) }
 
         it 'sets the sequence to 2' do
-          post :create, { ids: [group2.id], checkin_folder_id: folder.id, time_id: time.id }, { logged_in_id: user.id }
+          post :create, { ids: [group2.id], checkin_folder_id: folder.id, time_id: time.id }, logged_in_id: user.id
           expect(folder.group_times.where(group_id: group2.id).first.sequence).to eq(2)
         end
       end
     end
   end
-
 end

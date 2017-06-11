@@ -1,7 +1,6 @@
 require_relative '../../rails_helper'
 
 describe FamilyAuthorizer do
-
   before do
     @user = FactoryGirl.create(:person)
   end
@@ -92,5 +91,4 @@ describe FamilyAuthorizer do
       expect(@user).to_not be_able_to(:create, Family)
     end
   end
-
 end

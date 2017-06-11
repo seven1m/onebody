@@ -1,7 +1,6 @@
 require_relative '../../rails_helper'
 
 describe PrayerRequestAuthorizer do
-
   before do
     @user = FactoryGirl.create(:person)
     @prayer_request = FactoryGirl.create(:prayer_request)
@@ -71,5 +70,4 @@ describe PrayerRequestAuthorizer do
       expect(@user).to be_able_to(:delete, @prayer_request)
     end
   end
-
 end

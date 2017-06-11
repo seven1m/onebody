@@ -1,7 +1,6 @@
 require_relative '../rails_helper'
 
 describe MembershipsController, type: :controller do
-
   describe '#show' do
     let(:group) { FactoryGirl.create(:group) }
     let(:person) { FactoryGirl.create(:person) }
@@ -9,7 +8,7 @@ describe MembershipsController, type: :controller do
 
     context 'given email param' do
       before do
-        get :show, { group_id: group.id, id: person.id, email: 'off' }, { logged_in_id: person.id }
+        get :show, { group_id: group.id, id: person.id, email: 'off' }, logged_in_id: person.id
       end
 
       it 'renders the email template' do
@@ -134,7 +133,7 @@ describe MembershipsController, type: :controller do
             id: person.id,
             email: 'on',
             format: :js
-          }, { logged_in_id: person.id }
+          }, logged_in_id: person.id
         end
 
         it 'enables email for the person' do
@@ -156,7 +155,7 @@ describe MembershipsController, type: :controller do
             id: person.id,
             email: 'on',
             format: :js
-          }, { logged_in_id: user.id }
+          }, logged_in_id: user.id
         end
 
         it 'renders unauthorized' do
@@ -173,7 +172,7 @@ describe MembershipsController, type: :controller do
             id: person.id,
             email: 'on',
             format: :js
-          }, { logged_in_id: user.id }
+          }, logged_in_id: user.id
         end
 
         it 'returns success' do
@@ -189,7 +188,7 @@ describe MembershipsController, type: :controller do
           id: person.id,
           email: 'off',
           format: :js
-        }, { logged_in_id: person.id }
+        }, logged_in_id: person.id
       end
 
       it 'disables email for the person' do
@@ -213,7 +212,7 @@ describe MembershipsController, type: :controller do
             id: membership.id,
             promote: 'true',
             format: :js
-          }, { logged_in_id: user.id }
+          }, logged_in_id: user.id
         end
 
         it 'makes the person a group admin' do
@@ -233,7 +232,7 @@ describe MembershipsController, type: :controller do
             id: membership.id,
             promote: 'true',
             format: :js
-          }, { logged_in_id: person.id }
+          }, logged_in_id: person.id
         end
 
         it 'renders unauthorized' do
@@ -253,7 +252,7 @@ describe MembershipsController, type: :controller do
             id: membership.id,
             promote: 'false',
             format: :js
-          }, { logged_in_id: user.id }
+          }, logged_in_id: user.id
         end
 
         it 'makes the person a regular group member' do
@@ -278,7 +277,7 @@ describe MembershipsController, type: :controller do
           group_id: group.id,
           id: person.id,
           format: :js
-        }, { logged_in_id: person.id }
+        }, logged_in_id: person.id
       end
 
       it 'destroys the membership' do
@@ -298,7 +297,7 @@ describe MembershipsController, type: :controller do
           group_id: group.id,
           id: person.id,
           format: :js
-        }, { logged_in_id: person.id }
+        }, logged_in_id: person.id
       end
 
       it 'does not destroy the membership' do
@@ -321,7 +320,7 @@ describe MembershipsController, type: :controller do
 
       context 'POST' do
         before do
-          xhr :post, :batch, { group_id: group.id, ids: [person.id], format: :js }, { logged_in_id: user.id }
+          xhr :post, :batch, { group_id: group.id, ids: [person.id], format: :js }, logged_in_id: user.id
         end
 
         it 'creates membership records for each id given' do
@@ -334,8 +333,8 @@ describe MembershipsController, type: :controller do
 
         it 'renders the batch template with added memberships' do
           expect(assigns[:added].map(&:attributes)).to match([
-            include('person_id' => person.id, 'group_id' => group.id)
-          ])
+                                                               include('person_id' => person.id, 'group_id' => group.id)
+                                                             ])
           expect(response).to render_template(:batch)
         end
       end
@@ -347,7 +346,7 @@ describe MembershipsController, type: :controller do
             ids: [person.id],
             commit: 'ignore',
             format: :js
-          }, { logged_in_id: user.id }
+          }, logged_in_id: user.id
         end
 
         it 'does not create new membership records' do
@@ -372,7 +371,7 @@ describe MembershipsController, type: :controller do
             group_id: group.id,
             ids: [person.id],
             format: :js
-          }, { logged_in_id: user.id }
+          }, logged_in_id: user.id
         end
 
         it 'destroys memberships' do
@@ -394,7 +393,7 @@ describe MembershipsController, type: :controller do
             group_id: group.id,
             ids: [person.id],
             format: :js
-          }, { logged_in_id: user.id }
+          }, logged_in_id: user.id
         end
 
         it 'does not destroy the membership of the last admin' do
@@ -411,7 +410,7 @@ describe MembershipsController, type: :controller do
         let(:user) { FactoryGirl.create(:person) }
 
         before do
-          xhr :post, :batch, { group_id: group.id, ids: [person.id], format: :js }, { logged_in_id: user.id }
+          xhr :post, :batch, { group_id: group.id, ids: [person.id], format: :js }, logged_in_id: user.id
         end
 
         render_views
@@ -422,5 +421,4 @@ describe MembershipsController, type: :controller do
       end
     end
   end
-
 end

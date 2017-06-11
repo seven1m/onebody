@@ -1,23 +1,22 @@
 require_relative '../rails_helper'
 
 describe PrayerRequest do
-
   before do
     @group = FactoryGirl.create(:group, name: 'Morgan Small Group')
     @person = FactoryGirl.create(:person)
     @group.memberships.create!(person: @person)
     @req = FactoryGirl.create(:prayer_request, group: @group, person: @person,
-                              request: 'the request', answered_at: nil, answer: nil)
+                                               request: 'the request', answered_at: nil, answer: nil)
   end
 
-  it "should have a name" do
+  it 'should have a name' do
     expect(@req.name).to eq("Prayer Request in #{@group.name}")
   end
 
   it "should have a name with a question mark if the group doesn't exist" do
     @group.destroy # does not destroy child prayer requests
     @req.reload
-    expect(@req.name).to eq("Prayer Request in ?")
+    expect(@req.name).to eq('Prayer Request in ?')
   end
 
   describe '#send_group_email' do
@@ -69,5 +68,4 @@ describe PrayerRequest do
       end
     end
   end
-
 end

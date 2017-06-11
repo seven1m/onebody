@@ -8,10 +8,10 @@ describe Stats::AttendanceGraphPresenter do
 
     it 'returns an array of 30 counts' do
       expect(subject.data).to eq([
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 1, 0
-      ])
+                                   0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                   0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                   0, 0, 0, 0, 0, 0, 0, 0, 1, 0
+                                 ])
     end
   end
 end

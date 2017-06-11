@@ -1,11 +1,11 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-ENV["RAILS_ENV"] ||= 'test'
-require File.expand_path("../../config/environment", __FILE__)
+ENV['RAILS_ENV'] ||= 'test'
+require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 require 'shoulda/matchers'
 require 'sucker_punch/testing/inline'
 
-Dir[Rails.root.join("spec/support/*.rb")].each { |f| require f }
+Dir[Rails.root.join('spec/support/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
   config.include SessionHelper
@@ -38,15 +38,15 @@ RSpec.configure do |config|
     allow(StreamItemGroupJob).to receive(:perform_later)
     Geocoder.configure(lookup: :test)
     Geocoder::Lookup::Test.set_default_stub([{
-      'latitude'     => 40.7143528,
-      'longitude'    => -74.0059731,
-      'address'      => 'New York, NY, USA',
-      'state'        => 'New York',
-      'state_code'   => 'NY',
-      'country'      => 'United States',
-      'country_code' => 'US',
-      'precision'    => 'RANGE_INTERPOLATED'
-    }])
+                                              'latitude' => 40.7143528,
+                                              'longitude'    => -74.0059731,
+                                              'address'      => 'New York, NY, USA',
+                                              'state'        => 'New York',
+                                              'state_code'   => 'NY',
+                                              'country'      => 'United States',
+                                              'country_code' => 'US',
+                                              'precision'    => 'RANGE_INTERPOLATED'
+                                            }])
   end
 
   config.after(:each) do

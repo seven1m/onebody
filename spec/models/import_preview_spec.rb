@@ -56,9 +56,9 @@ describe ImportPreview do
     end
 
     it 'does not actually create person or family records' do
-      expect {
+      expect do
         subject.preview
-      }.not_to change { [Person.count, Family.count] }
+      end.not_to change { [Person.count, Family.count] }
       expect(row1.reload.attributes).to include(
         'created_person' => true,
         'created_family' => true,

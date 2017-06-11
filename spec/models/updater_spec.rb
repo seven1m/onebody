@@ -1,7 +1,6 @@
 require_relative '../rails_helper'
 
 describe Updater do
-
   before do
     @person = FactoryGirl.create(:person)
     @admin = FactoryGirl.create(:person, admin: Admin.create!(edit_profiles: true))
@@ -20,7 +19,7 @@ describe Updater do
         description:    'Web Developer',
         email:          'tim@timmorgan.org',
         share_activity: 'true',
-        member:         'true',
+        member:         'true'
       },
       family: {
         name:           'Tim Morgan',
@@ -30,7 +29,7 @@ describe Updater do
         address2:       '',
         city:           'City',
         state:          'OK',
-        zip:            '00000',
+        zip:            '00000'
       }
     )
   end
@@ -50,7 +49,7 @@ describe Updater do
 
       it 'should be removed' do
         expected = {
-          'person' => {'first_name' => 'Jim'}
+          'person' => { 'first_name' => 'Jim' }
         }
         expect(@actual).to eq(expected)
       end
@@ -69,7 +68,7 @@ describe Updater do
 
       it 'should be nil' do
         expected = {
-          'person' => {'mobile_phone' => nil}
+          'person' => { 'mobile_phone' => nil }
         }
         expect(@actual).to eq(expected)
       end
@@ -84,12 +83,12 @@ describe Updater do
         @actual = Updater.new(@params).send(:immediate_params)
       end
 
-      it "should return only parameters marked :immediate and :notify" do
+      it 'should return only parameters marked :immediate and :notify' do
         expected = {
           'person' => {
             'description'    => 'Web Developer',
             'email'          => 'tim@timmorgan.org',
-            'share_activity' => 'true',
+            'share_activity' => 'true'
           }
         }
         expect(@actual).to eq(expected)
@@ -103,8 +102,8 @@ describe Updater do
         @actual = Updater.new(@params).send(:immediate_params)
       end
 
-      it "should return also parameters marked :approve" do
-        expect(@actual[:person][:first_name]).to eq("Tim")
+      it 'should return also parameters marked :approve' do
+        expect(@actual[:person][:first_name]).to eq('Tim')
       end
 
       after do
@@ -119,12 +118,12 @@ describe Updater do
         @actual = Updater.new(@params).send(:immediate_params)
       end
 
-      it "should return also parameters marked :approve" do
-        expect(@actual[:person][:first_name]).to eq("Tim")
+      it 'should return also parameters marked :approve' do
+        expect(@actual[:person][:first_name]).to eq('Tim')
       end
 
-      it "should return also parameters marked :admin" do
-        expect(@actual[:person][:member]).to eq("true")
+      it 'should return also parameters marked :admin' do
+        expect(@actual[:person][:member]).to eq('true')
       end
     end
   end
@@ -140,12 +139,12 @@ describe Updater do
       end
 
       it 'should not change the person model for first_name' do
-        expect(@person.reload.first_name).to eq("John")
+        expect(@person.reload.first_name).to eq('John')
         expect(@person.birthday).to be_nil
       end
 
       it 'should change the person model for email' do
-        expect(@person.reload.email).to eq("tim@timmorgan.org")
+        expect(@person.reload.email).to eq('tim@timmorgan.org')
       end
 
       it 'should create an Update for first_name' do
@@ -170,12 +169,12 @@ describe Updater do
       end
 
       it 'should change the person model directly' do
-        expect(@person.reload.first_name).to eq("Tim")
+        expect(@person.reload.first_name).to eq('Tim')
         expect(@person.birthday).to eq(Time.utc(2000, 1, 1))
       end
 
       it 'should change the family model directly' do
-        expect(@person.family.reload.city).to eq("City")
+        expect(@person.family.reload.city).to eq('City')
       end
 
       it 'should not create an Update' do
@@ -215,7 +214,7 @@ describe Updater do
 
     it 'should return only fields that are different' do
       expected = {
-        'person' => {'first_name' => ['John', 'Tim']}
+        'person' => { 'first_name' => %w(John Tim) }
       }
       expect(@updater.changes).to eq(expected)
     end
@@ -228,7 +227,7 @@ describe Updater do
     it 'should return the same changed values after models are saved' do
       @updater.save!
       expected = {
-        'person' => {'first_name' => ['John', 'Tim']}
+        'person' => { 'first_name' => %w(John Tim) }
       }
       expect(@updater.changes).to eq(expected)
     end
@@ -252,13 +251,12 @@ describe Updater do
 
     it 'should create an Update for last_name' do
       expect(@update.diff).to eq(
-        "person" => {},
-        "family" => {
-          "name"        => ["John Smith", "Jack Smith"],
-          "home_phone"  => [nil,          "1234567890"]
+        'person' => {},
+        'family' => {
+          'name'        => ['John Smith', 'Jack Smith'],
+          'home_phone'  => [nil,          '1234567890']
         }
       )
     end
   end
-
 end

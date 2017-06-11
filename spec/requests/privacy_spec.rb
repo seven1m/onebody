@@ -31,7 +31,7 @@ describe 'Privacy', type: :request do
       end
 
       it 'should not show child in search results' do
-        get "/search", name: 'Megan'
+        get '/search', name: 'Megan'
         expect(response).to render_template('searches/create')
         assert_select 'body', /0 people found/
       end
@@ -56,7 +56,7 @@ describe 'Privacy', type: :request do
       end
 
       it 'should not show child in search results' do
-        get "/search", name: 'Megan'
+        get '/search', name: 'Megan'
         expect(response).to render_template('searches/create')
         assert_select 'body', /0 people found/
       end

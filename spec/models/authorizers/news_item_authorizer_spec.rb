@@ -1,7 +1,6 @@
 require_relative '../../rails_helper'
 
 describe NewsItemAuthorizer do
-
   before do
     @user = FactoryGirl.create(:person)
     @news_item = FactoryGirl.create(:news_item)
@@ -42,5 +41,4 @@ describe NewsItemAuthorizer do
       expect(@user).to be_able_to(:delete, @news_item)
     end
   end
-
 end

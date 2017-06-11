@@ -1,7 +1,6 @@
 require_relative '../rails_helper'
 
 describe Family do
-
   describe 'Barcodes' do
     it 'should not allow the same barcode id to be assigned to two families' do
       @family = FactoryGirl.create(:family, barcode_id: '1234567890')
@@ -72,26 +71,26 @@ describe Family do
     end
 
     context 'given a family with one adult' do
-      let!(:adult) { FactoryGirl.create(:person, family: subject, child: false, first_name: "Tim", last_name: "Morgan") }
+      let!(:adult) { FactoryGirl.create(:person, family: subject, child: false, first_name: 'Tim', last_name: 'Morgan') }
 
       it 'returns name of first adult' do
-        expect(subject.suggested_name).to eq("Tim Morgan")
+        expect(subject.suggested_name).to eq('Tim Morgan')
       end
     end
 
     context 'given a family with two adults' do
-      let!(:adult1) { FactoryGirl.create(:person, family: subject, child: false, first_name: "Tim", last_name: "Morgan") }
-      let!(:adult2) { FactoryGirl.create(:person, family: subject, child: false, first_name: "Jennie", last_name: "Morgan") }
+      let!(:adult1) { FactoryGirl.create(:person, family: subject, child: false, first_name: 'Tim', last_name: 'Morgan') }
+      let!(:adult2) { FactoryGirl.create(:person, family: subject, child: false, first_name: 'Jennie', last_name: 'Morgan') }
 
       it 'returns first names of both adults and common last name' do
-        expect(subject.suggested_name).to eq("Tim & Jennie Morgan")
+        expect(subject.suggested_name).to eq('Tim & Jennie Morgan')
       end
 
       context 'given the adults have different last names' do
         before { adult2.last_name = 'Smith'; adult2.save! }
 
         it 'returns full name of both adults' do
-          expect(subject.suggested_name).to eq("Tim Morgan & Jennie Smith")
+          expect(subject.suggested_name).to eq('Tim Morgan & Jennie Smith')
         end
       end
 
@@ -99,18 +98,18 @@ describe Family do
         before { adult2.destroy }
 
         it 'returns full name only first adult' do
-          expect(subject.suggested_name).to eq("Tim Morgan")
+          expect(subject.suggested_name).to eq('Tim Morgan')
         end
       end
     end
 
     context 'given a family with three adults' do
-      let!(:adult1) { FactoryGirl.create(:person, family: subject, child: false, first_name: "Tim", last_name: "Morgan") }
-      let!(:adult2) { FactoryGirl.create(:person, family: subject, child: false, first_name: "Jennie", last_name: "Morgan") }
-      let!(:adult3) { FactoryGirl.create(:person, family: subject, child: false, first_name: "Ruth", last_name: "Morgan") }
+      let!(:adult1) { FactoryGirl.create(:person, family: subject, child: false, first_name: 'Tim', last_name: 'Morgan') }
+      let!(:adult2) { FactoryGirl.create(:person, family: subject, child: false, first_name: 'Jennie', last_name: 'Morgan') }
+      let!(:adult3) { FactoryGirl.create(:person, family: subject, child: false, first_name: 'Ruth', last_name: 'Morgan') }
 
       it 'returns first names of first two adults and common last name' do
-        expect(subject.suggested_name).to eq("Tim & Jennie Morgan")
+        expect(subject.suggested_name).to eq('Tim & Jennie Morgan')
       end
     end
   end

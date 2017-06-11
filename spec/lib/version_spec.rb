@@ -1,7 +1,6 @@
 require_relative '../rails_helper'
 
 describe Version do
-
   describe '.from_string' do
     context 'given 3.4.0' do
       let(:version) { Version.from_string('3.4.0') }
@@ -75,5 +74,4 @@ describe Version do
       end
     end
   end
-
 end

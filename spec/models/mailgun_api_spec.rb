@@ -6,7 +6,7 @@ describe MailgunApi do
       priority: 0,
       description: 'Route all email to OneBody',
       expression: "match_recipient('.*@example.com')",
-      action: ["forward(\"https://example.com/emails.mime\")", 'stop()']
+      action: ['forward("https://example.com/emails.mime")', 'stop()']
     }
   end
 
@@ -44,7 +44,7 @@ describe MailgunApi do
 
   context 'route already exists' do
     it 'deletes the existing route and creates a new one' do
-      stub_request(:delete, "https://api.mailgun.net/v2/routes/53d9c28a125730632f288aa1")
+      stub_request(:delete, 'https://api.mailgun.net/v2/routes/53d9c28a125730632f288aa1')
       expect(subject).to receive(:show_routes).and_return(
         'total_count' => 1,
         'items' => [
@@ -75,9 +75,9 @@ describe MailgunApi do
     end
 
     it 'raises an error' do
-      expect {
+      expect do
         subject.create_catch_all('example.com')
-      }.to raise_error(MailgunApi::Forbidden)
+      end.to raise_error(MailgunApi::Forbidden)
     end
   end
 
@@ -90,9 +90,9 @@ describe MailgunApi do
     end
 
     it 'raises an error' do
-      expect {
+      expect do
         subject.create_catch_all('example.com')
-      }.to raise_error(MailgunApi::Forbidden)
+      end.to raise_error(MailgunApi::Forbidden)
     end
   end
 end

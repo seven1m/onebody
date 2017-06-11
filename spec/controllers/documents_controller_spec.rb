@@ -24,7 +24,7 @@ describe DocumentsController, type: :controller do
     context 'user is not an admin' do
       context 'at top level' do
         before do
-          get :index, {}, { logged_in_id: user.id }
+          get :index, {}, logged_in_id: user.id
         end
 
         it 'lists active (not hidden) folders' do
@@ -42,7 +42,7 @@ describe DocumentsController, type: :controller do
 
         context 'user is not a member of the group' do
           before do
-            get :index, {}, { logged_in_id: user.id }
+            get :index, {}, logged_in_id: user.id
           end
 
           it 'does not list the folder' do
@@ -54,7 +54,7 @@ describe DocumentsController, type: :controller do
           let!(:membership) { group.memberships.create!(person: user) }
 
           before do
-            get :index, { restricted_folders: 'true' }, { logged_in_id: user.id }
+            get :index, { restricted_folders: 'true' }, logged_in_id: user.id
           end
 
           it 'lists the folder' do
@@ -65,7 +65,7 @@ describe DocumentsController, type: :controller do
 
       context 'viewing a folder' do
         before do
-          get :index, { folder_id: top_folder.id }, { logged_in_id: user.id }
+          get :index, { folder_id: top_folder.id }, logged_in_id: user.id
         end
 
         it 'lists active (not hidden) folders' do
@@ -79,9 +79,9 @@ describe DocumentsController, type: :controller do
 
       context 'viewing a hidden folder' do
         it 'returns a 404' do
-          expect {
-            get :index, { folder_id: top_folder_hidden.id }, { logged_in_id: user.id }
-          }.to raise_error(ActiveRecord::RecordNotFound)
+          expect do
+            get :index, { folder_id: top_folder_hidden.id }, logged_in_id: user.id
+          end.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 
@@ -90,9 +90,9 @@ describe DocumentsController, type: :controller do
         let!(:folder_for_group) { FactoryGirl.create(:document_folder, group_ids: [group.id]) }
 
         it 'returns a 404' do
-          expect {
-            get :index, { folder_id: folder_for_group.id }, { logged_in_id: user.id }
-          }.to raise_error(ActiveRecord::RecordNotFound)
+          expect do
+            get :index, { folder_id: folder_for_group.id }, logged_in_id: user.id
+          end.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 
@@ -102,7 +102,7 @@ describe DocumentsController, type: :controller do
         let!(:membership)       { group.memberships.create!(person: user) }
 
         it 'returns 200 and shows the template' do
-          get :index, { folder_id: folder_for_group.id }, { logged_in_id: user.id }
+          get :index, { folder_id: folder_for_group.id }, logged_in_id: user.id
           expect(response.status).to eq(200)
           expect(response).to render_template(:index)
         end
@@ -117,7 +117,7 @@ describe DocumentsController, type: :controller do
 
       context 'at top level' do
         before do
-          get :index, { hidden_folders: 'true' }, { logged_in_id: user.id }
+          get :index, { hidden_folders: 'true' }, logged_in_id: user.id
         end
 
         it 'lists all folders' do
@@ -127,7 +127,7 @@ describe DocumentsController, type: :controller do
 
       context 'viewing a folder' do
         before do
-          get :index, { folder_id: top_folder.id, hidden_folders: 'true' }, { logged_in_id: user.id }
+          get :index, { folder_id: top_folder.id, hidden_folders: 'true' }, logged_in_id: user.id
         end
 
         it 'lists all folders' do
@@ -143,7 +143,7 @@ describe DocumentsController, type: :controller do
     context 'user is not an admin' do
       context 'document is not in a hidden folder' do
         before do
-          get :show, { id: document.id }, { logged_in_id: user.id }
+          get :show, { id: document.id }, logged_in_id: user.id
         end
 
         it 'gets the document' do
@@ -162,9 +162,9 @@ describe DocumentsController, type: :controller do
         end
 
         it 'returns a 404' do
-          expect {
-            get :show, { id: document.id }, { logged_in_id: user.id }
-          }.to raise_error(ActiveRecord::RecordNotFound)
+          expect do
+            get :show, { id: document.id }, logged_in_id: user.id
+          end.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 
@@ -179,9 +179,9 @@ describe DocumentsController, type: :controller do
 
         context 'user is not a member of the group' do
           it 'returns a 404' do
-            expect {
-              get :show, { id: document.id }, { logged_in_id: user.id }
-            }.to raise_error(ActiveRecord::RecordNotFound)
+            expect do
+              get :show, { id: document.id }, logged_in_id: user.id
+            end.to raise_error(ActiveRecord::RecordNotFound)
           end
         end
 
@@ -189,7 +189,7 @@ describe DocumentsController, type: :controller do
           let!(:membership) { group.memberships.create!(person: user) }
 
           it 'returns a 200 and renders the page' do
-            get :show, { id: document.id }, { logged_in_id: user.id }
+            get :show, { id: document.id }, logged_in_id: user.id
             expect(response.status).to eq(200)
             expect(response).to render_template(:show)
           end
@@ -205,7 +205,7 @@ describe DocumentsController, type: :controller do
 
       context 'document is not in a hidden folder' do
         before do
-          get :show, { id: document.id }, { logged_in_id: user.id }
+          get :show, { id: document.id }, logged_in_id: user.id
         end
 
         it 'gets the document' do
@@ -221,7 +221,7 @@ describe DocumentsController, type: :controller do
         before do
           document.folder = FactoryGirl.create(:document_folder, hidden: true)
           document.save!
-          get :show, { id: document.id }, { logged_in_id: user.id }
+          get :show, { id: document.id }, logged_in_id: user.id
         end
 
         it 'gets the document' do
@@ -245,7 +245,7 @@ describe DocumentsController, type: :controller do
       context 'new folder' do
         context 'at top level' do
           before do
-            get :new, { folder: true }, { logged_in_id: user.id }
+            get :new, { folder: true }, logged_in_id: user.id
           end
 
           it 'builds a new folder' do
@@ -261,7 +261,7 @@ describe DocumentsController, type: :controller do
           let(:top_folder) { FactoryGirl.create(:document_folder) }
 
           before do
-            get :new, { folder: true, folder_id: top_folder.id }, { logged_in_id: user.id }
+            get :new, { folder: true, folder_id: top_folder.id }, logged_in_id: user.id
           end
 
           it 'associates the folder with the parent folder' do
@@ -273,7 +273,7 @@ describe DocumentsController, type: :controller do
       context 'new document' do
         context 'at top level' do
           before do
-            get :new, {}, { logged_in_id: user.id }
+            get :new, {}, logged_in_id: user.id
           end
 
           it 'builds a new document' do
@@ -289,7 +289,7 @@ describe DocumentsController, type: :controller do
           let(:top_folder) { FactoryGirl.create(:document_folder) }
 
           before do
-            get :new, { folder_id: top_folder.id }, { logged_in_id: user.id }
+            get :new, { folder_id: top_folder.id }, logged_in_id: user.id
           end
 
           it 'associates the document with the parent folder' do
@@ -299,7 +299,7 @@ describe DocumentsController, type: :controller do
 
         context 'multiple documents' do
           before do
-            get :new, {multiple_documents: true}, { logged_in_id: user.id }
+            get :new, { multiple_documents: true }, logged_in_id: user.id
           end
 
           it 'builds a new document' do
@@ -330,7 +330,7 @@ describe DocumentsController, type: :controller do
                   name: 'Test Folder',
                   description: 'description of folder'
                 }
-              }, { logged_in_id: user.id }
+              }, logged_in_id: user.id
             end
 
             it 'creates a new folder' do
@@ -352,7 +352,7 @@ describe DocumentsController, type: :controller do
             render_views
 
             before do
-              post :create, { folder: { description: 'description of folder' } }, { logged_in_id: user.id }
+              post :create, { folder: { description: 'description of folder' } }, logged_in_id: user.id
             end
 
             it 'renders the new_folder template, showing the errors' do
@@ -373,7 +373,7 @@ describe DocumentsController, type: :controller do
                   name: 'Child Folder',
                   description: 'description of folder'
                 }
-              }, { logged_in_id: user.id }
+              }, logged_in_id: user.id
             end
 
             it 'associates parent folder' do
@@ -392,7 +392,7 @@ describe DocumentsController, type: :controller do
                 description: 'description of folder',
                 group_ids: [group.id]
               }
-            }, { logged_in_id: user.id }
+            }, logged_in_id: user.id
             @folder = DocumentFolder.last
           end
 
@@ -412,7 +412,7 @@ describe DocumentsController, type: :controller do
                 description: ['description of document', 'description of presentation', 'description of virus'],
                 file:        [file, file2, file3]
               }
-            }, { logged_in_id: user.id }
+            }, logged_in_id: user.id
           end
 
           it 'creates a new document' do
@@ -461,7 +461,7 @@ describe DocumentsController, type: :controller do
       context 'document' do
         before do
           @document = FactoryGirl.create(:document, :with_fake_file)
-          get :edit, { id: @document.id }, { logged_in_id: user.id }
+          get :edit, { id: @document.id }, logged_in_id: user.id
         end
 
         it 'renders the edit template' do
@@ -472,7 +472,7 @@ describe DocumentsController, type: :controller do
       context 'folder' do
         before do
           @folder = FactoryGirl.create(:document_folder)
-          get :edit, { id: @folder.id, folder: true }, { logged_in_id: user.id }
+          get :edit, { id: @folder.id, folder: true }, logged_in_id: user.id
         end
 
         it 'renders the edit_folder template' do
@@ -496,7 +496,7 @@ describe DocumentsController, type: :controller do
 
         context 'updating name' do
           before do
-            put :update, { id: @document.id, document: { name: 'New Name' } }, { logged_in_id: user.id }
+            put :update, { id: @document.id, document: { name: 'New Name' } }, logged_in_id: user.id
           end
 
           it 'updates the document' do
@@ -512,7 +512,7 @@ describe DocumentsController, type: :controller do
         context 'changing parent folder' do
           before do
             @folder = FactoryGirl.create(:document_folder)
-            put :update, { id: @document.id, document: { folder_id: @folder.id } }, { logged_in_id: user.id }
+            put :update, { id: @document.id, document: { folder_id: @folder.id } }, logged_in_id: user.id
           end
 
           it 'updates the document folder' do
@@ -533,7 +533,7 @@ describe DocumentsController, type: :controller do
 
         context 'given proper params' do
           before do
-            put :update, { id: @folder.id, folder: { name: 'New Name' } }, { logged_in_id: user.id }
+            put :update, { id: @folder.id, folder: { name: 'New Name' } }, logged_in_id: user.id
           end
 
           it 'updates the folder' do
@@ -550,7 +550,7 @@ describe DocumentsController, type: :controller do
           render_views
 
           before do
-            put :update, { id: @folder.id, folder: { name: 'x' * 500 } }, { logged_in_id: user.id }
+            put :update, { id: @folder.id, folder: { name: 'x' * 500 } }, logged_in_id: user.id
           end
 
           it 'renders the edit_folder template' do
@@ -572,7 +572,7 @@ describe DocumentsController, type: :controller do
                 name: 'Foo',
                 group_ids: [group.id]
               }
-            }, { logged_in_id: user.id }
+            }, logged_in_id: user.id
           end
 
           it 'creates associated DocumentFolderGroup records' do
@@ -595,7 +595,7 @@ describe DocumentsController, type: :controller do
         let(:document) { FactoryGirl.create(:document, :with_fake_file) }
 
         before do
-          delete :destroy, { id: document.id }, { logged_in_id: user.id }
+          delete :destroy, { id: document.id }, logged_in_id: user.id
         end
 
         it 'deletes the document' do
@@ -614,7 +614,7 @@ describe DocumentsController, type: :controller do
         let!(:child_document) { FactoryGirl.create(:document, :with_fake_file, folder_id: folder.id) }
 
         before do
-          delete :destroy, { id: folder.id, folder: true }, { logged_in_id: user.id }
+          delete :destroy, { id: folder.id, folder: true }, logged_in_id: user.id
         end
 
         it 'deletes the folder' do
@@ -645,7 +645,7 @@ describe DocumentsController, type: :controller do
     context 'user is not an admin' do
       context 'document is not in a hidden folder' do
         before do
-          get :download, { id: document.id }, { logged_in_id: user.id }
+          get :download, { id: document.id }, logged_in_id: user.id
         end
 
         it 'returns the file data' do
@@ -668,9 +668,9 @@ describe DocumentsController, type: :controller do
         end
 
         it 'returns a 404' do
-          expect {
-            get :download, { id: document.id }, { logged_in_id: user.id }
-          }.to raise_error(ActiveRecord::RecordNotFound)
+          expect do
+            get :download, { id: document.id }, logged_in_id: user.id
+          end.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 
@@ -685,9 +685,9 @@ describe DocumentsController, type: :controller do
 
         context 'user is not a member of the group' do
           it 'returns a 404' do
-            expect {
-              get :download, { id: document.id }, { logged_in_id: user.id }
-            }.to raise_error(ActiveRecord::RecordNotFound)
+            expect do
+              get :download, { id: document.id }, logged_in_id: user.id
+            end.to raise_error(ActiveRecord::RecordNotFound)
           end
         end
 
@@ -695,7 +695,7 @@ describe DocumentsController, type: :controller do
           let!(:membership) { group.memberships.create!(person: user) }
 
           it 'returns a 200' do
-            get :download, { id: document.id }, { logged_in_id: user.id }
+            get :download, { id: document.id }, logged_in_id: user.id
             expect(response.status).to eq(200)
           end
         end
@@ -710,7 +710,7 @@ describe DocumentsController, type: :controller do
 
       context 'document is not in a hidden folder' do
         before do
-          get :download, { id: document.id }, { logged_in_id: user.id }
+          get :download, { id: document.id }, logged_in_id: user.id
         end
 
         it 'returns the file data' do
@@ -722,7 +722,7 @@ describe DocumentsController, type: :controller do
         before do
           document.folder = FactoryGirl.create(:document_folder, hidden: true)
           document.save!
-          get :download, { id: document.id }, { logged_in_id: user.id }
+          get :download, { id: document.id }, logged_in_id: user.id
         end
 
         it 'returns the file data' do

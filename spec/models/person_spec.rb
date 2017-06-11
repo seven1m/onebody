@@ -1,13 +1,11 @@
 require_relative '../rails_helper'
 
 describe Person do
-
   describe 'Formats' do
-
-    BAD_EMAIL_ADDRESSES  = ['bad address@example.com', 'bad~address@example.com', 'baddaddress@example.123', 'looksinnocent@example.com\n<script>alert("pwned")</script>']
-    GOOD_EMAIL_ADDRESSES = ['bob@example.com', 'abcdefghijklmnopqrstuvwxyz0123456789._%-@abcdefghijklmnopqrstuvwxyz0123456789.-.com', 'admin@newhorizon.church']
-    BAD_WEB_ADDRESSES    = ['www.badaddress.com', 'ftp://badaddress.org', "javascript://void(alert('do evil stuff'))"]
-    GOOD_WEB_ADDRESSES   = ['http://www.goodwebsite.org', 'http://goodwebsite.com/a/path?some=args']
+    BAD_EMAIL_ADDRESSES  = ['bad address@example.com', 'bad~address@example.com', 'baddaddress@example.123', 'looksinnocent@example.com\n<script>alert("pwned")</script>'].freeze
+    GOOD_EMAIL_ADDRESSES = ['bob@example.com', 'abcdefghijklmnopqrstuvwxyz0123456789._%-@abcdefghijklmnopqrstuvwxyz0123456789.-.com', 'admin@newhorizon.church'].freeze
+    BAD_WEB_ADDRESSES    = ['www.badaddress.com', 'ftp://badaddress.org', "javascript://void(alert('do evil stuff'))"].freeze
+    GOOD_WEB_ADDRESSES   = ['http://www.goodwebsite.org', 'http://goodwebsite.com/a/path?some=args'].freeze
 
     before { @person = FactoryGirl.create(:person) }
 
@@ -91,7 +89,6 @@ describe Person do
   end
 
   context 'Email Address Sharing' do
-
     it 'should allow people in the same family to have the same email address' do
       @person = FactoryGirl.create(:person)
       @person2 = FactoryGirl.create(:person, family: @person.family, email: @person.email)
@@ -100,15 +97,13 @@ describe Person do
 
     it 'should not allow people in different families to have the same email address' do
       @person = FactoryGirl.create(:person, email: 'john@example.com')
-      expect {
+      expect do
         FactoryGirl.create(:person, email: 'john@example.com')
-      }.to raise_error(ActiveRecord::RecordInvalid)
+      end.to raise_error(ActiveRecord::RecordInvalid)
     end
-
   end
 
   context 'Group Membership' do
-
     before do
       @group = FactoryGirl.create(:group)
       @person, @person2 = FactoryGirl.create_list(:person, 2)
@@ -153,30 +148,29 @@ describe Person do
       expect(@person.member_of?(@parent_group)).to be
       expect(@person2.member_of?(@parent_group)).not_to be
     end
-
   end
 
   it 'should remove @ from twitter username' do
     @person = FactoryGirl.build(:person)
-    @person.twitter = "@username"
+    @person.twitter = '@username'
     @person.save
-    expect(@person.twitter).to eq("username")
+    expect(@person.twitter).to eq('username')
   end
 
-  it "should not accept twitter username with more than 15 characters" do
-    should_not allow_value("fifteencharacter").for(:twitter)
+  it 'should not accept twitter username with more than 15 characters' do
+    should_not allow_value('fifteencharacter').for(:twitter)
   end
 
-  it "should accept twitter username with at most 15 characters" do
-    should allow_value("fifteencharacte").for(:twitter)
+  it 'should accept twitter username with at most 15 characters' do
+    should allow_value('fifteencharacte').for(:twitter)
   end
 
-  it "should not accept twitter username with symbols" do
-    should_not allow_value("foo!").for(:twitter)
+  it 'should not accept twitter username with symbols' do
+    should_not allow_value('foo!').for(:twitter)
   end
 
-  it "should accept twitter username with alphanumeric characters" do
-    should allow_value("User_Name123").for(:twitter)
+  it 'should accept twitter username with alphanumeric characters' do
+    should allow_value('User_Name123').for(:twitter)
   end
 
   describe '#email_changed' do
@@ -235,30 +229,30 @@ describe Person do
   it 'should lowercase email' do
     @person = FactoryGirl.build(:person)
     @person.email = 'TEST@example.COM'
-    expect(@person.email).to eq("test@example.com")
+    expect(@person.email).to eq('test@example.com')
   end
 
   it 'should lowercase alternate_email' do
     @person = FactoryGirl.build(:person)
     @person.alternate_email = 'TEST@example.COM'
-    expect(@person.alternate_email).to eq("test@example.com")
+    expect(@person.alternate_email).to eq('test@example.com')
   end
 
-  it "should not tz convert a birthday" do
+  it 'should not tz convert a birthday' do
     @person = FactoryGirl.create(:person)
     Time.zone = 'Central Time (US & Canada)'
     @person.update_attributes!(birthday: '4/28/1981')
-    expect(@person.reload.birthday.strftime("%m/%d/%Y %H:%M:%S")).to eq("04/28/1981 00:00:00")
+    expect(@person.reload.birthday.strftime('%m/%d/%Y %H:%M:%S')).to eq('04/28/1981 00:00:00')
   end
 
-  it "should not tz convert an anniversary" do
+  it 'should not tz convert an anniversary' do
     @person = FactoryGirl.create(:person)
     Time.zone = 'Central Time (US & Canada)'
     @person.update_attributes!(anniversary: '8/11/2001')
-    expect(@person.reload.anniversary.strftime("%m/%d/%Y %H:%M:%S")).to eq("08/11/2001 00:00:00")
+    expect(@person.reload.anniversary.strftime('%m/%d/%Y %H:%M:%S')).to eq('08/11/2001 00:00:00')
   end
 
-  it "should parse birthday string by locale" do
+  it 'should parse birthday string by locale' do
     @person = FactoryGirl.create(:person)
     Setting.set(Site.current.id, 'Formats', 'Date', '%d/%m/%Y')
     @person.birthday = '29/4/1981'
@@ -273,7 +267,7 @@ describe Person do
     expect(@person.errors[:birthday]).to_not eq([])
   end
 
-  it "should parse anniversary string by locale" do
+  it 'should parse anniversary string by locale' do
     @person = FactoryGirl.create(:person)
     Setting.set(Site.current.id, 'Formats', 'Date', '%d/%m/%Y')
     @person.anniversary = '12/8/1981'
@@ -288,41 +282,41 @@ describe Person do
     expect(@person.errors[:anniversary]).to_not eq([])
   end
 
-  it "should handle birthdays before 1970" do
+  it 'should handle birthdays before 1970' do
     @person = FactoryGirl.create(:person)
     @person.update_attributes!(birthday: '1/1/1920')
-    expect(@person.reload.birthday.strftime("%m/%d/%Y")).to eq("01/01/1920")
+    expect(@person.reload.birthday.strftime('%m/%d/%Y')).to eq('01/01/1920')
   end
 
-  it "should only store digits for phone numbers" do
+  it 'should only store digits for phone numbers' do
     @person = FactoryGirl.create(:person)
     @person.update_attributes!(mobile_phone: '(123) 456-7890')
-    expect(@person.reload.mobile_phone).to eq("1234567890")
+    expect(@person.reload.mobile_phone).to eq('1234567890')
   end
 
   describe 'Child' do
-    it "should guess child upon initialization" do
+    it 'should guess child upon initialization' do
       @family = FactoryGirl.create(:family)
       FactoryGirl.create_list(:person, 2, family: @family)
       @child = @family.people.new
       expect(@child.child?).to eq(true)
     end
 
-    it "sets child=true when birthday is set and person is < 18 years old" do
+    it 'sets child=true when birthday is set and person is < 18 years old' do
       @person = FactoryGirl.build(:person, child: false)
       @person.birthday = 17.years.ago
       @person.valid? # trigger callback
       expect(@person.child).to eq(true)
     end
 
-    it "sets child=false when birthday is set and person is >= 18 years old" do
+    it 'sets child=false when birthday is set and person is >= 18 years old' do
       @person = FactoryGirl.build(:person, child: true)
       @person.birthday = 18.years.ago
       @person.valid? # trigger callback
       expect(@person.child).to eq(false)
     end
 
-    it "should not allow child and birthday to both be unspecified" do
+    it 'should not allow child and birthday to both be unspecified' do
       @person = FactoryGirl.create(:person)
       @person.birthday = nil
       @person.child = nil
@@ -330,22 +324,22 @@ describe Person do
       expect(@person.errors[:child]).to_not be_empty
     end
 
-     it 'should allow child=true while birthday year is 1900' do
+    it 'should allow child=true while birthday year is 1900' do
       @person = FactoryGirl.create(:person)
       @person.birthday = Date.new(1900, 1, 1)
       @person.child = false
       @person.save
       expect(@person.reload.child).to eq(false)
-     end
+    end
   end
 
-  it "should guess last_name upon initialization" do
+  it 'should guess last_name upon initialization' do
     @family = FactoryGirl.create(:family, last_name: 'Smith')
     @person = @family.people.new
-    expect(@person.last_name).to eq("Smith")
+    expect(@person.last_name).to eq('Smith')
   end
 
-  it "should know if it is a super admin" do
+  it 'should know if it is a super admin' do
     @person1 = FactoryGirl.create(:person)
     expect(@person1).to_not be_admin
     expect(@person1).to_not be_super_admin
@@ -357,10 +351,10 @@ describe Person do
     expect(@person3).to be_super_admin
   end
 
-  it "should properly translate validation errors" do
+  it 'should properly translate validation errors' do
     @person = FactoryGirl.create(:person)
     expect(@person.update_attributes(website: 'bad/address')).to eq(false)
-    expect(@person.errors[:website]).to eq([I18n.t("activerecord.errors.models.person.attributes.website.invalid")])
+    expect(@person.errors[:website]).to eq([I18n.t('activerecord.errors.models.person.attributes.website.invalid')])
   end
 
   context '#authenticate' do
@@ -425,10 +419,9 @@ describe Person do
     context 'user with legacy password' do
       before do
         @person = FactoryGirl.create(:person,
-          email:              'bill@example.com',
-          encrypted_password: 'ec30317d2d9133b897cfac6718680f60a0110cec',
-          salt:               '0vrXxHlAjAY1w1frfCBYwcbHUHeOBcHlSn8VVXeSg9tWZfjYbq'
-        )
+                                     email:              'bill@example.com',
+                                     encrypted_password: 'ec30317d2d9133b897cfac6718680f60a0110cec',
+                                     salt:               '0vrXxHlAjAY1w1frfCBYwcbHUHeOBcHlSn8VVXeSg9tWZfjYbq')
         @authenticated = Person.authenticate('bill@example.com', 'secret')
       end
 
@@ -621,10 +614,10 @@ describe Person do
 
       it 'sets the attributes' do
         expect(person.relationships.map(&:attributes)).to match_array([
-          include('name' => 'father', 'other_name' => nil,        'related_id' => father.id),
-          include('name' => 'son',    'other_name' => nil,        'related_id' => child.id),
-          include('name' => 'other',  'other_name' => 'Neighbor', 'related_id' => neighbor.id)
-        ])
+                                                                        include('name' => 'father', 'other_name' => nil, 'related_id' => father.id),
+                                                                        include('name' => 'son',    'other_name' => nil,        'related_id' => child.id),
+                                                                        include('name' => 'other',  'other_name' => 'Neighbor', 'related_id' => neighbor.id)
+                                                                      ])
       end
     end
   end

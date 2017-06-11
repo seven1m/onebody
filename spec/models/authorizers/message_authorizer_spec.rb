@@ -1,7 +1,6 @@
 require_relative '../../rails_helper'
 
 describe MessageAuthorizer do
-
   before do
     @user = FactoryGirl.create(:person)
     @message = FactoryGirl.create(:message)
@@ -87,5 +86,4 @@ describe MessageAuthorizer do
       end
     end
   end
-
 end

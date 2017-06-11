@@ -1,7 +1,6 @@
 require_relative '../rails_helper'
 
 describe Verification do
-
   before do
     @person = FactoryGirl.create(:person, email: 'test@example.com', mobile_phone: '1234567890')
   end
@@ -41,7 +40,7 @@ describe Verification do
       end
 
       it 'should add error to base' do
-        expect(@verification.errors[:base]).to eq([I18n.t("accounts.verification_max_attempts_reached")])
+        expect(@verification.errors[:base]).to eq([I18n.t('accounts.verification_max_attempts_reached')])
       end
     end
 
@@ -54,7 +53,7 @@ describe Verification do
       end
 
       it 'should add error to base' do
-        expect(@verification.errors[:base]).to eq([I18n.t("accounts.verification_max_attempts_reached")])
+        expect(@verification.errors[:base]).to eq([I18n.t('accounts.verification_max_attempts_reached')])
       end
     end
   end
@@ -88,7 +87,7 @@ describe Verification do
       end
 
       it 'should set email address to mobile gateway' do
-        expect(@verification.reload.email).to eq("1234567890@txt.att.net")
+        expect(@verification.reload.email).to eq('1234567890@txt.att.net')
       end
 
       it 'should send verification email' do
@@ -118,7 +117,7 @@ describe Verification do
 
         it 'should send verification email' do
           email = ActionMailer::Base.deliveries.last
-          expect(email.subject).to eq("Verify Email")
+          expect(email.subject).to eq('Verify Email')
           expect(email.body.to_s).to match(/account\/verify_code\?id=\d+&code=\d+/)
         end
       end
@@ -161,7 +160,7 @@ describe Verification do
 
         it 'should send verification email' do
           email = ActionMailer::Base.deliveries.last
-          expect(email.subject).to eq("Verify Email")
+          expect(email.subject).to eq('Verify Email')
           expect(email.to).to eq(['test@other.com'])
           expect(email.body.to_s).to match(/account\/verify_code\?id=\d+&code=\d+/)
         end
@@ -175,7 +174,7 @@ describe Verification do
     end
 
     before do
-      @verification.code = 100000
+      @verification.code = 100_000
     end
 
     context 'given the wrong code' do
@@ -238,5 +237,4 @@ describe Verification do
       end
     end
   end
-
 end

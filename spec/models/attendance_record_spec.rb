@@ -1,7 +1,6 @@
 require_relative '../rails_helper'
 
 describe AttendanceRecord do
-
   before do
     @attendance_record = FactoryGirl.create(:attendance_record)
   end

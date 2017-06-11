@@ -73,9 +73,9 @@ describe ImportExecution do
       let!(:row) { create_row(id: person.id, first: 'Changed', foo: 'bar', date: '2017-01-01', bool: '1') }
 
       it 'updates custom fields' do
-        expect {
+        expect do
           subject.execute
-        }.to change {
+        end.to change {
           person.reload.fields
         }.from(
           {}
@@ -91,7 +91,7 @@ describe ImportExecution do
         subject.execute
         expect(row.reload.updated_person?).to eq(true)
         expect(row.attribute_changes['person']).to eq(
-          'first_name'       => ['John', 'Changed'],
+          'first_name'       => %w(John Changed),
           string_field.slug  => [nil, 'bar'],
           date_field.slug    => [nil, '2017-01-01'],
           bool_field.slug    => [nil, '1']
@@ -119,10 +119,10 @@ describe ImportExecution do
       let!(:row) { create_row(id: person.id, first: 'Changed', site_id: '100', password: 'pwnd', consent: 'pwnd') }
 
       it 'does not update anything dangerous' do
-        expect {
+        expect do
           subject.execute
-        }.not_to change {
-          person.reload.attributes.reject { |k| !%w(site_id encrypted_password parental_consent).include?(k) }
+        end.not_to change {
+          person.reload.attributes.select { |k| %w(site_id encrypted_password parental_consent).include?(k) }
         }
         expect(row.reload.updated_person).to eq(true)
         expect(person.reload.first_name).to eq('Changed')
@@ -135,9 +135,9 @@ describe ImportExecution do
       let!(:pending_row)   { create_row({ id: person.id, first: 'Changed' }, status: :previewed) }
 
       it 'only imports the pending rows' do
-        expect {
+        expect do
           subject.execute
-        }.not_to change {
+        end.not_to change {
           completed_row.reload.attributes
         }
         expect(pending_row.reload.updated_person).to eq(true)
@@ -176,7 +176,7 @@ describe ImportExecution do
           it 'records what attributes changed' do
             expect(row.reload.attribute_changes).to eq(
               'person' => {
-                'last_name' => ['Smith', 'Jones'],
+                'last_name' => %w(Smith Jones),
                 'email'     => ['old@example.com', 'new@example.com']
               },
               'family' => {}
@@ -257,7 +257,7 @@ describe ImportExecution do
           it 'records what attributes changed' do
             expect(row.reload.attribute_changes).to eq(
               'person' => {
-                'last_name' => ['Smith', 'Jones']
+                'last_name' => %w(Smith Jones)
               },
               'family' => {}
             )
@@ -293,7 +293,7 @@ describe ImportExecution do
           it 'records what attributes changed' do
             expect(row.reload.attribute_changes).to eq(
               'person' => {
-                'last_name'     => ['Smith', 'Jones'],
+                'last_name'     => %w(Smith Jones),
                 'email_changed' => [true, false]
               },
               'family' => {}
@@ -353,10 +353,10 @@ describe ImportExecution do
         it 'records what attributes changed' do
           expect(row.reload.attribute_changes).to eq(
             'person' => {
-              'last_name' => ['Smith', 'Jones'],
+              'last_name' => %w(Smith Jones),
               'family_id' => [family.id, person.reload.family_id]
             },
-              'family' => {}
+            'family' => {}
           )
         end
       end
@@ -411,11 +411,11 @@ describe ImportExecution do
         it 'records what attributes changed' do
           expect(row.reload.attribute_changes).to eq(
             'person' => {
-              'last_name' => ['Smith', 'Jones']
+              'last_name' => %w(Smith Jones)
             },
             'family' => {
               'name'      => ['John Smith', 'John Jones'],
-              'last_name' => ['Smith', 'Jones']
+              'last_name' => %w(Smith Jones)
             }
           )
         end

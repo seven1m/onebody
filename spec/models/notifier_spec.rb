@@ -1,4 +1,5 @@
 # coding: utf-8
+
 require_relative '../rails_helper'
 require 'notifier'
 
@@ -276,7 +277,7 @@ describe Notifier, type: :mailer do
 
     it 'delivers the message' do
       assert_deliveries 1
-      expect(@delivery.subject).to eq("You don’t have to buy it all at frustrating prices!")
+      expect(@delivery.subject).to eq('You don’t have to buy it all at frustrating prices!')
     end
   end
 

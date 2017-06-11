@@ -1,7 +1,6 @@
 require_relative '../rails_helper'
 
 describe CheckinLabel do
-
   describe '#xml' do
     context 'given raw xml' do
       let(:xml) { '<?xml version="1.0" encoding="utf-8"?><foo/>' }
@@ -74,5 +73,4 @@ describe CheckinLabel do
       expect(subject.xml).to eq(File.read(path))
     end
   end
-
 end

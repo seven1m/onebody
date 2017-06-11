@@ -1,7 +1,6 @@
 require_relative '../../rails_helper'
 
 describe AlbumAuthorizer do
-
   before do
     @user = FactoryGirl.create(:person)
     @album = FactoryGirl.create(:album)

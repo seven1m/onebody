@@ -1,7 +1,6 @@
 require_relative '../rails_helper'
 
 describe DocumentFolder do
-
   describe 'validations' do
     context 'given folder_id set to self' do
       let(:folder) { FactoryGirl.create(:document_folder) }

@@ -105,46 +105,46 @@ describe Group do
     end
   end
 
-  it "should list all group categories" do
+  it 'should list all group categories' do
     cats = Group.categories
     expect(cats.keys.length).to eq(2)
     # only two that are not hidden, not private, and are approved
-    expect(cats["Small Groups"]).to eq(1)
-    expect(cats["foo"]).to eq(2)
+    expect(cats['Small Groups']).to eq(1)
+    expect(cats['foo']).to eq(2)
     expect(cats['bar']).to be_nil
     expect(cats['Subscription']).to be_nil
   end
 
-  it "should list all group categories including hidden and pending approval if user can manage groups" do
+  it 'should list all group categories including hidden and pending approval if user can manage groups' do
     @person.admin = Admin.create(manage_groups: true); @person.save
     cats = Group.categories
     expect(cats.keys.length).to eq(3)
-    expect(cats["Small Groups"]).to eq(1)
-    expect(cats["foo"]).to eq(2)
-    expect(cats["bar"]).to eq(1)
+    expect(cats['Small Groups']).to eq(1)
+    expect(cats['foo']).to eq(2)
+    expect(cats['bar']).to eq(1)
     expect(cats['Subscription']).to be_nil
   end
 
-  it "should get attendance records by date per person" do
+  it 'should get attendance records by date per person' do
     @group.memberships.create!(person_id: @person.id)
     @group.memberships.create!(person_id: FactoryGirl.create(:person).id)
     records = @group.get_people_attendance_records_for_date('2008-07-22')
     expect(records.length).to eq(2)
-    expect(records.any? { |r| r.last }).not_to be
+    expect(records.any?(&:last)).not_to be
     @group.attendance_records.create!(person_id: @person.id, attended_at: '2008-07-22')
     records = @group.get_people_attendance_records_for_date('2008-07-22')
     expect(records.length).to eq(2)
     expect(records.select(&:last).length).to eq(1)
   end
 
-  it "should be able to parse out the Google Calendar account info from an XML link" do
+  it 'should be able to parse out the Google Calendar account info from an XML link' do
     @group.update_attributes!(gcal_private_link: 'http://www.google.com/calendar/feeds/4azsf34hrgq1t3lkjh4sdewzxc%40group.calendar.google.com/private-2a2453bc8ef65dddf11a4f43a133df12/basic')
-    expect(@group.gcal_account).to eq("4azsf34hrgq1t3lkjh4sdewzxc%40group.calendar.google.com")
+    expect(@group.gcal_account).to eq('4azsf34hrgq1t3lkjh4sdewzxc%40group.calendar.google.com')
   end
 
-  it "should be able to parse out the Google Calendar account info from an HTML link" do
+  it 'should be able to parse out the Google Calendar account info from an HTML link' do
     @group.update_attributes!(gcal_private_link: 'http://www.google.com/calendar/hosted/timmorgan.org/embed?src=4azsf34hrgq1t3lkjh4sdewzxc%40group.calendar.google.com&ctz=America/Chicago&pvttk=2a2453bc8ef65dddf11a4f43a133df12')
-    expect(@group.gcal_account).to eq("4azsf34hrgq1t3lkjh4sdewzxc%40group.calendar.google.com")
+    expect(@group.gcal_account).to eq('4azsf34hrgq1t3lkjh4sdewzxc%40group.calendar.google.com')
   end
 
   describe 'share_token' do
@@ -179,13 +179,12 @@ describe Group do
           'latitude'  => within(0.00001).of(36.151305),
           'longitude' => within(0.00001).of(-95.975393)
         )
-
       end
 
       context 'address is removed' do
         before do
           Geocoder::Lookup::Test.add_stub(
-            ", US", [
+            ', US', [
               {
                 'precision' => 'APPROXIMATE',
                 'latitude'  => 35,

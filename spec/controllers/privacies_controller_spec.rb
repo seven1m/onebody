@@ -1,7 +1,6 @@
 require_relative '../rails_helper'
 
 describe PrivaciesController, type: :controller do
-
   let(:group)      { FactoryGirl.create(:group) }
   let(:user)       { FactoryGirl.create(:person) }
   let(:membership) { group.memberships.create(person: user) }
@@ -9,7 +8,7 @@ describe PrivaciesController, type: :controller do
   describe '#edit' do
     context 'editing my own profile' do
       before do
-        get :edit, { person_id: user.id }, { logged_in_id: user.id }
+        get :edit, { person_id: user.id }, logged_in_id: user.id
       end
 
       it 'renders the edit template' do
@@ -21,7 +20,7 @@ describe PrivaciesController, type: :controller do
       let(:stranger) { FactoryGirl.create(:person) }
 
       before do
-        get :edit, { person_id: stranger.id }, { logged_in_id: user.id }
+        get :edit, { person_id: stranger.id }, logged_in_id: user.id
       end
 
       it 'returns unauthorized' do
@@ -54,7 +53,7 @@ describe PrivaciesController, type: :controller do
         patch :update, {
           person_id: stranger.id,
           family: { visible: '0' }
-        }, { logged_in_id: user.id }
+        }, logged_in_id: user.id
       end
 
       it 'returns unauthorized' do
@@ -75,7 +74,7 @@ describe PrivaciesController, type: :controller do
               }
             }
           }
-        }, { logged_in_id: user.id }
+        }, logged_in_id: user.id
       end
 
       it 'updates privacy on the person record and redirects' do
@@ -102,7 +101,7 @@ describe PrivaciesController, type: :controller do
               share_mobile_phone: '1'
             }
           }
-        }, { logged_in_id: user.id }
+        }, logged_in_id: user.id
       end
 
       it 'updates privacy on the group membership record' do
@@ -115,7 +114,7 @@ describe PrivaciesController, type: :controller do
         patch :update, {
           person_id: user.id,
           family: { visible: '0' }
-        }, { logged_in_id: user.id }
+        }, logged_in_id: user.id
       end
 
       it 'changes family visibility' do
@@ -131,7 +130,7 @@ describe PrivaciesController, type: :controller do
           person_id: child.id,
           agree: I18n.t('privacies.i_agree') + '.',
           agree_commit: true
-        }, { logged_in_id: user.id }
+        }, logged_in_id: user.id
       end
 
       it 'saves the consent on the child' do
@@ -139,5 +138,4 @@ describe PrivaciesController, type: :controller do
       end
     end
   end
-
 end

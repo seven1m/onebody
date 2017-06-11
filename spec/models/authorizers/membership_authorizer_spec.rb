@@ -1,7 +1,6 @@
 require_relative '../../rails_helper'
 
 describe MembershipAuthorizer do
-
   before do
     @user = FactoryGirl.create(:person)
     @group = FactoryGirl.create(:group)
@@ -126,5 +125,4 @@ describe MembershipAuthorizer do
       end
     end
   end
-
 end

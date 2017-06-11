@@ -1,7 +1,6 @@
 require_relative '../rails_helper'
 
 describe Signup do
-
   context 'sign up is disabled' do
     before do
       Setting.set(1, 'Features', 'Sign Up', false)
@@ -269,8 +268,8 @@ describe Signup do
 
             it 'should create a new family' do
               expect(Family.count).to eq(@family_count + 1)
-              expect(@signup.family.name).to eq("John Smith")
-              expect(@signup.family.last_name).to eq("Smith")
+              expect(@signup.family.name).to eq('John Smith')
+              expect(@signup.family.last_name).to eq('Smith')
             end
 
             it 'should create a new person' do
@@ -278,7 +277,7 @@ describe Signup do
             end
 
             it 'should deliver email verification email to user' do
-              expect(Notifier.deliveries.map(&:subject)).to eq(["Verify Email"])
+              expect(Notifier.deliveries.map(&:subject)).to eq(['Verify Email'])
             end
 
             context 'created person' do
@@ -287,15 +286,15 @@ describe Signup do
               end
 
               it 'should have an email' do
-                expect(@person.email).to eq("john@example.com")
+                expect(@person.email).to eq('john@example.com')
               end
 
               it 'should have a name' do
-                expect(@person.name).to eq("John Smith")
+                expect(@person.name).to eq('John Smith')
               end
 
               it 'should have a gender' do
-                expect(@person.gender).to eq("Male")
+                expect(@person.gender).to eq('Male')
               end
 
               it 'should have a birthday' do
@@ -361,7 +360,7 @@ describe Signup do
               end
 
               it 'should deliver pending signup email to admin' do
-                expect(Notifier.deliveries.map(&:subject)).to eq(["Pending Sign Up"])
+                expect(Notifier.deliveries.map(&:subject)).to eq(['Pending Sign Up'])
               end
             end
           end
@@ -385,5 +384,4 @@ describe Signup do
       end
     end
   end
-
 end

@@ -1,7 +1,6 @@
 require_relative '../../rails_helper'
 
 describe PictureAuthorizer do
-
   before do
     @user = FactoryGirl.create(:person)
     @picture = FactoryGirl.create(:picture)
@@ -91,5 +90,4 @@ describe PictureAuthorizer do
       expect(@user).to be_able_to(:delete, @picture)
     end
   end
-
 end

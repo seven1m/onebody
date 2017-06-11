@@ -52,7 +52,7 @@ describe Concerns::Person::Fields do
 
       specify '#field_changes returns a hash of changes' do
         expect(subject.field_changes).to eq(
-          field1.id => ['foo', 'bar'],
+          field1.id => %w(foo bar),
           field2.id => [nil, 'baz']
         )
       end

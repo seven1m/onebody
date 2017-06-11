@@ -1,7 +1,6 @@
 require_relative '../rails_helper'
 
 describe GroupsController, type: :request do
-
   before do
     @user = FactoryGirl.create(:person)
     @group = FactoryGirl.create(:group, name: 'Small Group', category: 'Small Groups')

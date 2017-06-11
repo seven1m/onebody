@@ -1,7 +1,6 @@
 require_relative '../rails_helper'
 
 describe PictureUploader do
-
   let(:user) { FactoryGirl.create(:person) }
 
   let(:params) do
@@ -30,5 +29,4 @@ describe PictureUploader do
       end
     end
   end
-
 end

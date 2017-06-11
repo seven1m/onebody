@@ -1,7 +1,6 @@
 require_relative '../../rails_helper'
 
 describe GroupAuthorizer do
-
   before do
     @user = FactoryGirl.create(:person)
     @group = FactoryGirl.create(:group)
@@ -108,5 +107,4 @@ describe GroupAuthorizer do
       expect(@user).to be_able_to(:delete, @group)
     end
   end
-
 end

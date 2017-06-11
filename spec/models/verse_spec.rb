@@ -65,7 +65,7 @@ describe Verse do
     end
 
     before do
-      stub_request(:get, "http://bible-api.com/John%203:16?translation=web")
+      stub_request(:get, 'http://bible-api.com/John%203:16?translation=web')
         .to_return(body: payload.to_json)
     end
 

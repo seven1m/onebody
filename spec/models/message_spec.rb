@@ -234,10 +234,10 @@ describe Message do
                               body:    'Did you see who was talking to the Pharisies?',
                               member_ids: [recipient.id.to_s])
       end
-      it "is a personal message only sent to recipient" do
+      it 'is a personal message only sent to recipient' do
         expect(subject.group).not_to be
-        expect(subject.to).to eq(recipient) 
-      end 
+        expect(subject.to).to eq(recipient)
+      end
     end
   end
 end

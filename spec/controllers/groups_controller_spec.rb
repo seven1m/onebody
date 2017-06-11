@@ -12,7 +12,7 @@ describe GroupsController, type: :controller do
   describe '#index' do
     context 'for a person' do
       before do
-        get :index, { person_id: @person.id }, { logged_in_id: @person.id }
+        get :index, { person_id: @person.id }, logged_in_id: @person.id
       end
 
       it 'assigns the person' do
@@ -33,7 +33,7 @@ describe GroupsController, type: :controller do
 
       context 'user is not an admin' do
         before do
-          get :index, { person_id: @person.id }, { logged_in_id: @person.id }
+          get :index, { person_id: @person.id }, logged_in_id: @person.id
         end
 
         it 'does not list the hidden group' do
@@ -45,7 +45,7 @@ describe GroupsController, type: :controller do
         before do
           @person.admin = Admin.create(manage_groups: true)
           @person.save!
-          get :index, { person_id: @person.id }, { logged_in_id: @person.id }
+          get :index, { person_id: @person.id }, logged_in_id: @person.id
         end
 
         it 'lists the hidden group' do
@@ -56,7 +56,7 @@ describe GroupsController, type: :controller do
 
     context 'for a category' do
       before do
-        get :index, { category: 'Small Groups' }, { logged_in_id: @person.id }
+        get :index, { category: 'Small Groups' }, logged_in_id: @person.id
       end
 
       it 'assigns groups matching the category' do
@@ -71,7 +71,7 @@ describe GroupsController, type: :controller do
 
     context 'for a group name' do
       before do
-        get :index, { name: 'Morgan' }, { logged_in_id: @person.id }
+        get :index, { name: 'Morgan' }, logged_in_id: @person.id
       end
 
       it 'assigns groups matching the name' do
@@ -86,7 +86,7 @@ describe GroupsController, type: :controller do
 
     context 'overview page' do
       before do
-        get :index, {}, { logged_in_id: @person.id }
+        get :index, {}, logged_in_id: @person.id
       end
 
       it 'assigns categories' do
@@ -106,7 +106,7 @@ describe GroupsController, type: :controller do
 
       context 'user is group creator' do
         before do
-          get :index, {}, { logged_in_id: @person.id }
+          get :index, {}, logged_in_id: @person.id
         end
 
         it 'assigns the unapproved group' do
@@ -116,7 +116,7 @@ describe GroupsController, type: :controller do
 
       context 'user is not group creator' do
         before do
-          get :index, {}, { logged_in_id: @other_person.id }
+          get :index, {}, logged_in_id: @other_person.id
         end
 
         it 'does not assign the unapproved group' do
@@ -128,7 +128,7 @@ describe GroupsController, type: :controller do
         before do
           @person.admin = Admin.create(manage_groups: true)
           @person.save!
-          get :index, {}, { logged_in_id: @person.id }
+          get :index, {}, logged_in_id: @person.id
         end
 
         it 'assigns the unapproved group' do
@@ -141,7 +141,7 @@ describe GroupsController, type: :controller do
   describe '#show' do
     context 'group is not private' do
       before do
-        get :show, { id: @group.id }, { logged_in_id: @person.id }
+        get :show, { id: @group.id }, logged_in_id: @person.id
       end
 
       it 'renders the show template' do
@@ -157,7 +157,7 @@ describe GroupsController, type: :controller do
 
       context 'user is a member' do
         before do
-          get :show, { id: @group.id }, { logged_in_id: @person.id }
+          get :show, { id: @group.id }, logged_in_id: @person.id
         end
 
         it 'renders the show template' do
@@ -168,7 +168,7 @@ describe GroupsController, type: :controller do
 
       context 'user is not a member' do
         before do
-          get :show, { id: @group.id }, { logged_in_id: @other_person.id }
+          get :show, { id: @group.id }, logged_in_id: @other_person.id
         end
 
         it 'renders the show template' do
@@ -185,7 +185,7 @@ describe GroupsController, type: :controller do
 
       context 'user is a member' do
         before do
-          get :show, { id: @group.id }, { logged_in_id: @person.id }
+          get :show, { id: @group.id }, logged_in_id: @person.id
         end
 
         it 'renders the show template' do
@@ -196,7 +196,7 @@ describe GroupsController, type: :controller do
 
       context 'user is not a member' do
         before do
-          get :show, { id: @group.id }, { logged_in_id: @other_person.id }
+          get :show, { id: @group.id }, logged_in_id: @other_person.id
         end
 
         it 'renders the show template (this may change in the future)' do
@@ -209,7 +209,7 @@ describe GroupsController, type: :controller do
         before do
           @person.admin = Admin.create(manage_groups: true)
           @person.save!
-          get :show, { id: @group.id }, { logged_in_id: @person.id }
+          get :show, { id: @group.id }, logged_in_id: @person.id
         end
 
         it 'renders the show template' do
@@ -228,7 +228,7 @@ describe GroupsController, type: :controller do
           group: {
             photo: Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)
           }
-        }, { logged_in_id: @person.id }
+        }, logged_in_id: @person.id
       end
 
       it 'saves the photo' do
@@ -245,7 +245,7 @@ describe GroupsController, type: :controller do
         @group.photo = File.open(Rails.root.join('spec/fixtures/files/image.jpg'))
         @group.save!
         post :update, { id: @group.id, group: { photo: 'remove' } },
-                      { logged_in_id: @person.id }
+             logged_in_id: @person.id
       end
 
       it 'removes the photo' do
@@ -261,7 +261,7 @@ describe GroupsController, type: :controller do
   describe '#edit' do
     context 'user is group admin' do
       before do
-        get :edit, { id: @group.id }, { logged_in_id: @person.id }
+        get :edit, { id: @group.id }, logged_in_id: @person.id
       end
 
       it 'renders the edit template' do
@@ -274,7 +274,7 @@ describe GroupsController, type: :controller do
       before do
         @other_person.admin = Admin.create!(manage_groups: true)
         @other_person.save!
-        get :edit, { id: @group.id }, { logged_in_id: @other_person.id }
+        get :edit, { id: @group.id }, logged_in_id: @other_person.id
       end
 
       it 'renders the edit template' do
@@ -285,7 +285,7 @@ describe GroupsController, type: :controller do
 
     context 'user is not group admin' do
       before do
-        get :edit, { id: @group.id }, { logged_in_id: @other_person.id }
+        get :edit, { id: @group.id }, logged_in_id: @other_person.id
       end
 
       it 'returns unauthorized' do
@@ -303,7 +303,7 @@ describe GroupsController, type: :controller do
             name: 'test name',
             category: 'test cat'
           }
-        }, { logged_in_id: @person.id }
+        }, logged_in_id: @person.id
       end
 
       it 'updates the group' do
@@ -326,7 +326,7 @@ describe GroupsController, type: :controller do
             name: 'test name',
             category: 'test cat'
           }
-        }, { logged_in_id: @other_person.id }
+        }, logged_in_id: @other_person.id
       end
 
       it 'returns unauthorized' do
@@ -343,7 +343,7 @@ describe GroupsController, type: :controller do
 
     context 'GET' do
       before do
-        get :batch, nil, { logged_in_id: @admin.id }
+        get :batch, nil, logged_in_id: @admin.id
       end
 
       it 'renders the batch template' do
@@ -365,7 +365,7 @@ describe GroupsController, type: :controller do
                 address: 'baz'
               }
             }
-          }, { logged_in_id: @admin.id }
+          }, logged_in_id: @admin.id
         end
 
         it 'renders the batch template again' do
@@ -388,7 +388,7 @@ describe GroupsController, type: :controller do
                 address: 'bad*address'
               }
             }
-          }, { logged_in_id: @admin.id }
+          }, logged_in_id: @admin.id
         end
 
         it 'shows errors' do
@@ -413,7 +413,7 @@ describe GroupsController, type: :controller do
                 address: 'ipsum'
               }
             }
-          }, { logged_in_id: @admin.id }
+          }, logged_in_id: @admin.id
         end
 
         it 'updates the groups' do
@@ -432,7 +432,7 @@ describe GroupsController, type: :controller do
                 address: 'bad*address'
               }
             }
-          }, { logged_in_id: @admin.id }
+          }, logged_in_id: @admin.id
         end
 
         it 'shows errors' do
@@ -444,7 +444,7 @@ describe GroupsController, type: :controller do
 
   describe '#new' do
     before do
-      get :new, nil, { logged_in_id: @person.id }
+      get :new, nil, logged_in_id: @person.id
     end
 
     it 'renders the new group form' do
@@ -456,7 +456,7 @@ describe GroupsController, type: :controller do
     context 'user is not an admin' do
       before do
         post :create, { group: { name: 'test name', category: 'test cat' } },
-                      { logged_in_id: @person.id }
+             logged_in_id: @person.id
         @group = Group.last
       end
 
@@ -485,7 +485,7 @@ describe GroupsController, type: :controller do
         @person.admin = Admin.create(manage_groups: true)
         @person.save!
         post :create, { group: { name: 'test name', category: 'test cat' } },
-                      { logged_in_id: @person.id }
+             logged_in_id: @person.id
         @group = Group.last
       end
 

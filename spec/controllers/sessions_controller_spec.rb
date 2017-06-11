@@ -117,7 +117,7 @@ describe SessionsController, type: :controller do
       before do
         omni_auth = {
           'provider' => 'facebook',
-          'uid' => 10001,
+          'uid' => 10_001,
           'info' => {
             'email' => 'ME_FACEBOOK@EXAMPLE.COM',
             'first_name' => 'Martin',
@@ -133,8 +133,8 @@ describe SessionsController, type: :controller do
       it 'sets logged_in_id and redirects (new user)' do
         post :create_from_external_provider
         @person = Person.where(
-          :provider => 'facebook',
-          :uid => 10001
+          provider: 'facebook',
+          uid: 10_001
         ).first
         expect(flash[:warning]).to be_nil
         expect(session[:logged_in_id]).to eq(@person.id)
@@ -144,7 +144,7 @@ describe SessionsController, type: :controller do
       end
 
       it 'sets logged_in_id and redirects (existing user)' do
-        @person = FactoryGirl.create(:person, uid: 10001, provider: "facebook", status: :pending)
+        @person = FactoryGirl.create(:person, uid: 10_001, provider: 'facebook', status: :pending)
         post :create_from_external_provider
         expect(flash[:warning]).to be_nil
         expect(session[:logged_in_id]).to eq(@person.id)

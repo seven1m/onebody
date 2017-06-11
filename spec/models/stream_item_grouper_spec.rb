@@ -6,28 +6,28 @@ describe StreamItemGrouper do
     context 'given a list of items, all shared' do
       subject do
         described_class.new([
-          OpenStruct.new(id: 1, shared: true),
-          OpenStruct.new(id: 2, shared: true),
-          OpenStruct.new(id: 3, shared: true),
-          OpenStruct.new(id: 4, shared: true)
-        ])
+                              OpenStruct.new(id: 1, shared: true),
+                              OpenStruct.new(id: 2, shared: true),
+                              OpenStruct.new(id: 3, shared: true),
+                              OpenStruct.new(id: 4, shared: true)
+                            ])
       end
 
       describe '#grouped' do
         it 'returns all but the latest 2 items' do
           expect(subject.grouped).to eq([
-            OpenStruct.new(id: 1, shared: true),
-            OpenStruct.new(id: 2, shared: true)
-          ])
+                                          OpenStruct.new(id: 1, shared: true),
+                                          OpenStruct.new(id: 2, shared: true)
+                                        ])
         end
       end
 
       describe '#exposed' do
         it 'returns the last 2 items' do
           expect(subject.exposed).to eq([
-            OpenStruct.new(id: 3, shared: true),
-            OpenStruct.new(id: 4, shared: true)
-          ])
+                                          OpenStruct.new(id: 3, shared: true),
+                                          OpenStruct.new(id: 4, shared: true)
+                                        ])
         end
       end
     end
@@ -35,28 +35,28 @@ describe StreamItemGrouper do
     context 'given a list of items, some recent non-shared' do
       subject do
         described_class.new([
-          OpenStruct.new(id: 1, shared: true),
-          OpenStruct.new(id: 2, shared: true),
-          OpenStruct.new(id: 3, shared: false),
-          OpenStruct.new(id: 4, shared: true)
-        ])
+                              OpenStruct.new(id: 1, shared: true),
+                              OpenStruct.new(id: 2, shared: true),
+                              OpenStruct.new(id: 3, shared: false),
+                              OpenStruct.new(id: 4, shared: true)
+                            ])
       end
 
       describe '#grouped' do
         it 'returns all but the last 2 items, but does not include non-shared items' do
           expect(subject.grouped).to eq([
-            OpenStruct.new(id: 1, shared: true)
-          ])
+                                          OpenStruct.new(id: 1, shared: true)
+                                        ])
         end
       end
 
       describe '#exposed' do
         it 'returns the last 2 items plus any items that are non-shared' do
           expect(subject.exposed).to eq([
-            OpenStruct.new(id: 2, shared: true),
-            OpenStruct.new(id: 3, shared: false),
-            OpenStruct.new(id: 4, shared: true)
-          ])
+                                          OpenStruct.new(id: 2, shared: true),
+                                          OpenStruct.new(id: 3, shared: false),
+                                          OpenStruct.new(id: 4, shared: true)
+                                        ])
         end
       end
     end
@@ -64,28 +64,28 @@ describe StreamItemGrouper do
     context 'given a list of items, some older non-shared' do
       subject do
         described_class.new([
-          OpenStruct.new(id: 1, shared: false),
-          OpenStruct.new(id: 2, shared: true),
-          OpenStruct.new(id: 3, shared: true),
-          OpenStruct.new(id: 4, shared: true)
-        ])
+                              OpenStruct.new(id: 1, shared: false),
+                              OpenStruct.new(id: 2, shared: true),
+                              OpenStruct.new(id: 3, shared: true),
+                              OpenStruct.new(id: 4, shared: true)
+                            ])
       end
 
       describe '#grouped' do
         it 'returns all but the last 2 items, but does not include non-shared items' do
           expect(subject.grouped).to eq([
-            OpenStruct.new(id: 2, shared: true)
-          ])
+                                          OpenStruct.new(id: 2, shared: true)
+                                        ])
         end
       end
 
       describe '#exposed' do
         it 'returns the last 2 items plus any items that are non-shared' do
           expect(subject.exposed).to eq([
-            OpenStruct.new(id: 1, shared: false),
-            OpenStruct.new(id: 3, shared: true),
-            OpenStruct.new(id: 4, shared: true)
-          ])
+                                          OpenStruct.new(id: 1, shared: false),
+                                          OpenStruct.new(id: 3, shared: true),
+                                          OpenStruct.new(id: 4, shared: true)
+                                        ])
         end
       end
     end
@@ -108,12 +108,12 @@ describe StreamItemGrouper do
     context 'given 5 Person stream items in a row' do
       let(:items) do
         create_stream_items([
-          { shared: true  },
-          { shared: true  },
-          { shared: false },
-          { shared: true  },
-          { shared: true  }
-        ])
+                              { shared: true  },
+                              { shared: true  },
+                              { shared: false },
+                              { shared: true  },
+                              { shared: true  }
+                            ])
       end
 
       before do
@@ -125,41 +125,41 @@ describe StreamItemGrouper do
         expect(items.size).to eq(6)
         group = StreamItem.groups.first
         expect(items.map(&:attributes)).to match([
-          include(
-            'title' => 'item 0',
-            'stream_item_group_id' => group.id,
-            'shared' => true
-          ),
-          include(
-            'title' => 'item 1',
-            'stream_item_group_id' => group.id,
-            'shared' => true
-          ),
-          include(
-            'title' => 'item 2',
-            'stream_item_group_id' => nil,
-            'shared' => false
-          ),
-          include(
-            'streamable_type' => 'StreamItemGroup',
-            'context' => {
-              streamable_type: 'Person'
-            },
-            'created_at' => items[-2].created_at - 1.second,
-            'shared' => true,
-            'is_public' => true
-          ),
-          include(
-            'title' => 'item 3',
-            'stream_item_group_id' => nil,
-            'shared' => true
-          ),
-          include(
-            'title' => 'item 4',
-            'stream_item_group_id' => nil,
-            'shared' => true
-          )
-        ])
+                                                   include(
+                                                     'title' => 'item 0',
+                                                     'stream_item_group_id' => group.id,
+                                                     'shared' => true
+                                                   ),
+                                                   include(
+                                                     'title' => 'item 1',
+                                                     'stream_item_group_id' => group.id,
+                                                     'shared' => true
+                                                   ),
+                                                   include(
+                                                     'title' => 'item 2',
+                                                     'stream_item_group_id' => nil,
+                                                     'shared' => false
+                                                   ),
+                                                   include(
+                                                     'streamable_type' => 'StreamItemGroup',
+                                                     'context' => {
+                                                       streamable_type: 'Person'
+                                                     },
+                                                     'created_at' => items[-2].created_at - 1.second,
+                                                     'shared' => true,
+                                                     'is_public' => true
+                                                   ),
+                                                   include(
+                                                     'title' => 'item 3',
+                                                     'stream_item_group_id' => nil,
+                                                     'shared' => true
+                                                   ),
+                                                   include(
+                                                     'title' => 'item 4',
+                                                     'stream_item_group_id' => nil,
+                                                     'shared' => true
+                                                   )
+                                                 ])
       end
 
       context 'given the non-shared item becomes shared' do
@@ -175,41 +175,41 @@ describe StreamItemGrouper do
           expect(items.size).to eq(6)
           group = StreamItem.groups.first
           expect(items.map(&:attributes)).to match([
-            include(
-              'title' => 'item 0',
-              'stream_item_group_id' => group.id,
-              'shared' => true
-            ),
-            include(
-              'title' => 'item 1',
-              'stream_item_group_id' => group.id,
-              'shared' => true
-            ),
-            include(
-              'title' => 'item 2',
-              'stream_item_group_id' => group.id,
-              'shared' => true
-            ),
-            include(
-              'streamable_type' => 'StreamItemGroup',
-              'context' => {
-                streamable_type: 'Person'
-              },
-              'created_at' => items[-2].created_at - 1.second,
-              'shared' => true,
-              'is_public' => true
-            ),
-            include(
-              'title' => 'item 3',
-              'stream_item_group_id' => nil,
-              'shared' => true
-            ),
-            include(
-              'title' => 'item 4',
-              'stream_item_group_id' => nil,
-              'shared' => true
-            )
-          ])
+                                                     include(
+                                                       'title' => 'item 0',
+                                                       'stream_item_group_id' => group.id,
+                                                       'shared' => true
+                                                     ),
+                                                     include(
+                                                       'title' => 'item 1',
+                                                       'stream_item_group_id' => group.id,
+                                                       'shared' => true
+                                                     ),
+                                                     include(
+                                                       'title' => 'item 2',
+                                                       'stream_item_group_id' => group.id,
+                                                       'shared' => true
+                                                     ),
+                                                     include(
+                                                       'streamable_type' => 'StreamItemGroup',
+                                                       'context' => {
+                                                         streamable_type: 'Person'
+                                                       },
+                                                       'created_at' => items[-2].created_at - 1.second,
+                                                       'shared' => true,
+                                                       'is_public' => true
+                                                     ),
+                                                     include(
+                                                       'title' => 'item 3',
+                                                       'stream_item_group_id' => nil,
+                                                       'shared' => true
+                                                     ),
+                                                     include(
+                                                       'title' => 'item 4',
+                                                       'stream_item_group_id' => nil,
+                                                       'shared' => true
+                                                     )
+                                                   ])
         end
       end
     end
@@ -217,12 +217,12 @@ describe StreamItemGrouper do
     context 'given only two of the items are shared' do
       let(:items) do
         create_stream_items([
-          { shared: true  },
-          { shared: false },
-          { shared: false },
-          { shared: true  },
-          { shared: false }
-        ])
+                              { shared: true  },
+                              { shared: false },
+                              { shared: false },
+                              { shared: true  },
+                              { shared: false }
+                            ])
       end
 
       before do
@@ -239,12 +239,12 @@ describe StreamItemGrouper do
     context 'given none of the items are shared' do
       let(:items) do
         create_stream_items([
-          { shared: false },
-          { shared: false },
-          { shared: false },
-          { shared: false },
-          { shared: false }
-        ])
+                              { shared: false },
+                              { shared: false },
+                              { shared: false },
+                              { shared: false },
+                              { shared: false }
+                            ])
       end
 
       before do

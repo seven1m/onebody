@@ -1,7 +1,6 @@
 require_relative '../../rails_helper'
 
 describe AttachmentAuthorizer do
-
   before do
     @user = FactoryGirl.create(:person)
   end

@@ -1,7 +1,6 @@
 require_relative '../../../rails_helper'
 
 describe Concerns::Person::Sharing do
-
   before do
     @person = FactoryGirl.create(:person)
     @group = FactoryGirl.create(:group)
@@ -27,7 +26,7 @@ describe Concerns::Person::Sharing do
         before do
           @group.memberships.create(person: @person)
           # fake 4 more memberships
-          4.times { |i| @group.memberships.create!(person_id: i + 10000) }
+          4.times { |i| @group.memberships.create!(person_id: i + 10_000) }
         end
 
         it 'is returned' do
@@ -39,7 +38,7 @@ describe Concerns::Person::Sharing do
         before do
           @group.memberships.create(person: @person)
           # fake 5 more memberships
-          5.times { |i| @group.memberships.create!(person_id: i + 10000) }
+          5.times { |i| @group.memberships.create!(person_id: i + 10_000) }
         end
 
         it 'is not returned' do
@@ -59,5 +58,4 @@ describe Concerns::Person::Sharing do
       end
     end
   end
-
 end

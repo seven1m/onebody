@@ -1,7 +1,6 @@
 require_relative '../../rails_helper'
 
 describe PersonAuthorizer do
-
   before do
     @user = FactoryGirl.create(:person)
   end
@@ -272,5 +271,4 @@ describe PersonAuthorizer do
   it 'should not create new person' do
     expect(@user).to_not be_able_to(:create, Person)
   end
-
 end

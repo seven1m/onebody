@@ -102,5 +102,4 @@ describe FriendshipRequest do
       end
     end
   end
-
 end

@@ -4,7 +4,7 @@ describe Setting do
   context 'Field Types' do
     it "should return an array for settings of type 'list'" do
       Setting.set(1, 'System', 'Suffixes', ['Text', 'A Date'].join("\n"))
-      expect(Setting.get(:system, :suffixes)).to eq(["Text", "A Date"])
+      expect(Setting.get(:system, :suffixes)).to eq(['Text', 'A Date'])
       Setting.set(1, 'System', 'Suffixes', '')
     end
 
@@ -60,9 +60,9 @@ describe Setting do
   describe '.set' do
     context 'setting a non-existent value' do
       it 'raises an error' do
-        expect {
+        expect do
           Setting.set(:foo, :bar, 'value')
-        }.to raise_error(StandardError)
+        end.to raise_error(StandardError)
       end
     end
   end

@@ -1,9 +1,7 @@
 require_relative '../rails_helper'
 
 describe NewsItem do
-
   describe 'published' do
-
     it 'should not overwrite published date if it has been specified' do
       @news_item = FactoryGirl.create(:news_item, published: Date.current - 30)
       expect(@news_item.published).to be < Date.current
@@ -13,7 +11,5 @@ describe NewsItem do
       @news_item = FactoryGirl.create(:news_item)
       expect(@news_item.published).to_not be_nil
     end
-
   end
-
 end

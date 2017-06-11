@@ -74,22 +74,22 @@ describe Search do
     end
 
     it 'should return person matching the birthday day' do
-      @search.birthday = {day: '1'}
+      @search.birthday = { day: '1' }
       expect(@search.results).to eq([@user])
     end
 
     it 'should return person matching the birthday month' do
-      @search.birthday = {month: '1'}
+      @search.birthday = { month: '1' }
       expect(@search.results).to eq([@user])
     end
 
     it 'should return person matching the birthday month and day' do
-      @search.birthday = {month: '1', day: '1'}
+      @search.birthday = { month: '1', day: '1' }
       expect(@search.results).to eq([@user])
     end
 
     it 'should not return person if birthday is not matched' do
-      @search.birthday = {month: '1', day: '2'}
+      @search.birthday = { month: '1', day: '2' }
       expect(@search.results).to eq([])
     end
   end
@@ -102,22 +102,22 @@ describe Search do
     end
 
     it 'should return person matching the anniversary day' do
-      @search.anniversary = {day: '2'}
+      @search.anniversary = { day: '2' }
       expect(@search.results).to eq([@user])
     end
 
     it 'should return person matching the anniversary month' do
-      @search.anniversary = {month: '2'}
+      @search.anniversary = { month: '2' }
       expect(@search.results).to eq([@user])
     end
 
     it 'should return person matching the anniversary month and day' do
-      @search.anniversary = {month: '2', day: '2'}
+      @search.anniversary = { month: '2', day: '2' }
       expect(@search.results).to eq([@user])
     end
 
     it 'should not return person if anniversary is not matched' do
-      @search.anniversary = {month: '2', day: '3'}
+      @search.anniversary = { month: '2', day: '3' }
       expect(@search.results).to eq([])
     end
   end
@@ -133,22 +133,22 @@ describe Search do
     end
 
     it 'should return person matching the address city' do
-      @search.address = {city: 'Tulsa'}
+      @search.address = { city: 'Tulsa' }
       expect(@search.results).to eq([@user])
     end
 
     it 'should return person matching the address state' do
-      @search.address = {state: 'OK'}
+      @search.address = { state: 'OK' }
       expect(@search.results).to eq([@user])
     end
 
     it 'should return person matching the address zip' do
-      @search.address = {zip: '74010'}
+      @search.address = { zip: '74010' }
       expect(@search.results).to eq([@user])
     end
 
     it 'should not return person if address does not match' do
-      @search.address = {city: 'Tulsa', state: 'AR', zip: '74011'}
+      @search.address = { city: 'Tulsa', state: 'AR', zip: '74011' }
       expect(@search.results).to eq([])
     end
   end

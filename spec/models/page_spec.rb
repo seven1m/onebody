@@ -1,15 +1,14 @@
 require_relative '../rails_helper'
 
 describe Page do
-
-  it "should update path when saved" do
+  it 'should update path when saved' do
     @foo = Page.create!(slug: 'foo', title: 'Foo', body: 'foo rocks')
-    expect(@foo.path).to eq("foo")
+    expect(@foo.path).to eq('foo')
     @bar = Page.create!(slug: 'bar', title: 'Boo', body: 'bar is the bomb', parent: @foo)
-    expect(@bar.path).to eq("foo/bar")
+    expect(@bar.path).to eq('foo/bar')
   end
 
-  it "should always have a lowercase slug with no spaces or symbols other than underscore" do
+  it 'should always have a lowercase slug with no spaces or symbols other than underscore' do
     expect(Page.create(slug: 'hello',     title: 'Foo', body: 'foo rocks')).to be_valid
     expect(Page.create(slug: 'foo_foo',   title: 'Foo', body: 'foo rocks')).to be_valid
     expect(Page.create(slug: 'Foo',       title: 'Foo', body: 'foo rocks').errors[:slug]).to be
@@ -17,25 +16,25 @@ describe Page do
     expect(Page.create(slug: 'Foo*^!Foo', title: 'Foo', body: 'foo rocks').errors[:slug]).to be
   end
 
-  it "should find a page by its path" do
+  it 'should find a page by its path' do
     @parent = FactoryGirl.create(:page, slug: 'foo')
-    expect(Page.find("foo")).to eq(@parent)
+    expect(Page.find('foo')).to eq(@parent)
     @child = FactoryGirl.create(:page, slug: 'baz', parent: @parent)
-    expect(Page.find("foo/baz")).to eq(@child)
+    expect(Page.find('foo/baz')).to eq(@child)
   end
 
-  it "should find home page by its path" do
+  it 'should find home page by its path' do
     @page = FactoryGirl.create(:page, slug: 'home')
-    expect(Page.find("")).to eq(@page)
+    expect(Page.find('')).to eq(@page)
   end
 
-  it "should find a page by its id" do
+  it 'should find a page by its id' do
     @page = FactoryGirl.create(:page)
     expect(Page.find(@page.id)).to eq(@page)
     expect(Page.find(@page.id.to_s)).to eq(@page)
   end
 
-  it "should raise RecordNotFound if page does not exist" do
+  it 'should raise RecordNotFound if page does not exist' do
     expect { Page.find('does/not/exist') }.to raise_error(ActiveRecord::RecordNotFound)
   end
 
@@ -47,5 +46,4 @@ describe Page do
     @page3 = Page.create(slug: 'new', title: 'New', body: '')
     expect(@page3.errors[:slug]).to be
   end
-
 end

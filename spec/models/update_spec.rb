@@ -1,18 +1,17 @@
 require_relative '../rails_helper'
 
 describe Update do
-
   before do
     @person = FactoryGirl.create(:person)
     @update = @person.updates.create!(data: {
-      person: {
-        first_name: 'Tim',
-        birthday: Date.new(2000, 1, 1)
-      },
-      family: {
-        name: 'Tim Smith'
-      }
-    })
+                                        person: {
+                                          first_name: 'Tim',
+                                          birthday: Date.new(2000, 1, 1)
+                                        },
+                                        family: {
+                                          name: 'Tim Smith'
+                                        }
+                                      })
   end
 
   context '#save!' do
@@ -39,7 +38,7 @@ describe Update do
     end
 
     it 'should update the person' do
-      expect(@person.reload.first_name).to eq("Tim")
+      expect(@person.reload.first_name).to eq('Tim')
     end
 
     it 'should update the person birthday' do
@@ -47,7 +46,7 @@ describe Update do
     end
 
     it 'should update the family' do
-      expect(@person.family.reload.name).to eq("Tim Smith")
+      expect(@person.family.reload.name).to eq('Tim Smith')
     end
 
     context 'birthday of nil' do
@@ -113,8 +112,8 @@ describe Update do
     before do
       @expected = {
         'person' => {
-          'first_name' => ['John', 'Tim'],
-          'birthday' => [nil, Date.new(2000, 1, 1)],
+          'first_name' => %w(John Tim),
+          'birthday' => [nil, Date.new(2000, 1, 1)]
         },
         'family' => {
           'name' => ['John Smith', 'Tim Smith']
@@ -167,8 +166,7 @@ describe Update do
   context 'apply attribute' do
     it 'should apply the update' do
       @update.update_attributes!(apply: true)
-      expect(@person.reload.first_name).to eq("Tim")
+      expect(@person.reload.first_name).to eq('Tim')
     end
   end
-
 end

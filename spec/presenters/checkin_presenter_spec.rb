@@ -15,7 +15,7 @@ describe CheckinPresenter do
 
       context 'queried in the morning' do
         before do
-          Timecop.freeze(Time.local(2014, 7, 6, 8, 00))
+          Timecop.freeze(Time.local(2014, 7, 6, 8, 0o0))
         end
 
         it 'returns the recurring time' do
@@ -25,10 +25,10 @@ describe CheckinPresenter do
 
       context 'queried at night' do
         before do
-          Timecop.freeze(Time.local(2014, 7, 6, 23, 00))
+          Timecop.freeze(Time.local(2014, 7, 6, 23, 0o0))
         end
 
-        # TODO we probably should *not* be returning times that have passed,
+        # TODO: we probably should *not* be returning times that have passed,
         # but for now, this is how it works
         it 'returns the recurring time' do
           expect(subject.times.to_a).to eq([checkin_time])
@@ -37,7 +37,7 @@ describe CheckinPresenter do
 
       context 'queried the day after' do
         before do
-          Timecop.freeze(Time.local(2014, 7, 7, 9, 00))
+          Timecop.freeze(Time.local(2014, 7, 7, 9, 0o0))
         end
 
         it 'returns nothing' do
@@ -51,7 +51,7 @@ describe CheckinPresenter do
 
       context 'queried in the morning' do
         before do
-          Timecop.freeze(Time.local(2014, 7, 6, 9, 00))
+          Timecop.freeze(Time.local(2014, 7, 6, 9, 0o0))
         end
 
         it 'returns the recurring time' do
@@ -61,7 +61,7 @@ describe CheckinPresenter do
 
       context 'queried at night' do
         before do
-          Timecop.freeze(Time.local(2014, 7, 6, 23, 00))
+          Timecop.freeze(Time.local(2014, 7, 6, 23, 0o0))
         end
 
         it 'returns the recurring time' do
@@ -71,7 +71,7 @@ describe CheckinPresenter do
 
       context 'queried the day after' do
         before do
-          Timecop.freeze(Time.local(2014, 7, 7, 9, 00))
+          Timecop.freeze(Time.local(2014, 7, 7, 9, 0o0))
         end
 
         it 'returns nothing' do
@@ -112,31 +112,29 @@ describe CheckinPresenter do
 
     it 'returns current selections' do
       expect(subject.selections).to match(
-        {
-          person.id => {
-            checkin_time1.id => include(
-              'id'                  => group_time1.id,
-              'group_id'            => group1.id,
-              'checkin_time_id'     => checkin_time1.id,
-              'print_extra_nametag' => false,
-              'checkin_folder_id'   => nil,
-              'label_id'            => nil,
-              group: {
-                name: group1.name
-              }
-            ),
-            checkin_time2.id => include(
-              'id'                  => group_time2.id,
-              'group_id'            => group2.id,
-              'checkin_time_id'     => nil,
-              'print_extra_nametag' => false,
-              'checkin_folder_id'   => folder.id,
-              'label_id'            => nil,
-              group: {
-                name: group2.name
-              }
-            )
-          }
+        person.id => {
+          checkin_time1.id => include(
+            'id'                  => group_time1.id,
+            'group_id'            => group1.id,
+            'checkin_time_id'     => checkin_time1.id,
+            'print_extra_nametag' => false,
+            'checkin_folder_id'   => nil,
+            'label_id'            => nil,
+            group: {
+              name: group1.name
+            }
+          ),
+          checkin_time2.id => include(
+            'id'                  => group_time2.id,
+            'group_id'            => group2.id,
+            'checkin_time_id'     => nil,
+            'print_extra_nametag' => false,
+            'checkin_folder_id'   => folder.id,
+            'label_id'            => nil,
+            group: {
+              name: group2.name
+            }
+          )
         }
       )
     end

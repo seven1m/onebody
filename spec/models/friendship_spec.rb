@@ -37,7 +37,6 @@ describe Friendship do
     it 'should be invalid' do
       expect(@friendship).to be_invalid
     end
-
   end
 
   context 'when #friend is nil' do
@@ -50,6 +49,5 @@ describe Friendship do
     it 'should be invalid' do
       expect(@friendship).to be_invalid
     end
-
   end
 end

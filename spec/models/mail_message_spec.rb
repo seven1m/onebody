@@ -1,7 +1,6 @@
 require_relative '../rails_helper'
 
 describe Mail::Message do
-
   it 'should address envelope for "to" addresses only' do
     @message = Mail::Message.new
     @message.to      = 'tim@foo.com'
@@ -9,7 +8,6 @@ describe Mail::Message do
     @message.bcc     = 'jil@baz.com'
     @message.subject = 'test'
     @message.body    = 'test'
-    expect(@message.destinations).to eq(["tim@foo.com"])
+    expect(@message.destinations).to eq(['tim@foo.com'])
   end
-
 end

@@ -1,7 +1,6 @@
 require_relative '../rails_helper'
 
 describe Picture do
-
   describe '#rotate' do
     let(:picture) { FactoryGirl.create(:picture, :with_file) }
 

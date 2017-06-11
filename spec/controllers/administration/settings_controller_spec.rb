@@ -43,7 +43,7 @@ describe Administration::SettingsController, type: :controller do
     context 'given invalid settings' do
       before do
         put :batch, {
-          'hostname'               => 'http://www.example.com',
+          'hostname'               => 'http://www.example.com'
         }, logged_in_id: admin.id
       end
 
