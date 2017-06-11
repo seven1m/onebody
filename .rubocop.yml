@@ -17,7 +17,7 @@ StringLiterals:
 Style/Documentation:
   Enabled: false
 
-Style/MultilineOperationIndentation:
+Layout/MultilineOperationIndentation:
   EnforcedStyle: indented
 
 Style/ClassAndModuleChildren:
