@@ -4,7 +4,7 @@
 
 namespace :onebody do
   desc 'Fix utf8 encoding errors in text.'
-  task :fix_utf8 => :environment do
+  task fix_utf8: :environment do
     replacements = [
       ['â€¦', '…'],          # elipsis
       ['â€“', '–'],          # long hyphen
@@ -42,9 +42,7 @@ namespace :onebody do
               obj[attribute] = obj[attribute].gsub(set[0], set[1])
             end
           end
-          if obj.changed?
-            obj.save(validate: false)
-          end
+          obj.save(validate: false) if obj.changed?
         end
         puts
       end

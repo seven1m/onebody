@@ -7,7 +7,7 @@ class Version
     Version.new(*string.split(/\.|\-/))
   end
 
-  def initialize(major, minor, patch, special=nil)
+  def initialize(major, minor, patch, special = nil)
     @major = major
     @minor = minor
     @patch = patch

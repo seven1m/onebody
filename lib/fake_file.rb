@@ -13,6 +13,6 @@ class FakeFile < StringIO
   end
 
   def size
-    self.length
+    length
   end
 end

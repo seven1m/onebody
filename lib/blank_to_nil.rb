@@ -1,4 +1,4 @@
-require "active_model"
+require 'active_model'
 
 module ActiveModel::Validations::HelperMethods
   def blank_to_nil(*attrs)
