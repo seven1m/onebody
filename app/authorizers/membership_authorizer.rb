@@ -1,13 +1,12 @@
 class MembershipAuthorizer < ApplicationAuthorizer
-
-  def readable_by?(user)
+  def readable_by?(_user)
     false # TODO
   end
 
   def creatable_by?(user)
     if user.can_update?(resource.group)
       true
-    elsif resource.group and not resource.group.approval_required_to_join?
+    elsif resource.group && !resource.group.approval_required_to_join?
       true
     end
   end
@@ -17,7 +16,7 @@ class MembershipAuthorizer < ApplicationAuthorizer
     if resource.person == user
       true
     # someone in my family and I'm an adult
-    elsif resource.person.try(:family) == user.family and user.adult?
+    elsif resource.person.try(:family) == user.family && user.adult?
       true
     # group admin
     elsif resource.group.try(:admin?, user)
@@ -28,6 +27,5 @@ class MembershipAuthorizer < ApplicationAuthorizer
     end
   end
 
-  alias_method :deletable_by?, :updatable_by?
-
+  alias deletable_by? updatable_by?
 end

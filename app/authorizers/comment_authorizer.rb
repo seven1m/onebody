@@ -1,6 +1,5 @@
 class CommentAuthorizer < ApplicationAuthorizer
-
-  def readable_by?(user)
+  def readable_by?(_user)
     false # TODO
   end
 
@@ -14,6 +13,5 @@ class CommentAuthorizer < ApplicationAuthorizer
     end
   end
 
-  alias_method :deletable_by?, :updatable_by?
-
+  alias deletable_by? updatable_by?
 end

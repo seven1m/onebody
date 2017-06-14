@@ -1,9 +1,7 @@
 class AttachmentAuthorizer < ApplicationAuthorizer
   def readable_by?(user)
     # on a message I can see
-    if resource.message and user.can_read?(resource.message)
-      true
-    end
+    true if resource.message && user.can_read?(resource.message)
   end
 
   def deletable_by?(user)

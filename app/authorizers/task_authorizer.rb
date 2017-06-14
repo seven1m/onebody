@@ -1,15 +1,14 @@
 class TaskAuthorizer < ApplicationAuthorizer
-
   def readable_by?(user)
     if resource.person == user
       true
-    elsif resource.group and user.member_of?(resource.group)
+    elsif resource.group && user.member_of?(resource.group)
       true
     end
   end
 
   def creatable_by?(user)
-    if resource.group and user.member_of?(resource.group) and resource.group.has_tasks?
+    if resource.group && user.member_of?(resource.group) && resource.group.has_tasks?
       true
     end
   end
@@ -23,7 +22,7 @@ class TaskAuthorizer < ApplicationAuthorizer
     end
   end
 
-  alias_method :deletable_by?, :updatable_by?
+  alias deletable_by? updatable_by?
 
   def self.readable_for_group_by_user(group, user)
     if user.member_of?(group)
