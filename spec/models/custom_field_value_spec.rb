@@ -25,8 +25,8 @@ describe CustomFieldValue do
 
       it { should allow_value('0').for(:value) }
       it { should allow_value('1').for(:value) }
-      it { should_not allow_value('foo').for(:value) }
-      it { should_not allow_value('12/31/2016').for(:value) }
+      it { should allow_value('TRUE').for(:value) }
+      it { should allow_value('yes').for(:value) }
     end
 
     context 'date format field' do

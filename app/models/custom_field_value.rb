@@ -13,6 +13,8 @@ class CustomFieldValue < ActiveRecord::Base
     self[:value] = case field.format
                    when 'date'
                      format_date_string(v)
+                   when 'boolean'
+                     format_boolean_string(v)
                    else
                      v
                    end
@@ -55,5 +57,10 @@ class CustomFieldValue < ActiveRecord::Base
     else
       string
     end
+  end
+
+  def format_boolean_string(string)
+    return unless string.present?
+    string =~ /\A(true|yes|y|1)\z/i ? '1' : '0'
   end
 end
