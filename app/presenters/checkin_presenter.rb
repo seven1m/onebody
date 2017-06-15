@@ -22,11 +22,11 @@ class CheckinPresenter
 
   def all_attendance_records(person)
     person.attendance_records
-      .includes(:group)
-      .where(
-        group_id:        group_ids,
-        checkin_time_id: checkin_times.pluck(:id)
-      )
+          .includes(:group)
+          .where(
+            group_id:        group_ids,
+            checkin_time_id: checkin_times.pluck(:id)
+          )
   end
 
   def attendance_records(person, times = nil)
@@ -37,7 +37,7 @@ class CheckinPresenter
   end
 
   def can_choose_same?(person)
-    checkin_times.all?(&:weekday) and last_week_records(person).any?
+    checkin_times.all?(&:weekday) && last_week_records(person).any?
   end
 
   def last_week_records(person)
@@ -45,7 +45,7 @@ class CheckinPresenter
     attendance_records(person, times.map(&:to_time))
   end
 
-  def as_json(*args)
+  def as_json(*_args)
     {
       people:     people_as_json,
       times:      checkin_times.decorate.as_json,
@@ -86,10 +86,10 @@ class CheckinPresenter
 
   def group_time_for_attendance_record(record)
     group_time = GroupTime
-      .joins('left join checkin_folders on group_times.checkin_folder_id = checkin_folders.id')
-      .where(group_id: record.group_id)
-      .where('coalesce(group_times.checkin_time_id, checkin_folders.checkin_time_id) = ?', record.checkin_time_id)
-      .first
+                 .joins('left join checkin_folders on group_times.checkin_folder_id = checkin_folders.id')
+                 .where(group_id: record.group_id)
+                 .where('coalesce(group_times.checkin_time_id, checkin_folders.checkin_time_id) = ?', record.checkin_time_id)
+                 .first
     return unless group_time
     group_time.as_json.merge(
       group: {
@@ -111,12 +111,12 @@ class CheckinPresenter
 
   def checkin_times
     @checkin_times ||= CheckinTime.where(campus: @campus)
-      .where(
-        "(the_datetime is null and weekday = :today) or
-         (the_datetime between :from and :to)",
-        today: Time.current.wday,
-        from:  1.hour.ago.strftime('%Y-%m-%dT%H:%M:%S'),
-        to:    4.hours.from_now.strftime('%Y-%m-%dT%H:%M:%S')
-      )
+                                  .where(
+                                    "(the_datetime is null and weekday = :today) or
+                                     (the_datetime between :from and :to)",
+                                    today: Time.current.wday,
+                                    from:  1.hour.ago.strftime('%Y-%m-%dT%H:%M:%S'),
+                                    to:    4.hours.from_now.strftime('%Y-%m-%dT%H:%M:%S')
+                                  )
   end
 end

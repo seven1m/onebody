@@ -1,8 +1,7 @@
 class FamilyFormPresenter
-
   attr_reader :params, :people
 
-  def initialize(params={})
+  def initialize(params = {})
     @params = params
   end
 
@@ -12,7 +11,7 @@ class FamilyFormPresenter
     @family.name = @family.suggested_name
     @family.last_name = @family.suggested_last_name
     validate_params
-    if not @family.errors.any? and @family.save
+    if @family.errors.none? && @family.save
       true
     else
       build_people
@@ -38,12 +37,12 @@ class FamilyFormPresenter
     attrs = params[:family][:people_attributes]
     attrs['0'][:child] = false if attrs['0']
     attrs['1'][:child] = false if attrs['1']
-    attrs.reject! { |i, p| p[:first_name].blank? }
+    attrs.reject! { |_i, p| p[:first_name].blank? }
     (2..25).each do |i|
-      attrs[i.to_s][:child] = true if attrs[i.to_s] and attrs[i.to_s][:birthday].blank?
+      attrs[i.to_s][:child] = true if attrs[i.to_s] && attrs[i.to_s][:birthday].blank?
     end
     params[:family].permit(:barcode_id,
-                           people_attributes: [:first_name, :last_name, :birthday, :medical_notes, :child])
+                           people_attributes: %i(first_name last_name birthday medical_notes child))
   end
 
   def validate_params
@@ -66,7 +65,7 @@ class FamilyFormPresenter
 
   def shift_adults_from_people
     [].tap do |adults|
-      until adults.length >= 2 or @people.first.nil? or @people.first.child?
+      until adults.length >= 2 || @people.first.nil? || @people.first.child?
         adults << @people.shift
       end
     end

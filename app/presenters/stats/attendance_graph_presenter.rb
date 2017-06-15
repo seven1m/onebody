@@ -55,7 +55,8 @@ class Stats::AttendanceGraphPresenter
          where site_id = #{Site.current.id}
          and attended_at >= '#{@range.ago}'
          #{@checked_in ? 'and checkin_time_id is not null' : ''}
-         order by attended_at desc")
+         order by attended_at desc"
+      )
       .to_a
   end
 end

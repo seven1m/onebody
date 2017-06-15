@@ -1,5 +1,4 @@
 class BreadcrumbPresenter
-
   def initialize(params, assigns)
     @params = params
     (@controller, @action) = @params.values_at(:controller, :action)
@@ -33,30 +32,30 @@ class BreadcrumbPresenter
   private
 
   def directory_crumb
-    if (@controller == 'people' and @action != 'import') or @controller == 'families'
-      if @params[:business]
-        crumbs << ['fa fa-archive', t('nav.directory_sub.business'), search_path(business: true)]
-      else
-        crumbs << ['fa fa-archive', t('nav.directory'), search_path]
-      end
-    elsif %w(searches printable_directories).include?(@controller) and @action != 'show'
+    if (@controller == 'people' && @action != 'import') || @controller == 'families'
+      crumbs << if @params[:business]
+                  ['fa fa-archive', t('nav.directory_sub.business'), search_path(business: true)]
+                else
+                  ['fa fa-archive', t('nav.directory'), search_path]
+                end
+    elsif %w(searches printable_directories).include?(@controller) && @action != 'show'
       crumbs << ['fa fa-archive', t('nav.directory'), search_path]
     end
   end
 
   def family_crumb
-    if person and person.family and @route == 'people#show'
+    if person && person.family && @route == 'people#show'
       crumbs << ['fa fa-users', person.family.try(:name), family_path(person.family)]
     end
   end
 
   def person_crumb
-    return if a = @assigns['album'] and a.owner_type == 'Group'
+    return if (a = @assigns['album']) && a.owner_type == 'Group'
     return if @route == 'groups#index'
     return if @route == 'prayer_requests#show'
-    return if @route == 'messages#show' and group
+    return if @route == 'messages#show' && group
     return if @controller =~ /^administration\//
-    if person and @route != 'people#show'
+    if person && @route != 'people#show'
       crumbs << ['fa fa-user', person.name, person_path(person)]
     end
   end
@@ -66,7 +65,7 @@ class BreadcrumbPresenter
       p = @assigns['person'] || @assigns.values.detect do |o|
         o.respond_to?(:person) && o.person
       end.try(:person)
-      p if p and p.persisted?
+      p if p && p.persisted?
     end
   end
 
@@ -79,7 +78,7 @@ class BreadcrumbPresenter
       else
         crumbs << ['fa fa-group', group.name, group_path(group)]
       end
-    elsif @controller == 'groups' and (@action != 'index' or @params[:name] or @params[:category])
+    elsif @controller == 'groups' && (@action != 'index' || @params[:name] || @params[:category])
       crumbs << ['fa fa-group', t('nav.groups'), groups_path]
     end
   end
@@ -89,67 +88,67 @@ class BreadcrumbPresenter
       g = @assigns['group'] || @assigns.values.detect do |o|
         o.is_a?(ActiveRecord::Base) && o.respond_to?(:group) && o.group && o.group.persisted?
       end.try(:group)
-      g if g and g.persisted?
+      g if g && g.persisted?
     end
   end
 
   def album_crumb
-    if %w(albums pictures).include?(@controller) and album = @assigns['album']
+    if %w(albums pictures).include?(@controller) && (album = @assigns['album'])
       if album.owner_type == 'Group'
-        if @route == 'pictures#show'
-          crumbs << ['fa fa-camera-retro', album.name, group_album_path(album.owner_id, album)]
-        else
-          crumbs << ['fa fa-camera-retro', t('nav.albums'), group_albums_path(album.owner_id)]
-        end
+        crumbs << if @route == 'pictures#show'
+                    ['fa fa-camera-retro', album.name, group_album_path(album.owner_id, album)]
+                  else
+                    ['fa fa-camera-retro', t('nav.albums'), group_albums_path(album.owner_id)]
+                  end
       elsif album.owner_type == 'Person'
-        if @route == 'pictures#show'
-          crumbs << ['fa fa-camera-retro', album.name, person_album_path(album.owner_id, album)]
-        else
-          crumbs << ['fa fa-camera-retro', t('nav.albums'), person_albums_path(album.owner_id)]
-        end
+        crumbs << if @route == 'pictures#show'
+                    ['fa fa-camera-retro', album.name, person_album_path(album.owner_id, album)]
+                  else
+                    ['fa fa-camera-retro', t('nav.albums'), person_albums_path(album.owner_id)]
+                  end
       end
     end
   end
 
   def message_crumb
-    if @controller == 'messages' and @action != 'index' and group
+    if @controller == 'messages' && @action != 'index' && group
       crumbs << ['fa fa-envelope', t('nav.messages'), group_messages_path(group)]
     end
   end
 
   def news_crumb
-    if @controller == 'news' and @action != 'index'
+    if @controller == 'news' && @action != 'index'
       crumbs << ['fa fa-bullhorn', t('nav.news'), news_path]
     end
   end
 
   def verse_crumb
-    if @controller == 'verses' and @action != 'index'
+    if @controller == 'verses' && @action != 'index'
       crumbs << ['fa fa-book', t('nav.verses'), verses_path]
     end
   end
 
   def prayer_request_crumb
-    if @controller == 'prayer_requests' and group
+    if @controller == 'prayer_requests' && group
       crumbs << ['fa fa-heart', t('nav.prayer_requests'), group_prayer_requests_path(group)] unless @action == 'index'
     end
   end
 
   def admin_crumb
-    if @controller =~ /^administration\// or @controller == 'pages' or @controller == 'email_setups'
+    if @controller =~ /^administration\// || @controller == 'pages' || @controller == 'email_setups'
       crumbs << ['fa fa-gear', t('nav.admin'), admin_path]
     end
-    if @controller == 'administration/admins' and @assigns['admin']
+    if @controller == 'administration/admins' && @assigns['admin']
       crumbs << ['fa fa-gavel', t('nav.admin_sub.admins'), administration_admins_path]
     end
-    if @controller == 'pages' and @assigns['page']
+    if @controller == 'pages' && @assigns['page']
       crumbs << ['fa fa-file', t('nav.pages'), pages_path]
     end
-    if @controller =~ %r(^administration/checkin/(times|cards|groups|labels))
+    if @controller =~ %r{^administration/checkin/(times|cards|groups|labels)}
       crumbs << ['fa fa-check-square-o', t('nav.checkin'), administration_checkin_dashboard_path]
-      if @route == 'administration/checkin/groups#index' and @assigns['time']
+      if @route == 'administration/checkin/groups#index' && @assigns['time']
         crumbs << ['fa fa-clock-o', t('nav.checkin_sub.times'), administration_checkin_times_path]
-      elsif @route =~ %r(administration/checkin/labels#(new|edit))
+      elsif @route =~ %r{administration/checkin/labels#(new|edit)}
         crumbs << ['fa fa-tags', t('nav.checkin_sub.labels'), administration_checkin_labels_path]
       end
     end
@@ -161,10 +160,10 @@ class BreadcrumbPresenter
         folders = []
         while folder = folder.folder
           folders.unshift([
-            folders.empty? ? 'fa fa-folder-open-o' : 'fa fa-folder-o',
-            folder.name,
-            documents_path(folder_id: folder)
-          ])
+                            folders.empty? ? 'fa fa-folder-open-o' : 'fa fa-folder-o',
+                            folder.name,
+                            documents_path(folder_id: folder)
+                          ])
         end
         @crumbs << ['fa fa-files-o', 'Documents', documents_path]
         @crumbs += folders
@@ -173,13 +172,13 @@ class BreadcrumbPresenter
   end
 
   def task_crumb
-    if @controller == 'tasks' and group
+    if @controller == 'tasks' && group
       crumbs << ['fa fa-check-square', t('nav.tasks'), group_tasks_path(group)] unless @action == 'index'
     end
   end
 
   def reports_crumb
-    if @controller == 'dossier/reports' or @controller == 'custom_reports'
+    if @controller == 'dossier/reports' || @controller == 'custom_reports'
       crumbs << ['fa fa-gear', t('nav.admin'), admin_path]
       crumbs << ['fa fa-table', t('nav.report'), admin_reports_path]
     end
@@ -198,5 +197,4 @@ class BreadcrumbPresenter
   def method_missing(method, *args)
     Rails.application.routes.url_helpers.send(method, *args)
   end
-
 end
