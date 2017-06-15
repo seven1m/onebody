@@ -150,7 +150,16 @@ class ImportExecution
     family_errors = person.errors.delete(:family)
     hash = person.errors.to_h
     hash[:family] = person.family.errors.to_h if family_errors
+    hash.delete(:"custom_field_values.value")
+    hash.merge!(custom_field_errors(person))
     row.attribute_errors = hash
     row.errored = hash.any?
+  end
+
+  def custom_field_errors(person)
+    person.custom_field_values.each_with_object({}) do |field_value, hash|
+      next if field_value.errors.none?
+      hash[field_value.field.slug] = field_value.errors[:value].join('; ')
+    end
   end
 end
