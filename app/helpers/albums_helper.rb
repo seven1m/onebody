@@ -1,5 +1,5 @@
 module AlbumsHelper
-  def album_avatar_path(album, size=:tn)
+  def album_avatar_path(album, size = :tn)
     if album.try(:cover).try(:photo).try(:exists?)
       album.cover.photo.url(size)
     else
@@ -8,7 +8,7 @@ module AlbumsHelper
     end
   end
 
-  def album_avatar_tag(album, options={})
+  def album_avatar_tag(album, options = {})
     options[:class] = "avatar #{options[:size]} #{options[:class]}"
     options.reverse_merge!(size: :tn, alt: album.try(:name))
     options.reverse_merge!(data: { id: "album#{album.id}", size: options[:size] })

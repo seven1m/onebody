@@ -34,7 +34,7 @@ module MapsHelper
 
   def directory_map_data
     {
-      notice: t('maps.notice'),
+      notice: t('maps.notice')
     }
   end
 

@@ -21,7 +21,7 @@ module ActionView
         Tags::TextField.new(object_name, method, self, options).render
       end
 
-      def date_field_tag(name, value=nil, options={})
+      def date_field_tag(name, value = nil, options = {})
         value = value.to_s(:date) if value.respond_to?(:strftime)
         options[:placeholder] = date_format
         options[:class] = "#{options[:class]} date-field".strip

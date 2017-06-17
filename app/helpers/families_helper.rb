@@ -1,5 +1,5 @@
 module FamiliesHelper
-  def family_avatar_path(family, size=:tn)
+  def family_avatar_path(family, size = :tn)
     if family.try(:photo).try(:exists?)
       family.photo.url(size)
     else
@@ -8,7 +8,7 @@ module FamiliesHelper
     end
   end
 
-  def family_avatar_tag(family, options={})
+  def family_avatar_tag(family, options = {})
     options.reverse_merge!(size: :tn, alt: family.try(:name))
     options.reverse_merge!(class: "avatar #{options[:size]} #{options[:class]} fit-width")
     options.reverse_merge!(data: { id: "family#{family.id}", size: options[:size] })

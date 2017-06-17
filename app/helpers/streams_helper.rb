@@ -10,12 +10,12 @@ module StreamsHelper
   end
 
   # TODO: remove this, but fix show.xml.builder first
-  def stream_item_content(stream_item, use_code=false)
+  def stream_item_content(stream_item, use_code = false)
     if stream_item.body
       content = if stream_item.streamable_type == 'Message'
-        render_message_body(stream_item)
-      else
-        sanitize_html(auto_link(stream_item.body))
+                  render_message_body(stream_item)
+                else
+                  sanitize_html(auto_link(stream_item.body))
       end
     elsif stream_item.context.any?
       content = ''.tap do |content|
@@ -27,10 +27,10 @@ module StreamsHelper
         end
       end
     end
-    if use_code and content
-      content.gsub!(/<img([^>]+)src="(.+?)"/) do |match|
-        url = $2 && ($2 + ($2.include?('?') ? '&' : '?') + 'code=' + @logged_in.feed_code)
-        "<img#{$1}src=\"#{url}\""
+    if use_code && content
+      content.gsub!(/<img([^>]+)src="(.+?)"/) do |_match|
+        url = Regexp.last_match(2) && (Regexp.last_match(2) + (Regexp.last_match(2).include?('?') ? '&' : '?') + 'code=' + @logged_in.feed_code)
+        "<img#{Regexp.last_match(1)}src=\"#{url}\""
       end
     end
     content.try(:html_safe)
@@ -38,7 +38,7 @@ module StreamsHelper
 
   def new_stream_activity(person)
     StreamItem.shared_with(person)
-      .where('stream_items.created_at > ?', person.last_seen_stream_item.try(:created_at) || Time.now)
-      .count('distinct stream_items.id')
+              .where('stream_items.created_at > ?', person.last_seen_stream_item.try(:created_at) || Time.now)
+              .count('distinct stream_items.id')
   end
 end

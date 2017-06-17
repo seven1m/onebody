@@ -37,11 +37,11 @@ module ApplicationHelper
   end
 
   def simple_url(url, options = { www: true })
-    if options[:www]
-      regex = %r{\Ahttps?://}
-    else
-      regex = %r{\Ahttps?://(www\.)?}
-    end
+    regex = if options[:www]
+              %r{\Ahttps?://}
+            else
+              %r{\Ahttps?://(www\.)?}
+            end
     url.sub(regex, '').sub(/\/$/, '')
   end
 
@@ -78,11 +78,11 @@ module ApplicationHelper
   end
 
   def error_messages_for(form)
-    if form.respond_to?(:object)
-      obj = form.object
-    else
-      obj = form
-    end
+    obj = if form.respond_to?(:object)
+            form.object
+          else
+            form
+          end
     error_messages_for_object(obj)
   end
 
@@ -90,11 +90,11 @@ module ApplicationHelper
     return if obj.errors.empty?
     content_tag(:div, class: 'callout callout-danger form-errors') do
       content_tag(:h4, t('There_were_errors')) +
-      content_tag(:ul, class: 'list') do
-        uniq_errors(obj).map do |attribute, message|
-          content_tag(:li, message, data: { attribute: "#{obj.class.name.underscore}_#{attribute}" })
-        end.join.html_safe
-      end
+        content_tag(:ul, class: 'list') do
+          uniq_errors(obj).map do |attribute, message|
+            content_tag(:li, message, data: { attribute: "#{obj.class.name.underscore}_#{attribute}" })
+          end.join.html_safe
+        end
     end
   end
 
@@ -139,9 +139,9 @@ module ApplicationHelper
 
   def date_format
     placeholder = Setting.get(:formats, :date)
-                  .gsub(/%Y/, I18n.t('date_format.YYYY'))
-                  .gsub(/%m/, I18n.t('date_format.MM'))
-                  .gsub(/%d/, I18n.t('date_format.DD'))
+                         .gsub(/%Y/, I18n.t('date_format.YYYY'))
+                         .gsub(/%m/, I18n.t('date_format.MM'))
+                         .gsub(/%d/, I18n.t('date_format.DD'))
     placeholder unless placeholder.include?('%')
   end
 
@@ -198,9 +198,7 @@ module ApplicationHelper
       super
     else
       super.tap do |result|
-        if result =~ /"(translation missing: .*)"/
-          raise $1
-        end
+        raise Regexp.last_match(1) if result =~ /"(translation missing: .*)"/
       end
     end
   end

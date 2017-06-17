@@ -1,5 +1,4 @@
 module AdminHelper
-
   def small_group_sizes
     [
       [t('admin.settings.small_group_sharing.disable'), 0],
@@ -26,5 +25,4 @@ module AdminHelper
       [t('admin.settings.small_group_sharing.all'), 'all']
     ]
   end
-
 end

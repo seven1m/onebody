@@ -14,11 +14,11 @@ module TimelineHelper
           end
         end.join.html_safe
       end.html_safe +
-      (timeline_has_more?(stream_items) ? timeline_load_more : '')
+        (timeline_has_more?(stream_items) ? timeline_load_more : '')
     end
   end
 
-  def timeline_none(label=t('stream.none'))
+  def timeline_none(label = t('stream.none'))
     content_tag(:div, label, class: 'timeline-none')
   end
 
@@ -40,20 +40,20 @@ module TimelineHelper
 
   def timeline_load_more
     content_tag(:div, class: 'timeline-load-more') do
-      link_to(I18n.t('stream.load_more'), "?timeline_page=#{timeline_page+1}", class: 'btn btn-primary btn-xs')
+      link_to(I18n.t('stream.load_more'), "?timeline_page=#{timeline_page + 1}", class: 'btn btn-primary btn-xs')
     end +
-    content_tag(:div, '', class: 'clearfix')
+      content_tag(:div, '', class: 'clearfix')
   end
 
   def timeline_page
     (params[:timeline_page] || 1).to_i
   end
 
-  def next_timeline_path(page=nil)
+  def next_timeline_path(page = nil)
     page = timeline_page + 1
-    if params[:controller] == 'people' or params[:person_id]
+    if params[:controller] == 'people' || params[:person_id]
       person_stream_path(@person || params[:person_id], format: :json, timeline_page: page)
-    elsif params[:controller] == 'groups' or params[:group_id]
+    elsif params[:controller] == 'groups' || params[:group_id]
       group_stream_path(@group || params[:group_id], format: :json, timeline_page: page)
     else
       stream_path(format: :json, timeline_page: page)

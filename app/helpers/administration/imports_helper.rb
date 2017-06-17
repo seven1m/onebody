@@ -2,10 +2,10 @@ module Administration::ImportsHelper
   def import_status_icon(import, status)
     if import.status_at_least?(status)
       icon('fa fa-check-square text-green') +
-      ' Complete'
+        ' Complete'
     else
       icon('fa fa-square text-yellow') +
-      ' Pending'
+        ' Pending'
     end
   end
 
@@ -14,7 +14,7 @@ module Administration::ImportsHelper
   end
 
   def import_match_strategies
-    Import.match_strategies.map do |key, val|
+    Import.match_strategies.map do |key, _val|
       [
         I18n.t(key, scope: 'administration.imports.match_strategies'),
         key
@@ -52,9 +52,9 @@ module Administration::ImportsHelper
     errors.map do |attr, error|
       { name: attr, value: attrs[attr], message: error }
     end +
-    family_errors.map do |attr, error|
-      name = "family_#{attr}"
-      { name: name, value: attrs[name], message: error }
-    end
+      family_errors.map do |attr, error|
+        name = "family_#{attr}"
+        { name: name, value: attrs[name], message: error }
+      end
   end
 end

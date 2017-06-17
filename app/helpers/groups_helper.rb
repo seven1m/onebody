@@ -11,7 +11,7 @@ module GroupsHelper
     end
   end
 
-  def group_avatar_path(group, size=:tn)
+  def group_avatar_path(group, size = :tn)
     if group.try(:photo).try(:exists?)
       group.photo.url(size)
     else
@@ -20,7 +20,7 @@ module GroupsHelper
     end
   end
 
-  def group_avatar_tag(group, options={})
+  def group_avatar_tag(group, options = {})
     options.reverse_merge!(size: :tn, alt: group.try(:name))
     options.reverse_merge!(class: "avatar #{options[:size]} #{options[:class]}")
     options.reverse_merge!(data: { id: "group#{group.id}", size: options[:size] })
@@ -45,11 +45,11 @@ module GroupsHelper
     count = [@group.email?, @group.prayer?, @group.pictures?, @group.has_tasks?].count { |t| t }
     return if count == 0
     width = [12 / count, 6].min
-    if width <= 3
-      cls = "col-md-6"
-    else
-      cls = "col-md-#{width}"
-    end
+    cls = if width <= 3
+            'col-md-6'
+          else
+            "col-md-#{width}"
+          end
     content_tag(:div, class: "#{cls} print-inline-block", &block)
   end
 

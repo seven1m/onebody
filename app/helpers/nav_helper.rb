@@ -1,5 +1,4 @@
 module NavHelper
-
   def nav_links
     [].tap do |links|
       links << home_nav_link
@@ -11,34 +10,34 @@ module NavHelper
 
   def home_nav_link
     content_tag(:li) do
-      tab_link(t("nav.home"), stream_path, params[:controller] == 'streams', 'home-tab')
+      tab_link(t('nav.home'), stream_path, params[:controller] == 'streams', 'home-tab')
     end
   end
 
   def profile_nav_link
     path = @logged_in ? person_path(@logged_in) : people_path
     content_tag(:li) do
-      tab_link(t("nav.profile"), path, params[:controller] == 'people' && me?, 'profile-tab')
+      tab_link(t('nav.profile'), path, params[:controller] == 'people' && me?, 'profile-tab')
     end
   end
 
   def groups_nav_link
     content_tag(:li) do
-      tab_link(t("nav.groups"), groups_path, params[:controller] == 'groups', 'group-tab')
+      tab_link(t('nav.groups'), groups_path, params[:controller] == 'groups', 'group-tab')
     end
   end
 
   def directory_nav_link
-     content_tag(:li) do
-      tab_link(t("nav.directory"), new_search_path, %w(searches printable_directories).include?(params[:controller]), 'directory-tab')
+    content_tag(:li) do
+      tab_link(t('nav.directory'), new_search_path, %w(searches printable_directories).include?(params[:controller]), 'directory-tab')
     end
   end
 
   def common_nav_links
     [].tap do |links|
       if @logged_in
-        links << content_tag(:li, link_to(t("admin.admin"), admin_path)) if @logged_in.admin?
-        links << content_tag(:li, link_to(t("session.sign_out"), session_path, method: :delete))
+        links << content_tag(:li, link_to(t('admin.admin'), admin_path)) if @logged_in.admin?
+        links << content_tag(:li, link_to(t('session.sign_out'), session_path, method: :delete))
       end
     end.join.html_safe
   end
@@ -66,11 +65,11 @@ module NavHelper
     case params[:controller]
     when 'streams'
       :home
-    when *%w(people accounts privacies relationships)
-      :profile if @person.try(:persisted?) and (me? or @logged_in.can_update?(@person))
-    when *%w(groups tasks)
+    when 'people', 'accounts', 'privacies', 'relationships'
+      :profile if @person.try(:persisted?) && (me? || @logged_in.can_update?(@person))
+    when 'groups', 'tasks'
       :groups
-    when *%w(searches printable_directories)
+    when 'searches', 'printable_directories'
       :directory
     when /^administration\//
       :admin
@@ -83,7 +82,7 @@ module NavHelper
 
   def tab_expanded
     if tab_selected?(:groups)
-      :groups if @group and @logged_in.can_update?(@group)
+      :groups if @group && @logged_in.can_update?(@group)
     else
       tab_selected
     end

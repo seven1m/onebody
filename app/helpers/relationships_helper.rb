@@ -1,5 +1,4 @@
 module RelationshipsHelper
-
   def relationships_for_select
     options_for_select(relationship_labels)
   end
@@ -9,5 +8,4 @@ module RelationshipsHelper
       hash[:other] = hash.delete(:other_name) # OneSky doesn't like the key 'other'
     end.invert.sort
   end
-
 end

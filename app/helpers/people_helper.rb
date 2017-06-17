@@ -17,7 +17,7 @@ module PeopleHelper
     capture(&block) if show_attribute?(attribute)
   end
 
-  alias_method :attribute, :show_attribute # TODO remove this
+  alias attribute show_attribute # TODO: remove this
 
   def showing_attribute_because_admin?(attribute)
     show_attribute?(attribute) &&
@@ -48,10 +48,10 @@ module PeopleHelper
   end
 
   def has_type?(person)
-    person.elder? or person.deacon? or person.staff? or person.member? or person.custom_type.present?
+    person.elder? || person.deacon? || person.staff? || person.member? || person.custom_type.present?
   end
 
-  def avatar_path(person, size=:tn, variation=nil)
+  def avatar_path(person, size = :tn, variation = nil)
     if person.is_a?(Family)
       family_avatar_path(person, size)
     elsif person.is_a?(Group)
@@ -73,7 +73,7 @@ module PeopleHelper
     end
   end
 
-  def avatar_tag(person, options={})
+  def avatar_tag(person, options = {})
     return if person.nil?
     if person.is_a?(Family)
       family_avatar_tag(person, options)
@@ -86,19 +86,19 @@ module PeopleHelper
       options.reverse_merge!(class: "avatar #{options[:size]} #{options[:class]}")
       options.reverse_merge!(data: { id: "person#{person.id}", size: options[:size] })
       fallback_to_family = options.delete(:fallback_to_family)
-      if not person.try(:photo).try(:exists?) and fallback_to_family and person.try(:family).try(:photo).try(:exists?)
-        path = family_avatar_path(person.family)
-      else
-        path = avatar_path(person, options.delete(:size), options.delete(:variation))
-      end
+      path = if !person.try(:photo).try(:exists?) && fallback_to_family && person.try(:family).try(:photo).try(:exists?)
+               family_avatar_path(person.family)
+             else
+               avatar_path(person, options.delete(:size), options.delete(:variation))
+             end
       image_tag(path, options)
     end
   end
 
-  def link_to_person_role(person, options={})
+  def link_to_person_role(person, options = {})
     options.reverse_merge!(separator: ' ')
     roles = []
-    if Setting.get(:features, :custom_person_type) and person.custom_type.present?
+    if Setting.get(:features, :custom_person_type) && person.custom_type.present?
       roles << person.custom_type
     end
     roles += %w(elder deacon staff member).select do |role|
@@ -114,21 +114,21 @@ module PeopleHelper
   def link_to_role(role)
     link_to search_path(type: role) do
       icon('fa fa-star') + ' ' +
-      t(role, scope: 'people.roles', default: role)
+        t(role, scope: 'people.roles', default: role)
     end
   end
 
   def submit_or_save_button
-    label = if Setting.get(:features, :updates_must_be_approved) and not @logged_in.admin?(:edit_profiles)
-      t('submit_changes')
-    else
-      t('save_changes')
+    label = if Setting.get(:features, :updates_must_be_approved) && !@logged_in.admin?(:edit_profiles)
+              t('submit_changes')
+            else
+              t('save_changes')
     end
     button_tag label, class: 'btn btn-success'
   end
 
   def has_social_networks?(person)
-    person.twitter.present? or person.facebook_url.present?
+    person.twitter.present? || person.facebook_url.present?
   end
 
   def twitter_url(person)

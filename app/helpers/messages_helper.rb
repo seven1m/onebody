@@ -2,11 +2,11 @@ module MessagesHelper
   include ERB::Util
 
   def get_email_body(msg)
-    if alternative = msg.parts.detect { |p| p.content_type.downcase.split(';').first == 'multipart/alternative' } and
-      plain = alternative.parts.detect { |p| p.content_type.downcase.split(';').first == 'text/plain' }
-      return plain.body
+    if (alternative = msg.parts.detect { |p| p.content_type.downcase.split(';').first == 'multipart/alternative' }) &&
+        (plain = alternative.parts.detect { |p| p.content_type.downcase.split(';').first == 'text/plain' })
+      plain.body
     elsif plain = msg.parts.detect { |p| p.content_type.downcase.split(';').first == 'text/plain' }
-      return plain.body
+      plain.body
     else
       msg.body
     end
@@ -44,7 +44,7 @@ module MessagesHelper
 
   def remove_sensitive_links(message_body)
     # To stop email from this group:
-    #http://crccfamily.com/groups/364/memberships/25978?code=69V5ZB65iidcs3lUrgdTADX74MqOHuz2UNeVeRSb8w8r3YvZsj&amp;email=off
+    # http://crccfamily.com/groups/364/memberships/25978?code=69V5ZB65iidcs3lUrgdTADX74MqOHuz2UNeVeRSb8w8r3YvZsj&amp;email=off
     message_body.gsub(%r{https?://[^/]+/groups/\d+/memberships/\d+\?code=[^\s]+}, '')
   end
 end

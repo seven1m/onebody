@@ -1,5 +1,4 @@
 module DocumentsHelper
-
   def document_icon_class(document)
     case document.try(:file).try(:content_type)
     when /^image/
@@ -21,11 +20,10 @@ module DocumentsHelper
     end
   end
 
-  def parent_document_folder_options(folder=nil)
+  def parent_document_folder_options(folder = nil)
     DocumentFolder.where.not(id: folder.try(:id) || 0)
-      .order(:path)
-      .reject { |f| f.parent_folder_ids.include?(folder.try(:id)) }
-      .map { |f| [f.path, f.id] }
+                  .order(:path)
+                  .reject { |f| f.parent_folder_ids.include?(folder.try(:id)) }
+                  .map { |f| [f.path, f.id] }
   end
-
 end
