@@ -9,4 +9,3 @@ class GroupMembershipsUpdateJob < ActiveJob::Base
     end
   end
 end
-

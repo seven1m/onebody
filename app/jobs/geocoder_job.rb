@@ -38,8 +38,8 @@ class GeocoderJob < ActiveJob::Base
   def over_query_limit_error(model)
     @delay *= SLEEP_MULTIPLIER
     if @delay > MAX_SLEEP_TIME
-      fail GeocodingError,
-           'Over geocoder rate limit for #{model.class.name} #{model.id}. Giving up.'
+      raise GeocodingError,
+            'Over geocoder rate limit for #{model.class.name} #{model.id}. Giving up.'
     else
       Rails.logger.warn(
         "Over geocoder rate limit for #{model.class.name} #{model.id}. " \
@@ -52,9 +52,9 @@ class GeocoderJob < ActiveJob::Base
   def general_error(model, message)
     @error_count += 1
     if @error_count > MAX_FAILURE_COUNT
-      fail GeocodingError,
-           "Error geocoding for #{model.class.name} #{model.id}: #{message}. " \
-           "This is error number #{@error_count}. Giving up."
+      raise GeocodingError,
+            "Error geocoding for #{model.class.name} #{model.id}: #{message}. " \
+            "This is error number #{@error_count}. Giving up."
     else
       Rails.logger.warn(
         "Error geocoding for #{model.class.name} #{model.id}: #{message}. " \

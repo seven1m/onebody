@@ -1,8 +1,8 @@
 class ExportJob < ActiveJob::Base
   queue_as :export
 
-  TYPES = %w(csv xml)
-  CLASSES = %w(people groups)
+  TYPES = %w(csv xml).freeze
+  CLASSES = %w(people groups).freeze
 
   def perform(site, table, type, person_id)
     return unless CLASSES.include?(table)
