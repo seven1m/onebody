@@ -1,5 +1,4 @@
 class AttendanceTotalsReport < Dossier::Report
-
   include ReportsHelper
 
   def sql
@@ -25,6 +24,4 @@ class AttendanceTotalsReport < Dossier::Report
   def format_attended_at(value)
     format_date(value)
   end
-
 end
-

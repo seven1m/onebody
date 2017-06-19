@@ -22,7 +22,7 @@ class GroupContactDetailsReport < Dossier::Report
     families.city
     families.state
     families.zip
-  )
+  ).freeze
 
   def sql
     Group
@@ -59,5 +59,4 @@ class GroupContactDetailsReport < Dossier::Report
   def format_mobile_phone(value)
     format_phone(value, value)
   end
-
 end

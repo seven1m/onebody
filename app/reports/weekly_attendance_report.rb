@@ -17,10 +17,10 @@ class WeeklyAttendanceReport < Dossier::Report
   def sql
     return none unless @group
     @group.attendance_records
-      .select(:person_id, :first_name, :last_name)
-      .where("attended_at between :fromdate and :thrudate")
-      .order(:first_name, :last_name)
-      .to_sql
+          .select(:person_id, :first_name, :last_name)
+          .where('attended_at between :fromdate and :thrudate')
+          .order(:first_name, :last_name)
+          .to_sql
   end
 
   set_callback :execute, :after, :insert_non_attending
@@ -32,12 +32,11 @@ class WeeklyAttendanceReport < Dossier::Report
       rows = query_results.rows
       rows.each { |p| p << I18n.t('reports.reports.weekly_attendance.attended.yes') }
       @group.people.each do |person|
-        unless query_results.rows.detect { |r| r[0] == person.id }
-          rows << [person.id,
-                   person.first_name,
-                   person.last_name,
-                   I18n.t('reports.reports.weekly_attendance.attended.no')]
-        end
+        next if query_results.rows.detect { |r| r[0] == person.id }
+        rows << [person.id,
+                 person.first_name,
+                 person.last_name,
+                 I18n.t('reports.reports.weekly_attendance.attended.no')]
       end
       rows.sort_by! { |p| [p[1], p[2]] }
     end
@@ -60,7 +59,6 @@ class WeeklyAttendanceReport < Dossier::Report
   end
 
   def none
-    "select null from attendance_records where 1=0"
+    'select null from attendance_records where 1=0'
   end
-
 end
