@@ -1,10 +1,8 @@
-xml.instruct! :xml, version: "1.0"
-xml.feed(xmlns: "http://www.w3.org/2005/Atom") do |feed|
+xml.instruct! :xml, version: '1.0'
+xml.feed(xmlns: 'http://www.w3.org/2005/Atom') do |feed|
   feed.title "#{Setting.get(:name, :site)} News"
   feed.link news_url, href: news_url
-  if @news_items.any?
-    feed.updated @news_items.first.updated_at.xmlschema
-  end
+  feed.updated @news_items.first.updated_at.xmlschema if @news_items.any?
   @news_items.each do |news_item|
     feed.entry do |entry|
       entry.id        news_item.id
