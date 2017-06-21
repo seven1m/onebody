@@ -233,7 +233,7 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.0.0)
     mustache (1.0.3)
-    mysql2 (0.4.5)
+    mysql2 (0.4.6)
     nenv (0.3.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
