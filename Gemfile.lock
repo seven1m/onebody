@@ -161,7 +161,7 @@ GEM
       loofah (>= 2.0)
       sax-machine (>= 1.0)
     ffi (1.9.17)
-    flag_shih_tzu (0.3.16)
+    flag_shih_tzu (0.3.19)
     font-awesome-rails (4.7.0.1)
       railties (>= 3.2, < 5.1)
     formatador (0.2.5)
