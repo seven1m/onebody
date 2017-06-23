@@ -1,2 +1,0 @@
-module PrayerRequestsHelper
-end
