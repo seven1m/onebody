@@ -1,5 +1,5 @@
 class Notifier < ActionMailer::Base
-  helper :notifier, :application
+  helper :application
 
   default charset: 'UTF-8', from: ->(_) { get_from_address.to_s }
 
