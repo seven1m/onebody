@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.8'
+gem 'rails', '4.2.9'
 
 # select the appropriate gem below for your database:
 gem 'mysql2'
