@@ -53,7 +53,6 @@ class Updater
       legacy_id:            :admin,
       legacy_family_id:     :admin,
       relationships:        :admin,
-      sequence:             :admin,
       status:               :admin
     },
     family: {
