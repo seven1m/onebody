@@ -21,7 +21,8 @@ describe ImportExecution do
         'state'     => 'family_state',
         'zip'       => 'family_zip',
         'email'     => 'email',
-        'rel'       => 'relationships'
+        'rel'       => 'relationships',
+        'birthday'  => 'birthday'
       }
     )
   end
@@ -809,6 +810,28 @@ describe ImportExecution do
         it 'records the matched person and familiy' do
           expect(row.reload.person).to eq(person)
           expect(row.family).to eq(family)
+        end
+      end
+
+      context 'given a row with a birthday that cannot be parsed' do
+        let(:family) { FactoryGirl.create(:family, name: "John Jones") }
+        let!(:row) { create_row(first: 'Jimmy', last: 'Jones', fam_name: family.name, birthday: '/ /') }
+
+        before { subject.execute }
+
+        it 'creates the person' do
+          expect(row.reload.attributes).to include(
+            'created_person' => true,
+            'created_family' => false,
+            'updated_person' => false,
+            'errored'        => false
+          )
+        end
+
+        it 'sets the birthday to blank' do
+          expect(subject.attributes_for_person(row)).to include(
+            'birthday' => nil
+          )
         end
       end
     end
