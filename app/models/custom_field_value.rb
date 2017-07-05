@@ -61,6 +61,6 @@ class CustomFieldValue < ActiveRecord::Base
 
   def format_boolean_string(string)
     return unless string.present?
-    string =~ /\A(true|yes|y|1)\z/i ? '1' : '0'
+    string =~ /\A(true|t|yes|y|1)\z/i ? '1' : '0'
   end
 end

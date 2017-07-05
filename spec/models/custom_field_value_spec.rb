@@ -26,7 +26,26 @@ describe CustomFieldValue do
       it { should allow_value('0').for(:value) }
       it { should allow_value('1').for(:value) }
       it { should allow_value('TRUE').for(:value) }
+      it { should allow_value('T').for(:value) }
+      it { should allow_value('t').for(:value) }
+      it { should allow_value('FALSE').for(:value) }
+      it { should allow_value('F').for(:value) }
+      it { should allow_value('f').for(:value) }
       it { should allow_value('yes').for(:value) }
+
+      specify { subject.value = 't';    expect(subject.value).to eq('1') }
+      specify { subject.value = 'T';    expect(subject.value).to eq('1') }
+      specify { subject.value = 'true'; expect(subject.value).to eq('1') }
+      specify { subject.value = 'yes';  expect(subject.value).to eq('1') }
+      specify { subject.value = 'y';    expect(subject.value).to eq('1') }
+      specify { subject.value = '1';    expect(subject.value).to eq('1') }
+
+      specify { subject.value = 'f';     expect(subject.value).to eq('0') }
+      specify { subject.value = 'F';     expect(subject.value).to eq('0') }
+      specify { subject.value = 'false'; expect(subject.value).to eq('0') }
+      specify { subject.value = 'no';    expect(subject.value).to eq('0') }
+      specify { subject.value = 'n';     expect(subject.value).to eq('0') }
+      specify { subject.value = '0';     expect(subject.value).to eq('0') }
     end
 
     context 'date format field' do
