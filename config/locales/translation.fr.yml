@@ -2550,7 +2550,7 @@ fr:
     address: Address
     agreement_saved: Agreement saved.
     anniversary: Anniversary
-    as_a_parent_agree_html: I, as a parent or legal gaurdian of %{name}, hereby agree
+    as_a_parent_agree_html: I, as a parent or legal guardian of %{name}, hereby agree
       that I have read this site's <a href="%{url}">Privacy Policy</a>, that the personal
       information of %{name} may be displayed for other users of the web site (as
       determined by the privacy settings on this page), and that %{name} may, if able,
