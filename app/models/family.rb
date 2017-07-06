@@ -192,6 +192,11 @@ class Family < ActiveRecord::Base
     end
   end
 
+  def suggest_name?
+    s = suggested_name
+    s.present? && s != name.sub(/ and /, ' & ')
+  end
+
   def suggested_name
     if adults.count == 1
       adults.first.name

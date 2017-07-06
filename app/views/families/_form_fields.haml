@@ -4,7 +4,7 @@
   - if @family.new_record?
     .family-name-suggestion
       = t('families.edit.name_example_html')
-  - elsif @family.suggested_name and @family.suggested_name != @family.name
+  - elsif @family.suggest_name?
     .family-name-suggestion
       = t('families.edit.name_suggestion_html', name: @family.suggested_name)
       = link_to '#', class: 'btn btn-xs btn-warning family-name-suggestion-button', data: { name: @family.suggested_name } do
