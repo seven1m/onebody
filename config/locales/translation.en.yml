@@ -1616,7 +1616,8 @@ en:
               blank: The person must have a last name.
             password:
               confirmation: The passwords do not match.
-              too_short: The password is too short.
+              too_short: The password is too short. The minimum length is %{length}.
+              too_weak: The password is too weak. Please mix numbers, capitals, and/or punctuation to strengthen it.
             photo:
               too_large: The photo must be less than %{size} megabytes.
               wrong_type: The photo file type must be JPG, GIF, or PNG.

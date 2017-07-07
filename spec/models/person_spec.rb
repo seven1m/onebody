@@ -748,4 +748,86 @@ describe Person do
       end
     end
   end
+
+  describe 'validation of password length' do
+    subject { FactoryGirl.create(:person, password: '1234567890') }
+
+    before { Person.logged_in = subject }
+
+    context 'when password length setting is 10' do
+      around do |example|
+        Setting.set(:privacy, :minimum_password_characters, 10)
+        example.call
+        Setting.set(:privacy, :minimum_password_characters, 6)
+      end
+
+      it 'fails with a short password' do
+        subject.password = 'short'
+        subject.password_confirmation = 'short'
+        expect(subject).not_to be_valid
+        expect(subject.errors[:password]).to eq(
+          [
+            'The password is too short. The minimum length is 10.'
+          ]
+        )
+      end
+
+      it 'passes with a long password' do
+        subject.password = '1234567890'
+        subject.password_confirmation = '1234567890'
+        expect(subject).to be_valid
+      end
+
+      it 'passes when the password is not being set' do
+        expect(subject).to be_valid
+      end
+    end
+  end
+
+  describe 'validation of password strength' do
+    subject { FactoryGirl.create(:person, password: 'SuperSecret123!') }
+
+    before { Person.logged_in = subject }
+
+    context 'when password strength setting is on' do
+      around do |example|
+        Setting.set(:privacy, :require_strong_password, true)
+        example.call
+        Setting.set(:privacy, :require_strong_password, false)
+      end
+
+      it 'fails with a weak password' do
+        subject.password = 'veryweak'
+        subject.password_confirmation = 'veryweak'
+        expect(subject).not_to be_valid
+        expect(subject.errors[:password]).to eq(
+          [
+            'The password is too weak. Please mix numbers, capitals, and/or punctuation to strengthen it.'
+          ]
+        )
+      end
+
+      it 'passes with a strong password' do
+        subject.password = 'StrongPassword123!'
+        subject.password_confirmation = 'StrongPassword123!'
+        expect(subject).to be_valid
+      end
+
+      it 'passes when the password is not being set' do
+        expect(subject).to be_valid
+      end
+    end
+
+    context 'when password strength setting is off' do
+      before do
+        Setting.set(:privacy, :require_strong_password, false)
+      end
+
+      it 'passes with a weak password' do
+        subject.password = 'veryweak'
+        subject.password_confirmation = 'veryweak'
+        expect(subject).to be_valid
+      end
+    end
+  end
 end

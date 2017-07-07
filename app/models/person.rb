@@ -66,16 +66,16 @@ class Person < ActiveRecord::Base
 
   has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
 
+  validate :validate_password_length
+  validate :validate_password_strength
+
   validates :first_name, :last_name,
             presence: true
-  validate :validate_password_length
   validates :description,
             length: { maximum: 25 }
   validates :password,
             confirmation: true,
             if: -> { Person.logged_in }
-  validates :password, password_strength: true,
-                       if: -> { Setting.get(:privacy, :require_strong_password) }
   validates :alternate_email,
             uniqueness: { scope: %i(site_id deleted) },
             allow_nil: true,
@@ -118,8 +118,18 @@ class Person < ActiveRecord::Base
   def validate_password_length
     return unless Person.logged_in
     return if password.nil?
-    return if password.length >= Setting.get(:privacy, :minimum_password_characters).to_i
-    errors.add :password, 'Password is too short'
+    min_length = Setting.get(:privacy, :minimum_password_characters).to_i
+    return if password.length >= min_length
+    errors.add :password, I18n.t('activerecord.errors.models.person.attributes.password.too_short', length: min_length)
+  end
+
+  def validate_password_strength
+    return unless Person.logged_in
+    return unless Setting.get(:privacy, :require_strong_password)
+    return if password.nil?
+    checker = StrongPassword::StrengthChecker.new(password)
+    return if checker.is_strong?
+    errors.add :password, I18n.t('activerecord.errors.models.person.attributes.password.too_weak')
   end
 
   enum status: {
