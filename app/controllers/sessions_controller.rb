@@ -50,7 +50,7 @@ class SessionsController < ApplicationController
     if provider == 'facebook' && support_facebook_login
       env['omniauth.strategy'].options[:client_id] = Setting.get(:facebook, :app_id)
       env['omniauth.strategy'].options[:client_secret] = Setting.get(:facebook, :app_secret)
-      env['omniauth.strategy'].options[:scope] = 'email,read_stream'
+      env['omniauth.strategy'].options[:scope] = 'email,user_posts'
     end
     render text: 'Setup complete.', status: 404
   end
