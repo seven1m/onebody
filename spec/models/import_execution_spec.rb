@@ -98,6 +98,24 @@ describe ImportExecution do
           bool_field.slug    => [nil, '1']
         )
       end
+
+      context 'when a date just has slashes' do
+        let!(:row) { create_row(id: person.id, first: 'Changed', foo: 'bar', date: ' / / ', bool: '1') }
+
+        it 'treats the date as nil' do
+          expect do
+            subject.execute
+          end.to change {
+            person.reload.fields
+          }.from(
+            {}
+          ).to(
+            string_field.id => 'bar',
+            date_field.id   => nil,
+            bool_field.id   => '1'
+          )
+        end
+      end
     end
 
     context 'given dangerous attribute mappings' do

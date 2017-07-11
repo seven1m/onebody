@@ -50,6 +50,7 @@ class CustomFieldValue < ActiveRecord::Base
 
   def format_date_string(string)
     return unless string.present?
+    return if empty_date?(string)
     if string =~ DATE_FORMAT_PATTERN
       string
     elsif (date = Date.parse_in_locale(string))
@@ -57,6 +58,10 @@ class CustomFieldValue < ActiveRecord::Base
     else
       string
     end
+  end
+
+  def empty_date?(date)
+    date.to_s.gsub(%r{/|\-}, '').blank?
   end
 
   def format_boolean_string(string)

@@ -56,6 +56,11 @@ describe CustomFieldValue do
       it { should_not allow_value('foo').for(:value) }
       it { should allow_value('2016-01-01').for(:value) }
       it { should allow_value('12/31/2016').for(:value) }
+
+      specify { subject.value = ' / / '; expect(subject.value).to eq(nil) }
+      specify { subject.value = '//'; expect(subject.value).to eq(nil) }
+      specify { subject.value = ' - - '; expect(subject.value).to eq(nil) }
+      specify { subject.value = '--'; expect(subject.value).to eq(nil) }
     end
   end
 end
