@@ -10,7 +10,8 @@ module Concerns
         attrs.reverse_merge!('status' => 'active') if @import.create_as_active # TODO: allow creating as pending
         attrs['fields'] = custom_field_values_for_person(row)
         %w(birthday anniversary).each do |key|
-          attrs[key] = filter_date_formatting_errors(attrs[key]) if attrs.key? key
+          next unless attrs.key?(key)
+          attrs[key] = nil if empty_date?(attrs[key])
         end
         attrs
       end
@@ -47,8 +48,8 @@ module Concerns
         row.import_attributes_as_hash(real_attributes: true)
       end
 
-      def filter_date_formatting_errors(date)
-        date.digits_only && date
+      def empty_date?(date)
+        date.to_s.gsub(%r{/|\-}, '').blank?
       end
     end
   end

@@ -831,22 +831,19 @@ describe ImportExecution do
         end
       end
 
-      context 'given a row with a birthday that cannot be parsed' do
+      context 'given a row with a birthday that contains only slashes' do
         let(:family) { FactoryGirl.create(:family, name: "John Jones") }
         let!(:row) { create_row(first: 'Jimmy', last: 'Jones', fam_name: family.name, birthday: '/ /') }
 
         before { subject.execute }
 
-        it 'creates the person' do
+        it 'creates the person and sets the birthday to blank' do
           expect(row.reload.attributes).to include(
             'created_person' => true,
             'created_family' => false,
             'updated_person' => false,
             'errored'        => false
           )
-        end
-
-        it 'sets the birthday to blank' do
           expect(subject.attributes_for_person(row)).to include(
             'birthday' => nil
           )
