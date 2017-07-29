@@ -15,7 +15,8 @@ module EmailConfigInfo
 
   def smtp_config
     return {} unless File.exist?(email_config_path)
-    YAML.load_file(email_config_path).fetch(Rails.env.to_s, {}).fetch('smtp', {})
+    config = YAML.load_file(email_config_path)[Rails.env.to_s] || {}
+    config['smtp'] || {}
   end
 
   def email_config_path
