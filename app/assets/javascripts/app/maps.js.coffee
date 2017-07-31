@@ -37,13 +37,15 @@ if (div = $('#directory_map')).length > 0
     maxZoom: 18
   tiles.addTo(map)
   $.getJSON "/directory_maps/family_locations.json", (marker_data) ->
-    markers = new L.MarkerClusterGroup
-    for data in marker_data
-      marker = L.marker(new L.LatLng(data.latitude, data.longitude), { title: data.name })
-      marker.bindPopup('<a href="/families/' + data.id + '">' +  data.name + '</a>')
-      markers.addLayer(marker)
-    map.addLayer(markers)
-    map.fitBounds(markers, {maxZoom: 15})
+    if marker_data.length > 0
+      markers = new L.MarkerClusterGroup
+      for data in marker_data
+        console.log(data)
+        marker = L.marker(new L.LatLng(data.latitude, data.longitude), { title: data.name })
+        marker.bindPopup('<a href="/families/' + data.id + '">' +  data.name + '</a>')
+        markers.addLayer(marker)
+      map.addLayer(markers)
+      map.fitBounds(markers, {maxZoom: 15})
 
 
 
