@@ -289,7 +289,7 @@ describe GroupsController, type: :controller do
       end
 
       it 'returns unauthorized' do
-        expect(response).to be_unauthorized
+        expect(response.status).to eq(401)
       end
     end
   end
@@ -330,7 +330,7 @@ describe GroupsController, type: :controller do
       end
 
       it 'returns unauthorized' do
-        expect(response).to be_unauthorized
+        expect(response.status).to eq(401)
       end
     end
   end

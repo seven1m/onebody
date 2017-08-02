@@ -50,8 +50,8 @@ describe PagesController, type: :controller do
 
   it 'should not edit a page unless user is admin' do
     get :edit, { id: @child_page.id }, logged_in_id: @person.id
-    expect(response).to be_unauthorized
+    expect(response.status).to eq(401)
     post :update, { id: @child_page.id, page: { title: 'Test', slug: 'test', body: 'the body' } }, logged_in_id: @person.id
-    expect(response).to be_unauthorized
+    expect(response.status).to eq(401)
   end
 end

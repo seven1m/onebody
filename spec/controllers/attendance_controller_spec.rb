@@ -80,7 +80,7 @@ describe AttendanceController, type: :controller do
       end
 
       it 'renders an error message' do
-        expect(response).to be_unauthorized
+        expect(response.status).to eq(401)
       end
     end
 
@@ -215,7 +215,7 @@ describe AttendanceController, type: :controller do
       end
 
       it 'renders an error message' do
-        expect(response).to be_unauthorized
+        expect(response.status).to eq(401)
       end
     end
 
@@ -352,7 +352,7 @@ describe AttendanceController, type: :controller do
         end
 
         it 'returns unauthorized' do
-          expect(response).to be_unauthorized
+          expect(response.status).to eq(401)
           expect(response).to render_template(:signed_out)
         end
       end

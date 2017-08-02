@@ -103,15 +103,15 @@ describe PeopleController, type: :controller do
     @person.admin = Admin.create!(edit_profiles: true)
     @person.save!
     post :destroy, { id: @person.id }, logged_in_id: @person.id
-    expect(response).to be_unauthorized
+    expect(response.status).to eq(401)
     expect(@person.reload).to_not be_deleted
   end
 
   it 'should not delete a person unless admin' do
     post :destroy, { id: @person.id }, logged_in_id: @other_person.id
-    expect(response).to be_unauthorized
+    expect(response.status).to eq(401)
     post :destroy, { id: @person.id }, logged_in_id: @other_person.id
-    expect(response).to be_unauthorized
+    expect(response.status).to eq(401)
   end
 
   it 'should not show xml unless user can export data' do
@@ -131,7 +131,7 @@ describe PeopleController, type: :controller do
     @super_admin1 = FactoryGirl.create(:person, admin: Admin.create(super_admin: true))
     @super_admin2 = FactoryGirl.create(:person, admin: Admin.create(super_admin: true))
     post :destroy, { id: @super_admin1.id }, logged_in_id: @super_admin2.id
-    expect(response).to be_unauthorized
+    expect(response.status).to eq(401)
   end
 
   it 'should not error when viewing a person not in a family' do

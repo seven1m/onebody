@@ -45,7 +45,7 @@ describe MembershipsController, type: :controller do
       end
 
       it 'renders unauthorized' do
-        expect(response).to be_unauthorized
+        expect(response.status).to eq(401)
       end
     end
   end
@@ -159,7 +159,7 @@ describe MembershipsController, type: :controller do
         end
 
         it 'renders unauthorized' do
-          expect(response).to be_unauthorized
+          expect(response.status).to eq(401)
         end
       end
 
@@ -236,7 +236,7 @@ describe MembershipsController, type: :controller do
         end
 
         it 'renders unauthorized' do
-          expect(response).to be_unauthorized
+          expect(response.status).to eq(401)
         end
       end
     end

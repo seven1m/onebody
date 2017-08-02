@@ -29,6 +29,6 @@ describe CommentsController, type: :controller do
     @comment = FactoryGirl.create(:comment, person: @person)
     @other_person = FactoryGirl.create(:person)
     post :destroy, { id: @comment.id }, logged_in_id: @other_person.id
-    expect(response).to be_unauthorized
+    expect(response.status).to eq(401)
   end
 end
