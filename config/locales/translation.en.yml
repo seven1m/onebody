@@ -133,6 +133,7 @@ en:
         number: Number
         boolean: Yes/No
         date: Date
+        select: Select
     dashboard:
       heading: Admin Dashboard
       sub_title: OneBody %{version}

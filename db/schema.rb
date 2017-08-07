@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170406035130) do
+ActiveRecord::Schema.define(version: 20170807024728) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -122,6 +122,14 @@ ActiveRecord::Schema.define(version: 20170406035130) do
     t.string   "commentable_type", limit: 255
   end
 
+  create_table "custom_field_options", force: :cascade do |t|
+    t.integer  "site_id",    limit: 4,    null: false
+    t.integer  "field_id",   limit: 4,    null: false
+    t.string   "label",      limit: 1000
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
   create_table "custom_field_values", force: :cascade do |t|
     t.integer "site_id",     limit: 4
     t.integer "field_id",    limit: 4
@@ -131,12 +139,20 @@ ActiveRecord::Schema.define(version: 20170406035130) do
   end
 
   create_table "custom_fields", force: :cascade do |t|
-    t.integer  "site_id",    limit: 4
-    t.string   "name",       limit: 50
-    t.string   "format",     limit: 10
+    t.integer  "site_id",           limit: 4
+    t.string   "name",              limit: 50
+    t.string   "format",            limit: 10
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "kind",              limit: 255
+    t.string   "customizable_type", limit: 255
+    t.integer  "customizable_id",   limit: 4
+    t.text     "options",           limit: 65535
+    t.boolean  "required",                        default: false
+    t.integer  "ordering",          limit: 4
   end
+
+  add_index "custom_fields", ["kind"], name: "index_custom_fields_on_kind", using: :btree
 
   create_table "custom_reports", force: :cascade do |t|
     t.integer "site_id",  limit: 4
