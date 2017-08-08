@@ -3,8 +3,10 @@
   .form-group
     = form.label :name
     = form.text_field :name, class: 'form-control'
-  .form-group
-    = form.label :format
-    = form.select :format, options_from_i18n('admin.custom_fields.formats'), {}, class: 'form-control'
+  = react_component 'CustomFieldFormat', |
+    name_label: CustomField.human_attribute_name(:name), |
+    format_label: CustomField.human_attribute_name(:format), |
+    format_options: options_from_i18n('admin.custom_fields.formats').to_a, |
+    field: @field
   .form-group
     = form.button t('save'), class: 'btn btn-success'
