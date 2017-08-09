@@ -134,6 +134,8 @@ en:
         boolean: Yes/No
         date: Date
         select: Select
+      options:
+        heading: Options
     dashboard:
       heading: Admin Dashboard
       sub_title: OneBody %{version}
