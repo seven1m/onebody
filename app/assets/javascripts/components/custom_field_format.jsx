@@ -37,16 +37,41 @@ class CustomFieldFormat extends React.Component {
       <div>
         <label>{this.props.options_label}</label>
         {this.state.options.length == 0 ? <div><em>none</em></div> : null}
-        {this.state.options.map((option) => (
+        {this.state.options.filter((o) => o._destroy).map((option) => (
+          <div key={option.id}>
+            <input
+              type="hidden"
+              name="custom_field[custom_field_options_attributes][][id]"
+              value={option.id}
+            />
+            <input
+              type="hidden"
+              name="custom_field[custom_field_options_attributes][][_destroy]"
+              value={true}
+            />
+          </div>
+        ))}
+        {this.state.options.filter((o) => !o._destroy).map((option) => (
           <div className="form-group" key={option.id || option.fakeId}>
             <div className="input-group">
               <input
+                type="hidden"
+                name="custom_field[custom_field_options_attributes][][id]"
+                value={option.id}
+              />
+              <input
+                type="text"
                 name="custom_field[custom_field_options_attributes][][label]"
                 className="form-control"
                 value={option.label}
+                onChange={this.handleChangeOption.bind(this, option)}
               />
               <span className="input-group-btn">
-                <button type="button" className="btn btn-delete">
+                <button
+                  type="button"
+                  className="btn btn-delete"
+                  onClick={this.handleDeleteOption.bind(this, option)}
+                >
                   <i className="fa fa-trash-o"/>
                 </button>
               </span>
@@ -73,6 +98,30 @@ class CustomFieldFormat extends React.Component {
 
   handleAddOption() {
     newOptions = [].concat(this.state.options, [{ label: '', fakeId: Math.random() }])
+    this.setState({ options: newOptions })
+  }
+
+  handleChangeOption({ id, fakeId }, e) {
+    newOptions = this.state.options.map((option) => {
+      if ((option.id && option.id == id) || (option.fakeId && option.fakeId == fakeId)) {
+        return { id: option.id, fakeId: option.fakeId, label: e.target.value }
+      } else {
+        return option
+      }
+    })
+    this.setState({ options: newOptions })
+  }
+
+  handleDeleteOption({ id, fakeId }, e) {
+    newOptions = this.state.options.map((option) => {
+      if (option.id && option.id == id) {
+        return { id: option.id, _destroy: true }
+      } else if (option.fakeId && option.fakeId == fakeId) {
+        return null
+      } else {
+        return option
+      }
+    }).filter((o) => o)
     this.setState({ options: newOptions })
   }
 }

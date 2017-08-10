@@ -7,6 +7,8 @@ class CustomField < ActiveRecord::Base
   has_many :custom_field_values, foreign_key: 'field_id', dependent: :delete_all
   has_many :custom_field_options, foreign_key: 'field_id', dependent: :delete_all
 
+  accepts_nested_attributes_for :custom_field_options, allow_destroy: true
+
   def slug
     "field#{id}_#{slugged_name}"
   end

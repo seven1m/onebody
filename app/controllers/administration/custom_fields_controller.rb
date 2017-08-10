@@ -40,6 +40,10 @@ class Administration::CustomFieldsController < ApplicationController
   private
 
   def field_params
-    params.require(:custom_field).permit(:name, :format)
+    params.require(:custom_field).permit(
+      :name,
+      :format,
+      custom_field_options_attributes: %i(id label _destroy)
+    )
   end
 end
