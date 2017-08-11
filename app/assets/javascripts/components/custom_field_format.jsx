@@ -85,8 +85,8 @@ class CustomFieldFormat extends React.Component {
 
   renderNewOptionButton() {
     return (
-      <div>
-        <span className="btn btn-info" onClick={this.handleAddOption}>New</span>
+      <div className="pull-right">
+        <span className="btn btn-info" onClick={this.handleAddOption}>{this.props.new_option_label}</span>
       </div>
     )
   }

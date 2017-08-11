@@ -126,6 +126,7 @@ en:
         Add fields here to keep track of data you need.
       new:
         heading: New Custom Field
+        button: New Field
       edit:
         heading: Edit Custom Field
       formats:
@@ -136,6 +137,8 @@ en:
         select: Select
       options:
         heading: Options
+        new:
+          button: New Option
     dashboard:
       heading: Admin Dashboard
       sub_title: OneBody %{version}
