@@ -16,3 +16,5 @@
           %button{ type: 'button', class: 'btn btn-info date-picker-btn' }
             = icon 'fa fa-calendar'
         = date_field_tag name, custom_field_date_format(@person.fields[field.id]), class: 'form-control', id: dom_id(field)
+    - when 'select'
+      = select_tag name, custom_field_select_options(field), class: 'form-control', id: dom_id(field)
