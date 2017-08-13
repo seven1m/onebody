@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170807024728) do
+ActiveRecord::Schema.define(version: 20170813025629) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -123,11 +123,12 @@ ActiveRecord::Schema.define(version: 20170807024728) do
   end
 
   create_table "custom_field_options", force: :cascade do |t|
-    t.integer  "site_id",    limit: 4,    null: false
-    t.integer  "field_id",   limit: 4,    null: false
+    t.integer  "site_id",    limit: 4,                null: false
+    t.integer  "field_id",   limit: 4,                null: false
     t.string   "label",      limit: 1000
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.integer  "sequence",   limit: 4,    default: 0
   end
 
   create_table "custom_field_values", force: :cascade do |t|

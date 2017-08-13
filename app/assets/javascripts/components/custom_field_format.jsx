@@ -54,6 +54,14 @@ class CustomFieldFormat extends React.Component {
         {this.state.options.filter((o) => !o._destroy).map((option) => (
           <div className="form-group" key={option.id || option.fakeId}>
             <div className="input-group">
+              <span className="input-group-btn">
+                <button
+                  type="button"
+                  className="btn btn-default"
+                >
+                  <i className="fa fa-bars"/>
+                </button>
+              </span>
               <input
                 type="hidden"
                 name="custom_field[custom_field_options_attributes][][id]"
