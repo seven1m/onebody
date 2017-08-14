@@ -5,7 +5,7 @@ class CustomField < ActiveRecord::Base
   validates :format, inclusion: %w(string number boolean date select)
 
   has_many :custom_field_values, foreign_key: 'field_id', dependent: :delete_all
-  has_many :custom_field_options, foreign_key: 'field_id', dependent: :delete_all
+  has_many :custom_field_options, -> { order(:sequence, :id) }, foreign_key: 'field_id', dependent: :delete_all
 
   alias options custom_field_options
 

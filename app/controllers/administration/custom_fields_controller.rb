@@ -10,7 +10,7 @@ class Administration::CustomFieldsController < ApplicationController
   end
 
   def create
-    @field = CustomField.create(field_params)
+    @field = CustomField.create(field_params_massaged)
     if @field.valid?
       redirect_to action: :index
     else
@@ -24,7 +24,7 @@ class Administration::CustomFieldsController < ApplicationController
 
   def update
     @field = CustomField.find(params[:id])
-    if @field.update(field_params)
+    if @field.update(field_params_massaged)
       redirect_to action: :index
     else
       render action: :edit
@@ -45,5 +45,14 @@ class Administration::CustomFieldsController < ApplicationController
       :format,
       custom_field_options_attributes: %i(id label _destroy)
     )
+  end
+
+  def field_params_massaged
+    field_params.tap do |p|
+      p[:custom_field_options_attributes].each_with_index do |option, index|
+        option[:id] = nil if option[:id].start_with?('new')
+        option[:sequence] = index + 1
+      end
+    end
   end
 end

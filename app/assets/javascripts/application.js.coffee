@@ -14,6 +14,7 @@
 #= require_directory ./app
 #= require react
 #= require react_ujs
+#= require react-reorder
 #= require components
 
 $('[data-toggle^="#"], [data-toggle^="."]').each (i, elm) ->

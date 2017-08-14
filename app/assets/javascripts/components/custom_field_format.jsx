@@ -7,6 +7,7 @@ class CustomFieldFormat extends React.Component {
     }
     this.handleSelectFormat = this.handleSelectFormat.bind(this)
     this.handleAddOption = this.handleAddOption.bind(this)
+    this.handleReorderOption = this.handleReorderOption.bind(this)
   }
 
   render() {
@@ -51,41 +52,13 @@ class CustomFieldFormat extends React.Component {
             />
           </div>
         ))}
-        {this.state.options.filter((o) => !o._destroy).map((option) => (
-          <div className="form-group" key={option.id || option.fakeId}>
-            <div className="input-group">
-              <span className="input-group-btn">
-                <button
-                  type="button"
-                  className="btn btn-default"
-                >
-                  <i className="fa fa-bars"/>
-                </button>
-              </span>
-              <input
-                type="hidden"
-                name="custom_field[custom_field_options_attributes][][id]"
-                value={option.id}
-              />
-              <input
-                type="text"
-                name="custom_field[custom_field_options_attributes][][label]"
-                className="form-control"
-                value={option.label}
-                onChange={this.handleChangeOption.bind(this, option)}
-              />
-              <span className="input-group-btn">
-                <button
-                  type="button"
-                  className="btn btn-delete"
-                  onClick={this.handleDeleteOption.bind(this, option)}
-                >
-                  <i className="fa fa-trash-o"/>
-                </button>
-              </span>
-            </div>
-          </div>
-        ))}
+        <Reorder
+          itemKey='id'
+          lock='horizontal'
+          list={this.state.options.filter((o) => !o._destroy)}
+          template={Option}
+          callback={this.handleReorderOption}
+        />
         {this.renderNewOptionButton()}
       </div>
     )
@@ -105,32 +78,14 @@ class CustomFieldFormat extends React.Component {
   }
 
   handleAddOption() {
-    newOptions = [].concat(this.state.options, [{ label: '', fakeId: Math.random() }])
+    newOptions = [].concat(this.state.options, [{ id: 'new' + Math.random(), label: '' }])
     this.setState({ options: newOptions })
   }
 
-  handleChangeOption({ id, fakeId }, e) {
-    newOptions = this.state.options.map((option) => {
-      if ((option.id && option.id == id) || (option.fakeId && option.fakeId == fakeId)) {
-        return { id: option.id, fakeId: option.fakeId, label: e.target.value }
-      } else {
-        return option
-      }
+  handleReorderOption(_, _, _, _, options) {
+    this.setState({
+      options
     })
-    this.setState({ options: newOptions })
-  }
-
-  handleDeleteOption({ id, fakeId }, e) {
-    newOptions = this.state.options.map((option) => {
-      if (option.id && option.id == id) {
-        return { id: option.id, _destroy: true }
-      } else if (option.fakeId && option.fakeId == fakeId) {
-        return null
-      } else {
-        return option
-      }
-    }).filter((o) => o)
-    this.setState({ options: newOptions })
   }
 }
 
@@ -145,6 +100,77 @@ CustomFieldFormat.propTypes = {
   field: React.PropTypes.shape({
     format: React.PropTypes.string
   })
+}
+
+class Option extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      deleted: false
+    }
+    this.handleDelete = this.handleDelete.bind(this)
+  }
+
+  render() {
+    if (this.state.deleted) return this.renderDeleted()
+    return (
+      <div className="form-group">
+        <div className="input-group">
+          <span className="input-group-btn">
+            <button
+              type="button"
+              className="btn btn-default"
+            >
+              <i className="fa fa-bars"/>
+            </button>
+          </span>
+          <input
+            type="hidden"
+            name="custom_field[custom_field_options_attributes][][id]"
+            value={this.props.item.id}
+          />
+          <input
+            type="text"
+            name="custom_field[custom_field_options_attributes][][label]"
+            className="form-control"
+            defaultValue={this.props.item.label}
+          />
+          <span className="input-group-btn">
+            <button
+              type="button"
+              className="btn btn-delete"
+              onClick={this.handleDelete}
+            >
+              <i className="fa fa-trash-o"/>
+            </button>
+          </span>
+        </div>
+      </div>
+    )
+  }
+
+  renderDeleted() {
+    return (
+      <div>
+        <input
+          type="hidden"
+          name="custom_field[custom_field_options_attributes][][id]"
+          value={this.props.item.id}
+        />
+        <input
+          type="hidden"
+          name="custom_field[custom_field_options_attributes][][_destroy]"
+          value={true}
+        />
+      </div>
+    )
+  }
+
+  handleDelete() {
+    this.setState({
+      deleted: true
+    })
+  }
 }
 
 window.CustomFieldFormat = CustomFieldFormat
