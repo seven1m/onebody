@@ -11,11 +11,21 @@ class CustomField < ActiveRecord::Base
 
   accepts_nested_attributes_for :custom_field_options, allow_destroy: true
 
+  scope :select_fields, -> { where(format: 'select') }
+
   def slug
     "field#{id}_#{slugged_name}"
   end
 
   def slugged_name
     name.gsub(/[^a-z0-9]+/i, '')
+  end
+
+  def self.select_field_options_lookup_by_label
+    select_fields.each_with_object({}) do |f, hash|
+      hash[f.id] = f.options.each_with_object({}) do |o, h|
+        h[o.label.downcase] = o.id
+      end
+    end
   end
 end

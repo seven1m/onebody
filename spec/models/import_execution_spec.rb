@@ -54,6 +54,10 @@ describe ImportExecution do
       let(:string_field) { FactoryGirl.create(:custom_field, name: 'foo',  format: 'string') }
       let(:date_field)   { FactoryGirl.create(:custom_field, name: 'date', format: 'date') }
       let(:bool_field)   { FactoryGirl.create(:custom_field, name: 'bool', format: 'boolean') }
+      let(:select_field) { FactoryGirl.create(:custom_field, name: 'bool', format: 'select') }
+
+      let!(:select_option1) { select_field.options.create!(label: 'aaa') }
+      let!(:select_option2) { select_field.options.create!(label: 'bbb') }
 
       let(:import) do
         FactoryGirl.create(
@@ -65,13 +69,14 @@ describe ImportExecution do
             'first' => 'first_name',
             'foo'   => string_field.slug,
             'date'  => date_field.slug,
-            'bool'  => bool_field.slug
+            'bool'  => bool_field.slug,
+            'sel'   => select_field.slug
           }
         )
       end
 
       let!(:person) { FactoryGirl.create(:person) }
-      let!(:row) { create_row(id: person.id, first: 'Changed', foo: 'bar', date: '2017-01-01', bool: '1') }
+      let!(:row) { create_row(id: person.id, first: 'Changed', foo: 'bar', date: '2017-01-01', bool: '1', sel: 'Aaa') }
 
       it 'updates custom fields' do
         expect do
@@ -83,7 +88,8 @@ describe ImportExecution do
         ).to(
           string_field.id => 'bar',
           date_field.id   => '2017-01-01',
-          bool_field.id   => '1'
+          bool_field.id   => '1',
+          select_field.id => select_option1.id.to_s
         )
       end
 
@@ -95,7 +101,8 @@ describe ImportExecution do
           'first_name'       => %w(John Changed),
           string_field.slug  => [nil, 'bar'],
           date_field.slug    => [nil, '2017-01-01'],
-          bool_field.slug    => [nil, '1']
+          bool_field.slug    => [nil, '1'],
+          select_field.slug  => [nil, select_option1.id.to_s]
         )
       end
 

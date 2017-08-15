@@ -82,7 +82,8 @@ class ImportExecution
       person.attributes = attributes
       person.restore_attributes([:email]) if person.email_changed?
     end
-    person.fields = attributes['fields']
+    fields = convert_option_labels_to_ids(attributes['fields'])
+    person.fields = fields
   end
 
   def create_new_person(row)
@@ -161,5 +162,19 @@ class ImportExecution
       next if field_value.errors.none?
       hash[field_value.field.slug] = field_value.errors[:value].join('; ')
     end
+  end
+
+  def convert_option_labels_to_ids(attrs)
+    @options_lookup ||= CustomField.select_field_options_lookup_by_label
+    attrs = attrs.dup
+    attrs.each do |field_id, value|
+      next unless (options = @options_lookup[field_id])
+      if (id = options[value.downcase])
+        attrs[field_id] = id
+      else
+        attrs.delete(field_id) # unrecognized
+      end
+    end
+    attrs
   end
 end
