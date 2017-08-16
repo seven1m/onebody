@@ -1442,6 +1442,8 @@ en:
               blank: You must enter a field name.
             format:
               inclusion: You must select a valid format.
+        custom_field_value:
+          option_not_found: Option with label "%{label}" could not be found.
         document:
           attributes:
             file:

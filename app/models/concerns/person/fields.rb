@@ -5,6 +5,8 @@ module Concerns
     module Fields
       extend ActiveSupport::Concern
 
+      class LabelLookupFailure < Struct.new(:label); end
+
       included do
         has_many :custom_field_values, as: :object, inverse_of: :object, autosave: true
       end

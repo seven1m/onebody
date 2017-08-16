@@ -106,6 +106,26 @@ describe ImportExecution do
         )
       end
 
+      xcontext 'when a select field option cannot be matched' do
+        let!(:row) do
+          create_row(id: person.id, sel: 'xxx')
+        end
+
+        it 'does not update and records the error message' do
+          subject.execute
+          expect(row.reload.attributes).to include(
+            'created_person'   => false,
+            'created_family'   => false,
+            'updated_person'   => false,
+            'updated_family'   => false,
+            'errored'          => true,
+            'attribute_errors' => {
+              'custom_field_values.base' => 'Option with label "xxx" could not be found.'
+            }
+          )
+        end
+      end
+
       context 'when a date just has slashes' do
         let!(:row) { create_row(id: person.id, first: 'Changed', foo: 'bar', date: ' / / ', bool: '1') }
 
@@ -225,7 +245,7 @@ describe ImportExecution do
 
           before { subject.execute }
 
-          it 'does not update and records the erorr message' do
+          it 'does not update and records the error message' do
             expect(row.reload.attributes).to include(
               'created_person'   => false,
               'created_family'   => false,

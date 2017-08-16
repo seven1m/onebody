@@ -8,8 +8,15 @@ class CustomFieldValue < ActiveRecord::Base
   belongs_to :field, class_name: 'CustomField'
 
   validate :validate_value_format
+  validate :validate_label_lookup
+
+  attr_accessor :label_lookup_failed
 
   def value=(v)
+    if v.is_a?(Concerns::Person::Fields::LabelLookupFailure)
+      self.label_lookup_failed = v.label
+      return
+    end
     self[:value] = case field.format
                    when 'date'
                      format_date_string(v)
@@ -46,6 +53,17 @@ class CustomFieldValue < ActiveRecord::Base
   def validate_date_value_format
     return if value.blank? || value.to_s =~ DATE_FORMAT_PATTERN
     errors.add(:value, :invalid)
+  end
+
+  def validate_label_lookup
+    return unless label_lookup_failed
+    errors.add(
+      :base,
+      I18n.t(
+        'activerecord.errors.models.custom_field_value.option_not_found',
+        label: label_lookup_failed
+      )
+    )
   end
 
   def format_date_string(string)
