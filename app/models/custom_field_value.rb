@@ -58,7 +58,7 @@ class CustomFieldValue < ActiveRecord::Base
   def validate_label_lookup
     return unless label_lookup_failed
     errors.add(
-      :base,
+      :value,
       I18n.t(
         'activerecord.errors.models.custom_field_value.option_not_found',
         label: label_lookup_failed

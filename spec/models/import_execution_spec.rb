@@ -51,10 +51,10 @@ describe ImportExecution do
     end
 
     context 'given custom attributes' do
-      let(:string_field) { FactoryGirl.create(:custom_field, name: 'foo',  format: 'string') }
-      let(:date_field)   { FactoryGirl.create(:custom_field, name: 'date', format: 'date') }
-      let(:bool_field)   { FactoryGirl.create(:custom_field, name: 'bool', format: 'boolean') }
-      let(:select_field) { FactoryGirl.create(:custom_field, name: 'bool', format: 'select') }
+      let(:string_field) { FactoryGirl.create(:custom_field, name: 'foo',    format: 'string') }
+      let(:date_field)   { FactoryGirl.create(:custom_field, name: 'date',   format: 'date') }
+      let(:bool_field)   { FactoryGirl.create(:custom_field, name: 'bool',   format: 'boolean') }
+      let(:select_field) { FactoryGirl.create(:custom_field, name: 'select', format: 'select') }
 
       let!(:select_option1) { select_field.options.create!(label: 'aaa') }
       let!(:select_option2) { select_field.options.create!(label: 'bbb') }
@@ -106,7 +106,7 @@ describe ImportExecution do
         )
       end
 
-      xcontext 'when a select field option cannot be matched' do
+      context 'when a select field option cannot be matched' do
         let!(:row) do
           create_row(id: person.id, sel: 'xxx')
         end
@@ -120,7 +120,7 @@ describe ImportExecution do
             'updated_family'   => false,
             'errored'          => true,
             'attribute_errors' => {
-              'custom_field_values.base' => 'Option with label "xxx" could not be found.'
+              select_field.slug => 'Option with label "xxx" could not be found.'
             }
           )
         end
