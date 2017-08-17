@@ -106,6 +106,18 @@ describe ImportExecution do
         )
       end
 
+      context 'when only a custom field is modified' do
+        let!(:row) do
+          create_row(id: person.id, foo: 'changed')
+        end
+
+        it 'records that the person was changed' do
+          expect(row.attribute_changes).to be_nil
+          subject.execute
+          expect(row.reload.updated_person?).to eq(true)
+        end
+      end
+
       context 'when a select field option cannot be matched' do
         let!(:row) do
           create_row(id: person.id, sel: 'xxx')

@@ -65,7 +65,7 @@ class ImportExecution
     else
       create_new_family(row, person)
     end
-    row.updated_person = (person.valid? && person.changed?)
+    row.updated_person = (person.valid? && (person.changed? || person.fields_changed?))
     row.created_family = row.updated_family = false if person.invalid?
     record_errors(row, person)
     row.person = person
