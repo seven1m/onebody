@@ -5,6 +5,8 @@
     - case field.format
     - when 'string'
       = text_field_tag name, @person.fields[field.id], class: 'form-control', id: dom_id(field)
+    - when 'text'
+      = text_area_tag name, @person.fields[field.id], class: 'form-control', id: dom_id(field)
     - when 'number'
       = number_field_tag name, @person.fields[field.id], class: 'form-control', id: dom_id(field)
     - when 'boolean'

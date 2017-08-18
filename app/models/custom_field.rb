@@ -2,7 +2,7 @@ class CustomField < ActiveRecord::Base
   scope_by_site_id
 
   validates :name, presence: true
-  validates :format, inclusion: %w(string number boolean date select)
+  validates :format, inclusion: %w(string text number boolean date select)
 
   has_many :custom_field_values, foreign_key: 'field_id', dependent: :delete_all
   has_many :custom_field_options, -> { order(:sequence, :id) }, foreign_key: 'field_id', dependent: :delete_all

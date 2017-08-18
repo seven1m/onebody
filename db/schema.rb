@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170813025629) do
+ActiveRecord::Schema.define(version: 20170818032918) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -136,7 +136,7 @@ ActiveRecord::Schema.define(version: 20170813025629) do
     t.integer "field_id",    limit: 4
     t.integer "object_id",   limit: 4
     t.string  "object_type", limit: 255
-    t.string  "value",       limit: 255
+    t.text    "value",       limit: 65535
   end
 
   create_table "custom_fields", force: :cascade do |t|

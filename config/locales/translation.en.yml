@@ -131,6 +131,7 @@ en:
         heading: Edit Custom Field
       formats:
         string: Text
+        text: Multi-line Text
         number: Number
         boolean: Yes/No
         date: Date
@@ -1444,6 +1445,9 @@ en:
               inclusion: You must select a valid format.
         custom_field_value:
           option_not_found: Option with label "%{label}" could not be found.
+          attributes:
+            value:
+              too_long: The field content is too long. The maxium is 65,535 characters.
         document:
           attributes:
             file:

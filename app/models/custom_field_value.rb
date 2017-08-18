@@ -10,6 +10,8 @@ class CustomFieldValue < ActiveRecord::Base
   validate :validate_value_format
   validate :validate_label_lookup
 
+  validates :value, length: { maximum: 65_535 }
+
   attr_accessor :label_lookup_failed
 
   def value=(v)
