@@ -48,6 +48,7 @@ class Administration::CustomFieldsController < ApplicationController
   end
 
   def field_params_massaged
+    return field_params unless field_params[:custom_field_options_attributes]
     field_params.tap do |p|
       p[:custom_field_options_attributes].each_with_index do |option, index|
         option[:id] = nil if option[:id].start_with?('new')
