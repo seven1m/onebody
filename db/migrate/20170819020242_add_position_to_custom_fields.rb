@@ -1,6 +1,5 @@
 class AddPositionToCustomFields < ActiveRecord::Migration
   def up
-    remove_column :custom_fields, :ordering
     add_column :custom_fields, :position, :integer
 
     CustomField.reset_column_information
@@ -14,6 +13,5 @@ class AddPositionToCustomFields < ActiveRecord::Migration
 
   def down
     remove_column :custom_fields, :position, :integer
-    add_column :custom_fields, :ordering, :integer
   end
 end
