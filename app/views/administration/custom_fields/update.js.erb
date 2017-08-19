@@ -1,0 +1,13 @@
+<% if @field.errors.any? %>
+  alert(<%= @field.errors.full_messages.join(';').inspect %>)
+<% else %>
+  <% if @old_tab %>
+    $("#custom_field_tab_<%= @old_tab.id %>").replaceWith(
+      '<%= escape_javascript render(partial: 'tab', locals: { tab: @old_tab }) %>'
+    )
+  <% end %>
+  $("#custom_field_tab_<%= @field.tab_id %>").replaceWith(
+    '<%= escape_javascript render(partial: 'tab', locals: { tab: @field.tab }) %>'
+  )
+  setupCustomFieldSortable()
+<% end %>

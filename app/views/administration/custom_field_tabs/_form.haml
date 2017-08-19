@@ -1,0 +1,7 @@
+= form_for([:administration, @tab]) do |form|
+  = error_messages_for(form)
+  .form-group
+    = form.label :name
+    = form.text_field :name, class: 'form-control'
+  .form-group
+    = form.button t('save'), class: 'btn btn-success'

@@ -140,6 +140,11 @@ en:
         heading: Options
         new:
           button: New Option
+      none: none yet
+    custom_field_tabs:
+      new:
+        heading: New Custom Field Tab
+        button: New Section (Tab)
     dashboard:
       heading: Admin Dashboard
       sub_title: OneBody %{version}

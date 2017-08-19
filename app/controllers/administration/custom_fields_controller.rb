@@ -2,15 +2,17 @@ class Administration::CustomFieldsController < ApplicationController
   before_filter :only_admins
 
   def index
-    @fields = CustomField.order(:position)
+    @tabs = CustomFieldTab.order(:position).includes(:fields)
   end
 
   def new
-    @field = CustomField.new
+    @tab = CustomFieldTab.find(params[:tab_id])
+    @field = @tab.fields.new
   end
 
   def create
-    @field = CustomField.create(field_params_massaged)
+    @tab = CustomFieldTab.find(params[:tab_id])
+    @field = @tab.fields.create(field_params_massaged)
     if @field.valid?
       redirect_to action: :index
     else
@@ -24,10 +26,21 @@ class Administration::CustomFieldsController < ApplicationController
 
   def update
     @field = CustomField.find(params[:id])
+    @field.remove_from_list
     if @field.update(field_params_massaged)
-      redirect_to action: :index
+      if (old_tab_id = @field.previous_changes['tab_id'].try(:[], 0))
+        @old_tab = CustomFieldTab.find(old_tab_id)
+      end
+      @field.insert_at(params[:custom_field][:position].to_i) if params[:custom_field][:position]
+      respond_to do |format|
+        format.html { redirect_to action: :index }
+        format.js
+      end
     else
-      render action: :edit
+      respond_to do |format|
+        format.html { render action: :edit }
+        format.js
+      end
     end
   end
 
@@ -37,18 +50,13 @@ class Administration::CustomFieldsController < ApplicationController
     redirect_to action: :index
   end
 
-  def update_position
-    @field = CustomField.find(params[:id])
-    @field.insert_at(params[:position].to_i)
-    render nothing: true
-  end
-
   private
 
   def field_params
     params.require(:custom_field).permit(
       :name,
       :format,
+      :tab_id,
       custom_field_options_attributes: %i(id label _destroy)
     )
   end

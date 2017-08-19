@@ -3,7 +3,9 @@ class CustomField < ActiveRecord::Base
 
   validates :name, presence: true
   validates :format, inclusion: %w(string text number boolean date select)
+  validates :tab, presence: true
 
+  belongs_to :tab, class_name: 'CustomFieldTab', foreign_key: 'tab_id'
   has_many :custom_field_values, foreign_key: 'field_id', dependent: :delete_all
   has_many :custom_field_options, -> { order(:sequence, :id) }, foreign_key: 'field_id', dependent: :delete_all
 
@@ -11,9 +13,11 @@ class CustomField < ActiveRecord::Base
 
   accepts_nested_attributes_for :custom_field_options, allow_destroy: true
 
+  default_scope -> { order(:position) }
+
   scope :select_fields, -> { where(format: 'select') }
 
-  acts_as_list scope: :site
+  acts_as_list scope: :tab
 
   def slug
     "field#{id}_#{slugged_name}"

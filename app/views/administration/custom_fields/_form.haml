@@ -1,4 +1,5 @@
 = form_for([:administration, @field]) do |form|
+  = hidden_field_tag :tab_id, @field.tab_id
   = error_messages_for(form)
   .form-group
     = form.label :name
