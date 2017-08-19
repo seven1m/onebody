@@ -37,7 +37,7 @@
   .col-md-6
     %table.table.family
       %tbody.sortable
-        - @people.each_with_index do |person, person_index|
+        - @people.each do |person|
           %tr.row-with-avatar{ data: {update_position_path: update_position_family_person_path(@family, person)} }
             - if @logged_in.can_reorder?(@family)
               %td.handle
