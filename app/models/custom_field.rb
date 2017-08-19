@@ -13,6 +13,8 @@ class CustomField < ActiveRecord::Base
 
   scope :select_fields, -> { where(format: 'select') }
 
+  acts_as_list scope: :site
+
   def slug
     "field#{id}_#{slugged_name}"
   end

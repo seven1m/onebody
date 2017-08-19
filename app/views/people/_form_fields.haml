@@ -1,4 +1,4 @@
-- CustomField.all.each do |field|
+- CustomField.order(:position).each do |field|
   .form-group
     = label_tag dom_id(field), field.name
     - name = "person[fields][#{field.id}]"

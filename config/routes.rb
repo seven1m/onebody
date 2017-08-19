@@ -209,7 +209,11 @@ OneBody::Application.routes.draw do
       end
       resources :cards, :auths, :labels
     end
-    resources :custom_fields
+    resources :custom_fields do
+      member do
+        post :update_position
+      end
+    end
     resource :email_setup
   end
 

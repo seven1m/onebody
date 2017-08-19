@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170818032918) do
+ActiveRecord::Schema.define(version: 20170819020242) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
@@ -150,7 +150,7 @@ ActiveRecord::Schema.define(version: 20170818032918) do
     t.integer  "customizable_id",   limit: 4
     t.text     "options",           limit: 65535
     t.boolean  "required",                        default: false
-    t.integer  "ordering",          limit: 4
+    t.integer  "position",          limit: 4
   end
 
   add_index "custom_fields", ["kind"], name: "index_custom_fields_on_kind", using: :btree

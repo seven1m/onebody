@@ -2,7 +2,7 @@ class Administration::CustomFieldsController < ApplicationController
   before_filter :only_admins
 
   def index
-    @fields = CustomField.order(:name)
+    @fields = CustomField.order(:position)
   end
 
   def new
@@ -35,6 +35,12 @@ class Administration::CustomFieldsController < ApplicationController
     @field = CustomField.find(params[:id])
     @field.destroy
     redirect_to action: :index
+  end
+
+  def update_position
+    @field = CustomField.find(params[:id])
+    @field.insert_at(params[:position].to_i)
+    render nothing: true
   end
 
   private
