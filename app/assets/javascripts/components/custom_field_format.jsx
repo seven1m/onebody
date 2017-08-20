@@ -19,7 +19,7 @@ class CustomFieldFormat extends React.Component {
             className="form-control"
             id="custom_field_format"
             name="custom_field[format]"
-            value={this.state.format}
+            value={this.state.format || 'string'}
             onChange={this.handleSelectFormat}
           >
             {this.props.format_options.map(([name, value]) => {
