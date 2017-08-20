@@ -37,7 +37,7 @@ class CustomFieldFormat extends React.Component {
     return (
       <div>
         <label>{this.props.options_label}</label>
-        {this.state.options.length == 0 ? <div><em>none</em></div> : null}
+        {this.state.options.length == 0 ? <p><em>none</em></p> : null}
         {this.state.options.filter((o) => o._destroy).map((option) => (
           <div key={option.id}>
             <input
