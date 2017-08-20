@@ -26,7 +26,7 @@ class Administration::CustomFieldsController < ApplicationController
 
   def update
     @field = CustomField.find(params[:id])
-    @field.remove_from_list
+    @field.remove_from_list if field_params[:tab_id].present?
     if @field.update(field_params_massaged)
       if (old_tab_id = @field.previous_changes['tab_id'].try(:[], 0))
         @old_tab = CustomFieldTab.find(old_tab_id)

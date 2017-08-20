@@ -1,4 +1,6 @@
 .well{ id: dom_id(tab) }
+  .pull-right
+    = link_to t('admin.custom_field_tabs.edit.button'), edit_administration_custom_field_tab_path(tab), class: 'btn btn-info btn-sm'
   %h3= tab.name
   %table.table.custom-fields
     %thead

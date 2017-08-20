@@ -19,18 +19,23 @@ class Administration::CustomFieldTabsController < ApplicationController
   end
 
   def update
-    @field = CustomField.find(params[:id])
-    if @field.update(field_params_massaged)
-      redirect_to action: :index
+    @tab = CustomFieldTab.find(params[:id])
+    if @tab.update(tab_params)
+      redirect_to administration_custom_fields_path
     else
       render action: :edit
     end
   end
 
   def destroy
-    @field = CustomField.find(params[:id])
-    @field.destroy
-    redirect_to action: :index
+    @tab = CustomFieldTab.find(params[:id])
+    if @tab.fields.none?
+      @tab.destroy
+      redirect_to administration_custom_fields_path
+    else
+      redirect_to edit_administration_custom_field_tab_path(@tab),
+                  flash: { warning: t('admin.custom_field_tabs.delete.disabled') }
+    end
   end
 
   def update_position

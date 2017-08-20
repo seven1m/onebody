@@ -4,4 +4,9 @@
     = form.label :name
     = form.text_field :name, class: 'form-control'
   .form-group
+    - unless @tab.new_record?
+      .pull-right
+        = link_to administration_custom_field_tab_path(@tab), data: { method: 'delete', confirm: t('are_you_sure') }, class: 'btn btn-delete' do
+          = icon 'fa fa-trash-o'
+          = t('admin.custom_field_tabs.delete.button')
     = form.button t('save'), class: 'btn btn-success'

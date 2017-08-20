@@ -7,7 +7,7 @@ class CustomField < ActiveRecord::Base
 
   belongs_to :tab, class_name: 'CustomFieldTab', foreign_key: 'tab_id'
   has_many :custom_field_values, foreign_key: 'field_id', dependent: :delete_all
-  has_many :custom_field_options, -> { order(:sequence, :id) }, foreign_key: 'field_id', dependent: :delete_all
+  has_many :custom_field_options, -> { order(:sequence, :id) }, foreign_key: 'field_id', dependent: :delete_all, inverse_of: :field
 
   alias options custom_field_options
 

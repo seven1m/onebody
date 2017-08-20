@@ -145,6 +145,12 @@ en:
       new:
         heading: New Custom Field Tab
         button: New Section (Tab)
+      edit:
+        button: Edit Tab
+        heading: Edit Custom Field Tab
+      delete:
+        button: Delete Tab
+        disabled: You can only delete a tab with no fields.
     dashboard:
       heading: Admin Dashboard
       sub_title: OneBody %{version}
