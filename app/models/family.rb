@@ -198,9 +198,9 @@ class Family < ApplicationRecord
   end
 
   def suggested_name
-    if adults.count == 1
+    if adults.size == 1
       adults.first.name
-    elsif adults.count >= 2
+    elsif adults.size >= 2
       (first, second) = adults.take(2)
       if first.last_name == second.last_name
         key = 'families.name.same_last_name'
