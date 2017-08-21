@@ -9,38 +9,46 @@ describe PagesController, type: :controller do
   end
 
   it 'should show a top level page based on path' do
-    get :show_for_public, path: 'foo'
+    get :show_for_public,
+        params: { path: 'foo' }
     expect(response).to be_success
     expect(assigns(:page)).to eq(@parent_page)
   end
 
   it 'should show a child level page based on path' do
-    get :show_for_public, path: 'foo/baz'
+    get :show_for_public,
+        params: { path: 'foo/baz' }
     expect(response).to be_success
     expect(assigns(:page)).to eq(@child_page)
   end
 
   it 'should not show a page if it does not exist' do
-    get :show_for_public, path: 'foo/bar'
+    get :show_for_public,
+        params: { path: 'foo/bar' }
     expect(response).to be_redirect
   end
 
   it 'should not show a page if it is not published' do
     @parent_page.update_attribute(:published, false)
-    get :show_for_public, path: 'foo'
+    get :show_for_public,
+        params: { path: 'foo' }
     expect(response).to be_missing
   end
 
   # admin actions...
 
   it 'should show edit page form' do
-    get :edit, { id: @child_page.id }, logged_in_id: @admin.id
+    get :edit,
+        params: { id: @child_page.id },
+        session: { logged_in_id: @admin.id }
     expect(response).to be_success
     expect(assigns(:page)).to eq(@child_page)
   end
 
   it 'should update a page' do
-    post :update, { id: @child_page.id, page: { title: 'Test', slug: 'test', body: 'the body' } }, logged_in_id: @admin.id
+    post :update,
+         params: { id: @child_page.id, page: { title: 'Test', slug: 'test', body: 'the body' } },
+         session: { logged_in_id: @admin.id }
     expect(response).to redirect_to(pages_path)
     expect(flash[:notice]).to match(/saved/)
     expect(@child_page.reload.title).to eq('Test')
@@ -49,9 +57,13 @@ describe PagesController, type: :controller do
   end
 
   it 'should not edit a page unless user is admin' do
-    get :edit, { id: @child_page.id }, logged_in_id: @person.id
+    get :edit,
+        params: { id: @child_page.id },
+        session: { logged_in_id: @person.id }
     expect(response.status).to eq(401)
-    post :update, { id: @child_page.id, page: { title: 'Test', slug: 'test', body: 'the body' } }, logged_in_id: @person.id
+    post :update,
+         params: { id: @child_page.id, page: { title: 'Test', slug: 'test', body: 'the body' } },
+         session: { logged_in_id: @person.id }
     expect(response.status).to eq(401)
   end
 end

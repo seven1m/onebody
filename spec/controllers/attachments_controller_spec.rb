@@ -13,12 +13,16 @@ describe AttachmentsController, type: :controller do
   end
 
   it 'should show an attachment' do
-    get :show, { message_id: @message.id, id: @attachment.id }, logged_in_id: @person.id
+    get :show,
+        params: { message_id: @message.id, id: @attachment.id },
+        session: { logged_in_id: @person.id }
     expect(response).to be_success
   end
 
   it 'should not show an attachment unless the person can see what it is attached to' do
-    get :show, { message_id: @message.id, id: @attachment.id }, logged_in_id: @other_person.id
+    get :show,
+        params: { message_id: @message.id, id: @attachment.id },
+        session: { logged_in_id: @other_person.id }
     expect(response).to be_missing
   end
 end

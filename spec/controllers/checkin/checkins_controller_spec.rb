@@ -24,22 +24,23 @@ describe Checkin::CheckinsController, type: :controller do
     end
 
     before do
-      patch :update, {
-        people: {
-          person.id => {
-            time.id => {
-              id: group_time.id
-            }
-          },
-          'Tim Morgan' => {
-            time.id => {
-              id: group_time.id
-            }
-          }
-        }
-      },
-            barcode: '1111111111',
-            checkin_logged_in_id: user.id
+      patch :update,
+            params: {
+              people: {
+                person.id => {
+                  time.id => {
+                    id: group_time.id
+                  }
+                },
+                'Tim Morgan' => {
+                  time.id => {
+                    id: group_time.id
+                  }
+                }
+              }
+            },
+            session: { barcode: '1111111111',
+                       checkin_logged_in_id: user.id }
     end
 
     it 'creates a new attendance record for members and for guests' do

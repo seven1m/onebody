@@ -12,7 +12,7 @@ module SessionHelper
 
   def post_sign_in_form(email, password = 'secret')
     Setting.set_global('Features', 'SSL', true)
-    post '/session', email: email, password: password
+    post '/session', params: { email: email, password: password }
   end
 
   def view_profile(person)

@@ -5,7 +5,8 @@ describe Administration::SettingsController, type: :controller do
 
   describe '#index' do
     before do
-      get :index, {}, logged_in_id: admin.id
+      get :index,
+          session: { logged_in_id: admin.id }
     end
 
     render_views
@@ -20,10 +21,12 @@ describe Administration::SettingsController, type: :controller do
 
     context 'given valid settings' do
       before do
-        put :batch, {
-          'hostname'               => 'church.io',
-          suffixes_setting.id.to_s => "Jr.\r\nSr."
-        }, logged_in_id: admin.id
+        put :batch,
+            params: {
+              'hostname' => 'church.io',
+              suffixes_setting.id.to_s => "Jr.\r\nSr."
+            },
+            session: { logged_in_id: admin.id }
       end
 
       after do
@@ -42,9 +45,11 @@ describe Administration::SettingsController, type: :controller do
 
     context 'given invalid settings' do
       before do
-        put :batch, {
-          'hostname'               => 'http://www.example.com'
-        }, logged_in_id: admin.id
+        put :batch,
+            params: {
+              'hostname' => 'http://www.example.com'
+            },
+            session: { logged_in_id: admin.id }
       end
 
       after do
@@ -61,7 +66,8 @@ describe Administration::SettingsController, type: :controller do
   describe '#reload' do
     before do
       Timecop.freeze(Time.now)
-      put :reload, {}, logged_in_id: admin.id
+      put :reload,
+          session: { logged_in_id: admin.id }
     end
 
     after do
