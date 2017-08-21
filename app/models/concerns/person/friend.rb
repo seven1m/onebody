@@ -52,7 +52,7 @@ module Concerns
       end
 
       def friend?(person)
-        friends.where('friendships.friend_id' => person.id).count > 0
+        friends.where('friendships.friend_id' => person.id).exists?
       end
 
       def destroy_friendships
