@@ -39,7 +39,7 @@ class Administration::UpdatesController < ApplicationController
 
   def only_admins
     unless @logged_in.admin?(:manage_updates)
-      render text: t('only_admins'), layout: true, status: 401
+      render plain: t('only_admins'), layout: true, status: 401
       false
     end
   end

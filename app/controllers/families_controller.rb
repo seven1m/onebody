@@ -33,7 +33,7 @@ class FamiliesController < ApplicationController
       respond_to do |format|
         format.html
         format.xml  { render xml: @family.to_xml } if can_export?
-        format.json { render text: @family.to_json(except: %w(site_id)) } if can_export?
+        format.json { render plain: @family.to_json(except: %w(site_id)) } if can_export?
         format.js do
           if params[:barcode_entry]
             render :update do |page|
@@ -45,7 +45,7 @@ class FamiliesController < ApplicationController
         end
       end
     else
-      render text: t('families.not_found'), status: 404
+      render plain: t('families.not_found'), status: 404
     end
   end
 
@@ -108,7 +108,7 @@ class FamiliesController < ApplicationController
       end
       redirect_back
     else
-      render text: t('not_authorized'), layout: true, status: 401
+      render plain: t('not_authorized'), layout: true, status: 401
     end
   end
 

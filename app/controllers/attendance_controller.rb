@@ -60,7 +60,7 @@ class AttendanceController < ApplicationController
 
   def render_text(message, status = :ok)
     respond_to do |format|
-      format.html { render text: message, layout: 'signed_out', status: status }
+      format.html { render plain: message, layout: 'signed_out', status: status }
       format.json { render json: { status: status, message: message } }
     end
   end
@@ -78,7 +78,7 @@ class AttendanceController < ApplicationController
 
   def ensure_attendance_enabled_for_group
     unless @group && @group.attendance?
-      render text: t('attendance.not_enabled'), layout: true, status: :bad_request
+      render plain: t('attendance.not_enabled'), layout: true, status: :bad_request
       false
     end
   end

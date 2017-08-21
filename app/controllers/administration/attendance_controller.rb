@@ -56,7 +56,7 @@ class Administration::AttendanceController < ApplicationController
             ]
           end
         end
-        render text: csv_str
+        render plain: csv_str
       end
     end
   end
@@ -82,7 +82,7 @@ class Administration::AttendanceController < ApplicationController
 
   def only_admins
     unless @logged_in.admin?(:manage_attendance)
-      render text: t('only_admins'), layout: true, status: 401
+      render plain: t('only_admins'), layout: true, status: 401
       false
     end
   end

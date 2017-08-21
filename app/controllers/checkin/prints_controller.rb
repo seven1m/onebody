@@ -18,7 +18,7 @@ class Checkin::PrintsController < ApplicationController
 
   def feature_enabled?
     return if Setting.get(:features, :checkin)
-    render text: I18n.t('feature_unavailable'), layout: true
+    render plain: I18n.t('feature_unavailable'), layout: true
     false
   end
 end

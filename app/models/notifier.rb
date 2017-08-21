@@ -97,7 +97,7 @@ class Notifier < ActionMailer::Base
       from:    f || Site.current.noreply_email,
       subject: s
     ) do |format|
-      format.text { render text: b }
+      format.text { render plain: b }
     end
   end
 

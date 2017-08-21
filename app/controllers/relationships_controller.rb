@@ -7,7 +7,7 @@ class RelationshipsController < ApplicationController
     elsif params[:family_id]
       family_index
     else
-      render text: t('relationships.no_person_selected'), layout: true
+      render plain: t('relationships.no_person_selected'), layout: true
     end
   end
 
@@ -43,7 +43,7 @@ class RelationshipsController < ApplicationController
     elsif params[:family_id]
       create_for_family
     else
-      render text: t('relationships.no_person_selected'), layout: true
+      render plain: t('relationships.no_person_selected'), layout: true
     end
   end
 
@@ -108,7 +108,7 @@ class RelationshipsController < ApplicationController
 
   def only_admins
     unless @logged_in.admin?(:edit_profiles)
-      render text: t('only_admins'), layout: true, status: 401
+      render plain: t('only_admins'), layout: true, status: 401
       false
     end
   end

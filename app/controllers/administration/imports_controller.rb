@@ -111,7 +111,7 @@ class Administration::ImportsController < ApplicationController
 
   def only_admins
     return if @logged_in.admin?(:import_data)
-    render text: t('only_admins'), layout: true, status: 401
+    render plain: t('only_admins'), layout: true, status: 401
     false
   end
 

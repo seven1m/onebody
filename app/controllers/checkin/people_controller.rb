@@ -11,7 +11,7 @@ class Checkin::PeopleController < ApplicationController
         @people = []
       end
     else
-      render text: 'missing param', status: 400
+      render plain: 'missing param', status: 400
     end
     @people += Relationship.where("related_id in (?) and other_name like '%Check-in Person%'", @people.map(&:id)).map(&:person).uniq if @people.any?
     respond_to do |format|
@@ -28,7 +28,7 @@ class Checkin::PeopleController < ApplicationController
             'groups_updated_at' => GroupTime.order('updated_at').last.updated_at
           }
         }.to_json
-        render text: json
+        render plain: json
       end
     end
   end

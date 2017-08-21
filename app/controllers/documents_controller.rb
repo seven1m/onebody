@@ -154,7 +154,7 @@ class DocumentsController < ApplicationController
 
   def ensure_admin
     return if @logged_in.admin?(:manage_documents)
-    render text: t('not_authorized'), layout: true
+    render plain: t('not_authorized'), layout: true
     false
   end
 

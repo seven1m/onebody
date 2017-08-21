@@ -52,7 +52,7 @@ class SessionsController < ApplicationController
       env['omniauth.strategy'].options[:client_secret] = Setting.get(:facebook, :app_secret)
       env['omniauth.strategy'].options[:scope] = 'email,user_posts'
     end
-    render text: 'Setup complete.', status: 404
+    render plain: 'Setup complete.', status: 404
   end
 
   private

@@ -30,7 +30,7 @@ class SetupsController < ApplicationController
 
   def check_setup_requirements
     if Person.exists?
-      render text: t('not_authorized'), layout: true
+      render html: t('not_authorized'), layout: true
       false
     end
   end

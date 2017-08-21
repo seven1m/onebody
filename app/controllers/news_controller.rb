@@ -11,7 +11,7 @@ class NewsController < ApplicationController
           if the_url = Setting.get(:url, :news)
             redirect_to the_url
           else
-            render text: t('feature_unavailable')
+            render plain: t('feature_unavailable')
           end
         end
       end
@@ -23,7 +23,7 @@ class NewsController < ApplicationController
           if the_url = Setting.get(:url, :news)
             redirect_to the_url
           else
-            render text: t('feature_unavailable')
+            render plain: t('feature_unavailable')
           end
         end
       end
@@ -42,7 +42,7 @@ class NewsController < ApplicationController
           if the_url = Setting.get(:url, :news)
             redirect_to the_url
           else
-            render text: t('feature_unavailable')
+            render plain: t('feature_unavailable')
           end
         end
       end
@@ -53,7 +53,7 @@ class NewsController < ApplicationController
     if @logged_in.admin?(:manage_news) || Setting.get(:features, :news_by_users)
       @news_item = NewsItem.new
     else
-      render text: t('not_authorized'), layout: true, status: 401
+      render plain: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -75,14 +75,14 @@ class NewsController < ApplicationController
         end
       end
     else
-      render text: t('not_authorized'), layout: true, status: 401
+      render plain: t('not_authorized'), layout: true, status: 401
     end
   end
 
   def edit
     @news_item = NewsItem.find(params[:id])
     unless @logged_in.can_update?(@news_item)
-      render text: t('not_authorized'), layout: true, status: 401
+      render plain: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -99,7 +99,7 @@ class NewsController < ApplicationController
         end
       end
     else
-      render text: t('not_authorized'), layout: true, status: 401
+      render plain: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -111,7 +111,7 @@ class NewsController < ApplicationController
         format.html { flash[:notice] = t('news.deleted'); redirect_to news_path }
       end
     else
-      render text: t('not_authorized'), layout: true, status: 401
+      render plain: t('not_authorized'), layout: true, status: 401
     end
   end
 

@@ -8,7 +8,7 @@ class TasksController < ApplicationController
     elsif @logged_in.member_of?(@group)
       @tasks = tasks.order(completed: :asc, duedate: :asc).page(params[:page])
     else
-      render text: t('not_authorized'), layout: true, status: :forbidden
+      render plain: t('not_authorized'), layout: true, status: :forbidden
     end
   end
 
@@ -44,7 +44,7 @@ class TasksController < ApplicationController
       flash[:notice] = t('tasks.deleted')
       redirect_back
     else
-      render text: t('not_authorized'), layout: true, status: 401
+      render plain: t('not_authorized'), layout: true, status: 401
     end
   end
 

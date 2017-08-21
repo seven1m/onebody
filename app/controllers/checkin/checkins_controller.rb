@@ -58,7 +58,7 @@ class Checkin::CheckinsController < ApplicationController
 
   def feature_enabled?
     unless Setting.get(:features, :checkin)
-      render text: 'This feature is unavailable.', layout: true
+      render plain: 'This feature is unavailable.', layout: true
       false
     end
   end

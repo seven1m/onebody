@@ -4,7 +4,7 @@ class PrivaciesController < ApplicationController
   def edit
     @children = @family.people.undeleted.children
     unless @logged_in.can_update?(@family)
-      render text: t('not_authorized'), layout: true, status: 401
+      render plain: t('not_authorized'), layout: true, status: 401
       return
     end
     flash[:warning] = t('privacies.family_hidden') unless @family.visible?
@@ -39,7 +39,7 @@ class PrivaciesController < ApplicationController
       end
       redirect_to @person
     else
-      render text: t('not_authorized'), layout: true, status: 401
+      render plain: t('not_authorized'), layout: true, status: 401
     end
   end
 

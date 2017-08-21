@@ -14,10 +14,10 @@ class PagesController < ApplicationController
       if @page.published?
         render action: 'show', layout: 'signed_out'
       else
-        render text: t('pages.not_found'), status: 404
+        render plain: t('pages.not_found'), status: 404
       end
     else
-      render text: t('pages.not_found'), status: 404
+      render plain: t('pages.not_found'), status: 404
     end
   end
 
@@ -31,7 +31,7 @@ class PagesController < ApplicationController
   def edit
     @page = Page.find(params[:id])
     unless @logged_in.can_update?(@page)
-      render text: t('not_authorized'), layout: true, status: 401
+      render plain: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -45,7 +45,7 @@ class PagesController < ApplicationController
         render action: 'edit'
       end
     else
-      render text: t('not_authorized'), layout: true, status: 401
+      render plain: t('not_authorized'), layout: true, status: 401
     end
   end
 

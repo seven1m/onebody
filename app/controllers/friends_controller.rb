@@ -7,7 +7,7 @@ class FriendsController < ApplicationController
       @pending = me? ? @person.pending_friendship_requests : []
       @friendships = @person.friendships.to_a.select { |f| f.friend && @logged_in.can_read?(f.friend) }
     else
-      render text: t('people.not_found'), layout: true, status: 404
+      render plain: t('people.not_found'), layout: true, status: 404
     end
   end
 
@@ -35,7 +35,7 @@ class FriendsController < ApplicationController
       flash[:notice] = t('people.friendship_rejected')
       redirect_to person_friends_path(@person)
     else
-      render text: t('people.friendship_must_specify'), layout: true, status: 500
+      render plain: t('people.friendship_must_specify'), layout: true, status: 500
     end
   end
 
@@ -46,7 +46,7 @@ class FriendsController < ApplicationController
       @friendship.destroy
       redirect_to person_friends_path(@person)
     else
-      render text: t('people.friend_not_found'), layout: true, status: 404
+      render plain: t('people.friend_not_found'), layout: true, status: 404
     end
   end
 
@@ -64,7 +64,7 @@ class FriendsController < ApplicationController
 
   def person_must_be_user
     unless @logged_in.id == params[:person_id].to_i
-      render text: t('people.friendship_manage'), layout: true, status: 401
+      render plain: t('people.friendship_manage'), layout: true, status: 401
       false
     end
   end
