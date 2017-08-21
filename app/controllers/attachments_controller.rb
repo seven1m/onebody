@@ -1,5 +1,5 @@
 class AttachmentsController < ApplicationController
-  skip_before_filter :authenticate_user, only: %w(get)
+  skip_before_action :authenticate_user, only: %w(get)
 
   def show
     @attachment = Attachment.find(params[:id])

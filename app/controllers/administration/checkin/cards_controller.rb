@@ -1,5 +1,5 @@
 class Administration::Checkin::CardsController < ApplicationController
-  before_filter :only_admins
+  before_action :only_admins
 
   VALID_SORT_COLS = ['id', 'legacy_id', 'last_name,name', 'barcode_id', 'barcode_assigned_at desc'].freeze
 

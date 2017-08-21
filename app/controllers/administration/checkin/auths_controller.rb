@@ -1,5 +1,5 @@
 class Administration::Checkin::AuthsController < ApplicationController
-  before_filter :only_admins
+  before_action :only_admins
 
   def index
     unless params[:group_id] && params[:code]

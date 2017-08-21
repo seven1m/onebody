@@ -1,5 +1,5 @@
 class FriendsController < ApplicationController
-  before_filter :person_must_be_user, except: %w(index)
+  before_action :person_must_be_user, except: %w(index)
 
   def index
     @person = Person.find(params[:person_id])

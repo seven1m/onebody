@@ -1,6 +1,6 @@
 class NewsController < ApplicationController
-  skip_before_filter :authenticate_user, only: %w(index)
-  before_filter :authenticate_user_with_code_or_session, only: %w(index)
+  skip_before_action :authenticate_user, only: %w(index)
+  before_action :authenticate_user_with_code_or_session, only: %w(index)
 
   def index
     respond_to do |format|

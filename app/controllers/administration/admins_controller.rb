@@ -1,5 +1,5 @@
 class Administration::AdminsController < ApplicationController
-  before_filter :only_admins
+  before_action :only_admins
 
   def index
     if params[:groups]

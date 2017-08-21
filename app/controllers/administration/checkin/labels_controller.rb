@@ -1,5 +1,5 @@
 class Administration::Checkin::LabelsController < ApplicationController
-  before_filter :only_admins
+  before_action :only_admins
 
   def index
     @labels = CheckinLabel.order(:name)

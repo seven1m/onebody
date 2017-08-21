@@ -1,5 +1,5 @@
 class Administration::DeletedPeopleController < ApplicationController
-  before_filter :only_admins
+  before_action :only_admins
 
   VALID_SORT_COLS = [
     'people.id',

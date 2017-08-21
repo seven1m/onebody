@@ -1,6 +1,6 @@
 class StreamsController < ApplicationController
-  skip_before_filter :authenticate_user, only: %w(show)
-  before_filter :authenticate_user_with_code_or_session, only: %w(show)
+  skip_before_action :authenticate_user, only: %w(show)
+  before_action :authenticate_user_with_code_or_session, only: %w(show)
 
   include TimelineHelper
 

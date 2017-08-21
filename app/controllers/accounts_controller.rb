@@ -1,5 +1,5 @@
 class AccountsController < ApplicationController
-  skip_before_filter :authenticate_user, except: %w(edit update)
+  skip_before_action :authenticate_user, except: %w(edit update)
 
   load_and_authorize_parent :person, permit: :edit, only: %w(edit update)
 

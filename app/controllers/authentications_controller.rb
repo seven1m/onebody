@@ -1,5 +1,5 @@
 class AuthenticationsController < ApplicationController
-  before_filter :only_admins
+  before_action :only_admins
 
   def create
     if person = Person.authenticate(params[:authentication][:email], params[:authentication][:password])

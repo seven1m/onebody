@@ -2,7 +2,7 @@ class SearchesController < ApplicationController
   MAX_SELECT_PEOPLE = 10
   MAX_SELECT_FAMILIES = 10
 
-  before_filter :get_family, if: -> { params[:family_id] }
+  before_action :get_family, if: -> { params[:family_id] }
 
   def show
     create

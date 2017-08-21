@@ -1,9 +1,9 @@
 class PagesController < ApplicationController
-  skip_before_filter :authenticate_user, only: %w(show_for_public)
-  skip_before_filter :feature_enabled?
-  before_filter :get_path
-  before_filter :get_page, :get_user, only: %w(show_for_public)
-  before_filter :feature_enabled?, only: %w(show_for_public) # must follow get_page
+  skip_before_action :authenticate_user, only: %w(show_for_public)
+  skip_before_action :feature_enabled?
+  before_action :get_path
+  before_action :get_page, :get_user, only: %w(show_for_public)
+  before_action :feature_enabled?, only: %w(show_for_public) # must follow get_page
 
   def index
     @pages = Page.where(system: true, published: true).order(:title)

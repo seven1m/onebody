@@ -1,5 +1,5 @@
 class Administration::Checkin::GroupsController < ApplicationController
-  before_filter :only_admins
+  before_action :only_admins
 
   def index
     @time = CheckinTime.find(params[:time_id]).decorate

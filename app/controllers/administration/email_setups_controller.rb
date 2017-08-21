@@ -1,5 +1,5 @@
 class Administration::EmailSetupsController < ApplicationController
-  before_filter :only_admins
+  before_action :only_admins
 
   def show
     if OneBody.email_configured?

@@ -1,5 +1,5 @@
 class Administration::Checkin::TimesController < ApplicationController
-  before_filter :only_admins
+  before_action :only_admins
 
   def index
     @recurring_times = CheckinTime.recurring.order(:weekday, :time)

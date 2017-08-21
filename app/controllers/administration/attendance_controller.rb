@@ -1,5 +1,5 @@
 class Administration::AttendanceController < ApplicationController
-  before_filter :only_admins
+  before_action :only_admins
 
   VALID_SORT_COLS = %w(
     attendance_records.last_name

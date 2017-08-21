@@ -1,5 +1,5 @@
 class Administration::Checkin::DashboardsController < ApplicationController
-  before_filter :only_admins
+  before_action :only_admins
 
   def show
   end

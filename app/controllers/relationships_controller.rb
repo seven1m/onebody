@@ -1,5 +1,5 @@
 class RelationshipsController < ApplicationController
-  before_filter :only_admins
+  before_action :only_admins
 
   def index
     if params[:person_id]

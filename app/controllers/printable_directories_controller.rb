@@ -1,5 +1,5 @@
 class PrintableDirectoriesController < ApplicationController
-  before_filter :check_access
+  before_action :check_access
 
   def index
     redirect_to action: :new

@@ -6,7 +6,7 @@ class PhotosController < ApplicationController
     'group_id'   => Group
   }.freeze
 
-  before_filter :get_object
+  before_action :get_object
 
   def update
     if @logged_in.can_update?(@object)

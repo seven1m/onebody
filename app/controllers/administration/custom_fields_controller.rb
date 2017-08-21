@@ -1,5 +1,5 @@
 class Administration::CustomFieldsController < ApplicationController
-  before_filter :only_admins
+  before_action :only_admins
 
   def index
     @tabs = CustomFieldTab.order(:position).includes(:fields)

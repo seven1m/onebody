@@ -1,5 +1,5 @@
 class Administration::UpdatesController < ApplicationController
-  before_filter :only_admins
+  before_action :only_admins
 
   def index
     @updates = toggle(Update).order('created_at desc').page(params[:page])

@@ -3,8 +3,8 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_authenticity_token, if: -> { logged_in_from_api_key? }
 
   # these are prepended so they happen before verify_authenticity_token
-  prepend_before_filter :authenticate_user_with_api_key
-  prepend_before_filter :get_site
+  prepend_before_action :authenticate_user_with_api_key
+  prepend_before_action :get_site
 
   include LoadAndAuthorizeResource
 

@@ -1,5 +1,5 @@
 class Administration::MembershipRequestsController < ApplicationController
-  before_filter :only_admins
+  before_action :only_admins
 
   def index
     @reqs_by_group = MembershipRequest.all.to_a.group_by(&:group)
