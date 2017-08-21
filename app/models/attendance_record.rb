@@ -1,4 +1,4 @@
-class AttendanceRecord < ActiveRecord::Base
+class AttendanceRecord < ApplicationRecord
   belongs_to :person
   belongs_to :group
   belongs_to :site

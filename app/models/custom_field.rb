@@ -1,4 +1,4 @@
-class CustomField < ActiveRecord::Base
+class CustomField < ApplicationRecord
   scope_by_site_id
 
   validates :name, presence: true

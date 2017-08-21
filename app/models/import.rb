@@ -1,4 +1,4 @@
-class Import < ActiveRecord::Base
+class Import < ApplicationRecord
   belongs_to :person
   has_many :rows, class_name: 'ImportRow', dependent: :delete_all
 

@@ -1,4 +1,4 @@
-class NewsItem < ActiveRecord::Base
+class NewsItem < ApplicationRecord
   include Authority::Abilities
   self.authorizer_name = 'NewsItemAuthorizer'
 

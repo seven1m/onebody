@@ -1,4 +1,4 @@
-class Picture < ActiveRecord::Base
+class Picture < ApplicationRecord
   include Authority::Abilities
   include Concerns::Ability
   self.authorizer_name = 'PictureAuthorizer'

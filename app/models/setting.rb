@@ -1,4 +1,4 @@
-class Setting < ActiveRecord::Base
+class Setting < ApplicationRecord
   GLOBAL_SETTINGS = [
     'Contact.Bug Notification Email', 'Features.Multisite', 'Features.SSL'
   ].freeze

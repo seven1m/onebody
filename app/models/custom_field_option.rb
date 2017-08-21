@@ -1,4 +1,4 @@
-class CustomFieldOption < ActiveRecord::Base
+class CustomFieldOption < ApplicationRecord
   scope_by_site_id
 
   validates :label, :field, presence: true

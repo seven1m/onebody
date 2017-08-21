@@ -1,4 +1,4 @@
-class Task < ActiveRecord::Base
+class Task < ApplicationRecord
   include Authority::Abilities
   self.authorizer_name = 'TaskAuthorizer'
 

@@ -1,4 +1,4 @@
-class Membership < ActiveRecord::Base
+class Membership < ApplicationRecord
   include Authority::Abilities
   self.authorizer_name = 'MembershipAuthorizer'
 

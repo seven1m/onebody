@@ -1,4 +1,4 @@
-class PrayerRequest < ActiveRecord::Base
+class PrayerRequest < ApplicationRecord
   include Authority::Abilities
   self.authorizer_name = 'PrayerRequestAuthorizer'
 

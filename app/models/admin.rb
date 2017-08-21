@@ -1,4 +1,4 @@
-class Admin < ActiveRecord::Base
+class Admin < ApplicationRecord
   has_many :people, dependent: :nullify
   # only admin templates have more than one
   def person

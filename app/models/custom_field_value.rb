@@ -1,4 +1,4 @@
-class CustomFieldValue < ActiveRecord::Base
+class CustomFieldValue < ApplicationRecord
   DATE_FORMAT_PATTERN = /\A\d{4}\-\d{2}\-\d{2}\z/
   DATE_FORMAT = '%Y-%m-%d'.freeze
 

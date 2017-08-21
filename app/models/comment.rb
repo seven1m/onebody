@@ -1,4 +1,4 @@
-class Comment < ActiveRecord::Base
+class Comment < ApplicationRecord
   include Authority::Abilities
   self.authorizer_name = 'CommentAuthorizer'
 

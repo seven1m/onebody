@@ -1,2 +1,2 @@
-class ProcessedMessage < ActiveRecord::Base
+class ProcessedMessage < ApplicationRecord
 end

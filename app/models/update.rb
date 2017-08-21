@@ -1,4 +1,4 @@
-class Update < ActiveRecord::Base
+class Update < ApplicationRecord
   belongs_to :person
   belongs_to :site
 

@@ -1,4 +1,4 @@
-class CheckinTime < ActiveRecord::Base
+class CheckinTime < ApplicationRecord
   include Concerns::Reorder
 
   has_many :group_times, -> { order('group_times.sequence, group_times.id') }, dependent: :destroy

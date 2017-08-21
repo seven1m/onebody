@@ -1,4 +1,4 @@
-class Family < ActiveRecord::Base
+class Family < ApplicationRecord
   include Authority::Abilities
   self.authorizer_name = 'FamilyAuthorizer'
 

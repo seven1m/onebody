@@ -1,4 +1,4 @@
-class Page < ActiveRecord::Base
+class Page < ApplicationRecord
   include Authority::Abilities
   self.authorizer_name = 'PageAuthorizer'
 

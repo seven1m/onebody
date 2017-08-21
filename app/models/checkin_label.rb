@@ -1,4 +1,4 @@
-class CheckinLabel < ActiveRecord::Base
+class CheckinLabel < ApplicationRecord
   class InvalidCheckinLabelPath < StandardError; end
 
   scope_by_site_id

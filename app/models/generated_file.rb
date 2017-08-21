@@ -1,4 +1,4 @@
-class GeneratedFile < ActiveRecord::Base
+class GeneratedFile < ApplicationRecord
   MAX_WAIT_SECONDS = 1800 # 30 minutes
 
   belongs_to :person

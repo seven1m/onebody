@@ -1,4 +1,4 @@
-class Site < ActiveRecord::Base
+class Site < ApplicationRecord
   has_many :settings, dependent: :delete_all
   has_one :stream_item, as: :streamable
 

@@ -1,4 +1,4 @@
-class MembershipRequest < ActiveRecord::Base
+class MembershipRequest < ApplicationRecord
   belongs_to :person
   belongs_to :group
   belongs_to :site

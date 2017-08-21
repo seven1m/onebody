@@ -1,4 +1,4 @@
-class StreamItem < ActiveRecord::Base
+class StreamItem < ApplicationRecord
   belongs_to :person
   belongs_to :site
   belongs_to :group

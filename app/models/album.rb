@@ -1,4 +1,4 @@
-class Album < ActiveRecord::Base
+class Album < ApplicationRecord
   include Authority::Abilities
   include Concerns::Ability
   self.authorizer_name = 'AlbumAuthorizer'

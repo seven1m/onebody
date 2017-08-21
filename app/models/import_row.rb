@@ -1,4 +1,4 @@
-class ImportRow < ActiveRecord::Base
+class ImportRow < ApplicationRecord
   belongs_to :import, touch: true
   belongs_to :person
   belongs_to :family

@@ -1,4 +1,4 @@
-class CustomFieldTab < ActiveRecord::Base
+class CustomFieldTab < ApplicationRecord
   scope_by_site_id
 
   has_many :fields, class_name: 'CustomField', foreign_key: 'tab_id'

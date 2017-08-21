@@ -1,7 +1,7 @@
 require 'tempfile'
 require 'stringio'
 
-class Document < ActiveRecord::Base
+class Document < ApplicationRecord
   include Authority::Abilities
   self.authorizer_name = 'DocumentAuthorizer'
 

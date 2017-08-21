@@ -1,4 +1,4 @@
-class CheckinFolder < ActiveRecord::Base
+class CheckinFolder < ApplicationRecord
   include Concerns::Reorder
 
   belongs_to :checkin_time

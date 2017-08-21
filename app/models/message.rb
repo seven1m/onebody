@@ -1,7 +1,7 @@
 require 'uri'
 require 'digest/md5'
 
-class Message < ActiveRecord::Base
+class Message < ApplicationRecord
   include Authority::Abilities
   self.authorizer_name = 'MessageAuthorizer'
 

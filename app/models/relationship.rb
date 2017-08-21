@@ -1,4 +1,4 @@
-class Relationship < ActiveRecord::Base
+class Relationship < ApplicationRecord
   belongs_to :person
   belongs_to :related, foreign_key: 'related_id', class_name: 'Person'
 

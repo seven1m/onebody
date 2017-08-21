@@ -1,4 +1,4 @@
-class Attachment < ActiveRecord::Base
+class Attachment < ApplicationRecord
   include Concerns::FileImage
 
   include Authority::Abilities

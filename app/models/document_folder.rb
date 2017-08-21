@@ -1,4 +1,4 @@
-class DocumentFolder < ActiveRecord::Base
+class DocumentFolder < ApplicationRecord
   include Authority::Abilities
   self.authorizer_name = 'DocumentFolderAuthorizer'
 

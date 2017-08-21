@@ -1,4 +1,4 @@
-class Verification < ActiveRecord::Base
+class Verification < ApplicationRecord
   MIN_CODE = 100_000
   MAX_CODE = 999_999
 

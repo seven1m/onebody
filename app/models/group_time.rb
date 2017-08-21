@@ -1,4 +1,4 @@
-class GroupTime < ActiveRecord::Base
+class GroupTime < ApplicationRecord
   belongs_to :group
   belongs_to :checkin_folder
   belongs_to :checkin_time
