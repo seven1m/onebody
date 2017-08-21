@@ -1,3 +1,16 @@
+# Put this file in the root of your Rails project and ignore it with git:
+#
+#     echo ".watchr" >> .git/info/exclude
+#
+# Now run it in a tab with the observr gem:
+#
+#     gem install observr
+#     observr .watchr
+#
+# Optionally, install the Fuubar gem to get a progress bar.
+
+FUUBAR_PATH = File.dirname(`gem which fuubar`.strip)
+PROGRESSBAR_PATH = File.dirname(`gem which ruby-progressbar`.strip)
 SEED_OPTIONS = ENV['SEED'] ? "--seed #{ENV['SEED']}" : ''
 RSPEC_CMD = "bundle exec spring rspec --color --tty #{SEED_OPTIONS}"
 
@@ -26,7 +39,7 @@ def run_suite
 end
 
 def focused_tests
-  Dir['spec/**/*_spec.rb'].to_a.select { |f| File.read(f).match(/focus: true|fdescribe|fcontext|fit ['"]/) }
+  Dir['spec/**/*_spec.rb'].to_a.select { |f| File.read(f).match(/, :focus|, focus: true|fdescribe|fcontext|fit ['"]/) rescue nil }
 end
 
 def binding_pry
@@ -35,7 +48,11 @@ end
 
 def format_options
   return '' if binding_pry
-  '--format progress'
+  if FUUBAR_PATH == ''
+    '--format progress'
+  else
+    "-I #{FUUBAR_PATH} -I #{PROGRESSBAR_PATH} --require fuubar --format Fuubar"
+  end
 end
 
 watch('^spec/.*_spec\.rb'   ) { |m| run_tests(m.to_s) }
