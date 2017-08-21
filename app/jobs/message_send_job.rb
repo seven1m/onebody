@@ -1,4 +1,4 @@
-class MessageSendJob < ActiveJob::Base
+class MessageSendJob < ApplicationJob
   queue_as :email
 
   def perform(site, message_id)

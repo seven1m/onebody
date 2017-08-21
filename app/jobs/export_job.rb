@@ -1,4 +1,4 @@
-class ExportJob < ActiveJob::Base
+class ExportJob < ApplicationJob
   queue_as :export
 
   TYPES = %w(csv xml).freeze

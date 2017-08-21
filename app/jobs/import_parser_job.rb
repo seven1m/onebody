@@ -1,4 +1,4 @@
-class ImportParserJob < ActiveJob::Base
+class ImportParserJob < ApplicationJob
   queue_as :import
 
   def perform(site, import_id, data, strategy_name)

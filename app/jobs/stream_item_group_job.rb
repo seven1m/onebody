@@ -1,4 +1,4 @@
-class StreamItemGroupJob < ActiveJob::Base
+class StreamItemGroupJob < ApplicationJob
   queue_as :stream_item_group
 
   def perform(site, stream_item_id)

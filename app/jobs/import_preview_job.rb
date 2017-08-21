@@ -1,4 +1,4 @@
-class ImportPreviewJob < ActiveJob::Base
+class ImportPreviewJob < ApplicationJob
   queue_as :import
 
   def perform(site, import_id)

@@ -1,4 +1,4 @@
-class PrintableDirectoryJob < ActiveJob::Base
+class PrintableDirectoryJob < ApplicationJob
   queue_as :directory
 
   def perform(site, person_id, file_id, with_pictures = false)

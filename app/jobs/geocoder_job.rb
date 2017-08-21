@@ -1,4 +1,4 @@
-class GeocoderJob < ActiveJob::Base
+class GeocoderJob < ApplicationJob
   queue_as :geocode
 
   class GeocodingError < StandardError; end
