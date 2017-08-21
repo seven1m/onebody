@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.9'
+gem 'rails', '5.0.5'
 
 # select the appropriate gem below for your database:
 gem 'mysql2'
@@ -57,8 +57,8 @@ gem 'dossier'
 group :test do
   gem 'factory_girl_rails'
   gem 'shoulda-matchers', '~> 2.8.0', require: false # I can't get 3.x to work (will try again later)
-  gem 'test_after_commit'
   gem 'webmock'
+  gem 'rails-controller-testing'
 end
 
 group :development do
@@ -69,7 +69,6 @@ group :development do
   gem 'capistrano-newrelic'
   gem 'capistrano-rails'
   gem 'observr'
-  gem 'quiet_assets'
   gem 'terminal-notifier'
 end
 
