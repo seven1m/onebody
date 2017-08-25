@@ -35,11 +35,11 @@ class Family < ApplicationRecord
     if attribute.to_s == 'barcode_id' && record.barcode_id
       if record.barcode_id == record.alternate_barcode_id
         record.errors.add(attribute, :taken)
-      elsif Family.where(alternate_barcode_id: record.barcode_id).count > 0
+      elsif Family.where(alternate_barcode_id: record.barcode_id).exists?
         record.errors.add(attribute, :taken)
       end
     elsif attribute.to_s == 'alternate_barcode_id' && record.alternate_barcode_id
-      if Family.where(barcode_id: record.alternate_barcode_id).count > 0
+      if Family.where(barcode_id: record.alternate_barcode_id).exists?
         record.errors.add(attribute, :taken)
       end
     end
@@ -198,9 +198,9 @@ class Family < ApplicationRecord
   end
 
   def suggested_name
-    if adults.count == 1
+    if adults.size == 1
       adults.first.name
-    elsif adults.count >= 2
+    elsif adults.size >= 2
       (first, second) = adults.take(2)
       if first.last_name == second.last_name
         key = 'families.name.same_last_name'

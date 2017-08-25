@@ -25,7 +25,7 @@ module Concerns
       module ClassMethods
         def authenticate(email, password)
           people = undeleted.where(email: email.downcase)
-          if people.count > 0
+          if people.exists?
             people.each do |person|
               if person.password_hash
                 return person if person.password_hash == BCrypt::Engine.hash_secret(password, person.password_salt)

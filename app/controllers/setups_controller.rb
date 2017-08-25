@@ -29,7 +29,7 @@ class SetupsController < ApplicationController
   private
 
   def check_setup_requirements
-    if Person.count > 0
+    if Person.exists?
       render text: t('not_authorized'), layout: true
       false
     end
