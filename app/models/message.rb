@@ -46,15 +46,15 @@ class Message < ApplicationRecord
   before_save :remove_unsubscribe_link
 
   def remove_unsubscribe_link
-    body&.gsub!(/http:\/\/.*?person_id=\d+&code=\d+/i, '--removed--')
-    html_body&.gsub!(/http:\/\/.*?person_id=\d+&code=\d+/i, '--removed--')
+    body.gsub!(/http:\/\/.*?person_id=\d+&code=\d+/i, '--removed--') if body
+    html_body.gsub!(/http:\/\/.*?person_id=\d+&code=\d+/i, '--removed--') if html_body
   end
 
   before_save :remove_message_id_in_body
 
   def remove_message_id_in_body
-    body&.gsub! MESSAGE_ID_RE_IN_BODY, ''
-    html_body&.gsub! MESSAGE_ID_RE_IN_BODY, ''
+    body.gsub! MESSAGE_ID_RE_IN_BODY, '' if body
+    html_body.gsub! MESSAGE_ID_RE_IN_BODY, '' if html_body
   end
 
   attr_accessor :member_ids

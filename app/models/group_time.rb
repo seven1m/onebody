@@ -7,7 +7,7 @@ class GroupTime < ApplicationRecord
 
   scope_by_site_id
 
-  before_create { parent&.update_sequence(self) }
+  before_create { parent.update_sequence(self) if parent }
 
   def parent
     checkin_folder || checkin_time

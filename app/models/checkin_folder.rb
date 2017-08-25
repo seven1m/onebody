@@ -9,7 +9,7 @@ class CheckinFolder < ApplicationRecord
 
   default_scope -> { order(:sequence) }
 
-  before_create { parent&.update_sequence(self) }
+  before_create { parent.update_sequence(self) if parent }
 
   validates :name, uniqueness: { scope: :checkin_time }
 

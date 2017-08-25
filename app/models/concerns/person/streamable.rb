@@ -39,7 +39,7 @@ module Concerns
       end
 
       def destroy_stream_item
-        stream_item&.destroy
+        stream_item.destroy if stream_item
       end
 
       def item_grouping_enabled?
