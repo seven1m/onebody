@@ -21,6 +21,12 @@ class Friendship < ApplicationRecord
   end
 
   def destroy
-    Friendship.delete_all ['(friend_id = ? and person_id = ?) or (friend_id = ? and person_id = ?)', person.id, friend.id, friend.id, person.id]
+    Friendship.where(
+      '(friend_id = ? and person_id = ?) or (friend_id = ? and person_id = ?)',
+      person.id,
+      friend.id,
+      friend.id,
+      person.id
+    ).delete_all
   end
 end
