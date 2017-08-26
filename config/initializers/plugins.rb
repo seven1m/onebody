@@ -1,4 +1,4 @@
-PLUGIN_HOOKS = {}
+PLUGIN_HOOKS = {} # rubocop:disable Style/MutableConstant
 
 def PLUGIN_HOOKS.register(hook_name, partial_path)
   PLUGIN_HOOKS[hook_name.to_sym] ||= []
