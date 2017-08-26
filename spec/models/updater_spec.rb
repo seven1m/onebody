@@ -51,7 +51,7 @@ describe Updater do
         expected = {
           'person' => { 'first_name' => 'Jim' }
         }
-        expect(@actual).to eq(expected)
+        expect(@actual.to_h).to eq(expected)
       end
     end
 
@@ -70,7 +70,7 @@ describe Updater do
         expected = {
           'person' => { 'mobile_phone' => nil }
         }
-        expect(@actual).to eq(expected)
+        expect(@actual.to_h).to eq(expected)
       end
     end
   end
@@ -91,7 +91,7 @@ describe Updater do
             'share_activity' => 'true'
           }
         }
-        expect(@actual).to eq(expected)
+        expect(@actual.to_h).to eq(expected)
       end
     end
 

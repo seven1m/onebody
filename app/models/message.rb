@@ -260,7 +260,7 @@ class Message < ApplicationRecord
   end
 
   def self.create_with_attachments(attributes, files)
-    message = Message.create(attributes.update(dont_send: true))
+    message = Message.create(attributes.to_h.update(dont_send: true))
     unless message.errors.any?
       files.select { |f| f && f.size > 0 }.each do |file|
         attachment = message.attachments.create(

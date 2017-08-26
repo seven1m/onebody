@@ -1,7 +1,7 @@
 class Comparator
   def initialize(model, attributes)
     @model = model
-    @attributes = HashWithIndifferentAccess.new(attributes)
+    @attributes = HashWithIndifferentAccess.new(attributes.to_h)
     compare
   end
 

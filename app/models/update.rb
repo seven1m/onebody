@@ -82,9 +82,11 @@ class Update < ApplicationRecord
 
   # convert top level and second level to Hash class
   # ensure top level is symbol
-  def data_to_hash(d)
-    self[:data] = d.each_with_object({}) do |(key, val), hash|
-      hash[key.to_sym] = val.to_hash
+  def data_to_hash(data)
+    if data.is_a?(ActionController::Parameters)
+      data.to_unsafe_h.symbolize_keys # 'unsafe' is ok here because we filter our own params
+    else
+      data.to_hash.symbolize_keys
     end
   end
 
