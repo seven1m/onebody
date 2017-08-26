@@ -12,12 +12,11 @@ class Friendship < ApplicationRecord
 
   before_create :mirror_friendship
   def mirror_friendship
-    unless skip_mirror
-      mirror = Friendship.new(person_id: friend_id)
-      mirror.friend_id = person_id
-      mirror.skip_mirror = true
-      mirror.save!
-    end
+    return if skip_mirror
+    mirror = Friendship.new(person_id: friend_id)
+    mirror.friend_id = person_id
+    mirror.skip_mirror = true
+    mirror.save!
   end
 
   def destroy
