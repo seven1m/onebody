@@ -130,4 +130,4 @@ MOBILE_GATEWAYS = {
   'West Central Wireless' => '%s@sms.wcc.net',
   'Western Wireless' => '%s@cellularonewest.com',
   'Wyndtell' => '%s@wyndtell.com'
-}
+}.freeze

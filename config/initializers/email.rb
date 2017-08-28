@@ -5,5 +5,5 @@ unless defined? VALID_EMAIL_ADDRESS
 
   MAX_DAILY_VERIFICATION_ATTEMPTS = 10
 
-  ATTACHMENTS_TO_IGNORE = ['winmail.dat']
+  ATTACHMENTS_TO_IGNORE = ['winmail.dat'].freeze
 end

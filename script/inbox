@@ -3,7 +3,7 @@
 # example:
 # script/inbox -e production localhost username password
 
-PID_PATH = '/tmp/onebody_mail.pid'
+PID_PATH = '/tmp/onebody_mail.pid'.freeze
 MAX_PID_LIFE = 30 * 60 # 30 mins
 
 require 'optparse'
