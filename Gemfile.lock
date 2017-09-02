@@ -449,6 +449,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activemodel-serializers-xml
   activerecord-session_store
   acts_as_list
   acts_as_taggable_on_steroids!
