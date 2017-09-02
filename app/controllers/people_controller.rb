@@ -71,7 +71,7 @@ class PeopleController < ApplicationController
 
   def create
     if @logged_in.admin?(:edit_profiles)
-      @person = Person.new_with_default_sharing(person_params)
+      @person = Person.new_with_default_sharing(person_params.to_h)
       @family = if (family_id = params[:person][:family_id]).present?
                   Family.find(family_id)
                 else
