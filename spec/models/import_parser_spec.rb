@@ -70,7 +70,7 @@ describe ImportParser do
       expect(row.attributes).to include(
         'site_id'  => 1,
         'sequence' => 1,
-        'status'   => 0,
+        'status'   => 'parsed',
         'import_attributes' => {
           'first_name' => 'Tim',
           'last_name'  => 'Morgan',

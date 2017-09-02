@@ -243,7 +243,7 @@ describe ImportExecution do
 
           it 'updates the status of the rows' do
             expect(row.reload.attributes).to include(
-              'status' => 2
+              'status' => 'imported'
             )
           end
 
@@ -437,7 +437,10 @@ describe ImportExecution do
           )
         end
 
-        before { subject.execute }
+        before do
+          ActiveJob::Base.queue_adapter.perform_enqueued_jobs = true
+          subject.execute
+        end
 
         it 'geocodes the family' do
           expect(person.reload.family.attributes).to include(
