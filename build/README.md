@@ -14,6 +14,10 @@ This is the Bash script that installs all the necessary components for OneBody t
 
 It is designed to be run on a fresh install of Ubuntu server 14.04, but it may be helpful to you if you have an existing Ubuntu server instance running and wish to install OneBody on it.
 
+### ubuntu/16.04/provision.sh
+
+Same as above, but for Ubuntu 16.04.
+
 ## Building
 
 ### VirtualBox
