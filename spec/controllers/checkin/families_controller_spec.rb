@@ -6,10 +6,10 @@ describe Checkin::FamiliesController, type: :controller do
 
   describe '#show' do
     before do
-      xhr :get,
-          :show,
+      get :show,
           params: { id: family.id, format: :js },
-          session: { logged_in_id: user.id }
+          session: { logged_in_id: user.id },
+          xhr: true
     end
 
     it 'renders the show template' do
@@ -24,9 +24,9 @@ describe Checkin::FamiliesController, type: :controller do
 
   describe '#new' do
     before do
-      xhr :get,
-          :new,
-          session: { logged_in_id: user.id }
+      get :new,
+          session: { logged_in_id: user.id },
+          xhr: true
     end
 
     it 'renders the new template' do
@@ -238,19 +238,19 @@ describe Checkin::FamiliesController, type: :controller do
 
   describe '#update' do
     before do
-      xhr :patch,
-          :update,
-          params: {
-            id: family.id,
-            family: {
-              barcode_id: '1234567890',
-              alternate_barcode_id: '5678901234'
+      patch :update,
+            params: {
+              id: family.id,
+              family: {
+                barcode_id: '1234567890',
+                alternate_barcode_id: '5678901234'
+              },
+              format: :js
             },
-            format: :js
-          },
-          session: {
-            logged_in_id: user.id
-          }
+            session: {
+              logged_in_id: user.id
+            },
+            xhr: true
     end
 
     it 'renders the update template' do

@@ -23,7 +23,8 @@ class Checkin::CheckinsController < ApplicationController
   # complete check-in
   def update
     labels = {}
-    params[:people].each do |person_id, times|
+    people = params[:people].to_unsafe_h # simple ids, not passed as attributes to a model
+    people.each do |person_id, times|
       records = AttendanceRecord.check_in(person_id, times, session[:barcode])
       labels[person_id] = AttendanceRecord.labels_for(records)
     end
