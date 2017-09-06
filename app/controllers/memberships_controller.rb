@@ -38,7 +38,7 @@ class MembershipsController < ApplicationController
       @group.membership_requests.create(person: @person)
       flash[:warning] = t('groups.join.request_sent')
     end
-    redirect_to :back
+    redirect_back(@group)
   end
 
   def update
@@ -92,7 +92,7 @@ class MembershipsController < ApplicationController
       end
     end
     respond_to do |format|
-      format.html { redirect_to :back }
+      format.html { redirect_back(@group) }
       format.js
     end
   end
@@ -108,7 +108,7 @@ class MembershipsController < ApplicationController
     @added ||= []
     respond_to do |format|
       format.js
-      format.html { redirect_to :back }
+      format.html { redirect_back(groups_path) }
     end
   end
 
