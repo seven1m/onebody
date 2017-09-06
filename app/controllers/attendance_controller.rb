@@ -87,7 +87,7 @@ class AttendanceController < ApplicationController
   # submitting bogus attendance (that can be ignored) at /groups/0/attendance.json
   def eliminate_checkin_error
     if params[:group_id] == '0' && params[:action] == 'create'
-      render status: 404, text: 'group not found'
+      render status: 404, plain: 'group not found'
       false
     end
   end
