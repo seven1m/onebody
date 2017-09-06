@@ -41,7 +41,7 @@ class Administration::CustomFieldTabsController < ApplicationController
   def update_position
     @field = CustomField.find(params[:id])
     @field.insert_at(params[:position].to_i)
-    render nothing: true
+    head :ok
   end
 
   private

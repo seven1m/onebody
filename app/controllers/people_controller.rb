@@ -167,7 +167,7 @@ class PeopleController < ApplicationController
     @family = Family.find(params[:family_id])
     @person = @family.people.find(params[:id])
     @person.insert_at(params[:position].to_i) if @family.reorderable_by?(@logged_in)
-    render nothing: true
+    head :ok
   end
 
   private

@@ -57,7 +57,7 @@ class FriendsController < ApplicationController
         f.update_attribute :ordering, index
       end
     end
-    render nothing: true
+    head :ok
   end
 
   private

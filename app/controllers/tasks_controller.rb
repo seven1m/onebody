@@ -51,13 +51,13 @@ class TasksController < ApplicationController
   def complete
     @task = @group.tasks.find(params[:id])
     @task.update_attribute(:completed, params[:task][:completed])
-    render nothing: true
+    head :ok
   end
 
   def update_position
     @task = Task.find(params[:id])
     @task.insert_at(params[:position].to_i) if @task.updatable_by?(@logged_in)
-    render nothing: true
+    head :ok
   end
 
   private

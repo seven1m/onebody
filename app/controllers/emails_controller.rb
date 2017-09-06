@@ -5,7 +5,7 @@ class EmailsController < ApplicationController
 
   def create
     Notifier.receive(params['body-mime'])
-    render nothing: true
+    head :created
   end
 
   private
