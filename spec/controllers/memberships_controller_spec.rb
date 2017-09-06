@@ -140,8 +140,7 @@ describe MembershipsController, type: :controller do
     context 'PUT with param email=on' do
       context do
         before do
-          xhr :put,
-              :update,
+          put :update,
               params: {
                 group_id: group.id,
                 id: person.id,
@@ -150,7 +149,8 @@ describe MembershipsController, type: :controller do
               },
               session: {
                 logged_in_id: person.id
-              }
+              },
+              xhr: true
         end
 
         it 'enables email for the person' do
@@ -167,8 +167,7 @@ describe MembershipsController, type: :controller do
         let(:user) { FactoryGirl.create(:person) }
 
         before do
-          xhr :put,
-              :update,
+          put :update,
               params: {
                 group_id: group.id,
                 id: person.id,
@@ -177,7 +176,8 @@ describe MembershipsController, type: :controller do
               },
               session: {
                 logged_in_id: user.id
-              }
+              },
+              xhr: true
         end
 
         it 'renders unauthorized' do
@@ -189,8 +189,7 @@ describe MembershipsController, type: :controller do
         let(:user) { FactoryGirl.create(:person, :admin_manage_groups) }
 
         before do
-          xhr :put,
-              :update,
+          put :update,
               params: {
                 group_id: group.id,
                 id: person.id,
@@ -199,7 +198,8 @@ describe MembershipsController, type: :controller do
               },
               session: {
                 logged_in_id: user.id
-              }
+              },
+              xhr: true
         end
 
         it 'returns success' do
@@ -210,8 +210,7 @@ describe MembershipsController, type: :controller do
 
     context 'PUT with param email=off' do
       before do
-        xhr :put,
-            :update,
+        put :update,
             params: {
               group_id: group.id,
               id: person.id,
@@ -220,7 +219,8 @@ describe MembershipsController, type: :controller do
             },
             session: {
               logged_in_id: person.id
-            }
+            },
+            xhr: true
       end
 
       it 'disables email for the person' do
@@ -239,8 +239,7 @@ describe MembershipsController, type: :controller do
 
         before do
           request.env['HTTP_REFERER'] = group_memberships_path(group)
-          xhr :put,
-              :update,
+          put :update,
               params: {
                 group_id: group.id,
                 id: membership.id,
@@ -249,7 +248,8 @@ describe MembershipsController, type: :controller do
               },
               session: {
                 logged_in_id: user.id
-              }
+              },
+              xhr: true
         end
 
         it 'makes the person a group admin' do
@@ -264,8 +264,7 @@ describe MembershipsController, type: :controller do
       context 'user is not an admin' do
         before do
           request.env['HTTP_REFERER'] = group_memberships_path(group)
-          xhr :put,
-              :update,
+          put :update,
               params: {
                 group_id: group.id,
                 id: membership.id,
@@ -274,7 +273,8 @@ describe MembershipsController, type: :controller do
               },
               session: {
                 logged_in_id: person.id
-              }
+              },
+              xhr: true
         end
 
         it 'renders unauthorized' do
@@ -289,8 +289,7 @@ describe MembershipsController, type: :controller do
 
         before do
           request.env['HTTP_REFERER'] = group_memberships_path(group)
-          xhr :put,
-              :update,
+          put :update,
               params: {
                 group_id: group.id,
                 id: membership.id,
@@ -299,7 +298,8 @@ describe MembershipsController, type: :controller do
               },
               session: {
                 logged_in_id: user.id
-              }
+              },
+              xhr: true
         end
 
         it 'makes the person a regular group member' do
@@ -320,16 +320,16 @@ describe MembershipsController, type: :controller do
 
     context do
       before do
-        xhr :delete,
-            :destroy,
-            params: {
-              group_id: group.id,
-              id: person.id,
-              format: :js
-            },
-            session: {
-              logged_in_id: person.id
-            }
+        delete :destroy,
+               params: {
+                 group_id: group.id,
+                 id: person.id,
+                 format: :js
+               },
+               session: {
+                 logged_in_id: person.id
+               },
+               xhr: true
       end
 
       it 'destroys the membership' do
@@ -345,16 +345,16 @@ describe MembershipsController, type: :controller do
       let!(:membership) { group.memberships.create!(person: person, admin: true) }
 
       before do
-        xhr :delete,
-            :destroy,
-            params: {
-              group_id: group.id,
-              id: person.id,
-              format: :js
-            },
-            session: {
-              logged_in_id: person.id
-            }
+        delete :destroy,
+               params: {
+                 group_id: group.id,
+                 id: person.id,
+                 format: :js
+               },
+               session: {
+                 logged_in_id: person.id
+               },
+               xhr: true
       end
 
       it 'does not destroy the membership' do
@@ -377,10 +377,10 @@ describe MembershipsController, type: :controller do
 
       context 'POST' do
         before do
-          xhr :post,
-              :batch,
-              params: { group_id: group.id, ids: [person.id], format: :js },
-              session: { logged_in_id: user.id }
+          post :batch,
+               params: { group_id: group.id, ids: [person.id], format: :js },
+               session: { logged_in_id: user.id },
+               xhr: true
         end
 
         it 'creates membership records for each id given' do
@@ -401,17 +401,17 @@ describe MembershipsController, type: :controller do
 
       context 'POST commit=ignore' do
         before do
-          xhr :post,
-              :batch,
-              params: {
-                group_id: group.id,
-                ids: [person.id],
-                commit: 'ignore',
-                format: :js
-              },
-              session: {
-                logged_in_id: user.id
-              }
+          post :batch,
+               params: {
+                 group_id: group.id,
+                 ids: [person.id],
+                 commit: 'ignore',
+                 format: :js
+               },
+               session: {
+                 logged_in_id: user.id
+               },
+               xhr: true
         end
 
         it 'does not create new membership records' do
@@ -432,16 +432,16 @@ describe MembershipsController, type: :controller do
         let!(:membership) { group.memberships.create!(person: person) }
 
         before do
-          xhr :delete,
-              :batch,
-              params: {
-                group_id: group.id,
-                ids: [person.id],
-                format: :js
-              },
-              session: {
-                logged_in_id: user.id
-              }
+          delete :batch,
+                 params: {
+                   group_id: group.id,
+                   ids: [person.id],
+                   format: :js
+                 },
+                 session: {
+                   logged_in_id: user.id
+                 },
+                 xhr: true
         end
 
         it 'destroys memberships' do
@@ -459,16 +459,16 @@ describe MembershipsController, type: :controller do
         let!(:membership) { group.memberships.create!(person: person, admin: true) }
 
         before do
-          xhr :delete,
-              :batch,
-              params: {
-                group_id: group.id,
-                ids: [person.id],
-                format: :js
-              },
-              session: {
-                logged_in_id: user.id
-              }
+          delete :batch,
+                 params: {
+                   group_id: group.id,
+                   ids: [person.id],
+                   format: :js
+                 },
+                 session: {
+                   logged_in_id: user.id
+                 },
+                 xhr: true
         end
 
         it 'does not destroy the membership of the last admin' do
@@ -485,10 +485,10 @@ describe MembershipsController, type: :controller do
         let(:user) { FactoryGirl.create(:person) }
 
         before do
-          xhr :post,
-              :batch,
-              params: { group_id: group.id, ids: [person.id], format: :js },
-              session: { logged_in_id: user.id }
+          post :batch,
+               params: { group_id: group.id, ids: [person.id], format: :js },
+               session: { logged_in_id: user.id },
+               xhr: true
         end
 
         render_views
