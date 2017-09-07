@@ -251,7 +251,7 @@ class Message < ApplicationRecord
   after_destroy :delete_stream_items
 
   def delete_stream_items
-    StreamItem.destroy_all(streamable_type: 'Message', streamable_id: id)
+    StreamItem.where(streamable_type: 'Message', streamable_id: id).destroy_all
   end
 
   def self.preview(attributes)
