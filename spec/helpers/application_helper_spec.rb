@@ -47,24 +47,51 @@ describe ApplicationHelper, type: :helper do
     attr_accessor :params
 
     it 'generates a link to the correct url' do
-      @params = { controller: 'administration/deleted_people', action: 'index' }
-      expect(sortable_column_heading('id', 'people.id')).to match(/\/admin\/deleted_people/)
-      @params = { controller: 'administration/attendance', action: 'index' }
-      expect(sortable_column_heading('group', 'groups.name')).to match(/\/admin\/attendance/)
+      @params = ActionController::Parameters.new(
+        controller: 'administration/deleted_people',
+        action: 'index'
+      )
+      expect(sortable_column_heading('id', 'people.id')).to match(%r{/admin/deleted_people})
+      @params = ActionController::Parameters.new(
+        controller: 'administration/attendance',
+        action: 'index'
+      )
+      expect(sortable_column_heading('group', 'groups.name')).to match(%r{/admin/attendance})
     end
 
     it 'prepends sort arg and trails existing ones off' do
-      @params = { controller: 'administration/attendance', action: 'index' }
-      expect(sortable_column_heading('group', 'groups.name')).to match(/\/admin\/attendance\?sort=groups\.name/)
-      @params = { controller: 'administration/attendance', action: 'index', sort: 'groups.name' }
-      expect(sortable_column_heading('class time', 'attendance_records.attended_at')).to match(/\/admin\/attendance\?sort=attendance_records\.attended_at%2Cgroups\.name/)
-      @params = { controller: 'administration/attendance', action: 'index', sort: 'attendance_records.attended_at,groups.name' }
-      expect(sortable_column_heading('group', 'groups.name')).to match(/\/admin\/attendance\?sort=groups\.name%2Cattendance_records\.attended_at/)
+      @params = ActionController::Parameters.new(
+        controller: 'administration/attendance',
+        action: 'index'
+      )
+      expect(sortable_column_heading('group', 'groups.name')).to match(%r{/admin/attendance\?sort=groups\.name})
+      @params = ActionController::Parameters.new(
+        controller: 'administration/attendance',
+        action: 'index',
+        sort: 'groups.name'
+      )
+      expect(sortable_column_heading('class time', 'attendance_records.attended_at')).to match(
+        %r{/admin/attendance\?sort=attendance_records\.attended_at%2Cgroups\.name}
+      )
+      @params = ActionController::Parameters.new(
+        controller: 'administration/attendance',
+        action: 'index',
+        sort: 'attendance_records.attended_at,groups.name'
+      )
+      expect(sortable_column_heading('group', 'groups.name')).to match(
+        %r{/admin/attendance\?sort=groups\.name%2Cattendance_records\.attended_at}
+      )
     end
 
     it 'preserves other args' do
-      @params = { controller: 'administration/attendance', action: 'index', page: 1 }
-      expect(sortable_column_heading('group', 'groups.name', [:page])).to match(/\/admin\/attendance\?page=1&amp;sort=groups\.name/)
+      @params = ActionController::Parameters.new(
+        controller: 'administration/attendance',
+        action: 'index',
+        page: 1
+      )
+      expect(sortable_column_heading('group', 'groups.name', [:page])).to match(
+        %r{/admin/attendance\?page=1&amp;sort=groups\.name}
+      )
     end
   end
 end
