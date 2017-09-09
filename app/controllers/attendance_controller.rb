@@ -60,7 +60,7 @@ class AttendanceController < ApplicationController
 
   def render_text(message, status = :ok)
     respond_to do |format|
-      format.html { render plain: message, layout: 'signed_out', status: status }
+      format.html { render html: message, layout: 'signed_out', status: status }
       format.json { render json: { status: status, message: message } }
     end
   end
