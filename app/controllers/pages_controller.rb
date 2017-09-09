@@ -31,7 +31,7 @@ class PagesController < ApplicationController
   def edit
     @page = Page.find(params[:id])
     unless @logged_in.can_update?(@page)
-      render plain: t('not_authorized'), layout: true, status: 401
+      render html: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -45,7 +45,7 @@ class PagesController < ApplicationController
         render action: 'edit'
       end
     else
-      render plain: t('not_authorized'), layout: true, status: 401
+      render html: t('not_authorized'), layout: true, status: 401
     end
   end
 

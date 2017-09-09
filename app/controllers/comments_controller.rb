@@ -10,7 +10,7 @@ class CommentsController < ApplicationController
       end
       redirect_back
     else
-      render plain: t('comments.object_not_found', name: comment.commentable.class.name), layout: true, status: 404
+      render html: t('comments.object_not_found', name: comment.commentable.class.name), layout: true, status: 404
     end
   end
 
@@ -21,7 +21,7 @@ class CommentsController < ApplicationController
       flash[:notice] = t('comments.deleted')
       redirect_back
     else
-      render plain: t('comments.not_authorized'), layout: true, status: 401
+      render html: t('comments.not_authorized'), layout: true, status: 401
     end
   end
 

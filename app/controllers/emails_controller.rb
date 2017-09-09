@@ -12,7 +12,7 @@ class EmailsController < ApplicationController
 
   def ensure_admin
     return if @logged_in.super_admin?
-    render plain: t('not_authorized'), layout: true
+    render html: t('not_authorized'), layout: true
     false
   end
 end

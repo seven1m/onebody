@@ -10,7 +10,7 @@ class PrayerRequestsController < ApplicationController
                 prayer_requests.order(created_at: :desc).page(params[:page])
               end
     else
-      render plain: t('not_authorized'), layout: true, status: :forbidden
+      render html: t('not_authorized'), layout: true, status: :forbidden
     end
   end
 

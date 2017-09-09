@@ -78,7 +78,7 @@ class AttendanceController < ApplicationController
 
   def ensure_attendance_enabled_for_group
     unless @group && @group.attendance?
-      render plain: t('attendance.not_enabled'), layout: true, status: :bad_request
+      render html: t('attendance.not_enabled'), layout: true, status: :bad_request
       false
     end
   end

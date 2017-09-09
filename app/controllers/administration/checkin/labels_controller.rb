@@ -44,14 +44,14 @@ class Administration::Checkin::LabelsController < ApplicationController
 
   def only_admins
     unless @logged_in.admin?(:manage_checkin)
-      render plain: 'You must be an administrator to use this section.', layout: true, status: 401
+      render html: 'You must be an administrator to use this section.', layout: true, status: 401
       false
     end
   end
 
   def feature_enabled?
     unless Setting.get(:features, :checkin)
-      render plain: 'This feature is unavailable.', layout: true
+      render html: 'This feature is unavailable.', layout: true
       false
     end
   end

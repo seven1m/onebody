@@ -138,7 +138,7 @@ class ApplicationController < ActionController::Base
     if @logged_in && @logged_in.pending?
       unless LIMITED_ACCESS_AVAILABLE_ACTIONS.include?("#{params[:controller]}/#{params[:action]}") || \
           LIMITED_ACCESS_AVAILABLE_ACTIONS.include?("#{params[:controller]}/*")
-        render plain: t('people.limited_access_denied'), layout: true, status: 401
+        render html: t('people.limited_access_denied'), layout: true, status: 401
         false
       end
     end
@@ -146,11 +146,11 @@ class ApplicationController < ActionController::Base
 
   def authority_forbidden(error)
     Authority.logger.warn(error.message)
-    render plain: I18n.t('not_authorized'), layout: true, status: :forbidden
+    render html: I18n.t('not_authorized'), layout: true, status: :forbidden
   end
 
   rescue_from 'LoadAndAuthorizeResource::AccessDenied', 'LoadAndAuthorizeResource::ParameterMissing' do
-    render plain: I18n.t('not_authorized'), layout: true, status: :forbidden
+    render html: I18n.t('not_authorized'), layout: true, status: :forbidden
   end
 
   rescue_from 'EmailConnectionError' do
@@ -188,7 +188,7 @@ class ApplicationController < ActionController::Base
 
   def only_admins
     unless @logged_in.admin?
-      render plain: t('only_admins'), layout: true, status: 401
+      render html: t('only_admins'), layout: true, status: 401
       false
     end
   end

@@ -66,7 +66,7 @@ class PhotosController < ApplicationController
       @id_key = id_key
       @object = model.find(params[id_key])
     else
-      render plain: t('photos.object_not_found'), layout: true, status: 404
+      render html: t('photos.object_not_found'), layout: true, status: 404
       false
     end
   end

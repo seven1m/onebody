@@ -15,7 +15,7 @@ class AuthenticationsController < ApplicationController
 
   def only_admins
     unless @logged_in.super_admin?
-      render plain: t('only_admins'), layout: true, status: 400
+      render html: t('only_admins'), layout: true, status: 400
       false
     end
   end

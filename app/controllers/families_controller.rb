@@ -108,7 +108,7 @@ class FamiliesController < ApplicationController
       end
       redirect_back
     else
-      render plain: t('not_authorized'), layout: true, status: 401
+      render html: t('not_authorized'), layout: true, status: 401
     end
   end
 

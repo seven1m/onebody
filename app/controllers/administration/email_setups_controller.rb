@@ -52,7 +52,7 @@ class Administration::EmailSetupsController < ApplicationController
 
   def only_admins
     return if @logged_in.super_admin?
-    render plain: t('only_admins'), layout: true, status: 401
+    render html: t('only_admins'), layout: true, status: 401
     false
   end
 end

@@ -6,7 +6,7 @@ class MessagesController < ApplicationController
     if @logged_in.member_of?(@group) && @group.email?
       @messages = messages.order(created_at: :desc).page(params[:page])
     else
-      render plain: t('not_authorized'), layout: true, status: 401
+      render html: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -53,10 +53,10 @@ class MessagesController < ApplicationController
     @person = Person.find(params[:message][:to_person_id])
     if @person.email && @logged_in.can_read?(@person)
       if send_message
-        render plain: t('messages.sent'), layout: true unless @preview
+        render html: t('messages.sent'), layout: true unless @preview
       end
     else
-      render plain: t('messages.no_email_for_person', name: @person.name), layout: true, status: 500
+      render html: t('messages.no_email_for_person', name: @person.name), layout: true, status: 500
     end
   end
 
@@ -70,7 +70,7 @@ class MessagesController < ApplicationController
         end
       end
     else
-      render plain: t('not_authorized'), layout: true, status: 500
+      render html: t('not_authorized'), layout: true, status: 500
     end
   end
 

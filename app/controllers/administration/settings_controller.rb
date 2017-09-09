@@ -50,7 +50,7 @@ class Administration::SettingsController < ApplicationController
 
   def only_admins
     return if @logged_in.super_admin?
-    render plain: t('admin.must_be_superadmin'), layout: true, status: 401
+    render html: t('admin.must_be_superadmin'), layout: true, status: 401
     false
   end
 

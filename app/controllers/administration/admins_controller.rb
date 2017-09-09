@@ -93,7 +93,7 @@ class Administration::AdminsController < ApplicationController
 
   def only_admins
     unless @logged_in.admin?(:manage_access)
-      render plain: t('only_admins'), layout: true, status: 401
+      render html: t('only_admins'), layout: true, status: 401
       false
     end
   end

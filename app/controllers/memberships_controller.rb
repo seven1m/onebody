@@ -49,7 +49,7 @@ class MembershipsController < ApplicationController
     elsif params[:leader] && @logged_in.can_update?(@group)
       update_leader
     else
-      render plain: t('not_authorized'), layout: true, status: 401
+      render html: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -60,12 +60,12 @@ class MembershipsController < ApplicationController
       @group.set_options_for @person, get_email: @get_email
       respond_to do |format|
         format.html do
-          render plain: t('groups.email_settings_changed'), layout: true
+          render html: t('groups.email_settings_changed'), layout: true
         end
         format.js
       end
     else
-      render plain: t('not_authorized'), layout: true, status: 401
+      render html: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -128,13 +128,13 @@ class MembershipsController < ApplicationController
 
   def authorize_group_for_read
     return if @logged_in.can_read?(@group)
-    render plain: t('not_authorized'), layout: true, status: :unauthorized
+    render html: t('not_authorized'), layout: true, status: :unauthorized
     false
   end
 
   def authorize_group_for_update
     return if @logged_in.can_update?(@group)
-    render plain: t('not_authorized'), layout: true, status: :unauthorized
+    render html: t('not_authorized'), layout: true, status: :unauthorized
     false
   end
 end
