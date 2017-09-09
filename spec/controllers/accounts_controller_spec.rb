@@ -276,7 +276,7 @@ describe AccountsController, type: :controller do
           end
 
           it 'should indicate that email was sent' do
-            assert_select '.content', /email.*sent/i
+            assert_select '.callout', /email.*sent/i
           end
         end
 
@@ -323,7 +323,7 @@ describe AccountsController, type: :controller do
           end
 
           it 'should indicate that message was sent' do
-            assert_select '.content', /has been sent/i
+            assert_select '.callout', /has been sent/i
           end
         end
 
