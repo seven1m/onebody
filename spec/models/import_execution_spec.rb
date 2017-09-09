@@ -438,7 +438,6 @@ describe ImportExecution do
         end
 
         before do
-          ActiveJob::Base.queue_adapter.perform_enqueued_jobs = true
           subject.execute
         end
 

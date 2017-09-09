@@ -35,10 +35,11 @@ RSpec.configure do |config|
 
   config.before(:each) do
     ActionMailer::Base.deliveries.clear
+    ActiveJob::Base.queue_adapter.perform_enqueued_jobs = true
     allow(StreamItemGroupJob).to receive(:perform_later)
     Geocoder.configure(lookup: :test)
     Geocoder::Lookup::Test.set_default_stub([{
-                                              'latitude' => 40.7143528,
+                                              'latitude'     => 40.7143528,
                                               'longitude'    => -74.0059731,
                                               'address'      => 'New York, NY, USA',
                                               'state'        => 'New York',

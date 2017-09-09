@@ -11,7 +11,6 @@ describe Notifier, type: :mailer do
     ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true
     ActionMailer::Base.deliveries = []
-    ActiveJob::Base.queue_adapter.perform_enqueued_jobs = true
     @user = FactoryGirl.create(:person)
     @group = FactoryGirl.create(:group, address: 'group')
     @membership = @group.memberships.create!(person: @user)

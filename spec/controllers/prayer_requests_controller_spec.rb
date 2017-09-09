@@ -6,7 +6,6 @@ describe PrayerRequestsController, type: :controller do
     @group = FactoryGirl.create(:group)
     @group.memberships.create(person_id: @person.id)
     @prayer_request = FactoryGirl.create(:prayer_request, group: @group, person: @person)
-    ActiveJob::Base.queue_adapter.perform_enqueued_jobs = true
   end
 
   it 'should list all prayer requests' do
