@@ -5,7 +5,7 @@ class MembershipSharingUpdater
   end
 
   def perform
-    Array(@updates.to_h).each do |membership_id, sharing|
+    Array(@updates).each do |membership_id, sharing|
       membership = Membership.find(membership_id)
       verify_authorization(membership)
       sharing.each do |attribute, value|

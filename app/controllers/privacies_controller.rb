@@ -31,7 +31,8 @@ class PrivaciesController < ApplicationController
   def update_privacy
     if @logged_in.can_update?(@family)
       @family.update_attributes!(family_params)
-      MembershipSharingUpdater.new(@logged_in, params[:memberships]).perform
+      updates = params[:memberships].try(:to_unsafe_h) # handled manually by MembershipSharingUpdater
+      MembershipSharingUpdater.new(@logged_in, updates).perform
       if @family.visible?
         flash[:notice] = t('privacies.saved')
       else
