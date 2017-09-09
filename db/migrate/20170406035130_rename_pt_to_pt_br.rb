@@ -1,4 +1,4 @@
-class RenamePtToPtBr < ActiveRecord::Migration
+class RenamePtToPtBr < ActiveRecord::Migration[4.2]
   def up
     Site.each do
       next unless Setting.get(:system, :language) == 'pt'

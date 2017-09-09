@@ -1,4 +1,4 @@
-class RemoveNotes < ActiveRecord::Migration
+class RemoveNotes < ActiveRecord::Migration[4.2]
   def up
     remove_reference :comments, :note
     drop_table :notes

@@ -1,4 +1,4 @@
-class AddAutoAddToGroups < ActiveRecord::Migration
+class AddAutoAddToGroups < ActiveRecord::Migration[4.2]
   def up
     change_table :groups do |t|
       t.string :membership_mode, limit: 10, default: 'manual'

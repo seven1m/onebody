@@ -1,4 +1,4 @@
-class CreateCustomFieldTabs < ActiveRecord::Migration
+class CreateCustomFieldTabs < ActiveRecord::Migration[4.2]
   def up
     create_table :custom_field_tabs do |t|
       t.integer :site_id, null: false

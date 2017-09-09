@@ -1,4 +1,4 @@
-class AddAttrErrorsToImportRows < ActiveRecord::Migration
+class AddAttrErrorsToImportRows < ActiveRecord::Migration[4.2]
   def change
     add_column :import_rows, :attribute_errors, :text
     add_column :import_rows, :errored, :boolean, default: false

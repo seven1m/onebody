@@ -1,4 +1,4 @@
-class AddSiteIdToDocumentFolderGroups < ActiveRecord::Migration
+class AddSiteIdToDocumentFolderGroups < ActiveRecord::Migration[4.2]
   def up
     add_column :document_folder_groups, :site_id, :integer
     Site.each do
