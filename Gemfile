@@ -74,7 +74,6 @@ group :development do
 end
 
 group :development, :test do
-  gem 'coveralls', require: false
   gem 'guard-rspec', require: false
   gem 'pry'
   gem 'pry-rails'

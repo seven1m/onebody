@@ -117,12 +117,6 @@ GEM
     country_select (3.1.0)
       countries (~> 2.0)
       sort_alphabetical (~> 1.0)
-    coveralls (0.8.21)
-      json (>= 1.8, < 3)
-      simplecov (~> 0.14.1)
-      term-ansicolor (~> 1.3)
-      thor (~> 0.19.4)
-      tins (~> 1.6)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     crass (1.0.2)
@@ -134,7 +128,6 @@ GEM
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     diff-lcs (1.3)
-    docile (1.1.5)
     dossier (2.13.1)
       actionmailer (>= 3.2)
       actionpack (>= 3.2)
@@ -214,7 +207,6 @@ GEM
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
-    json (2.1.0)
     jwt (1.5.6)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -380,11 +372,6 @@ GEM
     shellany (0.0.1)
     shoulda-matchers (2.8.0)
       activesupport (>= 3.0.0)
-    simplecov (0.14.1)
-      docile (~> 1.1.0)
-      json (>= 1.8, < 3)
-      simplecov-html (~> 0.10.0)
-    simplecov-html (0.10.2)
     sixarm_ruby_unaccent (1.2.0)
     slop (3.6.0)
     sort_alphabetical (1.1.0)
@@ -407,8 +394,6 @@ GEM
     sucker_punch (1.5.1)
       celluloid (= 0.16.0)
     temple (0.8.0)
-    term-ansicolor (1.6.0)
-      tins (~> 1.0)
     terminal-notifier (1.8.0)
     thin (1.7.2)
       daemons (~> 1.0, >= 1.0.9)
@@ -420,7 +405,6 @@ GEM
     timecop (0.9.1)
     timers (4.0.4)
       hitimes
-    tins (1.15.0)
     ttfunk (1.5.1)
     tzinfo (1.2.3)
       thread_safe (~> 0.1)
@@ -465,7 +449,6 @@ DEPENDENCIES
   capistrano-rails
   coffee-rails
   country_select
-  coveralls
   date_validator
   dossier
   draper
