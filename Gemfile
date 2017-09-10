@@ -1,3 +1,5 @@
+# rubocop:disable Metrics/LineLength, Layout/LeadingCommentSpace
+
 source 'https://rubygems.org'
 
 gem 'rails', '5.0.5'
@@ -6,6 +8,7 @@ gem 'rails', '5.0.5'
 gem 'mysql2'
 #gem 'pg'
 
+gem 'activemodel-serializers-xml'
 gem 'activerecord-session_store'
 gem 'acts_as_list'
 gem 'acts_as_taggable_on_steroids', github: 'seven1m/acts_as_taggable_on_steroids'
@@ -50,16 +53,15 @@ gem 'whenever'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'with_advisory_lock'
-gem 'activemodel-serializers-xml'
 
 # this needs to be down here due to load order weirdness
 gem 'dossier'
 
 group :test do
   gem 'factory_girl_rails'
+  gem 'rails-controller-testing'
   gem 'shoulda-matchers', '~> 2.8.0', require: false # I can't get 3.x to work (will try again later)
   gem 'webmock'
-  gem 'rails-controller-testing'
 end
 
 group :development do
