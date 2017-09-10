@@ -25,7 +25,7 @@ gem 'flag_shih_tzu'
 gem 'font-awesome-rails'
 gem 'geocoder'
 gem 'github_api'
-gem 'haml'
+gem 'haml', '~> 4.0.7' # 5.0.x has formatting issues caused by removal of the :ugly option https://git.io/v5i0G
 gem 'highline'
 gem 'html_truncator'
 gem 'httparty'
