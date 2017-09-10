@@ -20,9 +20,9 @@
   = @parent_folder.try(:description) || t('.intro')
 
 .btn-group.pull-right
-  = link_to params.merge(view: 'detail'), class: @view == 'detail' ? 'btn btn-primary' : 'btn btn-default' do
+  = link_to documents_path(folder_id: params[:folder_id], view: 'detail'), class: @view == 'detail' ? 'btn btn-primary' : 'btn btn-default' do
     = icon 'fa fa-bars'
-  = link_to params.merge(view: 'thumbnail'), class: @view == 'thumbnail' ? 'btn btn-primary' : 'btn btn-default' do
+  = link_to documents_path(folder_id: params[:folder_id], view: 'thumbnail'), class: @view == 'thumbnail' ? 'btn btn-primary' : 'btn btn-default' do
     = icon 'fa fa-th-large'
 
 - if @logged_in.admin?(:manage_documents)
