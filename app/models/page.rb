@@ -59,10 +59,9 @@ class Page < ApplicationRecord
   before_destroy :cannot_destroy_system_page
 
   def cannot_destroy_system_page
-    if system?
-      errors.add(:base, 'Cannot delete system pages.')
-      false
-    end
+    return unless system?
+    errors.add(:base, 'Cannot delete system pages.')
+    throw :abort
   end
 
   class << self

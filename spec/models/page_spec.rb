@@ -46,4 +46,13 @@ describe Page do
     @page3 = Page.create(slug: 'new', title: 'New', body: '')
     expect(@page3.errors[:slug]).to be
   end
+
+  context 'when the page is a system page' do
+    subject { Page.create!(slug: 'foo', title: 'Foo', body: 'foo rocks', system: true) }
+
+    it 'cannot be destroyed' do
+      subject.destroy
+      expect { subject.reload }.not_to raise_error
+    end
+  end
 end
