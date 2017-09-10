@@ -1,7 +1,7 @@
 .form-group
   = form.label :name
   .input-group
-    = form.text_field :name, onkeyup: 'update_address(this.value)', class: 'form-control'
+    = form.text_field :name, class: 'form-control'
     %span.input-group-addon{ title: t('groups.edit.required_field') }
       = icon 'fa fa-star text-red'
 .form-group

@@ -12,10 +12,12 @@ describe AttendanceController, type: :controller do
 
       context do
         before do
-          get :index, {
-            attended_at: '2009-12-01',
-            group_id: group.id
-          }, logged_in_id: user.id
+          get :index,
+              params: {
+                attended_at: '2009-12-01',
+                group_id: group.id
+              },
+              session: { logged_in_id: user.id }
         end
 
         it 'renders the index template' do
@@ -25,9 +27,11 @@ describe AttendanceController, type: :controller do
 
       context 'given no date' do
         before do
-          get :index, {
-            group_id: group.id
-          }, logged_in_id: user.id
+          get :index,
+              params: {
+                group_id: group.id
+              },
+              session: { logged_in_id: user.id }
         end
 
         it 'uses the current date' do
@@ -40,10 +44,12 @@ describe AttendanceController, type: :controller do
 
       context 'given an invalid date' do
         before do
-          get :index, {
-            attended_at: '2009',
-            group_id: group.id
-          }, logged_in_id: user.id
+          get :index,
+              params: {
+                attended_at: '2009',
+                group_id: group.id
+              },
+              session: { logged_in_id: user.id }
         end
 
         it 'uses the current date and shows a warning' do
@@ -57,10 +63,11 @@ describe AttendanceController, type: :controller do
 
     context 'given public=true and token' do
       before do
-        get :index, attended_at: '2009-12-01',
-                    group_id: group.id,
-                    public: 'true',
-                    token: group.share_token
+        get :index,
+            params: { attended_at: '2009-12-01',
+                      group_id: group.id,
+                      public: 'true',
+                      token: group.share_token }
       end
 
       it 'renders the public_index template' do
@@ -73,10 +80,12 @@ describe AttendanceController, type: :controller do
       let!(:membership) { group.memberships.create!(person: user) }
 
       before do
-        get :index, {
-          attended_at: '2009-12-01',
-          group_id: group.id
-        }, logged_in_id: user.id
+        get :index,
+            params: {
+              attended_at: '2009-12-01',
+              group_id: group.id
+            },
+            session: { logged_in_id: user.id }
       end
 
       it 'renders an error message' do
@@ -90,10 +99,12 @@ describe AttendanceController, type: :controller do
       let!(:membership) { group.memberships.create!(person: user, admin: true) }
 
       before do
-        get :index, {
-          attended_at: '2009-12-01',
-          group_id: group.id
-        }, logged_in_id: user.id
+        get :index,
+            params: {
+              attended_at: '2009-12-01',
+              group_id: group.id
+            },
+            session: { logged_in_id: user.id }
       end
 
       it 'renders an error' do
@@ -111,11 +122,13 @@ describe AttendanceController, type: :controller do
 
       context do
         before do
-          post :create, {
-            attended_at: '2009-12-01 09:00',
-            group_id: group.id,
-            ids: [attendee1.id]
-          }, logged_in_id: user.id
+          post :create,
+               params: {
+                 attended_at: '2009-12-01 09:00',
+                 group_id: group.id,
+                 ids: [attendee1.id]
+               },
+               session: { logged_in_id: user.id }
         end
 
         it 'creates attendance records' do
@@ -128,12 +141,14 @@ describe AttendanceController, type: :controller do
 
       context 'given format is json' do
         before do
-          post :create, {
-            attended_at: '2009-12-01 09:00',
-            group_id: group.id,
-            ids: [attendee1.id],
-            format: :json
-          }, logged_in_id: user.id
+          post :create,
+               params: {
+                 attended_at: '2009-12-01 09:00',
+                 group_id: group.id,
+                 ids: [attendee1.id],
+                 format: :json
+               },
+               session: { logged_in_id: user.id }
         end
 
         it 'renders json response' do
@@ -145,11 +160,13 @@ describe AttendanceController, type: :controller do
 
       context 'given check-in time without date' do
         before do
-          post :create, {
-            attended_at: '9:30 AM',
-            group_id: group.id,
-            ids: [attendee1.id]
-          }, logged_in_id: user.id
+          post :create,
+               params: {
+                 attended_at: '9:30 AM',
+                 group_id: group.id,
+                 ids: [attendee1.id]
+               },
+               session: { logged_in_id: user.id }
         end
 
         it 'creates attendance records' do
@@ -166,11 +183,13 @@ describe AttendanceController, type: :controller do
         let!(:existing2) { group.attendance_records.create!(person: attendee2, attended_at: Time.new(2009, 12, 1, 9, 0)) }
 
         before do
-          post :create, {
-            attended_at: '2009-12-01 09:00',
-            group_id: group.id,
-            ids: [attendee1.id]
-          }, logged_in_id: user.id
+          post :create,
+               params: {
+                 attended_at: '2009-12-01 09:00',
+                 group_id: group.id,
+                 ids: [attendee1.id]
+               },
+               session: { logged_in_id: user.id }
         end
 
         it 'deletes old records for the same person' do
@@ -184,14 +203,16 @@ describe AttendanceController, type: :controller do
 
       context 'given person not in database' do
         before do
-          post :create, {
-            attended_at: '2009-12-01 09:00',
-            group_id: group.id,
-            person: {
-              first_name: 'John',
-              last_name:  'Smith'
-            }
-          }, logged_in_id: user.id
+          post :create,
+               params: {
+                 attended_at: '2009-12-01 09:00',
+                 group_id: group.id,
+                 person: {
+                   first_name: 'John',
+                   last_name:  'Smith'
+                 }
+               },
+               session: { logged_in_id: user.id }
         end
 
         it 'creates a record not attached to a person record' do
@@ -207,11 +228,13 @@ describe AttendanceController, type: :controller do
       let!(:user) { FactoryGirl.create(:person) }
 
       before do
-        post :create, {
-          attended_at: '2009-12-01 09:00',
-          group_id: group.id,
-          ids: [1]
-        }, logged_in_id: user.id
+        post :create,
+             params: {
+               attended_at: '2009-12-01 09:00',
+               group_id: group.id,
+               ids: [1]
+             },
+             session: { logged_in_id: user.id }
       end
 
       it 'renders an error message' do
@@ -223,11 +246,13 @@ describe AttendanceController, type: :controller do
       let!(:user) { FactoryGirl.create(:person) }
 
       before do
-        post :create, {
-          attended_at: '2009-12-01 09:00',
-          group_id: '0',
-          ids: [1]
-        }, logged_in_id: user.id
+        post :create,
+             params: {
+               attended_at: '2009-12-01 09:00',
+               group_id: '0',
+               ids: [1]
+             },
+             session: { logged_in_id: user.id }
       end
 
       it 'renders 404' do
@@ -245,11 +270,13 @@ describe AttendanceController, type: :controller do
 
       context do
         before do
-          post :batch, {
-            attended_at: '2009-12-01',
-            group_id: group.id,
-            ids: [attendee.id]
-          }, logged_in_id: user.id
+          post :batch,
+               params: {
+                 attended_at: '2009-12-01',
+                 group_id: group.id,
+                 ids: [attendee.id]
+               },
+               session: { logged_in_id: user.id }
         end
 
         it 'creates attendance records' do
@@ -270,11 +297,13 @@ describe AttendanceController, type: :controller do
         let!(:existing) { group.attendance_records.create!(person_id: 0, attended_at: Time.new(2009, 12, 1, 9, 0)) }
 
         before do
-          post :batch, {
-            attended_at: '2009-12-01',
-            group_id: group.id,
-            ids: [attendee.id]
-          }, logged_in_id: user.id
+          post :batch,
+               params: {
+                 attended_at: '2009-12-01',
+                 group_id: group.id,
+                 ids: [attendee.id]
+               },
+               session: { logged_in_id: user.id }
         end
 
         it 'deletes the existing record' do
@@ -286,11 +315,13 @@ describe AttendanceController, type: :controller do
 
       context 'given invalid date format' do
         before do
-          post :batch, {
-            attended_at: '99-99-99',
-            group_id: group.id,
-            ids: [attendee.id]
-          }, logged_in_id: user.id
+          post :batch,
+               params: {
+                 attended_at: '99-99-99',
+                 group_id: group.id,
+                 ids: [attendee.id]
+               },
+               session: { logged_in_id: user.id }
         end
 
         render_views
@@ -306,11 +337,12 @@ describe AttendanceController, type: :controller do
       context 'using valid token' do
         context do
           before do
-            post :batch, group_id:    group.id,
-                         public:      true,
-                         token:       group.share_token,
-                         ids:         [attendee.id],
-                         attended_at: '01/13/2020'
+            post :batch,
+                 params: { group_id:    group.id,
+                           public:      true,
+                           token:       group.share_token,
+                           ids:         [attendee.id],
+                           attended_at: '01/13/2020' }
           end
 
           render_views
@@ -323,12 +355,13 @@ describe AttendanceController, type: :controller do
 
         context 'with notes' do
           before do
-            post :batch, group_id:    group.id,
-                         public:      true,
-                         token:       group.share_token,
-                         ids:         [attendee.id],
-                         attended_at: '01/13/2020',
-                         notes:       'test note'
+            post :batch,
+                 params: { group_id:    group.id,
+                           public:      true,
+                           token:       group.share_token,
+                           ids:         [attendee.id],
+                           attended_at: '01/13/2020',
+                           notes:       'test note' }
           end
 
           render_views
@@ -344,11 +377,12 @@ describe AttendanceController, type: :controller do
 
       context 'using bad token' do
         before do
-          post :batch, group_id:    group.id,
-                       public:      true,
-                       token:       'abc',
-                       ids:         [attendee.id],
-                       attended_at: '01/13/2020'
+          post :batch,
+               params: { group_id:    group.id,
+                         public:      true,
+                         token:       'abc',
+                         ids:         [attendee.id],
+                         attended_at: '01/13/2020' }
         end
 
         it 'returns unauthorized' do

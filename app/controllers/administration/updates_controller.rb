@@ -1,5 +1,5 @@
 class Administration::UpdatesController < ApplicationController
-  before_filter :only_admins
+  before_action :only_admins
 
   def index
     @updates = toggle(Update).order('created_at desc').page(params[:page])
@@ -39,7 +39,7 @@ class Administration::UpdatesController < ApplicationController
 
   def only_admins
     unless @logged_in.admin?(:manage_updates)
-      render text: t('only_admins'), layout: true, status: 401
+      render html: t('only_admins'), layout: true, status: 401
       false
     end
   end

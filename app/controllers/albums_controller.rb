@@ -7,7 +7,7 @@ class AlbumsController < ApplicationController
     @albums = albums.readable_by(current_user)
     respond_to do |format|
       format.html
-      format.js { render text: @albums.to_json }
+      format.js { render plain: @albums.to_json }
     end
   end
 

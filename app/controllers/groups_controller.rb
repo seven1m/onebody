@@ -12,7 +12,7 @@ class GroupsController < ApplicationController
   def show
     @group = Group.find(params[:id])
     if !(@group.approved? || @group.admin?(@logged_in))
-      render text: t('groups.pending_approval.this_group'), layout: true
+      render html: t('groups.pending_approval.this_group'), layout: true
     elsif @logged_in.can_read?(@group)
       @member_of = @logged_in.member_of?(@group)
       @stream_items = StreamItem.shared_with(@logged_in).where(group: @group).paginate(page: params[:timeline_page], per_page: 5)
@@ -53,7 +53,7 @@ class GroupsController < ApplicationController
       @categories = Group.categories.keys
       @members = @group.people.minimal.order('last_name, first_name')
     else
-      render text: t('not_authorized'), layout: true, status: 401
+      render html: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -68,7 +68,7 @@ class GroupsController < ApplicationController
         edit; render action: 'edit'
       end
     else
-      render text: t('not_authorized'), layout: true, status: 401
+      render html: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -79,7 +79,7 @@ class GroupsController < ApplicationController
       flash[:notice] = t('groups.deleted')
       redirect_to groups_path
     else
-      render text: t('not_authorized'), layout: true, status: 401
+      render html: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -99,7 +99,7 @@ class GroupsController < ApplicationController
         @groups = Group.order('category, name')
       end
     else
-      render text: t('not_authorized'), layout: true, status: 401
+      render html: t('not_authorized'), layout: true, status: 401
     end
   end
 

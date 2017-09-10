@@ -12,7 +12,9 @@ describe GroupsController, type: :controller do
   describe '#index' do
     context 'for a person' do
       before do
-        get :index, { person_id: @person.id }, logged_in_id: @person.id
+        get :index,
+            params: { person_id: @person.id },
+            session: { logged_in_id: @person.id }
       end
 
       it 'assigns the person' do
@@ -33,7 +35,9 @@ describe GroupsController, type: :controller do
 
       context 'user is not an admin' do
         before do
-          get :index, { person_id: @person.id }, logged_in_id: @person.id
+          get :index,
+              params: { person_id: @person.id },
+              session: { logged_in_id: @person.id }
         end
 
         it 'does not list the hidden group' do
@@ -45,7 +49,9 @@ describe GroupsController, type: :controller do
         before do
           @person.admin = Admin.create(manage_groups: true)
           @person.save!
-          get :index, { person_id: @person.id }, logged_in_id: @person.id
+          get :index,
+              params: { person_id: @person.id },
+              session: { logged_in_id: @person.id }
         end
 
         it 'lists the hidden group' do
@@ -56,7 +62,9 @@ describe GroupsController, type: :controller do
 
     context 'for a category' do
       before do
-        get :index, { category: 'Small Groups' }, logged_in_id: @person.id
+        get :index,
+            params: { category: 'Small Groups' },
+            session: { logged_in_id: @person.id }
       end
 
       it 'assigns groups matching the category' do
@@ -71,7 +79,9 @@ describe GroupsController, type: :controller do
 
     context 'for a group name' do
       before do
-        get :index, { name: 'Morgan' }, logged_in_id: @person.id
+        get :index,
+            params: { name: 'Morgan' },
+            session: { logged_in_id: @person.id }
       end
 
       it 'assigns groups matching the name' do
@@ -86,7 +96,8 @@ describe GroupsController, type: :controller do
 
     context 'overview page' do
       before do
-        get :index, {}, logged_in_id: @person.id
+        get :index,
+            session: { logged_in_id: @person.id }
       end
 
       it 'assigns categories' do
@@ -106,7 +117,8 @@ describe GroupsController, type: :controller do
 
       context 'user is group creator' do
         before do
-          get :index, {}, logged_in_id: @person.id
+          get :index,
+              session: { logged_in_id: @person.id }
         end
 
         it 'assigns the unapproved group' do
@@ -116,7 +128,8 @@ describe GroupsController, type: :controller do
 
       context 'user is not group creator' do
         before do
-          get :index, {}, logged_in_id: @other_person.id
+          get :index,
+              session: { logged_in_id: @other_person.id }
         end
 
         it 'does not assign the unapproved group' do
@@ -128,7 +141,8 @@ describe GroupsController, type: :controller do
         before do
           @person.admin = Admin.create(manage_groups: true)
           @person.save!
-          get :index, {}, logged_in_id: @person.id
+          get :index,
+              session: { logged_in_id: @person.id }
         end
 
         it 'assigns the unapproved group' do
@@ -141,7 +155,9 @@ describe GroupsController, type: :controller do
   describe '#show' do
     context 'group is not private' do
       before do
-        get :show, { id: @group.id }, logged_in_id: @person.id
+        get :show,
+            params: { id: @group.id },
+            session: { logged_in_id: @person.id }
       end
 
       it 'renders the show template' do
@@ -157,7 +173,9 @@ describe GroupsController, type: :controller do
 
       context 'user is a member' do
         before do
-          get :show, { id: @group.id }, logged_in_id: @person.id
+          get :show,
+              params: { id: @group.id },
+              session: { logged_in_id: @person.id }
         end
 
         it 'renders the show template' do
@@ -168,7 +186,9 @@ describe GroupsController, type: :controller do
 
       context 'user is not a member' do
         before do
-          get :show, { id: @group.id }, logged_in_id: @other_person.id
+          get :show,
+              params: { id: @group.id },
+              session: { logged_in_id: @other_person.id }
         end
 
         it 'renders the show template' do
@@ -185,7 +205,9 @@ describe GroupsController, type: :controller do
 
       context 'user is a member' do
         before do
-          get :show, { id: @group.id }, logged_in_id: @person.id
+          get :show,
+              params: { id: @group.id },
+              session: { logged_in_id: @person.id }
         end
 
         it 'renders the show template' do
@@ -196,7 +218,9 @@ describe GroupsController, type: :controller do
 
       context 'user is not a member' do
         before do
-          get :show, { id: @group.id }, logged_in_id: @other_person.id
+          get :show,
+              params: { id: @group.id },
+              session: { logged_in_id: @other_person.id }
         end
 
         it 'renders the show template (this may change in the future)' do
@@ -209,7 +233,9 @@ describe GroupsController, type: :controller do
         before do
           @person.admin = Admin.create(manage_groups: true)
           @person.save!
-          get :show, { id: @group.id }, logged_in_id: @person.id
+          get :show,
+              params: { id: @group.id },
+              session: { logged_in_id: @person.id }
         end
 
         it 'renders the show template' do
@@ -223,12 +249,14 @@ describe GroupsController, type: :controller do
   context '#update' do
     context 'given a photo file' do
       before do
-        post :update, {
-          id: @group.id,
-          group: {
-            photo: Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)
-          }
-        }, logged_in_id: @person.id
+        post :update,
+             params: {
+               id: @group.id,
+               group: {
+                 photo: Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)
+               }
+             },
+             session: { logged_in_id: @person.id }
       end
 
       it 'saves the photo' do
@@ -244,8 +272,9 @@ describe GroupsController, type: :controller do
       before do
         @group.photo = File.open(Rails.root.join('spec/fixtures/files/image.jpg'))
         @group.save!
-        post :update, { id: @group.id, group: { photo: 'remove' } },
-             logged_in_id: @person.id
+        post :update,
+             params: { id: @group.id, group: { photo: 'remove' } },
+             session: { logged_in_id: @person.id }
       end
 
       it 'removes the photo' do
@@ -261,7 +290,9 @@ describe GroupsController, type: :controller do
   describe '#edit' do
     context 'user is group admin' do
       before do
-        get :edit, { id: @group.id }, logged_in_id: @person.id
+        get :edit,
+            params: { id: @group.id },
+            session: { logged_in_id: @person.id }
       end
 
       it 'renders the edit template' do
@@ -274,7 +305,9 @@ describe GroupsController, type: :controller do
       before do
         @other_person.admin = Admin.create!(manage_groups: true)
         @other_person.save!
-        get :edit, { id: @group.id }, logged_in_id: @other_person.id
+        get :edit,
+            params: { id: @group.id },
+            session: { logged_in_id: @other_person.id }
       end
 
       it 'renders the edit template' do
@@ -285,7 +318,9 @@ describe GroupsController, type: :controller do
 
     context 'user is not group admin' do
       before do
-        get :edit, { id: @group.id }, logged_in_id: @other_person.id
+        get :edit,
+            params: { id: @group.id },
+            session: { logged_in_id: @other_person.id }
       end
 
       it 'returns unauthorized' do
@@ -297,13 +332,15 @@ describe GroupsController, type: :controller do
   describe '#update' do
     context 'user is group admin' do
       before do
-        put :update, {
-          id: @group.id,
-          group: {
-            name: 'test name',
-            category: 'test cat'
-          }
-        }, logged_in_id: @person.id
+        put :update,
+            params: {
+              id: @group.id,
+              group: {
+                name: 'test name',
+                category: 'test cat'
+              }
+            },
+            session: { logged_in_id: @person.id }
       end
 
       it 'updates the group' do
@@ -320,13 +357,15 @@ describe GroupsController, type: :controller do
 
     context 'user is not group admin' do
       before do
-        put :update, {
-          id: @group.id,
-          group: {
-            name: 'test name',
-            category: 'test cat'
-          }
-        }, logged_in_id: @other_person.id
+        put :update,
+            params: {
+              id: @group.id,
+              group: {
+                name: 'test name',
+                category: 'test cat'
+              }
+            },
+            session: { logged_in_id: @other_person.id }
       end
 
       it 'returns unauthorized' do
@@ -343,7 +382,8 @@ describe GroupsController, type: :controller do
 
     context 'GET' do
       before do
-        get :batch, nil, logged_in_id: @admin.id
+        get :batch,
+            session: { logged_in_id: @admin.id }
       end
 
       it 'renders the batch template' do
@@ -355,17 +395,19 @@ describe GroupsController, type: :controller do
     context 'POST' do
       context 'given valid data' do
         before do
-          post :batch, {
-            groups: {
-              @group.id.to_s => {
-                name: 'foobar',
-                members_send: '0'
-              },
-              @group2.id.to_s => {
-                address: 'baz'
-              }
-            }
-          }, logged_in_id: @admin.id
+          post :batch,
+               params: {
+                 groups: {
+                   @group.id.to_s => {
+                     name: 'foobar',
+                     members_send: '0'
+                   },
+                   @group2.id.to_s => {
+                     address: 'baz'
+                   }
+                 }
+               },
+               session: { logged_in_id: @admin.id }
         end
 
         it 'renders the batch template again' do
@@ -382,13 +424,15 @@ describe GroupsController, type: :controller do
 
       context 'given invalid data' do
         before do
-          post :batch, {
-            groups: {
-              @group.id.to_s => {
-                address: 'bad*address'
-              }
-            }
-          }, logged_in_id: @admin.id
+          post :batch,
+               params: {
+                 groups: {
+                   @group.id.to_s => {
+                     address: 'bad*address'
+                   }
+                 }
+               },
+               session: { logged_in_id: @admin.id }
         end
 
         it 'shows errors' do
@@ -402,18 +446,20 @@ describe GroupsController, type: :controller do
     context 'POST via ajax' do
       context 'given valid data' do
         before do
-          post :batch, {
-            format: 'js',
-            groups: {
-              @group.id.to_s => {
-                name: 'lorem',
-                members_send: 'true'
-              },
-              @group2.id.to_s => {
-                address: 'ipsum'
-              }
-            }
-          }, logged_in_id: @admin.id
+          post :batch,
+               params: {
+                 format: 'js',
+                 groups: {
+                   @group.id.to_s => {
+                     name: 'lorem',
+                     members_send: 'true'
+                   },
+                   @group2.id.to_s => {
+                     address: 'ipsum'
+                   }
+                 }
+               },
+               session: { logged_in_id: @admin.id }
         end
 
         it 'updates the groups' do
@@ -425,14 +471,16 @@ describe GroupsController, type: :controller do
 
       context 'given invalid data' do
         before do
-          post :batch, {
-            format: 'js',
-            groups: {
-              @group.id.to_s => {
-                address: 'bad*address'
-              }
-            }
-          }, logged_in_id: @admin.id
+          post :batch,
+               params: {
+                 format: 'js',
+                 groups: {
+                   @group.id.to_s => {
+                     address: 'bad*address'
+                   }
+                 }
+               },
+               session: { logged_in_id: @admin.id }
         end
 
         it 'shows errors' do
@@ -444,7 +492,8 @@ describe GroupsController, type: :controller do
 
   describe '#new' do
     before do
-      get :new, nil, logged_in_id: @person.id
+      get :new,
+          session: { logged_in_id: @person.id }
     end
 
     it 'renders the new group form' do
@@ -455,8 +504,9 @@ describe GroupsController, type: :controller do
   context '#create' do
     context 'user is not an admin' do
       before do
-        post :create, { group: { name: 'test name', category: 'test cat' } },
-             logged_in_id: @person.id
+        post :create,
+             params: { group: { name: 'test name', category: 'test cat' } },
+             session: { logged_in_id: @person.id }
         @group = Group.last
       end
 
@@ -484,8 +534,9 @@ describe GroupsController, type: :controller do
       before do
         @person.admin = Admin.create(manage_groups: true)
         @person.save!
-        post :create, { group: { name: 'test name', category: 'test cat' } },
-             logged_in_id: @person.id
+        post :create,
+             params: { group: { name: 'test name', category: 'test cat' } },
+             session: { logged_in_id: @person.id }
         @group = Group.last
       end
 

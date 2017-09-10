@@ -1,4 +1,4 @@
-class CreateCheckinFolders < ActiveRecord::Migration
+class CreateCheckinFolders < ActiveRecord::Migration[4.2]
   def up
     create_table :checkin_folders do |t|
       t.integer :site_id

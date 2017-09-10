@@ -1,4 +1,4 @@
-class CreateCustomFieldOptions < ActiveRecord::Migration
+class CreateCustomFieldOptions < ActiveRecord::Migration[4.2]
   def change
     create_table :custom_field_options do |t|
       t.integer :site_id, null: false

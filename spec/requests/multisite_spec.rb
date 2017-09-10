@@ -29,7 +29,8 @@ describe 'MultiSite', type: :request do
   it 'browses' do
     site! 'host1'
     sign_in_as @user1
-    get '/search', browse: true
+    get '/search',
+        params: { browse: true }
     assert_select 'body', /1 person found/
     assert_select 'body', /Jim Williams/
     assert_select 'body', html: /Tom Jones/, count: 0

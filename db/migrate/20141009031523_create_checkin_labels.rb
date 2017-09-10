@@ -1,4 +1,4 @@
-class CreateCheckinLabels < ActiveRecord::Migration
+class CreateCheckinLabels < ActiveRecord::Migration[4.2]
   def change
     create_table :checkin_labels do |t|
       t.string :name

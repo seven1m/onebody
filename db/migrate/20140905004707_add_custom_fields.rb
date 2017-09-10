@@ -1,4 +1,4 @@
-class AddCustomFields < ActiveRecord::Migration
+class AddCustomFields < ActiveRecord::Migration[4.2]
   def change
     create_table :custom_fields do |t|
       t.integer :site_id

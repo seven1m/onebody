@@ -2,7 +2,9 @@ class FamilyFormPresenter
   attr_reader :params, :people
 
   def initialize(params = {})
-    @params = params
+    @params = params.deep_dup
+    @params[:family] ||= {}
+    @params[:family][:people_attributes] ||= {}
   end
 
   def create
@@ -46,7 +48,8 @@ class FamilyFormPresenter
   end
 
   def validate_params
-    if not params[:family][:people_attributes].all? { |i, p| ['0', '1'].include?(i) or Date.parse_in_locale(p[:birthday]) rescue nil }
+    people_attrs = params[:family][:people_attributes].to_unsafe_h # just used for verifying attributes are present
+    if !people_attrs.all? { |i, p| %w(0 1).include?(i) || date_from_param(p[:birthday]) }
       @family.errors.add :base, I18n.t('checkin.family.error.no_birthdays')
     elsif @family.people.empty?
       @family.errors.add :base, I18n.t('checkin.family.error.no_people')
@@ -55,6 +58,12 @@ class FamilyFormPresenter
     elsif params[:family][:barcode_id].blank?
       @family.errors.add :base, I18n.t('checkin.family.error.no_barcode')
     end
+  end
+
+  def date_from_param(d)
+    Date.parse_in_locale(d)
+  rescue
+    nil
   end
 
   def build_adults

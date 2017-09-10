@@ -1,5 +1,5 @@
 class Administration::AdminsController < ApplicationController
-  before_filter :only_admins
+  before_action :only_admins
 
   def index
     if params[:groups]
@@ -93,7 +93,7 @@ class Administration::AdminsController < ApplicationController
 
   def only_admins
     unless @logged_in.admin?(:manage_access)
-      render text: t('only_admins'), layout: true, status: 401
+      render html: t('only_admins'), layout: true, status: 401
       false
     end
   end

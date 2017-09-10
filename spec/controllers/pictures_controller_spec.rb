@@ -14,14 +14,18 @@ describe PicturesController, type: :controller do
 
   context '#index' do
     it 'redirects to album show page' do
-      get :index, { album_id: @album.id }, logged_in_id: @person.id
+      get :index,
+          params: { album_id: @album.id },
+          session: { logged_in_id: @person.id }
       expect(response).to redirect_to(@album)
     end
   end
 
   context '#show' do
     it 'should display a picture' do
-      get :show, { album_id: @album.id, id: @picture.id }, logged_in_id: @person.id
+      get :show,
+          params: { album_id: @album.id, id: @picture.id },
+          session: { logged_in_id: @person.id }
       expect(response).to be_success
       expect(assigns(:picture)).to eq(@picture)
     end
@@ -33,13 +37,17 @@ describe PicturesController, type: :controller do
     end
 
     it 'should redirect to next picture' do
-      get :next, { album_id: @album.id, id: @picture.id }, logged_in_id: @person.id
+      get :next,
+          params: { album_id: @album.id, id: @picture.id },
+          session: { logged_in_id: @person.id }
       expect(response).to redirect_to(album_picture_path(@album, @picture2))
     end
 
     context 'given specified picture is last in album' do
       before do
-        get :next, { album_id: @album.id, id: @picture2.id }, logged_in_id: @person.id
+        get :next,
+            params: { album_id: @album.id, id: @picture2.id },
+            session: { logged_in_id: @person.id }
       end
 
       it 'should redirect to first picture' do
@@ -54,13 +62,17 @@ describe PicturesController, type: :controller do
     end
 
     it 'should redirect to previous picture' do
-      get :next, { album_id: @album.id, id: @picture2.id }, logged_in_id: @person.id
+      get :next,
+          params: { album_id: @album.id, id: @picture2.id },
+          session: { logged_in_id: @person.id }
       expect(response).to redirect_to(album_picture_path(@album, @picture))
     end
 
     context 'given specified picture is first in album' do
       before do
-        get :next, { album_id: @album.id, id: @picture.id }, logged_in_id: @person.id
+        get :next,
+            params: { album_id: @album.id, id: @picture.id },
+            session: { logged_in_id: @person.id }
       end
 
       it 'should redirect to last picture' do
@@ -71,26 +83,32 @@ describe PicturesController, type: :controller do
 
   context '#create' do
     it 'should create one picture' do
-      post :create, { album: @album.name, pictures: [Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)] }, logged_in_id: @person.id
+      post :create,
+           params: { album: @album.name, pictures: [Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)] },
+           session: { logged_in_id: @person.id }
       expect(response).to redirect_to(@album)
       expect(flash[:notice]).to eq('1 picture(s) saved')
     end
 
     it 'should create more than one picture' do
-      post :create, {
-        album: @album.name,
-        pictures: [
-          Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true),
-          Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true),
-          Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)
-        ]
-      }, logged_in_id: @person.id
+      post :create,
+           params: {
+             album: @album.name,
+             pictures: [
+               Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true),
+               Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true),
+               Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)
+             ]
+           },
+           session: { logged_in_id: @person.id }
       expect(response).to redirect_to(@album)
       expect(flash[:notice]).to eq('3 picture(s) saved')
     end
 
     it 'should create a new album by name' do
-      post :create, { album: 'My Stuff', pictures: [Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)] }, logged_in_id: @person.id
+      post :create,
+           params: { album: 'My Stuff', pictures: [Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)] },
+           session: { logged_in_id: @person.id }
       album = Album.last
       expect(album.name).to eq('My Stuff')
       expect(response).to redirect_to(album)
@@ -100,13 +118,15 @@ describe PicturesController, type: :controller do
     context 'given one bad image and one good image' do
       before do
         Picture.delete_all
-        post :create, {
-          album: 'My Stuff',
-          pictures: [
-            Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true),
-            Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.bmp'), 'image/bmp', true)
-          ]
-        }, logged_in_id: @person.id
+        post :create,
+             params: {
+               album: 'My Stuff',
+               pictures: [
+                 Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true),
+                 Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.bmp'), 'image/bmp', true)
+               ]
+             },
+             session: { logged_in_id: @person.id }
       end
 
       it 'should create one image and fail one image' do
@@ -124,7 +144,9 @@ describe PicturesController, type: :controller do
       context 'existing album name specified' do
         context 'user is not a group member' do
           it 'should return forbidden' do
-            post :create, { group_id: @group.id, album: 'Existing Album', pictures: [Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)] }, logged_in_id: @person.id
+            post :create,
+                 params: { group_id: @group.id, album: 'Existing Album', pictures: [Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)] },
+                 session: { logged_in_id: @person.id }
             expect(response).to be_forbidden
           end
         end
@@ -135,7 +157,9 @@ describe PicturesController, type: :controller do
           end
 
           it 'should redirect to the album' do
-            post :create, { group_id: @group.id, album: 'Existing Album', pictures: [Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)] }, logged_in_id: @person.id
+            post :create,
+                 params: { group_id: @group.id, album: 'Existing Album', pictures: [Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)] },
+                 session: { logged_in_id: @person.id }
             expect(response).to redirect_to(assigns[:album])
           end
 
@@ -145,7 +169,9 @@ describe PicturesController, type: :controller do
             end
 
             it 'should return forbidden' do
-              post :create, { group_id: @group.id, album: 'Existing Album', pictures: [Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)] }, logged_in_id: @person.id
+              post :create,
+                   params: { group_id: @group.id, album: 'Existing Album', pictures: [Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)] },
+                   session: { logged_in_id: @person.id }
               expect(response).to be_forbidden
             end
           end
@@ -161,7 +187,9 @@ describe PicturesController, type: :controller do
       context 'new album name specified' do
         context 'user is not a group member' do
           it 'should return forbidden' do
-            post :create, { group_id: @group.id, album: 'New Album', pictures: [Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)] }, logged_in_id: @person.id
+            post :create,
+                 params: { group_id: @group.id, album: 'New Album', pictures: [Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)] },
+                 session: { logged_in_id: @person.id }
             expect(response).to be_forbidden
           end
 
@@ -176,7 +204,9 @@ describe PicturesController, type: :controller do
           end
 
           it 'should redirect to the group' do
-            post :create, { group_id: @group.id, album: 'New Album', pictures: [Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)] }, logged_in_id: @person.id
+            post :create,
+                 params: { group_id: @group.id, album: 'New Album', pictures: [Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)] },
+                 session: { logged_in_id: @person.id }
             expect(response).to redirect_to(assigns[:album])
           end
 
@@ -186,7 +216,9 @@ describe PicturesController, type: :controller do
             end
 
             it 'should return forbidden' do
-              post :create, { group_id: @group.id, album: 'New Album', pictures: [Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)] }, logged_in_id: @person.id
+              post :create,
+                   params: { group_id: @group.id, album: 'New Album', pictures: [Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)] },
+                   session: { logged_in_id: @person.id }
               expect(response).to be_forbidden
             end
 
@@ -201,7 +233,9 @@ describe PicturesController, type: :controller do
     it 'should use an existing album by name' do
       @album = @person.albums.create(name: 'Existing Album')
       album_count = Album.count
-      post :create, { album: 'Existing Album', pictures: [Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)] }, logged_in_id: @person.id
+      post :create,
+           params: { album: 'Existing Album', pictures: [Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)] },
+           session: { logged_in_id: @person.id }
       expect(response).to redirect_to(@album)
       expect(Album.count).to eq(album_count)
       expect(Picture.last.album).to eq(@album)
@@ -211,7 +245,9 @@ describe PicturesController, type: :controller do
     it 'should use an existing album by id' do
       @album = FactoryGirl.create(:album, owner: @person)
       album_count = Album.count
-      post :create, { album_id: @album.id, pictures: [Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)] }, logged_in_id: @person.id
+      post :create,
+           params: { album_id: @album.id, pictures: [Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/image.jpg'), 'image/jpeg', true)] },
+           session: { logged_in_id: @person.id }
       expect(response).to redirect_to(@album)
       expect(Album.count).to eq(album_count)
       expect(Picture.last.album).to eq(@album)
@@ -222,10 +258,14 @@ describe PicturesController, type: :controller do
   context '#update' do
     it 'should select a picture as an album cover' do
       add_pictures(1)
-      post :update, { album_id: @album.id, id: @picture.id, cover: 'true' }, logged_in_id: @person.id
+      post :update,
+           params: { album_id: @album.id, id: @picture.id, cover: 'true' },
+           session: { logged_in_id: @person.id }
       expect(response).to redirect_to(@album)
       expect(@picture.reload.cover).to be
-      post :update, { album_id: @album.id, id: @picture2.id, cover: 'true' }, logged_in_id: @person.id
+      post :update,
+           params: { album_id: @album.id, id: @picture2.id, cover: 'true' },
+           session: { logged_in_id: @person.id }
       expect(response).to redirect_to(@album)
       expect(@picture.reload.cover).not_to be
       expect(@picture2.reload.cover).to be
@@ -233,14 +273,18 @@ describe PicturesController, type: :controller do
 
     it 'should rotate a picture' do
       @picture = FactoryGirl.create(:picture, :with_file, album: @album)
-      post :update, { album_id: @album.id, id: @picture.id, degrees: '90' }, logged_in_id: @person.id
+      post :update,
+           params: { album_id: @album.id, id: @picture.id, degrees: '90' },
+           session: { logged_in_id: @person.id }
       expect(response).to redirect_to(album_picture_path(@album, @picture))
     end
   end
 
   context '#destroy' do
     it 'should delete a picture' do
-      post :destroy, { album_id: @album.id, id: @picture.id }, logged_in_id: @person.id
+      post :destroy,
+           params: { album_id: @album.id, id: @picture.id },
+           session: { logged_in_id: @person.id }
       expect { @picture.reload }.to raise_error(ActiveRecord::RecordNotFound)
       expect(response).to redirect_to(album_path(@album))
     end

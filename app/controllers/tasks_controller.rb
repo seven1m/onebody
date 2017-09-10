@@ -8,7 +8,7 @@ class TasksController < ApplicationController
     elsif @logged_in.member_of?(@group)
       @tasks = tasks.order(completed: :asc, duedate: :asc).page(params[:page])
     else
-      render text: t('not_authorized'), layout: true, status: :forbidden
+      render html: t('not_authorized'), layout: true, status: :forbidden
     end
   end
 
@@ -44,20 +44,20 @@ class TasksController < ApplicationController
       flash[:notice] = t('tasks.deleted')
       redirect_back
     else
-      render text: t('not_authorized'), layout: true, status: 401
+      render html: t('not_authorized'), layout: true, status: 401
     end
   end
 
   def complete
     @task = @group.tasks.find(params[:id])
     @task.update_attribute(:completed, params[:task][:completed])
-    render nothing: true
+    head :ok
   end
 
   def update_position
     @task = Task.find(params[:id])
     @task.insert_at(params[:position].to_i) if @task.updatable_by?(@logged_in)
-    render nothing: true
+    head :ok
   end
 
   private

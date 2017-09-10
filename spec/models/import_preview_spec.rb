@@ -51,7 +51,7 @@ describe ImportPreview do
     it 'updates the status of the rows' do
       subject.preview
       expect(row1.reload.attributes).to include(
-        'status' => 1
+        'status' => 'previewed'
       )
     end
 

@@ -1,9 +1,9 @@
 class PagesController < ApplicationController
-  skip_before_filter :authenticate_user, only: %w(show_for_public)
-  skip_before_filter :feature_enabled?
-  before_filter :get_path
-  before_filter :get_page, :get_user, only: %w(show_for_public)
-  before_filter :feature_enabled?, only: %w(show_for_public) # must follow get_page
+  skip_before_action :authenticate_user, only: %w(show_for_public)
+  skip_before_action :feature_enabled?
+  before_action :get_path
+  before_action :get_page, :get_user, only: %w(show_for_public)
+  before_action :feature_enabled?, only: %w(show_for_public) # must follow get_page
 
   def index
     @pages = Page.where(system: true, published: true).order(:title)
@@ -14,10 +14,10 @@ class PagesController < ApplicationController
       if @page.published?
         render action: 'show', layout: 'signed_out'
       else
-        render text: t('pages.not_found'), status: 404
+        render plain: t('pages.not_found'), status: 404
       end
     else
-      render text: t('pages.not_found'), status: 404
+      render plain: t('pages.not_found'), status: 404
     end
   end
 
@@ -31,7 +31,7 @@ class PagesController < ApplicationController
   def edit
     @page = Page.find(params[:id])
     unless @logged_in.can_update?(@page)
-      render text: t('not_authorized'), layout: true, status: 401
+      render html: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -45,7 +45,7 @@ class PagesController < ApplicationController
         render action: 'edit'
       end
     else
-      render text: t('not_authorized'), layout: true, status: 401
+      render html: t('not_authorized'), layout: true, status: 401
     end
   end
 

@@ -3,8 +3,8 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_authenticity_token, if: -> { logged_in_from_api_key? }
 
   # these are prepended so they happen before verify_authenticity_token
-  prepend_before_filter :authenticate_user_with_api_key
-  prepend_before_filter :get_site
+  prepend_before_action :authenticate_user_with_api_key
+  prepend_before_action :get_site
 
   include LoadAndAuthorizeResource
 
@@ -56,7 +56,7 @@ class ApplicationController < ActionController::Base
       redirect_to request.url.sub(%r{^(https?://)www\.}, '\1')
       return false
     else
-      render text: t('application.no_site_configured', host: request.host), status: 404
+      render plain: t('application.no_site_configured', host: request.host), status: 404
       return false
     end
   end
@@ -138,7 +138,7 @@ class ApplicationController < ActionController::Base
     if @logged_in && @logged_in.pending?
       unless LIMITED_ACCESS_AVAILABLE_ACTIONS.include?("#{params[:controller]}/#{params[:action]}") || \
           LIMITED_ACCESS_AVAILABLE_ACTIONS.include?("#{params[:controller]}/*")
-        render text: t('people.limited_access_denied'), layout: true, status: 401
+        render html: t('people.limited_access_denied'), layout: true, status: 401
         false
       end
     end
@@ -146,11 +146,11 @@ class ApplicationController < ActionController::Base
 
   def authority_forbidden(error)
     Authority.logger.warn(error.message)
-    render text: I18n.t('not_authorized'), layout: true, status: :forbidden
+    render html: I18n.t('not_authorized'), layout: true, status: :forbidden
   end
 
   rescue_from 'LoadAndAuthorizeResource::AccessDenied', 'LoadAndAuthorizeResource::ParameterMissing' do
-    render text: I18n.t('not_authorized'), layout: true, status: :forbidden
+    render html: I18n.t('not_authorized'), layout: true, status: :forbidden
   end
 
   rescue_from 'EmailConnectionError' do
@@ -188,7 +188,7 @@ class ApplicationController < ActionController::Base
 
   def only_admins
     unless @logged_in.admin?
-      render text: t('only_admins'), layout: true, status: 401
+      render html: t('only_admins'), layout: true, status: 401
       false
     end
   end
@@ -229,6 +229,6 @@ class ApplicationController < ActionController::Base
         message.html_safe
       end
     end
-    render text: message, layout: layout, status: status
+    render plain: message, layout: layout, status: status
   end
 end

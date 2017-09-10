@@ -5,7 +5,7 @@
 # If you are upgrading from a previous (1.x.y or 2.x.y) version of OneBody,
 # be sure to upgrade to 3.0.0 first and run the database migrations.
 
-class Rollup < ActiveRecord::Migration
+class Rollup < ActiveRecord::Migration[4.2]
 
   create_table "admins", force: true do |t|
     t.datetime "created_at"

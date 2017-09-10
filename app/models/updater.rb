@@ -76,6 +76,7 @@ class Updater
   }.freeze
 
   def initialize(params)
+    params = params.to_unsafe_h unless params.is_a?(Hash) # we filter them manually
     self.params = params
   end
 
@@ -105,7 +106,7 @@ class Updater
   # and/or creates a new Update pending approval
   def save!
     changes # set cache
-    person.updates.create!(family_id: family.id, data: approval_params) if approval_params.any?
+    person.updates.create!(family_id: family.id, data: approval_params) unless approval_params.empty?
     success = person.update_attributes(person_params) && family.update_attributes(family_params)
     family.errors.values.each { |m| person.errors.add(:base, m) } unless success
     success
@@ -160,7 +161,7 @@ class Updater
         end
       end
       permitted.permit!
-      permitted.reject! { |_, v| v == {} }
+      permitted.reject! { |_, v| v.is_a?(ActionController::Parameters) && v.empty? }
     end
   end
 

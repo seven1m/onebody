@@ -189,6 +189,6 @@ class Verse < ApplicationRecord
   end
 
   def delete_stream_items(person)
-    StreamItem.destroy_all(streamable_type: 'Verse', streamable_id: id, person_id: person.id)
+    StreamItem.where(streamable_type: 'Verse', streamable_id: id, person_id: person.id).destroy_all
   end
 end

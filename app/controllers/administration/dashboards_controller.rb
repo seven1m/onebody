@@ -1,5 +1,5 @@
 class Administration::DashboardsController < ApplicationController
-  before_filter :only_admins
+  before_action :only_admins
 
   # TODO: refactor into presenter
   def show

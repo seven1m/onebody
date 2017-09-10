@@ -9,37 +9,48 @@ describe PeopleController, type: :controller do
   end
 
   it 'should redirect the index action to the currently logged in person' do
-    get :index, nil, logged_in_id: @person.id
+    get :index,
+        session: { logged_in_id: @person.id }
     expect(response).to redirect_to(action: 'show', id: @person.id)
   end
 
   it 'should show a person' do
-    get :show, { id: @person.id }, logged_in_id: @person.id # myself
+    get :show,
+        params: { id: @person.id },
+        session: { logged_in_id: @person.id } # myself
     expect(response).to be_success
     expect(response).to render_template('show')
-    get :show, { id: @person.id }, logged_in_id: @other_person.id # someone else
+    get :show,
+        params: { id: @person.id },
+        session: { logged_in_id: @other_person.id } # someone else
     expect(response).to be_success
     expect(response).to render_template('show')
   end
 
   it 'should show a limited view of a person' do
-    get :show, { id: @person.id }, logged_in_id: @limited_person.id
+    get :show,
+        params: { id: @person.id },
+        session: { logged_in_id: @limited_person.id }
     expect(response).to be_success
     expect(response).to render_template('show_limited')
   end
 
   it 'should not show a person if they are invisible to the logged in user' do
     @person.update_attribute :visible, false
-    get :show, { id: @person.id }, logged_in_id: @other_person.id
+    get :show,
+        params: { id: @person.id },
+        session: { logged_in_id: @other_person.id }
     expect(response).to be_missing
   end
 
   it 'should create a person update' do
     Setting.set(Site.current.id, 'Features', 'Updates Must Be Approved', true)
-    get :edit, { id: @person.id }, logged_in_id: @person.id
+    get :edit,
+        params: { id: @person.id },
+        session: { logged_in_id: @person.id }
     expect(response).to be_success
     post :update,
-         {
+         params: {
            id: @person.id,
            person: {
              first_name: 'Bob',
@@ -50,7 +61,7 @@ describe PeopleController, type: :controller do
              last_name: 'Smith'
            }
          },
-         logged_in_id: @person.id
+         session: { logged_in_id: @person.id }
     expect(response).to redirect_to(person_path(@person))
     expect(@person.reload.first_name).to eq('John') # should not change person
     expect(@person.updates.count).to eq(1)
@@ -58,14 +69,14 @@ describe PeopleController, type: :controller do
 
   it 'should edit testimony and other non-basic person information' do
     post :update,
-         {
+         params: {
            id: @person.id,
            person: {
              first_name: @person.first_name, # no change
              testimony: 'testimony'
            }
          },
-         logged_in_id: @person.id
+         session: { logged_in_id: @person.id }
     expect(response).to redirect_to(person_path(@person))
     expect(@person.reload.testimony).to eq('testimony')
     expect(@person.updates.count).to eq(0)
@@ -75,7 +86,7 @@ describe PeopleController, type: :controller do
     @other_person.admin = Admin.create!(edit_profiles: true)
     @other_person.save!
     post :update,
-         {
+         params: {
            id: @person.id,
            person: {
              first_name: 'Bob',
@@ -86,7 +97,7 @@ describe PeopleController, type: :controller do
              last_name: 'Smith'
            }
          },
-         logged_in_id: @other_person.id
+         session: { logged_in_id: @other_person.id }
     expect(response).to redirect_to(person_path(@person))
     expect(@person.reload.first_name).to eq('Bob')
     expect(@person.updates.count).to eq(0)
@@ -95,42 +106,56 @@ describe PeopleController, type: :controller do
   it 'should delete a person' do
     @other_person.admin = Admin.create!(edit_profiles: true)
     @other_person.save!
-    post :destroy, { id: @person.id }, logged_in_id: @other_person.id
+    post :destroy,
+         params: { id: @person.id },
+         session: { logged_in_id: @other_person.id }
     expect(@person.reload).to be_deleted
   end
 
   it 'should not delete self' do
     @person.admin = Admin.create!(edit_profiles: true)
     @person.save!
-    post :destroy, { id: @person.id }, logged_in_id: @person.id
+    post :destroy,
+         params: { id: @person.id },
+         session: { logged_in_id: @person.id }
     expect(response.status).to eq(401)
     expect(@person.reload).to_not be_deleted
   end
 
   it 'should not delete a person unless admin' do
-    post :destroy, { id: @person.id }, logged_in_id: @other_person.id
+    post :destroy,
+         params: { id: @person.id },
+         session: { logged_in_id: @other_person.id }
     expect(response.status).to eq(401)
-    post :destroy, { id: @person.id }, logged_in_id: @other_person.id
+    post :destroy,
+         params: { id: @person.id },
+         session: { logged_in_id: @other_person.id }
     expect(response.status).to eq(401)
   end
 
   it 'should not show xml unless user can export data' do
     expect do
-      get :show, { id: @person.id, format: 'xml' }, logged_in_id: @person.id
+      get :show,
+          params: { id: @person.id, format: 'xml' },
+          session: { logged_in_id: @person.id }
     end.to raise_error(ActionController::UnknownFormat)
   end
 
   it 'should show xml for admin who can export data' do
     @other_person.admin = Admin.create!(export_data: true)
     @other_person.save!
-    get :show, { id: @person.id, format: 'xml' }, logged_in_id: @other_person.id
+    get :show,
+        params: { id: @person.id, format: 'xml' },
+        session: { logged_in_id: @other_person.id }
     expect(response).to be_success
   end
 
   it 'should not allow deletion of a super admin' do
     @super_admin1 = FactoryGirl.create(:person, admin: Admin.create(super_admin: true))
     @super_admin2 = FactoryGirl.create(:person, admin: Admin.create(super_admin: true))
-    post :destroy, { id: @super_admin1.id }, logged_in_id: @super_admin2.id
+    post :destroy,
+         params: { id: @super_admin1.id },
+         session: { logged_in_id: @super_admin2.id }
     expect(response.status).to eq(401)
   end
 
@@ -138,10 +163,18 @@ describe PeopleController, type: :controller do
     @admin = FactoryGirl.create(:person, admin: Admin.create(edit_profiles: true, view_hidden_profiles: true))
     @person = Person.create!(first_name: 'Deanna', last_name: 'Troi', child: false)
     # normal person should not see
-    expect { get :show, { id: @person.id }, logged_in_id: @other_person.id }.to_not raise_error
+    expect {
+      get :show,
+          params: { id: @person.id },
+          session: { logged_in_id: @other_person.id }
+    }.to_not raise_error
     expect(response).to be_missing
     # admin should see a message
-    expect { get :show, { id: @person.id }, logged_in_id: @admin.id }.to_not raise_error
+    expect {
+      get :show,
+          params: { id: @person.id },
+          session: { logged_in_id: @admin.id }
+    }.to_not raise_error
     expect(response).to be_success
     expect(response.body).to include(I18n.t('people.no_family_for_this_person'))
   end
@@ -152,7 +185,9 @@ describe PeopleController, type: :controller do
         before do
           @person.business_name = 'Tim Morgan Enterprises'
           @person.save!
-          get :show, { id: @person.id, business: true }, logged_in_id: @person.id
+          get :show,
+              params: { id: @person.id, business: true },
+              session: { logged_in_id: @person.id }
         end
 
         it 'shows the business template' do
@@ -162,7 +197,9 @@ describe PeopleController, type: :controller do
 
       context 'person does not have a business' do
         before do
-          get :show, { id: @person.id, business: true }, logged_in_id: @person.id
+          get :show,
+              params: { id: @person.id, business: true },
+              session: { logged_in_id: @person.id }
         end
 
         it 'renders the profile' do
@@ -179,7 +216,9 @@ describe PeopleController, type: :controller do
       let(:family) { @person.family }
 
       before do
-        get :new, { family_id: family.id }, logged_in_id: admin.id
+        get :new,
+            params: { family_id: family.id },
+            session: { logged_in_id: admin.id }
       end
 
       it 'renders the new template' do
@@ -189,7 +228,8 @@ describe PeopleController, type: :controller do
 
     context 'given no family' do
       before do
-        get :new, {}, logged_in_id: admin.id
+        get :new,
+            session: { logged_in_id: admin.id }
       end
 
       it 'renders the new template' do
@@ -206,7 +246,7 @@ describe PeopleController, type: :controller do
 
       before do
         post :create,
-             {
+             params: {
                person: {
                  first_name: 'Todd',
                  last_name: 'Jones',
@@ -214,7 +254,7 @@ describe PeopleController, type: :controller do
                  child: '0'
                }
              },
-             logged_in_id: admin.id
+             session: { logged_in_id: admin.id }
       end
 
       it 'creates the new person in the existing family and redirects' do
@@ -226,7 +266,7 @@ describe PeopleController, type: :controller do
     context 'with no family' do
       def do_post
         post :create,
-             {
+             params: {
                person: {
                  first_name: 'Todd',
                  last_name: 'Jones',
@@ -237,7 +277,7 @@ describe PeopleController, type: :controller do
                  home_phone: '123-456-7890'
                }
              },
-             logged_in_id: admin.id
+             session: { logged_in_id: admin.id }
       end
 
       it 'creates the new person in a new family and redirects' do
@@ -254,13 +294,13 @@ describe PeopleController, type: :controller do
     context 'with no family, invalid family attributes' do
       def do_post
         post :create,
-             {
+             params: {
                person: {
                  first_name: '',
                  last_name: ''
                }
              },
-             logged_in_id: admin.id
+             session: { logged_in_id: admin.id }
       end
 
       render_views
@@ -279,12 +319,12 @@ describe PeopleController, type: :controller do
         @old_family = @person.family
         @other_family = FactoryGirl.create(:family)
         post :update,
-             {
+             params: {
                id: @person.id,
                family_id: @other_family.id,
                move_person: true
              },
-             logged_in_id: @admin.id
+             session: { logged_in_id: @admin.id }
       end
 
       it 'moves the person to the family' do

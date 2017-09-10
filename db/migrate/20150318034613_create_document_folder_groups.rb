@@ -1,4 +1,4 @@
-class CreateDocumentFolderGroups < ActiveRecord::Migration
+class CreateDocumentFolderGroups < ActiveRecord::Migration[4.2]
   def change
     create_table :document_folder_groups do |t|
       t.references :document_folder

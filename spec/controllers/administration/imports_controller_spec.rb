@@ -7,7 +7,8 @@ describe Administration::ImportsController, type: :controller do
     let!(:import) { FactoryGirl.create(:import, person: admin) }
 
     before do
-      get :index, {}, logged_in_id: admin.id
+      get :index,
+          session: { logged_in_id: admin.id }
     end
 
     it 'renders the index template' do
@@ -19,7 +20,9 @@ describe Administration::ImportsController, type: :controller do
     let(:import) { FactoryGirl.create(:import, person: admin) }
 
     before do
-      get :show, { id: import.id }, logged_in_id: admin.id
+      get :show,
+          params: { id: import.id },
+          session: { logged_in_id: admin.id }
     end
 
     it 'renders the show template' do
@@ -29,7 +32,8 @@ describe Administration::ImportsController, type: :controller do
 
   describe '#new' do
     before do
-      get :new, {}, logged_in_id: admin.id
+      get :new,
+          session: { logged_in_id: admin.id }
     end
 
     it 'renders the new template' do
@@ -45,7 +49,9 @@ describe Administration::ImportsController, type: :controller do
 
     before do
       allow_any_instance_of(Import).to receive(:parse_async)
-      post :create, { file: file }, logged_in_id: admin.id
+      post :create,
+           params: { file: file },
+           session: { logged_in_id: admin.id }
     end
 
     it 'creates a new Import and redirects to it' do
@@ -75,7 +81,9 @@ describe Administration::ImportsController, type: :controller do
 
     context 'import is pending' do
       before do
-        get :edit, { id: import.id }, logged_in_id: admin.id
+        get :edit,
+            params: { id: import.id },
+            session: { logged_in_id: admin.id }
       end
 
       it 'renders the edit template' do
@@ -86,7 +94,9 @@ describe Administration::ImportsController, type: :controller do
     context 'import is parsed' do
       before do
         import.update_attribute(:status, :parsed)
-        get :edit, { id: import.id }, logged_in_id: admin.id
+        get :edit,
+            params: { id: import.id },
+            session: { logged_in_id: admin.id }
       end
 
       it 'renders the edit template' do
@@ -100,16 +110,18 @@ describe Administration::ImportsController, type: :controller do
 
     context do
       before do
-        patch :update, {
-          id: import.id,
-          import: {
-            match_strategy: 'by_name',
-            mappings: {
-              'foo' => 'bar'
-            },
-            dont_preview: '0'
-          }
-        }, logged_in_id: admin.id
+        patch :update,
+              params: {
+                id: import.id,
+                import: {
+                  match_strategy: 'by_name',
+                  mappings: {
+                    'foo' => 'bar'
+                  },
+                  dont_preview: '0'
+                }
+              },
+              session: { logged_in_id: admin.id }
       end
 
       it 'updates the import settings and redirects to the show page' do
@@ -125,16 +137,18 @@ describe Administration::ImportsController, type: :controller do
       before do
         allow(Import).to receive(:find).with(import.id.to_s).and_return(import)
         allow(import).to receive(:reset_and_execute_async)
-        patch :update, {
-          id: import.id,
-          import: {
-            match_strategy: 'by_name',
-            mappings: {
-              'foo' => 'bar'
-            }
-          },
-          dont_preview: '1'
-        }, logged_in_id: admin.id
+        patch :update,
+              params: {
+                id: import.id,
+                import: {
+                  match_strategy: 'by_name',
+                  mappings: {
+                    'foo' => 'bar'
+                  }
+                },
+                dont_preview: '1'
+              },
+              session: { logged_in_id: admin.id }
       end
 
       it 'calls execute_async and redirects to the show page' do
@@ -148,7 +162,9 @@ describe Administration::ImportsController, type: :controller do
     let(:import) { FactoryGirl.create(:import, person: admin) }
 
     before do
-      delete :destroy, { id: import.id }, logged_in_id: admin.id
+      delete :destroy,
+             params: { id: import.id },
+             session: { logged_in_id: admin.id }
     end
 
     it 'destroys the import' do
@@ -166,7 +182,9 @@ describe Administration::ImportsController, type: :controller do
     before do
       allow(Import).to receive(:find).with(import.id.to_s).and_return(import)
       allow(import).to receive(:execute_async)
-      patch :execute, { id: import.id }, logged_in_id: admin.id
+      patch :execute,
+            params: { id: import.id },
+            session: { logged_in_id: admin.id }
     end
 
     it 'executes the import and redirects to the show page' do

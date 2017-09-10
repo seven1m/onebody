@@ -37,7 +37,8 @@ describe SessionsController, type: :controller do
   describe '#create' do
     context 'correct password' do
       it 'sets logged_in_id and redirects' do
-        post :create, email: @person.email.upcase, password: 'secret'
+        post :create,
+             params: { email: @person.email.upcase, password: 'secret' }
         expect(flash[:warning]).to be_nil
         expect(session[:logged_in_id]).to eq(@person.id)
         expect(session[:logged_in_name]).to eq(@person.name)
@@ -48,7 +49,8 @@ describe SessionsController, type: :controller do
 
     context 'given incorrect password' do
       before do
-        post :create, email: @person.email.upcase, password: 'wrong'
+        post :create,
+             params: { email: @person.email.upcase, password: 'wrong' }
       end
 
       render_views
@@ -70,7 +72,8 @@ describe SessionsController, type: :controller do
 
     context 'given email not found' do
       before do
-        post :create, email: 'bad@example.com', password: 'secret'
+        post :create,
+             params: { email: 'bad@example.com', password: 'secret' }
       end
 
       render_views
@@ -92,21 +95,24 @@ describe SessionsController, type: :controller do
 
     context 'given from param' do
       it 'redirects to from param after sign in' do
-        post :create, email: @person.email, password: 'secret', from: '/groups'
+        post :create,
+             params: { email: @person.email, password: 'secret', from: '/groups' }
         expect(response).to redirect_to(groups_path)
       end
     end
 
     context 'given from param with a domain name' do
       it 'does not redirect off-site' do
-        post :create, email: @person.email, password: 'secret', from: 'http://google.com/foo'
+        post :create,
+             params: { email: @person.email, password: 'secret', from: 'http://google.com/foo' }
         expect(response).to redirect_to('/foo')
       end
     end
 
     context 'given from param without a leading slash' do
       it 'does not redirect off-site' do
-        post :create, email: @person.email, password: 'secret', from: 'badguy.com'
+        post :create,
+             params: { email: @person.email, password: 'secret', from: 'badguy.com' }
         expect(response).to redirect_to('/badguy.com')
       end
     end

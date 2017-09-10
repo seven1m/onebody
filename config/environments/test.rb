@@ -13,8 +13,8 @@ OneBody::Application.configure do
   config.eager_load = false
 
   # Configure static asset server for tests with Cache-Control for performance.
-  config.serve_static_files   = true
-  config.static_cache_control = "public, max-age=3600"
+  config.public_file_server.enabled = true
+  config.public_file_server.headers = { 'Cache-Control' => 'public, max-age=3600' }
 
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
@@ -32,7 +32,7 @@ OneBody::Application.configure do
   config.action_mailer.delivery_method = :test
 
   # Process queued jobs inline
-  config.active_job.queue_adapter = :inline
+  config.active_job.queue_adapter = :test
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr

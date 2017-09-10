@@ -4,7 +4,7 @@ class PicturesController < ApplicationController
 
   load_and_authorize_parent :group, optional: true, only: :create, children: :albums
   load_and_authorize_parent :album, optional: true
-  before_filter :find_or_create_album_by_name, only: :create
+  before_action :find_or_create_album_by_name, only: :create
   load_and_authorize_resource except: %i(index new create)
 
   def index

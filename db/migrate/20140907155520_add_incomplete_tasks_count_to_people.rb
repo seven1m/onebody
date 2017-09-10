@@ -1,4 +1,4 @@
-class AddIncompleteTasksCountToPeople < ActiveRecord::Migration
+class AddIncompleteTasksCountToPeople < ActiveRecord::Migration[4.2]
   def change
     add_column :people, :incomplete_tasks_count, :integer, default: 0
   end

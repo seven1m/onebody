@@ -27,6 +27,9 @@ OneBody::Application.configure do
   # number of complex assets.
   config.assets.debug = true
 
+  # Don't log assets
+  config.assets.quiet = true
+
   # Enable async queue processing
   config.active_job.queue_adapter = :sucker_punch
 

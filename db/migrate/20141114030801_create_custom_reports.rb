@@ -1,4 +1,4 @@
-class CreateCustomReports < ActiveRecord::Migration
+class CreateCustomReports < ActiveRecord::Migration[4.2]
   def change
     create_table :custom_reports do |t|
       t.integer :site_id

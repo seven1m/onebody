@@ -110,13 +110,18 @@ module ApplicationHelper
   end
 
   def sortable_column_heading(label, sort, keep_params = [])
+    extra_params = if keep_params == :all
+                     params.to_unsafe_h.except(:controller, :action, :sort)
+                   else
+                     params.to_unsafe_h.select { |k| keep_params.map(&:to_s).include?(k) }
+                   end
     options = {
       controller: params[:controller],
       action:     params[:action],
       id:         params[:id],
       sort:       sort_params(sort)
     }.merge(
-      keep_params == :all ? params.except(:controller, :action, :sort) : params.reject { |k| !keep_params.include?(k) }
+      extra_params
     )
     url = url_for(options)
     link_to label, url

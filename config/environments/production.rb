@@ -20,7 +20,7 @@ OneBody::Application.configure do
   # config.action_dispatch.rack_cache = true
 
   # Disable Rails's static file server (Apache or nginx will already do this).
-  config.serve_static_files = ENV['SERVE_ASSETS'].to_s =~ /\A(true|t|1|yes)\z/
+  config.public_file_server.enabled = ENV['SERVE_ASSETS'].to_s =~ /\A(true|t|1|yes)\z/
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier

@@ -11,7 +11,8 @@ describe Administration::UpdatesController, type: :controller do
   context '#index' do
     context 'unauthorized user' do
       it 'should return unauthorized' do
-        get :index, nil, logged_in_id: @person.id
+        get :index,
+            session: { logged_in_id: @person.id }
         expect(response.status).to eq(401)
       end
     end
@@ -26,7 +27,8 @@ describe Administration::UpdatesController, type: :controller do
           }
         )
         @update_complete = @person.updates.create!(complete: true)
-        get :index, nil, logged_in_id: @admin.id
+        get :index,
+            session: { logged_in_id: @admin.id }
       end
 
       it 'should render the index template' do
@@ -60,21 +62,24 @@ describe Administration::UpdatesController, type: :controller do
     end
 
     it 'should mark the update complete' do
-      put :update, { id: @update.id, update: { complete: 'true' } },
-          logged_in_id: @admin.id
+      put :update,
+          params: { id: @update.id, update: { complete: 'true' } },
+          session: { logged_in_id: @admin.id }
       expect(@update.reload.complete).to be
     end
 
     it 'should mark the update incomplete' do
       @update.update_attribute(:complete, true)
-      put :update, { id: @update.id, update: { complete: 'false' } },
-          logged_in_id: @admin.id
+      put :update,
+          params: { id: @update.id, update: { complete: 'false' } },
+          session: { logged_in_id: @admin.id }
       expect(@update.reload.complete).not_to be
     end
 
     it 'should apply the update' do
-      put :update, { id: @update.id, update: { apply: 'true' } },
-          logged_in_id: @admin.id
+      put :update,
+          params: { id: @update.id, update: { apply: 'true' } },
+          session: { logged_in_id: @admin.id }
       expect(@update.reload).to be_complete
       expect(@person.reload.first_name).to eq('Tim')
     end
@@ -86,7 +91,9 @@ describe Administration::UpdatesController, type: :controller do
     end
 
     it 'should destroy the update' do
-      delete :destroy, { id: @update.id }, logged_in_id: @admin.id
+      delete :destroy,
+             params: { id: @update.id },
+             session: { logged_in_id: @admin.id }
       expect { @update.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end

@@ -6,7 +6,7 @@ class PhotosController < ApplicationController
     'group_id'   => Group
   }.freeze
 
-  before_filter :get_object
+  before_action :get_object
 
   def update
     if @logged_in.can_update?(@object)
@@ -40,7 +40,7 @@ class PhotosController < ApplicationController
         end
       end
     else
-      render text: t('photos.unavailable'), status: 500
+      render plain: t('photos.unavailable'), status: 500
     end
   end
 
@@ -53,7 +53,7 @@ class PhotosController < ApplicationController
         format.json
       end
     else
-      render text: t('photos.unavailable'), status: 500
+      render plain: t('photos.unavailable'), status: 500
     end
   end
 
@@ -66,7 +66,7 @@ class PhotosController < ApplicationController
       @id_key = id_key
       @object = model.find(params[id_key])
     else
-      render text: t('photos.object_not_found'), layout: true, status: 404
+      render html: t('photos.object_not_found'), layout: true, status: 404
       false
     end
   end

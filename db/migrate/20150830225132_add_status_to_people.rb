@@ -1,4 +1,4 @@
-class AddStatusToPeople < ActiveRecord::Migration
+class AddStatusToPeople < ActiveRecord::Migration[4.2]
   def up
     add_column :people, :status, :integer
 

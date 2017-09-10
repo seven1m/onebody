@@ -1,11 +1,14 @@
+# rubocop:disable Metrics/LineLength, Layout/LeadingCommentSpace
+
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.9'
+gem 'rails', '5.0.5'
 
 # select the appropriate gem below for your database:
 gem 'mysql2'
 #gem 'pg'
 
+gem 'activemodel-serializers-xml'
 gem 'activerecord-session_store'
 gem 'acts_as_list'
 gem 'acts_as_taggable_on_steroids', github: 'seven1m/acts_as_taggable_on_steroids'
@@ -22,7 +25,7 @@ gem 'flag_shih_tzu'
 gem 'font-awesome-rails'
 gem 'geocoder'
 gem 'github_api'
-gem 'haml'
+gem 'haml', '~> 4.0.7' # 5.0.x has formatting issues caused by removal of the :ugly option https://git.io/v5i0G
 gem 'highline'
 gem 'html_truncator'
 gem 'httparty'
@@ -42,7 +45,7 @@ gem 'responders'
 gem 'sanitize'
 gem 'sass-rails'
 gem 'strong_password'
-gem 'sucker_punch', '~> 1.5.1' # 2.0.x doesn't appear to be compatible with ActiveJob
+gem 'sucker_punch'
 gem 'thin'
 gem 'tzinfo-data'
 gem 'uglifier'
@@ -56,8 +59,8 @@ gem 'dossier'
 
 group :test do
   gem 'factory_girl_rails'
+  gem 'rails-controller-testing'
   gem 'shoulda-matchers', '~> 2.8.0', require: false # I can't get 3.x to work (will try again later)
-  gem 'test_after_commit'
   gem 'webmock'
 end
 
@@ -69,12 +72,10 @@ group :development do
   gem 'capistrano-newrelic'
   gem 'capistrano-rails'
   gem 'observr'
-  gem 'quiet_assets'
   gem 'terminal-notifier'
 end
 
 group :development, :test do
-  gem 'coveralls', require: false
   gem 'guard-rspec', require: false
   gem 'pry'
   gem 'pry-rails'

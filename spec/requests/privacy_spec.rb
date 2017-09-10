@@ -31,7 +31,8 @@ describe 'Privacy', type: :request do
       end
 
       it 'should not show child in search results' do
-        get '/search', name: 'Megan'
+        get '/search',
+            params: { name: 'Megan' }
         expect(response).to render_template('searches/create')
         assert_select 'body', /0 people found/
       end
@@ -56,7 +57,8 @@ describe 'Privacy', type: :request do
       end
 
       it 'should not show child in search results' do
-        get '/search', name: 'Megan'
+        get '/search',
+            params: { name: 'Megan' }
         expect(response).to render_template('searches/create')
         assert_select 'body', /0 people found/
       end
@@ -75,7 +77,8 @@ describe 'Privacy', type: :request do
       assert_select 'body', minimum: 1, text: /you have not given consent/
       assert_select 'li', minimum: 1, text: /Privacy Policy/
       assert_select 'button[name="agree_commit"]', 1
-      put "/people/#{@child.id}/privacy", agree: 'I Agree.'
+      put "/people/#{@child.id}/privacy",
+          params: { agree: 'I Agree.' }
       expect(response).to be_redirect
       follow_redirect!
       expect(response).to render_template('privacies/edit')

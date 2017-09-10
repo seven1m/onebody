@@ -1,5 +1,5 @@
 class Administration::EmailSetupsController < ApplicationController
-  before_filter :only_admins
+  before_action :only_admins
 
   def show
     if OneBody.email_configured?
@@ -52,7 +52,7 @@ class Administration::EmailSetupsController < ApplicationController
 
   def only_admins
     return if @logged_in.super_admin?
-    render text: t('only_admins'), layout: true, status: 401
+    render html: t('only_admins'), layout: true, status: 401
     false
   end
 end

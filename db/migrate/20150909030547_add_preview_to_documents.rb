@@ -1,4 +1,4 @@
-class AddPreviewToDocuments < ActiveRecord::Migration
+class AddPreviewToDocuments < ActiveRecord::Migration[4.2]
   def change
     change_table :documents do |t|
       t.string 'preview_file_name', limit: 255

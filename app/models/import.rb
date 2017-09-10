@@ -92,9 +92,10 @@ class Import < ApplicationRecord
   end
 
   def status_at_least?(desired)
-    number = self.class.statuses[desired.to_s]
-    raise 'unknown status' unless number
-    self[:status] >= number
+    desired_number = self.class.statuses[desired.to_s]
+    raise 'unknown status' unless desired_number
+    actual_number = self.class.statuses[self[:status]]
+    actual_number >= desired_number
   end
 
   def mappable_attributes

@@ -1,4 +1,4 @@
-class AddLastSeenItemsToPeople < ActiveRecord::Migration
+class AddLastSeenItemsToPeople < ActiveRecord::Migration[4.2]
   def change
     change_table :people do |t|
       t.references :last_seen_stream_item

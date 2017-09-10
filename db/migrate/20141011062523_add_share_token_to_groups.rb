@@ -1,4 +1,4 @@
-class AddShareTokenToGroups < ActiveRecord::Migration
+class AddShareTokenToGroups < ActiveRecord::Migration[4.2]
   def change
     change_table :groups do |t|
       t.string :share_token, limit: 50

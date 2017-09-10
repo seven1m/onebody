@@ -7,14 +7,18 @@ describe SearchesController, type: :controller do
   end
 
   it 'renders the create template' do
-    get :show, { name: 'tim' }, logged_in_id: @user.id
+    get :show,
+        params: { name: 'tim' },
+        session: { logged_in_id: @user.id }
     expect(response).to render_template(:create)
     expect(assigns[:people]).to include(@person)
   end
 
   context 'when direct=true is specified' do
     it 'redirects to the person if the name matches' do
-      get :show, { name: 'Timothy Morgan', direct: true }, logged_in_id: @user.id
+      get :show,
+          params: { name: 'Timothy Morgan', direct: true },
+          session: { logged_in_id: @user.id }
       expect(response).to redirect_to(@person)
     end
   end

@@ -1,5 +1,5 @@
 class PrintableDirectoriesController < ApplicationController
-  before_filter :check_access
+  before_action :check_access
 
   def index
     redirect_to action: :new
@@ -35,7 +35,7 @@ class PrintableDirectoriesController < ApplicationController
 
   def check_access
     return if @logged_in.active?
-    render text: t('printable_directories.not_allowed'), layout: true, status: 401
+    render html: t('printable_directories.not_allowed'), layout: true, status: 401
     false
   end
 end

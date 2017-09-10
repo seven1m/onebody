@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
-  skip_before_filter :authenticate_user
-  before_filter :check_ssl, except: %w(destroy)
-  before_filter :check_too_many_signin_failures, only: %w(create)
+  skip_before_action :authenticate_user
+  before_action :check_ssl, except: %w(destroy)
+  before_action :check_too_many_signin_failures, only: %w(create)
 
   helper_method :has_social_logins, :support_facebook_login
 
@@ -52,7 +52,7 @@ class SessionsController < ApplicationController
       env['omniauth.strategy'].options[:client_secret] = Setting.get(:facebook, :app_secret)
       env['omniauth.strategy'].options[:scope] = 'email,user_posts'
     end
-    render text: 'Setup complete.', status: 404
+    render plain: 'Setup complete.', status: 404
   end
 
   private

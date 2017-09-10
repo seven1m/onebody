@@ -1,4 +1,4 @@
-class FixEncodings < ActiveRecord::Migration
+class FixEncodings < ActiveRecord::Migration[4.2]
   TABLES = %w(
     admins
     admins_reports

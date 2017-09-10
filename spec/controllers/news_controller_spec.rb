@@ -7,7 +7,8 @@ describe NewsController, type: :controller do
   end
 
   it 'should list all items by js' do
-    get :index, nil, logged_in_id: @person.id
+    get :index,
+        session: { logged_in_id: @person.id }
     expect(response).to be_success
     expect(assigns(:news_items).length).to eq(1)
   end

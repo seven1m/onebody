@@ -59,7 +59,7 @@ class PrayerRequest < ApplicationRecord
   after_destroy :delete_stream_items
 
   def delete_stream_items
-    StreamItem.destroy_all(streamable_type: 'PrayerRequest', streamable_id: id)
+    StreamItem.where(streamable_type: 'PrayerRequest', streamable_id: id).destroy_all
   end
 
   def send_group_email

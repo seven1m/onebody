@@ -12,7 +12,7 @@ class Checkin::GroupsController < ApplicationController
     end
     respond_to do |format|
       format.json do
-        render text: {
+        render plain: {
           'groups'     => @groups,
           'updated_at' => GroupTime.order('updated_at').last.updated_at
         }.to_json

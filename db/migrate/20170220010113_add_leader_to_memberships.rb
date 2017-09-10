@@ -1,4 +1,4 @@
-class AddLeaderToMemberships < ActiveRecord::Migration
+class AddLeaderToMemberships < ActiveRecord::Migration[4.2]
   def up
     add_column :memberships, :leader, :boolean, default: false
 

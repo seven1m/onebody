@@ -1,9 +1,9 @@
 class Administration::Checkin::AuthsController < ApplicationController
-  before_filter :only_admins
+  before_action :only_admins
 
   def index
     unless params[:group_id] && params[:code]
-      render text: 'must specify group_id and code'
+      render plain: 'must specify group_id and code'
       return
     end
     @people = Group.find(params[:group_id]).people.order('last_name, first_name').to_a
@@ -25,14 +25,14 @@ class Administration::Checkin::AuthsController < ApplicationController
 
   def only_admins
     unless @logged_in.admin?(:manage_checkin)
-      render text: 'You must be an administrator to use this section.', layout: true, status: 401
+      render html: 'You must be an administrator to use this section.', layout: true, status: 401
       false
     end
   end
 
   def feature_enabled?
     unless Setting.get(:features, :checkin)
-      render text: 'This feature is unavailable.', layout: true
+      render html: 'This feature is unavailable.', layout: true
       false
     end
   end

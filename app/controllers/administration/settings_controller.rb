@@ -1,5 +1,5 @@
 class Administration::SettingsController < ApplicationController
-  before_filter :only_admins
+  before_action :only_admins
 
   def index
     @settings = {}
@@ -50,7 +50,7 @@ class Administration::SettingsController < ApplicationController
 
   def only_admins
     return if @logged_in.super_admin?
-    render text: t('admin.must_be_superadmin'), layout: true, status: 401
+    render html: t('admin.must_be_superadmin'), layout: true, status: 401
     false
   end
 

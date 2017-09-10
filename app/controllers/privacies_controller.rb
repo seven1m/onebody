@@ -4,7 +4,7 @@ class PrivaciesController < ApplicationController
   def edit
     @children = @family.people.undeleted.children
     unless @logged_in.can_update?(@family)
-      render text: t('not_authorized'), layout: true, status: 401
+      render html: t('not_authorized'), layout: true, status: 401
       return
     end
     flash[:warning] = t('privacies.family_hidden') unless @family.visible?
@@ -31,7 +31,8 @@ class PrivaciesController < ApplicationController
   def update_privacy
     if @logged_in.can_update?(@family)
       @family.update_attributes!(family_params)
-      MembershipSharingUpdater.new(@logged_in, params[:memberships]).perform
+      updates = params[:memberships].try(:to_unsafe_h) # handled manually by MembershipSharingUpdater
+      MembershipSharingUpdater.new(@logged_in, updates).perform
       if @family.visible?
         flash[:notice] = t('privacies.saved')
       else
@@ -39,7 +40,7 @@ class PrivaciesController < ApplicationController
       end
       redirect_to @person
     else
-      render text: t('not_authorized'), layout: true, status: 401
+      render html: t('not_authorized'), layout: true, status: 401
     end
   end
 

@@ -251,7 +251,7 @@ class Message < ApplicationRecord
   after_destroy :delete_stream_items
 
   def delete_stream_items
-    StreamItem.destroy_all(streamable_type: 'Message', streamable_id: id)
+    StreamItem.where(streamable_type: 'Message', streamable_id: id).destroy_all
   end
 
   def self.preview(attributes)
@@ -260,7 +260,7 @@ class Message < ApplicationRecord
   end
 
   def self.create_with_attachments(attributes, files)
-    message = Message.create(attributes.update(dont_send: true))
+    message = Message.create(attributes.to_h.update(dont_send: true))
     unless message.errors.any?
       files.select { |f| f && f.size > 0 }.each do |file|
         attachment = message.attachments.create(

@@ -5,14 +5,14 @@ class EmailsController < ApplicationController
 
   def create
     Notifier.receive(params['body-mime'])
-    render nothing: true
+    head :created
   end
 
   private
 
   def ensure_admin
     return if @logged_in.super_admin?
-    render text: t('not_authorized'), layout: true
+    render html: t('not_authorized'), layout: true
     false
   end
 end

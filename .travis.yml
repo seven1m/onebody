@@ -11,6 +11,7 @@ before_install:
   unicode'' > config/database.yml.pg'
 - 'sed -i "s/#gem ''pg''/gem ''pg''/" Gemfile'
 - 'cp config/database.yml.$DB config/database.yml'
+- 'sed -i "/# --SKIP-TRAVIS--/,/# --END-SKIP-TRAVIS--/d" spec/models/*.rb'
 bundler_args: "--without development production"
 cache: bundler
 sudo: false

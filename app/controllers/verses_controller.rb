@@ -5,7 +5,7 @@ class VersesController < ApplicationController
       if @logged_in.can_read?(@person)
         @verses = @person.verses.paginate(order: 'created_at desc', page: params[:page])
       else
-        render text: t('not_authorized'), layout: true, status: 401
+        render html: t('not_authorized'), layout: true, status: 401
       end
       @tags = Verse.tag_counts(conditions: ['verses.id in (?)', @verses.map(&:id) || [0]], order: 'name')
     else
@@ -21,12 +21,12 @@ class VersesController < ApplicationController
   def search
     @verse = Verse.find(params[:q])
     if @verse.invalid?
-      render text: t('verses.not_found'), layout: true, status: 400
+      render html: t('verses.not_found'), layout: true, status: 400
     else
       render partial: 'search_result'
     end
   rescue ActiveRecord::RecordNotFound
-    render text: t('verses.not_found'), layout: true, status: 404
+    render html: t('verses.not_found'), layout: true, status: 404
   end
 
   def create
@@ -84,7 +84,7 @@ class VersesController < ApplicationController
       raise 'verse not found'
     end
   rescue
-    render text: t('verses.not_found'), layout: true, status: 404
+    render html: t('verses.not_found'), layout: true, status: 404
     false
   end
 end

@@ -1,4 +1,4 @@
-class ChangeCountsOnImports < ActiveRecord::Migration
+class ChangeCountsOnImports < ActiveRecord::Migration[4.2]
   def change
     change_table :imports do |t|
       t.remove :success_count

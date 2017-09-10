@@ -48,9 +48,9 @@ class PeopleController < ApplicationController
       end
     elsif @person && @person.deleted? && @logged_in.admin?(:edit_profiles)
       @deleted_people_url = administration_deleted_people_path('search[id]' => @person.id)
-      render text: t('people.deleted_html', url: @deleted_people_url), status: 404, layout: true
+      render html: t('people.deleted_html', url: @deleted_people_url), status: 404, layout: true
     else
-      render text: t('people.not_found'), status: 404, layout: true
+      render html: t('people.not_found'), status: 404, layout: true
     end
   end
 
@@ -65,13 +65,13 @@ class PeopleController < ApplicationController
       end
       @person.status = :active
     else
-      render text: t('not_authorized'), layout: true, status: 401
+      render html: t('not_authorized'), layout: true, status: 401
     end
   end
 
   def create
     if @logged_in.admin?(:edit_profiles)
-      @person = Person.new_with_default_sharing(person_params)
+      @person = Person.new_with_default_sharing(person_params.to_h)
       @family = if (family_id = params[:person][:family_id]).present?
                   Family.find(family_id)
                 else
@@ -92,7 +92,7 @@ class PeopleController < ApplicationController
         end
       end
     else
-      render text: t('not_authorized'), layout: true, status: 401
+      render html: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -109,7 +109,7 @@ class PeopleController < ApplicationController
         render action: 'edit'
       end
     else
-      render text: t('not_authorized'), layout: true, status: 401
+      render html: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -136,7 +136,7 @@ class PeopleController < ApplicationController
         edit
       end
     else
-      render text: t('not_authorized'), layout: true, status: 401
+      render html: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -144,22 +144,22 @@ class PeopleController < ApplicationController
     if @logged_in.admin?(:edit_profiles)
       @person = Person.find(params[:id])
       if me?
-        render text: t('people.cant_delete_yourself'), layout: true, status: 401
+        render html: t('people.cant_delete_yourself'), layout: true, status: 401
       elsif @person.super_admin?
-        render text: t('people.cant_delete'), layout: true, status: 401
+        render html: t('people.cant_delete'), layout: true, status: 401
       else
         @person.destroy
         redirect_to @person.family
       end
     else
-      render text: t('not_authorized'), layout: true, status: 401
+      render html: t('not_authorized'), layout: true, status: 401
     end
   end
 
   def testimony
     @person = Person.find(params[:id])
     unless @logged_in.can_read?(@person)
-      render text: t('people.not_found'), status: 404, layout: true
+      render html: t('people.not_found'), status: 404, layout: true
     end
   end
 
@@ -167,7 +167,7 @@ class PeopleController < ApplicationController
     @family = Family.find(params[:family_id])
     @person = @family.people.find(params[:id])
     @person.insert_at(params[:position].to_i) if @family.reorderable_by?(@logged_in)
-    render nothing: true
+    head :ok
   end
 
   private

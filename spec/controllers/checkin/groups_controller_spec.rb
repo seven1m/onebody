@@ -11,7 +11,9 @@ describe Checkin::GroupsController, type: :controller do
 
   describe '#index' do
     before do
-      get :index, { date: '2015-03-22', format: :json }, logged_in_id: user.id
+      get :index,
+          params: { date: '2015-03-22', format: :json },
+          session: { logged_in_id: user.id }
     end
 
     it 'returns group info' do
