@@ -161,7 +161,8 @@ describe PeopleController, type: :controller do
 
   it 'should not error when viewing a person not in a family' do
     @admin = FactoryGirl.create(:person, admin: Admin.create(edit_profiles: true, view_hidden_profiles: true))
-    @person = Person.create!(first_name: 'Deanna', last_name: 'Troi', child: false)
+    @person = FactoryGirl.create(:person, first_name: 'Deanna', last_name: 'Troi', child: false)
+    @person.update_column(:family_id, nil)
     # normal person should not see
     expect {
       get :show,

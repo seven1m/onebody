@@ -3,7 +3,6 @@ class Comment < ApplicationRecord
   self.authorizer_name = 'CommentAuthorizer'
 
   belongs_to :person
-  belongs_to :site
   belongs_to :commentable, polymorphic: true
 
   scope_by_site_id

@@ -21,7 +21,7 @@ describe CommentsController, type: :controller do
   end
 
   it 'should delete a comment' do
-    @comment = FactoryGirl.create(:comment, person: @person)
+    @comment = FactoryGirl.create(:comment, person: @person, commentable: FactoryGirl.create(:verse))
     post :destroy,
          params: { id: @comment.id },
          session: { logged_in_id: @person.id }
@@ -30,7 +30,7 @@ describe CommentsController, type: :controller do
   end
 
   it 'should not delete a comment unless user is owner or admin' do
-    @comment = FactoryGirl.create(:comment, person: @person)
+    @comment = FactoryGirl.create(:comment, person: @person, commentable: FactoryGirl.create(:verse))
     @other_person = FactoryGirl.create(:person)
     post :destroy,
          params: { id: @comment.id },

@@ -4,9 +4,8 @@ class Attachment < ApplicationRecord
   include Authority::Abilities
   self.authorizer_name = 'AttachmentAuthorizer'
 
-  belongs_to :message
-  belongs_to :group
-  belongs_to :site
+  belongs_to :message, optional: true
+  belongs_to :group, optional: true
 
   scope :images, -> { where("file_content_type like 'image/%'") }
   scope :non_images, -> { where("file_content_type not like 'image/%'") }

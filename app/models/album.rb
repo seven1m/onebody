@@ -4,7 +4,6 @@ class Album < ApplicationRecord
   self.authorizer_name = 'AlbumAuthorizer'
 
   belongs_to :owner, polymorphic: true
-  belongs_to :site
   has_many :pictures, dependent: :destroy
   has_one :stream_item, as: :streamable, dependent: :delete
 

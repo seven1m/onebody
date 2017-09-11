@@ -1,9 +1,8 @@
 class AttendanceRecord < ApplicationRecord
-  belongs_to :person
+  belongs_to :person, optional: true
   belongs_to :group
-  belongs_to :site
-  belongs_to :checkin_time
-  belongs_to :checkin_label, foreign_key: :label_id
+  belongs_to :checkin_time, optional: true
+  belongs_to :checkin_label, foreign_key: :label_id, optional: true
 
   scope_by_site_id
 

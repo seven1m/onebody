@@ -2,9 +2,8 @@ class Page < ApplicationRecord
   include Authority::Abilities
   self.authorizer_name = 'PageAuthorizer'
 
-  belongs_to :parent, class_name: 'Page'
+  belongs_to :parent, class_name: 'Page', optional: true
   has_many :children, class_name: 'Page', foreign_key: 'parent_id', dependent: :destroy
-  belongs_to :site
 
   scope_by_site_id
 

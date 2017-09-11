@@ -1,9 +1,8 @@
 class StreamItem < ApplicationRecord
-  belongs_to :person
-  belongs_to :site
-  belongs_to :group
-  belongs_to :streamable, polymorphic: true
-  belongs_to :stream_item_group, class_name: 'StreamItem'
+  belongs_to :person, optional: true
+  belongs_to :group, optional: true
+  belongs_to :streamable, polymorphic: true, optional: true
+  belongs_to :stream_item_group, class_name: 'StreamItem', optional: true
 
   has_many :items,
            -> { order(created_at: :desc) },

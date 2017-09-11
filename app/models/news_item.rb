@@ -2,8 +2,7 @@ class NewsItem < ApplicationRecord
   include Authority::Abilities
   self.authorizer_name = 'NewsItemAuthorizer'
 
-  belongs_to :person
-  belongs_to :site
+  belongs_to :person, optional: true
   has_many :comments, as: :commentable, dependent: :destroy
 
   validates :title, :body, presence: true

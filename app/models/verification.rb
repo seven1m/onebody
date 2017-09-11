@@ -2,8 +2,6 @@ class Verification < ApplicationRecord
   MIN_CODE = 100_000
   MAX_CODE = 999_999
 
-  belongs_to :site
-
   scope_by_site_id
 
   scope :pending, -> { where(verified: nil) }

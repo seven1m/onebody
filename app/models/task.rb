@@ -7,8 +7,7 @@ class Task < ApplicationRecord
   acts_as_list scope: :group
 
   belongs_to :group
-  belongs_to :person
-  belongs_to :site
+  belongs_to :person, optional: true
   has_many :comments, as: :commentable, dependent: :destroy
 
   scope_by_site_id

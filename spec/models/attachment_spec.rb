@@ -13,7 +13,7 @@ describe Attachment do
   end
 
   it 'should save a file' do
-    expect(@attachment.file).to be_exists
+    expect(@attachment.file.exists?).to eq(true)
     expect(@attachment.file.path).to match(/\.pdf$/)
     expect(File.exist?(@attachment.file.path)).to be
   end

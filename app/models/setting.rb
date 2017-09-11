@@ -5,8 +5,6 @@ class Setting < ApplicationRecord
 
   SETTINGS_FILE = Rails.root.join('config/settings.yml')
 
-  belongs_to :site
-
   def value
     v = read_attribute(:value)
     case self['format'] # self.format causes a NoMethodError outside the Rails env

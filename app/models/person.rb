@@ -30,7 +30,7 @@ class Person < ApplicationRecord
   end
 
   belongs_to :family
-  belongs_to :admin
+  belongs_to :admin, optional: true
   has_many :albums, as: :owner
   has_many :pictures, -> { order(created_at: :desc) }
   has_many :messages
@@ -43,9 +43,8 @@ class Person < ApplicationRecord
   has_many :attendance_records
   has_many :generated_files
   has_many :tasks, ->(my) { where('tasks.group_scope is true or tasks.person_id = ? ', my.id) }, through: :groups
-  belongs_to :site
-  belongs_to :last_seen_stream_item, class_name: 'StreamItem'
-  belongs_to :last_seen_group, class_name: 'Group'
+  belongs_to :last_seen_stream_item, class_name: 'StreamItem', optional: true
+  belongs_to :last_seen_group, class_name: 'Group', optional: true
 
   scope_by_site_id
 

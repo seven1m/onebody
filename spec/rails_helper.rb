@@ -18,7 +18,7 @@ RSpec.configure do |config|
 
   config.before(:all) do
     begin
-      Site.current ||= Site.find(1)
+      Site.current = Site.find(1)
     rescue ActiveRecord::RecordNotFound
       Site.connection.execute('DELETE FROM sites;')
       if Site.connection.adapter_name == 'PostgreSQL'
@@ -34,6 +34,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
+    Site.current = Site.find(1)
     ActionMailer::Base.deliveries.clear
     ActiveJob::Base.queue_adapter.perform_enqueued_jobs = true
     allow(StreamItemGroupJob).to receive(:perform_later)

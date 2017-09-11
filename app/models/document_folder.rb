@@ -2,7 +2,7 @@ class DocumentFolder < ApplicationRecord
   include Authority::Abilities
   self.authorizer_name = 'DocumentFolderAuthorizer'
 
-  belongs_to :folder, class_name: 'DocumentFolder', foreign_key: :folder_id, touch: true
+  belongs_to :folder, class_name: 'DocumentFolder', foreign_key: :folder_id, touch: true, optional: true
   has_many :folders, class_name: 'DocumentFolder', foreign_key: :folder_id, dependent: :destroy
   has_many :documents, foreign_key: :folder_id, dependent: :destroy
   has_many :document_folder_groups, dependent: :destroy

@@ -1,6 +1,5 @@
 class Update < ApplicationRecord
   belongs_to :person
-  belongs_to :site
 
   scope_by_site_id
 

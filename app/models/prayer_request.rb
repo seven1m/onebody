@@ -4,7 +4,6 @@ class PrayerRequest < ApplicationRecord
 
   belongs_to :group
   belongs_to :person
-  belongs_to :site
 
   scope_by_site_id
 

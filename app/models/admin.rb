@@ -5,8 +5,6 @@ class Admin < ApplicationRecord
     people.first
   end
 
-  belongs_to :site
-
   def self.people_count
     all.inject(0) { |sum, admin| sum += admin.people.count; sum }
   end

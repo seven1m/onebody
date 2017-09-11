@@ -7,7 +7,7 @@ class Document < ApplicationRecord
 
   include Concerns::FileImage
 
-  belongs_to :folder, class_name: 'DocumentFolder', foreign_key: :folder_id, touch: true
+  belongs_to :folder, class_name: 'DocumentFolder', foreign_key: :folder_id, touch: true, optional: true
 
   scope :top, -> { where(folder_id: nil) }
 

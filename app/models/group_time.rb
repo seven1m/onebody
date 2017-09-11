@@ -1,7 +1,7 @@
 class GroupTime < ApplicationRecord
   belongs_to :group
-  belongs_to :checkin_folder
-  belongs_to :checkin_time
+  belongs_to :checkin_folder, optional: true
+  belongs_to :checkin_time, optional: true
 
   default_scope -> { order(:sequence) }
 

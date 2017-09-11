@@ -8,14 +8,13 @@ class Message < ApplicationRecord
   MESSAGE_ID_RE = /<(\d+)_([0-9abcdef]{6})_/
   MESSAGE_ID_RE_IN_BODY = /id:\s*(\d+)_([0-9abcdef]{6})/i
 
-  belongs_to :group
-  belongs_to :person
-  belongs_to :to, class_name: 'Person', foreign_key: 'to_person_id'
-  belongs_to :parent, class_name: 'Message', foreign_key: 'parent_id'
+  belongs_to :group, optional: true
+  belongs_to :person, optional: true
+  belongs_to :to, class_name: 'Person', foreign_key: 'to_person_id', optional: true
+  belongs_to :parent, class_name: 'Message', foreign_key: 'parent_id', optional: true
   has_many :children, -> { where('to_person_id is null') }, class_name: 'Message', foreign_key: 'parent_id', dependent: :destroy
   has_many :attachments, dependent: :destroy
   has_many :log_items, -> { where(loggable_type: 'Message') }, foreign_key: 'loggable_id'
-  belongs_to :site
 
   scope_by_site_id
 

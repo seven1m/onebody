@@ -1,7 +1,6 @@
 class Friendship < ApplicationRecord
   belongs_to :person
   belongs_to :friend, class_name: 'Person', foreign_key: 'friend_id'
-  belongs_to :site
 
   scope_by_site_id
 

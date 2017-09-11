@@ -5,7 +5,6 @@ require 'net/http'
 class Verse < ApplicationRecord
   has_and_belongs_to_many :people, -> { where('people.visible' => true) }
   has_many :comments, as: :commentable, dependent: :destroy
-  belongs_to :site
 
   scope_by_site_id
 

@@ -4,7 +4,6 @@ class Membership < ApplicationRecord
 
   belongs_to :group
   belongs_to :person
-  belongs_to :site
 
   validates_uniqueness_of :group_id, scope: %i(site_id person_id)
 

@@ -74,7 +74,7 @@ class Administration::Checkin::GroupsController < ApplicationController
                { checkin_time_id: @time.id }
       end
       # NOTE cannot use first_or_create here due to https://github.com/rails/rails/issues/16668
-      group.group_times.create(opts) unless group.group_times.where(opts).any?
+      group.group_times.create!(opts) unless group.group_times.where(opts).any?
     end.compact
   end
 

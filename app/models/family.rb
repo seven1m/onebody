@@ -9,7 +9,6 @@ class Family < ApplicationRecord
   has_many :people, -> { order(:position) }, dependent: :destroy, inverse_of: :family
   has_many :updates, -> { order(:created_at) }
   accepts_nested_attributes_for :people
-  belongs_to :site
 
   scope_by_site_id
 

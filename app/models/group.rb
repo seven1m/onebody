@@ -19,9 +19,8 @@ class Group < ApplicationRecord
   has_many :tasks, -> { order(:position) }
   has_many :document_folder_groups, dependent: :destroy
   has_many :document_folders, through: :document_folder_groups
-  belongs_to :creator, class_name: 'Person', foreign_key: 'creator_id'
-  belongs_to :parents_of_group, class_name: 'Group', foreign_key: 'parents_of'
-  belongs_to :site
+  belongs_to :creator, class_name: 'Person', foreign_key: 'creator_id', optional: true
+  belongs_to :parents_of_group, class_name: 'Group', foreign_key: 'parents_of', optional: true
 
   scope :active,     -> { where(hidden: false) }
   scope :hidden,     -> { where(hidden: true) }

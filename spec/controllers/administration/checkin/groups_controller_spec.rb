@@ -7,7 +7,7 @@ describe Administration::Checkin::GroupsController, type: :controller do
   context '#create' do
     let(:user)   { FactoryGirl.create(:person, :admin_manage_checkin) }
     let(:time)   { FactoryGirl.create(:checkin_time) }
-    let(:folder) { FactoryGirl.create(:checkin_folder) }
+    let(:folder) { FactoryGirl.create(:checkin_folder, checkin_time: time) }
     let(:group)  { FactoryGirl.create(:group) }
 
     context 'adding to a folder' do

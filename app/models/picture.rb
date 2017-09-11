@@ -4,8 +4,7 @@ class Picture < ApplicationRecord
   self.authorizer_name = 'PictureAuthorizer'
 
   belongs_to :album
-  belongs_to :person
-  belongs_to :site
+  belongs_to :person, optional: true
   has_many :comments, as: :commentable, dependent: :destroy
 
   scope_by_site_id

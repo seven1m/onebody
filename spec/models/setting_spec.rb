@@ -45,14 +45,10 @@ describe Setting do
     end
 
     context 'given Site.current is not set' do
-      around do |example|
-        Site.with_current(nil) do
-          example.run
-        end
-      end
-
       it 'raises an error' do
-        expect { Setting.get(:foo, :bar) }.to raise_error(StandardError)
+        Site.with_current(nil) do
+          expect { Setting.get(:foo, :bar) }.to raise_error(StandardError)
+        end
       end
     end
   end
