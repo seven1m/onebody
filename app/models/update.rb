@@ -60,7 +60,7 @@ class Update < ApplicationRecord
   private
 
   def pending_changes
-    HashWithIndifferentAccess.new(
+    ActiveSupport::HashWithIndifferentAccess.new(
       person: Comparator.new(person, data[:person]).changes,
       family: Comparator.new(family, data[:family]).changes
     )
@@ -73,7 +73,7 @@ class Update < ApplicationRecord
   # update data in a diff format
   # to support legacy records (before we started storing the diff)
   def data_as_diff
-    HashWithIndifferentAccess.new(
+    ActiveSupport::HashWithIndifferentAccess.new(
       person: faux_diff_attributes(data[:person]),
       family: faux_diff_attributes(data[:family])
     )
