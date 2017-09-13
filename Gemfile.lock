@@ -141,6 +141,7 @@ GEM
       activesupport (~> 5.0)
       request_store (~> 1.0)
     erubi (1.6.1)
+    erubis (2.7.0)
     eventmachine (1.2.5)
     execjs (2.7.0)
     factory_girl (4.8.0)
@@ -444,6 +445,7 @@ DEPENDENCIES
   date_validator
   dossier
   draper
+  erubis
   factory_girl_rails
   feedjira
   flag_shih_tzu

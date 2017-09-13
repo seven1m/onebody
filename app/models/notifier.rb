@@ -1,7 +1,7 @@
 class Notifier < ActionMailer::Base
   helper :application
 
-  default charset: 'UTF-8', from: ->(_) { get_from_address.to_s }
+  default charset: 'UTF-8', from: -> { get_from_address.to_s }
 
   def profile_update(person)
     @person = person

@@ -50,7 +50,7 @@ class PrayerRequest < ApplicationRecord
     return unless streamable?
     StreamItem.where(streamable_type: 'PrayerRequest', streamable_id: id).each do |stream_item|
       stream_item.body = body
-      stream_item.created_at = updated_at if answer_changed?
+      stream_item.created_at = updated_at if will_save_change_to_attribute?(:answer)
       stream_item.save
     end
   end

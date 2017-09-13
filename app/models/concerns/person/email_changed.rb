@@ -18,10 +18,9 @@ module Concerns
 
       def mark_email_changed
         return if dont_mark_email_changed
-        if changed.include?('email')
-          self[:email_changed] = true
-          Notifier.email_update(self).deliver_now
-        end
+        return unless will_save_change_to_attribute?('email')
+        self[:email_changed] = true
+        Notifier.email_update(self).deliver_now
       end
     end
   end
