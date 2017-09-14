@@ -1,4 +1,4 @@
-require_relative '../rails_helper'
+require 'rails_helper'
 
 describe Setup, type: :model do
   let(:person) { FactoryGirl.build(:person) }

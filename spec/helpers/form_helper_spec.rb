@@ -1,4 +1,4 @@
-require_relative '../rails_helper'
+require 'rails_helper'
 
 describe FormHelper, type: :helper do
   let(:user) { FactoryGirl.build(:person, birthday: Date.new(1981, 4, 28), mobile_phone: '9181234567') }

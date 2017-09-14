@@ -1,4 +1,4 @@
-require_relative '../rails_helper'
+require 'rails_helper'
 
 describe Date, type: :model do
   it 'should parse date with year first' do

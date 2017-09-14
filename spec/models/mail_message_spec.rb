@@ -1,4 +1,4 @@
-require_relative '../rails_helper'
+require 'rails_helper'
 
 describe Mail::Message do
   it 'should address envelope for "to" addresses only' do

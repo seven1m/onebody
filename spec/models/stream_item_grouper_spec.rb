@@ -1,4 +1,4 @@
-require_relative '../rails_helper'
+require 'rails_helper'
 require 'ostruct'
 
 describe StreamItemGrouper, type: :model do

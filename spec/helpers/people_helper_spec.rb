@@ -1,4 +1,4 @@
-require_relative '../rails_helper'
+require 'rails_helper'
 
 describe PeopleHelper, type: :helper do
   describe 'render_message_html_body' do

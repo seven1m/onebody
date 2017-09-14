@@ -1,4 +1,4 @@
-require_relative '../rails_helper'
+require 'rails_helper'
 
 describe Page, type: :model do
   it 'should update path when saved' do

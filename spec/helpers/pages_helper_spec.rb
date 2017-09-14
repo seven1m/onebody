@@ -1,4 +1,4 @@
-require_relative '../rails_helper'
+require 'rails_helper'
 
 describe PagesHelper, type: :helper do
   describe 'render_page_content' do

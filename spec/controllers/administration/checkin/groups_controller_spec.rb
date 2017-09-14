@@ -1,4 +1,4 @@
-require_relative '../../../rails_helper'
+require 'rails_helper'
 
 describe Administration::Checkin::GroupsController, type: :controller do
   before(:all) { Setting.set(:features, :checkin, true) }

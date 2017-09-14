@@ -1,4 +1,4 @@
-require_relative '../../rails_helper'
+require 'rails_helper'
 
 describe Checkin::CheckinsController, type: :controller do
   let(:user) { FactoryGirl.create(:person, :admin_manage_checkin) }

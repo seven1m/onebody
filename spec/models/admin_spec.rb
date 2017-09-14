@@ -1,4 +1,4 @@
-require_relative '../rails_helper'
+require 'rails_helper'
 
 describe Admin, type: :model do
   describe 'Privileges' do

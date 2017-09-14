@@ -1,4 +1,4 @@
-require_relative '../rails_helper'
+require 'rails_helper'
 require Rails.root.join('lib/i18n_scanner')
 
 describe 'i18n', type: :request do

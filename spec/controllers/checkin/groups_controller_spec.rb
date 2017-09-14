@@ -1,4 +1,4 @@
-require_relative '../../rails_helper'
+require 'rails_helper'
 
 describe Checkin::GroupsController, type: :controller do
   let!(:checkin_time)   { FactoryGirl.create(:checkin_time) }

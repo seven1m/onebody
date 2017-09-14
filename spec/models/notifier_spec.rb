@@ -1,6 +1,6 @@
 # coding: utf-8
 
-require_relative '../rails_helper'
+require 'rails_helper'
 require 'notifier'
 
 describe Notifier, type: :mailer do

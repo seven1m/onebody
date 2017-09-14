@@ -1,4 +1,4 @@
-require_relative '../rails_helper'
+require 'rails_helper'
 
 describe ImportExecution, type: :model do
   let(:import) do

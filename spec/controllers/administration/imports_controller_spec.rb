@@ -1,4 +1,4 @@
-require_relative '../../rails_helper'
+require 'rails_helper'
 
 describe Administration::ImportsController, type: :controller do
   let(:admin) { FactoryGirl.create(:person, :admin_import_data) }

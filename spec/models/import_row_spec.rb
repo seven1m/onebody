@@ -1,4 +1,4 @@
-require_relative '../rails_helper'
+require 'rails_helper'
 
 describe ImportRow, type: :model do
   describe 'validations' do

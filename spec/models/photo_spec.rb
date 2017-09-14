@@ -1,4 +1,4 @@
-require_relative '../rails_helper'
+require 'rails_helper'
 
 describe 'Photo' do
   it 'should save a photo for a person' do

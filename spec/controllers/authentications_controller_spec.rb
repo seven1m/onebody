@@ -1,4 +1,4 @@
-require_relative '../rails_helper'
+require 'rails_helper'
 
 describe AuthenticationsController, type: :controller do
   # Replace this with your real tests.
