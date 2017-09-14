@@ -41,7 +41,7 @@ module Concerns
 
         define_method :should_geocode? do
           return false if dont_geocode
-          attrs.any? { |attr| changed.include?(attr.to_s) }
+          attrs.any? { |attr| saved_change_to_attribute?(attr) }
         end
       end
     end

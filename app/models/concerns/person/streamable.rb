@@ -47,6 +47,7 @@ module Concerns
       end
 
       def changes_affecting_stream_item?
+        changes = saved_changes
         changes['first_name'] ||
           changes['last_name'] ||
           changes['suffix'] ||

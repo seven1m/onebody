@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'rails', '5.0.5'
+gem 'rails', '5.1.4'
 
 # select the appropriate gem below for your database:
 gem 'mysql2'
@@ -20,6 +20,7 @@ gem 'coffee-rails'
 gem 'country_select'
 gem 'date_validator'
 gem 'draper'
+gem 'erubis'
 gem 'feedjira'
 gem 'flag_shih_tzu'
 gem 'font-awesome-rails'

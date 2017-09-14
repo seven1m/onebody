@@ -95,7 +95,7 @@ class Updater
   # shows which fields would be affected if the update were applied
   def changes
     @changes ||= begin
-      h = HashWithIndifferentAccess.new
+      h = ActiveSupport::HashWithIndifferentAccess.new
       h[:person] = Comparator.new(person, params[:person]).changes if person
       h[:family] = Comparator.new(family, params[:family]).changes if family
       h.reject { |_, v| v.empty? }

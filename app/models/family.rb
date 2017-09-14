@@ -51,12 +51,12 @@ class Family < ApplicationRecord
 
   def barcode_id=(b)
     write_attribute(:barcode_id, b.presence)
-    self.barcode_assigned_at = Time.now if barcode_id_changed?
+    self.barcode_assigned_at = Time.now if will_save_change_to_attribute?(:barcode_id)
   end
 
   def alternate_barcode_id=(b)
     write_attribute(:alternate_barcode_id, b.presence)
-    self.barcode_assigned_at = Time.now if barcode_id_changed?
+    self.barcode_assigned_at = Time.now if will_save_change_to_attribute?(:barcode_id)
   end
 
   def address
@@ -167,7 +167,7 @@ class Family < ApplicationRecord
   before_update :mark_barcode_id_changed
   def mark_barcode_id_changed
     return if dont_mark_barcode_id_changed
-    write_attribute(:barcode_id_changed, true) if changed.include?('barcode_id')
+    write_attribute(:barcode_id_changed, true) if will_save_change_to_attribute?('barcode_id')
   end
 
   # TODO: would be better to actually have family-level sharing options

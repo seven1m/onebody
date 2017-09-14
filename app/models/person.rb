@@ -267,7 +267,7 @@ class Person < ApplicationRecord
   end
 
   def self.new_with_default_sharing(attrs)
-    new(HashWithIndifferentAccess.new(attrs).merge(default_sharing_attributes))
+    new(ActiveSupport::HashWithIndifferentAccess.new(attrs).merge(default_sharing_attributes))
   end
 
   def self.default_sharing_attributes
