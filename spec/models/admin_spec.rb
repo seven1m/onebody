@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe Admin do
+describe Admin, type: :model do
   describe 'Privileges' do
     it 'should track available privileges' do
       expect(Admin.privileges).to include('view_hidden_profiles')

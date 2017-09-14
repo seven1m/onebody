@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Task do
+describe Task, type: :model do
   before do
     @group = FactoryGirl.create(:group)
     @person = FactoryGirl.create(:person)

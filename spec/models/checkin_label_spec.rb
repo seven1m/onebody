@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe CheckinLabel do
+describe CheckinLabel, type: :model do
   describe '#xml' do
     context 'given raw xml' do
       let(:xml) { '<?xml version="1.0" encoding="utf-8"?><foo/>' }

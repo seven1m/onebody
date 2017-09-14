@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe ImportPreview do
+describe ImportPreview, type: :model do
   let(:import) do
     FactoryGirl.create(
       :import,

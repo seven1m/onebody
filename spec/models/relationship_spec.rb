@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe Relationship do
+describe Relationship, type: :model do
   before do
     @person = FactoryGirl.create(:person)
     @related = FactoryGirl.create(:person)

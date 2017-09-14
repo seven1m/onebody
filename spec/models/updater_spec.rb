@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe Updater do
+describe Updater, type: :model do
   before do
     @person = FactoryGirl.create(:person)
     @admin = FactoryGirl.create(:person, admin: Admin.create!(edit_profiles: true))

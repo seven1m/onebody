@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe Family do
+describe Family, type: :model do
   describe 'Barcodes' do
     it 'should not allow the same barcode id to be assigned to two families' do
       @family = FactoryGirl.create(:family, barcode_id: '1234567890')

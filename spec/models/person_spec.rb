@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe Person do
+describe Person, type: :model do
   describe 'Formats' do
     BAD_EMAIL_ADDRESSES  = ['bad address@example.com', 'bad~address@example.com', 'baddaddress@example.123', 'looksinnocent@example.com\n<script>alert("pwned")</script>'].freeze
     GOOD_EMAIL_ADDRESSES = ['bob@example.com', 'abcdefghijklmnopqrstuvwxyz0123456789._%-@abcdefghijklmnopqrstuvwxyz0123456789.-.com', 'admin@newhorizon.church'].freeze

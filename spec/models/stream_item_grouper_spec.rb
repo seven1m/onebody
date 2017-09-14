@@ -1,7 +1,7 @@
 require_relative '../rails_helper'
 require 'ostruct'
 
-describe StreamItemGrouper do
+describe StreamItemGrouper, type: :model do
   describe StreamItemGrouper::Grouper do
     context 'given a list of items, all shared' do
       subject do

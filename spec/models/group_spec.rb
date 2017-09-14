@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe Group do
+describe Group, type: :model do
   before do
     @person = Person.logged_in = FactoryGirl.create(:person)
     # all are approved...

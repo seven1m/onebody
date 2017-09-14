@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe Document do
+describe Document, type: :model do
   def file(name, content_type)
     Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files', name), content_type, true)
   end

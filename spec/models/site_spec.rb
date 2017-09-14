@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe Site do
+describe Site, type: :model do
   describe 'callbacks' do
     context 'when the site is saved and Features/SSL setting is true' do
       around do |example|

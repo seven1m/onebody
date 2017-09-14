@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe ImportParser do
+describe ImportParser, type: :model do
   let(:person) { FactoryGirl.build(:person) }
 
   let(:import) do

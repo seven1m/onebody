@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe PrayerRequest do
+describe PrayerRequest, type: :model do
   before do
     @group = FactoryGirl.create(:group, name: 'Morgan Small Group')
     @person = FactoryGirl.create(:person)

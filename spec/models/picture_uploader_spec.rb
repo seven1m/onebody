@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe PictureUploader do
+describe PictureUploader, type: :model do
   let(:user) { FactoryGirl.create(:person) }
 
   let(:params) do

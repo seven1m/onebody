@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe FriendshipRequest do
+describe FriendshipRequest, type: :model do
   before do
     @user = FactoryGirl.create(:person, email: 'user@example.com')
     @other = FactoryGirl.create(:person, email: 'other@example.com')

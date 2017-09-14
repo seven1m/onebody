@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe Page do
+describe Page, type: :model do
   it 'should update path when saved' do
     @foo = Page.create!(slug: 'foo', title: 'Foo', body: 'foo rocks')
     expect(@foo.path).to eq('foo')

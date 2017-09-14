@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe Friendship do
+describe Friendship, type: :model do
   before do
     Setting.set(1, 'Features', 'Friends', true)
     @user = FactoryGirl.create(:person)

@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe Signup do
+describe Signup, type: :model do
   context 'sign up is disabled' do
     before do
       Setting.set(1, 'Features', 'Sign Up', false)

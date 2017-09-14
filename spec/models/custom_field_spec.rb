@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe CustomField do
+describe CustomField, type: :model do
   describe '#format' do
     it { should allow_value('string').for(:format) }
     it { should allow_value('text').for(:format) }

@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe ImportExecution do
+describe ImportExecution, type: :model do
   let(:import) do
     FactoryGirl.create(
       :import,

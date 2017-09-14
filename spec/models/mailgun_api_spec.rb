@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe MailgunApi do
+describe MailgunApi, type: :model do
   before do
     @body = {
       priority: 0,

@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe Album do
+describe Album, type: :model do
   before do
     @album = FactoryGirl.create(:album)
   end

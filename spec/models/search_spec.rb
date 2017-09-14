@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe Search do
+describe Search, type: :model do
   before do
     @user = FactoryGirl.create(:person)
     Person.logged_in = @user

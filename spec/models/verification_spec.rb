@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe Verification do
+describe Verification, type: :model do
   before do
     @person = FactoryGirl.create(:person, email: 'test@example.com', mobile_phone: '1234567890')
   end

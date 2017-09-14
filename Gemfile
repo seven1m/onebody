@@ -2,6 +2,11 @@
 
 source 'https://rubygems.org'
 
+git_source(:github) do |repo_name|
+  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
+  "https://github.com/#{repo_name}.git"
+end
+
 gem 'rails', '5.1.4'
 
 # select the appropriate gem below for your database:
@@ -61,7 +66,7 @@ gem 'dossier'
 group :test do
   gem 'factory_girl_rails'
   gem 'rails-controller-testing'
-  gem 'shoulda-matchers', '~> 2.8.0', require: false # I can't get 3.x to work (will try again later)
+  gem 'shoulda-matchers', github: 'thoughtbot/shoulda-matchers', branch: 'rails-5'
   gem 'webmock'
 end
 

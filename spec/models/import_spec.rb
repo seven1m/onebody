@@ -1,7 +1,7 @@
 require_relative '../rails_helper'
 require 'stringio'
 
-describe Import do
+describe Import, type: :model do
   describe 'validations' do
     it { should validate_presence_of(:person) }
     it { should validate_presence_of(:filename) }

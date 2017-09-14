@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe Message do
+describe Message, type: :model do
   include MessagesHelper
 
   before do

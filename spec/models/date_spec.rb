@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe Date do
+describe Date, type: :model do
   it 'should parse date with year first' do
     expect(Time.parse('2013-01-02').strftime('%b %d, %Y')).to eq('Jan 02, 2013')
     expect(Date.parse('2013-01-02').strftime('%b %d, %Y')).to eq('Jan 02, 2013')

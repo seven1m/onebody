@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe StreamItem do
+describe StreamItem, type: :model do
   before do
     @person = FactoryGirl.create(:person, created_at: 1.hour.ago)
     @group = FactoryGirl.create(:group, created_at: 1.hour.ago)

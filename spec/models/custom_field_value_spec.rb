@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe CustomFieldValue do
+describe CustomFieldValue, type: :model do
   describe 'validations' do
     subject { FactoryGirl.build(:custom_field_value, field: field) }
 

@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe Update do
+describe Update, type: :model do
   before do
     @person = FactoryGirl.create(:person)
     @update = @person.updates.create!(data: {

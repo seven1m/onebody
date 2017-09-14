@@ -1,6 +1,6 @@
 require_relative '../rails_helper'
 
-describe Setup do
+describe Setup, type: :model do
   let(:person) { FactoryGirl.build(:person) }
   let(:params) do
     ActionController::Parameters.new(person: {
