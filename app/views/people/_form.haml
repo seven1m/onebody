@@ -24,10 +24,9 @@
             = link_to t('people.edit.person_type'), '#roles', data: { toggle: 'tab' }
           %li
             = link_to t('people.edit.status'), '#status', data: { toggle: 'tab' }
-          - if show_custom_fields?
-            - CustomFieldTab.all.each do |tab|
-              %li
-                = link_to tab.name, "#fields-#{tab.id}", data: { toggle: 'tab' }
+          - CustomFieldTab.all.each do |tab|
+            %li
+              = link_to tab.name, "#fields-#{tab.id}", data: { toggle: 'tab' }
 
       .tab-content
         .tab-pane.active#basics
@@ -47,11 +46,10 @@
           .tab-pane#status
             = render partial: 'form_status', object: form, as: :form
             .form-group= submit_or_save_button
-          - if show_custom_fields?
-            - CustomFieldTab.all.each do |tab|
-              .tab-pane{ id: "fields-#{tab.id}" }
-                = render partial: 'form_fields', object: form, locals: { tab: tab }, as: :form
-                .form-group= submit_or_save_button
+          - CustomFieldTab.all.each do |tab|
+            .tab-pane{ id: "fields-#{tab.id}" }
+              = render partial: 'form_fields', object: form, locals: { tab: tab }, as: :form
+              .form-group= submit_or_save_button
 
     .col-lg-4
       %h3= t('people.edit.photo')
