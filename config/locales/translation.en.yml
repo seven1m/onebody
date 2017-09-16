@@ -1745,6 +1745,8 @@ en:
       custom_field:
         name: Name
         format: Format
+      custom_field_tab:
+        name: Name
       document:
         name: Name
         description: Description
