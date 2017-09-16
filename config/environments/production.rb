@@ -36,7 +36,7 @@ OneBody::Application.configure do
   config.assets.version = '1.0'
 
   # Specifies the header that your server uses for sending files.
-  unless config.serve_static_files
+  unless config.public_file_server.enabled
     # Default is for Apache. Set env var SENDFILE_HEADER="X-Accel-Redirect" for nginx.
     config.action_dispatch.x_sendfile_header = ENV['SENDFILE_HEADER'] || 'X-Sendfile'
   end
