@@ -6,4 +6,6 @@ class CustomFieldTab < ApplicationRecord
   validates :name, presence: true
 
   acts_as_list scope: :site_id
+
+  default_scope -> { order(:position) }
 end

@@ -21,7 +21,11 @@ class Administration::CustomFieldTabsController < ApplicationController
   def update
     @tab = CustomFieldTab.find(params[:id])
     if @tab.update(tab_params)
-      redirect_to administration_custom_fields_path
+      @tab.insert_at(params[:custom_field_tab][:position].to_i) if params[:custom_field_tab][:position]
+      respond_to do |format|
+        format.html { redirect_to administration_custom_fields_path }
+        format.js   { head 200 }
+      end
     else
       render action: :edit
     end

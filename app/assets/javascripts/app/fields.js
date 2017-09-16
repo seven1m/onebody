@@ -20,7 +20,6 @@ function setupCustomFieldSortable() {
           var target = $(event.target)
           var index = target.parent().children().index(event.target)
           var id = idFromDomId(event.target.id)
-          console.log(index)
           $.ajax({
             url: '/admin/custom_fields/' + id + '.js',
             method: 'PATCH',
@@ -52,6 +51,31 @@ function setupCustomFieldSortable() {
     )
     sortables.push(sortable)
   })
+  var tabs = $('.custom-field-tabs')
+  if (tabs.length > 0) {
+    var sortable = new Sortable(
+      tabs[0],
+      {
+        handle: '.handle',
+        scroll: true,
+
+        onUpdate: function(event) {
+          var index = tabs.children().index(event.target)
+          var id = idFromDomId(event.target.id)
+          $.ajax({
+            url: '/admin/custom_field_tabs/' + id + '.js',
+            method: 'PATCH',
+            data: {
+              custom_field_tab: {
+                position: index + 1
+              }
+            }
+          })
+        }
+      }
+    )
+    sortables.push(sortable)
+  }
 }
 
 setupCustomFieldSortable()
