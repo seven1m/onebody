@@ -98,4 +98,4 @@ SelectWithNew.propTypes = {
   includeBlank: React.PropTypes.bool
 }
 
-window.SelectWithNew = SelectWithNew
+export default SelectWithNew

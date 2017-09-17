@@ -78,11 +78,11 @@ class CustomFieldFormat extends React.Component {
   }
 
   handleAddOption() {
-    newOptions = [].concat(this.state.options, [{ id: 'new' + Math.random(), label: '' }])
+    const newOptions = [].concat(this.state.options, [{ id: 'new' + Math.random(), label: '' }])
     this.setState({ options: newOptions })
   }
 
-  handleReorderOption(_, _, _, _, options) {
+  handleReorderOption(_e, _movedItem, _prevIndex, _newIndex, options) {
     this.setState({
       options
     })
@@ -173,4 +173,4 @@ class Option extends React.Component {
   }
 }
 
-window.CustomFieldFormat = CustomFieldFormat
+export default CustomFieldFormat

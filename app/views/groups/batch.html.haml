@@ -13,7 +13,7 @@
       %th= t('groups.batch.approval_required_to_join')
     - @groups.each do |group|
       %tr.group{:id => "group#{group.id}"}
-        %td= react_component 'SelectWithNew', name: "groups[#{group.id}][category]", value: group.category, options: group_categories
+        %td= react_component 'ReactComponents.SelectWithNew', name: "groups[#{group.id}][category]", value: group.category, options: group_categories
         %td= text_field_tag "groups[#{group.id}][name]", group.name
         %td= text_field_tag "groups[#{group.id}][address]", group.address
         %td

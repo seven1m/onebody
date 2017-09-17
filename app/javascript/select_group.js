@@ -1,0 +1,12 @@
+$(document).on('click', '[data-select-group] [data-select]', (e) => {
+  const elm = $(this)
+  const parent = elm.parents('[data-select-group]')
+  const [on_class, off_class] = parent.data('select-class').split('/')
+  const all = parent.find('[data-select]')
+  all.removeClass(on_class).addClass(off_class)
+  elm.addClass(on_class)
+  const all_selectors = all.map((e) => $(e).data('select'))
+  const selector = elm.data('select')
+  all_selectors.forEach((s) => $(s).hide())
+  $(selector).show()
+})

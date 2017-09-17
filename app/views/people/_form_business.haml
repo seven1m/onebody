@@ -2,7 +2,7 @@
 
 .form-group
   = form.label :business_category
-  = react_component 'SelectWithNew', name: 'person[business_category]', value: @person.business_category, options: business_categories, className: 'form-control', includeBlank: true
+  = react_component 'ReactComponents.SelectWithNew', name: 'person[business_category]', value: @person.business_category, options: business_categories, className: 'form-control', includeBlank: true
 
 .form-group
   = form.label :business_name

@@ -14,4 +14,4 @@
 - if setting(:features, :custom_person_type)
   .form-group
     = form.label :custom_type
-    = react_component 'SelectWithNew', name: 'person[custom_type]', value: @person.custom_type, options: custom_types, className: 'form-control', includeBlank: true
+    = react_component 'ReactComponents.SelectWithNew', name: 'person[custom_type]', value: @person.custom_type, options: custom_types, className: 'form-control', includeBlank: true

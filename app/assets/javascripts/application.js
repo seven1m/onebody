@@ -1,0 +1,17 @@
+//= require jquery
+//= require jquery_ujs
+//= require jquery.scrollTo
+//= require jquery.color-2.1.2
+//= require jquery.sparkline
+//= require sortable
+//= require bootstrap
+//= require bootstrap-datepicker
+//= require admin_lte
+//= require spin
+//= require leaflet
+//= require leaflet.markercluster
+//= require bootstrap-filestyle
+//= require_directory ./app
+//= require react
+//= require react_ujs
+//= require react-reorder

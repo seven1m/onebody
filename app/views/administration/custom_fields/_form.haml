@@ -4,7 +4,7 @@
   .form-group
     = form.label :name
     = form.text_field :name, class: 'form-control'
-  = react_component 'CustomFieldFormat', |
+  = react_component 'ReactComponents.CustomFieldFormat', |
     name_label: CustomField.human_attribute_name(:name), |
     format_label: CustomField.human_attribute_name(:format), |
     format_options: options_from_i18n('admin.custom_fields.formats').to_a, |

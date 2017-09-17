@@ -29,3 +29,6 @@ Vagrantfile.local
 .gem
 coverage
 cache.tar.gz
+/public/packs
+/public/packs-test
+/node_modules

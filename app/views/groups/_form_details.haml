@@ -7,7 +7,7 @@
 .form-group
   = form.label :category
   .input-group
-    = react_component 'SelectWithNew', name: 'group[category]', value: @group.category, options: group_categories, className: 'form-control', includeBlank: true
+    = react_component 'ReactComponents.SelectWithNew', name: 'group[category]', value: @group.category, options: group_categories, className: 'form-control', includeBlank: true
     %span.input-group-addon{ title: t('groups.edit.required_field') }
       = icon 'fa fa-star text-red'
   %span.help-block
