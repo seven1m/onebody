@@ -1,0 +1,6 @@
+test:
+  adapter: postgresql
+  database: onebody_test
+  host: <%= ENV['DB_HOST'] %>
+  username: onebody
+  encoding: utf8
