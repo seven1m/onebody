@@ -59,7 +59,6 @@ describe Document, type: :model do
       end
     end
 
-    # --SKIP-TRAVIS--
     context 'given a PDF file' do
       before do
         subject.file = pdf
@@ -70,7 +69,6 @@ describe Document, type: :model do
         expect(subject.preview).to be_present
       end
     end
-    # --END-SKIP-TRAVIS--
 
     context 'given a corrupt PDF file' do
       before do
