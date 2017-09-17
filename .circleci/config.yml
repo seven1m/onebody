@@ -1,0 +1,42 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:2.3-node-browsers
+        environment:
+          - RAILS_ENV=test
+          - MYSQL_PORT_3306_TCP_ADDR=127.0.0.1
+      - image: circleci/mysql:5.6
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - gems-{{ checksum "Gemfile.lock" }}
+      - restore_cache:
+          keys:
+            - yarn-{{ checksum "yarn.lock" }}
+      - run: bundle install --jobs=4 --retry=3 --path vendor/bundle
+      - run: yarn install
+      - save_cache:
+          key: gems-{{ checksum "Gemfile.lock" }}
+          paths:
+            - ./vendor/bundle
+      - save_cache:
+          key: yarn-{{ checksum "yarn.lock" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: Wait for db
+          command: dockerize -wait tcp://$MYSQL_PORT_3306_TCP_ADDR:3306 -timeout 1m
+      - run: cp config/database.ci.yml config/database.yml
+      - run: cp config/secrets.yml.example config/secrets.yml
+      - run: bundle exec rake db:create db:schema:load
+      - run: bundle exec rails webpacker:compile
+      - run:
+          name: rspec
+          command: |
+            bundle exec rspec --profile 10 \
+                              --out /tmp/test-results/rspec.xml \
+                              --format progress \
+                              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)

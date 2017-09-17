@@ -13,7 +13,9 @@ before_install:
 - 'cp config/database.yml.$DB config/database.yml'
 - 'sed -i "/# --SKIP-TRAVIS--/,/# --END-SKIP-TRAVIS--/d" spec/models/*.rb'
 bundler_args: "--without development production"
-cache: bundler
+cache:
+  yarn: true
+  bundler: true
 sudo: false
 services:
 - mysql
@@ -25,6 +27,7 @@ before_script:
 - 'echo -e ''test:\n  secret_token: abc123\n  secret_key_base: 123abc'' > config/secrets.yml'
 - mysql -e 'create database onebody_test'
 - psql -c 'create database onebody_test;' -U postgres
+- 'bundle exec rails webpacker:compile'
 notifications:
   slack:
     secure: k8ryQIZOiUVSo2pA0noNA/nwJbDvCejrxwls9bjJMF8WOObwd0BnhMh//iEnOdzdF5Z6MyF0tHgVuOtBa71QwVbMoufAK4X7I7ykLu0pVCWwhm13Gg1Ij7xi2cPT7+B/IyoKhRcEKEYwMlzV9CuispMMDoS3pHC2bMRxGSRYwTI=
