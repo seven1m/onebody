@@ -3,17 +3,17 @@ shared: &shared
     # NOTE: there is a problem with Circle's Debian image and libcups2 needs to be removed so we can install ghostscript
     - run: sudo apt-get update && sudo apt-get purge -y libcups2 && sudo apt-get install -y ghostscript
     - checkout
+    - run: 'sed -i "s/#gem ''pg''/gem ''pg''/" Gemfile'
     - restore_cache:
         keys:
-          - gems-{{ checksum "Gemfile.lock" }}
+          - gems-{{ checksum "Gemfile" }}-{{ checksum "Gemfile.lock" }}
     - restore_cache:
         keys:
           - yarn-{{ checksum "yarn.lock" }}
-    - run: 'sed -i "s/#gem ''pg''/gem ''pg''/" Gemfile'
     - run: bundle install --jobs=4 --retry=3 --path vendor/bundle
     - run: yarn install
     - save_cache:
-        key: gems-{{ checksum "Gemfile.lock" }}
+        key: gems-{{ checksum "Gemfile" }}-{{ checksum "Gemfile.lock" }}
         paths:
           - ./vendor/bundle
     - save_cache:
