@@ -67,7 +67,7 @@ gem 'dossier'
 group :test do
   gem 'factory_girl_rails'
   gem 'rails-controller-testing'
-  gem 'shoulda-matchers', github: 'thoughtbot/shoulda-matchers', branch: 'rails-5'
+  gem 'shoulda-matchers', github: 'thoughtbot/shoulda-matchers'
   gem 'webmock'
 end
 
