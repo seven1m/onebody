@@ -2,6 +2,7 @@ import 'components'
 
 import 'enhancements/boxes'
 import 'enhancements/csrf'
+import 'enhancements/dates'
 import 'enhancements/select_group'
 import 'enhancements/toggle'
 
