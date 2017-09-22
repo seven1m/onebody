@@ -35,14 +35,13 @@ class AttendanceController < ApplicationController
     end
   end
 
-  # this method clears all existing attendance for the entire date and adds what is sent in params
   def batch
     batch = AttendanceBatch.new(@group, params[:attended_at])
     unless batch.attended_at
       render_text t('attendance.wrong_date_format'), :bad_request
       return
     end
-    batch.clear_all_for_date
+    batch.remove(params[:unchecked_ids])
     attendance_records = batch.update(params[:ids])
     if params[:public]
       if params[:notes].present?

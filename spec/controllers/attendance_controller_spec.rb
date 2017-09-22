@@ -263,6 +263,7 @@ describe AttendanceController, type: :controller do
 
   describe '#batch' do
     let(:attendee) { FactoryGirl.create(:person) }
+    let(:attendee2) { FactoryGirl.create(:person) }
 
     context 'from logged in user' do
       let!(:user)       { FactoryGirl.create(:person) }
@@ -294,22 +295,45 @@ describe AttendanceController, type: :controller do
       end
 
       context 'given an existing record' do
-        let!(:existing) { group.attendance_records.create!(person_id: 0, attended_at: Time.new(2009, 12, 1, 9, 0)) }
-
-        before do
-          post :batch,
-               params: {
-                 attended_at: '2009-12-01',
-                 group_id: group.id,
-                 ids: [attendee.id]
-               },
-               session: { logged_in_id: user.id }
+        let!(:existing) do
+          group.attendance_records.create!(person: attendee2, attended_at: Time.new(2009, 12, 1, 0, 0))
         end
 
-        it 'deletes the existing record' do
-          expect { existing.reload }.to raise_error(ActiveRecord::RecordNotFound)
-          records = group.attendance_records
-          expect(records.count).to eq(1)
+        context 'when the record is not changed on the page' do
+          before do
+            post :batch,
+                 params: {
+                   attended_at: '2009-12-01',
+                   group_id: group.id,
+                   ids: [attendee.id]
+                 },
+                 session: { logged_in_id: user.id }
+          end
+
+          it 'does not delete the existing record' do
+            expect { existing.reload }.not_to raise_error
+            records = group.attendance_records
+            expect(records.count).to eq(2)
+          end
+        end
+
+        context 'when the record is unchecked on the page' do
+          before do
+            post :batch,
+                 params: {
+                   attended_at: '2009-12-01',
+                   group_id: group.id,
+                   ids: [attendee.id],
+                   unchecked_ids: [attendee2.id]
+                 },
+                 session: { logged_in_id: user.id }
+          end
+
+          it 'deletes the existing record' do
+            expect { existing.reload }.to raise_error(ActiveRecord::RecordNotFound)
+            records = group.attendance_records
+            expect(records.count).to eq(1)
+          end
         end
       end
 

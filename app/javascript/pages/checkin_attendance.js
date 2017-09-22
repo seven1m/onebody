@@ -1,10 +1,18 @@
 let hiding
 
 $('.list-checkin-status button').hide()
-$('.list-checkin').find('input[type="checkbox"]').change(() => {
+$('.list-checkin').find('input[type="checkbox"]').change((e) => {
   const form = $('.list-checkin').parents('form')
   const url = form.attr('action') + '.json'
-  const data = form.serialize()
+  const elm = $(e.target)
+  const id = elm.prop('value')
+  const checked = elm.is(':checked')
+  let data = form.find('input[type="hidden"]').serialize()
+  if (checked) {
+    data = `${data}&ids[]=${id}`
+  } else {
+    data = `${data}&unchecked_ids[]=${id}`
+  }
   if (hiding) clearTimeout(hiding)
   const status = $('.list-checkin-status .status').html(
     "<i class='fa fa-spinner fa-spin'></i>"

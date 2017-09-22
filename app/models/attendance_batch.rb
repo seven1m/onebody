@@ -22,17 +22,19 @@ class AttendanceBatch
     ActiveSupport::TimeZone['UTC'].parse(time.strftime('%Y-%m-%dT%H:%M:%S'))
   end
 
-  def update(ids)
+  def remove(ids)
     Array(ids).map do |id|
-      if person = Person.undeleted.where(id: id).first
-        clear(person)
-        create(person)
-      end
+      next unless (person = Person.undeleted.where(id: id).first)
+      clear(person)
     end.compact
   end
 
-  def clear_all_for_date
-    @group.attendance_records_for_date(@attended_at).delete_all
+  def update(ids)
+    Array(ids).map do |id|
+      next unless (person = Person.undeleted.where(id: id).first)
+      clear(person)
+      create(person)
+    end.compact
   end
 
   def clear(person)
