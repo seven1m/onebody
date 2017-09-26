@@ -3,6 +3,7 @@ class SearchesController < ApplicationController
   MAX_SELECT_FAMILIES = 10
 
   before_action :get_family, if: -> { params[:family_id] }
+  before_action :get_search_params
 
   def show
     create
@@ -52,5 +53,20 @@ class SearchesController < ApplicationController
   def get_family
     @family = Family.find(params[:family_id])
     raise StandardError unless @logged_in.can_update?(@family)
+  end
+
+  def get_search_params
+    @search_params = params.permit(
+      :name,
+      :gender,
+      :group_select_option,
+      :group_category,
+      :type,
+      :phone,
+      :email,
+      birthday:    %i(month day),
+      anniversary: %i(month day),
+      address:     %i(city state zip)
+    )
   end
 end

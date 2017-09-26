@@ -43,5 +43,5 @@
 
 - if @logged_in.admin?(:manage_groups) and @hidden_groups.any? and not params[:include_hidden]
   %p
-    = link_to t('groups.show_hidden.button', count: @hidden_groups.count), groups_path(params_without_action.merge(include_hidden: true, page: nil)), class: 'btn btn-warning'
+    = link_to t('groups.show_hidden.button', count: @hidden_groups.count), groups_path(name: params[:name], include_hidden: true, page: nil), class: 'btn btn-warning'
 

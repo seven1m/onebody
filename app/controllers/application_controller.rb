@@ -28,12 +28,6 @@ class ApplicationController < ActionController::Base
   before_action :update_last_seen_at
   before_action :setup_pusher
 
-  helper_method :params_without_action
-
-  def params_without_action
-    params.except(:controller, :action)
-  end
-
   protected
 
   def get_site
