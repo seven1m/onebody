@@ -85,6 +85,7 @@ GEM
     bootstrap-sass (3.3.7)
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
+    bugsnag (5.3.3)
     builder (3.2.3)
     capistrano (3.9.1)
       airbrussh (>= 1.0.0)
@@ -448,6 +449,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootstrap-sass
+  bugsnag
   builder
   capistrano
   capistrano-bundler

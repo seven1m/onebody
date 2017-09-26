@@ -20,6 +20,7 @@ gem 'acts_as_taggable_on_steroids', github: 'seven1m/acts_as_taggable_on_steroid
 gem 'authority'
 gem 'bcrypt'
 gem 'bootstrap-sass'
+gem 'bugsnag'
 gem 'builder'
 gem 'coffee-rails'
 gem 'country_select'
