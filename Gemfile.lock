@@ -100,6 +100,8 @@ GEM
     capistrano-rails (1.3.0)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
+    capistrano-yarn (2.0.2)
+      capistrano (~> 3.0)
     chronic (0.10.2)
     climate_control (0.2.0)
     cocaine (0.5.8)
@@ -451,6 +453,7 @@ DEPENDENCIES
   capistrano-bundler
   capistrano-newrelic
   capistrano-rails
+  capistrano-yarn
   coffee-rails
   country_select
   date_validator
@@ -510,4 +513,4 @@ DEPENDENCIES
   with_advisory_lock
 
 BUNDLED WITH
-   1.14.6
+   1.15.4

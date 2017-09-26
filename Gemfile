@@ -78,6 +78,7 @@ group :development do
   gem 'capistrano-bundler'
   gem 'capistrano-newrelic'
   gem 'capistrano-rails'
+  gem 'capistrano-yarn'
   gem 'observr'
   gem 'terminal-notifier'
 end
