@@ -6,6 +6,13 @@
   margin-bottom: 0;
   .btn {
     margin-bottom: 3px;
+    margin-right: 5px;
+  }
+  .btn-group {
+    margin-right: 5px;
+    .btn {
+      margin-right: 0;
+    }
   }
 }
 
