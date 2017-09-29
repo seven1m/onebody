@@ -4,6 +4,7 @@ import 'enhancements/boxes'
 import 'enhancements/csrf'
 import 'enhancements/dates'
 import 'enhancements/select_group'
+import 'enhancements/sortable'
 import 'enhancements/toggle'
 
 import 'pages/admin'
