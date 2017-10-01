@@ -1,4 +1,13 @@
 GIT
+  remote: https://github.com/rails/webpacker.git
+  revision: 815458ccbd22537c60d0f779b53ff174a12b784b
+  specs:
+    webpacker (3.0.1)
+      activesupport (>= 4.2)
+      rack-proxy (>= 0.6.1)
+      railties (>= 4.2)
+
+GIT
   remote: https://github.com/seven1m/acts_as_taggable_on_steroids.git
   revision: a4a74dd80d6eb2691c1777ab25fc2b55dcee52c1
   specs:
@@ -220,7 +229,8 @@ GEM
       ruby_dep (~> 1.2)
     load_and_authorize_resource (0.4.1)
       rails (>= 4.0)
-    loofah (2.0.3)
+    loofah (2.1.1)
+      crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.12)
     mail (2.6.6)
@@ -229,7 +239,7 @@ GEM
     mime-types (2.99.3)
     mimemagic (0.3.2)
     mini_magick (4.8.0)
-    mini_portile2 (2.2.0)
+    mini_portile2 (2.3.0)
     minitest (5.10.3)
     money (6.9.0)
       i18n (>= 0.6.4, < 0.9)
@@ -244,8 +254,8 @@ GEM
     net-ssh (4.2.0)
     newrelic_rpm (4.4.0.336)
     nio4r (2.1.0)
-    nokogiri (1.8.0)
-      mini_portile2 (~> 2.2.0)
+    nokogiri (1.8.1)
+      mini_portile2 (~> 2.3.0)
     nokogumbo (1.4.13)
       nokogiri
     notiffany (0.1.1)
@@ -420,10 +430,6 @@ GEM
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff
-    webpacker (3.0.1)
-      activesupport (>= 4.2)
-      rack-proxy (>= 0.6.1)
-      railties (>= 4.2)
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
@@ -508,7 +514,7 @@ DEPENDENCIES
   tzinfo-data
   uglifier
   webmock
-  webpacker
+  webpacker!
   whenever
   will_paginate
   will_paginate-bootstrap
