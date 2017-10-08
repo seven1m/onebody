@@ -153,6 +153,7 @@ module ApplicationHelper
   def datepicker_format
     if (date_format)
       date_format.downcase
+    end
     date_format
   end
 
