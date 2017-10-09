@@ -9,6 +9,7 @@
       %th= t('groups.table.group_name')
       %th= t('groups.table.leader')
       %th= t('groups.table.member_count')
+      %th= t('groups.table.category')
 
     - @groups.each do |group|
       %tr.row-with-avatar{class: group.hidden? ? 'grayed' : ''}
@@ -29,6 +30,8 @@
             = safe_join(leaders.map { |p| link_to(p.try(:name), p) }, ', ')
         %td
           = group.memberships.count
+        %td
+          = link_to group.category, groups_path(category: group.category)
       - if group.description.present?
         %tr.description{class: group.hidden? ? 'grayed hidden-group' : ''}
           %td

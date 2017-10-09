@@ -1993,6 +1993,7 @@ en:
       leader: Leaders
       member_count: Members
       email_enabled: Email enabled
+      category: Category
     search:
       heading: Search for a Group
       results_heading: Group Search Results
