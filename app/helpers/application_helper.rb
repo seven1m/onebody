@@ -151,7 +151,10 @@ module ApplicationHelper
   end
 
   def datepicker_format
-    date_format.downcase
+    if (date_format)
+      date_format.downcase
+    end
+    date_format
   end
 
   # TODO: replace all inline JS links with unobtrusive JS
