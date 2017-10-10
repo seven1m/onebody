@@ -151,7 +151,7 @@ module ApplicationHelper
   end
 
   def datepicker_format
-    date_format.downcase
+    (date_format || 'yyyy-mm-dd').downcase
   end
 
   # TODO: replace all inline JS links with unobtrusive JS
