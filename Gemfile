@@ -62,9 +62,6 @@ gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'with_advisory_lock'
 
-# this needs to be down here due to load order weirdness
-gem 'dossier'
-
 group :test do
   gem 'factory_girl_rails'
   gem 'rails-controller-testing'

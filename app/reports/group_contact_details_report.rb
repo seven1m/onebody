@@ -1,4 +1,4 @@
-class GroupContactDetailsReport < Dossier::Report
+class GroupContactDetailsReport < ApplicationReport
   include ApplicationHelper
   include ReportsHelper
 
@@ -11,18 +11,26 @@ class GroupContactDetailsReport < Dossier::Report
     group_title('reports.reports.group_contact_details')
   end
 
-  COLUMNS = %w(
-    people.first_name
-    people.last_name
-    people.email
-    people.mobile_phone
-    families.home_phone
-    families.address1
-    families.address2
-    families.city
-    families.state
-    families.zip
-  ).freeze
+  def headings
+    [
+      I18n.t('reports.reports.group_contact_details.columns.first_name'),
+      I18n.t('reports.reports.group_contact_details.columns.last_name'),
+      I18n.t('reports.reports.group_contact_details.columns.email_address'),
+      I18n.t('reports.reports.group_contact_details.columns.mobile_phone'),
+      I18n.t('reports.reports.group_contact_details.columns.home_phone'),
+      I18n.t('reports.reports.group_contact_details.columns.address')
+    ]
+  end
+
+  COLUMNS = [
+    'people.first_name',
+    'people.last_name',
+    'people.email',
+    'people.mobile_phone',
+    'families.home_phone',
+    "concat(families.address1, ', ', families.address2, ', ', " \
+      "families.city, ', ', families.state, ', ', families.zip) as address"
+  ].freeze
 
   def sql
     Group
@@ -30,22 +38,6 @@ class GroupContactDetailsReport < Dossier::Report
       .joins(memberships: { person: :family })
       .where('groups.id' => group_id)
       .to_sql
-  end
-
-  set_callback :execute, :after, :format_output
-
-  def format_output
-    # Headers - First 5 fields of sql, plus address label
-    query_results
-      .headers
-      .push(I18n.t('reports.reports.group_contact_details.address'))
-      .slice!(5..9)
-
-    # Report Body - First five fields of output, compact address to one field.
-    query_results
-      .rows
-      .map! { |x| x.take(5) << x.drop(5).compact.join(', ') }
-      .sort_by! { |p| [p[1]] }
   end
 
   def group_id

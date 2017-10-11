@@ -1,25 +1,23 @@
-- @report = report
 = render partial: 'title'
 .row
   .col-md-9
     %table.table
       %thead
         %tr
-          %th= t('reports.reports.attendance_totals.columns.group')
-          %th= t('reports.reports.attendance_totals.columns.attended_at')
-          %th= t('reports.reports.attendance_totals.columns.count')
-          = render partial: 'body'
+          - @report.headings.each do |heading|
+            %th= heading
+      = render partial: 'body'
   .col-md-3
     .box.box-info.hidden-print
       .box-heading
       .box-body
-        = form_for report, as: :options, url: url_for, html: {method: :get} do |f|
+        = form_for @report, as: :options, url: url_for, html: {method: :get} do |f|
           .form-group
             = f.label :fromdate, t('reports.from_date')
-            = report_date_field f, :fromdate, report.fromdate
+            = report_date_field f, :from_date, @report.from_date
           .form-group
             = f.label :thrudate, t('reports.thru_date')
-            = report_date_field f, :thrudate, report.thrudate
+            = report_date_field f, :thru_date, @report.thru_date
           .form-group
             = f.submit t('reports.submit'), class: 'btn btn-info'
             = render partial: 'submit'

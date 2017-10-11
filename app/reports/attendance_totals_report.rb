@@ -1,5 +1,13 @@
-class AttendanceTotalsReport < Dossier::Report
+class AttendanceTotalsReport < ApplicationReport
   include ReportsHelper
+
+  def headings
+    [
+      I18n.t('reports.reports.attendance_totals.columns.group'),
+      I18n.t('reports.reports.attendance_totals.columns.attended_at'),
+      I18n.t('reports.reports.attendance_totals.columns.count')
+    ]
+  end
 
   def sql
     Group
@@ -7,17 +15,17 @@ class AttendanceTotalsReport < Dossier::Report
       .joins(:attendance_records)
       .select(:attended_at, 'count(*) as att_count')
       .references(:attendance_records)
-      .where('attended_at >= :fromdate and attended_at <= :thrudate')
+      .where('attended_at >= ? and attended_at <= ?', from_date, thru_date)
       .group(:name, :attended_at)
       .order(:name)
       .to_sql
   end
 
-  def fromdate
+  def from_date
     format_dateparam(options[:fromdate], (Date.current - 1.week))
   end
 
-  def thrudate
+  def thru_date
     format_dateparam(options[:thrudate])
   end
 
