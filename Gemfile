@@ -56,7 +56,7 @@ gem 'sucker_punch'
 gem 'thin'
 gem 'tzinfo-data'
 gem 'uglifier'
-gem 'webpacker', github: 'rails/webpacker' # until https://github.com/rails/webpacker/pull/753 is released
+gem 'webpacker'
 gem 'whenever'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
