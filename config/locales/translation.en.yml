@@ -709,6 +709,7 @@ en:
         line, you may need to reload all settings to see the changes take effect.
       save: Save Settings
       services_heading: External Services
+      groups_heading: Groups
       theme_heading: Theme
       settings: Settings
       sharing_about: OneBody is best when members participate by adding their own
@@ -1991,6 +1992,7 @@ en:
     table:
       group_name: Group
       leader: Leaders
+      admin: Admins
       member_count: Members
       email_enabled: Email enabled
       category: Category

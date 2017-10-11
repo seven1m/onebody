@@ -257,3 +257,10 @@ Privacy:
   Hide Contact Details in Messages:
     format: boolean
     value: true
+Groups:
+  Show Group Category in List:
+    format: boolean
+    value: true
+  Show Group Admins in List:
+    format: boolean
+    value: true
