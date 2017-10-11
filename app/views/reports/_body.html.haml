@@ -1,0 +1,9 @@
+%tbody
+  - @report.results.each do |row|
+    %tr
+      - row.each do |value|
+        %td
+          - if value.respond_to?(:strftime)
+            = value.to_s(:full)
+          - else
+            = value

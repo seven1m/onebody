@@ -122,7 +122,7 @@ OneBody::Application.routes.draw do
   resources :tags, only: :show
 
   resources :pictures, :prayer_signups, :authentications, :shares,
-            :comments, :prayer_requests, :generated_files
+            :comments, :prayer_requests, :generated_files, :reports
 
   resources :verses do
     get 'search', on: :collection

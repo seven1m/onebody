@@ -15,6 +15,6 @@
             - @reports.each do |id, report|
               %tr
                 %td
-                  = link_to report[:title], dossier_report_path(report: id)
+                  = link_to report[:title], report_path(id)
                 %td.actions
-                  = link_to t('admin.report.launch'), dossier_report_path(report: id), class: 'label label-info'
+                  = link_to t('admin.report.launch'), report_path(id), class: 'label label-info'

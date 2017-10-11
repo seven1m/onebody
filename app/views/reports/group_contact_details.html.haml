@@ -1,0 +1,23 @@
+= render partial: 'title'
+.row
+  .col-md-9
+    %table.table
+      %thead
+        %tr
+          - @report.headings.each do |heading|
+            %th= heading
+      = render partial: 'body'
+  .col-md-3
+    .box.box-info.hidden-print
+      .box-heading
+      .box-body
+        = form_for @report, as: :options, url: url_for, html: {method: :get} do |f|
+          .form-group
+            = f.label t('reports.group')
+            = report_group_field f, :group_id
+          .form-group
+            = f.submit t('reports.submit'), class: 'btn btn-info'
+            = render partial: 'submit'
+
+= render partial: 'count'
+
