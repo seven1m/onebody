@@ -13,13 +13,8 @@
       - if @showAdmins
         %th= t('groups.table.admin')
       %th= t('groups.table.member_count')
-<<<<<<< HEAD
       - if @showCategory
         %th= t('groups.table.category')
-=======
-      %th= t('groups.table.category')
->>>>>>> 393dac019c6c8598349d94fe7b39a3691714ceb1
-
     - @groups.each do |group|
       %tr.row-with-avatar{class: group.hidden? ? 'grayed' : ''}
         %td.avatar
