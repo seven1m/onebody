@@ -217,6 +217,13 @@ en:
       launch: Launch
       list: Reports
       title: Reporting Dashboard
+    roles:
+      heading: Roles
+      edit: Edit
+      intro: Create, Edit or Delete User Roles
+      rename: Rename
+      manage: Manage Roles
+      saved: Role has been saved
     active: active
     admin_added: "%{name} added."
     admin_count:
@@ -232,6 +239,7 @@ en:
       button: Manage Admins
     add_individual: Add an individual.
     add_person: Add Person
+    add_role: Add Role
     add_selected: Add Selected
     add_template: Add Template
     already_admin: "%{name} is already an admin."
@@ -310,10 +318,14 @@ en:
         title: Manage Groups
         about: View, edit, delete any group (even if hidden or private).
         order: 8
+      manage_roles:
+        title: Manage Roles
+        about: View, edit, delete any role.
+        order: 9
       manage_news:
         title: Manage News
         about: View, edit, delete all news.
-        order: 9
+        order: 10
       manage_pictures:
         title: Manage Pictures
         about: View, edit, delete any pictures and albums.
@@ -1782,10 +1794,13 @@ en:
         gender: Gender
         last_name: Last Name
         mobile_phone: Mobile Phone
+        home_phone: Home Phone
         primary_emailer: Primary email account holder
         status: Status
         suffix: Suffix
         twitter: Twitter Username
+        employer: Employer (Company)
+        job_title: Job Title
         work_phone: Work Phone
       group:
         name: Name
@@ -1845,6 +1860,15 @@ en:
     complete_message: Your file is complete and ready to download.
     failure_heading: We're sorry...
     failure_message: There seems to have been an error while generating your file.
+  roles:
+    heading: Roles
+    edit:
+      heading: Edit Role
+      required_field: required
+    create:
+      heading: Create a Role
+      button: Create a Role
+    created: Role created
   groups:
     heading: Groups
     new_list:
@@ -2480,6 +2504,7 @@ en:
           Hidden Properties' enabled.
     edit:
       about: About
+      work: Work
       basics: Basics
       business: Business
       business_category:

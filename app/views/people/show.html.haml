@@ -1,9 +1,5 @@
 - @title = person_title(@person)
 
-- if has_type?(@person)
-  - content_for :sub_title do
-    = link_to_person_role(@person, only_one: true)
-
 - if flash[:show_verification_link]
   .box.box-warning
     .box-header
@@ -46,6 +42,27 @@
 
   .col-lg-4.col-sm-6
     = render 'family_box'
+
+    .box.box-solid.box-warning
+      .box-header
+        %h3.box-title
+          Relationships
+      .box-body
+        - @person.relationships.each do |relationship|
+          %div= link_to relationship.related.name + " (" + relationship.name.capitalize() + ")", person_path(relationship.related)
+
+    .box.box-solid.box-warning
+      .box-header
+        %h3.box-title
+          Groups
+      .box-body
+        - @person.groups.each do |group|
+          %div= link_to group.name + " (" + group.memberships.count().to_s + ' members' + ")", group_path(group)
+          - if group.leaders.any?
+            %div= "Leaders : " + group.leaders.all.map(&:name).join(', ')
+          - if group.admins.any?
+            %div= "Admins : " + group.admins.all.map(&:name).join(', ')
+          %br
 
     - if @person.testimony.present?
       .box.box-solid.box-success.testimony

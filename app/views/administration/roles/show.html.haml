@@ -1,0 +1,18 @@
+.col-md-8
+    %h3
+        =@role.name
+    - if @members.none?
+        No members
+    - else
+        - i = 0
+        - @members.each do |person|
+            %div= link_to person.name, person
+
+.col-md-4
+    .box.box-info
+        .box-header
+            %h3.box-title= 'Rename Role'
+        .box-body
+            = render partial: 'form'
+
+    = link_to 'Back to All Roles', administration_roles_path, class: 'btn btn-warning'

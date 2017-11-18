@@ -151,6 +151,20 @@
                 = icon 'fa fa-gavel'
                 = t('admin.admins.button')
 
+
+    - if @logged_in.admin?(:manage_roles)
+      .col-md-3
+        .box.box-warning.normalize-height
+          .box-header
+            %h3.box-title= t('admin.roles.heading')
+          .box-body
+            %p
+              = t('admin.roles.intro')
+            %p
+              = link_to administration_roles_path, class: 'btn btn-warning' do
+                = icon 'fa fa-gavel'
+                = t('admin.roles.manage')
+                
     - if @logged_in.super_admin?
       .col-md-3
         .box.box-warning.normalize-height

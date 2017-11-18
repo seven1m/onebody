@@ -1,6 +1,16 @@
 %table.table
   - if @logged_in.admin?(:edit_profiles)
     %tr
+      %td= 'Groups'
+      %td
+        - @person.memberships.each do |m|
+          %div= m.group.name
+          - if m.leader?
+            = "(Leader)"
+    %tr
+      %td= 'Roles'
+      %td= link_to_person_role(@person, only_one: false)
+    %tr
       %td= t('people.show.details.created')
       %td{ title: time_to_s(@person.created_at, :full) }= time_to_s(@person.created_at, :date)
     %tr
@@ -25,12 +35,12 @@
         = t('people.show.details.mobile_phone')
         = showing_attribute_because_admin_icon(:mobile_phone)
       %td= link_to_phone @person.mobile_phone, mobile: true
-  = show_attribute(:home_phone) do
-    %tr
-      %td
-        = t('people.show.details.home_phone')
-        = showing_attribute_because_admin_icon(:home_phone)
-      %td= link_to_phone @person.home_phone
+  
+  %tr
+    %td
+      = t('people.show.details.home_phone')
+      = showing_attribute_because_admin_icon(:home_phone)
+    %td= link_to_phone @person.home_phone
   = show_attribute(:work_phone) do
     %tr
       %td

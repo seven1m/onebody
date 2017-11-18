@@ -15,9 +15,9 @@
     = form.text_field :last_name, size: 15, class: 'form-control'
     %span.input-group-addon{ title: t('people.edit.required_field') }
       = icon 'fa fa-star text-red'
-.form-group
-  = form.label :suffix
-  = form.select :suffix, [nil]+Setting.get(:system, :suffixes), {}, class: 'form-control'
+-#.form-group
+  -#= form.label :suffix
+  -#= form.select :suffix, [nil]+Setting.get(:system, :suffixes), {}, class: 'form-control'
 .form-group
   = form.label :alias
   = form.text_field :alias, size: 15, class: 'form-control'
@@ -38,8 +38,8 @@
   - unless @person.new_record?
     %span.help-block= t('people.if_you_wish_to_remove_something_html', url: edit_person_privacy_path(@person))
 .form-group
-  = form.label :work_phone
-  = form.phone_field :work_phone, class: 'form-control'
+  = form.label :home_phone
+  = form.phone_field :home_phone, class: 'form-control'
 .form-group
   = form.label :fax
   = form.phone_field :fax, class: 'form-control'

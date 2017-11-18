@@ -13,6 +13,7 @@ class Person < ApplicationRecord
   include Concerns::Person::Memberships
   include Concerns::Person::Password
   include Concerns::Person::Relationships
+  include Concerns::Person::RoleMemberships
   include Concerns::Person::Sharing
   include Concerns::Person::Streamable
   include Concerns::Person::TwitterUsername
@@ -135,6 +136,14 @@ class Person < ApplicationRecord
     inactive: 0,
     pending:  1,
     active:   2
+  }
+
+  # TODO:: Fadi Wissa - To be exposed in a field
+  enum maritalStatus: {
+    single: 0,
+    marriged: 1,
+    divorced: 2,
+    widowed: 3
   }
 
   lowercase_attribute :email, :alternate_email

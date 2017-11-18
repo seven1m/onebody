@@ -1,0 +1,14 @@
+- @title = t('admin.roles.heading')
+
+= form_for @role, url: @formUrl do |form|
+    = error_messages_for(form)
+    
+    .form-group
+        = form.label :name
+        = icon 'fa fa-star text-red'
+        .input-group
+            = form.text_field :name, class: 'form-control'
+            
+    .form-group
+        = form.button t('save_changes'), class: 'btn btn-success'
+  
