@@ -1,5 +1,4 @@
 = form_for @person, html: { multipart: true } do |form|
-
   .row
     .col-lg-8
       - unless @family.persisted?
@@ -7,10 +6,8 @@
           = icon 'fa fa-warning'
           %button{ class: 'close', aria: { hidden: true }, data: { dismiss: 'alert' }, type: 'button' } ×
           %p= t('people.new.no_family_warning_html')
-
       %p.discreet.small
         = t('privacies.please_read_our_privacy_policy_html', url: help_path('privacy_policy'))
-
       %ul.nav.nav-tabs
         %li.active
           = link_to t('people.edit.basics'), '#basics', data: { toggle: 'tab' }
@@ -18,6 +15,9 @@
           = link_to t('people.edit.work'), '#work', data: { toggle: 'tab' }
         %li
           = link_to t('people.edit.about'), '#about', data: { toggle: 'tab' }
+        - unless @person.new_record?
+          %li
+            = link_to t('people.edit.family'), '#family', data: { toggle: 'tab' }
         - if setting(:features, :business_directory)
           %li
             = link_to t('people.edit.business'), '#business', data: { toggle: 'tab' }
@@ -40,6 +40,11 @@
         .tab-pane#about
           = render partial: 'form_about', object: form, as: :form
           .form-group= submit_or_save_button
+        - unless @person.new_record?
+          .tab-pane#family
+            = fields_for @family do |family|
+              = render partial: 'families/form_fields', locals: {form: family}            
+              .form-group= submit_or_save_button
         - if setting(:features, :business_directory)
           .tab-pane#business
             = render partial: 'form_business', object: form, as: :form

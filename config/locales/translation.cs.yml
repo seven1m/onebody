@@ -591,10 +591,6 @@ cs:
           name: Share Work Phone
           description: If enabled, new users will have their work phones shared with
             other site members.
-        Share Fax by Default:
-          name: Share Fax
-          description: If enabled, new users will have their fax shared with other
-            site members.
         Max Sign in Attempts:
           name: Maximum Failed Sign in Attempts
           description: Number of signin failures in a 15-minute period before account
@@ -1664,7 +1660,6 @@ cs:
         custom_type: Custom Role
         email: Email
         facebook_url: Facebook URL
-        fax: Fax
         first_name: First Name
         gender: Gender
         last_name: Last Name
@@ -2631,7 +2626,6 @@ cs:
     email: Email
     family_hidden: This family is currently hidden from all pages on this site!
     family_privacy: Family
-    fax: Fax
     group_privacy: Group Privacy
     hide_your_activity: 'Hide your activity if you do not want friends and/or fellow
       group members to see your public messages, notes, verses, etc. on their home

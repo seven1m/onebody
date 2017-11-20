@@ -463,7 +463,6 @@ nl-NL:
         custom_type: Rollen
         email: E-mail
         facebook_url: Facebook URL
-        fax: Fax
         first_name: Voornaam
         gender: Geslacht
         last_name: Achternaam
@@ -1200,9 +1199,6 @@ nl-NL:
         Share Work Phone by Default:
           name: Telefoon werk
           description: Het telefoonnummer is zichtbaar voor andere leden.
-        Share Fax by Default:
-          name: Fax
-          description: Het faxnummer is zichtbaar voor andere leden.
         Max Sign in Attempts:
           name: Aantal inlogpogingen
           description: Nummer van het aantal inlogpogingen die worden toegestaan.
@@ -2892,7 +2888,6 @@ nl-NL:
     email: E-mail
     family_hidden: Deze familie is verborgen voor alle pagina's op de site!
     family_privacy: Familie
-    fax: Fax
     group_privacy: Groep privacy
     hide_your_activity: 'Verberg je activiteiten als niet je wilt dat dat leden en/of
       groepsleden jou publieke berichten, notities of versen, ect. kunnen bekijken.

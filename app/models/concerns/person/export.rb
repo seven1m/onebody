@@ -11,7 +11,6 @@ module Concerns
             last_name
             mobile_phone
             work_phone
-            fax
             birthday
             email
             website
@@ -22,7 +21,6 @@ module Concerns
             testimony
             share_mobile_phone
             share_work_phone
-            share_fax
             share_email
             share_birthday
             share_address

@@ -11,13 +11,16 @@ class Updater
   PARAMS = {
     person: {
       first_name:           :approve,
+      second_name:          :immediate,
+      third_name:           :immediate,
       last_name:            :approve,
       suffix:               :approve,
       alias:                :approve,
       gender:               :approve,
       mobile_phone:         :approve,
       work_phone:           :approve,
-      fax:                  :approve,
+      employer:             :immediate,
+      job_title:            :immediate,
       birthday:             :approve,
       anniversary:          :approve,
       description:          :immediate,
@@ -53,7 +56,8 @@ class Updater
       legacy_id:            :admin,
       legacy_family_id:     :admin,
       relationships:        :admin,
-      status:               :admin
+      status:               :admin,
+      marital_status:       :immediate
     },
     family: {
       name:                 :approve,

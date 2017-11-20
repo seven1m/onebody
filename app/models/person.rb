@@ -139,23 +139,22 @@ class Person < ApplicationRecord
   }
 
   # TODO:: Fadi Wissa - To be exposed in a field
-  enum maritalStatus: {
+  enum marital_status: {
     single: 0,
-    marriged: 1,
+    married: 1,
     divorced: 2,
     widowed: 3
   }
 
   lowercase_attribute :email, :alternate_email
 
-  delegate :home_phone, :address, :address1, :address2, :city, :state, :zip, :short_zip, :mapable?, :parents,
+  delegate :home_phone, :address, :address1, :address2, :city, :state, :zip, :short_zip, :country, :mapable?, :parents,
            to: :family, allow_nil: true
 
-  sharable_attributes :home_phone, :mobile_phone, :work_phone, :fax,
-                      :email, :birthday, :address, :anniversary, :activity
+  sharable_attributes :home_phone, :mobile_phone, :work_phone, :email, :birthday, :address, :anniversary, :activity
 
   self.skip_time_zone_conversion_for_attributes = %i(birthday anniversary)
-  self.digits_only_for_attributes = %i(mobile_phone work_phone fax business_phone)
+  self.digits_only_for_attributes = %i(mobile_phone work_phone business_phone)
 
   blank_to_nil :suffix, :can_pick_up, :cannot_pick_up, :classes, :medical_notes
 
@@ -285,7 +284,6 @@ class Person < ApplicationRecord
       share_home_phone:   Setting.get(:privacy, :share_home_phone_by_default),
       share_mobile_phone: Setting.get(:privacy, :share_mobile_phone_by_default),
       share_work_phone:   Setting.get(:privacy, :share_work_phone_by_default),
-      share_fax:          Setting.get(:privacy, :share_fax_by_default),
       share_email:        Setting.get(:privacy, :share_email_by_default),
       share_birthday:     Setting.get(:privacy, :share_birthday_by_default),
       share_anniversary:  Setting.get(:privacy, :share_anniversary_by_default)

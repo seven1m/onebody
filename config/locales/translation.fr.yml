@@ -440,7 +440,6 @@ fr:
         custom_type: 
         email: 
         facebook_url: 
-        fax: 
         first_name: 
         gender: 
         last_name: 
@@ -1075,9 +1074,6 @@ fr:
           name: 
           description: 
         Share Work Phone by Default:
-          name: 
-          description: 
-        Share Fax by Default:
           name: 
           description: 
         Max Sign in Attempts:
@@ -2566,7 +2562,6 @@ fr:
     email: Email
     family_hidden: This family is currently hidden from all pages on this site!
     family_privacy: Family
-    fax: Fax
     group_privacy: Group Privacy
     hide_your_activity: 'Hide your activity if you do not want friends and/or fellow
       group members to see your public messages, notes, verses, etc. on their home

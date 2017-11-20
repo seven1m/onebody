@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171030213919) do
+ActiveRecord::Schema.define(version: 20171120211047) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.datetime "created_at"
@@ -380,7 +380,6 @@ ActiveRecord::Schema.define(version: 20171030213919) do
     t.boolean "share_address", default: false
     t.boolean "share_mobile_phone", default: false
     t.boolean "share_work_phone", default: false
-    t.boolean "share_fax", default: false
     t.boolean "share_email", default: false
     t.boolean "share_birthday", default: false
     t.boolean "share_anniversary", default: false
@@ -455,7 +454,6 @@ ActiveRecord::Schema.define(version: 20171030213919) do
     t.string "suffix", limit: 25
     t.string "mobile_phone", limit: 25
     t.string "work_phone", limit: 25
-    t.string "fax", limit: 25
     t.datetime "birthday"
     t.string "email"
     t.boolean "email_changed", default: false
@@ -473,7 +471,6 @@ ActiveRecord::Schema.define(version: 20171030213919) do
     t.text "testimony"
     t.boolean "share_mobile_phone", default: false
     t.boolean "share_work_phone", default: false
-    t.boolean "share_fax", default: false
     t.boolean "share_email", default: false
     t.boolean "share_birthday", default: true
     t.datetime "anniversary"
@@ -529,6 +526,9 @@ ActiveRecord::Schema.define(version: 20171030213919) do
     t.datetime "last_seen_at"
     t.text "employer"
     t.text "job_title"
+    t.text "second_name"
+    t.text "third_name"
+    t.integer "marital_status"
     t.index ["admin_id"], name: "index_admin_id_on_people"
     t.index ["business_category"], name: "index_business_category_on_people"
     t.index ["email"], name: "index_people_on_email", length: { email: 191 }

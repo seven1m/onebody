@@ -659,10 +659,6 @@ en:
           name: Share Work Phone
           description: If enabled, new users will have their work phones shared with
             other site members.
-        Share Fax by Default:
-          name: Share Fax
-          description: If enabled, new users will have their fax shared with other
-            site members.
         Max Sign in Attempts:
           name: Maximum Failed Sign in Attempts
           description: Number of signin failures in a 15-minute period before account
@@ -1773,6 +1769,7 @@ en:
         hidden: Hide/Archive this folder
         groups: Only share with these groups
       family:
+        family_name: Family Name
         address1: Address Line 1
         address2: Address Line 2 (optional)
         city: City
@@ -1789,15 +1786,17 @@ en:
         custom_type: Custom Role
         email: Email
         facebook_url: Facebook URL
-        fax: Fax
         first_name: First Name
         gender: Gender
         last_name: Last Name
         mobile_phone: Mobile Phone
         home_phone: Home Phone
         primary_emailer: Primary email account holder
+        second_name: Second Name
+        marital_status: Marital Status
         status: Status
         suffix: Suffix
+        third_name: Third Name
         twitter: Twitter Username
         employer: Employer (Company)
         job_title: Job Title
@@ -2504,6 +2503,7 @@ en:
           Hidden Properties' enabled.
     edit:
       about: About
+      family: Family
       work: Work
       basics: Basics
       business: Business
@@ -2554,6 +2554,11 @@ en:
         inactive: Inactive
         pending: Pending
         active: Active
+      marital_statuses:
+        single: Single
+        married: Married
+        divorced: Divorced
+        widowed: Widowed
     move:
       heading: Add to %{family} family
       description_html: Find someone to add to the <a href='%{url}'>%{family}</a>
@@ -2780,7 +2785,6 @@ en:
     email: Email
     family_hidden: This family is currently hidden from all pages on this site!
     family_privacy: Family
-    fax: Fax
     group_privacy: Group Privacy
     hide_your_activity: 'Hide your activity if you do not want friends and/or fellow
       group members to see your public messages, notes, verses, etc. on their home

@@ -1,0 +1,200 @@
+<% @title = person_title(@person) %>
+<% if flash[:show_verification_link] %>
+  <div class="box box-warning">
+    <div class="box-header">
+      <h3 class="box-title">
+        <%= t('people.verification_email.heading') %>
+      </h3>
+    </div>
+    <div class="box-body">
+      <p>
+        <%= t('people.verification_email.intro') %>
+      </p>
+      <p>
+        <%= render partial: 'admin_send_verification_button' %>
+      </p>
+    </div>
+  </div>
+<% end %>
+<% unless @person.visible? %>
+  <div class="callout callout-warning">
+    <%= icon 'fa fa-lock' %>
+    <%= t('people.this_profile_is_hidden') %>
+  </div>
+<% end %>
+<% if !@family and @logged_in.admin?(:edit_profiles) %>
+  <div class="callout callout-warning">
+    <%= icon 'fa fa-user' %>
+    <%= t('people.no_family_for_this_person') %>
+  </div>
+<% end %>
+<% if @person.updates.pending.any? and @logged_in.can_update?(@person) %>
+  <div class="callout callout-info">
+    <%= icon 'fa fa-clock-o' %>
+    <%= t('people.updates.pending_callout') %>
+  </div>
+<% end %>
+<div class="row profile">
+  <div class="col-lg-8 col-sm-6">
+    <div class="row">
+      <div class="col-lg-6 col-lg-push-6">
+        <div class="thumbnail">
+          <%= avatar_tag @person, size: 'large', class: 'img-full' %>
+        </div>
+        <% if @stream_items.any? %>
+          <%= render partial: 'details' %>
+        <% end %>
+      </div>
+      <div class="col-lg-6 col-lg-pull-6">
+        <% if (contact_controls = render(partial: 'contact_controls')).present? %>
+          <div class="page-controls">
+            <%= contact_controls %>
+          </div>
+        <% end %>
+        <% if @stream_items.any? %>
+          <%= timeline(@stream_items) || timeline_none %>
+        <% else %>
+          <%= render partial: 'details' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-sm-6">
+    <%= render 'family_box' %>
+    <div class="box box-solid box-warning">
+      <div class="box-header">
+        <h3 class="box-title">
+          Relationships
+        </h3>
+      </div>
+      <div class="box-body">
+        <% @person.relationships.each do |relationship| %>
+          <div>
+            <%= link_to relationship.related.name + " (" + relationship.name.capitalize() + ")", person_path(relationship.related) %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="box box-solid box-warning">
+      <div class="box-header">
+        <h3 class="box-title">
+          Groups
+        </h3>
+      </div>
+      <div class="box-body">
+        <% @person.groups.each do |group| %>
+          <div>
+            <%= link_to group.name + " (" + group.memberships.count().to_s + ' members' + ")", group_path(group) %>
+          </div>
+          <% if group.leaders.any? %>
+            <div>
+              <%= "Leaders : " + group.leaders.all.map(&:name).join(', ') %>
+            </div>
+          <% end %>
+          <% if group.admins.any? %>
+            <div>
+              <%= "Admins : " + group.admins.all.map(&:name).join(', ') %>
+            </div>
+          <% end %>
+          <br/>
+        <% end %>
+      </div>
+    </div>
+    <% if @person.testimony.present? %>
+      <div class="box box-solid box-success testimony">
+        <div class="box-header">
+          <h3 class="box-title">
+            <%= link_to testimony_person_path(@person) do %>
+              <%= icon 'fa fa-comment-o' %>
+              <%= t('people.testimony.box_heading') %>
+            <% end %>
+          </h3>
+        </div>
+        <div class="box-body">
+          <p>
+            <%= icon 'fa fa-quote-left' %>
+          </p>
+          <p>
+            <%= preserve_breaks(truncate_words(@person.testimony, length: 250)) %>
+            <% if @person.testimony.size > 250 %>
+              <%= link_to t('people.testimony.view_full'), testimony_person_path(@person), class: 'btn bg-gray btn-xs' %>
+            <% end %>
+          </p>
+          <p class="pull-right" style="margin-top: -25px">
+            <%= icon 'fa fa-quote-right' %>
+          </p>
+        </div>
+        <div class="box-footer">
+          <%= link_to t('people.testimony.find_more'), search_path(testimony: true), class: 'btn bg-gray btn-xs' %>
+        </div>
+      </div>
+    <% end %>
+    <% if @person.albums.any? %>
+      <div class="person-albums">
+        <% @person.albums.order(id: :desc).limit(3).reverse.each do |album| %>
+          <%= link_to album do %>
+            <% if album.cover %>
+              <%= link_to image_tag(album.cover.photo.url(:tn), alt: t('pictures.click_to_enlarge'), class: 'picture thumbnail'), album, title: t('pictures.click_to_enlarge') %>
+            <% else %>
+              <%= image_tag 'picture.tn.jpg', class: 'picture thumbnail' %>
+            <% end %>
+          <% end %>
+        <% end %>
+        <%= link_to person_albums_path(@person) do %>
+          <div class="thumbnail">
+            <%= icon 'fa fa-camera-retro' %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+    <% if setting(:features, :groups) %>
+      <% @groups.each do |group| %>
+        <div class="<%= group_box_class(group) %> box">
+          <div class="box-header">
+            <h3 class="box-title">
+              <i class="fa fa-group"></i>
+              <%= link_to group.name, group %>
+            </h3>
+          </div>
+          <div class="box-body">
+            <table class="table">
+              <tr>
+                <td>
+                  <i class="fa fa-users"></i>
+                  <%= t('people.groups.members') %>
+                </td>
+                <td style="width:50px;">
+                  <%= group.memberships.count %>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <i class="fa fa-comments"></i>
+                  <%= t('people.groups.messages') %>
+                </td>
+                <td style="width:50px;">
+                  <%= group.messages.count %>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      <% end %>
+      <% if @groups.any? %>
+        <p>
+          <%= link_to t('people.groups.see_all'), person_groups_path(@person) %>
+        </p>
+      <% end %>
+      <% if @groups.empty? and me? %>
+        <div class="box">
+          <div class="box-body">
+            <%= link_to groups_path, class: 'btn btn-info' do %>
+              <%= icon 'fa fa-search' %>
+              <%= t('people.groups.join.button') %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

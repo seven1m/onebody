@@ -1,0 +1,109 @@
+<%= render partial: 'pending_updates' %>
+<% if Setting.get(:features, :updates_must_be_approved) and not @logged_in.admin?(:edit_profiles) %>
+  <div class="callout callout-info">
+    <%= icon 'fa fa-check-square' %>
+    <%= t('people.changes_must_be_reviewed_html') %>
+  </div>
+<% end %>
+<div class="row">
+  <div class="form-group col-sm-3">
+    <%= form.label :first_name %>
+    <div class="input-group">
+      <%= form.text_field :first_name, size: 15, class: 'form-control' %>
+      <span class="input-group-addon" title="<%= t('people.edit.required_field') %>">
+        <%= icon 'fa fa-star text-red' %>
+      </span>
+    </div>
+  </div>
+  <div class="form-group col-sm-3">
+    <%= form.label :second_name %>
+    <%= form.text_field :second_name, size: 15, class: 'form-control' %>
+  </div>
+  <div class="form-group col-sm-3">
+    <%= form.label :third_name %>
+    <%= form.text_field :third_name, size: 15, class: 'form-control' %>    
+  </div>
+  <div class="form-group col-sm-3">
+    <%= form.label :last_name %>
+    <div class="input-group">
+      <%= form.text_field :last_name, size: 15, class: 'form-control' %>
+      <span class="input-group-addon" title="<%= t('people.edit.required_field') %>">
+        <%= icon 'fa fa-star text-red' %>
+      </span>
+    </div>
+  </div>
+</div>
+<div class="form-group">
+  <%= form.label :alias %>
+  <%= form.text_field :alias, size: 15, class: 'form-control' %>
+</div>
+<div class="form-group">
+  <%= form.label :gender, t('accounts.gender') %>
+  <%= form.select :gender, [['', nil], [t('search.male'), 'Male'], [t('search.female'), 'Female']], {}, class: 'form-control' %>
+</div>
+<div class="form-group">
+  <%= form.label :marital_status %>
+  <%= form.select :marital_status, options_from_i18n('people.edit.marital_statuses'), { include_blank: true }, class: 'form-control' %>
+</div>
+
+<div class="form-group">
+  <%= form.label :description, t('accounts.description') %>
+  <%= form.text_field :description, class: 'form-control', maxlength: 25 %>
+  <span class="help-block">
+    <%= t('people.edit.description_hint') %>
+  </span>
+</div>
+<div class="form-group">
+  <%= form.label :email, t('people.email') %>
+  <%= t('people.edit.email_hint') %>
+  <%= form.text_field :email, class: 'form-control' %>
+</div>
+<div class="form-group">
+  <%= form.label :mobile_phone %>
+  <%= form.phone_field :mobile_phone, class: 'form-control' %>
+  <% unless @person.new_record? %>
+    <span class="help-block">
+      <%= t('people.if_you_wish_to_remove_something_html', url: edit_person_privacy_path(@person)) %>
+    </span>
+  <% end %>
+</div>
+<div class="form-group">
+  <%= form.label :home_phone %>
+  <%= form.phone_field :home_phone, class: 'form-control' %>
+</div>
+<% if @logged_in.admin?(:edit_profiles) and @person.family.try(:persisted?) %>
+  <%= form.hidden_field :family_id %>
+<% end %>
+<div class="form-group">
+  <%= form.label :birthday %>
+  <div class="input-group">
+    <div class="input-group-btn">
+      <button class="btn btn-info date-picker-btn" type="button">
+        <%= icon 'fa fa-calendar' %>
+      </button>
+    </div>
+    <%= form.date_field :birthday, class: 'form-control' %>
+  </div>
+</div>
+<% if @logged_in.admin?(:edit_profiles) %>
+  <div class="form-group" id="child-selection">
+    <%= form.label :child, t('people.child') %>
+    <span class="help-block">
+      <%= t('people.edit.child_hint') %>
+    </span>
+    <%= select_tag "person[child]", options_for_select(['', [t('people.edit.child.enabled'), true], [t('people.edit.child.disabled'), false]], @person.child), id: "person_child", class: 'form-control' %>
+  </div>
+<% end %>
+<% unless @person.child? %>
+  <div class="form-group">
+    <%= form.label :anniversary %>
+    <div class="input-group">
+      <div class="input-group-btn">
+        <button class="btn btn-info date-picker-btn" type="button">
+          <%= icon 'fa fa-calendar' %>
+        </button>
+      </div>
+      <%= form.date_field :anniversary, class: 'form-control' %>
+    </div>
+  </div>
+<% end %>

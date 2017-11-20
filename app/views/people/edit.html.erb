@@ -1,0 +1,14 @@
+<% @title = t('people.edit.header') %>
+<% if @person.account_frozen? %>
+  <div class="callout callout-danger">
+    <%= t('people.account_frozen.callout') %>
+  </div>
+<% end %>
+<% if @person.updates.pending.any? and @logged_in.can_update?(@person) %>
+  <div class="callout callout-info">
+    <%= icon 'fa fa-clock-o' %>
+    <%= t('people.updates.pending_callout') %>
+  </div>
+<% end %>
+<%= error_messages_for @person %>
+<%= render partial: 'form' %>

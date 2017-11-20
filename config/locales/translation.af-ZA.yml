@@ -440,7 +440,6 @@ af-ZA:
         custom_type: 
         email: 
         facebook_url: 
-        fax: 
         first_name: 
         gender: 
         last_name: 
@@ -1074,9 +1073,6 @@ af-ZA:
           name: 
           description: 
         Share Work Phone by Default:
-          name: 
-          description: 
-        Share Fax by Default:
           name: 
           description: 
         Max Sign in Attempts:
@@ -2553,7 +2549,6 @@ af-ZA:
     email: 
     family_hidden: 
     family_privacy: 
-    fax: 
     group_privacy: 
     hide_your_activity: 
     home_phone: 
