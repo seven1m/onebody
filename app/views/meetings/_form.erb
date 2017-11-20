@@ -1,0 +1,13 @@
+<%= form_for @meeting do |form| %>
+  <%= error_messages_for(form) %>
+  <h3>
+    <%= 'Meeting' %>
+  </h3>
+  <div class="form-group">
+    <%= form.label :name %>
+    <%= form.text_field :name, size: 15, class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= form.button 'Save Meeting', class: 'btn btn-success' %>
+  </div>
+<% end %>

@@ -40,6 +40,8 @@ OneBody::Application.routes.draw do
     resource :privacy
   end
 
+  resources :meetings
+
   resources :families do
     collection do
       post :batch

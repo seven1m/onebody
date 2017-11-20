@@ -47,6 +47,9 @@ class Person < ApplicationRecord
   belongs_to :last_seen_stream_item, class_name: 'StreamItem', optional: true
   belongs_to :last_seen_group, class_name: 'Group', optional: true
 
+  has_many :meeting_memberships
+  has_many :meetings, through: :meeting_memberships
+
   scope_by_site_id
 
   MINIMAL_ATTRIBUTES = %w(

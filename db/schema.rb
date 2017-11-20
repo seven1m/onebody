@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171120211047) do
+ActiveRecord::Schema.define(version: 20171120220433) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.datetime "created_at"
@@ -363,6 +363,30 @@ ActiveRecord::Schema.define(version: 20171120211047) do
     t.string "command"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "meeting_memberships", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.bigint "person_id"
+    t.bigint "meeting_id"
+    t.date "member_since"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["meeting_id"], name: "index_meeting_memberships_on_meeting_id"
+    t.index ["person_id"], name: "index_meeting_memberships_on_person_id"
+  end
+
+  create_table "meeting_services", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.string "name"
+    t.bigint "meeting_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["meeting_id"], name: "index_meeting_services_on_meeting_id"
+  end
+
+  create_table "meetings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "membership_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
@@ -830,4 +854,7 @@ ActiveRecord::Schema.define(version: 20171120211047) do
     t.integer "site_id"
   end
 
+  add_foreign_key "meeting_memberships", "meetings"
+  add_foreign_key "meeting_memberships", "people"
+  add_foreign_key "meeting_services", "meetings"
 end
