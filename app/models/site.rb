@@ -55,7 +55,8 @@ class Site < ApplicationRecord
   end
 
   def noreply_email
-    "noreply@#{email_host}"
+    #"noreply@#{email_host}"
+    'community@kdec.net'
   end
 
   def visible_name

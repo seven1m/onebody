@@ -498,7 +498,6 @@ pt-BR:
         custom_type: Atribuição Customizada
         email: Email
         facebook_url: URL do Facebook
-        fax: Fax
         first_name: Primeiro Nome
         gender: Sexo
         last_name: Último Nome
@@ -1264,10 +1263,6 @@ pt-BR:
           name: Compartilhar Telefone Comercial
           description: Se habilitado, novos usuários terão o números de telefone comercial
             compartilhados com outros membros do site.
-        Share Fax by Default:
-          name: Compartilhar Fax
-          description: Se habilitado, novos usuários terão o números de fax compartilhado
-            com outros membros do site.
         Max Sign in Attempts:
           name: Número Máximo de Tentativas de Acesso
           description: Número de falhas no acesso em um período de 14 minutos, antes
@@ -2930,7 +2925,6 @@ pt-BR:
     email: Email
     family_hidden: Esta família está escondida de todas as páginas deste site!
     family_privacy: Família
-    fax: Fax
     group_privacy: Privacidade do Grupo
     hide_your_activity: 'Esconder suas atividades, se você não quer que amigos e/ou
       membros do grupo de colegas vejam as suas mensagens públicas, anotações, versículos,

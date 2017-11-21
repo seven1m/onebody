@@ -464,7 +464,6 @@ de:
         custom_type: Custom Role
         email: EMail
         facebook_url: Facebook
-        fax: Faxnummer
         first_name: Vorname
         gender: Geschlecht
         last_name: Nachname
@@ -1201,10 +1200,6 @@ de:
           name: Share Work Phone
           description: If enabled, new users will have their work phones shared with
             other site members.
-        Share Fax by Default:
-          name: Share Fax
-          description: If enabled, new users will have their fax shared with other
-            site members.
         Max Sign in Attempts:
           name: Maximum Failed Sign in Attempts
           description: Number of signin failures in a 15-minute period before account
@@ -2886,7 +2881,6 @@ de:
     email: EMail
     family_hidden: This family is currently hidden from all pages on this site!
     family_privacy: Familie
-    fax: Faxnummer
     group_privacy: Datenschutz für Gruppen
     hide_your_activity: 'Verberge deine Aktivitäten, wenn du nicht willst, dass deine
       Freunde und/oder Gruppenmitglieder deine öffentlichen Nachrichten, Notizen,

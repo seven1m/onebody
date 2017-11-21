@@ -75,7 +75,7 @@
                 = new_stream_activity_badge(@logged_in)
             %li{ class: tab_selected?(:profile) ? 'active' : '' }
               = link_to @person || @logged_in do
-                %i.fa.fa-user
+                %i.fa.fa-id-card-o
                 %span= t('nav.profile')
                 %i.fa.pull-right{ class: tab_expanded?(:profile) ? 'fa-angle-down' : 'fa-angle-left' }
               - if tab_expanded?(:profile)
@@ -131,8 +131,8 @@
                         = t('nav.groups_sub.new')
             %li{ class: tab_selected?(:directory) ? 'active' : '' }
               = link_to search_path do
-                %i.fa.fa-archive
-                %span= t('nav.directory')
+                %i.fa.fa-user
+                %span= 'People'
                 %i.fa.pull-right{ class: tab_expanded?(:directory) ? 'fa-angle-down' : 'fa-angle-left' }
               - if tab_expanded?(:directory)
                 %ul.treeview-menu.visible
@@ -154,6 +154,11 @@
                       = link_to new_person_path do
                         = icon 'fa fa-plus'
                         = t('nav.directory_sub.new_person')
+            %li{ class: tab_selected?(:meetings) ? 'active' : '' }
+              = link_to meetings_path do
+                %i.fa.fa-institution
+                %span= 'Meetings'
+                = new_stream_activity_badge(@logged_in)
             - if setting(:features, :documents)
               %li{ class: tab_selected?(:documents) ? 'active' : '' }
                 = link_to documents_path do

@@ -502,7 +502,6 @@ es-MX:
         custom_type: El papel de encargo
         email: Correo electrónico.
         facebook_url: Enlace de Face(book)
-        fax: Fax
         first_name: Primer Nombre
         gender: Género
         last_name: Apellido
@@ -1273,10 +1272,6 @@ es-MX:
           name: Compartir Teléfono de trabajo
           description: Si está activado, los nuevos usuarios tendrán sus teléfonos
             de trabajo compartidos con otros miembros del sitio.
-        Share Fax by Default:
-          name: Compartir fax
-          description: Si está habilitado, los nuevos usuarios tendrán su fax compartido
-            con otros miembros del sitio.
         Max Sign in Attempts:
           name: Máximo numero de intentos al inicio de sesión
           description: Número de fallos de inicio al sesión en un período de 15 minutos
@@ -2996,7 +2991,6 @@ es-MX:
     family_hidden: "¡Esta familia está actualmente oculta en todas las páginas de
       este sitio!"
     family_privacy: Familia
-    fax: Fax
     group_privacy: Privacidad del grupo
     hide_your_activity: 'Ocultar su actividad si no quiere que sus amigos y / o compañeros
       de grupo vean sus mensajes públicos, notas, versículos, etc. en su página de

@@ -487,10 +487,6 @@ zh-CN:
           name: Share Work Phone
           description: If enabled, new users will have their work phones shared with
             other site members.
-        Share Fax by Default:
-          name: Share Fax
-          description: If enabled, new users will have their fax shared with other
-            site members.
         Max Sign in Attempts:
           name: Maximum Failed Sign in Attempts
           description: Number of signin failures in a 15-minute period before account
@@ -795,7 +791,6 @@ zh-CN:
         anniversary: Wedding Anniversary
         birthday: Birthday
         custom_type: Custom Role
-        fax: Fax
         gender: Gender
         mobile_phone: Mobile Phone
         suffix: Suffix
@@ -1756,7 +1751,6 @@ zh-CN:
     email: 电子邮件
     family_hidden: 这个家庭暂时对网站上的所有人保密！
     family_privacy: 家庭
-    fax: 传真
     group_privacy: 群组隐私
     hide_your_activity: 如果你不想让你的朋友或小组成员看到你的公开消息、笔记、圣经章节等信息，你可以将你的动态隐藏起来。注意：不论这里是如何设置的，私信是永远不会被公开的。
     home_phone: 家庭电话

@@ -1,0 +1,19 @@
+<% @title = 'Meetings' %>
+<div class="page-controls">
+  <%= link_to new_meeting_path(), class: 'btn btn-success' do %>
+    <%= icon 'fa fa-plus' %>
+    <%= 'New Meeting' %>
+  <% end %>
+</div>
+<table class="table">
+<% @meetings.each do |meeting| %>
+    <tr>
+        <td>
+          <%= link_to meeting.name, meeting_path(meeting) %>
+        </td>
+        <td class="col-sm-6">
+          <%= link_to 'Edit', edit_meeting_path(meeting), class: 'btn bg-orange' %>
+        </td>
+    </tr>
+<% end %>
+</table>

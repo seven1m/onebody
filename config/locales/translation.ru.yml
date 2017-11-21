@@ -440,7 +440,6 @@ ru:
         custom_type: 
         email: 
         facebook_url: 
-        fax: 
         first_name: 
         gender: 
         last_name: 
@@ -1074,9 +1073,6 @@ ru:
           name: 
           description: 
         Share Work Phone by Default:
-          name: 
-          description: 
-        Share Fax by Default:
           name: 
           description: 
         Max Sign in Attempts:
@@ -2681,7 +2677,6 @@ ru:
     email: Эл.почта
     family_hidden: Семья %{your} на данный момент скрыта со всех страниц этого сайта!
     family_privacy: Семья
-    fax: Факс
     group_privacy: Group Privacy
     hide_your_activity: 'Hide your activity if you do not want friends and/or fellow
       group members to see your public messages, notes, verses, etc. on their home

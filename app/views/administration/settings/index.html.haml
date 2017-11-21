@@ -13,6 +13,7 @@
     = section_tab(t('admin.settings.theme_heading'), :theme)
     = section_tab(t('admin.settings.privacy_heading'), :privacy)
     = section_tab(t('admin.settings.services_heading'), :services)
+    = section_tab(t('admin.settings.groups_heading'), :groups)
 
   .tab-content
     .tab-pane.active#naming
@@ -138,7 +139,6 @@
       = setting_row('Privacy', 'Share Home Phone by Default',   label: :name)
       = setting_row('Privacy', 'Share Mobile Phone by Default', label: :name)
       = setting_row('Privacy', 'Share Work Phone by Default',   label: :name)
-      = setting_row('Privacy', 'Share Fax by Default',          label: :name)
       = setting_row('Privacy', 'Share Address by Default',      label: :name)
       = setting_row('Privacy', 'Share Birthday by Default',     label: :name)
       = setting_row('Privacy', 'Share Anniversary by Default',  label: :name)
@@ -176,6 +176,12 @@
             = t('admin.facebook.intro_html')
       = setting_row('Facebook', 'App ID')
       = setting_row('Facebook', 'App Secret')
+      .form-group
+        .col-sm-offset-2.col-sm-10
+          = button_tag t('save_changes'), class: 'btn btn-success'
+    .tab-pane#groups
+      = setting_row('Groups', 'Show Group Category in List')
+      = setting_row('Groups', 'Show Group Admins in List')
       .form-group
         .col-sm-offset-2.col-sm-10
           = button_tag t('save_changes'), class: 'btn btn-success'

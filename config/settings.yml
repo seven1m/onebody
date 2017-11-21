@@ -239,9 +239,6 @@ Privacy:
   Share Work Phone by Default:
     format: boolean
     value: false
-  Share Fax by Default:
-    format: boolean
-    value: false
   Share Email by Default:
     format: boolean
     value: false
@@ -255,5 +252,12 @@ Privacy:
     format: boolean
     value: true
   Hide Contact Details in Messages:
+    format: boolean
+    value: true
+Groups:
+  Show Group Category in List:
+    format: boolean
+    value: true
+  Show Group Admins in List:
     format: boolean
     value: true

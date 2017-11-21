@@ -52,7 +52,7 @@ class PrivaciesController < ApplicationController
     else
       params.require(:family).permit(
         :visible,
-        people_attributes: %i(id visible share_address share_mobile_phone share_home_phone share_work_phone share_fax share_email share_birthday share_anniversary share_activity)
+        people_attributes: %i(id visible share_address share_mobile_phone share_home_phone share_work_phone share_email share_birthday share_anniversary share_activity)
       )
     end
   end

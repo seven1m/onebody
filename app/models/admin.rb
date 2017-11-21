@@ -74,6 +74,7 @@ class Admin < ApplicationRecord
     manage_attendance
     manage_comments
     manage_groups
+    manage_roles
     manage_news
     manage_pictures
     manage_prayer_signups

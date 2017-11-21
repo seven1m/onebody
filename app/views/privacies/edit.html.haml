@@ -45,7 +45,6 @@
             %th= t('privacies.home_phone')
             %th= t('privacies.mobile_phone')
             %th= t('privacies.work_phone')
-            %th= t('privacies.fax')
             %th
               = t('privacies.email')
               %sup 3
@@ -64,7 +63,6 @@
                   %td= person_form.check_box :share_home_phone,   class: "share-checkbox simple", 'data-share-type' => 'share-home-phone',   'data-person-id' => person.id
                   %td= person_form.check_box :share_mobile_phone, class: "share-checkbox simple", 'data-share-type' => 'share-mobile-phone', 'data-person-id' => person.id
                   %td= person_form.check_box :share_work_phone,   class: "share-checkbox simple", 'data-share-type' => 'share-work-phone',   'data-person-id' => person.id
-                  %td= person_form.check_box :share_fax,          class: "share-checkbox simple", 'data-share-type' => 'share-fax',          'data-person-id' => person.id
                   %td= person_form.check_box :share_email,        class: "share-checkbox simple", 'data-share-type' => 'share-email',        'data-person-id' => person.id
                   %td= person_form.check_box :share_birthday,     class: "share-checkbox simple", 'data-share-type' => 'share-birthday',     'data-person-id' => person.id
                 - else
@@ -82,7 +80,6 @@
                   %td= membership_form.check_box :share_home_phone,   class: 'share-home-phone simple'
                   %td= membership_form.check_box :share_mobile_phone, class: 'share-mobile-phone simple'
                   %td= membership_form.check_box :share_work_phone,   class: 'share-work-phone simple'
-                  %td= membership_form.check_box :share_fax,          class: 'share-fax simple'
                   %td= membership_form.check_box :share_email,        class: 'share-email simple'
                   %td= membership_form.check_box :share_birthday,     class: 'share-birthday simple'
         %p.discreet.margin-top

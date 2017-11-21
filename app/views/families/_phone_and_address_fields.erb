@@ -1,0 +1,31 @@
+<div class="form-group">
+  <%= form.label :home_phone %>
+  <%= form.phone_field :home_phone, class: 'form-control' %>
+</div>
+<div class="form-group">
+  <%= form.label :address1 %>
+  <%= form.text_field :address1, class: 'form-control' %>
+</div>
+<div class="form-group">
+  <%= form.label :address2 %>
+  <%= form.text_field :address2, class: 'form-control' %>
+</div>
+<div class="form-group">
+  <%= form.label :city, t('families.edit.city_st_zip') %>
+  <div class="row">
+    <div class="col-sm-4">
+      <%= form.text_field :city, class: 'form-control inline full-width' %>
+    </div>
+    <div class="col-sm-4">
+      <%= form.text_field :state, class: 'form-control inline full-width' %>
+    </div>
+    <div class="col-sm-4">
+      <%= form.text_field :zip, class: 'form-control inline full-width' %>
+    </div>
+  </div>
+</div>
+<div class="form-group">
+  <%= form.label :country %>
+  <br/>
+  <%= form.country_select :country, { include_blank: true }, class: 'form-control' %>
+</div>

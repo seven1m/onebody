@@ -1,17 +1,6 @@
-.form-group
-  %span.help-block= t('people.edit.person_type_hint')
-  = form.check_box :member
-  = form.label :member, t('search.member'), class: 'inline'
-.form-group
-  = form.check_box :staff
-  = form.label :staff,  t('search.staff'),  class: 'inline'
-.form-group
-  = form.check_box :elder
-  = form.label :elder,  t('search.elder'),  class: 'inline'
-.form-group
-  = form.check_box :deacon
-  = form.label :deacon, t('search.deacon'), class: 'inline'
-- if setting(:features, :custom_person_type)
-  .form-group
-    = form.label :custom_type
-    = react_component 'ReactComponents.SelectWithNew', name: 'person[custom_type]', value: @person.custom_type, options: custom_types, className: 'form-control', includeBlank: true
+= hidden_field_tag "person[role_ids][]", nil
+
+- Role.all().each do |role|
+  = check_box_tag "person[role_ids][]", role.id, @person.role_ids.include?(role.id), id: dom_id(role)
+  = label_tag dom_id(role), role.name
+  <br/>

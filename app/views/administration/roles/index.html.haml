@@ -1,0 +1,32 @@
+- content_for :header do
+  %section.content-header
+    = breadcrumbs
+    %h1
+      = @title
+.row
+  .col-md-8
+    .box
+      .box-header
+        %h4.box-title= @title
+      .box-body.table-responsive.nopadding
+        %table.table.table-hover
+          %tr
+            %td
+              Name
+            %td
+              Members
+          %tr
+            - @roles.each do |role|
+              %tr
+                %td
+                  = link_to role.name, administration_role_path(role.id)
+                %td
+                  = role.role_memberships.length
+                %td.actions
+                  = link_to t('admin.roles.edit'), administration_role_path(role.id), class: 'label label-info'
+  .col-md-4
+    .box.box-info
+      .box-header
+        %h3.box-title= t('admin.add_role')
+      .box-body
+        = render partial: 'form'

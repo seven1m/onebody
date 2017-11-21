@@ -1,0 +1,177 @@
+<table class="table">
+<% if @logged_in.admin?(:edit_profiles) %>
+  <tr>
+    <td>
+      <%= 'Groups' %>
+    </td>
+    <td>
+      <% @person.memberships.each do |m| %>
+        <div>
+          <%= m.group.name %>
+        </div>
+        <% if m.leader? %>
+          <%= "(Leader)" %>
+        <% end %>
+      <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <%= 'Roles' %>
+    </td>
+    <td>
+      <%= link_to_person_role(@person, only_one: false) %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <%= t('people.show.details.created') %>
+    </td>
+    <td title="<%= time_to_s(@person.created_at, :full) %>">
+      <%= time_to_s(@person.created_at, :date) %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <%= t('people.show.details.edited') %>
+    </td>
+    <td title="<%= time_to_s(@person.updated_at, :full) %>">
+      <%= time_to_s(@person.updated_at, :date) %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <%= t('people.show.details.last_seen') %>
+    </td>
+    <td title="<%= time_to_s(@person.last_seen_at, :full) %>">
+      <%= time_to_s(@person.last_seen_at, :date) %>
+    </td>
+  </tr>
+<% end %>
+<%= show_attribute(:website) do %>
+  <tr>
+    <td>
+      <%= t('people.show.details.website') %>
+    </td>
+    <td>
+      <%= link_to simple_url(@person.website), safe_url(@person.website) %>
+    </td>
+  </tr>
+<% end %>
+<%= show_attribute(:email) do %>
+  <tr>
+    <td>
+      <%= t('people.show.details.email') %>
+      <%= showing_attribute_because_admin_icon(:email) %>
+    </td>
+    <td>
+      <%= mail_to @person.email %>
+    </td>
+  </tr>
+<% end %>
+<%= show_attribute(:mobile_phone) do %>
+  <tr>
+    <td>
+      <%= t('people.show.details.mobile_phone') %>
+      <%= showing_attribute_because_admin_icon(:mobile_phone) %>
+    </td>
+    <td>
+      <%= link_to_phone @person.mobile_phone, mobile: true %>
+    </td>
+  </tr>
+<% end %>
+<tr>
+  <td>
+    <%= t('people.show.details.home_phone') %>
+    <%= showing_attribute_because_admin_icon(:home_phone) %>
+  </td>
+  <td>
+    <%= link_to_phone @person.home_phone %>
+  </td>
+</tr>
+<%= show_attribute(:work_phone) do %>
+  <tr>
+    <td>
+      <%= t('people.show.details.work_phone') %>
+      <%= showing_attribute_because_admin_icon(:work_phone) %>
+    </td>
+    <td>
+      <%= link_to_phone @person.work_phone %>
+    </td>
+  </tr>
+<% end %>
+<%= show_attribute(:address) do %>
+  <tr>
+    <td>
+      <%= t('people.show.details.address') %>
+      <%= showing_attribute_because_admin_icon(:address) %>
+    </td>
+    <td>
+      <%= preserve_breaks @person.address %>
+      <br/>
+      <%= "#{@person.city}, #{@person.state} #{@person.short_zip} #{@person.country}" %>
+      <br/>
+      <%= link_to t('people.show.details.map'), "https://www.google.com/maps/place/#{@person.address.tr("\n","")} #{@person.city}, #{@person.state} #{@person.short_zip}/", :target => "_blank" %>
+    </td>
+  </tr>
+<% end %>
+<%= show_attribute(:birthday) do %>
+  <tr>
+    <td>
+      <%= t('people.show.details.birthday') %>
+      <%= showing_attribute_because_admin_icon(:birthday) %>
+    </td>
+    <td>
+      <%= @person.birthday.to_s(:date_without_year) %>
+    </td>
+  </tr>
+<% end %>
+<% unless @person.child? %>
+  <%= show_attribute(:anniversary) do %>
+    <tr>
+      <td>
+        <%= t('people.show.details.anniversary') %>
+        <%= showing_attribute_because_admin_icon(:anniversary) %>
+      </td>
+      <td>
+        <%= @person.anniversary.to_s(:date_without_year) %>
+      </td>
+    </tr>
+  <% end %>
+<% end %>
+<% if has_social_networks?(@person) %>
+  <tr>
+    <td>
+      <%= t('people.show.details.social') %>
+    </td>
+    <td>
+      <% if @person.twitter.present? %>
+        <div class="social-link">
+          <%= link_to(twitter_url(@person), target: '_blank') do %>
+            <%= icon 'fa fa-twitter' %>
+            <%= @person.twitter %>
+          <% end %>
+        </div>
+      <% end %>
+      <% if @person.facebook_url.present? %>
+        <div class="social-link">
+          <%= link_to(@person.facebook_url, target: '_blank') do %>
+            <%= icon 'fa fa-facebook' %>
+            <%= simple_url(@person.facebook_url, www: false) %>
+          <% end %>
+        </div>
+      <% end %>
+    </td>
+  </tr>
+<% end %>
+<%= show_attribute(:about) do %>
+  <tr>
+    <td>
+      <%= t('people.show.details.about') %>
+    </td>
+    <td>
+      <%= preserve_breaks @person.about %>
+    </td>
+  </tr>
+<% end %>
+</table>

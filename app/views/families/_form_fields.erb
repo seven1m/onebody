@@ -1,0 +1,28 @@
+<div class="form-group">
+<%= form.label :family_name %>
+<%= form.text_field :name, onkeyup: 'set_last_name()', class: 'form-control' %>
+<% if @family.new_record? %>
+  <div class="family-name-suggestion">
+    <%= t('families.edit.name_example_html') %>
+  </div>
+<% elsif @family.suggest_name? %>
+  <div class="family-name-suggestion">
+    <%= t('families.edit.name_suggestion_html', name: @family.suggested_name) %>
+    <%= link_to '#', class: 'btn btn-xs btn-warning family-name-suggestion-button', data: { name: @family.suggested_name } do %>
+      <%= icon 'fa fa-bolt' %>
+      <%= t('families.edit.name_suggestion_button') %>
+    <% end %>
+  </div>
+<% end %>
+</div>
+<div class="form-group">
+<%= form.label :last_name %>
+<%= form.text_field :last_name, class: 'form-control' %>
+</div>
+<%= render partial: 'families/phone_and_address_fields', locals: { form: form } %>
+<script>
+  function set_last_name() {
+    var parts = $('#family_name').val().split(' ');
+    $('#family_last_name').val(parts.length > 1 ? parts[parts.length-1] : '');
+  }
+</script>

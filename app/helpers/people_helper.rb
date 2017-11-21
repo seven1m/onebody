@@ -48,7 +48,7 @@ module PeopleHelper
   end
 
   def has_type?(person)
-    person.elder? || person.deacon? || person.staff? || person.member? || person.custom_type.present?
+    person.has_any_role?()
   end
 
   def avatar_path(person, size = :tn, variation = nil)
@@ -97,13 +97,18 @@ module PeopleHelper
 
   def link_to_person_role(person, options = {})
     options.reverse_merge!(separator: ' ')
+    
     roles = []
-    if Setting.get(:features, :custom_person_type) && person.custom_type.present?
-      roles << person.custom_type
+    Rails.logger.debug("Fetched all roles")
+
+    allRoles = Role.all().to_a()
+
+    Rails.logger.debug("About to enter the select loop on the roles array")
+    roles += allRoles.select do |role|
+      Rails.logger.debug("looping inside array select loop")
+      person.has_role?(role)
     end
-    roles += %w(elder deacon staff member).select do |role|
-      person.send("#{role}?")
-    end
+    Rails.logger.debug("Done with that wierdness...")
     if options[:only_one]
       link_to_role(roles.first)
     else
@@ -112,10 +117,7 @@ module PeopleHelper
   end
 
   def link_to_role(role)
-    link_to search_path(type: role) do
-      icon('fa fa-star') + ' ' +
-        t(role, scope: 'people.roles', default: role)
-    end
+    link_to icon('fa fa-star') + ' ' + role.name, administration_role_path(role)
   end
 
   def submit_or_save_button

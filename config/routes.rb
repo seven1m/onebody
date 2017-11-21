@@ -40,6 +40,8 @@ OneBody::Application.routes.draw do
     resource :privacy
   end
 
+  resources :meetings
+
   resources :families do
     collection do
       post :batch
@@ -196,7 +198,7 @@ OneBody::Application.routes.draw do
     resources :imports do
       patch :execute, on: :member
     end
-    resources :updates, :admins, :membership_requests
+    resources :updates, :admins, :membership_requests, :roles
     namespace :checkin do
       root to: 'dashboards#show'
       resource :dashboard
