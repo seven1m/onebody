@@ -497,7 +497,7 @@ es-MX:
         zip: Codigo
       person:
         anniversary: Aniversario de boda
-        alias: Conocido Por
+        alias: Conocido Como
         birthday: Cumpleaños
         custom_type: El papel de encargo
         email: Correo electrónico.
@@ -510,7 +510,9 @@ es-MX:
         primary_emailer: " Principal del correo electrónico"
         status: Estatus
         suffix: Sufijo
+        testimony: Testimonio
         twitter: Nombre de usuario de Twitter
+        website: Sitio web
         work_phone: Teléfono del trabajo
       group:
         name: Nombre
@@ -520,7 +522,7 @@ es-MX:
         creator: Creador
         meets: Cuando se reúne
         location: Ubicación y dirección
-        direction: Dirección
+        directions: Direcciones
         email: Correo electrónico.
         prayer: Peticiones de Oración
         pictures: Intercambio de imágenes
@@ -1472,7 +1474,7 @@ es-MX:
     saved: Asistencia enviada.
     submit_notes: 'Enviar Notas '
     Search: Buscar
-    search_person: Buscar por nombre de persona
+    search_person: Buscar nombre de persona
     wrong_date_format: No se pudo reconocer la fecha. Vuelve a intentarlo.
   checkin:
     heading: Registrarse
@@ -2198,8 +2200,8 @@ es-MX:
         help: Haga que su grupo sea fácil de encontrar colocándolo en una categoría
           apropiada.
       description:
-        help: Escriba una oración o dos para darle a la gente una idea de por qué
-          se encuentra y de los objetivos de su grupo.
+        help: Escriba una oración o dos para darle a la gente una idea de porque
+          se existe y de los objetivos de su grupo.
       approval_required_to_join:
         help: Si está marcada, se enviará una solicitud de aprobación a los administradores
           del grupo antes de que alguien pueda unirse.
@@ -2829,8 +2831,8 @@ es-MX:
     can_sign_in: Puede ingresar
     cant_delete_yourself: No se puede eliminar a sí mismo.
     cant_delete: No se puede eliminar esta persona.
-    changes_must_be_reviewed_html: Los cambios en el formulario abajo deben ser <strong>
-      revisado por el personal </ strong>. Para solicitar cambios, lene el formulario
+    changes_must_be_reviewed_html: Los cambios en el formulario abajo tiene que ser <strong>
+      revisado por el personal de la oficina</ strong>. Para solicitar cambios, lene el formulario
       abajo y haga clic en "Enviar cambios".
     changes_submitted: Los cambios enviados.
     child: Niño / Adulto

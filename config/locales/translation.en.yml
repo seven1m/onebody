@@ -1784,7 +1784,9 @@ en:
         primary_emailer: Primary email account holder
         status: Status
         suffix: Suffix
+        testimony: Testimony
         twitter: Twitter Username
+        website: Website
         work_phone: Work Phone
       group:
         name: Name
@@ -1794,7 +1796,7 @@ en:
         creator: Creator
         meets: Meets When
         location: Location and Address
-        direction: Direction
+        directions: Directions
         email: Email
         prayer: Prayer Requests
         pictures: Picture Sharing
