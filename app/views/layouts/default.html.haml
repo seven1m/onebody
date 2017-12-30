@@ -101,6 +101,10 @@
                     = link_to @family do
                       = icon 'fa fa-group'
                       = t('nav.profile_sub.family')
+                  %li
+                    = link_to person_meeting_memberships_path(@person) do
+                      = icon 'fa fa-institution'
+                      = 'Meeting Memberships'
                   - if @logged_in.admin?(:edit_profiles)
                     %li
                       = link_to person_relationships_path(@person) do

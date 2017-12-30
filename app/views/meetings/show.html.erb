@@ -1,8 +1,19 @@
 <div class="col-md-8">
   <h3>
     <%= @meeting.name %>
-    <p><%= @meeting_memberships %></p>
   </h3>
+    <table class="table">
+      <tr>
+        <th>Name</th>
+        <th>Membership Type</th>
+      </tr>
+      <% @meeting_memberships.each do |membership| %>
+      <tr>
+        <td><%= membership.person.name%></td>
+        <td><%= membership.meeting_membership_type.name%></td>
+      </tr>
+      <% end %>
+    </table>
   <hr/>
   <%= link_to 'Back to All Meetings', meetings_path, class: 'btn btn-warning' %>
 </div>
