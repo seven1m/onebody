@@ -1,6 +1,7 @@
 <div class="col-md-8">
   <h3>
     <%= @meeting.name %>
+    <p><%= @meeting_memberships %></p>
   </h3>
   <hr/>
   <%= link_to 'Back to All Meetings', meetings_path, class: 'btn btn-warning' %>

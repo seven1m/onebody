@@ -1,0 +1,19 @@
+= form_for MeetingMembership.new do |form|
+  = hidden_field_tag :person_id, @person.id
+  .box.box-info
+    .box-body
+      %h4= 'New Meeting Membership'
+      
+      .col-md-12
+        .form-group
+          = label_tag :meeting_id
+          = select_tag :meeting_id, options_from_collection_for_select(@meetings, :id, :name, params[:meeting_id]), include_blank: true, class: 'form-control'
+
+      .col-md-12
+        .form-group
+          = label_tag :meeting_membership_type_id, 'Membership Type'
+          = select_tag :meeting_membership_type_id, options_from_collection_for_select(@meeting_membership_types, :id, :name, params[:meeting_membership_type_id]), include_blank: true, class: 'form-control'
+
+      .col-md-12
+        .form-group
+          = submit_tag t('save_changes'), class: 'btn btn-success'

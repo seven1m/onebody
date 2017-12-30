@@ -1,0 +1,15 @@
+.col-md-6
+  .box.box-info
+    .box-body
+      %h4= 'Meeting Memberships'
+      %table.table
+        %th Meeting
+        %th Membership Type
+        - @meeting_memberships.each do |membership|
+          %tr.description
+            %td
+              = link_to membership.meeting.name, membership.meeting
+            %td
+              = membership.meeting_membership_type.name
+.col-md-6
+  = render partial: 'form'

@@ -1,6 +1,6 @@
 = hidden_field_tag "person[role_ids][]", nil
 
 - Role.all().each do |role|
-  = check_box_tag "person[role_ids][]", role.id, @person.role_ids.include?(role.id), id: dom_id(role)
+  = check_box_tag "person[role_ids][]", role.id, @person.has_role?(role), id: dom_id(role)
   = label_tag dom_id(role), role.name
   <br/>

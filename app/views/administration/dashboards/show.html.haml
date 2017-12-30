@@ -151,19 +151,18 @@
                 = icon 'fa fa-gavel'
                 = t('admin.admins.button')
 
-
-    - if @logged_in.admin?(:manage_roles)
+    - if true
       .col-md-3
         .box.box-warning.normalize-height
           .box-header
-            %h3.box-title= t('admin.roles.heading')
+            %h3.box-title= 'Meeting Membership Types'
           .box-body
             %p
-              = t('admin.roles.intro')
+              = 'Create or Edit Meeting Membership Types'
             %p
-              = link_to administration_roles_path, class: 'btn btn-warning' do
+              = link_to administration_meeting_membership_types_path, class: 'btn btn-warning' do
                 = icon 'fa fa-gavel'
-                = t('admin.roles.manage')
+                = 'Manage'
                 
     - if @logged_in.super_admin?
       .col-md-3

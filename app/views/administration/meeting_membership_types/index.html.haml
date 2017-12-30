@@ -1,0 +1,32 @@
+- content_for :header do
+  %section.content-header
+    = breadcrumbs
+    %h1
+      = @title
+.row
+  .col-md-8
+    .box
+      .box-header
+        %h4.box-title= @title
+      .box-body.table-responsive.nopadding
+        %table.table.table-hover
+          %tr
+            %td
+              Name
+            %td
+              People
+          %tr
+            - @meeting_membership_types.each do |membership_type|
+              %tr
+                %td
+                  = link_to membership_type.name, administration_meeting_membership_type_path(membership_type.id)
+                %td
+                  = membership_type.meeting_memberships.length
+                %td.actions
+                  = link_to 'Edit', administration_meeting_membership_type_path(membership_type.id), class: 'label label-info'
+  .col-md-4
+    .box.box-info
+      .box-header
+        %h3.box-title= 'Add Meeting Membership Type'
+      .box-body
+        = render partial: 'form'

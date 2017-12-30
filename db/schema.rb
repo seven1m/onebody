@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171120220433) do
+ActiveRecord::Schema.define(version: 20171230113919) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.datetime "created_at"
@@ -365,12 +365,19 @@ ActiveRecord::Schema.define(version: 20171120220433) do
     t.datetime "updated_at"
   end
 
+  create_table "meeting_membership_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "meeting_memberships", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.integer "person_id"
     t.integer "meeting_id"
     t.date "member_since"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "meeting_membership_type_id"
   end
 
   create_table "meeting_services", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|

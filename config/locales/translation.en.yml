@@ -318,34 +318,38 @@ en:
         title: Manage Groups
         about: View, edit, delete any group (even if hidden or private).
         order: 8
+      manage_meeting_membership_types:
+        title: Manage Meeting Membership Types
+        about: View, edit, delete any Meeting Membership Type.
+        order: 9
       manage_roles:
         title: Manage Roles
         about: View, edit, delete any role.
-        order: 9
+        order: 10
       manage_news:
         title: Manage News
         about: View, edit, delete all news.
-        order: 10
+        order: 11
       manage_pictures:
         title: Manage Pictures
         about: View, edit, delete any pictures and albums.
-        order: 11
+        order: 12
       manage_updates:
         title: Manage Updates
         about: View, edit, delete pending profile updates made by users.
-        order: 14
+        order: 13
       manage_sync:
         title: Manage Sync
         about: View and track synchronizations made with UpdateAgent.
-        order: 15
+        order: 14
       import_data:
         title: Import Data
         about: Import data from CSV or by using UpdateAgent.
-        order: 16
+        order: 15
       export_data:
         title: Export Data
         about: Export all site data to XML or CSV.
-        order: 17
+        order: 16
       assign_checkin_cards:
         title: Assign Checkin Cards
         about: Assign card numbers to families.
@@ -360,11 +364,11 @@ en:
       run_reports:
         title: Run Reports
         about: Access the Reporting Dashboard.
-        order: 18
+        order: 17
       manage_reports:
         title: Manage Reports
         about: Create, Edit and Delete Custom Reports.
-        order: 19
+        order: 18
     rest_api_information: To use the REST API with Ruby, you might do this
     settings:
       heading: Site Settings

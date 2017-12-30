@@ -14,6 +14,7 @@ class Person < ApplicationRecord
   include Concerns::Person::Password
   include Concerns::Person::Relationships
   include Concerns::Person::RoleMemberships
+  include Concerns::Person::MeetingMemberships
   include Concerns::Person::Sharing
   include Concerns::Person::Streamable
   include Concerns::Person::TwitterUsername

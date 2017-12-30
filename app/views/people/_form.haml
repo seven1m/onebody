@@ -23,6 +23,8 @@
             = link_to t('people.edit.business'), '#business', data: { toggle: 'tab' }
         - if @logged_in.admin?(:edit_profiles)
           %li
+            = link_to 'Meetings', '#meetings', data: { toggle: 'tab' }
+          %li
             = link_to t('people.edit.person_type'), '#roles', data: { toggle: 'tab' }
           %li
             = link_to t('people.edit.status'), '#status', data: { toggle: 'tab' }
@@ -50,6 +52,9 @@
             = render partial: 'form_business', object: form, as: :form
             .form-group= submit_or_save_button
         - if @logged_in.admin?(:edit_profiles)
+          .tab-pane#meetings
+            = render partial: 'form_meeting_memberships', object: form, as: :form
+            .form-group= submit_or_save_button
           .tab-pane#roles
             = render partial: 'form_roles', object: form, as: :form
             .form-group= submit_or_save_button

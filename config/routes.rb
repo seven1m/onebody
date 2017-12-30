@@ -34,6 +34,7 @@ OneBody::Application.routes.draw do
         post :select
       end
     end
+    resource :meeting_memberships
     resource :stream
     resource :photo
     resources :groups, :pictures, :services, :albums, :verses
@@ -124,7 +125,7 @@ OneBody::Application.routes.draw do
   resources :tags, only: :show
 
   resources :pictures, :prayer_signups, :authentications, :shares,
-            :comments, :prayer_requests, :generated_files, :reports
+            :comments, :prayer_requests, :generated_files, :reports, :meeting_memberships
 
   resources :verses do
     get 'search', on: :collection
@@ -198,7 +199,7 @@ OneBody::Application.routes.draw do
     resources :imports do
       patch :execute, on: :member
     end
-    resources :updates, :admins, :membership_requests, :roles
+    resources :updates, :admins, :membership_requests, :roles, :meeting_membership_types
     namespace :checkin do
       root to: 'dashboards#show'
       resource :dashboard
