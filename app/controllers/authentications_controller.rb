@@ -3,7 +3,7 @@ class AuthenticationsController < ApplicationController
 
   def create
     if person = Person.authenticate(params[:authentication][:email], params[:authentication][:password])
-      render xml: person.to_xml(except: %w(salt encrypted_password feed_code api_key)), status: 201
+      render xml: person.to_xml(except: %w(salt encrypted_password password_salt password_hash feed_code api_key)), status: 201
     elsif person.nil?
       render plain: t('session.email_not_found'), status: 404
     else
