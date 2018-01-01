@@ -10,6 +10,8 @@ class MeetingsController < ApplicationController
   def show
     @meeting = Meeting.find(params[:id])
     @meeting_memberships = @meeting.meeting_memberships
+    @meeting_membership_types = MeetingMembershipType.all
+    @people = Person.all
   end
 
   def new

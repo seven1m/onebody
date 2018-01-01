@@ -1,4 +1,4 @@
-<div class="col-md-8">
+<div class="col-md-6">
   <h3>
     <%= @meeting.name %>
   </h3>
@@ -16,4 +16,7 @@
     </table>
   <hr/>
   <%= link_to 'Back to All Meetings', meetings_path, class: 'btn btn-warning' %>
+</div>
+<div class="col-md-6">
+  <%= render partial: 'meeting_memberships/form' %>
 </div>
