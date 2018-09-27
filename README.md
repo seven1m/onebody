@@ -30,7 +30,7 @@ If you're a developer and want to get everything running locally, this is the ea
 Operating System: Windows, Mac, or Linux
 
 1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads). It's free and it runs on Windows, Mac, and Linux.
-1. Install [Vagrant](http://www.vagrantup.com/downloads) on your host machine.
+1. Install [Vagrant](https://www.vagrantup.com/downloads.html) on your host machine.
 1. Install [Git](http://git-scm.com/downloads).
    * If you're on Mac, you can use [GitHub for Mac](https://mac.github.com/).
    * If you're on Windows, you can use [GitHub for Windows](https://windows.github.com/).
