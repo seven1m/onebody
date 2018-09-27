@@ -21,7 +21,7 @@ To help fix a bug, first make sure it has a logged [issue](https://github.com/se
 1. Fix the bug!
 1. Submit a Pull Request to get your bug fix merged!
 
-[FAQs for Contributors](https://github.com/seven1m/onebody/wiki/FAQs-for-Contributors) ·
+[FAQs for Contributors](https://github.com/seven1m/onebody/wiki/FAQs-for-Contributors)
 
 ### Development Setup Using Vagrant
 
