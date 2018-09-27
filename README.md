@@ -12,9 +12,6 @@ This software has been in production use at churches for over ten years. Every f
 
 [![Build Status](https://circleci.com/gh/seven1m/onebody.svg?style=svg&circle-token=efe08e5b7d161351e276a8dcf9bcb303b953c0dd)](https://circleci.com/gh/seven1m/onebody)
 
-[![Stories Ready](https://badge.waffle.io/seven1m/onebody.svg?label=ready&title=stories+ready)](http://waffle.io/seven1m/onebody)
-[![Stories in Progress](https://badge.waffle.io/seven1m/onebody.svg?label=in+progress&title=stories+in+progress)](http://waffle.io/seven1m/onebody)
-
 We ❤️ contributors! Just check out [all these people](https://github.com/orgs/seven1m/people) who have helped make OneBody awesome!
 
 To help fix a bug, first make sure it has a logged [issue](https://github.com/seven1m/onebody/issues) (if not, create one), then:
