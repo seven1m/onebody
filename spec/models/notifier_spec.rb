@@ -266,10 +266,10 @@ describe Notifier, type: :mailer do
 
   context 'given subject containing UTF-8 characters' do
     before do
-      @email = "From: #{@user.email}\n" \
-               "To: #{@group.full_address}\n" \
-               "Content-Type: text/html; charset=\"LATIN-1\"\n" \
-               "Subject: You don’t have to buy it all at frustrating prices!\n\n" \
+      @email = "From: #{@user.email}\r\n" \
+               "To: #{@group.full_address}\r\n" \
+               "Content-Type: text/html; charset=\"LATIN-1\"\r\n" \
+               "Subject: You don’t have to buy it all at frustrating prices!\r\n\r\n" \
                'test!'
       Notifier.receive(@email.to_s)
       @delivery = ActionMailer::Base.deliveries.last
