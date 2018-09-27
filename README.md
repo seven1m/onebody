@@ -66,6 +66,7 @@ Check out [Using Vagrant](https://github.com/churchio/onebody/wiki/Using-Vagrant
 1. `cp config/database.yml{.mysql-example,}`
 1. `gem install bundler`
 1. `bundle install` (If you get an error installing eventmachine, you might need to do [this](http://stackoverflow.com/a/31516586/197498))
+1. `npm install`
 1. `cp config/secrets.yml{.example,} && vim config/secrets.yml` and add a random secret token to both the "development" and "test" sections (you can use `rake secret` to generate a new random secret).
 1. `rake db:create db:schema:load db:seed`
 1. `rails server`
@@ -86,6 +87,7 @@ Now visit the site running in development mode at http://localhost:3000.
 1. `cp config/database.yml{.mysql-example,}`
 1. `gem install bundler`
 1. `bundle install`
+1. `npm install`
 1. `cp config/secrets.yml{.example,} && vim config/secrets.yml` and add a random secret token to both the "development" and "test" sections (you can use `rake secret` to generate a new random secret).
 1. `rake db:create db:schema:load db:seed`
 1. `rails server`
