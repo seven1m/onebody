@@ -4,7 +4,7 @@ This is not meant to be a detailed account of everything changed in each release
 but will give a general idea of what to expect. Also included are instructions for upgrading from previous versions.
 
 For general upgrade instructions, see the wiki
-[here](https://github.com/churchio/onebody/wiki/Manual-Installation#how-to-upgrade).
+[here](https://github.com/seven1m/onebody/wiki/Manual-Installation#how-to-upgrade).
 Any release-specific upgrade notes below should be applied *after* the general instructions in the wiki
 (unless otherwise noted).
 
@@ -61,7 +61,7 @@ Be sure to restart nginx with `systemctl restart nginx`
 
 1.  The encoding used for string/text columns in the database has changed. The migration to update the encoding
     can take quite awhile, especially if you have a lot of data in your database. Also be sure to **make a
-    backup of your database** (see https://github.com/churchio/onebody/wiki/Backups for help).
+    backup of your database** (see https://github.com/seven1m/onebody/wiki/Backups for help).
 
 2.  Imports were not being properly scoped by site id before, and now they are. You will need to manually fix any
     imports to point to the proper site. For most people, the following should work:

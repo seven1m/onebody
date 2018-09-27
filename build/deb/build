@@ -10,7 +10,7 @@ mkdir -p /tmp/pkgr-cache
 
 # clone onebody
 cd /
-git clone https://github.com/churchio/onebody.git onebody
+git clone https://github.com/seven1m/onebody.git onebody
 cd onebody
 
 RUBY_VERSION=$(cat .ruby-version | tr -d '\n')

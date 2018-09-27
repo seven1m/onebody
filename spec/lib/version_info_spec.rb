@@ -22,7 +22,7 @@ describe VersionInfo do
   describe '#latest_version' do
     context do
       let!(:releases_request) do
-        stub_request(:get, 'https://api.github.com/repos/churchio/onebody/releases')
+        stub_request(:get, 'https://api.github.com/repos/seven1m/onebody/releases')
           .to_return(body: releases_response)
       end
 
@@ -41,7 +41,7 @@ describe VersionInfo do
 
     context 'GitHub returns an error' do
       before do
-        stub_request(:get, 'https://api.github.com/repos/churchio/onebody/releases')
+        stub_request(:get, 'https://api.github.com/repos/seven1m/onebody/releases')
           .to_raise(Github::Error::BadRequest.new({}))
       end
 
@@ -54,7 +54,7 @@ describe VersionInfo do
 
   describe '#up_to_date?' do
     before do
-      stub_request(:get, 'https://api.github.com/repos/churchio/onebody/releases')
+      stub_request(:get, 'https://api.github.com/repos/seven1m/onebody/releases')
         .to_return(body: releases_response)
     end
 

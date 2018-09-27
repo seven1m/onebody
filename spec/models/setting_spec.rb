@@ -28,7 +28,7 @@ describe Setting, type: :model do
       end
 
       it 'creates the settings' do
-        expect(Setting.get(:name, :site)).to eq('CHURCH.IO')
+        expect(Setting.get(:name, :site)).to eq('OneBody')
       end
     end
 

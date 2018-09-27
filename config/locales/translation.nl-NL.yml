@@ -1972,8 +1972,8 @@ nl-NL:
   footer:
     help: Geef tips door voor het gebruik van de site.
     privacy_policy: Privacy Policy
-    powered_by: Aangedreven door CHURCH.IO OneBody
-    churchio_onebody: 
+    powered_by: Aangedreven door OneBody
+    onebody_name: 
   generated_files:
     building: Bestand genereren..
     complete_heading: Klaar!
@@ -2113,7 +2113,7 @@ nl-NL:
       attendance_disabled:
         help: Attendance must be enabled for any group used by Check-in.
       class_link_code:
-        help_html: "<p>Geef een link op om te koppelen met externe pakketten. <a href='https://github.com/churchio/onebody/wiki/HowGroupMembershipWorks'>Klik
+        help_html: "<p>Geef een link op om te koppelen met externe pakketten. <a href='https://github.com/seven1m/onebody/wiki/HowGroupMembershipWorks'>Klik
           hier</a> voor meer informatie.</p>\nKlik op <strong>wijzigingen opslaan</strong>
           om de groepsleden elke nacht te updaten. \n"
       parents_of:
@@ -2230,7 +2230,7 @@ nl-NL:
     no_records_were_found: Er zijn geen regels gevonden om te importeren.
     only_first_records_will_be_imported_html: Alleen de eerste %{count} regels worden
       geïmporteerd. Indien het bestand groter is kun je het opsplitsen in meerdere
-      bestanden. Voor grotere batch uploads kun je de <a href="http://wiki.github.com/churchio/onebody/updateagent">UpdateAgent</a>
+      bestanden. Voor grotere batch uploads kun je de <a href="http://wiki.github.com/seven1m/onebody/updateagent">UpdateAgent</a>
       gebruiken.
     people: Personen importen
     record: Regel

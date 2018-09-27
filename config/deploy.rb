@@ -1,7 +1,7 @@
 lock '3.9.1'
 
 set :application, 'onebody'
-set :repo_url, 'git://github.com/churchio/onebody.git'
+set :repo_url, 'git://github.com/seven1m/onebody.git'
 set :deploy_to, '/var/www/apps/onebody'
 
 set :linked_files, %w(config/database.yml config/email.yml config/secrets.yml config/newrelic.yml)

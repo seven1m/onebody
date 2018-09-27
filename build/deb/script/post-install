@@ -107,7 +107,7 @@ if [[ ! -e /etc/onebody/email.yml ]]; then
   chown onebody:onebody /etc/onebody/email.yml
   echo
   p_red "A sample email config file has been written to /etc/onebody/email.yml"
-  echo "See https://github.com/churchio/onebody/wiki/Email-Setup for help setting up an email service."
+  echo "See https://github.com/seven1m/onebody/wiki/Email-Setup for help setting up an email service."
   echo
 fi
 

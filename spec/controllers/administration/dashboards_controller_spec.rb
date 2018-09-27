@@ -4,7 +4,7 @@ describe Administration::DashboardsController, type: :controller do
   render_views
 
   before do
-    stub_request(:get, 'https://api.github.com/repos/churchio/onebody/releases')
+    stub_request(:get, 'https://api.github.com/repos/seven1m/onebody/releases')
       .to_return(body: File.read(fixture_path.join('releases.json')))
   end
 

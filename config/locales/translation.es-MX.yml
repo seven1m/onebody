@@ -786,7 +786,7 @@ es-MX:
           sin cifrado. Protege tu sitio antes de configurar el correo electrónico.
         proxy_missing_protocol_header_note_html: Si su conexión está realmente protegida,
           puede que tenga que actualizar su configuración de proxy nginx según las
-          instrucciones <a href='https://github.com/churchio/onebody/blob/master/CHANGELOG.md#380-unreleased'>
+          instrucciones <a href='https://github.com/seven1m/onebody/blob/master/CHANGELOG.md#380-unreleased'>
           aquí </a>.
         button: Aprende más
     deleted_people:
@@ -1691,7 +1691,7 @@ es-MX:
         manual:
           heading: Quiero ejecutar mi propio servidor de correo electrónico.
           intro_html: Si desea ejecutar su propio servidor de correo, siga las instrucciones
-            en nuestra página wiki <a href="https://github.com/churchio/onebody/wiki/Postfix-Email-Setup"
+            en nuestra página wiki <a href="https://github.com/seven1m/onebody/wiki/Postfix-Email-Setup"
             target="_new"> aquí </a>.
       edit:
         heading: Correo electrónico de configuración
@@ -2067,7 +2067,7 @@ es-MX:
     help: Ayuda con este sitio
     privacy_policy: Política de privacidad
     powered_by: Hosted por
-    churchio_onebody: CHURCH.IO OneBody
+    onebody_name: OneBody
   generated_files:
     building: Creando su archivo ...
     complete_heading: "¡Hecho!"
@@ -2335,7 +2335,7 @@ es-MX:
     no_records_were_found: No se encontraron registros a importar.
     only_first_records_will_be_imported_html: Sólo se importarán los primeros registros
       %{count}. Para archivos más grandes, debe dividir los registros en varios archivos
-      o usar el <a href="http://wiki.github.com/churchio/onebody/updateagent"> UpdateAgent
+      o usar el <a href="http://wiki.github.com/seven1m/onebody/updateagent"> UpdateAgent
       </a> para importar un lote grande a la vez.
     people: Importar personas
     record: registro

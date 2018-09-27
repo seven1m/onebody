@@ -1172,7 +1172,7 @@ zh-CN:
   footer:
     help: Help using this site
     privacy_policy: 隐私政策
-    powered_by: Powered by CHURCH.IO OneBody
+    powered_by: Powered by OneBody
   date_format:
     DD: 日
     MM: 月
@@ -1215,7 +1215,7 @@ zh-CN:
     no_records_were_found: No records were found to import.
     only_first_records_will_be_imported_html: Only the first %{count} records will
       be imported. For larger files, you must divide records into multiple files,
-      or use the <a href="http://wiki.github.com/churchio/onebody/updateagent">UpdateAgent</a>
+      or use the <a href="http://wiki.github.com/seven1m/onebody/updateagent">UpdateAgent</a>
       to import a large batch at once.
     people: Import People
     record: 记录

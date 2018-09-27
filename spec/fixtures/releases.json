@@ -1,9 +1,9 @@
 [
   {
-    "url": "https://api.github.com/repos/churchio/onebody/releases/862714",
-    "assets_url": "https://api.github.com/repos/churchio/onebody/releases/862714/assets",
-    "upload_url": "https://uploads.github.com/repos/churchio/onebody/releases/862714/assets{?name}",
-    "html_url": "https://github.com/churchio/onebody/releases/tag/3.3.0",
+    "url": "https://api.github.com/repos/seven1m/onebody/releases/862714",
+    "assets_url": "https://api.github.com/repos/seven1m/onebody/releases/862714/assets",
+    "upload_url": "https://uploads.github.com/repos/seven1m/onebody/releases/862714/assets{?name}",
+    "html_url": "https://github.com/seven1m/onebody/releases/tag/3.3.0",
     "id": 862714,
     "tag_name": "3.3.0",
     "target_commitish": "master",
@@ -34,15 +34,15 @@
     "assets": [
 
     ],
-    "tarball_url": "https://api.github.com/repos/churchio/onebody/tarball/3.3.0",
-    "zipball_url": "https://api.github.com/repos/churchio/onebody/zipball/3.3.0",
+    "tarball_url": "https://api.github.com/repos/seven1m/onebody/tarball/3.3.0",
+    "zipball_url": "https://api.github.com/repos/seven1m/onebody/zipball/3.3.0",
     "body": "### Changes\r\n\r\n* Add Reports feature\r\n* Add new \"sharable\" attendance form for light-weight class check-in\r\n* Allow sending notes with attendance/check-in submission\r\n* New one-click installer for DigitalOcean\r\n* Improved installation instructions on wiki\r\n* Fix bug with international characters in site name\r\n* Fix bug installing with wrong Ruby version\r\n* Disable starttls in default email config\r\n* Fix display issues when Groups feature is disabled\r\n* Reduce ambiguity in \"child/adult\" selection in basic info\r\n* Add Better Errors for development\r\n* Fix bug showing raw data when clicking a map pin\r\n* Clarify use of \"email\" field on profile edit screen\r\n* Fix Relationships page in non-English translations\r\n* Use https for OpenStreetMap tiles when :ssl enabled\r\n* Add drag-and-drop upload of photos\r\n* Upgraded Ruby version to 2.1.5.\r\n* Upgrade to Rails 4.1.8\r\n* Handle case when user types a random number in new verse form.\r\n* Add setting to enable business directory"
   },
   {
-    "url": "https://api.github.com/repos/churchio/onebody/releases/584181",
-    "assets_url": "https://api.github.com/repos/churchio/onebody/releases/584181/assets",
-    "upload_url": "https://uploads.github.com/repos/churchio/onebody/releases/584181/assets{?name}",
-    "html_url": "https://github.com/churchio/onebody/releases/tag/3.2.0",
+    "url": "https://api.github.com/repos/seven1m/onebody/releases/584181",
+    "assets_url": "https://api.github.com/repos/seven1m/onebody/releases/584181/assets",
+    "upload_url": "https://uploads.github.com/repos/seven1m/onebody/releases/584181/assets{?name}",
+    "html_url": "https://github.com/seven1m/onebody/releases/tag/3.2.0",
     "id": 584181,
     "tag_name": "3.2.0",
     "target_commitish": "master",
@@ -73,15 +73,15 @@
     "assets": [
 
     ],
-    "tarball_url": "https://api.github.com/repos/churchio/onebody/tarball/3.2.0",
-    "zipball_url": "https://api.github.com/repos/churchio/onebody/zipball/3.2.0",
+    "tarball_url": "https://api.github.com/repos/seven1m/onebody/tarball/3.2.0",
+    "zipball_url": "https://api.github.com/repos/seven1m/onebody/zipball/3.2.0",
     "body": "### Upgrade Notes\r\n\r\n* Be sure you are upgrading from a OneBody version of 3.0.0 or later. If you are upgrading from a version in the 2.x series, you will need to *first* completely upgrade to 3.0.0, *then* upgrade to this version.\r\n\r\n* Set the Country field on all your family records:\r\n    1. Set your \"Default Country\" in the admin dashboard Settings screen.\r\n    2. Run the following rake task to set your country on all existing family records:\r\n\r\n            RAILS_ENV=production bundle exec rake onebody:set_country\r\n\r\n\r\n### Changes\r\n\r\n* add Portuguese translation\r\n* add Dutch (Netherlands) translation\r\n* add \"Country\" field to people, with \"Default Country\" site setting\r\n* fix bugs geocoding addresses outside the US\r\n* add \"tasks\" feature for groups\r\n* add Facebook and Twitter links to profile\r\n* improve UX for adding a new person/family\r\n* show a person's albums on profile page\r\n* show family picture in search results if not profile picture\r\n* make \"small group\" size configurable\r\n* add option for groups to include all adults in the community\r\n* improve wording in various email messages\r\n* remove confusing \"notes\" feature\r\n* add drag-and-drop sorting controls\r\n* allow html source editing on wysiwyg editor\r\n* add option to send prayer request as email\r\n* add 'primary email holder' setting for family members who share an email address\r\n* don't send rejection emails when both sender and receiving group cannot be determined\r\n* fix bug uploading some PDF and HTML documents\r\n* fix bug importing people by id\r\n* fix bug printing some pages\r\n* fix bugs with date entry and date-picker\r\n* fix bug setting person email if no notification email is configured\r\n* fix anniversary field showing on children\r\n* fix bug showing/applying some profile updates\r\n* fix bug running 'worker' with Docker\r\n* fix bug with Google Analytics and Safari"
   },
   {
-    "url": "https://api.github.com/repos/churchio/onebody/releases/499585",
-    "assets_url": "https://api.github.com/repos/churchio/onebody/releases/499585/assets",
-    "upload_url": "https://uploads.github.com/repos/churchio/onebody/releases/499585/assets{?name}",
-    "html_url": "https://github.com/churchio/onebody/releases/tag/3.1.1",
+    "url": "https://api.github.com/repos/seven1m/onebody/releases/499585",
+    "assets_url": "https://api.github.com/repos/seven1m/onebody/releases/499585/assets",
+    "upload_url": "https://uploads.github.com/repos/seven1m/onebody/releases/499585/assets{?name}",
+    "html_url": "https://github.com/seven1m/onebody/releases/tag/3.1.1",
     "id": 499585,
     "tag_name": "3.1.1",
     "target_commitish": "master",
@@ -112,15 +112,15 @@
     "assets": [
 
     ],
-    "tarball_url": "https://api.github.com/repos/churchio/onebody/tarball/3.1.1",
-    "zipball_url": "https://api.github.com/repos/churchio/onebody/zipball/3.1.1",
+    "tarball_url": "https://api.github.com/repos/seven1m/onebody/tarball/3.1.1",
+    "zipball_url": "https://api.github.com/repos/seven1m/onebody/zipball/3.1.1",
     "body": "* Fix bug installing in Docker"
   },
   {
-    "url": "https://api.github.com/repos/churchio/onebody/releases/499537",
-    "assets_url": "https://api.github.com/repos/churchio/onebody/releases/499537/assets",
-    "upload_url": "https://uploads.github.com/repos/churchio/onebody/releases/499537/assets{?name}",
-    "html_url": "https://github.com/churchio/onebody/releases/tag/3.1.0",
+    "url": "https://api.github.com/repos/seven1m/onebody/releases/499537",
+    "assets_url": "https://api.github.com/repos/seven1m/onebody/releases/499537/assets",
+    "upload_url": "https://uploads.github.com/repos/seven1m/onebody/releases/499537/assets{?name}",
+    "html_url": "https://github.com/seven1m/onebody/releases/tag/3.1.0",
     "id": 499537,
     "tag_name": "3.1.0",
     "target_commitish": "master",
@@ -151,15 +151,15 @@
     "assets": [
 
     ],
-    "tarball_url": "https://api.github.com/repos/churchio/onebody/tarball/3.1.0",
-    "zipball_url": "https://api.github.com/repos/churchio/onebody/zipball/3.1.0",
+    "tarball_url": "https://api.github.com/repos/seven1m/onebody/tarball/3.1.0",
+    "zipball_url": "https://api.github.com/repos/seven1m/onebody/zipball/3.1.0",
     "body": "* Upgrade to Rails 4.1\r\n* Improve usefulness of accounts with limited access (not full access).\r\n* Show indicators on group pages when group is linked.\r\n* UI bug fixes\r\n* Fix for email addresses with newer/longer TLD\r\n* Fix bug generating directory PDF for families missing address.\r\n* Fix bug for users signing up when they already have an account.\r\n* Fix bug saving PDF as attachment.\r\n* Fix bug adding first group member.\r\n* Fix bug that created empty profile updates sometimes.\r\n* Fix upload progress bar when uploading multiple images.\r\n* Fix bug causing verification link to be invalidated in prefetching email clients.\r\n* Improve Group browsing experience."
   },
   {
-    "url": "https://api.github.com/repos/churchio/onebody/releases/450209",
-    "assets_url": "https://api.github.com/repos/churchio/onebody/releases/450209/assets",
-    "upload_url": "https://uploads.github.com/repos/churchio/onebody/releases/450209/assets{?name}",
-    "html_url": "https://github.com/churchio/onebody/releases/tag/3.0.0",
+    "url": "https://api.github.com/repos/seven1m/onebody/releases/450209",
+    "assets_url": "https://api.github.com/repos/seven1m/onebody/releases/450209/assets",
+    "upload_url": "https://uploads.github.com/repos/seven1m/onebody/releases/450209/assets{?name}",
+    "html_url": "https://github.com/seven1m/onebody/releases/tag/3.0.0",
     "id": 450209,
     "tag_name": "3.0.0",
     "target_commitish": "master",
@@ -190,15 +190,15 @@
     "assets": [
 
     ],
-    "tarball_url": "https://api.github.com/repos/churchio/onebody/tarball/3.0.0",
-    "zipball_url": "https://api.github.com/repos/churchio/onebody/zipball/3.0.0",
+    "tarball_url": "https://api.github.com/repos/seven1m/onebody/tarball/3.0.0",
+    "zipball_url": "https://api.github.com/repos/seven1m/onebody/zipball/3.0.0",
     "body": "It's finally here! This release represents over a year of work and a major overhaul to the whole system. You can get an intro to OneBody at our site [church.io](http://church.io) and lots more [screenshots here](https://www.flickr.com/photos/timothymorgan/sets/72157644451251789).\r\n\r\n## Changes since Beta 2\r\n\r\n* Fix bug inserting analytics code in some cases.\r\n* Incoming email encoding fixes.\r\n* Fix bug accepting email from alternate email address.\r\n* Fix synchronization from UpdateAgent.\r\n* Improved setup experience.\r\n* Allow admins to search by phone number or email address.\r\n* Don't show deleted people on family page.\r\n* Fix bug with family people ordering.\r\n* Fix blank maps on family page.\r\n* Save attachments on reply emails.\r\n* Use real email address as from address whenever possible.\r\n* Add support for MailGun for incoming and outgoing email.\r\n* Add support for Docker.\r\n* Fix form controls on admin attendance report."
   },
   {
-    "url": "https://api.github.com/repos/churchio/onebody/releases/420878",
-    "assets_url": "https://api.github.com/repos/churchio/onebody/releases/420878/assets",
-    "upload_url": "https://uploads.github.com/repos/churchio/onebody/releases/420878/assets{?name}",
-    "html_url": "https://github.com/churchio/onebody/releases/tag/3.0.0.beta1",
+    "url": "https://api.github.com/repos/seven1m/onebody/releases/420878",
+    "assets_url": "https://api.github.com/repos/seven1m/onebody/releases/420878/assets",
+    "upload_url": "https://uploads.github.com/repos/seven1m/onebody/releases/420878/assets{?name}",
+    "html_url": "https://github.com/seven1m/onebody/releases/tag/3.0.0.beta1",
     "id": 420878,
     "tag_name": "3.0.0.beta1",
     "target_commitish": "master",
@@ -229,15 +229,15 @@
     "assets": [
 
     ],
-    "tarball_url": "https://api.github.com/repos/churchio/onebody/tarball/3.0.0.beta1",
-    "zipball_url": "https://api.github.com/repos/churchio/onebody/zipball/3.0.0.beta1",
+    "tarball_url": "https://api.github.com/repos/seven1m/onebody/tarball/3.0.0.beta1",
+    "zipball_url": "https://api.github.com/repos/seven1m/onebody/zipball/3.0.0.beta1",
     "body": "This is the absolute best version of the software ever! OneBody got a brand new user interface thanks to the wonderful open source [AdminLTE](http://almsaeedstudio.com/AdminLTE/) template. The User Interface was improved dramatically to be easier to use. OneBody now looks and works beautifully on mobile devices and tablets, thanks to responsive design!\r\n\r\n* Brand new User Interface\r\n* Improved timeline feature for people profiles and groups\r\n* Improved first-time setup experience\r\n* All new Admin Dashboard, Settings, Profile Updates, Syncs, and other admin screens\r\n* Improved profile, family, and group edit pages\r\n* Prettier testimony display on profiles\r\n* New Family page\r\n* Improved email settings page\r\n* Redesigned Verse listing and display pages\r\n* Improved UI for moving a family from one family to another\r\n* Redesigned people relationships pages\r\n* Reorganized I18n backend for easier translation to other languages\r\n* Suggested family name based on people in family\r\n* Redesigned Business listing pages\r\n* Friendlier UI for uploading photos to group, family, and person pages; now works on object creation, not just update\r\n* Now using OpenStreetMap for maps\r\n* Improved privacy in groups, including hiding of messages, prayer requests, photos\r\n* Improved Prayer Request UI\r\n* Redesigned Album and Picture pages, along with improved sharing options\r\n* Improved Attendance entry and reports\r\n* Improved navigation with expanding drawers to show additional links\r\n* Added html page titles to every page for better bookmarking\r\n* Added breadcrumb navigation\r\n* Improved sharing buttons on home page\r\n* New page shows who you will be sharing with based on your friends and fellow group members\r\n* New WYSIWYG editor\r\n* Improved data import UI\r\n* Improved site sign-up/verification flow\r\n* New feature notifies administrators when user changes their photo"
   },
   {
-    "url": "https://api.github.com/repos/churchio/onebody/releases/420871",
-    "assets_url": "https://api.github.com/repos/churchio/onebody/releases/420871/assets",
-    "upload_url": "https://uploads.github.com/repos/churchio/onebody/releases/420871/assets{?name}",
-    "html_url": "https://github.com/churchio/onebody/releases/tag/3.0.0.beta2",
+    "url": "https://api.github.com/repos/seven1m/onebody/releases/420871",
+    "assets_url": "https://api.github.com/repos/seven1m/onebody/releases/420871/assets",
+    "upload_url": "https://uploads.github.com/repos/seven1m/onebody/releases/420871/assets{?name}",
+    "html_url": "https://github.com/seven1m/onebody/releases/tag/3.0.0.beta2",
     "id": 420871,
     "tag_name": "3.0.0.beta2",
     "target_commitish": "master",
@@ -268,8 +268,8 @@
     "assets": [
 
     ],
-    "tarball_url": "https://api.github.com/repos/churchio/onebody/tarball/3.0.0.beta2",
-    "zipball_url": "https://api.github.com/repos/churchio/onebody/zipball/3.0.0.beta2",
+    "tarball_url": "https://api.github.com/repos/seven1m/onebody/tarball/3.0.0.beta2",
+    "zipball_url": "https://api.github.com/repos/seven1m/onebody/zipball/3.0.0.beta2",
     "body": "* Lots of small bug fixes following our few days in production at Cedar Ridge\r\n* New Document Management feature for site-wide document sharing\r\n* Refinements to the User Interface; Better profile and group pages\r\n* Fixed bible verses to be powered by bible-api.com\r\n* Fixes to Update Agent sync code\r\n* Fixes for encoding problems on incoming email\r\n* Print stylesheet so we can print attendance reports again\r\n* Production installation instructions"
   }
 ]

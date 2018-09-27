@@ -6,7 +6,7 @@
 .form-group#link_code.membership-mode-option
   = form.label :link_code
   = form.text_field :link_code, class: 'form-control'
-  %span.help-block= t('groups.edit.class_link_code.help_html', url: 'https://github.com/churchio/onebody/wiki/How-Group-Membership-Works')
+  %span.help-block= t('groups.edit.class_link_code.help_html', url: 'https://github.com/seven1m/onebody/wiki/How-Group-Membership-Works')
 .form-group#parents_of.membership-mode-option
   = form.label :parents_of
   = form.select :parents_of, [['(' + t('none') + ')', '']] + (Group.where(hidden: false).order('name').to_a - [@group]).map { |g| [g.name, g.id] }, {}, class: 'form-control'

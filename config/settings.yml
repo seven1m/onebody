@@ -31,7 +31,7 @@ Name:
     value: One Church
   Site:
     format: string
-    value: CHURCH.IO
+    value: OneBody
   Slogan:
     format: string
     value: Welcome home.

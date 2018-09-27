@@ -13,4 +13,4 @@ config:
   packages:
     - wget
   runcmd:
-    - su -l onebody -c "cd /tmp && wget https://raw.githubusercontent.com/churchio/onebody/master/build/ubuntu/16.04/provision.sh && bash provision.sh"
+    - su -l onebody -c "cd /tmp && wget https://raw.githubusercontent.com/seven1m/onebody/master/build/ubuntu/16.04/provision.sh && bash provision.sh"

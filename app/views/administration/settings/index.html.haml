@@ -76,7 +76,7 @@
         .col-sm-offset-2.col-sm-10
           = button_tag t('save_changes'), class: 'btn btn-success'
     .tab-pane#locale
-      = setting_row('System', 'Language', options: ONEBODY_LOCALES.invert, description: t('admin.settings.System.Language.description', url: 'https://github.com/churchio/onebody/wiki/Translations').html_safe)
+      = setting_row('System', 'Language', options: ONEBODY_LOCALES.invert, description: t('admin.settings.System.Language.description', url: 'https://github.com/seven1m/onebody/wiki/Translations').html_safe)
       = setting_row('System', 'Bible Translation', options: BIBLE_TRANSLATIONS.invert, description: t('admin.settings.System.Bible Translation.description').html_safe)
       = setting_row('System', 'Time Zone', options: @timezones)
       = setting_row('System', 'Default Country', options: country_options)

@@ -191,7 +191,7 @@ module ApplicationHelper
 
   def analytics_js
     if params[:controller] == 'administration/settings'
-      # workaround for Safari bug (see https://github.com/churchio/onebody/issues/262)
+      # workaround for Safari bug (see https://github.com/seven1m/onebody/issues/262)
       return
     end
     setting(:services, :analytics).to_s.html_safe if Rails.env.production?

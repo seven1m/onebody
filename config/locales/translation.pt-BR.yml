@@ -2033,8 +2033,8 @@ pt-BR:
   footer:
     help: Ajuda para utilizar este site
     privacy_policy: Política de Privacidade
-    powered_by: Fornecido por CHURCH.IO Onebody
-    churchio_onebody: 
+    powered_by: Fornecido por Onebody
+    onebody_name: 
   generated_files:
     building: Criando o seu arquivo...
     complete_heading: Feito!
@@ -2300,7 +2300,7 @@ pt-BR:
     no_records_were_found: Não foram encontrados registros para importação.
     only_first_records_will_be_imported_html: Somente os primeiros %{count} registros
       serão importados. Para arquivos grandes, você precisa dividir os registros em
-      múltiplos arquivos ou utilizar o <a href="http://wiki.github.com/churchio/onebody/updateagent">UpdateAgent</a>
+      múltiplos arquivos ou utilizar o <a href="http://wiki.github.com/seven1m/onebody/updateagent">UpdateAgent</a>
       para importar grandes quantidades de registros de uma vez.
     people: Importar Pessoas
     record: registro
