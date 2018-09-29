@@ -112,21 +112,28 @@ if [[ ! -e /etc/onebody/email.yml ]]; then
 fi
 
 echo "Checking for database"
-onebody run rake db:version &>/dev/null
+onebody run rake db:version
 if [[ $? -eq 0 ]]; then
   echo "Updating database"
   onebody run rake db:migrate
-  restart_or_create_service
 else
+  p_red "Could not connect to the database."
   echo
-  p_red "To create the OneBody database, run the following commands manually:"
+  echo "If this is the first time you are installing OneBody, you probably don't have a database yet."
+  echo "If, however, you are upgrading OneBody, then you need to ensure that MySQL is running and"
+  echo "issue the following command yourself:"
+  echo
+  p_bold "  $(p_sudo)onebody run rake db:migrate"
+  echo
+  echo "You can create the database with the commands below:"
   echo
   p_bold "  mysql -u root -p -e \"grant all on onebody.* to onebody@localhost identified by 'onebody';\""
   echo   "  (enter your MySQL root password or press enter for none)"
   p_bold "  $(p_sudo)onebody run rake db:setup"
   echo
-  restart_or_create_service
 fi
+
+restart_or_create_service
 
 echo "Updating crontab"
 onebody run whenever -w
