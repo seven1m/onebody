@@ -15,6 +15,9 @@ cd onebody
 
 RUBY_VERSION=$(cat .ruby-version | tr -d '\n')
 ONEBODY_VERSION=$(cat VERSION | tr -d '\n')
+if [[ -z "$ITERATION" ]]; then
+  ITERATION="$(date +'%Y%m%d%H%M' | tr -d '\n')"
+fi
 
 # explicitly set the ruby version
 sed -i "1iruby '$RUBY_VERSION'" Gemfile
@@ -28,5 +31,13 @@ echo "yarn" > /tmp/yarn_install
 chmod +x /tmp/yarn_install
 
 # build the package!
-pkgr package . --name=onebody --version=$ONEBODY_VERSION --force_os=$OS --debug --verbose --before-precompile="/tmp/yarn_install"
+pkgr package . \
+  --name=onebody \
+  --dependencies="nodejs" \
+  --version=$ONEBODY_VERSION \
+  --iteration=$ITERATION \
+  --force_os=$OS \
+  --debug \
+  --verbose \
+  --before-precompile="/tmp/yarn_install"
 mv *.deb /out/$OS
