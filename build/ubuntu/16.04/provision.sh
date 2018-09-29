@@ -4,8 +4,9 @@ set -e
 
 sleep 10
 export DEBIAN_FRONTEND=noninteractive
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 sudo apt-get update
-sudo apt-get install -y -q curl
+sudo apt-get install -y -q curl nodejs
 curl https://apt.church.io/gpg.key | sudo apt-key add -
 echo "deb [arch=amd64] http://apt.church.io/ubuntu/stable xenial main" | sudo tee /etc/apt/sources.list.d/onebody.list
 sudo apt-get update
