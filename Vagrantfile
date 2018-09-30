@@ -26,7 +26,12 @@ set -ex
 apt-get update -qq
 debconf-set-selections <<< 'mysql-server mysql-server/root_password password vagrant'
 debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password vagrant'
-apt-get install -q -y build-essential curl libcurl4-openssl-dev nodejs git mysql-server libmysqlclient-dev libgmp3-dev libaprutil1-dev libapr1-dev apache2 apache2-threaded-dev imagemagick
+apt-get install -q -y build-essential curl libcurl4-openssl-dev git mysql-server libmysqlclient-dev libgmp3-dev libaprutil1-dev libapr1-dev apache2 apache2-threaded-dev imagemagick
+
+# node 8.x
+curl -sL https://deb.nodesource.com/setup_8.x | bash -
+apt-get install -y nodejs
+npm install -g yarn
 
 # setup db
 mysql -u root -pvagrant -e "grant all on onebody_dev.*  to onebody@localhost identified by 'onebody';"
@@ -51,6 +56,9 @@ user=$(cat <<USER
     cp config/database.yml{.mysql-example,}
   fi
   bundle install
+
+  # install javascript dependencies
+  yarn
 
   # setup config and migrate db
   if [[ ! -e config/secrets.yml ]]; then
