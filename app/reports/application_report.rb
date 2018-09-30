@@ -33,7 +33,7 @@ class ApplicationReport
     CSV.generate do |csv|
       csv << headings if headings
       results.each do |result|
-        csv << result.values.map do |value|
+        csv << result.map do |value|
           if value.respond_to?(:strftime)
             value.to_s(:full)
           else
