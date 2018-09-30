@@ -9,8 +9,7 @@ config:
     - name: onebody
       groups: sudo
       shell: /bin/bash
-      sudo: ['ALL=(ALL) NOPASSWD:ALL']
   packages:
     - wget
   runcmd:
-    - su -l onebody -c "cd /tmp && wget https://raw.githubusercontent.com/seven1m/onebody/master/build/ubuntu/16.04/provision.sh && bash provision.sh"
+    - "cd /tmp && wget https://raw.githubusercontent.com/seven1m/onebody/master/build/ubuntu/16.04/provision.sh && bash provision.sh"
