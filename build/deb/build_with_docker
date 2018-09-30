@@ -2,6 +2,9 @@
 
 # pass iteration as the first argument, either "1" or "2" or blank for the current date
 ITERATION="$1"
+if [[ -z "$ITERATION" ]]; then
+  ITERATION="$(date +'%Y%m%d%H%M%S' | tr -d '\n')"
+fi
 
 set -e
 
