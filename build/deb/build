@@ -16,7 +16,7 @@ cd onebody
 RUBY_VERSION=$(cat .ruby-version | tr -d '\n')
 ONEBODY_VERSION=$(cat VERSION | tr -d '\n')
 if [[ -z "$ITERATION" ]]; then
-  ITERATION="$(date +'%Y%m%d%H%M' | tr -d '\n')"
+  ITERATION="$(date +'%Y%m%d%H%M%S' | tr -d '\n')"
 fi
 
 # explicitly set the ruby version
