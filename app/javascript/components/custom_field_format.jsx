@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 class CustomFieldFormat extends React.Component {
   constructor(props) {
     super(props)
@@ -90,15 +92,15 @@ class CustomFieldFormat extends React.Component {
 }
 
 CustomFieldFormat.propTypes = {
-  format_label: React.PropTypes.string.isRequired,
-  format_options: React.PropTypes.arrayOf(
-    React.PropTypes.arrayOf(
-      React.PropTypes.string.isRequired,
-      React.PropTypes.string.isRequired
+  format_label: PropTypes.string.isRequired,
+  format_options: PropTypes.arrayOf(
+    PropTypes.arrayOf(
+      PropTypes.string.isRequired,
+      PropTypes.string.isRequired
     )
   ).isRequired,
-  field: React.PropTypes.shape({
-    format: React.PropTypes.string
+  field: PropTypes.shape({
+    format: PropTypes.string
   })
 }
 

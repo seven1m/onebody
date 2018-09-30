@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 class SelectWithNew extends React.Component {
   constructor(props) {
     super(props)
@@ -86,16 +88,16 @@ SelectWithNew.defaultProps = {
 }
 
 SelectWithNew.propTypes = {
-  name: React.PropTypes.string.isRequired,
-  value: React.PropTypes.string,
-  options: React.PropTypes.arrayOf(
-    React.PropTypes.arrayOf(
-      React.PropTypes.string.isRequired,
-      React.PropTypes.number.isRequired
+  name: PropTypes.string.isRequired,
+  value: PropTypes.string,
+  options: PropTypes.arrayOf(
+    PropTypes.arrayOf(
+      PropTypes.string.isRequired,
+      PropTypes.number.isRequired
     )
   ).isRequired,
-  className: React.PropTypes.string,
-  includeBlank: React.PropTypes.bool
+  className: PropTypes.string,
+  includeBlank: PropTypes.bool
 }
 
 export default SelectWithNew
