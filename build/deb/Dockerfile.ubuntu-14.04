@@ -27,4 +27,4 @@ RUN gem install pkgr bundler --no-rdoc --no-ri
 RUN mkdir -p /tmp/pkgr-cache
 
 COPY . /deb
-CMD ./build ubuntu-14.04
+CMD ./build ubuntu-14.04 trusty

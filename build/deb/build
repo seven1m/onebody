@@ -4,7 +4,8 @@ set -e
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-OS=$1
+OS="$1"
+OS_FRIENDLY="$2"
 
 mkdir -p /tmp/pkgr-cache
 
@@ -29,7 +30,7 @@ bundle config --local build.nokogumbo "--use-system-libraries --with-xml2-includ
 pkgr package . \
   --name=onebody \
   --buildpack="https://github.com/heroku/heroku-buildpack-nodejs.git,https://github.com/pkgr/heroku-buildpack-ruby.git" \
-  --version=$ONEBODY_VERSION \
+  --version="${ONEBODY_VERSION}-${OS_FRIENDLY}" \
   --iteration=$ITERATION \
   --force_os=$OS \
   --debug \
