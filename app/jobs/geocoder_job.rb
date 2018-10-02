@@ -3,23 +3,25 @@ class GeocoderJob < ApplicationJob
 
   class GeocodingError < StandardError; end
 
-  SLEEP_MULTIPLIER = 3
-  MAX_SLEEP_TIME = 12.hours
+  RATE_LIMIT = 1 # second
   MAX_FAILURE_COUNT = 2
 
   def perform(site, model_type, model_id)
-    @delay = 1
+    @model_type = model_type
     @error_count = 0
     ActiveRecord::Base.connection_pool.with_connection do
       Site.with_current(site) do
-        klass = model_type.constantize
         klass.with_advisory_lock('geocode') do # only one at a time
           model = klass.find(model_id)
           geocode_model(model)
+          sleep RATE_LIMIT unless Rails.env.test? # delay next GeocoderJob as a simple rate limit
         end
       end
     end
-    sleep @delay unless Rails.env.test? # delay next GeocoderJob as a simple rate limit
+  end
+
+  def klass
+    @model_type.constantize
   end
 
   def geocode_model(model)
@@ -36,16 +38,12 @@ class GeocoderJob < ApplicationJob
   end
 
   def over_query_limit_error(model)
-    @delay *= SLEEP_MULTIPLIER
-    if @delay > MAX_SLEEP_TIME
-      raise GeocodingError,
-            'Over geocoder rate limit for #{model.class.name} #{model.id}. Giving up.'
-    else
-      Rails.logger.warn(
-        "Over geocoder rate limit for #{model.class.name} #{model.id}. " \
-          "Sleeping for #{@delay} second(s)"
-      )
-      sleep @delay
+    Rails.logger.warn(
+      "Over geocoder rate limit for #{model.class.name} #{model.id}. " \
+        "Sleeping for #{RATE_LIMIT} second(s)"
+    )
+    klass.with_advisory_lock('geocode') do
+      sleep RATE_LIMIT
     end
   end
 
@@ -58,9 +56,11 @@ class GeocoderJob < ApplicationJob
     else
       Rails.logger.warn(
         "Error geocoding for #{model.class.name} #{model.id}: #{message}. " \
-          "This is error number #{@error_count}. Sleeping for 5 seconds."
+        "This is error number #{@error_count}. Sleeping..."
       )
-      sleep 5
+      klass.with_advisory_lock('geocode') do
+        sleep RATE_LIMIT
+      end
     end
   end
 end

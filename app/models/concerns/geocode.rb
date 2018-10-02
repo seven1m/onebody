@@ -36,7 +36,7 @@ module Concerns
         end
 
         define_method :blank_address? do
-          attrs.any? { |attr| send(attr).blank? }
+          (attrs - [:address2]).any? { |attr| send(attr).blank? }
         end
 
         define_method :should_geocode? do

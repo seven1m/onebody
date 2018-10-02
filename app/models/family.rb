@@ -68,7 +68,7 @@ class Family < ApplicationRecord
   end
 
   include Concerns::Geocode
-  geocode_with :address, :city, :state, :zip, :country
+  geocode_with :address1, :address2, :city, :state, :zip, :country
 
   # not HTML-escaped!
   def pretty_address

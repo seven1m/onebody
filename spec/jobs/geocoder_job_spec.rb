@@ -56,8 +56,7 @@ describe GeocoderJob do
       end
 
       it 'sleeps for a time before trying again' do
-        expect(subject).to have_received(:sleep).with(3)
-        expect(subject).to have_received(:sleep).with(9)
+        expect(subject).to have_received(:sleep).with(1).twice
         expect(Geocoder).to have_received(:search).exactly(3).times
       end
 
@@ -91,7 +90,7 @@ describe GeocoderJob do
         end
 
         it 'sleeps twice before trying again' do
-          expect(subject).to have_received(:sleep).with(5).twice
+          expect(subject).to have_received(:sleep).with(1).twice
           expect(Geocoder).to have_received(:search).exactly(3).times
         end
 
