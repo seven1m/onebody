@@ -98,7 +98,7 @@
                       = icon 'fa fa-lock'
                       = t('nav.profile_sub.privacy')
                   %li
-                    = link_to @family do
+                    = link_to @family || @person.family do
                       = icon 'fa fa-group'
                       = t('nav.profile_sub.family')
                   - if @logged_in.admin?(:edit_profiles)
