@@ -40,7 +40,7 @@ version: 2
 jobs:
   mysql:
     docker:
-      - image: circleci/ruby:2.3-node-browsers
+      - image: circleci/ruby:2.5.3-node-browsers-legacy
         environment:
           - RAILS_ENV=test
           - DB_HOST=127.0.0.1
@@ -50,7 +50,7 @@ jobs:
     <<: *shared
   postgres:
     docker:
-      - image: circleci/ruby:2.3-node-browsers
+      - image: circleci/ruby:2.5.3-node-browsers-legacy
         environment:
           - RAILS_ENV=test
           - DB_HOST=127.0.0.1
