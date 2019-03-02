@@ -39,6 +39,7 @@ Type=simple
 WorkingDirectory=/vagrant
 ExecStart=/usr/local/bin/bundle exec thin start
 Restart=always
+User=vagrant
 
 [Install]
 WantedBy=multi-user.target vagrant.mount
