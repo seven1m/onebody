@@ -1,4 +1,4 @@
-lock '3.9.1'
+lock '3.11.0'
 
 set :application, 'onebody'
 set :repo_url, 'git://github.com/seven1m/onebody.git'
