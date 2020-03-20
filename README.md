@@ -101,7 +101,7 @@ RAILS_ENV=test rake db:create db:schema:load
 
 ## Get Help
 
-* [Wiki](https://wiki.github.com/seven1m/onebody)
+* [Wiki](https://github.com/seven1m/onebody/wiki)
 * [Submit an Issue](https://github.com/seven1m/onebody/issues)
 
 ## Copyright
